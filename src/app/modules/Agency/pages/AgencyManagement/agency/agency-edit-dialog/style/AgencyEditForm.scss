@@ -1,0 +1,33 @@
+.imagePreview {
+    position: relative;
+
+}
+
+// .agency-image:hover {
+//     .close {
+//         display: inline;
+//     }
+// }
+
+
+.close {
+    position: absolute;
+
+    width: 24px;
+    height: 24px;
+    background: black;
+
+    border: 1px solid black;
+    border-radius: 12px;
+
+    font-size: 15px;
+    color: white;
+    text-align: center;
+
+    cursor: pointer;
+
+    top: 5px;
+    right: 8px;
+    z-index: 10;
+}
+
