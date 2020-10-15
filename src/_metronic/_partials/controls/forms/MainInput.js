@@ -23,53 +23,34 @@ export function MainInput({
   withValidation,
   customFeedbackLabel,
   isHorizontal,
-  width,
   type = 'text',
   ...props
 }) {
-  const styleLabe = {
-    width: 100,
-  };
-
-  const styleInput = {
-    marginRight: 0,
-  };
-
   return (
     <>
-      <div className={isHorizontal && 'row'}>
-        <div className="col-md-3 col-12">
-          {label && (
-            <label style={width && styleLabe} className={isHorizontal && 'mb-0 input-label'}>
-              {label} {withFeedbackLabel && <span className="text-danger">*</span>}
-            </label>
-          )}
-        </div>
-        <div className="col-md-9 col-12">
-          <input
+      <div className={isHorizontal && 'd-flex align-items-center'}>
+        {label && <label className={isHorizontal && 'mb-0 input-label'}
+        >{label}</label>}
+        <input
+          type={type}
+          className={
+            type === 'text' || type==='email' || type==='file' || type==='image' ? (
+            withFeedbackLabel
+              ? getFieldCSSClasses(touched[field.name], errors[field.name])
+              : 'form-control' ) : ''
+          }
+          {...field}
+          {...props}
+        />
+        {withFeedbackLabel && (
+          <FieldFeedbackLabel
+            error={errors[field.name]}
+            touched={touched[field.name]}
+            label={label}
             type={type}
-            style={width && styleInput}
-            className={
-              type === 'text' || type === 'email' || type === 'file' || type === 'image'
-                ? withFeedbackLabel
-                  ? getFieldCSSClasses(touched[field.name], errors[field.name])
-                  : 'form-control'
-                : ''
-            }
-            {...field}
-            {...props}
+            customFeedbackLabel={customFeedbackLabel}
           />
-
-          {withFeedbackLabel && (
-            <FieldFeedbackLabel
-              error={errors[field.name]}
-              touched={touched[field.name]}
-              label={label}
-              type={type}
-              customFeedbackLabel={customFeedbackLabel}
-            />
-          )}
-        </div>
+        )}
       </div>
     </>
   );

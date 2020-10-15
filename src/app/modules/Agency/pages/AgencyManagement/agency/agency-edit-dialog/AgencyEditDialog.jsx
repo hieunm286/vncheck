@@ -12,6 +12,7 @@ import { Card } from '@material-ui/core';
 import { CardBody } from '../../../../../../../_metronic/_partials/controls';
 
 export function AgencyEditDialog({ id, show, onHide }) {
+  console.log('entering edit dialog');
   // Customers UI Context
   const agencyUIContext = useAgencyUIContext();
   const agencyUIProps = useMemo(() => {
@@ -30,6 +31,8 @@ export function AgencyEditDialog({ id, show, onHide }) {
     shallowEqual,
   );
 
+  console.log(agencyForEdit);
+
   useEffect(() => {
     // server call for getting Customer by id
     dispatch(actions.fetchAgencyById(id));
@@ -43,8 +46,7 @@ export function AgencyEditDialog({ id, show, onHide }) {
     //   auth: { publicKey },
     // } = store.getState();
     // const transactionWithSign = { publicKey, sign, agency };
-    console.log('---agencyyyyyyyyy');
-    console.log(agency);
+    console.log(id);
     if (!id) {
       dispatch(actions.createAgency(agency)).then(() => onHide());
       return;

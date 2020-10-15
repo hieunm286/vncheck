@@ -22,34 +22,18 @@ export function Select({
   customFeedbackLabel,
   children,
   isHorizontal,
-  width,
   ...props
 }) {
   const [field, meta] = useField(props);
   const { touched, error } = meta;
-
-  const styleLabe = {
-    width: width,
-  };
-
-  const styleInput = {
-    marginRight: 0,
-  };
-
   return (
     <>
       <div className={isHorizontal && 'd-flex align-items-center'}>
-        {label && (
-          <label style={width && styleLabe} className={isHorizontal && 'mb-0 select-label'}>
-            {label}
-          </label>
-        )}
+        {label && <label className={isHorizontal && 'mb-0 select-label'}
+        >{label}</label>}
         <select
-          style={width && styleInput}
           className={
-            withFeedbackLabel
-              ? getFieldCSSClasses(touched, error)
-              : 'form-control form-control-solid'
+            withFeedbackLabel ? getFieldCSSClasses(touched, error) : 'form-control form-control-solid'
           }
           {...field}
           {...props}>

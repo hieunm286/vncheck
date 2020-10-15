@@ -36,9 +36,6 @@ export function AgencyShippingAddressTable({
       text: 'Tên đại lý',
       sort: true,
       headerClasses: 'd-none',
-      headerAttrs: {
-        hidden: true,
-      },
       formatter: (cell, row) =>
         row.address + ', ' + row.district + ', ' + row.city + ', ' + row.state,
     },
@@ -53,9 +50,6 @@ export function AgencyShippingAddressTable({
         openDetailAgencyShippingDialog: openModal,
       },
       classes: 'text-center pr-0',
-      headerAttrs: {
-        hidden: true,
-      },
       headerClasses: 'd-none',
       // style: {
       //   minWidth: '130px',

@@ -28,29 +28,29 @@ export function AgencyCard() {
     <Card>
       <CardBody>
         <div className="row no-gutters mb-10">
-          <div className="col-xxl-2 col-xl-3 col-lg-3">
+          <div className="col-xxl-1 col-xl-2 col-lg-2 mr-5">
             <button
               type="button"
-              className="btn btn-danger w-75"
+              className="btn btn-danger w-100"
               onClick={agencyUIProps.newAgencyButtonClick}>
               + Tạo mới
             </button>
           </div>
-          <div className="col-xxl-2 col-xl-3 col-lg-3">
+          <div className="col-xxl-1 col-xl-2 col-lg-2 mr-5">
             <button
               type="button"
-              className="btn btn-danger w-75"
+              className="btn btn-danger w-100"
               onClick={agencyUIProps.openDeleteManyAgencyDialog}>
               <DeleteOutlineOutlinedIcon style={{ fontSize: 17 }} /> Xóa
             </button>
           </div>
-          <div className="col-xxl-2 col-xl-3 col-lg-3">
-            <button type="button" className="btn btn-outline-danger w-75">
+          <div className="col-xxl-1 col-xl-2 col-lg-2 mr-5">
+            <button type="button" className="btn btn-outline-danger w-100">
               <InsertDriveFileOutlinedIcon style={{ fontSize: 17 }} /> Nhập Excel
             </button>
           </div>
-          <div className="col-xxl-2 col-xl-3 col-lg-3">
-            <button type="button" className="btn btn-outline-danger w-75">
+          <div className="col-xxl-1 col-xl-2 col-lg-2 mr-5">
+            <button type="button" className="btn btn-outline-danger w-100">
               <InsertDriveFileOutlinedIcon style={{ fontSize: 17 }} /> Xuất excel
             </button>
           </div>

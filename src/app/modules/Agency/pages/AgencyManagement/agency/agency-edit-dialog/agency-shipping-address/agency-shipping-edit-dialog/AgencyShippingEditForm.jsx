@@ -6,12 +6,7 @@ import React, { useEffect, useState } from 'react';
 import { Modal } from 'react-bootstrap';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
-import {
-  Input,
-  MainInput,
-  Select,
-  CustomInput,
-} from '../../../../../../../../../_metronic/_partials/controls';
+import { Input, MainInput, Select } from '../../../../../../../../../_metronic/_partials/controls';
 // import COUNTRY_LIST from '../../../../../../_metronic/country/country';
 import STATE_LIST from '../../../../../../../../../_metronic/AdministrativeDivision/state.json';
 import CITY_LIST from '../../../../../../../../../_metronic/AdministrativeDivision/city.json';
@@ -42,10 +37,6 @@ const NewShippingAddressSchema = Yup.object().shape({
   // username: Yup.string().required('AgencyTypename không được để trống'),
   // password: Yup.string().required('Password không được để trống'),
 });
-
-const labelStyle = {
-  width: '40%',
-};
 
 export function AgencyShippingEditForm({ saveAgency, agency, actionsLoading, onHide }) {
   const [administrativeDivision, setAdministrativeDivision] = useState({
@@ -92,7 +83,6 @@ export function AgencyShippingEditForm({ saveAgency, agency, actionsLoading, onH
                   <Select
                     name="state"
                     label="Tỉnh/Thành phố"
-                    width="50%"
                     value={administrativeDivision.state}
                     isHorizontal={true}
                     onChange={e =>
@@ -122,7 +112,6 @@ export function AgencyShippingEditForm({ saveAgency, agency, actionsLoading, onH
                     label="Quận/Huyện"
                     value={administrativeDivision.city}
                     isHorizontal={true}
-                    width="50%"
                     onChange={e =>
                       setAdministrativeDivision({
                         ...administrativeDivision,
@@ -149,7 +138,6 @@ export function AgencyShippingEditForm({ saveAgency, agency, actionsLoading, onH
                     label="Phường/Xã"
                     value={administrativeDivision.district}
                     isHorizontal={true}
-                    width="50%"
                     onChange={e =>
                       setAdministrativeDivision({
                         ...administrativeDivision,
@@ -172,8 +160,7 @@ export function AgencyShippingEditForm({ saveAgency, agency, actionsLoading, onH
                 <div className="mt-5">
                   <Field
                     name="address"
-                    width="50%"
-                    component={CustomInput}
+                    component={MainInput}
                     placeholder="Nhập mã địa chỉ"
                     label="Địa chỉ giao hàng"
                     isHorizontal={true}
@@ -193,12 +180,10 @@ export function AgencyShippingEditForm({ saveAgency, agency, actionsLoading, onH
                 type="submit"
                 onClick={() => handleSubmit()}
                 className="btn btn-danger btn-elevate">
-                <SaveOutlinedIcon /> Lưu{'\u00A0'}
-                {'\u00A0'}
-                {'\u00A0'}
+                <SaveOutlinedIcon /> Save
               </button>
               <button type="button" onClick={onHide} className="btn btn-outline-danger">
-                <CancelOutlinedIcon /> Hủy bỏ
+                <CancelOutlinedIcon /> Cancel
               </button>
             </Modal.Footer>
           </>
