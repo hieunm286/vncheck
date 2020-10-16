@@ -63,14 +63,14 @@ export function UsersTable() {
       headerSortingClasses,
     },
     {
-      dataField: 'first_name',
+      dataField: 'firstName',
       text: 'First Name',
       sort: true,
       sortCaret: sortCaret,
       headerSortingClasses,
     },
     {
-      dataField: 'last_name',
+      dataField: 'lastName',
       text: 'Last Name',
       sort: true,
       sortCaret: sortCaret,
@@ -84,14 +84,14 @@ export function UsersTable() {
       headerSortingClasses,
     },
     {
-      dataField: 'issuer_signature',
+      dataField: 'role.roleType',
       text: 'Role',
       sort: true,
       sortCaret: sortCaret,
       headerSortingClasses,
     },
     {
-      dataField: 'is_locked',
+      dataField: 'status',
       text: 'Status',
       sort: true,
       sortCaret: sortCaret,

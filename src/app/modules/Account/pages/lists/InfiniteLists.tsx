@@ -31,7 +31,7 @@ function InfiniteLists() {
     isLoading(true);
     const fetchData = async () => {
       axios
-        .get(`${API_BASE_URL}/auth/user/all/search?query=${searchTerm}&page=1`)
+        .get(`${API_BASE_URL}/user/all/search?query=${searchTerm}&page=1`)
         .then(res => {
           const data = {
             items: res.data.data,
@@ -71,7 +71,7 @@ function InfiniteLists() {
     isLoading(true);
     setTimeout(() => {
       axios
-        .get(`${API_BASE_URL}/auth/user/all/search?query=${searchTerm}&page=${state.page + 1}`)
+        .get(`${API_BASE_URL}/user/all/search?query=${searchTerm}&page=${state.page + 1}`)
         .then(res => {
           setState({
             ...state,

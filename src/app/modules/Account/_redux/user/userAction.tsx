@@ -14,7 +14,7 @@ export const fetchAllUser = (queryParams: any) => (
     .getAllUsers(queryParams)
     .then(response => {
       const user = response.data;
-      dispatch(actions.usersFetched(user));
+      dispatch(actions.usersFetched({ data: user }));
     })
     .catch(error => {
       error.clientMessage = "Can't find user";

@@ -1,9 +1,9 @@
 import axios from 'axios';
 import { API_BASE_URL } from '../../../../Const';
 
-export const USERS_URL = API_BASE_URL + '/auth/users';
-export const USER_URL = API_BASE_URL + '/auth/user';
-export const USER_URL_SEARCH = USERS_URL + '/all/search';
+export const USERS_URL = API_BASE_URL + '/users';
+export const USER_URL = API_BASE_URL + '/user';
+export const USER_URL_SEARCH = API_BASE_URL + '/users';
 
 export function createUser(user: {
   publicKey: string;
