@@ -5,7 +5,7 @@ import React from 'react';
 import SVG from 'react-inlinesvg';
 import Visibility from '@material-ui/icons/Visibility';
 import './actions-column.scss';
-import { toAbsoluteUrl } from '../../../../../../../components/helpers';
+import {ToAbsoluteUrl} from "../../../../../../../components/helpers/assets-helpers";
 
 export function ActionsColumnFormatter(
   cellContent : any,
@@ -29,7 +29,7 @@ export function ActionsColumnFormatter(
         className="btn btn-icon btn-hover-danger btn-sm mx-1"
         onClick={() => openEditAgencyShippingDialog('showEdit')}>
         <span className="svg-icon svg-icon-md svg-icon-danger">
-          <SVG src={toAbsoluteUrl('/media/svg/icons/Communication/Write.svg')} />
+          <SVG src={ToAbsoluteUrl('/media/svg/icons/Communication/Write.svg')} />
         </span>
       </a>
       <a
@@ -37,7 +37,7 @@ export function ActionsColumnFormatter(
         className="btn btn-icon btn-hover-danger btn-sm"
         onClick={() => openDeleteAgencyShippingDialog('showDelete')}>
         <span className="svg-icon svg-icon-md svg-icon-danger">
-          <SVG src={toAbsoluteUrl('/media/svg/icons/General/Trash.svg')} />
+          <SVG src={ToAbsoluteUrl('/media/svg/icons/General/Trash.svg')} />
         </span>
       </a>
     </>

@@ -3,10 +3,10 @@ import clsx from 'clsx';
 import { Dropdown, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import SVG from 'react-inlinesvg';
 import objectPath from 'object-path';
-import { useHtmlClassService } from '../../../../_core/MetronicLayout';
+import { useHtmlClassService } from '../../../..';
 import { SearchResult } from './SearchResult';
-import { toAbsoluteUrl } from '../../../../../../app/components/helpers';
 import { DropdownTopbarItemToggler } from '../../../../../_partials/dropdowns';
+import {ToAbsoluteUrl} from "../../../../../../app/components/helpers/assets-helpers";
 const fakeData = [
   {
     type: 0,
@@ -16,25 +16,25 @@ const fakeData = [
     type: 1,
     text: 'AirPlus Requirements',
     description: 'by Grog John',
-    iconImage: toAbsoluteUrl('/media/files/doc.svg'),
+    iconImage: ToAbsoluteUrl('/media/files/doc.svg'),
   },
   {
     type: 1,
     text: 'TechNav Documentation',
     description: 'by Mary Brown',
-    iconImage: toAbsoluteUrl('/media/files/pdf.svg'),
+    iconImage: ToAbsoluteUrl('/media/files/pdf.svg'),
   },
   {
     type: 1,
     text: 'All Framework Docs',
     description: 'by Grog John',
-    iconImage: toAbsoluteUrl('/media/files/zip.svg'),
+    iconImage: ToAbsoluteUrl('/media/files/zip.svg'),
   },
   {
     type: 1,
     text: 'AirPlus Requirements',
     description: 'by Tim Hardy',
-    iconImage: toAbsoluteUrl('/media/files/xml.svg'),
+    iconImage: ToAbsoluteUrl('/media/files/xml.svg'),
   },
   {
     text: 'Customers',
@@ -44,25 +44,25 @@ const fakeData = [
     type: 1,
     text: 'Jimmy Curry',
     description: 'Software Developer',
-    iconImage: toAbsoluteUrl('/media/users/300_11.jpg'),
+    iconImage: ToAbsoluteUrl('/media/users/300_11.jpg'),
   },
   {
     type: 1,
     text: 'Milena Gibson',
     description: 'UI Designer',
-    iconImage: toAbsoluteUrl('/media/users/300_16.jpg'),
+    iconImage: ToAbsoluteUrl('/media/users/300_16.jpg'),
   },
   {
     type: 1,
     text: 'Stefan JohnStefan',
     description: 'Marketing Manager',
-    iconImage: toAbsoluteUrl('/media/users/300_22.jpg'),
+    iconImage: ToAbsoluteUrl('/media/users/300_22.jpg'),
   },
   {
     type: 1,
     text: 'Anna Strong',
     description: 'Software Developer',
-    iconImage: toAbsoluteUrl('/media/users/300_5.jpg'),
+    iconImage: ToAbsoluteUrl('/media/users/300_5.jpg'),
   },
   {
     type: 0,
@@ -149,7 +149,7 @@ export function SearchDropdown() {
         <div className="topbar-item">
           <div className="btn btn-icon btn-clean btn-lg mr-1" id="kt_quick_search_toggle">
             <span className="svg-icon svg-icon-xl svg-icon-danger">
-              <SVG src={toAbsoluteUrl('/media/svg/icons/General/Search.svg')} />
+              <SVG src={ToAbsoluteUrl('/media/svg/icons/General/Search.svg')} />
             </span>
           </div>
         </div>
@@ -170,7 +170,7 @@ export function SearchDropdown() {
               overlay={<Tooltip id="search-panel-tooltip">Quick search</Tooltip>}>
               <div className="btn btn-icon btn-clean btn-lg btn-dropdown mr-1">
                 <span className="svg-icon svg-icon-xl svg-icon-danger">
-                  <SVG src={toAbsoluteUrl('/media/svg/icons/General/Search.svg')} />
+                  <SVG src={ToAbsoluteUrl('/media/svg/icons/General/Search.svg')} />
                 </span>
               </div>
             </OverlayTrigger>
@@ -186,7 +186,7 @@ export function SearchDropdown() {
                   <div className={`input-group-prepend`}>
                     <span className="input-group-text">
                       <span className="svg-icon svg-icon-lg">
-                        <SVG src={toAbsoluteUrl('/media/svg/icons/General/Search.svg')} />
+                        <SVG src={ToAbsoluteUrl('/media/svg/icons/General/Search.svg')} />
                       </span>
                     </span>
                   </div>
