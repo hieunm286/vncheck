@@ -1,6 +1,6 @@
 /* eslint-disable no-script-url,jsx-a11y/anchor-is-valid */
 import React from "react";
-import { getPages, getPagesCount } from "../../../_helpers";
+import { getPages, getPagesCount } from "../../../../app/components/helpers";
 
 export function PaginationLinks({ paginationProps }) {
   const { totalSize, sizePerPage, page, paginationSize } = paginationProps;

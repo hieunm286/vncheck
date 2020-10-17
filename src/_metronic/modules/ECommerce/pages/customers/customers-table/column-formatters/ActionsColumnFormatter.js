@@ -3,7 +3,7 @@
 /* eslint-disable no-script-url,jsx-a11y/anchor-is-valid */
 import React from "react";
 import SVG from "react-inlinesvg";
-import { toAbsoluteUrl } from "../../../../../../_helpers";
+import { toAbsoluteUrl } from "../../../../../../../app/components/helpers";
 
 export function ActionsColumnFormatter(
   cellContent,

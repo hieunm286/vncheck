@@ -3,12 +3,12 @@ import { formatRFC3339 } from 'date-fns';
 import React, { useEffect, useMemo } from 'react';
 import { Modal } from 'react-bootstrap';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import AgencyShippingDetail from './agency-shipping-detail.tsx';
+import AgencyShippingDetail from './agency-shipping-detail';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 
 import './agency-type-detail-dialog.scss';
 
-export function AgencyShippingDetailDialog({ show, openModal, hideModal, rowShippingData }) {
+export function AgencyShippingDetailDialog({ show, openModal, hideModal, rowShippingData }:any) {
   return (
     <Modal
       // size="lg"

@@ -6,7 +6,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import {useSelector} from 'react-redux';
 import objectPath from 'object-path';
 import {useHtmlClassService} from '../../../_core/MetronicLayout';
-import {toAbsoluteUrl} from '../../../../_helpers';
+import {toAbsoluteUrl} from '../../../../../app/components/helpers';
 import {DropdownTopbarItemToggler} from '../../../../_partials/dropdowns';
 
 export function UserProfileDropdown() {

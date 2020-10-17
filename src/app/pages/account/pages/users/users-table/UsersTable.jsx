@@ -13,7 +13,7 @@ import {
   PleaseWaitMessage,
   sortCaret,
   headerSortingClasses,
-} from '../../../../../../_metronic/_helpers';
+} from '../../../../../components/helpers';
 import * as uiHelpers from '../UsersUIHelpers';
 import * as columnFormatters from './column-formatters';
 import { Pagination } from '../../../../../../_metronic/_partials/controls';

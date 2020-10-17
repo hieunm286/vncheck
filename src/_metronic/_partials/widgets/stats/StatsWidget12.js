@@ -4,7 +4,7 @@ import objectPath from "object-path";
 import ApexCharts from "apexcharts";
 import SVG from "react-inlinesvg";
 import {useHtmlClassService} from "../../../layout";
-import {toAbsoluteUrl} from "../../../_helpers";
+import {toAbsoluteUrl} from "../../../../app/components/helpers";
 
 export function StatsWidget12({ className }) {
   const uiService = useHtmlClassService();

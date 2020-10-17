@@ -1,6 +1,6 @@
 import React from 'react';
 
-export function Checkbox({ isSelected, onChange, children }) {
+export function Checkbox({ isSelected, onChange, children } : any) {
   return (
     <>
       <input type="checkbox" style={{ display: 'none' }} />

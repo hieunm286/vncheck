@@ -1,4 +1,4 @@
-import {toAbsoluteUrl} from "../../../../_metronic/_helpers";
+import {toAbsoluteUrl} from "../../../components/helpers";
 
 export default [
   {

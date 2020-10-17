@@ -1,6 +1,6 @@
 import React from "react";
 import {CircularProgress} from "@material-ui/core";
-import {toAbsoluteUrl} from "../../_helpers";
+import {toAbsoluteUrl} from "../../../app/components/helpers";
 
 export function SplashScreen() {
   return (

@@ -5,7 +5,7 @@ import SVG from 'react-inlinesvg';
 import objectPath from 'object-path';
 import { useHtmlClassService } from '../../../../_core/MetronicLayout';
 import { SearchResult } from './SearchResult';
-import { toAbsoluteUrl } from '../../../../../_helpers';
+import { toAbsoluteUrl } from '../../../../../../app/components/helpers';
 import { DropdownTopbarItemToggler } from '../../../../../_partials/dropdowns';
 const fakeData = [
   {

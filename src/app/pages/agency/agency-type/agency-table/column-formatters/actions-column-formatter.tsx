@@ -5,24 +5,24 @@ import React from 'react';
 import SVG from 'react-inlinesvg';
 import Visibility from '@material-ui/icons/Visibility';
 import './actions-column.scss';
-import { toAbsoluteUrl } from '../../../../../../_metronic/_helpers/index';
+import {ToAbsoluteUrl} from "../../../../../components/helpers/assets-helpers";
 
 export function ActionsColumnFormatter(
-  cellContent,
-  row,
-  rowIndex,
-  { openDetailAgencyDialog, openEditAgencyDialog, openDeleteAgencyDialog },
+    cellContent: any,
+    row: any,
+    rowIndex: any,
+    {openDetailAgencyDialog, openEditAgencyDialog, openDeleteAgencyDialog}: any,
 ) {
-  return (
-    <>
-      <a
-        title="Delete user"
-        className="btn btn-icon btn-light btn-hover-danger btn-sm"
-        onClick={() => openDeleteAgencyDialog(row.agency_id)}>
+    return (
+        <>
+            <a
+                title="Delete user"
+                className="btn btn-icon btn-light btn-hover-danger btn-sm"
+                onClick={() => openDeleteAgencyDialog(row.agency_id)}>
         <span className="svg-icon svg-icon-md svg-icon-danger">
-          <SVG src={toAbsoluteUrl('/media/svg/icons/General/Trash.svg')} />
+          <SVG src={ToAbsoluteUrl('/media/svg/icons/General/Trash.svg')}/>
         </span>
-      </a>
-    </>
-  );
+            </a>
+        </>
+    );
 }

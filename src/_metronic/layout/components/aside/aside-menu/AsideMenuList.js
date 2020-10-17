@@ -3,7 +3,7 @@ import React from 'react';
 import { useLocation } from 'react-router';
 import { NavLink } from 'react-router-dom';
 import SVG from 'react-inlinesvg';
-import { toAbsoluteUrl, checkIsActive } from '../../../../_helpers';
+import { toAbsoluteUrl, checkIsActive } from '../../../../../app/components/helpers';
 import { useIntl } from 'react-intl';
 import { makeStyles } from '@material-ui/core/styles';
 import '../Aside.css';

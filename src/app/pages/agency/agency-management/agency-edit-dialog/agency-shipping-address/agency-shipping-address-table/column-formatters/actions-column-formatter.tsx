@@ -5,13 +5,13 @@ import React from 'react';
 import SVG from 'react-inlinesvg';
 import Visibility from '@material-ui/icons/Visibility';
 import './actions-column.scss';
-import { toAbsoluteUrl } from '../../../../../../../../_metronic/_helpers/index';
+import { toAbsoluteUrl } from '../../../../../../../components/helpers';
 
 export function ActionsColumnFormatter(
-  cellContent,
-  row,
-  rowIndex,
-  { openDetailAgencyShippingDialog, openEditAgencyShippingDialog, openDeleteAgencyShippingDialog },
+  cellContent : any,
+  row : any,
+  rowIndex: any,
+  { openDetailAgencyShippingDialog, openEditAgencyShippingDialog, openDeleteAgencyShippingDialog } : any,
 ) {
   return (
     <>

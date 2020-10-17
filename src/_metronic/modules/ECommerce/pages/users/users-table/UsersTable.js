@@ -13,7 +13,7 @@ import {
   PleaseWaitMessage,
   sortCaret,
   headerSortingClasses,
-} from '../../../../../_helpers';
+} from '../../../../../../app/components/helpers';
 import * as uiHelpers from '../UsersUIHelpers';
 import * as columnFormatters from './column-formatters';
 import { Pagination } from '../../../../../_partials/controls';

@@ -2,7 +2,7 @@
 import React from "react";
 import SVG from "react-inlinesvg";
 import PerfectScrollbar from "react-perfect-scrollbar";
-import { toAbsoluteUrl } from "../../../../../_helpers";
+import { toAbsoluteUrl } from "../../../../../../app/components/helpers";
 
 const perfectScrollbarOptions = {
   wheelSpeed: 2,

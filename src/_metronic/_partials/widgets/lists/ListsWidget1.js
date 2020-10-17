@@ -2,7 +2,7 @@
 import React from "react";
 import SVG from "react-inlinesvg";
 import {Dropdown} from "react-bootstrap";
-import {toAbsoluteUrl} from "../../../_helpers";
+import {toAbsoluteUrl} from "../../../../app/components/helpers";
 import {DropdownCustomToggler, DropdownMenu4} from "../../dropdowns";
 
 export function ListsWidget1({ className }) {

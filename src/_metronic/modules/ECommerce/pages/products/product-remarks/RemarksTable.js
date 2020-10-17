@@ -17,7 +17,7 @@ import {
   NoRecordsFoundMessage,
   PleaseWaitMessage,
   sortCaret,
-} from "../../../../../_helpers";
+} from "../../../../../../app/components/helpers";
 import { useRemarksUIContext } from "./RemarksUIContext";
 
 export function RemarksTable() {

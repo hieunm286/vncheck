@@ -36,7 +36,7 @@ const theme = createMuiTheme(
      * @see https://material-ui.com/customization/globals/#default-props
      */
     props: {
-      // Name of the component ⚛️
+      // Name of the components ⚛️
       MuiButtonBase: {
         // The properties to apply
         disableRipple: false // No more ripple, on the whole application 💣!

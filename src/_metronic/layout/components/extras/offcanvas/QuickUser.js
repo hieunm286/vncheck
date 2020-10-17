@@ -2,7 +2,7 @@
 import React from 'react';
 import SVG from 'react-inlinesvg';
 import {useHistory} from 'react-router-dom';
-import {toAbsoluteUrl} from '../../../../_helpers';
+import {toAbsoluteUrl} from '../../../../../app/components/helpers';
 import {useSelector} from 'react-redux';
 
 export function QuickUser() {

@@ -14,7 +14,7 @@ import {
   sortCaret,
   headerSortingClasses,
   getSelectAgencyRow,
-} from '../../../../../../_metronic/_helpers/index';
+} from '../../../../../components/helpers/index';
 import * as uiHelpers from '../agency-type-ui-helpers';
 import * as columnFormatters from './column-formatters';
 import { Pagination } from '../../../../../../_metronic/_partials/controls/index';

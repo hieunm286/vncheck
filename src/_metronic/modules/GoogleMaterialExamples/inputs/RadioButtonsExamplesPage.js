@@ -248,7 +248,7 @@ export default function RadioButtonsExamplesPage() {
             <div className="d-flex justify-content-center width-full">
               <div>
                 <FormControl component="fieldset">
-                  {/*<FormLabel component="legend">labelPlacement</FormLabel>*/}
+                  {/*<FormLabel components="legend">labelPlacement</FormLabel>*/}
                   <RadioGroup
                     aria-label="position"
                     name="position"

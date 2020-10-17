@@ -1,5 +1,5 @@
 import React from "react";
-import {toAbsoluteUrl} from "../../_helpers";
+import {toAbsoluteUrl} from "../../../app/components/helpers";
 
 export function ErrorPage2() {
   return (

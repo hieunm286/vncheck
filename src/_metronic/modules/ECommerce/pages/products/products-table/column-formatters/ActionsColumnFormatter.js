@@ -2,7 +2,7 @@
 import React from "react";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import SVG from "react-inlinesvg";
-import { toAbsoluteUrl } from "../../../../../../_helpers";
+import { toAbsoluteUrl } from "../../../../../../../app/components/helpers";
 
 export const ActionsColumnFormatter = (
   cellContent,

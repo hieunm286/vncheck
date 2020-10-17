@@ -1230,7 +1230,7 @@ $aside-config: (
 
 // Aside Menu
 $aside-menu-config: (
-	// Base parameters required to build the base menu(see mixin: src/sass/component/mixins/_menu-vertical.scss)
+	// Base parameters required to build the base menu(see mixin: src/sass/components/mixins/_menu-vertical.scss)
 	base:	(
 		class: aside-menu, // Menu element class name
 		parent-class: aside, // Menu parent aside element class name

@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import objectPath from 'object-path';
 // LayoutContext
 import { useHtmlClassService } from '../_core/MetronicLayout';
-// Import Layout component
+// Import Layout components
 import { Header } from './header/Header';
 import { HeaderMobile } from './header-mobile/HeaderMobile';
 import { Aside } from './aside/Aside';

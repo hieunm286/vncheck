@@ -3,7 +3,7 @@ import React from 'react';
 import clsx from 'clsx';
 import { Dropdown } from 'react-bootstrap';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
-import { toAbsoluteUrl } from '../../../../_helpers';
+import { toAbsoluteUrl } from '../../../../../app/components/helpers';
 import { useLang, setLanguage } from '../../../../i18n';
 import { DropdownTopbarItemToggler } from '../../../../_partials/dropdowns';
 

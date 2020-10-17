@@ -1,6 +1,5 @@
 import React, { useMemo } from 'react';
-import { useAgencyUIContext } from '../agency-ui-context.tsx';
-
+import { useAgencyUIContext } from '../agency-ui-context';
 export function AgencyGrouping() {
   // Customers UI Context
   const agencyUIContext = useAgencyUIContext();
@@ -33,7 +32,7 @@ export function AgencyGrouping() {
                 className="btn btn-danger font-weight-bolder font-size-sm"
                 // onClick={customersUIProps.openDeleteCustomersDialog}
               >
-                <i className="fa fa-trash"></i> Delete All
+                <i className="fa fa-trash"/> Delete All
               </button>
               &nbsp;
               <button
@@ -41,7 +40,7 @@ export function AgencyGrouping() {
                 className="btn btn-light-danger font-weight-bolder font-size-sm"
                 // onClick={customersUIProps.openFetchCustomersDialog}
               >
-                <i className="fa fa-stream"></i> Fetch Selected
+                <i className="fa fa-stream"/> Fetch Selected
               </button>
               &nbsp;
               <button
@@ -49,7 +48,7 @@ export function AgencyGrouping() {
                 className="btn btn-light-danger font-weight-bolder font-size-sm"
                 // onClick={customersUIProps.openUpdateCustomersStatusDialog}
               >
-                <i className="fa fa-sync-alt"></i> Update Status
+                <i className="fa fa-sync-alt"/> Update Status
               </button>
             </div>
           </div>

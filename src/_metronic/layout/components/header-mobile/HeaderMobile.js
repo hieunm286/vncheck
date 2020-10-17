@@ -2,7 +2,7 @@ import React, {useMemo} from "react";
 import {Link} from "react-router-dom";
 import objectPath from "object-path";
 import SVG from "react-inlinesvg";
-import {toAbsoluteUrl} from "../../../_helpers";
+import {toAbsoluteUrl} from "../../../../app/components/helpers";
 import {useHtmlClassService} from "../../_core/MetronicLayout";
 
 export function HeaderMobile() {

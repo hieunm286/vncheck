@@ -3,7 +3,7 @@ import { Table } from 'react-bootstrap';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import IndeterminateCheckBoxIcon from '@material-ui/icons/IndeterminateCheckBox';
 
-function AgencyShippingDetail(props) {
+function AgencyShippingDetail(props:any) {
   const { data } = props.rowShippingData;
   return (
     <div className="container mt-10">

@@ -1,13 +1,13 @@
 import React, {useMemo} from 'react';
 
-import {AgencyTable} from './agency-table/AgencyTable';
+import {AgencyTable} from './agency-table/agency-table';
 import {AgencyGrouping} from './agency-grouping/agency-grouping';
 import {useAgencyUIContext} from './agency-ui-context';
 import {AgencyFilter} from './agency-filter/agency-filter';
 import {Link} from 'react-router-dom';
 import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined';
 import InsertDriveFileOutlinedIcon from '@material-ui/icons/InsertDriveFileOutlined';
-import {Card, CardBody} from "../../../component/card";
+import {Card, CardBody} from "../../../components/card";
 
 export function AgencyCard() {
     const agencyUIContext: any = useAgencyUIContext();

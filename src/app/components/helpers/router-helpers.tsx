@@ -1,8 +1,9 @@
-import * as utils from "./LocalStorageHelpers";
+import * as utils from "./local-storage-helpers";
+import {GetStorage, RemoveStorage} from "./local-storage-helpers";
 
 const localStorageLastLocationKey = "metronic-lastLocation";
 
-function acceptLocation(lastLocation) {
+function acceptLocation(lastLocation: any) {
     if (
         lastLocation &&
         lastLocation.pathname &&
@@ -16,7 +17,7 @@ function acceptLocation(lastLocation) {
     return false;
 }
 
-export function saveLastLocation(lastLocation) {
+export function saveLastLocation(lastLocation: any) {
     if (acceptLocation(lastLocation)) {
         utils.setStorage(
             localStorageLastLocationKey,
@@ -27,42 +28,34 @@ export function saveLastLocation(lastLocation) {
 }
 
 export function forgotLastLocation() {
-    utils.removeStorage(localStorageLastLocationKey);
+    RemoveStorage(localStorageLastLocationKey);
 }
 
 export function getLastLocation() {
-    const defaultLocation = { pathname: "/", title: "Dashboard"};
-    const localStorateLocations = utils.getStorage(localStorageLastLocationKey);
+    const defaultLocation = {pathname: "/", title: "Dashboard"};
+    const localStorateLocations = GetStorage(localStorageLastLocationKey);
     if (!localStorateLocations) {
-        return { pathname: "/", title: "Dashboard"};
+        return {pathname: "/", title: "Dashboard"};
     }
-
     try {
-        const result = JSON.parse(localStorateLocations);
-        return result;
+        return JSON.parse(localStorateLocations);
     } catch (error) {
         console.error(error);
         return defaultLocation;
     }
 }
 
-export function getCurrentUrl(location) {
+export function getCurrentUrl(location: any) {
     return location.pathname.split(/[?#]/)[0];
 }
 
-export function checkIsActive(location, url) {
+export function checkIsActive(location: any, url: any) {
     const current = getCurrentUrl(location);
     if (!current || !url) {
-        return  false;
+        return false;
     }
-
     if (current === url) {
-        return  true;
-    }
-
-    if (current.indexOf(url) > -1) {
         return true;
     }
-
-    return false;
+    return current.indexOf(url) > -1;
 }

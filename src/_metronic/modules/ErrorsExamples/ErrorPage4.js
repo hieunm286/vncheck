@@ -1,5 +1,5 @@
 import React from "react";
-import { toAbsoluteUrl } from "../../_helpers";
+import { toAbsoluteUrl } from "../../../app/components/helpers";
 import "../../_assets/sass/pages/error/error-4.scss";
 
 export function ErrorPage4() {

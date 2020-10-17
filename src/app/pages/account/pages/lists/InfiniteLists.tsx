@@ -96,7 +96,7 @@ function InfiniteLists() {
 
   return (
     <div className="infinite-scroll">
-      {/* <h1>demo: react-infinite-scroll-component</h1>
+      {/* <h1>demo: react-infinite-scroll-components</h1>
           <hr /> */}
       <Form className="form-search" inline>
         <FormControl

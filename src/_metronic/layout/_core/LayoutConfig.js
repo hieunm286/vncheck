@@ -1,4 +1,4 @@
-import { toAbsoluteUrl } from '../../_helpers';
+import { toAbsoluteUrl } from '../../../app/components/helpers';
 export function getInitLayoutConfig() {
   return {
     demo: 'demo1',

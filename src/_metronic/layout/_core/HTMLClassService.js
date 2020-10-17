@@ -1,5 +1,5 @@
 import objectPath from "object-path";
-import {toAbsoluteUrl} from "../../_helpers";
+import {toAbsoluteUrl} from "../../../app/components/helpers";
 
 export class HtmlClassService {
   // Public properties

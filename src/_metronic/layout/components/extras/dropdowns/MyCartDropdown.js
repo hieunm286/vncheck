@@ -5,7 +5,7 @@ import React from "react";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import { Dropdown, OverlayTrigger, Tooltip } from "react-bootstrap";
 import SVG from "react-inlinesvg";
-import { toAbsoluteUrl } from "../../../../_helpers";
+import { toAbsoluteUrl } from "../../../../../app/components/helpers";
 import { DropdownTopbarItemToggler } from "../../../../_partials/dropdowns";
 
 const perfectScrollbarOptions = {

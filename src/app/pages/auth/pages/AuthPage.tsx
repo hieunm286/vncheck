@@ -1,6 +1,6 @@
 import React, { useLayoutEffect, useState } from 'react';
 import { Link, Switch, Redirect } from 'react-router-dom';
-import { toAbsoluteUrl } from '../../../../_metronic/_helpers/index';
+import { toAbsoluteUrl } from '../../../components/helpers/index';
 import { ContentRoute } from '../../../../_metronic/layout/index';
 import LoginUsername from './LoginUsername';
 import ForgotPassword from './ForgotPassword';

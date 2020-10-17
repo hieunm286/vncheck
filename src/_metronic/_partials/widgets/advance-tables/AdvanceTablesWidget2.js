@@ -2,7 +2,7 @@
 import React, {useState} from "react";
 import { Nav, Tab } from "react-bootstrap";
 import SVG from "react-inlinesvg";
-import {toAbsoluteUrl} from "../../../_helpers";
+import {toAbsoluteUrl} from "../../../../app/components/helpers";
 
 export function AdvanceTablesWidget2({ className }) {
   const [key, setKey] = useState("Month");
