@@ -23,7 +23,7 @@ import {
   MetronicLayoutProvider,
   MetronicSplashScreenProvider,
   MetronicSubheaderProvider,
-} from './_metronic/layout';
+} from './app/layout';
 import { MetronicI18nProvider } from './_metronic/i18n';
 
 /**

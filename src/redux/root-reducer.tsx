@@ -1,7 +1,7 @@
 import { all } from 'redux-saga/effects';
 import { combineReducers } from 'redux';
 
-import * as auth from '../app/pages/auth/_redux/authRedux';
+import * as auth from '../app/pages/auth/_redux/auth-redux';
 import { customersSlice } from '../_metronic/modules/ECommerce/_redux/customers/customersSlice';
 import { productsSlice } from '../_metronic/modules/ECommerce/_redux/products/productsSlice';
 import { remarksSlice } from '../_metronic/modules/ECommerce/_redux/remarks/remarksSlice';

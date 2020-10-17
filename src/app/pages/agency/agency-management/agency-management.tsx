@@ -1,7 +1,7 @@
 import { SignalCellularNull } from '@material-ui/icons';
 import React from 'react';
 import { Switch, Redirect, Route } from 'react-router-dom';
-import { ContentRoute } from '../../../../_metronic/layout/index';
+import { ContentRoute } from '../../../layout/index';
 import { AgencyDeleteDialog } from './agency-delete-dialog/agency-delete-dialog';
 import { AgencyDeleteManyDialog } from './agency-delete-many-dialog/agency-delete-many-dialog';
 import AgencyDetailDialog from './agency-detail-dialog/agency-detail-dialog';

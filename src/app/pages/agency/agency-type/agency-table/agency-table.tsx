@@ -10,7 +10,11 @@ import * as columnFormatters from './column-formatters';
 import './agency-table.scss';
 import {useAgencyUIContext} from "../agency-ui-context";
 import {defaultSorted, sizePerPageList} from "../agency-ui-helpers";
-import {getHandlerTableChange, NoRecordsFoundMessage, PleaseWaitMessage} from "../../../../components/helpers";
+import {
+    getHandlerTableChange,
+    NoRecordsFoundMessage,
+    PleaseWaitMessage
+} from "../../../../components/helpers/table-pagination-helpers";
 
 export function AgencyTable() {
     // Customers UI Context

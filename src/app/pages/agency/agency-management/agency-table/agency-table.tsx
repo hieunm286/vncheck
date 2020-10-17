@@ -5,14 +5,6 @@ import React, {useEffect, useMemo} from 'react';
 import BootstrapTable from 'react-bootstrap-table-next';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import * as actions from '../_redux/agency-action';
-import {
-    getHandlerTableChange,
-    NoRecordsFoundMessage,
-    PleaseWaitMessage,
-    sortCaret,
-    headerSortingClasses,
-    getSelectAgencyRow,
-} from '../../../../components/helpers';
 import {Pagination} from '../../../../../_metronic/_partials/controls';
 import './agency-table.scss';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
@@ -21,6 +13,12 @@ import {ActionsColumnFormatter} from "./column-formatters/actions-column-formatt
 import {defaultSorted, sizePerPageList} from "../agency-ui-helpers";
 import {useAgencyUIContext} from "../agency-ui-context";
 import paginationFactory, {PaginationProvider} from "react-bootstrap-table2-paginator";
+import {
+    getHandlerTableChange,
+    NoRecordsFoundMessage,
+    PleaseWaitMessage
+} from "../../../../components/helpers/table-pagination-helpers";
+import {HeaderSortingClasses, SortCaret} from "../../../../components/helpers/table-sorting-helpers";
 
 export function AgencyTable() {
     // Customers UI Context
@@ -64,22 +62,22 @@ export function AgencyTable() {
             dataField: 'name',
             text: 'Tên đại lý',
             sort: true,
-            sortCaret: sortCaret,
-            headerSortingClasses,
+            sortCaret: SortCaret,
+            headerSortingClasses:HeaderSortingClasses,
         },
         {
             dataField: 'agency_id',
             text: 'Mã đại lý',
             sort: true,
-            sortCaret: sortCaret,
-            headerSortingClasses,
+            sortCaret: SortCaret,
+            headerSortingClasses:HeaderSortingClasses,
         },
         {
             dataField: 'address',
             text: 'Địa chỉ đại lý',
             sort: true,
-            sortCaret: sortCaret,
-            headerSortingClasses,
+            sortCaret: SortCaret,
+            headerSortingClasses:HeaderSortingClasses,
             formatter: (cell: any, row: any) =>
                 row.address + ', ' + row.district + ', ' + row.city + ', ' + row.state,
         },
@@ -87,8 +85,8 @@ export function AgencyTable() {
             dataField: 'status',
             text: '\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0 Trạng thái',
             sort: true,
-            sortCaret: sortCaret,
-            headerSortingClasses,
+            sortCaret: SortCaret,
+            headerSortingClasses:HeaderSortingClasses,
             headerClasses: 'text-center',
             classes: 'text-center pr-0',
             formatter: (cell: any, row: any) =>

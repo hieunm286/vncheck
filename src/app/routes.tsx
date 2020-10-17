@@ -8,7 +8,7 @@
 import React from 'react';
 import {Redirect, Switch, Route, useLocation} from 'react-router-dom';
 import {shallowEqual, useSelector} from 'react-redux';
-import {Layout} from '../_metronic/layout';
+import {Layout} from './layout';
 import BasePage from './base-page';
 import {Logout, AuthPage} from './pages/auth';
 import ErrorsPage from '../_metronic/modules/ErrorsExamples/ErrorsPage';
