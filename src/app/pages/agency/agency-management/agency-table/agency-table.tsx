@@ -19,6 +19,7 @@ import {
     PleaseWaitMessage
 } from "../../../../components/helpers/table-pagination-helpers";
 import {HeaderSortingClasses, SortCaret} from "../../../../components/helpers/table-sorting-helpers";
+import {GetSelectAgencyRow} from "../../../../components/helpers/table-row-selection-helpers";
 
 export function AgencyTable() {
     // Customers UI Context
@@ -63,21 +64,21 @@ export function AgencyTable() {
             text: 'Tên đại lý',
             sort: true,
             sortCaret: SortCaret,
-            headerSortingClasses:HeaderSortingClasses,
+            headerSortingClasses: HeaderSortingClasses,
         },
         {
             dataField: 'agency_id',
             text: 'Mã đại lý',
             sort: true,
             sortCaret: SortCaret,
-            headerSortingClasses:HeaderSortingClasses,
+            headerSortingClasses: HeaderSortingClasses,
         },
         {
             dataField: 'address',
             text: 'Địa chỉ đại lý',
             sort: true,
             sortCaret: SortCaret,
-            headerSortingClasses:HeaderSortingClasses,
+            headerSortingClasses: HeaderSortingClasses,
             formatter: (cell: any, row: any) =>
                 row.address + ', ' + row.district + ', ' + row.city + ', ' + row.state,
         },
@@ -86,7 +87,7 @@ export function AgencyTable() {
             text: '\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0 Trạng thái',
             sort: true,
             sortCaret: SortCaret,
-            headerSortingClasses:HeaderSortingClasses,
+            headerSortingClasses: HeaderSortingClasses,
             headerClasses: 'text-center',
             classes: 'text-center pr-0',
             formatter: (cell: any, row: any) =>
@@ -134,11 +135,11 @@ export function AgencyTable() {
                                 remote
                                 defaultSorted={defaultSorted as any}
                                 onTableChange={getHandlerTableChange(agencyUIProps.setQueryParams)}
-                                // selectRow={getSelectAgencyRow({
-                                //     entities,
-                                //     ids: agencyUIProps.ids,
-                                //     setIds: agencyUIProps.setIds,
-                                // })}
+                                selectRow={GetSelectAgencyRow({
+                                    entities,
+                                    ids: agencyUIProps.ids,
+                                    setIds: agencyUIProps.setIds,
+                                }) as any}
                                 {...paginationTableProps}>
                                 <PleaseWaitMessage entities={entities}/>
                                 <NoRecordsFoundMessage entities={entities}/>

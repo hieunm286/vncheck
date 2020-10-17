@@ -3,7 +3,7 @@ import {Modal} from 'react-bootstrap';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 // import store from '../../../../../../redux/store';
 
-import * as actions from '../../_redux/agencyTypeAction';
+import * as actions from '../../_redux/agency-type-action';
 import {useAgencyTypeUIContext} from '../agency-type-ui-context';
 import {AgencyTypeEditDialogHeader} from './agency-type-edit-dialog-header';
 import {AgencyTypeEditForm} from './agency-type-edit-form';

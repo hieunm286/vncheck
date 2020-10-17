@@ -131,17 +131,17 @@ export function UsersTable() {
                                 classes="table table-head-custom table-vertical-center overflow-hidden"
                                 bootstrap4
                                 remote
-                                // keyField="username"
-                                // data={entities || []}
-                                // columns={columns}
-                                // defaultSorted={defaultSorted}
-                                onTableChange={getHandlerTableChange(usersUIProps.setQueryParams)}
-                                // selectRow={GetSelectRow({
-                                //     entities,
-                                //     ids: usersUIProps.ids,
-                                //     setIds: usersUIProps.setIds,
-                                // })}
                                 {...paginationTableProps}
+                                keyField="username"
+                                data={entities || []}
+                                columns={columns}
+                                defaultSorted={defaultSorted as any}
+                                onTableChange={getHandlerTableChange(usersUIProps.setQueryParams)}
+                                selectRow={GetSelectRow({
+                                    entities,
+                                    ids: usersUIProps.ids,
+                                    setIds: usersUIProps.setIds,
+                                }) as any}
                                 {...paginationProps}>
                                 <PleaseWaitMessage entities={entities}/>
                                 <NoRecordsFoundMessage entities={entities}/>

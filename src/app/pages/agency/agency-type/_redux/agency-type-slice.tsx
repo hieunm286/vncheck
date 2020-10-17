@@ -6,7 +6,7 @@ export interface AgencyTypeState {
   totalCount: number;
   entities: any;
   agencyTypeForEdit: any;
-  agenctTypeForView: any;
+  agencyTypeForView: any;
   lastError: any;
   error: string | any;
 }
@@ -17,7 +17,7 @@ const initialAgencyTypeState: AgencyTypeState = {
   totalCount: 0,
   entities: null,
   agencyTypeForEdit: undefined,
-  agenctTypeForView: undefined,
+  agencyTypeForView: undefined,
   lastError: null,
   error: null,
 };
@@ -83,7 +83,7 @@ export const agencyTypeSlice = createSlice({
     agencyTypeViewFetched: (state, action) => {
       console.log(action.payload);
       state.actionsLoading = false;
-      state.agenctTypeForView = action.payload.agenctTypeForView;
+      state.agencyTypeForView = action.payload.agencyTypeForView;
       state.error = null;
     },
   },

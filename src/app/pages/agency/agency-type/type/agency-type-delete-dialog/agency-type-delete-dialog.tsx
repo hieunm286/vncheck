@@ -1,7 +1,7 @@
 import React, {useEffect, useMemo, useState} from 'react';
 import {Modal} from 'react-bootstrap';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
-import * as actions from '../../_redux/agencyTypeAction';
+import * as actions from '../../_redux/agency-type-action';
 import {useAgencyTypeUIContext} from '../agency-type-ui-context';
 import {ModalProgressBar} from "../../../../../components/modal-progress-bar";
 

@@ -13,6 +13,9 @@ import {
     PleaseWaitMessage
 } from "../../../../components/helpers/table-pagination-helpers";
 import {ActionsColumnFormatter} from "./column-formatters/actions-column-formatter";
+import {GetSelectAgencyRow} from "../../../../components/helpers/table-row-selection-helpers";
+import paginationFactory, {PaginationProvider} from "react-bootstrap-table2-paginator";
+import {Pagination} from "../../../../components/pagination/pagination";
 
 export function AgencyTable() {
     // Customers UI Context
@@ -36,7 +39,7 @@ export function AgencyTable() {
         }),
         shallowEqual,
     );
-    const {totalCount, entities, listLoading, agenctTypeForView} = currentState;
+    const {totalCount, entities, listLoading, agencyTypeForView} = currentState;
 
     // Customers Redux state
     const dispatch = useDispatch();
@@ -85,37 +88,38 @@ export function AgencyTable() {
     console.log(entities ? (Object.values(entities)[0] ? 'undefined' : '[objects]') : '[]');
 
     return (
-        // <>
-        //   <PaginationProvider pagination={paginationFactory(paginationOptions)}>
-        //     {({ paginationProps, paginationTableProps }) => {
-        //       return (
-        //         <Pagination isLoading={listLoading} paginationProps={paginationProps}>
-        <BootstrapTable
-            wrapperClasses="table-responsive"
-            bordered={false}
-            classes="table table-head-custom table-vertical-center overflow-hidden"
-            bootstrap4
-            remote
-            keyField="agency_id"
-            // data={entities ? (Object.values(entities)[0] ? Object.values(entities)[0].agencies : []) : []}
-            data={agenctTypeForView ? agenctTypeForView.agencies : []}
-            columns={columns}
-            defaultSorted={defaultSorted as any}
-            onTableChange={getHandlerTableChange(agencyUIProps.setQueryParams)}
-            // selectRow={getSelectAgencyRow({
-            //   entities,
-            //   ids: agencyUIProps.ids,
-            //   setIds: agencyUIProps.setIds,
-            // })}
-            // {...paginationTableProps}
-        >
-            <PleaseWaitMessage entities={entities}/>
-            <NoRecordsFoundMessage entities={entities}/>
-        </BootstrapTable>
-        //         </Pagination>
-        //       );
-        //     }}
-        //   </PaginationProvider>
-        // </>
+        <>
+            <PaginationProvider pagination={paginationFactory(paginationOptions)}>
+                {({paginationProps, paginationTableProps}) => {
+                    return (
+                        <Pagination isLoading={listLoading} paginationProps={paginationProps}>
+                            <BootstrapTable
+                                wrapperClasses="table-responsive"
+                                bordered={false}
+                                classes="table table-head-custom table-vertical-center overflow-hidden"
+                                bootstrap4
+                                remote
+                                {...paginationTableProps}
+                                {...paginationOptions}
+                                keyField="agency_id"
+                                // data={entities ? (Object.values(entities)[0] ? Object.values(entities)[0].agencies : []) : []}
+                                data={agencyTypeForView ? agencyTypeForView.agencies : []}
+                                columns={columns}
+                                defaultSorted={defaultSorted as any}
+                                onTableChange={getHandlerTableChange(agencyUIProps.setQueryParams)}
+                                selectRow={GetSelectAgencyRow({
+                                    entities,
+                                    ids: agencyUIProps.ids,
+                                    setIds: agencyUIProps.setIds,
+                                }) as any}
+                            >
+                                <PleaseWaitMessage entities={entities}/>
+                                <NoRecordsFoundMessage entities={entities}/>
+                            </BootstrapTable>
+                        </Pagination>
+                    );
+                }}
+            </PaginationProvider>
+        </>
     );
 }

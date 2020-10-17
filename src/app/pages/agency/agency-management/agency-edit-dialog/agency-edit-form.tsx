@@ -26,7 +26,7 @@ import {FormControlLabel, Switch} from '@material-ui/core';
 import {AgencyShippingDeleteDialog} from './agency-shipping-address/agency-shipping-delete-dialog/agency-shipping-delete-dialog';
 import {getCodeFromName, getNameFromCode} from '../../utilities';
 import {API_BASE_URL} from '../../../../const';
-import './style/AgencyEditForm.scss';
+import './style/agency-edit-form.scss';
 import {AgencyShippingAddressTable} from "./agency-shipping-address/agency-shipping-address-table/agency-shipping-address-table";
 import {AgencyShippingEditDialog} from "./agency-shipping-address/agency-shipping-edit-dialog/agency-shipping-edit-dialog";
 import {AgencyShippingDetailDialog} from "./agency-shipping-address/agency-shipping-detail-dialog/agency-shipping-detail-dialog";

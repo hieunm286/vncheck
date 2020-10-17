@@ -1,6 +1,6 @@
 import { GenerateKeyPairAndEncrypt } from '../../../auth/service/auth-cryptography';
-import * as requestFromServer from './agencyTypeCrud';
-import { agencyTypeSlice, callTypes } from './agencyTypeSlice';
+import * as requestFromServer from './agency-type-crud';
+import { agencyTypeSlice, callTypes } from './agency-type-slice';
 
 const { actions } = agencyTypeSlice;
 

@@ -7,7 +7,7 @@ import paginationFactory, {PaginationProvider} from 'react-bootstrap-table2-pagi
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {useAgencyTypeUIContext} from '../agency-type-ui-context';
 import './agency-type-table.scss';
-import {fetchAgencyTypeViewById, fetchAllAgencyType} from "../../_redux/agencyTypeAction";
+import {fetchAgencyTypeViewById, fetchAllAgencyType} from "../../_redux/agency-type-action";
 import {HeaderSortingClasses, SortCaret} from "../../../../../components/helpers/table-sorting-helpers";
 import {defaultSorted, sizePerPageList} from "../../agency-ui-helpers";
 import {
