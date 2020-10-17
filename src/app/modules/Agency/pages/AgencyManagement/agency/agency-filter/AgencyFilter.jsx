@@ -108,7 +108,7 @@ export function AgencyFilter() {
                 <Field
                   name="agencyId"
                   component={Input}
-                  placeholder="Enter Last Name"
+                  placeholder="Nhập mã đại lý"
                   label="Mã đại lý"
                 />
               </div>
@@ -191,7 +191,7 @@ export function AgencyFilter() {
                 <Field
                   name="address"
                   component={Input}
-                  placeholder="Enter Last Name"
+                  placeholder="Nhập địa chỉ đại lý"
                   label="Địa chỉ đại lý"
                 />
               </div>

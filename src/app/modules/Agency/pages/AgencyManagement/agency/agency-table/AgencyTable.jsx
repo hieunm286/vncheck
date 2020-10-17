@@ -102,7 +102,7 @@ export function AgencyTable() {
     },
     {
       dataField: 'action',
-      text: 'Actions',
+      text: 'Hành vi',
       formatter: columnFormatters.ActionsColumnFormatter,
       formatExtraData: {
         openEditAgencyDialog: agencyUIProps.openEditAgencyDialog,

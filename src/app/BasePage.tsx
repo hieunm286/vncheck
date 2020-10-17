@@ -1,9 +1,6 @@
 import React, { Suspense, lazy } from 'react';
 import { Redirect, Switch, Route } from 'react-router-dom';
 import { LayoutSplashScreen, ContentRoute } from '../_metronic/layout';
-import { BuilderPage } from './pages/BuilderPage';
-import { MyPage } from './pages/MyPage';
-import { DashboardPage } from './pages/DashboardPage';
 import { ChangeUserPassword } from './pages/ChangeUserPassword';
 
 const GoogleMaterialPage = lazy(() =>
@@ -32,12 +29,8 @@ export default function BasePage() {
     <Suspense fallback={<LayoutSplashScreen />}>
       <Switch>
         {
-          /* Redirect from root URL to /dashboard. */
-          <Redirect exact from="/" to="/dashboard" />
+          <Redirect exact from="/" to="/account" />
         }
-        <ContentRoute children={null} path="/dashboard" component={DashboardPage} render={null} />
-        <ContentRoute children={null} path="/builder" component={BuilderPage} render={null} />
-        <ContentRoute children={null} path="/my-page" component={MyPage} render={null} />
         <ContentRoute
           children={null}
           path="/change-userpassword"
