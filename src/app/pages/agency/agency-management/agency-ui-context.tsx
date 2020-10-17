@@ -2,7 +2,7 @@ import React, {createContext, useContext, useState, useCallback} from 'react';
 import {isEqual, isFunction} from 'lodash';
 import {initialFilter} from './agency-ui-helpers';
 
-const AgencyUIContext = createContext(null as unknown as any);
+const AgencyUIContext = createContext<any>(null);
 
 export function useAgencyUIContext() {
     return useContext(AgencyUIContext);

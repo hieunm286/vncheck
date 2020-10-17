@@ -4,9 +4,6 @@
 import React, {useEffect, useMemo} from 'react';
 import BootstrapTable from 'react-bootstrap-table-next';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
-import * as actions from '../_redux/agencyTypeAction';
-
-import * as columnFormatters from './column-formatters';
 import './agency-table.scss';
 import {useAgencyUIContext} from "../agency-ui-context";
 import {defaultSorted, sizePerPageList} from "../agency-ui-helpers";
@@ -15,6 +12,7 @@ import {
     NoRecordsFoundMessage,
     PleaseWaitMessage
 } from "../../../../components/helpers/table-pagination-helpers";
+import {ActionsColumnFormatter} from "../type/agency-type-table/column-formatters";
 
 export function AgencyTable() {
     // Customers UI Context
@@ -64,7 +62,7 @@ export function AgencyTable() {
         {
             dataField: 'action',
             text: 'Actions',
-            formatter: columnFormatters.ActionsColumnFormatter,
+            formatter: ActionsColumnFormatter,
             formatExtraData: {
                 openDeleteAgencyDialog: agencyUIProps.openDeleteAgencyDialog,
             },

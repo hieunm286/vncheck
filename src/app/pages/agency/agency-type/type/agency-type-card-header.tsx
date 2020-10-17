@@ -1,19 +1,14 @@
 import React from 'react';
-import {
-  Card,
-  CardBody,
-  CardHeader,
-  CardHeaderToolbar,
-} from '../../../../../_metronic/_partials/controls/index';
-import { AgencyTypeFilter } from './agency-type-filter/agency-type-filter';
+import {AgencyTypeFilter} from './agency-type-filter/agency-type-filter';
+import {Card, CardBody, CardHeader} from "../../../../components/card";
 
 export default function AgencyTypeCardHeader() {
-  return (
-    <Card>
-      <CardHeader title="DANH MỤC ĐẠI LÝ"></CardHeader>
-      <CardBody>
-        <AgencyTypeFilter />
-      </CardBody>
-    </Card>
-  );
+    return (
+        <Card>
+            <CardHeader title="DANH MỤC ĐẠI LÝ"/>
+            <CardBody>
+                <AgencyTypeFilter/>
+            </CardBody>
+        </Card>
+    );
 }
