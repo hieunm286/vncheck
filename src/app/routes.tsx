@@ -8,10 +8,10 @@
 import React from 'react';
 import {Redirect, Switch, Route, useLocation} from 'react-router-dom';
 import {shallowEqual, useSelector} from 'react-redux';
-import {Layout} from './layout';
 import BasePage from './base-page';
-import {Logout, AuthPage} from './pages/auth';
-import ErrorsPage from '../_metronic/modules/ErrorsExamples/ErrorsPage';
+import {AuthPage} from "./pages/auth/pages/auth-page";
+import {Layout} from "./layout/components/layout";
+import {Logout} from "./pages/auth/pages/logout";
 
 export function Routes() {
     const userInfo = useSelector(({auth}: any) => auth);

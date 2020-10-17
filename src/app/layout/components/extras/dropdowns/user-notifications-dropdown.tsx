@@ -7,7 +7,7 @@ import SVG from 'react-inlinesvg';
 import objectPath from 'object-path';
 import { DropdownTopbarItemToggler } from '../../../../../_metronic/_partials/dropdowns';
 import {ToAbsoluteUrl} from "../../../../components/helpers/assets-helpers";
-import {useHtmlClassService} from "../../../index";
+import {useHtmlClassService} from "../../../_core/metronic-layout";
 
 const perfectScrollbarOptions = {
   wheelSpeed: 2,

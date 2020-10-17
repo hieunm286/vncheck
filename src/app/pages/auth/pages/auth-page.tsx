@@ -10,7 +10,7 @@ import { FormattedMessage } from 'react-intl';
 import ReceiveCode from './receive-code';
 import VerificationCode from './verification-code';
 import {ToAbsoluteUrl} from "../../../components/helpers/assets-helpers";
-import {ContentRoute} from "../../../layout";
+import {ContentRoute} from "../../../layout/components/content/content-route";
 
 //Custom hook
 function useWindowSize() {

@@ -6,8 +6,8 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import {useSelector} from 'react-redux';
 import objectPath from 'object-path';
 import {DropdownTopbarItemToggler} from '../../../../../_metronic/_partials/dropdowns';
-import {useHtmlClassService} from "../../../index";
 import {ToAbsoluteUrl} from "../../../../components/helpers/assets-helpers";
+import {useHtmlClassService} from "../../../_core/metronic-layout";
 
 export function UserProfileDropdown() {
     const {user} = useSelector(state => state.auth);

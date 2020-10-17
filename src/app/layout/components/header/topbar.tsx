@@ -2,17 +2,14 @@ import React, {useMemo} from 'react';
 import objectPath from 'object-path';
 import SVG from 'react-inlinesvg';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
-import {SearchDropdown} from '../extras/dropdowns/search/search-dropdown.tsx';
-import {UserNotificationsDropdown} from '../extras/dropdowns/user-notifications-dropdown.tsx';
-import {QuickActionsDropdown} from '../extras/dropdowns/quick-actions-dropdown.tsx';
-import {MyCartDropdown} from '../extras/dropdowns/my-cart-dropdown.tsx';
-import {LanguageSelectorDropdown} from '../extras/dropdowns/language-selector-dropdown.tsx';
-import {QuickUserToggler} from '../extras/quick-user-toggler.tsx';
-import {useHtmlClassService} from "../../index";
 import {ToAbsoluteUrl} from "../../../components/helpers/assets-helpers";
+import {SearchDropdown} from "../extras/dropdowns/search/search-dropdown";
+import {useHtmlClassService} from "../../_core/metronic-layout";
+import {UserNotificationsDropdown} from "../extras/dropdowns/user-notifications-dropdown";
+import {QuickUserToggler} from "../extras/quick-user-toggler";
 
 export function Topbar() {
-    const uiService = useHtmlClassService();
+    const uiService: any = useHtmlClassService();
 
     const layoutProps = useMemo(() => {
         return {
