@@ -1,7 +1,7 @@
 /* eslint-disable no-script-url,jsx-a11y/anchor-is-valid */
 import React, {useState, useEffect} from "react";
 import {KTCodeBlock} from "./KTCodeBlock";
-import {Card, CardBody, CardHeader} from "../Card";
+import {Card, CardBody, CardHeader} from "../../../../app/component/card.tsx";
 import {CodeBlockToolbar} from "../code-examples/CodeBlockToolbar";
 
 export function KTCodeExample({

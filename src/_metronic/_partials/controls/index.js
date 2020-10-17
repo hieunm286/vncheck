@@ -25,7 +25,7 @@ export {PaginationLinks} from "./pagination/PaginationLinks";
 export {PaginationToolbar} from "./pagination/PaginationToolbar";
 
 // Controls
-export * from "./Card";
+export * from "../../../app/component/card.tsx";
 export {default as AnimateLoading} from "./AnimateLoading";
 export {LoadingDialog} from "./LoadingDialog";
 export {Notice} from "./Notice";
