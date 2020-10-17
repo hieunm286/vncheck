@@ -12,7 +12,7 @@ import {
     NoRecordsFoundMessage,
     PleaseWaitMessage
 } from "../../../../components/helpers/table-pagination-helpers";
-import {ActionsColumnFormatter} from "../type/agency-type-table/column-formatters";
+import {ActionsColumnFormatter} from "./column-formatters/actions-column-formatter";
 
 export function AgencyTable() {
     // Customers UI Context

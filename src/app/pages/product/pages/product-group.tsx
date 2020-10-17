@@ -1,6 +1,6 @@
 import React from 'react';
 
-function ProductGroup(props) {
+function ProductGroup(props: any) {
     return (
         <div>
             product group

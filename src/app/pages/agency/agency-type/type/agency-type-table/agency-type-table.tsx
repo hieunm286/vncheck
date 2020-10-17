@@ -9,13 +9,13 @@ import {useAgencyTypeUIContext} from '../agency-type-ui-context';
 import './agency-type-table.scss';
 import {fetchAgencyTypeViewById, fetchAllAgencyType} from "../../_redux/agencyTypeAction";
 import {HeaderSortingClasses, SortCaret} from "../../../../../components/helpers/table-sorting-helpers";
-import {ActionsColumnFormatter} from "./column-formatters";
 import {defaultSorted, sizePerPageList} from "../../agency-ui-helpers";
 import {
     getHandlerTableChange,
     NoRecordsFoundMessage,
     PleaseWaitMessage
 } from "../../../../../components/helpers/table-pagination-helpers";
+import {ActionsColumnFormatter} from "./column-formatters/actions-column-formatter";
 
 export function AgencyTypeTable() {
     // Customers UI Context

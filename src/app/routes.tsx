@@ -12,6 +12,7 @@ import BasePage from './base-page';
 import {AuthPage} from "./pages/auth/pages/auth-page";
 import {Layout} from "./layout/components/layout";
 import {Logout} from "./pages/auth/pages/logout";
+import ErrorsPage from "./layout/errors/errors-page";
 
 export function Routes() {
     const userInfo = useSelector(({auth}: any) => auth);
