@@ -10,9 +10,9 @@ import {ToAbsoluteUrl} from "../../../../components/helpers/assets-helpers";
 import {useHtmlClassService} from "../../../_core/metronic-layout";
 
 export function UserProfileDropdown() {
-    const {user} = useSelector(state => state.auth);
+    const {user} = useSelector((state: any) => state.auth);
 
-    const uiService = useHtmlClassService();
+    const uiService: any = useHtmlClassService();
     const layoutProps = useMemo(() => {
         return {
             light: objectPath.get(uiService.config, 'extras.user.dropdown.style') === 'light',

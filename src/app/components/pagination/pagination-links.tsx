@@ -1,11 +1,11 @@
 /* eslint-disable no-script-url,jsx-a11y/anchor-is-valid */
 import React from "react";
-import {getPages, getPagesCount} from "../helpers";
+import {GetPages, GetPagesCount} from "../helpers/table-pagination-helpers";
 
 export function PaginationLinks({paginationProps}: any) {
     const {totalSize, sizePerPage, page, paginationSize} = paginationProps;
-    const pagesCount = getPagesCount(totalSize, sizePerPage);
-    const pages = getPages(page, pagesCount, paginationSize);
+    const pagesCount = GetPagesCount(totalSize, sizePerPage);
+    const pages = GetPages(page, pagesCount, paginationSize);
     const handleFirstPage = ({onPageChange}: any) => {
         onPageChange(1);
     };

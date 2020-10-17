@@ -7,7 +7,7 @@ import {ToAbsoluteUrl} from "../../../../components/helpers/assets-helpers";
 export function QuickPanel() {
     const [selectedTab, setSelectedTab] = useState("AuditLogs");
 
-    const setTab = _tabName => {
+    const setTab = (_tabName: any) => {
         setSelectedTab(_tabName);
     };
 

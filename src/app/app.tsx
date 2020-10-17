@@ -6,8 +6,9 @@ import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { PersistGate } from 'redux-persist/integration/react';
 import { I18nProvider } from '../_metronic/i18n';
-import { LayoutSplashScreen, MaterialThemeProvider } from './layout';
 import {Routes} from './routes';
+import {LayoutSplashScreen} from "./layout/_core/metronic-splash-screen";
+import {MaterialThemeProvider} from "./layout/_core/material-theme-provider";
 function App({ store, persistor, basename }: { store: any; persistor: any; basename: any }) {
   return (
     /* Provide Redux store */

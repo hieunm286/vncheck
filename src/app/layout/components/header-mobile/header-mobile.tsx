@@ -3,10 +3,10 @@ import {Link} from "react-router-dom";
 import objectPath from "object-path";
 import SVG from "react-inlinesvg";
 import {ToAbsoluteUrl} from "../../../components/helpers/assets-helpers";
-import {useHtmlClassService} from "../../index";
+import {useHtmlClassService} from "../../_core/metronic-layout";
 
 export function HeaderMobile() {
-    const uiService = useHtmlClassService();
+    const uiService: any = useHtmlClassService();
 
     const layoutProps = useMemo(() => {
         return {

@@ -7,7 +7,7 @@ import {ToAbsoluteUrl} from "../../../../components/helpers/assets-helpers";
 
 export function QuickUser() {
     const history = useHistory();
-    const user = useSelector(state => state.auth);
+    const user = useSelector((state: any) => state.auth);
     const logoutClick = () => {
         const toggle = document.getElementById('kt_quick_user_toggle');
         if (toggle) {
@@ -76,7 +76,7 @@ export function QuickUser() {
                 <div className="separator separator-dashed mt-8 mb-5"/>
 
                 <div className="navi navi-spacer-x-0 p-0">
-                    <a href="/changeuserpassword" className="navi-item">
+                    <a href="/change-password" className="navi-item">
                         <div className="navi-link">
                             <div className="symbol symbol-40 bg-light mr-3">
                                 <div className="symbol-label">

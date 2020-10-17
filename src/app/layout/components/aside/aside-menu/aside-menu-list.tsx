@@ -16,10 +16,10 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-export function AsideMenuList({layoutProps}) {
+export function AsideMenuList({layoutProps}: any) {
     const intl = useIntl();
     const location = useLocation();
-    const getMenuItemActive = (url, hasSubmenu = false) => {
+    const getMenuItemActive = (url: string, hasSubmenu = false) => {
         return CheckIsActive(location, url)
             ? ` ${!hasSubmenu && 'menu-item-active'} menu-item-open `
             : '';
