@@ -5,10 +5,10 @@ import {
   CardHeader,
   CardHeaderToolbar,
 } from '../../../../../_metronic/_partials/controls';
-import { UsersTable } from './users-table/UsersTable';
-import { UsersGrouping } from './users-grouping/UsersGrouping';
-import { useUsersUIContext } from './UsersUIContext';
-import { UsersFilter } from './users-filter/UsersFilter';
+import { UsersTable } from './users-table/users-table.tsx';
+import { UsersGrouping } from './users-grouping/users-grouping.tsx';
+import { useUsersUIContext } from './users-ui-context';
+import { UsersFilter } from './users-filter/users-filter.tsx';
 
 export function UsersCard() {
   const usersUIContext = useUsersUIContext();

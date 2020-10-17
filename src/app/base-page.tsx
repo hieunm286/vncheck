@@ -14,7 +14,7 @@ const ReactBootstrapPage = lazy(() =>
 );
 const ECommercePage = lazy(() => import('../_metronic/modules/ECommerce/pages/eCommercePage'));
 
-const AccountPage = lazy(() => import('./pages/account/pages/AccountPage'));
+const AccountPage = lazy(() => import('./pages/account/pages/account-page'));
 
 const WebsocketPage = lazy(() => import('../_metronic/modules/Websocket/WebsocketPage'));
 

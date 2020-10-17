@@ -1,6 +1,6 @@
 import { saveIdentity } from '../../../auth/_redux/auth.service';
-import * as requestFromServer from './userCrud';
-import { usersSlice, callTypes } from './userSlice';
+import * as requestFromServer from './user-crud';
+import { usersSlice, callTypes } from './user-slice';
 import { GenerateKeyPairAndEncrypt } from '../../../auth/service/auth-cryptography';
 
 const { actions } = usersSlice;

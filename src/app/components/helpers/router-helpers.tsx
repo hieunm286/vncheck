@@ -3,7 +3,7 @@ import {GetStorage, RemoveStorage} from "./local-storage-helpers";
 
 const localStorageLastLocationKey = "metronic-lastLocation";
 
-function acceptLocation(lastLocation: any) {
+function AcceptLocation(lastLocation: any) {
     if (
         lastLocation &&
         lastLocation.pathname &&
@@ -17,8 +17,8 @@ function acceptLocation(lastLocation: any) {
     return false;
 }
 
-export function saveLastLocation(lastLocation: any) {
-    if (acceptLocation(lastLocation)) {
+export function SaveLastLocation(lastLocation: any) {
+    if (AcceptLocation(lastLocation)) {
         utils.setStorage(
             localStorageLastLocationKey,
             JSON.stringify(lastLocation),
@@ -27,7 +27,7 @@ export function saveLastLocation(lastLocation: any) {
     }
 }
 
-export function forgotLastLocation() {
+export function ForgotLastLocation() {
     RemoveStorage(localStorageLastLocationKey);
 }
 
@@ -45,12 +45,12 @@ export function getLastLocation() {
     }
 }
 
-export function getCurrentUrl(location: any) {
+export function GetCurrentUrl(location: any) {
     return location.pathname.split(/[?#]/)[0];
 }
 
-export function checkIsActive(location: any, url: any) {
-    const current = getCurrentUrl(location);
+export function CheckIsActive(location: any, url: any) {
+    const current = GetCurrentUrl(location);
     if (!current || !url) {
         return false;
     }

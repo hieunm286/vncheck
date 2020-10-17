@@ -3,10 +3,10 @@ import { Modal } from 'react-bootstrap';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import store from '../../../../../../redux/store';
 
-import * as actions from '../../../_redux/user/userAction';
-import { useUsersUIContext } from '../UsersUIContext';
-import { UserEditDialogHeader } from './UserEditDialogHeader';
-import { UserEditForm } from './UserEditForm';
+import * as actions from '../../../_redux/user/user-action';
+import { useUsersUIContext } from '../users-ui-context';
+import { UserEditDialogHeader } from './user-edit-dialog-header';
+import { UserEditForm } from './user-edit-form';
 import { signTransaction } from '../../../../auth/service/auth-cryptography';
 
 export function UserEditDialog({ id, show, onHide }) {

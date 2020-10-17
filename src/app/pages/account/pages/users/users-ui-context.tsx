@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useCallback } from 'react';
 import { isEqual, isFunction } from 'lodash';
-import { initialFilter } from './UsersUIHelpers';
+import { initialFilter } from './users-ui-helpers';
 
 const UsersUIContext = createContext();
 

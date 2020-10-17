@@ -2,7 +2,7 @@
 import React from "react";
 import SVG from "react-inlinesvg";
 import PerfectScrollbar from "react-perfect-scrollbar";
-import { toAbsoluteUrl } from "../../../../../../app/components/helpers";
+import {ToAbsoluteUrl} from "../../../../../../app/components/helpers/assets-helpers";
 
 const perfectScrollbarOptions = {
   wheelSpeed: 2,
@@ -45,7 +45,7 @@ export function SearchResult({ data }) {
           <div className="mb-10">
             <div className="d-flex align-items-center flex-grow-1 mb-2">
               <div className="symbol symbol-45 bg-transparent flex-shrink-0">
-                <SVG src={toAbsoluteUrl("/media/svg/files/doc.svg")}></SVG>
+                <SVG src={ToAbsoluteUrl("/media/svg/files/doc.svg")}></SVG>
               </div>
               <div className="d-flex flex-column ml-3 mt-2 mb-2">
                 <a
@@ -62,7 +62,7 @@ export function SearchResult({ data }) {
 
             <div className="d-flex align-items-center flex-grow-1 mb-2">
               <div className="symbol symbol-45 bg-transparent flex-shrink-0">
-                <SVG src={toAbsoluteUrl("/media/svg/files/pdf.svg")}></SVG>
+                <SVG src={ToAbsoluteUrl("/media/svg/files/pdf.svg")}></SVG>
               </div>
               <div className="d-flex flex-column ml-3 mt-2 mb-2">
                 <a
@@ -79,7 +79,7 @@ export function SearchResult({ data }) {
 
             <div className="d-flex align-items-center flex-grow-1 mb-2">
               <div className="symbol symbol-45 bg-transparent flex-shrink-0">
-                <SVG src={toAbsoluteUrl("/media/svg/files/xml.svg")}></SVG>
+                <SVG src={ToAbsoluteUrl("/media/svg/files/xml.svg")}></SVG>
               </div>
               <div className="d-flex flex-column ml-3 mt-2 mb-2">
                 <a
@@ -96,7 +96,7 @@ export function SearchResult({ data }) {
 
             <div className="d-flex align-items-center flex-grow-1 mb-2">
               <div className="symbol symbol-45 bg-transparent flex-shrink-0">
-                <SVG src={toAbsoluteUrl("/media/svg/files/csv.svg")}></SVG>
+                <SVG src={ToAbsoluteUrl("/media/svg/files/csv.svg")}/>
               </div>
               <div className="d-flex flex-column ml-3 mt-2 mb-2">
                 <a
@@ -123,7 +123,7 @@ export function SearchResult({ data }) {
                 <div
                   className="symbol-label"
                   style={{
-                    backgroundImage: `url(${toAbsoluteUrl(
+                    backgroundImage: `url(${ToAbsoluteUrl(
                       "/media/users/300_20.jpg"
                     )})`,
                   }}
@@ -146,7 +146,7 @@ export function SearchResult({ data }) {
                 <div
                   className="symbol-label"
                   style={{
-                    backgroundImage: `url(${toAbsoluteUrl(
+                    backgroundImage: `url(${ToAbsoluteUrl(
                       "/media/users/300_15.jpg"
                     )}`,
                   }}
@@ -169,7 +169,7 @@ export function SearchResult({ data }) {
                 <div
                   className="symbol-label"
                   style={{
-                    backgroundImage: `url(${toAbsoluteUrl(
+                    backgroundImage: `url(${ToAbsoluteUrl(
                       "/media/users/300_12.jpg"
                     )})`,
                   }}
@@ -192,7 +192,7 @@ export function SearchResult({ data }) {
                 <div
                   className="symbol-label"
                   style={{
-                    backgroundImage: `url(${toAbsoluteUrl(
+                    backgroundImage: `url(${ToAbsoluteUrl(
                       "/media/users/300_16.jpg"
                     )})`,
                   }}

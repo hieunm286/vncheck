@@ -20,7 +20,7 @@ import * as columnFormatters from './column-formatters';
 import { Pagination } from '../../../../../../_metronic/_partials/controls/index';
 import { useAgencyTypeUIContext } from '../agency-type-ui-context';
 import './agency-type-table.scss';
-import { AgencyTypeEditForm } from '../agencyType-edit-dialog/agency-type-edit-form.tsx';
+import { AgencyTypeEditForm } from '../agency-type-edit-dialog/agency-type-edit-form.tsx';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import IndeterminateCheckBoxIcon from '@material-ui/icons/IndeterminateCheckBox';
 

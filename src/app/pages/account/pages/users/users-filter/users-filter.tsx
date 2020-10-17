@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { Formik } from 'formik';
 import { isEqual } from 'lodash';
-import { useUsersUIContext } from '../UsersUIContext';
+import { useUsersUIContext } from '../users-ui-context';
 
 const prepareFilter = (queryParams, values) => {
   const { status, type, searchText, field } = values;

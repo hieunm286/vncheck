@@ -5,8 +5,8 @@ import React from "react";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import { Dropdown, OverlayTrigger, Tooltip } from "react-bootstrap";
 import SVG from "react-inlinesvg";
-import { toAbsoluteUrl } from "../../../../../app/components/helpers";
 import { DropdownTopbarItemToggler } from "../../../../_partials/dropdowns";
+import {ToAbsoluteUrl} from "../../../../../app/components/helpers/assets-helpers";
 
 const perfectScrollbarOptions = {
   wheelSpeed: 2,
@@ -14,7 +14,7 @@ const perfectScrollbarOptions = {
 };
 
 export function MyCartDropdown() {
-  const bgImage = toAbsoluteUrl("/media/misc/bg-1.jpg");
+  const bgImage = ToAbsoluteUrl("/media/misc/bg-1.jpg");
   return (
     <Dropdown drop="down" alignRight>
       <Dropdown.Toggle
@@ -27,7 +27,7 @@ export function MyCartDropdown() {
         >
           <div className="btn btn-icon btn-clean btn-lg mr-1">
             <span className="svg-icon svg-icon-xl svg-icon-primary">
-              <SVG src={toAbsoluteUrl("/media/svg/icons/Shopping/Cart3.svg")} />
+              <SVG src={ToAbsoluteUrl("/media/svg/icons/Shopping/Cart3.svg")} />
             </span>
           </div>
         </OverlayTrigger>
@@ -39,7 +39,7 @@ export function MyCartDropdown() {
             style={{ backgroundImage: `url(${bgImage})` }}
           >
             <span className="btn btn-md btn-icon bg-white-o-15 mr-4">
-              <i className="flaticon2-shopping-cart-1 text-success"></i>
+              <i className="flaticon2-shopping-cart-1 text-success"/>
             </span>
             <h4 className="text-white m-0 flex-grow-1 mr-3">My Cart</h4>
             <button type="button" className="btn btn-success btn-sm">
@@ -72,22 +72,22 @@ export function MyCartDropdown() {
                     href="#"
                     className="btn btn-xs btn-light-success btn-icon mr-2"
                   >
-                    <i className="ki ki-minus icon-xs"></i>
+                    <i className="ki ki-minus icon-xs"/>
                   </a>
                   <a href="#" className="btn btn-xs btn-light-success btn-icon">
-                    <i className="ki ki-plus icon-xs"></i>
+                    <i className="ki ki-plus icon-xs"/>
                   </a>
                 </div>
               </div>
               <a href="#" className="symbol symbol-70 flex-shrink-0">
                 <img
-                  src={toAbsoluteUrl("/media/stock-600x400/img-1.jpg")}
+                  src={ToAbsoluteUrl("/media/stock-600x400/img-1.jpg")}
                   alt=""
                 />
               </a>
             </div>
 
-            <div className="separator separator-solid"></div>
+            <div className="separator separator-solid"/>
 
             <div className="d-flex align-items-center justify-content-between p-8">
               <div className="d-flex flex-column mr-2">
@@ -110,22 +110,22 @@ export function MyCartDropdown() {
                     href="#"
                     className="btn btn-xs btn-light-success btn-icon mr-2"
                   >
-                    <i className="ki ki-minus icon-xs"></i>
+                    <i className="ki ki-minus icon-xs"/>
                   </a>
                   <a href="#" className="btn btn-xs btn-light-success btn-icon">
-                    <i className="ki ki-plus icon-xs"></i>
+                    <i className="ki ki-plus icon-xs"/>
                   </a>
                 </div>
               </div>
               <a href="#" className="symbol symbol-70 flex-shrink-0">
                 <img
-                  src={toAbsoluteUrl("/media/stock-600x400/img-2.jpg")}
+                  src={ToAbsoluteUrl("/media/stock-600x400/img-2.jpg")}
                   alt=""
                 />
               </a>
             </div>
 
-            <div className="separator separator-solid"></div>
+            <div className="separator separator-solid"/>
 
             <div className="d-flex align-items-center justify-content-between p-8">
               <div className="d-flex flex-column mr-2">
@@ -150,22 +150,22 @@ export function MyCartDropdown() {
                     href="#"
                     className="btn btn-xs btn-light-success btn-icon mr-2"
                   >
-                    <i className="ki ki-minus icon-xs"></i>
+                    <i className="ki ki-minus icon-xs"/>
                   </a>
                   <a href="#" className="btn btn-xs btn-light-success btn-icon">
-                    <i className="ki ki-plus icon-xs"></i>
+                    <i className="ki ki-plus icon-xs"/>
                   </a>
                 </div>
               </div>
               <a href="#" className="symbol symbol-70 flex-shrink-0">
                 <img
-                  src={toAbsoluteUrl("/media/stock-600x400/img-3.jpg")}
+                  src={ToAbsoluteUrl("/media/stock-600x400/img-3.jpg")}
                   alt=""
                 />
               </a>
             </div>
 
-            <div className="separator separator-solid"></div>
+            <div className="separator separator-solid"/>
 
             <div className="d-flex align-items-center justify-content-between p-8">
               <div className="d-flex flex-column mr-2">
@@ -188,16 +188,16 @@ export function MyCartDropdown() {
                     href="#"
                     className="btn btn-xs btn-light-success btn-icon mr-2"
                   >
-                    <i className="ki ki-minus icon-xs"></i>
+                    <i className="ki ki-minus icon-xs"/>
                   </a>
                   <a href="#" className="btn btn-xs btn-light-success btn-icon">
-                    <i className="ki ki-plus icon-xs"></i>
+                    <i className="ki ki-plus icon-xs"/>
                   </a>
                 </div>
               </div>
               <a href="#" className="symbol symbol-70 flex-shrink-0">
                 <img
-                  src={toAbsoluteUrl("/media/stock-600x400/img-4.jpg")}
+                  src={ToAbsoluteUrl("/media/stock-600x400/img-4.jpg")}
                   alt=""
                 />
               </a>

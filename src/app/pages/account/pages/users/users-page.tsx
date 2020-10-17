@@ -1,9 +1,9 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
-import { UsersUIProvider } from './UsersUIContext';
-import { UsersTable } from './users-table/UsersTable';
-import { UsersCard } from './UsersCard';
-import { UserEditDialog } from './users-edit-dialog/UserEditDialog';
+import { UsersUIProvider } from './users-ui-context';
+import { UsersTable } from './users-table/users-table.tsx';
+import { UsersCard } from './users-card.tsx';
+import { UserEditDialog } from './users-edit-dialog/user-edit-dialog.tsx';
 
 export function UsersPage({ history }) {
   const usersUIEvents = {

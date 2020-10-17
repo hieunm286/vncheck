@@ -1,9 +1,9 @@
 import React from 'react';
 import { AgencyTypeUIProvider } from './type/agency-type-ui-context';
 import { Route } from 'react-router-dom';
-import { AgencyTypeEditDialog } from './type/agencyType-edit-dialog/agency-type-edit-dialog';
-import { AgencyTypeDeleteDialog } from './type/agencyType-delete-dialog/agency-type-delete-dialog';
-import AgencyTypeDetailDialog from './type/agencyType-detail-dialog/agency-type-detail-dialog';
+import { AgencyTypeEditDialog } from './type/agency-type-edit-dialog/agency-type-edit-dialog';
+import { AgencyTypeDeleteDialog } from './type/agency-type-delete-dialog/agency-type-delete-dialog';
+import AgencyTypeDetailDialog from './type/agency-type-detail-dialog/agency-type-detail-dialog';
 import { AgencyTypeCard } from './type/agency-type-card';
 import { AgencyUIProvider } from './agency-ui-context';
 import { AgencyDeleteDialog } from './agency-delete-dialog/agency-delete-dialog';

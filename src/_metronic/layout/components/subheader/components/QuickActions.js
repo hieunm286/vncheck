@@ -5,7 +5,7 @@ import {OverlayTrigger, Tooltip} from "react-bootstrap";
 import Dropdown from "react-bootstrap/Dropdown";
 import SVG from "react-inlinesvg";
 import {DropdownMenu1} from "../../../../_partials/dropdowns";
-import {toAbsoluteUrl} from "../../../../../app/components/helpers";
+import {ToAbsoluteUrl} from "../../../../../app/components/helpers/assets-helpers";
 
 const QuickActionsDropdownToggle = forwardRef((props, ref) => {
   return (
@@ -22,7 +22,7 @@ const QuickActionsDropdownToggle = forwardRef((props, ref) => {
       {" "}
       <span className="svg-icon svg-icon-success svg-icon-lg">
         <span className="svg-icon-success svg-icon-2x">
-          <SVG  src={toAbsoluteUrl("/media/svg/icons/Files/File-plus.svg")} />
+          <SVG  src={ToAbsoluteUrl("/media/svg/icons/Files/File-plus.svg")} />
         </span>
       </span>
     </a>

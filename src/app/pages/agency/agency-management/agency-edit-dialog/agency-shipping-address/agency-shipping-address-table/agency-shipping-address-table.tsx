@@ -7,8 +7,8 @@ import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import * as actions from '../../../_redux/agency-action';
 import './agency-table.scss';
 import BootstrapTable from "react-bootstrap-table-next";
-import {NoRecordsFoundMessage, PleaseWaitMessage} from "../../../../../../components/helpers";
 import {ActionsColumnFormatter} from "./column-formatters/actions-column-formatter";
+import {NoRecordsFoundMessage, PleaseWaitMessage} from "../../../../../../components/helpers/table-pagination-helpers";
 
 export function AgencyShippingAddressTable({
                                                openModal,
@@ -55,18 +55,18 @@ export function AgencyShippingAddressTable({
         },
     ];
 
-    const selectRow : any = {
+    const selectRow: any = {
         mode: 'radio',
         // clickToSelect: true,
         selected: ['0'],
-        onSelect: (row:any, isSelect:any, rowIndex:any, e:any) => {
+        onSelect: (row: any, isSelect: any, rowIndex: any, e: any) => {
             const shippingAdressArr =
                 agencyForEdit && agencyForEdit.shipping_address
                     ? JSON.parse(agencyForEdit.shipping_address)
                     : [];
 
             if (agencyForEdit) {
-                const index = shippingAdressArr.findIndex((el:any) => el.id === '0');
+                const index = shippingAdressArr.findIndex((el: any) => el.id === '0');
 
                 const temp_id = shippingAdressArr[index].id;
                 shippingAdressArr[index].id = shippingAdressArr[rowIndex].id;
@@ -90,7 +90,7 @@ export function AgencyShippingAddressTable({
     };
 
     const rowEvents = {
-        onClick: (e:any, row:any, rowIndex:any) => {
+        onClick: (e: any, row: any, rowIndex: any) => {
             getDataFromRow(row, rowIndex);
         },
     };

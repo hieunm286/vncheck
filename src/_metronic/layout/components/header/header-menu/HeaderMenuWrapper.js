@@ -1,9 +1,8 @@
 import React, { useMemo } from 'react';
 import objectPath from 'object-path';
 import { Link } from 'react-router-dom';
-import { toAbsoluteUrl } from '../../../../../app/components/helpers';
-import { useHtmlClassService } from '../../../_core/MetronicLayout';
-import { HeaderMenu } from './HeaderMenu';
+import {useHtmlClassService} from "../../..";
+import {ToAbsoluteUrl} from "../../../../../app/components/helpers/assets-helpers";
 
 export function HeaderMenuWrapper() {
   const uiService = useHtmlClassService();
@@ -24,7 +23,7 @@ export function HeaderMenuWrapper() {
     if (layoutProps.headerSelfTheme && layoutProps.headerSelfTheme !== 'dark') {
       result = 'logo-dark.png';
     }
-    return toAbsoluteUrl(`/media/logos/${result}`);
+    return ToAbsoluteUrl(`/media/logos/${result}`);
   };
 
   return (

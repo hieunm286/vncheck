@@ -5,39 +5,39 @@ import React from 'react';
 import SVG from 'react-inlinesvg';
 import Visibility from '@material-ui/icons/Visibility';
 import './actions-column.scss';
-import { toAbsoluteUrl } from '../../../../../../components/helpers/index';
+import {ToAbsoluteUrl} from "../../../../../../components/helpers/assets-helpers";
 
 export function ActionsColumnFormatter(
   cellContent,
   row,
   rowIndex,
-  { openDetailAgencyTypeDialog, openEditAgencyTypeDialog, openDeleteAgencyTypeDialog },
+  { openEditUserDialog, openDeleteUserDialog },
 ) {
   return (
     <>
       <a
         title="View user"
         className="btn btn-icon btn-light btn-hover-danger btn-sm visibility"
-        onClick={() => openDetailAgencyTypeDialog(row.agency_type_id)}>
+        onClick={() => openEditUserDialog(row.username)}>
         <span className="svg-icon svg-icon-md svg-icon-danger">
-          {/* <SVG src={toAbsoluteUrl('/media/svg/icons/Communication/Write.svg')} /> */}
+          {/* <SVG src={ToAbsoluteUrl('/media/svg/icons/Communication/Write.svg')} /> */}
           <Visibility className="text-danger eye" />
         </span>
       </a>
       <a
         title="Edit user"
         className="btn btn-icon btn-light btn-hover-danger btn-sm mx-1"
-        onClick={() => openEditAgencyTypeDialog(row.agency_type_id)}>
+        onClick={() => openEditUserDialog(row.username)}>
         <span className="svg-icon svg-icon-md svg-icon-danger">
-          <SVG src={toAbsoluteUrl('/media/svg/icons/Communication/Write.svg')} />
+          <SVG src={ToAbsoluteUrl('/media/svg/icons/Communication/Write.svg')} />
         </span>
       </a>
       <a
         title="Delete user"
         className="btn btn-icon btn-light btn-hover-danger btn-sm"
-        onClick={() => openDeleteAgencyTypeDialog(row.agency_type_id)}>
+        onClick={() => openDeleteUserDialog(row.username)}>
         <span className="svg-icon svg-icon-md svg-icon-danger">
-          <SVG src={toAbsoluteUrl('/media/svg/icons/General/Trash.svg')} />
+          <SVG src={ToAbsoluteUrl('/media/svg/icons/General/Trash.svg')} />
         </span>
       </a>
     </>

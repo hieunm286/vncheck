@@ -2,8 +2,8 @@
 import React from 'react';
 import SVG from 'react-inlinesvg';
 import {useHistory} from 'react-router-dom';
-import {toAbsoluteUrl} from '../../../../../app/components/helpers';
 import {useSelector} from 'react-redux';
+import {ToAbsoluteUrl} from "../../../../../app/components/helpers/assets-helpers";
 
 export function QuickUser() {
     const history = useHistory();
@@ -39,7 +39,7 @@ export function QuickUser() {
                         <div
                             className="symbol-label"
                             style={{
-                                backgroundImage: `url(${toAbsoluteUrl('/media/users/300_21.jpg')})`,
+                                backgroundImage: `url(${ToAbsoluteUrl('/media/users/300_21.jpg')})`,
                             }}
                         />
                         <i className="symbol-badge bg-success"/>
@@ -55,9 +55,9 @@ export function QuickUser() {
                   <span className="navi-icon mr-1">
                     <span className="svg-icon-lg svg-icon-primary">
                       <SVG
-                          src={toAbsoluteUrl(
+                          src={ToAbsoluteUrl(
                               '/media/svg/icons/Communication/Mail-notification.svg',
-                          )}></SVG>
+                          )}/>
                     </span>
                   </span>
                   <span className="navi-text text-muted text-hover-primary"> {user.email}</span>
@@ -81,7 +81,7 @@ export function QuickUser() {
                             <div className="symbol symbol-40 bg-light mr-3">
                                 <div className="symbol-label">
                   <span className="svg-icon svg-icon-md svg-icon-success">
-                    <SVG src={toAbsoluteUrl('/media/svg/icons/General/Notification2.svg')}></SVG>
+                    <SVG src={ToAbsoluteUrl('/media/svg/icons/General/Notification2.svg')}/>
                   </span>
                                 </div>
                             </div>
@@ -102,7 +102,7 @@ export function QuickUser() {
                             <div className="symbol symbol-40 bg-light mr-3">
                                 <div className="symbol-label">
                   <span className="svg-icon svg-icon-md svg-icon-warning">
-                    <SVG src={toAbsoluteUrl('/media/svg/icons/Shopping/Chart-bar1.svg')}></SVG>
+                    <SVG src={ToAbsoluteUrl('/media/svg/icons/Shopping/Chart-bar1.svg')}/>
                   </span>
                                 </div>
                             </div>
@@ -118,7 +118,7 @@ export function QuickUser() {
                             <div className="symbol symbol-40 bg-light mr-3">
                                 <div className="symbol-label">
                   <span className="svg-icon svg-icon-md svg-icon-danger">
-                    <SVG src={toAbsoluteUrl('/media/svg/icons/Files/Selected-file.svg')}></SVG>
+                    <SVG src={ToAbsoluteUrl('/media/svg/icons/Files/Selected-file.svg')}/>
                   </span>
                                 </div>
                             </div>
@@ -135,7 +135,7 @@ export function QuickUser() {
                                 <div className="symbol-label">
                   <span className="svg-icon svg-icon-md svg-icon-primary">
                     <SVG
-                        src={toAbsoluteUrl('/media/svg/icons/Communication/Mail-opened.svg')}></SVG>
+                        src={ToAbsoluteUrl('/media/svg/icons/Communication/Mail-opened.svg')}/>
                   </span>
                                 </div>
                             </div>
@@ -147,7 +147,7 @@ export function QuickUser() {
                     </a>
                 </div>
 
-                <div className="separator separator-dashed my-7"></div>
+                <div className="separator separator-dashed my-7"/>
 
                 <div>
                     <h5 className="mb-5">Recent Notifications</h5>
@@ -155,8 +155,8 @@ export function QuickUser() {
                     <div className="d-flex align-items-center bg-light-warning rounded p-5 gutter-b">
             <span className="svg-icon svg-icon-warning mr-5">
               <SVG
-                  src={toAbsoluteUrl('/media/svg/icons/Home/Library.svg')}
-                  className="svg-icon svg-icon-lg"></SVG>
+                  src={ToAbsoluteUrl('/media/svg/icons/Home/Library.svg')}
+                  className="svg-icon svg-icon-lg"/>
             </span>
 
                         <div className="d-flex flex-column flex-grow-1 mr-2">
@@ -174,8 +174,8 @@ export function QuickUser() {
                     <div className="d-flex align-items-center bg-light-success rounded p-5 gutter-b">
             <span className="svg-icon svg-icon-success mr-5">
               <SVG
-                  src={toAbsoluteUrl('/media/svg/icons/Communication/Write.svg')}
-                  className="svg-icon svg-icon-lg"></SVG>
+                  src={ToAbsoluteUrl('/media/svg/icons/Communication/Write.svg')}
+                  className="svg-icon svg-icon-lg"/>
             </span>
                         <div className="d-flex flex-column flex-grow-1 mr-2">
                             <a
@@ -192,8 +192,8 @@ export function QuickUser() {
                     <div className="d-flex align-items-center bg-light-danger rounded p-5 gutter-b">
             <span className="svg-icon svg-icon-danger mr-5">
               <SVG
-                  src={toAbsoluteUrl('/media/svg/icons/Communication/Group-chat.svg')}
-                  className="svg-icon svg-icon-lg"></SVG>
+                  src={ToAbsoluteUrl('/media/svg/icons/Communication/Group-chat.svg')}
+                  className="svg-icon svg-icon-lg"/>
             </span>
                         <div className="d-flex flex-column flex-grow-1 mr-2">
                             <a
@@ -210,8 +210,8 @@ export function QuickUser() {
                     <div className="d-flex align-items-center bg-light-info rounded p-5">
             <span className="svg-icon svg-icon-info mr-5">
               <SVG
-                  src={toAbsoluteUrl('/media/svg/icons/General/Attachment2.svg')}
-                  className="svg-icon svg-icon-lg"></SVG>
+                  src={ToAbsoluteUrl('/media/svg/icons/General/Attachment2.svg')}
+                  className="svg-icon svg-icon-lg"/>
             </span>
 
                         <div className="d-flex flex-column flex-grow-1 mr-2">

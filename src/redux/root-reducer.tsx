@@ -6,7 +6,7 @@ import { customersSlice } from '../_metronic/modules/ECommerce/_redux/customers/
 import { productsSlice } from '../_metronic/modules/ECommerce/_redux/products/productsSlice';
 import { remarksSlice } from '../_metronic/modules/ECommerce/_redux/remarks/remarksSlice';
 import { specificationsSlice } from '../_metronic/modules/ECommerce/_redux/specifications/specificationsSlice';
-import { usersSlice } from '../app/pages/account/_redux/user/userSlice';
+import { usersSlice } from '../app/pages/account/_redux/user/user-slice';
 import { agencySlice } from '../app/pages/agency/agency-management/_redux/agency-slice';
 import { agencyTypeSlice } from '../app/pages/agency/agency-type/_redux/agencyTypeSlice';
 

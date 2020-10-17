@@ -5,9 +5,9 @@ import { Nav, Tab, Dropdown, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import SVG from 'react-inlinesvg';
 import objectPath from 'object-path';
-import { useHtmlClassService } from '../../../_core/MetronicLayout';
-import { toAbsoluteUrl } from '../../../../../app/components/helpers';
 import { DropdownTopbarItemToggler } from '../../../../_partials/dropdowns';
+import {ToAbsoluteUrl} from "../../../../../app/components/helpers/assets-helpers";
+import {useHtmlClassService} from "../../..";
 
 const perfectScrollbarOptions = {
   wheelSpeed: 2,
@@ -16,7 +16,7 @@ const perfectScrollbarOptions = {
 
 export function UserNotificationsDropdown() {
   const [key, setKey] = useState('Alerts');
-  const bgImage = toAbsoluteUrl('/media/misc/bg-1.jpg');
+  const bgImage = ToAbsoluteUrl('/media/misc/bg-1.jpg');
 
   const uiService = useHtmlClassService();
   const layoutProps = useMemo(() => {
@@ -33,9 +33,9 @@ export function UserNotificationsDropdown() {
             className="btn btn-icon btn-clean btn-lg mr-1 pulse pulse-danger"
             id="kt_quick_notifications_toggle">
             <span className="svg-icon svg-icon-xl svg-icon-danger">
-              <SVG src={toAbsoluteUrl('/media/svg/icons/Code/Compiling.svg')} />
+              <SVG src={ToAbsoluteUrl('/media/svg/icons/Code/Compiling.svg')} />
             </span>
-            <span className="pulse-ring"></span>
+            <span className="pulse-ring"/>
           </div>
         </div>
       )}
@@ -49,9 +49,9 @@ export function UserNotificationsDropdown() {
                 className="btn btn-icon btn-clean btn-lg mr-1 pulse pulse-danger"
                 id="kt_quick_notifications_toggle">
                 <span className="svg-icon svg-icon-xl svg-icon-danger">
-                  <SVG src={toAbsoluteUrl('/media/svg/icons/Code/Compiling.svg')} />
+                  <SVG src={ToAbsoluteUrl('/media/svg/icons/Code/Compiling.svg')} />
                 </span>
-                <span className="pulse-ring"></span>
+                <span className="pulse-ring"/>
                 <span className="pulse-ring" />
               </div>
             </OverlayTrigger>
@@ -108,8 +108,8 @@ export function UserNotificationsDropdown() {
                           <div className="symbol symbol-40 symbol-light-danger mr-5">
                             <span className="symbol-label">
                               <SVG
-                                src={toAbsoluteUrl('/media/svg/icons/Home/Library.svg')}
-                                className="svg-icon-lg svg-icon-danger"></SVG>
+    src={ToAbsoluteUrl('/media/svg/icons/Home/Library.svg')}
+    className="svg-icon-lg svg-icon-danger"/>
                             </span>
                           </div>
                           <div className="d-flex flex-column font-weight-bold">
@@ -123,8 +123,8 @@ export function UserNotificationsDropdown() {
                           <div className="symbol symbol-40 symbol-light-warning mr-5">
                             <span className="symbol-label">
                               <SVG
-                                src={toAbsoluteUrl('/media/svg/icons/Communication/Write.svg')}
-                                className="svg-icon-lg svg-icon-warning"></SVG>
+    src={ToAbsoluteUrl('/media/svg/icons/Communication/Write.svg')}
+    className="svg-icon-lg svg-icon-warning"/>
                             </span>
                           </div>
                           <div className="d-flex flex-column font-weight-bold">
@@ -140,8 +140,8 @@ export function UserNotificationsDropdown() {
                           <div className="symbol symbol-40 symbol-light-success mr-5">
                             <span className="symbol-label">
                               <SVG
-                                src={toAbsoluteUrl('/media/svg/icons/Communication/Group-chat.svg')}
-                                className="svg-icon-lg svg-icon-success"></SVG>
+    src={ToAbsoluteUrl('/media/svg/icons/Communication/Group-chat.svg')}
+    className="svg-icon-lg svg-icon-success"/>
                             </span>
                           </div>
                           <div className="d-flex flex-column font-weight-bold">
@@ -155,8 +155,8 @@ export function UserNotificationsDropdown() {
                           <div className="symbol symbol-40 symbol-light-danger mr-5">
                             <span className="symbol-label">
                               <SVG
-                                src={toAbsoluteUrl('/media/svg/icons/General/Attachment2.svg')}
-                                className="svg-icon-lg svg-icon-danger"></SVG>
+    src={ToAbsoluteUrl('/media/svg/icons/General/Attachment2.svg')}
+    className="svg-icon-lg svg-icon-danger"/>
                             </span>
                           </div>
                           <div className="d-flex flex-column font-weight-bold">
@@ -170,8 +170,8 @@ export function UserNotificationsDropdown() {
                           <div className="symbol symbol-40 symbol-light-info mr-5">
                             <span className="symbol-label">
                               <SVG
-                                src={toAbsoluteUrl('/media/svg/icons/General/Attachment2.svg')}
-                                className="svg-icon-lg svg-icon-info"></SVG>
+    src={ToAbsoluteUrl('/media/svg/icons/General/Attachment2.svg')}
+    className="svg-icon-lg svg-icon-info"/>
                             </span>
                           </div>
                           <div className="d-flex flex-column font-weight-bold">
@@ -185,10 +185,10 @@ export function UserNotificationsDropdown() {
                           <div className="symbol symbol-40 symbol-light-info mr-5">
                             <span className="symbol-label">
                               <SVG
-                                src={toAbsoluteUrl(
-                                  '/media/svg/icons/Communication/Mail-notification.svg',
-                                )}
-                                className="svg-icon-lg svg-icon-info"></SVG>
+    src={ToAbsoluteUrl(
+        '/media/svg/icons/Communication/Mail-notification.svg',
+    )}
+    className="svg-icon-lg svg-icon-info"/>
                             </span>
                           </div>
                           <div className="d-flex flex-column font-weight-bold">
@@ -202,8 +202,8 @@ export function UserNotificationsDropdown() {
                           <div className="symbol symbol-40 symbol-light-info mr-5">
                             <span className="symbol-label">
                               <SVG
-                                src={toAbsoluteUrl('/media/svg/icons/Design/Bucket.svg')}
-                                className="svg-icon-lg svg-icon-info"></SVG>
+    src={ToAbsoluteUrl('/media/svg/icons/Design/Bucket.svg')}
+    className="svg-icon-lg svg-icon-info"/>
                             </span>
                           </div>
                           <div className="d-flex flex-column font-weight-bold">
@@ -223,7 +223,7 @@ export function UserNotificationsDropdown() {
                         <a href="#" className="navi-item">
                           <div className="navi-link">
                             <div className="navi-icon mr-2">
-                              <i className="flaticon2-line-chart text-success"></i>
+                              <i className="flaticon2-line-chart text-success"/>
                             </div>
                             <div className="navi-text">
                               <div className="font-weight-bold">New report has been received</div>
@@ -235,7 +235,7 @@ export function UserNotificationsDropdown() {
                         <a href="#" className="navi-item">
                           <div className="navi-link">
                             <div className="navi-icon mr-2">
-                              <i className="flaticon2-paper-plane text-danger"></i>
+                              <i className="flaticon2-paper-plane text-danger"/>
                             </div>
                             <div className="navi-text">
                               <div className="font-weight-bold">
@@ -249,7 +249,7 @@ export function UserNotificationsDropdown() {
                         <a href="#" className="navi-item">
                           <div className="navi-link">
                             <div className="navi-icon mr-2">
-                              <i className="flaticon2-user flaticon2-line- text-success"></i>
+                              <i className="flaticon2-user flaticon2-line- text-success"/>
                             </div>
                             <div className="navi-text">
                               <div className="font-weight-bold">New order has been received</div>
@@ -261,7 +261,7 @@ export function UserNotificationsDropdown() {
                         <a href="#" className="navi-item">
                           <div className="navi-link">
                             <div className="navi-icon mr-2">
-                              <i className="flaticon2-pin text-danger"></i>
+                              <i className="flaticon2-pin text-danger"/>
                             </div>
                             <div className="navi-text">
                               <div className="font-weight-bold">New customer is registered</div>
@@ -273,7 +273,7 @@ export function UserNotificationsDropdown() {
                         <a href="#" className="navi-item">
                           <div className="navi-link">
                             <div className="navi-icon mr-2">
-                              <i className="flaticon2-sms text-danger"></i>
+                              <i className="flaticon2-sms text-danger"/>
                             </div>
                             <div className="navi-text">
                               <div className="font-weight-bold">Application has been approved</div>
@@ -285,7 +285,7 @@ export function UserNotificationsDropdown() {
                         <a href="#" className="navi-item">
                           <div className="navi-link">
                             <div className="navi-icon mr-2">
-                              <i className="flaticon2-pie-chart-3 text-warning"></i>
+                              <i className="flaticon2-pie-chart-3 text-warning"/>
                             </div>
                             <div className="navinavinavi-text">
                               <div className="font-weight-bold">New file has been uploaded</div>
@@ -297,7 +297,7 @@ export function UserNotificationsDropdown() {
                         <a href="#" className="navi-item">
                           <div className="navi-link">
                             <div className="navi-icon mr-2">
-                              <i className="flaticon-pie-chart-1 text-info"></i>
+                              <i className="flaticon-pie-chart-1 text-info"/>
                             </div>
                             <div className="navi-text">
                               <div className="font-weight-bold">New user feedback received</div>
@@ -309,7 +309,7 @@ export function UserNotificationsDropdown() {
                         <a href="#" className="navi-item">
                           <div className="navi-link">
                             <div className="navi-icon mr-2">
-                              <i className="flaticon2-settings text-success"></i>
+                              <i className="flaticon2-settings text-success"/>
                             </div>
                             <div className="navi-text">
                               <div className="font-weight-bold">
@@ -323,7 +323,7 @@ export function UserNotificationsDropdown() {
                         <a href="#" className="navi-item">
                           <div className="navi-link">
                             <div className="navi-icon mr-2">
-                              <i className="flaticon-safe-shield-protection text-danger"></i>
+                              <i className="flaticon-safe-shield-protection text-danger"/>
                             </div>
                             <div className="navi-text">
                               <div className="font-weight-bold">New order has been placed</div>
@@ -335,7 +335,7 @@ export function UserNotificationsDropdown() {
                         <a href="#" className="navi-item">
                           <div className="navi-link">
                             <div className="navi-icon mr-2">
-                              <i className="flaticon2-notification text-danger"></i>
+                              <i className="flaticon2-notification text-danger"/>
                             </div>
                             <div className="navi-text">
                               <div className="font-weight-bold">Company meeting canceled</div>
@@ -347,7 +347,7 @@ export function UserNotificationsDropdown() {
                         <a href="#" className="navi-item">
                           <div className="navi-link">
                             <div className="navi-icon mr-2">
-                              <i className="flaticon2-fax text-success"></i>
+                              <i className="flaticon2-fax text-success"/>
                             </div>
                             <div className="navi-text">
                               <div className="font-weight-bold">New report has been received</div>
@@ -359,7 +359,7 @@ export function UserNotificationsDropdown() {
                         <a href="#" className="navi-item">
                           <div className="navi-link">
                             <div className="navi-icon mr-2">
-                              <i className="flaticon-download-1 text-danger"></i>
+                              <i className="flaticon-download-1 text-danger"/>
                             </div>
                             <div className="navi-text">
                               <div className="font-weight-bold">
@@ -373,7 +373,7 @@ export function UserNotificationsDropdown() {
                         <a href="#" className="navi-item">
                           <div className="navi-link">
                             <div className="navi-icon mr-2">
-                              <i className="flaticon-security text-warning"></i>
+                              <i className="flaticon-security text-warning"/>
                             </div>
                             <div className="navi-text">
                               <div className="font-weight-bold">New customer comment recieved</div>
@@ -385,7 +385,7 @@ export function UserNotificationsDropdown() {
                         <a href="#" className="navi-item">
                           <div className="navi-link">
                             <div className="navi-icon mr-2">
-                              <i className="flaticon2-analytics-1 text-success"></i>
+                              <i className="flaticon2-analytics-1 text-success"/>
                             </div>
                             <div className="navi-text">
                               <div className="font-weight-bold">New customer is registered</div>

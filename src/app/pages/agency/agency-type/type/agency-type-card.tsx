@@ -5,10 +5,10 @@ import {
   CardHeader,
   CardHeaderToolbar,
 } from '../../../../../_metronic/_partials/controls/index';
-import { AgencyTypeTable } from './agencyType-table/agency-type-table';
-import { AgencyTypeGrouping } from './agencyType-grouping/agency-type-grouping.tsx';
+import { AgencyTypeTable } from './agency-type-table/agency-type-table';
+import { AgencyTypeGrouping } from './agency-type-group/agency-type-grouping.tsx';
 import { useAgencyTypeUIContext } from './agency-type-ui-context';
-import { AgencyTypeFilter } from './agencyType-filter/agency-type-filter';
+import { AgencyTypeFilter } from './agency-type-filter/agency-type-filter';
 import { Link } from 'react-router-dom';
 
 export function AgencyTypeCard() {

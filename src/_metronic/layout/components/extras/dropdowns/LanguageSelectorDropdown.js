@@ -3,20 +3,20 @@ import React from 'react';
 import clsx from 'clsx';
 import { Dropdown } from 'react-bootstrap';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
-import { toAbsoluteUrl } from '../../../../../app/components/helpers';
 import { useLang, setLanguage } from '../../../../i18n';
 import { DropdownTopbarItemToggler } from '../../../../_partials/dropdowns';
+import {ToAbsoluteUrl} from "../../../../../app/components/helpers/assets-helpers";
 
 const languages = [
   {
     lang: 'en',
     name: 'English',
-    flag: toAbsoluteUrl('/media/svg/flags/226-united-states.svg'),
+    flag: ToAbsoluteUrl('/media/svg/flags/226-united-states.svg'),
   },
   {
     lang: 'vi',
     name: 'Việt Nam',
-    flag: toAbsoluteUrl('/media/svg/flags/220-vietnam.svg'),
+    flag: ToAbsoluteUrl('/media/svg/flags/220-vietnam.svg'),
   },
 ];
 

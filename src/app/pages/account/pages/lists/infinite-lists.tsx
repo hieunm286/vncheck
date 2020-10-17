@@ -3,10 +3,10 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import axios from 'axios';
 import { Button, Form, FormControl, Spinner } from 'react-bootstrap';
 import SearchIcon from '@material-ui/icons/Search';
-import './InfiniteList.scss';
+import './infinite-list.scss';
 import { API_BASE_URL } from '../../../../const';
 
-import InfiniteItem from './InfiniteItem';
+import InfiniteItem from './infinite-item';
 
 const style = {
   height: 30,

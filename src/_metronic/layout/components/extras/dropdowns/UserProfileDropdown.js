@@ -5,9 +5,9 @@ import {Link} from 'react-router-dom';
 import Dropdown from 'react-bootstrap/Dropdown';
 import {useSelector} from 'react-redux';
 import objectPath from 'object-path';
-import {useHtmlClassService} from '../../../_core/MetronicLayout';
-import {toAbsoluteUrl} from '../../../../../app/components/helpers';
 import {DropdownTopbarItemToggler} from '../../../../_partials/dropdowns';
+import {useHtmlClassService} from "../../..";
+import {ToAbsoluteUrl} from "../../../../../app/components/helpers/assets-helpers";
 
 export function UserProfileDropdown() {
     const {user} = useSelector(state => state.auth);
@@ -44,14 +44,14 @@ export function UserProfileDropdown() {
                         <>
                             <div className="d-flex align-items-center p-8 rounded-top">
                                 <div className="symbol symbol-md bg-light-primary mr-3 flex-shrink-0">
-                                    <img src={toAbsoluteUrl('/media/users/300_21.jpg')} alt=""/>
+                                    <img src={ToAbsoluteUrl('/media/users/300_21.jpg')} alt=""/>
                                 </div>
                                 <div className="text-dark m-0 flex-grow-1 mr-3 font-size-h5">Sean Stone</div>
                                 <span className="label label-light-success label-lg font-weight-bold label-inline">
                   3 messages
                 </span>
                             </div>
-                            <div className="separator separator-solid"></div>
+                            <div className="separator separator-solid"/>
                         </>
                     )}
 
@@ -59,7 +59,7 @@ export function UserProfileDropdown() {
                         <div
                             className="d-flex align-items-center justify-content-between flex-wrap p-8 bgi-size-cover bgi-no-repeat rounded-top"
                             style={{
-                                backgroundImage: `url(${toAbsoluteUrl('/media/misc/bg-1.jpg')})`,
+                                backgroundImage: `url(${ToAbsoluteUrl('/media/misc/bg-1.jpg')})`,
                             }}>
                             <div className="symbol bg-white-o-15 mr-3">
                                 <span className="symbol-label text-success font-weight-bold font-size-h4">S</span>
@@ -94,7 +94,7 @@ export function UserProfileDropdown() {
                     <a className="navi-item px-8">
                         <div className="navi-link">
                             <div className="navi-icon mr-2">
-                                <i className="flaticon2-mail text-warning"></i>
+                                <i className="flaticon2-mail text-warning"/>
                             </div>
                             <div className="navi-text">
                                 <div className="font-weight-bold">My Messages</div>
@@ -106,7 +106,7 @@ export function UserProfileDropdown() {
                     <a className="navi-item px-8">
                         <div className="navi-link">
                             <div className="navi-icon mr-2">
-                                <i className="flaticon2-rocket-1 text-danger"></i>
+                                <i className="flaticon2-rocket-1 text-danger"/>
                             </div>
                             <div className="navi-text">
                                 <div className="font-weight-bold">My Activities</div>
@@ -118,7 +118,7 @@ export function UserProfileDropdown() {
                     <a className="navi-item px-8">
                         <div className="navi-link">
                             <div className="navi-icon mr-2">
-                                <i className="flaticon2-hourglass text-primary"></i>
+                                <i className="flaticon2-hourglass text-primary"/>
                             </div>
                             <div className="navi-text">
                                 <div className="font-weight-bold">My Tasks</div>
@@ -126,7 +126,7 @@ export function UserProfileDropdown() {
                             </div>
                         </div>
                     </a>
-                    <div className="navi-separator mt-3"></div>
+                    <div className="navi-separator mt-3"/>
 
                     <div className="navi-footer  px-8 py-5">
                         <Link to={"/logout?callbackUrl=" + callbackUrl}

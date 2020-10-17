@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { useUsersUIContext } from '../UsersUIContext';
+import { useUsersUIContext } from '../users-ui-context';
 
 export function UsersGrouping() {
   // Customers UI Context
