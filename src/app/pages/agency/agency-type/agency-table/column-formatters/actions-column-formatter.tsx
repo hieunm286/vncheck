@@ -3,7 +3,6 @@
 /* eslint-disable no-script-url,jsx-a11y/anchor-is-valid */
 import React from 'react';
 import SVG from 'react-inlinesvg';
-import Visibility from '@material-ui/icons/Visibility';
 import './actions-column.scss';
 import {ToAbsoluteUrl} from "../../../../../components/helpers/assets-helpers";
 
