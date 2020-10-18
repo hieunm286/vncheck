@@ -9,10 +9,10 @@ import React from 'react';
 import {Redirect, Switch, Route, useLocation} from 'react-router-dom';
 import {shallowEqual, useSelector} from 'react-redux';
 import BasePage from './base-page';
-import {AuthPage} from "./pages/auth/pages/auth-page";
 import {Layout} from "./layout/components/layout";
-import {Logout} from "./pages/auth/pages/logout";
 import ErrorsPage from "./layout/errors/errors-page";
+import {renderRoutes} from "react-router-config";
+import {AuthPage, Logout} from "./pages/auth";
 
 export function Routes() {
     const userInfo = useSelector(({auth}: any) => auth);
@@ -39,49 +39,41 @@ export function Routes() {
     username = location.pathname === '/auth/login/identifier' ? null : username;
     const isNeedChangePassword =
         userInfo._error && userInfo._error === 'AUTH.ERROR.NEED_TO_CHANGE_PASSWORD';
+    console.log(isNeedChangePassword);
     const CheckAuth = () => {
         if (isNeedChangePassword) {
-            return (
-                <>
-                    <Route>
-                        <AuthPage/>
-                    </Route>
-                    <Redirect to={'/auth/change-password?callbackUrl=' + callbackUrl}/>
-                </>
-            );
+            return (<Route>
+                <AuthPage/>
+                <Redirect to={'/auth/change-password?callbackUrl=' + callbackUrl}/>
+            </Route>)
         } else if (isLoggedInAndUnexpired()) {
-            // console.log(window.location);
-            return (
-                <>
-                    <Layout>
-                        <BasePage/>
-                    </Layout>
-                    <Redirect to={callbackUrl}/>
-                    {
-                        //TODO: Redirect to requested page.
-                    }
-                </>
-            );
-        } else
-            return (
-                <>
-                    <Route>
-                        <AuthPage/>
-                    </Route>
-                    {username ? (
-                        <Redirect to={'/auth/login/challenge?callbackUrl=' + callbackUrl}/>
-                    ) : (
-                        <Redirect to={'/auth/login/identifier?callbackUrl=' + callbackUrl}/>
-                    )}
-                </>
-                /*Render auth page when user at `/auth` and not authorized.*/
-            );
+            return ([(<Redirect from={'/auth'} to={callbackUrl}/>), (<Layout>
+                <BasePage/>
+            </Layout>)]);
+        } else return (<Route>
+            <AuthPage/>
+            (username ? (<Route><Redirect to={'/auth/login/challenge?callbackUrl=' + callbackUrl}/></Route>) :
+            (<Route><Redirect to={'/auth/login/identifier?callbackUrl=' + callbackUrl}/></Route>))
+        </Route>);
     };
+    // const AuthRedirect = () => {
+    //     if (isNeedChangePassword) {
+    //         console.log(isNeedChangePassword);
+    //         return (<Route><Redirect to={'/auth/change-password?callbackUrl=' + callbackUrl}/></Route>);
+    //     } else if (isLoggedInAndUnexpired()) {
+    //         console.log(111);
+    //         return (<Redirect to={callbackUrl}/>);
+    //     } else {
+    //         return (username ? (<Route><Redirect to={'/auth/login/challenge?callbackUrl=' + callbackUrl}/></Route>) :
+    //             (<Route><Redirect to={'/auth/login/identifier?callbackUrl=' + callbackUrl}/></Route>));
+    //     }
+    // };
     return (
         <Switch>
-            <Route path="/error" component={ErrorsPage}/>
-            <Route path={'/logout'} component={Logout}/>
-            <CheckAuth/>
+            <Route path='/error' component={ErrorsPage}/>
+            <Route path='/logout' component={Logout}/>
+            {CheckAuth()}
+            {/*{AuthRedirect()}*/}
         </Switch>
     );
 }

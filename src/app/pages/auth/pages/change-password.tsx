@@ -111,7 +111,7 @@ function ChangePassword(props: {
         }),
       )
       .when('newPassword', {
-        is: val => (val && val.length > 0 ? true : false),
+        is: val => (!!(val && val.length > 0)),
         then: Yup.string().oneOf(
           [Yup.ref('newPassword')],
           "New Password and Confirm New Password didn't match",
@@ -382,7 +382,7 @@ function ChangePassword(props: {
           <div className="form-group d-flex flex-wrap flex-center">
             <button type="submit" className="btn btn-danger font-weight-bold px-9 py-4 my-3 mx-4">
               <span>Xác nhận</span>
-              {loading && <span className="ml-3 spinner spinner-white"></span>}
+              {loading && <span className="ml-3 spinner spinner-white"/>}
             </button>
 
             <button

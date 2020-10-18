@@ -185,7 +185,7 @@ export function AuthPage() {
               <div className="text-dark-50 font-weight-bold order-2 order-sm-1 my-2">
                 &copy; 2020 Metronic
               </div>
-              <div className="d-flex order-1 order-sm-2 my-2"></div>
+              <div className="d-flex order-1 order-sm-2 my-2"/>
             </div>
             {/* end::Mobile footer */}
           </div>

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect, RootStateOrAny } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import * as auth from '../_redux/auth-redux';
 import {LayoutSplashScreen} from "../../../layout/_core/metronic-splash-screen";
+import * as auth from '../_redux/auth-redux';
 
 interface LogoutProps {
   _certificate?: any;
@@ -11,7 +11,6 @@ interface LogoutProps {
 
 export class Logout extends Component<LogoutProps> {
   componentDidMount() {
-    console.log(this.props);
     this.props.logout();
   }
 
