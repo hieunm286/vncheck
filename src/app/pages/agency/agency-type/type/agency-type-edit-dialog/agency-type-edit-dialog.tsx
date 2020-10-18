@@ -7,6 +7,7 @@ import * as actions from '../../_redux/agency-type-action';
 import {useAgencyTypeUIContext} from '../agency-type-ui-context';
 import {AgencyTypeEditDialogHeader} from './agency-type-edit-dialog-header';
 import {AgencyTypeEditForm} from './agency-type-edit-form';
+import {AgencyType} from "../../../../../models/agency-type.model";
 
 export function AgencyTypeEditDialog({id, show, onHide}: any) {
     const agencyTypeUIContext: any = useAgencyTypeUIContext();
@@ -30,9 +31,10 @@ export function AgencyTypeEditDialog({id, show, onHide}: any) {
     }, [id, dispatch]);
 
     // server request for saving agencyType
-    const saveAgencyType = (agencyType: any) => {
+    const saveAgencyType = (agencyType: AgencyType) => {
         if (!id) {
-            (dispatch(actions.createAgencyType(agencyType)) as any).then(() => onHide());
+            const x = dispatch(actions.createAgencyType(agencyType));
+            x(null as any).then(() => onHide());
             return;
         } else {
             // server request for updating customer

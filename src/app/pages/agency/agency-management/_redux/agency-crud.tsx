@@ -2,11 +2,11 @@ import axios from 'axios';
 import { any } from 'prop-types';
 import { API_BASE_URL } from '../../../../const';
 
-export const AGENCIES_URL = API_BASE_URL + '/admin/agency';
-export const AGENCY_URL = API_BASE_URL + '/admin/agency';
+export const AGENCIES_URL = API_BASE_URL + '/agency';
+export const AGENCY_URL = API_BASE_URL + '/agency';
 export const AGENCY_URL_SEARCH = API_BASE_URL + '/admin/v1/search/agency';
 
-export function createAgency(user: any) {
+export function createAgency(user: any, imageArray: any) {
   console.log(user);
 
   let formData = new FormData();
@@ -14,18 +14,23 @@ export function createAgency(user: any) {
   for (var key in user) {
     formData.append(key, user[key]);
   }
+
+  if (imageArray && imageArray.length > 0) {
+    imageArray.forEach((file: any) => {
+      formData.append('image[]', file);
+    });
+  }
   // console.log(formData);
   // Object.keys(user).forEach(key => formData.append(key, user[key]));
 
   // console.log(Object.keys(user));
   // return axios.post(AGENCIES_URL, formData);
-  // return axios({
-  //   method: 'post',
-  //   url: AGENCIES_URL,
-  //   data: formData,
-  //   headers: { Accept: '*/*' }, // headers: {'Content-Type': 'multipart/form-data' }
-  // });
-  return axios.post(AGENCIES_URL, formData);
+  return axios({
+    method: 'POST',
+    url: AGENCIES_URL,
+    data: formData,
+  });
+  // return axios.post(AGENCIES_URL, formData);
 }
 
 export function getAllAgencys(queryParams: {
@@ -60,14 +65,32 @@ export function getAgencyById(id: string) {
   return axios.get(`${AGENCIES_URL}/${id}`);
 }
 
-export function updateAgency(user: any) {
+export function getImage(imagePath: string) {
+  const imageURL: string = `${API_BASE_URL}${imagePath}`;
+  return axios.get(imageURL, {
+    responseType: 'arraybuffer',
+  });
+}
+
+export function updateAgency(user: any, imageArray: any) {
   // console.log(`${AGENCIES_URL}/${user.username}`);
   let formData = new FormData();
 
   for (var key in user) {
     formData.append(key, user[key]);
   }
-  return axios.put(`${AGENCY_URL}/${user.agency_id}`, formData);
+
+  if (imageArray && imageArray.length > 0) {
+    imageArray.forEach((file: any) => {
+      formData.append('image[]', file);
+    });
+  }
+  // return axios.put(`${AGENCY_URL}/${user.agency_id}`, formData);
+  return axios({
+    method: 'PUT',
+    url: `${AGENCY_URL}/${user.agency_id}`,
+    data: formData,
+  });
 }
 
 export function deleteAgency(userId: any) {

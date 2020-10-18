@@ -1,4 +1,3 @@
-import { GenerateKeyPairAndEncrypt } from '../../../auth/service/auth-cryptography';
 import * as requestFromServer from './agency-crud';
 import { agencySlice, callTypes } from './agency-slice';
 
@@ -54,7 +53,7 @@ export const fetchAgencyById = (id: string) => (
     });
 };
 
-export const updateAgency = (agency: any) => (
+export const updateAgency = (agency: any, imageArray: any) => (
   dispatch: (arg0: { payload: any; type: string }) => void,
 ) => {
   console.log(agency);
@@ -64,7 +63,7 @@ export const updateAgency = (agency: any) => (
     }),
   );
   return requestFromServer
-    .updateAgency(agency)
+    .updateAgency(agency, imageArray)
     .then(() => {
       // agency.dateofbirth = new Date(agency.dateofbirth).toLocaleDateString('vi-VN', {
       //   timeZone: 'Asia/Bangkok',
@@ -135,13 +134,10 @@ export const deleteManyAgency = (arr: any) => (
     });
 };
 
-export const createAgency = (transactionWithSign: { password: string }) => (
+export const createAgency = (transactionWithSign: any, imageArray: any) => (
   dispatch: (arg0: { payload: any; type: string }) => void,
 ) => {
   // const { publicKey, sign, agency } = transactionWithSign;
-  const { publicKey, encryptedPrivateKey } = GenerateKeyPairAndEncrypt(
-    transactionWithSign.password ? transactionWithSign.password : '',
-  );
   dispatch(
     actions.startCall({
       callType: callTypes.action,
@@ -149,13 +145,24 @@ export const createAgency = (transactionWithSign: { password: string }) => (
   );
   // const dataSign = { publicKey, sign };
   // dispatch(actions.transactionCreated({ dataSign }));
+  const shippingAdress = [];
+  const defaultShipping = {
+    id: '0',
+    state: transactionWithSign.state,
+    city: transactionWithSign.city,
+    district: transactionWithSign.district,
+    address: transactionWithSign.address,
+  };
+  shippingAdress.push(defaultShipping);
+  const strShippingArr: string = JSON.stringify(shippingAdress);
   const agency = {
     ...transactionWithSign,
-    publicKey,
-    encryptedPrivateKey,
+    shipping_address: strShippingArr,
+    // publicKey,
+    // encryptedPrivateKey,
   };
   return requestFromServer
-    .createAgency(agency)
+    .createAgency(agency, imageArray)
     .then(response => {
       // const { id, ordinal } = response.data;
       // agency.id = id;

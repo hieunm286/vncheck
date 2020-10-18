@@ -1,17 +1,16 @@
-import React, {useMemo} from 'react';
-import objectPath from 'object-path';
-// LayoutContext
-// Import Layout components
-import {LayoutInit} from './layout-init';
 import {useHtmlClassService} from "../_core/metronic-layout";
+import React, {useMemo} from "react";
+import objectPath from "object-path";
 import {HeaderMobile} from "./header-mobile/header-mobile";
 import {Aside} from "./aside/aside";
-import {QuickUser} from "./extras/offcanvas/quick-user";
-import {ScrollTop} from "./extras/scroll-top";
-import {QuickPanel} from "./extras/offcanvas/quick-panel";
 import {Header} from "./header/header";
+import {QuickUser} from "./extras/offcanvas/quick-user";
+import {QuickPanel} from "./extras/offcanvas/quick-panel";
+import {ScrollTop} from "./extras/scroll-top";
+import {StickyToolbar} from "./extras/sticky-toolbar";
+import {LayoutInit} from "./layout-init";
 
-export function Layout({children}: any) {
+export const Layout = ({children}: any) => {
     const uiService: any = useHtmlClassService();
     // Layout settings (cssClasses/cssAttributes)
     const layoutProps = useMemo(() => {
@@ -65,11 +64,8 @@ export function Layout({children}: any) {
             <QuickUser/>
             <QuickPanel/>
             <ScrollTop/>
+            <StickyToolbar/>
             {/*end::Main*/}
             <LayoutInit/>
-        </>
-    ) : (
-        // BLANK LAYOUT
-        <div className="d-flex flex-column flex-root">{children}</div>
-    );
-}
+        </>) : (<div className="d-flex flex-column flex-root">{children}</div>)
+};
