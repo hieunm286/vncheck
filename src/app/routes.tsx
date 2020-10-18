@@ -41,47 +41,29 @@ export function Routes() {
         userInfo._error && userInfo._error === 'AUTH.ERROR.NEED_TO_CHANGE_PASSWORD';
     const CheckAuth = () => {
         if (isNeedChangePassword) {
-            return (
-                <>
-                    <Route>
-                        <AuthPage/>
-                    </Route>
-                    <Redirect to={'/auth/change-password?callbackUrl=' + callbackUrl}/>
-                </>
-            );
+            return [(<Route>
+                <AuthPage/>
+            </Route>), (<Redirect to={'/auth/change-password?callbackUrl=' + callbackUrl}/>)];
         } else if (isLoggedInAndUnexpired()) {
             // console.log(window.location);
-            return (
-                <>
-                    <Layout>
-                        <BasePage/>
-                    </Layout>
-                    <Redirect to={callbackUrl}/>
-                    {
-                        //TODO: Redirect to requested page.
-                    }
-                </>
-            );
-        } else
-            return (
-                <>
-                    <Route>
-                        <AuthPage/>
-                    </Route>
-                    {username ? (
-                        <Redirect to={'/auth/login/challenge?callbackUrl=' + callbackUrl}/>
-                    ) : (
-                        <Redirect to={'/auth/login/identifier?callbackUrl=' + callbackUrl}/>
-                    )}
-                </>
-                /*Render auth page when user at `/auth` and not authorized.*/
-            );
+            return [(<Layout>
+                <BasePage/>
+            </Layout>), (<Redirect to={callbackUrl}/>)
+            ];
+        } else return [(<Route>
+            <AuthPage/>
+        </Route>), (username ? (
+            <Redirect to={'/auth/login/challenge?callbackUrl=' + callbackUrl}/>
+        ) : (
+            <Redirect to={'/auth/login/identifier?callbackUrl=' + callbackUrl}/>
+        ))];
     };
     return (
         <Switch>
             <Route path="/error" component={ErrorsPage}/>
             <Route path={'/logout'} component={Logout}/>
-            <CheckAuth/>
+            {CheckAuth()}
+            {/*<CheckAuth/>*/}
         </Switch>
     );
 }
