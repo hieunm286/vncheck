@@ -5,9 +5,8 @@ import SVG from "react-inlinesvg";
 import {ToAbsoluteUrl} from "../../../components/helpers/assets-helpers";
 import {useHtmlClassService} from "../../_core/metronic-layout";
 
-export function HeaderMobile() {
+export const HeaderMobile = () => {
     const uiService: any = useHtmlClassService();
-
     const layoutProps = useMemo(() => {
         return {
             headerLogo: uiService.getStickyLogo(),
