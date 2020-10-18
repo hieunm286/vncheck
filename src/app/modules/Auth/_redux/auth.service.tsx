@@ -11,7 +11,6 @@ export const CHANGE_PASSWORD_URL = BASE_URL + '/password';
 export const SET_TEMP_PASSWORD_URL = BASE_URL + '/temp-password';
 // export const POST_IDENTITY_URL = BASE_URL + '/saveIdentity';
 export function GetCredential(username: string) {
-  console.log(CREDENTIAL_URL);
   return axios.post(CREDENTIAL_URL, { username });
 }
 

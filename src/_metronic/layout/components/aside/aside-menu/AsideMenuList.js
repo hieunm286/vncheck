@@ -31,10 +31,20 @@ export function AsideMenuList({ layoutProps }) {
     <>
       {/* begin::Menu Nav */}
       <ul className={`menu-nav ${layoutProps.ulClasses}`}>
+        {/*begin::1 Level*/}
+        <li className={`menu-item ${getMenuItemActive('/dashboard', false)}`} aria-haspopup="true">
+          <NavLink className="menu-link" to="/dashboard">
+            <span className="svg-icon menu-icon">
+              <SVG src={toAbsoluteUrl('/media/svg/vncheck/dashboard.svg')} />
+            </span>
+            <span className="menu-text">{intl.formatMessage({ id: 'MENU.DASHBOARD' })}</span>
+          </NavLink>
+        </li>
+        {/*end::1 Level*/}
 
         {/* Components */}
         {/* begin::section */}
-        <li className="menu-section mt-0">
+        <li className="menu-section ">
           <h4 className="menu-text">{intl.formatMessage({ id: 'MENU.MANAGEMENT.USERS' })}</h4>
           <i className="menu-icon flaticon-more-v2"></i>
         </li>
