@@ -9,7 +9,6 @@ import {Aside} from "./aside/aside";
 import {QuickUser} from "./extras/offcanvas/quick-user";
 import {ScrollTop} from "./extras/scroll-top";
 import {QuickPanel} from "./extras/offcanvas/quick-panel";
-import {StickyToolbar} from "./extras/sticky-toolbar";
 import {Header} from "./header/header";
 
 export function Layout({children}: any) {
@@ -66,7 +65,6 @@ export function Layout({children}: any) {
             <QuickUser/>
             <QuickPanel/>
             <ScrollTop/>
-            <StickyToolbar/>
             {/*end::Main*/}
             <LayoutInit/>
         </>

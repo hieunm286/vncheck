@@ -1,8 +1,6 @@
 import React, {Suspense, lazy} from 'react';
 import {Redirect, Switch, Route} from 'react-router-dom';
 import {BuilderPage} from './pages/builder-page';
-import {DashboardPage} from "./pages/dashboard-page";
-import {MyPage} from "./pages/my-page";
 import {ChangeUserPassword} from "./pages/change-user-password";
 import {LayoutSplashScreen} from "./layout/_core/metronic-splash-screen";
 import {ContentRoute} from "./layout/components/content/content-route";
@@ -22,10 +20,8 @@ export default function BasePage() {
     return (
         <Suspense fallback={<LayoutSplashScreen/>}>
             <Switch>
-                <Redirect exact from="/" to="/dashboard"/>
-                <ContentRoute children={null} path="/dashboard" component={DashboardPage} render={null}/>
+                <Redirect exact from="/" to="/account"/>
                 <ContentRoute children={null} path="/builder" component={BuilderPage} render={null}/>
-                <ContentRoute children={null} path="/my-page" component={MyPage} render={null}/>
                 <ContentRoute children={null} path="/change-password" component={ChangeUserPassword} render={null}/>
                 <Route path="/account" component={AccountPage}/>
                 <Route path="/product-category" component={ProductPage}/>
