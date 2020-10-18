@@ -133,6 +133,10 @@ export function AgencyTable() {
                                 classes="table table-head-custom table-vertical-center overflow-hidden"
                                 bootstrap4
                                 remote
+                                {...paginationTableProps}
+                                keyField="username"
+                                data={entities || []}
+                                columns={columns}
                                 defaultSorted={defaultSorted as any}
                                 onTableChange={getHandlerTableChange(agencyUIProps.setQueryParams)}
                                 selectRow={GetSelectAgencyRow({
@@ -140,7 +144,7 @@ export function AgencyTable() {
                                     ids: agencyUIProps.ids,
                                     setIds: agencyUIProps.setIds,
                                 }) as any}
-                                {...paginationTableProps}>
+                                {...paginationProps}>
                                 <PleaseWaitMessage entities={entities}/>
                                 <NoRecordsFoundMessage entities={entities}/>
                             </BootstrapTable>

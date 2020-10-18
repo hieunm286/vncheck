@@ -22,10 +22,7 @@ export default function BasePage() {
     return (
         <Suspense fallback={<LayoutSplashScreen/>}>
             <Switch>
-                {
-                    /* Redirect from root URL to /dashboard. */
-                    <Redirect exact from="/" to="/dashboard"/>
-                }
+                <Redirect exact from="/" to="/dashboard"/>
                 <ContentRoute children={null} path="/dashboard" component={DashboardPage} render={null}/>
                 <ContentRoute children={null} path="/builder" component={BuilderPage} render={null}/>
                 <ContentRoute children={null} path="/my-page" component={MyPage} render={null}/>
@@ -33,7 +30,7 @@ export default function BasePage() {
                 <Route path="/account" component={AccountPage}/>
                 <Route path="/product-category" component={ProductPage}/>
                 <Route path="/agency" component={AgencyPage}/>
-                <Redirect to="/error/error-v1"/>
+                {/*<Redirect to="/error/error-v1"/>*/}
             </Switch>
         </Suspense>
     );

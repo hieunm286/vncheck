@@ -1,5 +1,3 @@
-import {formatRFC3339} from 'date-fns';
-
 import React, {useEffect, useMemo} from 'react';
 import {Modal} from 'react-bootstrap';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';

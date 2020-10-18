@@ -172,8 +172,8 @@ const LoginPassword = (props: {
               console.log(err.response.data);
               setLoading(false);
               setSubmitting(false);
-              setStatus(454545);
-              console.log(454545);
+              // setStatus(454545);
+              // console.log(454545);
               props.savePingErrorData(err.response.data);
             });
         })

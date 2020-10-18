@@ -1,11 +1,11 @@
 import React, {useEffect, useMemo} from 'react';
 import {Modal} from 'react-bootstrap';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
-import {ModalProgressBar} from '../../../../../_metronic/_partials/controls/index';
 import * as actions from '../_redux/agency-action';
 import {useAgencyUIContext} from '../agency-ui-context';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import DeleteIcon from '@material-ui/icons/Delete';
+import {ModalProgressBar} from "../../../../components/modal-progress-bar";
 
 export function AgencyDeleteDialog({id, show, onHide}: any) {
     // agency UI Context
