@@ -1,8 +1,8 @@
 import React from 'react';
 import { Redirect, Switch } from 'react-router-dom';
-import { ContentRoute } from '../../../_metronic/layout/index';
 import AgencyManagement from './agency-management/agency-management';
 import AgencyType from './agency-type/agency-type';
+import {ContentRoute} from "../../layout/components/content/content-route";
 
 function AgencyPage() {
   return (

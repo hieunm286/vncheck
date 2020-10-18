@@ -9,14 +9,14 @@ export {KTCodeBlock} from "./code-examples-kt/KTCodeBlock";
 export {KTCodeExample} from "./code-examples-kt/KTCodeExample";
 
 // Forms
-export {DatePickerField} from "./forms/DatePickerField";
-export {FieldFeedbackLabel} from "./forms/FieldFeedbackLabel";
-export {FormAlert} from "./forms/FormAlert";
-export {Input} from "./forms/Input";
-export {MainInput} from "./forms/MainInput";
-export {Select} from "./forms/Select";
-export {Checkbox} from "./forms/Checkbox";
-export {HeaderCheckbox} from "./forms/HeaderCheckbox";
+export {DatePickerField} from "../../../app/components/forms/date-picker-field.tsx";
+export {FieldFeedbackLabel} from "../../../app/components/forms/field-feedback-label.tsx";
+export {FormAlert} from "../../../app/components/forms/form-alert.tsx";
+export {Input} from "../../../app/components/forms/input.tsx";
+export {MainInput} from "../../../app/components/forms/main-input.tsx";
+export {Select} from "../../../app/components/forms/select.tsx";
+export {Checkbox} from "../../../app/components/forms/checkbox.tsx";
+export {HeaderCheckbox} from "../../../app/components/forms/header-checkbox.tsx";
 
 
 // Paginations
@@ -25,10 +25,10 @@ export {PaginationLinks} from "./pagination/PaginationLinks";
 export {PaginationToolbar} from "./pagination/PaginationToolbar";
 
 // Controls
-export * from "../../../app/component/card.tsx";
+export * from "../../../app/components/card.tsx";
 export {default as AnimateLoading} from "./AnimateLoading";
 export {LoadingDialog} from "./LoadingDialog";
 export {Notice} from "./Notice";
 export {SplashScreen} from "./SplashScreen";
 export {SVGIcon} from "./SVGIcon";
-export {ModalProgressBar} from "./ModalProgressBar";
+export {ModalProgressBar} from "../../../app/components/modal-progress-bar.tsx";

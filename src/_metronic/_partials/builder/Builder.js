@@ -8,8 +8,9 @@ import clsx from "clsx";
 import {Prism as SyntaxHighlighter} from "react-syntax-highlighter";
 // See https://github.com/PrismJS/prism-themes
 import {coy as highlightStyle} from "react-syntax-highlighter/dist/esm/styles/prism";
-import {useHtmlClassService, setLayoutConfig, getInitLayoutConfig} from "../../layout";
 import {Card, CardBody, CardHeader, Notice} from "../controls";
+import {setLayoutConfig, useHtmlClassService} from "../../../app/layout/_core/metronic-layout";
+import {getInitLayoutConfig} from "../../../app/layout/_core/layout-config";
 
 const localStorageActiveTabKey = "builderActiveTab";
 
@@ -497,7 +498,7 @@ export function Builder() {
 
                                 <div className="card-footer">
                                     <div className="row">
-                                        <div className="col-lg-3"></div>
+                                        <div className="col-lg-3"/>
                                         <div className="col-lg-9">
                                             <button
                                                 type="button"

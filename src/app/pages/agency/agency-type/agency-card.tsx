@@ -1,33 +1,29 @@
-import React, { useMemo } from 'react';
-import {
-  Card,
-  CardBody,
-  CardHeader,
-  CardHeaderToolbar,
-} from '../../../../_metronic/_partials/controls/index';
-import { AgencyTable } from './agency-table/agency-table';
-import { useAgencyUIContext } from './agency-ui-context';
-import { Link } from 'react-router-dom';
+import React, {useMemo} from 'react';
+
+import {AgencyTable} from './agency-table/agency-table';
+import {useAgencyUIContext} from './agency-ui-context';
+import {Link} from 'react-router-dom';
+import {Card, CardBody, CardHeader} from "../../../components/card";
 
 export function AgencyCard() {
-  const agencyUIContext = useAgencyUIContext();
-  const agencyUIProps = useMemo(() => {
-    return {
-      ids: agencyUIContext.ids,
-      newUserButtonClick: agencyUIContext.newUserButtonClick,
-    };
-  }, [agencyUIContext]);
+    const agencyUIContext: any = useAgencyUIContext();
+    const agencyUIProps = useMemo(() => {
+        return {
+            ids: agencyUIContext.ids,
+            newUserButtonClick: agencyUIContext.newUserButtonClick,
+        };
+    }, [agencyUIContext]);
 
-  return (
-    <Card className="h-100">
-      <CardHeader title="DANH SÁCH ĐẠI LÝ"></CardHeader>
+    return (
+        <Card className="h-100">
+            <CardHeader title="DANH SÁCH ĐẠI LÝ"/>
 
-      <CardBody>
-        <div className="row no-gutters mb-10"></div>
+            <CardBody>
+                <div className="row no-gutters mb-10"/>
 
-        {/* <AgencyFilter /> */}
-        <AgencyTable />
-      </CardBody>
-    </Card>
-  );
+                {/* <AgencyFilter /> */}
+                <AgencyTable/>
+            </CardBody>
+        </Card>
+    );
 }

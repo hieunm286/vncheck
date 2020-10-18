@@ -19,12 +19,11 @@ import './_metronic/_assets/plugins/flaticon/flaticon.css';
 import './_metronic/_assets/plugins/flaticon2/flaticon.css';
 // Datepicker
 import 'react-datepicker/dist/react-datepicker.css';
-import {
-  MetronicLayoutProvider,
-  MetronicSplashScreenProvider,
-  MetronicSubheaderProvider,
-} from './_metronic/layout';
+
 import { MetronicI18nProvider } from './_metronic/i18n';
+import {MetronicLayoutProvider} from "./app/layout/_core/metronic-layout";
+import {MetronicSubheaderProvider} from "./app/layout/_core/metronic-subheader";
+import {MetronicSplashScreenProvider} from "./app/layout/_core/metronic-splash-screen";
 
 /**
  * Base URL of the website.

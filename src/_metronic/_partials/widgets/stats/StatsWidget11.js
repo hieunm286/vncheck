@@ -2,7 +2,7 @@
 import React, {useMemo, useEffect} from "react";
 import objectPath from "object-path";
 import ApexCharts from "apexcharts";
-import {useHtmlClassService} from "../../../layout";
+import {useHtmlClassService} from "../../../../app/layout/_core/metronic-layout";
 
 export function StatsWidget11({ className }) {
   const uiService = useHtmlClassService();

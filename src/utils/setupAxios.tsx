@@ -1,5 +1,5 @@
 import {SignMessage, VerifyMessage} from '../app/pages/auth/service/auth-cryptography';
-import {actions, actionTypes} from '../app/pages/auth/_redux/authRedux';
+import {actions, actionTypes} from '../app/pages/auth/_redux/auth-redux';
 import {AxiosStatic} from "axios";
 
 export default function setupAxios(axios: AxiosStatic, store: any) {

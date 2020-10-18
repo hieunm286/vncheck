@@ -4,9 +4,9 @@ import React, {useMemo, useEffect} from "react";
 import objectPath from "object-path";
 import ApexCharts from "apexcharts";
 import {Dropdown} from "react-bootstrap";
-import {useHtmlClassService} from "../../../layout";
 import {DropdownMenu4, DropdownCustomToggler} from "../../dropdowns";
 import {KTUtil} from "../../../_assets/js/components/util";
+import {useHtmlClassService} from "../../../../app/layout/_core/metronic-layout";
 
 export function MixedWidget14({ className }) {
   const uiService = useHtmlClassService();
