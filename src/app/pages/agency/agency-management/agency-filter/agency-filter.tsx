@@ -1,14 +1,15 @@
 import React, { useMemo, useState } from 'react';
 import { isEqual } from 'lodash';
-import { useAgencyUIContext } from '../agency-ui-context';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
-import { Input, Select } from '../../../../../_metronic/_partials/controls/index';
 import STATE_LIST from '../../../../../_metronic/AdministrativeDivision/state.json';
 import CITY_LIST from '../../../../../_metronic/AdministrativeDivision/city.json';
 import DISTRICT_LIST from '../../../../../_metronic/AdministrativeDivision/district.json';
 import SearchIcon from '@material-ui/icons/Search';
 import './agency-filter.scss';
+import { useAgencyUIContext } from '../agency-ui-context';
+import { Input } from '../../../../components/forms/input';
+import { Select } from '../../../../components/forms/select';
 
 const prepareFilter = (queryParams: any, values: any) => {
   const { agencyId, agencyName, state, city, district, address, status } = values;
@@ -25,8 +26,8 @@ const prepareFilter = (queryParams: any, values: any) => {
   return newQueryParams;
 };
 
-const getNameFromCode = (arr: any, code: any) => {
-  const index = arr.findIndex((el: any) => el.code === code);
+const getNameFromCode = (arr: any[], code: string) => {
+  const index = arr.findIndex(el => el.code === code);
   if (index === -1) return '';
   return arr[index].name;
 };
@@ -49,7 +50,15 @@ export function AgencyFilter() {
   });
 
   // queryParams, setQueryParams,
-  const applyFilter = (values: any) => {
+  const applyFilter = (values: {
+    agencyName: string; // values => All=""/Susspended=0/Active=1/Pending=2
+    agencyId: string; // values => All=""/Business=0/Individual=1
+    state: string;
+    city: string;
+    district: string;
+    address: string;
+    status: string;
+  }) => {
     console.log(values);
     const newQueryParams = prepareFilter(agencyUIProps.queryParams, values);
     if (!isEqual(newQueryParams, agencyUIProps.queryParams)) {
@@ -108,7 +117,7 @@ export function AgencyFilter() {
                 <Field
                   name="agencyId"
                   component={Input}
-                  placeholder="Enter Last Name"
+                  placeholder="Nhập mã đại lý"
                   label="Mã đại lý"
                 />
               </div>
@@ -182,7 +191,7 @@ export function AgencyFilter() {
                 <Field
                   name="address"
                   component={Input}
-                  placeholder="Enter Last Name"
+                  placeholder="Nhập địa chỉ đại lý"
                   label="Địa chỉ đại lý"
                 />
               </div>
@@ -203,7 +212,6 @@ export function AgencyFilter() {
                 </Select>
               </div>
             </div>
-            <div className="form-group row"></div>
             <div>
               <button className="btn btn-danger" type="submit">
                 <SearchIcon />
