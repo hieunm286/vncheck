@@ -1,10 +1,10 @@
 import { SignalCellularNull } from '@material-ui/icons';
 import React from 'react';
 import { Route } from 'react-router-dom';
-import { UserDeleteDialog } from './users/users-delete-dialog/user-delete-dialog';
-import { UserEditDialog } from './users/users-edit-dialog/user-edit-dialog';
-import { UsersCard } from './users/users-card';
-import { UsersUIProvider } from './users/users-ui-context';
+import { UserDeleteDialog } from './users-delete-dialog/user-delete-dialog';
+import { UserEditDialog } from './users-edit-dialog/user-edit-dialog';
+import { UsersCard } from './users-card';
+import { UsersUIProvider } from './users-ui-context';
 
 function User({ history }: { history: any }) {
   const usersUIEvents = {

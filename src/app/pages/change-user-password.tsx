@@ -4,7 +4,6 @@ import {Card, CardHeader, CardHeaderToolbar} from "../components/card";
 export function ChangeUserPassword() {
     return (
         <div>
-            {' '}
             <Card>
                 <CardHeader title="Users list">
                     <CardHeaderToolbar>

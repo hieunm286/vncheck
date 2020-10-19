@@ -6,7 +6,7 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {Formik, Form, Field} from 'formik';
 import * as Yup from 'yup';
-import {Input, Select, DatePickerField} from '../../../../../../_metronic/_partials/controls';
+import {Input, Select, DatePickerField} from '../../../../_metronic/_partials/controls';
 
 // Validation schema
 const UserEditSchema = Yup.object().shape({

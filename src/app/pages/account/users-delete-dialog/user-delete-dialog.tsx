@@ -1,8 +1,8 @@
 import React, {useEffect, useMemo} from 'react';
 import {Modal} from 'react-bootstrap';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
-import {ModalProgressBar} from '../../../../../../_metronic/_partials/controls';
-import * as actions from '../../../_redux/user/user-action';
+import {ModalProgressBar} from '../../../../_metronic/_partials/controls';
+import * as actions from '../_redux/user-action';
 import {useUsersUIContext} from '../users-ui-context';
 
 export function UserDeleteDialog({id, show, onHide}: any) {

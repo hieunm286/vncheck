@@ -1,7 +1,7 @@
 import React, {useEffect, useMemo} from 'react';
 import {Modal} from 'react-bootstrap';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
-import * as actions from '../../../_redux/user/user-action';
+import * as actions from '../_redux/user-action';
 import {useUsersUIContext} from '../users-ui-context';
 import {UserEditDialogHeader} from './user-edit-dialog-header';
 import {UserEditForm} from './user-edit-form';

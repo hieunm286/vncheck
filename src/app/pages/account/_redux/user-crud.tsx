@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { API_BASE_URL } from '../../../../const';
+import { API_BASE_URL } from '../../../const';
 
 export const USERS_URL = API_BASE_URL + '/users';
 export const USER_URL = API_BASE_URL + '/user';

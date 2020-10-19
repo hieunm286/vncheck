@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {WithContext as ReactTags} from 'react-tag-input';
 import './style.css';
-import * as AuthCryptography from '../../auth/service/auth-cryptography';
+import * as AuthCryptography from '../auth/service/auth-cryptography';
 
 const KeyCodes = {
     comma: 188,

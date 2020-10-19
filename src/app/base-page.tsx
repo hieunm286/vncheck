@@ -4,7 +4,7 @@ import {ChangeUserPassword} from "./pages/change-user-password";
 import {LayoutSplashScreen} from "./layout/_core/metronic-splash-screen";
 import {ContentRoute} from "./layout/components/content/content-route";
 
-const AccountPage = lazy(() => import('./pages/account/pages/account-page'));
+const AccountPage = lazy(() => import('./pages/account/account-page'));
 
 const ProductPage = lazy(() => import('./pages/product/pages/product-page'));
 

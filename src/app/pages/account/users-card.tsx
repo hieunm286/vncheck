@@ -1,6 +1,6 @@
 import React, {useMemo} from 'react';
 import {useUsersUIContext} from './users-ui-context';
-import {Card, CardBody, CardHeader, CardHeaderToolbar} from "../../../../components/card";
+import {Card, CardBody, CardHeader, CardHeaderToolbar} from "../../components/card";
 import {UsersFilter} from "./users-filter/users-filter";
 import {UsersGrouping} from "./users-grouping/users-grouping";
 import {UsersTable} from "./users-table/users-table";

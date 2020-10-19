@@ -5,7 +5,7 @@ import React from 'react';
 import SVG from 'react-inlinesvg';
 import Visibility from '@material-ui/icons/Visibility';
 import './actions-column.scss';
-import {ToAbsoluteUrl} from "../../../../../../components/helpers/assets-helpers";
+import {ToAbsoluteUrl} from "../../../../components/helpers/assets-helpers";
 
 export function ActionsColumnFormatter(
     cellContent: any,

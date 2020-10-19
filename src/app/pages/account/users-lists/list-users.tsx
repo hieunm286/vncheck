@@ -1,5 +1,5 @@
 import React from 'react';
-import InfiniteLists from './lists/infinite-lists';
+import InfiniteLists from './infinite-lists';
 
 function ListUsers(props: any) {
     return (

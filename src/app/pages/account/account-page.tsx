@@ -1,9 +1,9 @@
 import React from 'react';
 import {Redirect, Switch} from 'react-router-dom';
-import ListUsers from './list-users';
-import TagsInput from './tags-input';
+import ListUsers from './users-lists/list-users';
+import TagsInput from '../_unused/tags-input';
 import User from './user';
-import {ContentRoute} from "../../../layout/components/content/content-route";
+import {ContentRoute} from "../../layout/components/content/content-route";
 
 function AccountPage(props: any) {
     return (
