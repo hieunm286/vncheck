@@ -107,10 +107,10 @@ export function AsideMenuList({layoutProps}: any) {
                 </li>
 
                 <li
-                    className={`menu-item menu-item-submenu ${getMenuItemActive('/agency', true)}`}
+                    className={`menu-item menu-item-submenu ${getMenuItemActive('/agency-management', true)}`}
                     aria-haspopup="true"
                     data-menu-toggle="hover">
-                    <NavLink className="menu-link menu-toggle" to="/agency">
+                    <NavLink className="menu-link menu-toggle" to="/agency-management">
             <span className="svg-icon menu-icon">
               <SVG src={ToAbsoluteUrl('/media/svg/vncheck/distributor-1.svg')}/>
             </span>
@@ -130,9 +130,9 @@ export function AsideMenuList({layoutProps}: any) {
                 </span>
                             </li>
                             <li
-                                className={`menu-item  ${getMenuItemActive('/agency/agency-management')}`}
+                                className={`menu-item  ${getMenuItemActive('/agency-management')}`}
                                 aria-haspopup="true">
-                                <NavLink className="menu-link" to="/agency/agency-management"
+                                <NavLink className="menu-link" to="/agency-management"
                                          style={{paddingLeft: '50px'}}>
                   <span className="svg-icon menu-icon">
                     <SVG src={ToAbsoluteUrl('/media/svg/vncheck/distributor-2.svg')}/>
@@ -143,9 +143,9 @@ export function AsideMenuList({layoutProps}: any) {
                                 </NavLink>
                             </li>
                             <li
-                                className={`menu-item  ${getMenuItemActive('/agency/classify')}`}
+                                className={`menu-item  ${getMenuItemActive('/agency-type')}`}
                                 aria-haspopup="true">
-                                <NavLink className="menu-link" to="/agency/classify" style={{paddingLeft: '50px'}}>
+                                <NavLink className="menu-link" to="/agency-type" style={{paddingLeft: '50px'}}>
                   <span className="svg-icon menu-icon">
                     <SVG src={ToAbsoluteUrl('/media/svg/vncheck/distributor-type.svg')}/>
                   </span>
