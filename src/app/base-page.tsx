@@ -1,5 +1,7 @@
 import React, {Suspense, lazy} from 'react';
 import {Redirect, Switch, Route} from 'react-router-dom';
+import {BuilderPage} from './layout/metronic-pages/builder-page';
+import {DashboardPage} from "./pages/dashboard/dashboard-page";
 import {ChangeUserPassword} from "./pages/change-user-password";
 import {LayoutSplashScreen} from "./layout/_core/metronic-splash-screen";
 import {ContentRoute} from "./layout/components/content/content-route";

@@ -9,9 +9,9 @@ const logoStyles : CSSProperties = {
     height: '55px',
 }
 
-export function HeaderMobile() {
-    const uiService: any = useHtmlClassService();
 
+export const HeaderMobile = () => {
+    const uiService: any = useHtmlClassService();
     const layoutProps = useMemo(() => {
         return {
             headerLogo: uiService.getStickyLogo(),
