@@ -1,28 +1,27 @@
-import React, { useState } from 'react';
-import { useFormik } from 'formik';
-import { connect } from 'react-redux';
-import { Link, Redirect, useHistory } from 'react-router-dom';
+import React, {useState} from 'react';
+import {useFormik} from 'formik';
+import {connect} from 'react-redux';
+import {Link, Redirect, useHistory} from 'react-router-dom';
 import * as Yup from 'yup';
-import { injectIntl } from 'react-intl';
+import {injectIntl} from 'react-intl';
 import * as auth from '../_redux/auth-redux';
-import { requestPassword } from '../_redux/auth.service';
-import { TextField } from '@material-ui/core';
+import {TextField} from '@material-ui/core';
 
 const initialValues = {
   verifyCode: '',
 };
 
 function VerificationCode(props: { intl: any }) {
-  const { intl } = props;
+  const {intl} = props;
   const [isRequested, setIsRequested] = useState(false);
   const location = window.location;
-  const { pathname } = location;
-  const { search } = location;
+  const {pathname} = location;
+  const {search} = location;
   let callbackUrl = new URLSearchParams(search).get('callbackUrl');
   callbackUrl = callbackUrl ? callbackUrl : pathname;
-
+  
   const history = useHistory();
-
+  
   const ForgotPasswordSchema = Yup.object().shape({
     // email: Yup.string()
     //   .email('Wrong email format')
@@ -34,23 +33,23 @@ function VerificationCode(props: { intl: any }) {
     //     }),
     //   ),
   });
-
+  
   // const getInputClasses = fieldname => {
   //   if (formik.touched[fieldname] && formik.errors[fieldname]) {
   //     return 'is-invalid';
   //   }
-
+  
   //   if (formik.touched[fieldname] && !formik.errors[fieldname]) {
   //     return 'is-valid';
   //   }
-
+  
   //   return '';
   // };
-
+  
   const formik = useFormik({
     initialValues,
     validationSchema: ForgotPasswordSchema,
-    onSubmit: (values, { setStatus, setSubmitting }) => {
+    onSubmit: (values, {setStatus, setSubmitting}) => {
       // requestPassword(values.email)
       //   .then(() => setIsRequested(true))
       //   .catch(() => {
@@ -63,12 +62,12 @@ function VerificationCode(props: { intl: any }) {
       history.push('/auth/change-password?callbackUrl=' + callbackUrl);
     },
   });
-
+  
   return (
     <>
-      {isRequested && <Redirect to="/auth" />}
+      {isRequested && <Redirect to="/auth"/>}
       {!isRequested && (
-        <div className="login-form login-forgot" style={{ display: 'block' }}>
+        <div className="login-form login-forgot" style={{display: 'block'}}>
           <div className="text-center mb-10 mb-lg-10">
             <h3 className="font-size-h1">Nhập mã xác minh</h3>
             <div className="text-muted font-weight-bold">
@@ -101,7 +100,7 @@ function VerificationCode(props: { intl: any }) {
                 variant="outlined"
                 // name="username"
                 // onClick={() => alert('cc')}
-
+                
                 {...formik.getFieldProps('verifyCode')}
               />
               {formik.touched.verifyCode && formik.errors.verifyCode ? (

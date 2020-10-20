@@ -2,9 +2,8 @@
 // Data validation is based on Yup
 // Please, be familiar with article first:
 // https://hackernoon.com/react-form-validation-with-formik-and-yup-8b76bda62e10
-import React, { useEffect, useRef, useState } from 'react';
-import { Modal } from 'react-bootstrap';
-import { Formik, Form, Field } from 'formik';
+import React, {useEffect, useState} from 'react';
+import {Field, Form, Formik} from 'formik';
 import * as Yup from 'yup';
 import SaveIcon from '@material-ui/icons/Save';
 import CancelIcon from '@material-ui/icons/Cancel';
@@ -14,11 +13,10 @@ import CITY_LIST from '../../../../_metronic/AdministrativeDivision/city.json';
 import DISTRICT_LIST from '../../../../_metronic/AdministrativeDivision/district.json';
 
 import '../agency.css';
-import { Link, useHistory } from 'react-router-dom';
-import { FormControlLabel, Switch } from '@material-ui/core';
+import {Link, useHistory} from 'react-router-dom';
+import {Switch} from '@material-ui/core';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ImageUploading from 'react-images-uploading';
-import axios from 'axios';
 import './style/agency-edit-form.scss';
 import { getCodeFromName, getNameFromCode } from '../utilities';
 import { MainInput } from '../../../components/forms/main-input';
@@ -51,7 +49,7 @@ const getBase64Array = (arr: any[]) => {
 const convertBinaryToArrayBuffer = (bnr: ArrayBuffer) => {
   let buffer = Buffer.from(bnr);
   let arraybuffer = Uint8Array.from(buffer).buffer;
-
+  
   return arraybuffer;
 };
 
@@ -71,7 +69,7 @@ const NewAgencySchema = Yup.object().shape({
   //     .matches(/^[a-zA-Z0-9]+$/u, { excludeEmptyString: false, message: 'XX' }),
   //   address: Yup.string().required('Vui lòng nhập địa chỉ đại lý'),
   // }),
-
+  
   // // address: Yup.string().required('Vui lòng nhập địa chỉ đại lý'),
   // state: Yup.string()
   //   .required('ccc')
@@ -129,12 +127,12 @@ interface FormikActions<Values> {
 }
 
 export function AgencyEditForm({
-  saveAgency,
-  agency,
-  actionsLoading,
-  onHide,
-  agencyType,
-}: AgencyEditState) {
+                                 saveAgency,
+                                 agency,
+                                 actionsLoading,
+                                 onHide,
+                                 agencyType,
+                               }: AgencyEditState) {
   const [administrativeDivision, setAdministrativeDivision] = useState<AdministrativeDivisionState>(
     {
       state: '',
@@ -144,19 +142,19 @@ export function AgencyEditForm({
       address: '',
     },
   );
-
+  
   const [agencyTypeValue, setAgencyTypeValue] = useState('');
-
+  
   const history = useHistory();
-
+  
   const [agencyImage, setAgencyImage] = useState(null);
-
+  
   const [show, setShow] = useState({
     showEdit: false,
     showDelete: false,
     showView: false,
   });
-
+  
   const [rowShippingData, setRowShippingData] = useState({
     state: '',
     city: '',
@@ -165,27 +163,27 @@ export function AgencyEditForm({
     id: '',
     rowIndex: -1,
   });
-
+  
   console.log(agencyType);
-
+  
   const [shippingArr, setShippingArr] = useState<any>([]);
   const [isSubmit, setIsSubmit] = useState<boolean>(false);
   const [checkAll, setCheckAll] = useState<boolean>(false);
-
+  
   const [images, setImages] = useState<any>([]);
   const [imagesDelete, setImagesDelete] = useState<any>([]);
-
+  
   const onChange = (imageList: any, addUpdateIndex: any) => {
     // data for submit
     setImages(imageList);
   };
-
+  
   const getDeleteImage = (index: number) => {
     const imageDeleteArr = [...imagesDelete];
     imageDeleteArr.push(images[index]);
     setImagesDelete(imageDeleteArr);
   };
-
+  
   useEffect(() => {
     if (
       administrativeDivision.state !== '' &&
@@ -203,7 +201,7 @@ export function AgencyEditForm({
     administrativeDivision.district,
     agencyTypeValue,
   ]);
-
+  
   useEffect(() => {
     setAdministrativeDivision({
       state:
@@ -217,7 +215,7 @@ export function AgencyEditForm({
       status: agency.status == 0 ? true : false,
       address: agency.agency_addresses?.address,
     });
-
+    
     const typeIndex = agencyType.findIndex(el => el.agency_type_id === agency.agency_type_id);
     if (typeIndex !== -1) {
       setAgencyTypeValue(agencyType[typeIndex].agency_type_id);
@@ -225,7 +223,7 @@ export function AgencyEditForm({
       setAgencyTypeValue('');
     }
   }, [agency]);
-
+  
   useEffect(() => {
     // setImages([]);
     console.log('run effect');
@@ -238,7 +236,7 @@ export function AgencyEditForm({
       console.log('runnnnnnnnnnnnn');
       const initImage: any[] = [];
       agency.agency_images.forEach((image: { image_base: any }) => {
-        const dataURL = { data_url: image.image_base, file: null };
+        const dataURL = {data_url: image.image_base, file: null};
         console.log(dataURL);
         const index = images.findIndex((el: { data_url: any }) => el.data_url === dataURL.data_url);
         // if (index === -1) {
@@ -251,24 +249,24 @@ export function AgencyEditForm({
     }
     // return () => setImages([]);
   }, [agency]);
-
+  
   const handleChange = (e: { target: { name: any; files: any[] }; preventDefault: () => void }) => {
     const fname = e.target.name;
     const fvalue = e.target.files;
     e.preventDefault();
-
+    
     setAgencyImage(e.target.files[0]);
   };
-
+  
   console.log(images);
-
+  
   const openModal = (field: string) => {
     setShow({
       ...show,
       [field]: true,
     });
   };
-
+  
   const hideModal = () => {
     setShow({
       showEdit: false,
@@ -276,7 +274,7 @@ export function AgencyEditForm({
       showView: false,
     });
   };
-
+  
   const getDataFromRow = (
     data: { state: any; city: any; district: any; address: any; id: any },
     rowIndex: any,
@@ -291,7 +289,7 @@ export function AgencyEditForm({
       rowIndex: rowIndex,
     });
   };
-
+  
   const addNewShipping = () => {
     setRowShippingData({
       state: '',
@@ -303,10 +301,10 @@ export function AgencyEditForm({
     });
     openModal('showEdit');
   };
-
+  
   const saveNewData = (data: any, rowIndex: number, action: string) => {
     let currentData = [...shippingArr];
-
+    
     if (rowIndex === -1) {
       console.log('run push');
       currentData.push(data);
@@ -323,7 +321,7 @@ export function AgencyEditForm({
     console.log(currentData);
     setShippingArr(currentData);
   };
-
+  
   const switchAddress = (rowIndex: number) => {
     const index = shippingArr.findIndex((el: { id: string }) => el.id === '0');
     const updateShippingArr = [...shippingArr];
@@ -332,9 +330,10 @@ export function AgencyEditForm({
     updateShippingArr[rowIndex].id = temp_id;
     setShippingArr(updateShippingArr);
   };
-
-  const handleDeleteAddress = (rowIndex: number) => {};
-
+  
+  const handleDeleteAddress = (rowIndex: number) => {
+  };
+  
   return (
     <>
       <Formik
@@ -344,7 +343,7 @@ export function AgencyEditForm({
         // setFieldValue={true}
         onSubmit={values => {
           console.log(agencyImage);
-
+          
           const newValues = {
             ...values,
             agency_type_id: agencyTypeValue,
@@ -369,12 +368,12 @@ export function AgencyEditForm({
             history.push('/agency/agency-management/');
           }
         }}>
-        {({ handleSubmit, touched, errors }) => (
+        {({handleSubmit, touched, errors}) => (
           <>
             <Form className="form">
               <h3 className="text-danger mb-10">
                 <Link to="/agency/agency-management/">
-                  <ArrowBackIosIcon />
+                  <ArrowBackIosIcon/>
                 </Link>
                 THÔNG TIN CHI TIẾT
               </h3>
@@ -392,7 +391,7 @@ export function AgencyEditForm({
                       isHorizontal={true}
                     />
                   </div>
-
+                  
                   <div className="mt-5">
                     <Field
                       name="agency_id"
@@ -404,7 +403,7 @@ export function AgencyEditForm({
                       disabled={agency.agency_id !== ''}
                     />
                   </div>
-
+                  
                   <div className="mt-5">
                     <CustomSelect
                       type="text"
@@ -426,7 +425,7 @@ export function AgencyEditForm({
                       ))}
                     </CustomSelect>
                   </div>
-
+                  
                   <div className="mt-5">
                     <CustomSelect
                       type="text"
@@ -554,7 +553,7 @@ export function AgencyEditForm({
                           }
                           color="primary"
                           name="type_status"
-                          inputProps={{ 'aria-label': 'primary checkbox' }}
+                          inputProps={{'aria-label': 'primary checkbox'}}
                         />
                       </div>
                     </div>
@@ -641,19 +640,19 @@ export function AgencyEditForm({
                           maxNumber={69}
                           dataURLKey="data_url">
                           {({
-                            imageList,
-                            onImageUpload,
-                            onImageRemoveAll,
-                            onImageUpdate,
-                            onImageRemove,
-                            isDragging,
-                            dragProps,
-                          }) => (
+                              imageList,
+                              onImageUpload,
+                              onImageRemoveAll,
+                              onImageUpdate,
+                              onImageRemove,
+                              isDragging,
+                              dragProps,
+                            }) => (
                             // write your building UI
                             <div className="d-flex flex-wrap upload__image-wrapper">
                               {imageList.map((image, index) => (
                                 <div key={index} className="image-item imagePreview">
-                                  <img src={image['data_url']} alt="" width="100" height="100" />
+                                  <img src={image['data_url']} alt="" width="100" height="100"/>
                                   {/* <div className="image-item__btn-wrapper"> */}
                                   <button
                                     type="button"
@@ -670,7 +669,7 @@ export function AgencyEditForm({
                               ))}
                               <button
                                 type="button"
-                                style={isDragging ? { color: 'red' } : undefined}
+                                style={isDragging ? {color: 'red'} : undefined}
                                 onClick={onImageUpload}
                                 className="button-add-image"
                                 {...dragProps}>
@@ -711,7 +710,7 @@ export function AgencyEditForm({
                       label="Tên chủ đại lý"
                       withFeedbackLabel
                       isHorizontal={true}
-                      style={{ marginRight: '7%' }}
+                      style={{marginRight: '7%'}}
                     />
                   </div>
                   <div className="mt-5">
@@ -723,7 +722,7 @@ export function AgencyEditForm({
                       label="Email"
                       withFeedbackLabel
                       isHorizontal={true}
-                      style={{ marginRight: '7%' }}
+                      style={{marginRight: '7%'}}
                     />
                   </div>
                   <div className="mt-5">
@@ -734,10 +733,10 @@ export function AgencyEditForm({
                       label="Điện thoại liên hệ"
                       isHorizontal={true}
                       withFeedbackLabel
-                      style={{ marginRight: '7%' }}
+                      style={{marginRight: '7%'}}
                     />
                   </div>
-
+                  
                   <div className="mt-10">
                     <h5 className="mt-5 text-danger">ĐỊA CHỈ GIAO HÀNG</h5>
                     <AgencyShippingAddressTable
@@ -776,7 +775,7 @@ export function AgencyEditForm({
                   </div>
                 </div>
               </div>
-
+              
               <div className="text-right">
                 <button
                   type="submit"

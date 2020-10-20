@@ -1,8 +1,8 @@
-import { Action } from 'redux';
-import { persistReducer } from 'redux-persist';
+import {Action} from 'redux';
+import {persistReducer} from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-import { put, takeLatest } from 'redux-saga/effects';
-import { PROJECT_NAME } from '../../../const';
+import {put, takeLatest} from 'redux-saga/effects';
+import {PROJECT_NAME} from '../../../const';
 
 export class AuthAction implements Action {
   type: any;
@@ -24,7 +24,7 @@ export const actionTypes = {
 const initialAuthState = {};
 
 export const reducer = persistReducer(
-  { storage, key: PROJECT_NAME },
+  {storage, key: PROJECT_NAME},
   (state = initialAuthState, action: AuthAction) => {
     switch (action.type) {
       // case actionTypes.Login: {
@@ -33,15 +33,15 @@ export const reducer = persistReducer(
       // }
       case actionTypes.SaveUserInfo: {
         const payload = action.payload;
-        return { ...(state as {}), ...payload, _error: null };
+        return {...(state as {}), ...payload, _error: null};
       }
       case actionTypes.SavePingErrorData: {
         const payload = action.payload;
-        return { ...(state as {}), _error: payload };
+        return {...(state as {}), _error: payload};
       }
       case actionTypes.SaveNewPassword: {
         const payload = action.payload;
-        return { ...(state as {}), ...payload };
+        return {...(state as {}), ...payload};
       }
       case actionTypes.SaveCertificate: {
         const payload = action.payload;
@@ -51,17 +51,18 @@ export const reducer = persistReducer(
       //     const {authToken, privateKey, publicKey} = action.payload;
       //     return {authToken, user: undefined, privateKey, publicKey};
       // }
-
+      
       case actionTypes.Logout: {
-        // TODO: Change this code. Actions in reducer aren't allowed.
-        return initialAuthState;
+        console.log(action);
+        const payload = action.payload;
+        return {...initialAuthState, _error: payload};
       }
-
+      
       case actionTypes.UserLoaded: {
-        const { user } = action.payload;
-        return { ...(state as {}), user };
+        const {user} = action.payload;
+        return {...(state as {}), user};
       }
-
+      
       default:
         return state;
     }
@@ -101,18 +102,18 @@ export const actions = {
   },
   register: (authToken: any, privateKey: any, publicKey: any) => ({
     type: actionTypes.Register,
-    payload: { authToken, privateKey, publicKey },
+    payload: {authToken, privateKey, publicKey},
   }),
-  logout: () => ({ type: actionTypes.Logout }),
-  requestUser: (user: any | null) => ({ type: actionTypes.UserRequested, payload: { user } }),
-  fulfillUser: (user: any) => ({ type: actionTypes.UserLoaded, payload: { user } }),
+  logout: () => ({type: actionTypes.Logout}),
+  requestUser: (user: any | null) => ({type: actionTypes.UserRequested, payload: {user}}),
+  fulfillUser: (user: any) => ({type: actionTypes.UserLoaded, payload: {user}}),
 };
 
 export function* saga() {
   yield takeLatest(actionTypes.Login, function* loginSaga() {
     yield put(actions.requestUser(null));
   });
-
+  
   yield takeLatest(actionTypes.Register, function* registerSaga() {
     yield put(actions.requestUser(null));
   });

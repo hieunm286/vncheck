@@ -9,7 +9,7 @@ import { AgencyUIProvider } from './agency-ui-context';
 import { AgencyDeleteDialog } from './agency-delete-dialog/agency-delete-dialog';
 import { AgencyCard } from './agency-card';
 
-function AgencyType({ history }: { history: any }) {
+function AgencyType({history}: { history: any }) {
   const agencyTypeUIEvents = {
     newAgencyTypeButtonClick: () => {
       history.push('/agency-type/new');
@@ -94,7 +94,7 @@ function AgencyType({ history }: { history: any }) {
             )}
           </Route>
           {/* <AgencyCardHeader /> */}
-          <AgencyTypeCard />
+          <AgencyTypeCard/>
         </AgencyTypeUIProvider>
       </div>
       <div className="col-lg-6">
@@ -110,9 +110,9 @@ function AgencyType({ history }: { history: any }) {
               />
             )}
           </Route>
-
+          
           {/* <AgencyCardHeader /> */}
-          <AgencyCard />
+          <AgencyCard/>
         </AgencyUIProvider>
       </div>
     </div>

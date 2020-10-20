@@ -11,9 +11,9 @@ import SearchIcon from '@material-ui/icons/Search';
 import './agency-filter.scss';
 
 const prepareFilter = (queryParams: any, values: any) => {
-  const { agencyId, agencyName, state, city, district, address, status } = values;
-  const newQueryParams = { ...queryParams };
-  const filter = { ...values };
+  const {agencyId, agencyName, state, city, district, address, status} = values;
+  const newQueryParams = {...queryParams};
+  const filter = {...values};
   // Filter by selected field
   // Filter by all fields
   // if (searchText) {
@@ -40,14 +40,14 @@ export function AgencyFilter() {
       setQueryParams: agencyUIContext.setQueryParams,
     };
   }, [agencyUIContext]);
-
+  
   const [administrativeDivision, setAdministrativeDivision] = useState({
     state: '',
     city: '',
     district: '',
     status: '',
   });
-
+  
   // queryParams, setQueryParams,
   const applyFilter = (values: any) => {
     console.log(values);
@@ -58,7 +58,7 @@ export function AgencyFilter() {
       agencyUIProps.setQueryParams(newQueryParams);
     }
   };
-
+  
   const handleResetForm = (resetForm: any) => {
     setAdministrativeDivision({
       state: '',
@@ -68,7 +68,7 @@ export function AgencyFilter() {
     });
     resetForm();
   };
-
+  
   return (
     <>
       <Formik
@@ -89,10 +89,10 @@ export function AgencyFilter() {
             administrativeDivision.district,
           );
           values.status = administrativeDivision.status;
-
+          
           applyFilter(values);
         }}>
-        {({ values, handleSubmit, handleBlur, handleChange, setFieldValue, resetForm }) => (
+        {({values, handleSubmit, handleBlur, handleChange, setFieldValue, resetForm}) => (
           <form onSubmit={handleSubmit} className="form form-label-right">
             <div className="form-group row">
               <div className="col-xxl-3 col-md-3 mt-xxl-5 mt-xl-15 mt-lg-10 mt-md-10 mt-5">
@@ -206,7 +206,7 @@ export function AgencyFilter() {
             <div className="form-group row"></div>
             <div>
               <button className="btn btn-danger" type="submit">
-                <SearchIcon />
+                <SearchIcon/>
                 Tìm kiếm
               </button>
               <button

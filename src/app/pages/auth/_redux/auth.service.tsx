@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { API_BASE_URL } from '../../../const';
+import {API_BASE_URL} from '../../../const';
+
 const BASE_URL = API_BASE_URL + '/auth';
 export const CREDENTIAL_URL = BASE_URL + '/credential';
 export const PING_URL = BASE_URL + '/ping';
@@ -9,24 +10,25 @@ export const REQUEST_PASSWORD_URL = BASE_URL + '/verify';
 // export const SEND_PASSWORD_URL = BASE_URL + '/admin/sendEmail';
 export const CHANGE_PASSWORD_URL = BASE_URL + '/password';
 export const SET_TEMP_PASSWORD_URL = BASE_URL + '/temp-password';
+
 // export const POST_IDENTITY_URL = BASE_URL + '/saveIdentity';
 export function GetCredential(username: string) {
-  return axios.post(CREDENTIAL_URL, { username });
+  return axios.post(CREDENTIAL_URL, {username});
 }
 
 export const Ping = (certificate: {
   signature: string;
   certificateInfo:
-    | { username: string; timestamp: Date; exp: number }
-    | { username: string; timestamp: Date; exp: number };
+    { username: string; timestamp: Date; exp: number };
   publicKey: string;
 }) => {
   return axios.post(PING_URL, certificate);
 };
 
 export function requestPassword(email: string) {
-  return axios.post(REQUEST_PASSWORD_URL, { email });
+  return axios.post(REQUEST_PASSWORD_URL, {email});
 }
+
 //
 // export function sendEmail(email, username, password) {
 //     return axios.post(SEND_PASSWORD_URL, {email, username, password});
@@ -45,6 +47,7 @@ export const SetPassword = (data: { publicKey: string; encryptedPrivateKey: stri
 export function getUserFromIdentity(username: string) {
   return axios.get(IDENTITY_URL + username);
 }
+
 //
 // export function getUserFromIdentity(username) {
 //     return axios.get(IDENTITY_URL + username);
@@ -57,5 +60,5 @@ export function saveIdentity(
   en_private_key: any,
   public_key: any,
 ) {
-  return axios.post(IDENTITY_URL, { username, rs_password, signature, en_private_key, public_key });
+  return axios.post(IDENTITY_URL, {username, rs_password, signature, en_private_key, public_key});
 }

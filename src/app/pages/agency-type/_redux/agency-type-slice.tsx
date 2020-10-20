@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import {createSlice} from '@reduxjs/toolkit';
 
 export interface AgencyTypeState {
   listLoading: boolean;
@@ -54,7 +54,7 @@ export const agencyTypeSlice = createSlice({
       state.error = null;
     },
     agencyTypesFetched: (state, action) => {
-      const { total, data } = action.payload;
+      const {total, data} = action.payload;
       state.listLoading = false;
       state.error = null;
       state.entities = data;

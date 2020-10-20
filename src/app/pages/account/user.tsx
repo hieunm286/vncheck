@@ -1,4 +1,4 @@
-import { SignalCellularNull } from '@material-ui/icons';
+import {SignalCellularNull} from '@material-ui/icons';
 import React from 'react';
 import { Route } from 'react-router-dom';
 import { UserDeleteDialog } from './users-delete-dialog/user-delete-dialog';
@@ -6,7 +6,7 @@ import { UserEditDialog } from './users-edit-dialog/user-edit-dialog';
 import { UsersCard } from './users-card';
 import { UsersUIProvider } from './users-ui-context';
 
-function User({ history }: { history: any }) {
+function User({history}: { history: any }) {
   const usersUIEvents = {
     newUserButtonClick: () => {
       history.push('/account/user/new');
@@ -27,11 +27,11 @@ function User({ history }: { history: any }) {
     //   history.push("/e-commerce/customers/updateStatus");
     // }
   };
-
+  
   return (
     <UsersUIProvider usersUIEvents={usersUIEvents}>
       <Route path="/account/user/new">
-        {({ history, match }) => (
+        {({history, match}) => (
           <UserEditDialog
             id={null}
             show={match != null}
@@ -42,7 +42,7 @@ function User({ history }: { history: any }) {
         )}
       </Route>
       <Route path="/account/user/:id/edit">
-        {({ history, match }) => (
+        {({history, match}) => (
           <UserEditDialog
             show={match != null}
             id={match && match.params.id}
@@ -53,7 +53,7 @@ function User({ history }: { history: any }) {
         )}
       </Route>
       <Route path="/account/user/:id/delete">
-        {({ history, match }) => (
+        {({history, match}) => (
           <UserDeleteDialog
             show={match != null}
             id={match && match.params.id}
@@ -63,7 +63,7 @@ function User({ history }: { history: any }) {
           />
         )}
       </Route>
-      <UsersCard />
+      <UsersCard/>
     </UsersUIProvider>
   );
 }

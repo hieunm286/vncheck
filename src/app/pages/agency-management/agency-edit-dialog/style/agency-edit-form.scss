@@ -1,39 +1,39 @@
 .imagePreview {
-    position: relative;
+  position: relative;
 
 }
 
 .imagePreview:hover {
-    .close {
-        visibility: visible;
-    }
+  .close {
+    visibility: visible;
+  }
 }
 
 .close {
-    visibility: hidden;
+  visibility: hidden;
 
-    position: absolute;
+  position: absolute;
 
-    width: 22px;
-    height: 22px;
+  width: 22px;
+  height: 22px;
 
-    border: 1px solid black;
-    border-radius: 11px;
-    background: black !important;
-    font-size: 20px;
-    color: white;
-    text-align: center;
+  border: 1px solid black;
+  border-radius: 11px;
+  background: black !important;
+  font-size: 20px;
+  color: white;
+  text-align: center;
 
 
-    cursor: pointer;
+  cursor: pointer;
 
-    top: 5px;
-    right: 3px;
-    z-index: 1000;
+  top: 5px;
+  right: 3px;
+  z-index: 1000;
 }
 
 .button-add-image {
-    border: none;
-    background: none;
+  border: none;
+  background: none;
 }
 

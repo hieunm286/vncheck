@@ -1,7 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import axios from 'axios';
-import { Button, Form, FormControl, Spinner } from 'react-bootstrap';
+import {Button, Form, FormControl, Spinner} from 'react-bootstrap';
 import SearchIcon from '@material-ui/icons/Search';
 import './infinite-list.scss';
 import { API_BASE_URL } from '../../../const';
@@ -22,11 +22,11 @@ function InfiniteLists() {
     page: 1,
     total: 1,
   });
-
+  
   const [searchTerm, setSearhTerm] = useState('');
   const typingTimeoutRef = useRef<any>(null);
   const [loading, isLoading] = useState(false);
-
+  
   useEffect(() => {
     isLoading(true);
     const fetchData = async () => {
@@ -48,17 +48,17 @@ function InfiniteLists() {
     if (typingTimeoutRef.current) {
       clearTimeout(typingTimeoutRef.current);
     }
-
+    
     typingTimeoutRef.current = setTimeout(() => {
       console.log('call api for: ' + searchTerm);
       fetchData();
       isLoading(false);
     }, 500);
   }, [searchTerm]);
-
+  
   const fetchMoreData = () => {
     if (state.items.length >= state.total) {
-      setState({ ...state, hasMore: false });
+      setState({...state, hasMore: false});
       return;
     }
     // a fake async api call like which sends
@@ -87,13 +87,13 @@ function InfiniteLists() {
         });
     }, 2200);
   };
-
+  
   const handleChange = (e: { target: { value: any } }) => {
     const value = e.target.value;
     console.log(value);
     setSearhTerm(value);
   };
-
+  
   return (
     <div className="infinite-scroll">
       {/* <h1>demo: react-infinite-scroll-components</h1>
@@ -107,7 +107,7 @@ function InfiniteLists() {
           onChange={handleChange}
         />
         <Button variant="outline-success" className="search-button">
-          {loading ? <Spinner animation="border" variant="primary" size="sm" /> : <SearchIcon />}
+          {loading ? <Spinner animation="border" variant="primary" size="sm"/> : <SearchIcon/>}
         </Button>
       </Form>
       <InfiniteScroll
@@ -119,20 +119,20 @@ function InfiniteLists() {
           <h4>
             {state.items.length > 0
               ? `Loading ${
-                  state.total - state.items.length < 5 ? state.total - state.items.length : 5
-                } of ${state.total - state.items.length} left...`
+                state.total - state.items.length < 5 ? state.total - state.items.length : 5
+              } of ${state.total - state.items.length} left...`
               : `Loading data...`}
           </h4>
         }
         height={350}
         // initialScrollY={5}
         endMessage={
-          <p style={{ textAlign: 'center' }}>
+          <p style={{textAlign: 'center'}}>
             <b>Yay! You have seen it all</b>
           </p>
         }>
         {state.items.map((item: any, index) => (
-          <InfiniteItem key={index} item={item} />
+          <InfiniteItem key={index} item={item}/>
         ))}
       </InfiniteScroll>
     </div>

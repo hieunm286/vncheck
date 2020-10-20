@@ -1,46 +1,46 @@
 .infinite-scroll {
-    width: 30%;
-    overflow: hidden;
+  width: 30%;
+  overflow: hidden;
 }
 
 .form-search {
-    width: 100% !important;
+  width: 100% !important;
 }
 
 /* Hide scrollbar for Chrome, Safari and Opera */
 .infinite::-webkit-scrollbar {
-    display: none;
+  display: none;
 }
-  
+
 /* Hide scrollbar for IE and Edge */
 .infinite {
--ms-overflow-style: none;
+  -ms-overflow-style: none;
 }
 
 .search-bar {
-    width: 100% !important;
+  width: 100% !important;
 }
 
 .search-button {
-    display: none;
+  display: none;
 }
 
 .infinite {
-    background-color: white;
+  background-color: white;
 }
 
 .infinite-item {
-    
-    .item {
-        cursor: pointer;
-        background-color: white;
-        padding: 5px;
-    }
-    
-    .item:hover {
-        background-color: wheat;
 
-    }
+  .item {
+    cursor: pointer;
+    background-color: white;
+    padding: 5px;
+  }
+
+  .item:hover {
+    background-color: wheat;
+
+  }
 
 
 }
@@ -49,16 +49,16 @@
 }
 
 @media all and (min-width: 1200px) {
-    .search-bar {
-        width: 85% !important;
-        border-top-right-radius: 0;
-        border-bottom-right-radius: 0;
-    }
-    
-    .search-button {
-        width: 15% !important;
-        border-top-left-radius: 0;
-        border-bottom-left-radius: 0;
-        display: inline-block;
-    }
+  .search-bar {
+    width: 85% !important;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  .search-button {
+    width: 15% !important;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    display: inline-block;
+  }
 }
