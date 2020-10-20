@@ -42,10 +42,11 @@ export function AsideMenuList({layoutProps}: any) {
       return (<li className={`menu-item menu-item-submenu ${getMenuItemActive(url, hasSubmenu)}`}
                   aria-haspopup="true" data-menu-toggle="hover">
         <NavLink className="menu-link menu-toggle" to={url}>
-            <span className="svg-icon menu-icon">
-              {typeof item.icon == 'string' ?
-                (<SVG style={{width:'17px'}} src={ToAbsoluteUrl('/media/svg/vncheck/' + item.icon)}/>) : item.icon}
-            </span>
+          {item.icon ? (<span className="svg-icon menu-icon">
+           {typeof item.icon == 'string' ?
+             (<SVG style={{width: '17px'}}
+                   src={ToAbsoluteUrl('/media/svg/vncheck/' + item.icon)}/>) : item.icon}
+            </span>) : <></>}
           <span className="menu-text">
               {intl.formatMessage({id: item.title})}
             </span>
@@ -61,10 +62,11 @@ export function AsideMenuList({layoutProps}: any) {
     } else return (
       <li key={'menuitem_' + index} className={`menu-item ${getMenuItemActive(url, hasSubmenu)}`} aria-haspopup="true">
         <NavLink className="menu-link" to={url}>
-            <span className="svg-icon menu-icon">
+          {item.icon ? (<span className="svg-icon menu-icon">
            {typeof item.icon == 'string' ?
-             (<SVG style={{width:'17px'}}  src={ToAbsoluteUrl('/media/svg/vncheck/' + item.icon)}/>) : item.icon}
-            </span>
+             (<SVG style={{width: '17px'}}
+                   src={ToAbsoluteUrl('/media/svg/vncheck/' + item.icon)}/>) : item.icon}
+            </span>) : <></>}
           <span className="menu-text">{intl.formatMessage({id: item.title})}</span>
         </NavLink>
       </li>)

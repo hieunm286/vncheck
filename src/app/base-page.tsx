@@ -9,12 +9,15 @@ const AccountPage = lazy(() => import('./pages/account'));
 const ProductPage = lazy(() => import('./pages/product'));
 
 const AgencyPage = lazy(() => import('./pages/agency-management'));
+
 const CategoryPage = lazy(() => import('./pages/category/category-page'));
+
+const PurchaseOrderPage = lazy(() => import('./pages/purchase-order/purchase-order'));
 
 export default function BasePage() {
   // useEffect(() => {
   //   console.log('Base page');
-  // }, []) // [] - is required if you need only one call
+  // }, []) // [] - is required if you need only one calls
   // https://reactjs.org/docs/hooks-reference.html#useeffect
   
   return (
@@ -26,6 +29,7 @@ export default function BasePage() {
         <Route path="/product-category" component={ProductPage}/>
         <Route path="/agency" component={AgencyPage}/>
         <Route path="/category" component={CategoryPage}/>
+        <Route path="/purchase-order" component={PurchaseOrderPage}/>
         <Redirect to="/error/error-v1"/>
       </Switch>
     </Suspense>

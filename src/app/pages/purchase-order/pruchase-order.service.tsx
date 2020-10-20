@@ -1,0 +1,40 @@
+import axios from 'axios';
+import {API_BASE_URL} from '../../const';
+import {QueryParamsProps} from "../../common-type";
+import {AddSearchQuery} from "../../common-function";
+
+export const API_URL = API_BASE_URL + '/purchase-order';
+export const BASIC_UNIT_SEARCH = API_BASE_URL + '/basic-unit/search/all';
+
+export const Create = (data: any) => {
+  return axios.post(API_URL, data);
+};
+
+export const GetAll = (queryParams: QueryParamsProps) => {
+  return axios.get(`${API_URL}?${AddSearchQuery(queryParams)}`);
+};
+
+export const Get = (code: string) => {
+  return axios.get(`${API_URL}/${code}`);
+};
+
+export const Update = (data: any) => {
+  const {name, status, quantity} = data;
+  return axios.put(`${API_URL}/${data.code}`, {name, status, quantity});
+};
+
+export const Delete = (code: string) => {
+  return axios.delete(`${API_URL}/${code}`);
+};
+
+export const DeleteMany = (arrayCode: string[]) => {
+  return axios.delete(API_URL, {
+    data: {
+      arrayCode: arrayCode,
+    },
+  });
+};
+
+// export const searchBasicUnit = (data: any) => {
+//   return axios.get(`${BASIC_UNIT_SEARCH}?code=${data.code}&name=${data.name}`);
+// };

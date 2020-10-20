@@ -15,7 +15,7 @@ export const MenuItems: MenuItemModel[] = [
       {
         title: 'MENU.USER.ACCOUNT',
         url: '/account/user',
-        icon: <SVG src={ToAbsoluteUrl('/media/svg/vncheck/account.svg')} style={{width:'17px'}}/>,
+        icon: <SVG src={ToAbsoluteUrl('/media/svg/vncheck/account.svg')} style={{width: '17px'}}/>,
       },
       {title: 'MENU.USER.ROLE', url: '/account/role', icon: 'role.svg',}
     ]
@@ -29,13 +29,21 @@ export const MenuItems: MenuItemModel[] = [
         url: '/category',
         icon: 'product.svg',
         children: [
-          {title: 'MENU.DATA.CATEGORY.BATCH', url: '/category/BATCH', icon: (<ImageOutlinedIcon style={{width:'17px'}} htmlColor='#888C9F'/>)},
-          {title: 'MENU.DATA.CATEGORY.PRODUCT', url: '/category/PRODUCT', icon: (<FormatListBulletedIcon style={{width:'17px'}} htmlColor='#888C9F'/>)},
+          {
+            title: 'MENU.DATA.CATEGORY.BATCH',
+            url: '/category/BATCH',
+            icon: (<ImageOutlinedIcon style={{width: '17px'}} htmlColor='#888C9F'/>)
+          },
+          {
+            title: 'MENU.DATA.CATEGORY.PRODUCT',
+            url: '/category/PRODUCT',
+            icon: (<FormatListBulletedIcon style={{width: '17px'}} htmlColor='#888C9F'/>)
+          },
           {title: 'MENU.DATA.CATEGORY.CATEGORY', url: '/category/CATEGORY', icon: 'category.svg'},
           {title: 'MENU.DATA.CATEGORY.BASE_UNIT', url: '/category/basic-unit', icon: 'base-unit.svg'},
           {
             title: 'MENU.DATA.CATEGORY.CONVERT_UNIT',
-            url: '/CONVERT_UNIT',
+            url: '/category/CONVERT_UNIT',
             icon: (<SyncOutlinedIcon htmlColor='#888C9F'/>)
           },
         ]
@@ -56,7 +64,7 @@ export const MenuItems: MenuItemModel[] = [
     ]
   },
   {section: true, title: 'MENU.QRCODE',},
-  {section: true, title: 'MENU.PURCHASE_ORDER',},
+  {url: '/purchase-order', title: 'MENU.PURCHASE_ORDER.PURCHASE_ORDER', icon: 'distributor-type.svg'},
   {section: true, title: 'MENU.REPORT',},
   {section: true, title: 'MENU.PRODUCT_MANAGEMENT',},
   {section: true, title: 'MENU.INVENTORY',},
