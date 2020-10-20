@@ -1,8 +1,8 @@
 import React, {useEffect, useMemo} from 'react';
 import {Modal} from 'react-bootstrap';
 import {shallowEqual, useSelector} from 'react-redux';
-import {useAgencyUIContext} from "../../agency-ui-context";
-import {AgencyStatusCssClasses} from "../../agency-ui-helpers";
+import {useAgencyUIContext} from "../agency-ui-context";
+import {AgencyStatusCssClasses} from "../agency-ui-helpers";
 
 const selectedCustomers = (entities: any, ids: any) => {
     const _agency: any[] = [];

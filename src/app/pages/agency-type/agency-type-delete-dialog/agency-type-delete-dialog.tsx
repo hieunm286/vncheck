@@ -1,9 +1,9 @@
 import React, {useEffect, useMemo, useState} from 'react';
 import {Modal} from 'react-bootstrap';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
-import * as actions from '../../_redux/agency-type-action';
+import * as actions from '../_redux/agency-type-action';
 import {useAgencyTypeUIContext} from '../agency-type-ui-context';
-import {ModalProgressBar} from "../../../../components/modal-progress-bar";
+import {ModalProgressBar} from "../../../components/modal-progress-bar";
 
 export function AgencyTypeDeleteDialog({id, show, onHide}: any) {
     // agency-type UI Context

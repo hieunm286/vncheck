@@ -3,10 +3,10 @@ import {isEqual} from 'lodash';
 import {useAgencyTypeUIContext} from '../agency-type-ui-context';
 import {Formik, Form, Field} from 'formik';
 import * as Yup from 'yup';
-import {Input, Select} from '../../../../../_metronic/_partials/controls/index';
-import STATE_LIST from '../../../../../_metronic/AdministrativeDivision/state.json';
-import CITY_LIST from '../../../../../_metronic/AdministrativeDivision/city.json';
-import DISTRICT_LIST from '../../../../../_metronic/AdministrativeDivision/district.json';
+import {Input, Select} from '../../../../_metronic/_partials/controls/index';
+import STATE_LIST from '../../../../_metronic/AdministrativeDivision/state.json';
+import CITY_LIST from '../../../../_metronic/AdministrativeDivision/city.json';
+import DISTRICT_LIST from '../../../../_metronic/AdministrativeDivision/district.json';
 import SearchIcon from '@material-ui/icons/Search';
 import './agency-type-filter.scss';
 

@@ -12,7 +12,7 @@ const ProductPage = lazy(() => import('./pages/product/pages/product-page'));
 
 const  AgencyManagement = lazy(() => import('./pages/agency-management/agency-management'));
 
-const  AgencyType = lazy(() => import('./pages/agency-type/agency-type'));
+const  AgencyType = lazy(() => import('./pages/agency-type'));
 
 export default function BasePage() {
     // useEffect(() => {

@@ -1,7 +1,7 @@
 import React, {useMemo} from 'react';
 import {AgencyTypeTable} from './agency-type-table/agency-type-table';
 import {useAgencyTypeUIContext} from './agency-type-ui-context';
-import {Card, CardBody, CardHeader} from "../../../components/card";
+import {Card, CardBody, CardHeader} from "../../components/card";
 import {AgencyTypeGrouping} from "./agency-type-group/agency-type-grouping";
 
 export function AgencyTypeCard() {

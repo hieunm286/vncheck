@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {shallowEqual, useSelector} from 'react-redux';
 import {Modal} from 'react-bootstrap';
-import {ModalProgressBar} from "../../../../components/modal-progress-bar";
+import {ModalProgressBar} from "../../../components/modal-progress-bar";
 
 export function AgencyTypeEditDialogHeader({id}: any) {
     // Customers Redux state
