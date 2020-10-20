@@ -29,10 +29,10 @@ export const MenuItems: MenuItemModel[] = [
         url: '/category',
         icon: 'product.svg',
         children: [
-          {title: 'MENU.DATA.CATEGORY.BATCH', url: '/BATCH', icon: (<ImageOutlinedIcon style={{width:'17px'}} htmlColor='#888C9F'/>)},
-          {title: 'MENU.DATA.CATEGORY.PRODUCT', url: '/PRODUCT', icon: (<FormatListBulletedIcon style={{width:'17px'}} htmlColor='#888C9F'/>)},
-          {title: 'MENU.DATA.CATEGORY.CATEGORY', url: '/CATEGORY', icon: 'category.svg'},
-          {title: 'MENU.DATA.CATEGORY.BASE_UNIT', url: '/BASE_UNIT', icon: 'base-unit.svg'},
+          {title: 'MENU.DATA.CATEGORY.BATCH', url: '/category/BATCH', icon: (<ImageOutlinedIcon style={{width:'17px'}} htmlColor='#888C9F'/>)},
+          {title: 'MENU.DATA.CATEGORY.PRODUCT', url: '/category/PRODUCT', icon: (<FormatListBulletedIcon style={{width:'17px'}} htmlColor='#888C9F'/>)},
+          {title: 'MENU.DATA.CATEGORY.CATEGORY', url: '/category/CATEGORY', icon: 'category.svg'},
+          {title: 'MENU.DATA.CATEGORY.BASE_UNIT', url: '/category/basic-unit', icon: 'base-unit.svg'},
           {
             title: 'MENU.DATA.CATEGORY.CONVERT_UNIT',
             url: '/CONVERT_UNIT',

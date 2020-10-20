@@ -1,15 +1,13 @@
 import React from 'react';
-import { Card, CardBody, CardHeader } from '../../../components/card';
-import { useIntl } from 'react-intl';
-import BasicUnitFilter from './basic-unit-filter/basic-unit-filter';
-import { Formik, Field } from 'formik';
+import {Card, CardBody, CardHeader} from '../../../components/card';
+import {useIntl} from 'react-intl';
+import {Field, Formik} from 'formik';
 import SearchIcon from '@material-ui/icons/Search';
-import { Select } from '../../../components/forms/select';
-import { Input } from '../../../components/forms/input';
+import {Input} from '../../../components/forms/input';
 
-function BasicUnitCardHeader({ basicUnitSearch }: any) {
+function BasicUnitCardHeader({basicUnitSearch}: any) {
   const intl = useIntl();
-
+  
   const handleResetForm = (resetForm: any) => {
     resetForm();
     const initValue = {
@@ -18,10 +16,10 @@ function BasicUnitCardHeader({ basicUnitSearch }: any) {
     };
     basicUnitSearch(initValue);
   };
-
+  
   return (
     <Card>
-      <CardHeader title={intl.formatMessage({ id: 'BASIC_UNIT.CARD_HEADER.TITLE' })} />
+      <CardHeader title={intl.formatMessage({id: 'BASIC_UNIT.CARD_HEADER.TITLE'})}/>
       <CardBody>
         <Formik
           initialValues={{
@@ -31,33 +29,33 @@ function BasicUnitCardHeader({ basicUnitSearch }: any) {
           onSubmit={values => {
             basicUnitSearch(values);
           }}>
-          {({ values, handleSubmit, handleBlur, handleChange, setFieldValue, resetForm }) => (
+          {({values, handleSubmit, handleBlur, handleChange, setFieldValue, resetForm}) => (
             <form onSubmit={handleSubmit} className="form form-label-right">
               <div className="form-group row">
                 <div className="col-xxl-3 col-md-3 mt-md-0 mt-5">
                   <Field
                     name="code"
                     component={Input}
-                    placeholder={intl.formatMessage({ id: 'BASIC_UNIT.CARD_HEADER.CODE_INPUT' })}
-                    label={intl.formatMessage({ id: 'BASIC_UNIT.CARD_HEADER.CODE' })}
+                    placeholder={intl.formatMessage({id: 'BASIC_UNIT.CARD_HEADER.CODE_INPUT'})}
+                    label={intl.formatMessage({id: 'BASIC_UNIT.CARD_HEADER.CODE'})}
                     withFeedbackLabel={true}
                   />
                 </div>
-
+                
                 <div className="col-xxl-3 col-md-3 mt-md-0 mt-5">
                   <Field
                     name="name"
                     component={Input}
-                    placeholder={intl.formatMessage({ id: 'BASIC_UNIT.CARD_HEADER.NAME_INPUT' })}
-                    label={intl.formatMessage({ id: 'BASIC_UNIT.CARD_HEADER.NAME' })}
+                    placeholder={intl.formatMessage({id: 'BASIC_UNIT.CARD_HEADER.NAME_INPUT'})}
+                    label={intl.formatMessage({id: 'BASIC_UNIT.CARD_HEADER.NAME'})}
                     withFeedbackLabel={true}
                   />
                 </div>
               </div>
               <div>
                 <button className="btn btn-danger" type="submit">
-                  <SearchIcon />
-                  {intl.formatMessage({ id: 'BASIC_UNIT.CARD_HEADER.BUTTON.SEARCH' })}
+                  <SearchIcon/>
+                  {intl.formatMessage({id: 'BASIC_UNIT.CARD_HEADER.BUTTON.SEARCH'})}
                 </button>
                 <button
                   className="btn btn-outline-danger ml-5"
@@ -79,7 +77,7 @@ function BasicUnitCardHeader({ basicUnitSearch }: any) {
                     />
                   </svg>
                   &nbsp;
-                  {intl.formatMessage({ id: 'BASIC_UNIT.CARD_HEADER.BUTTON.RESET_FILTER' })}
+                  {intl.formatMessage({id: 'BASIC_UNIT.CARD_HEADER.BUTTON.RESET_FILTER'})}
                 </button>
               </div>
             </form>

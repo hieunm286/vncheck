@@ -1,17 +1,14 @@
-import React, {Suspense, lazy} from 'react';
-import {Redirect, Switch, Route} from 'react-router-dom';
-import {BuilderPage} from './pages/builder-page';
-import {DashboardPage} from "./pages/dashboard-page";
-import {MyPage} from "./pages/my-page";
+import React, {lazy, Suspense} from 'react';
+import {Redirect, Route, Switch} from 'react-router-dom';
 import {ChangeUserPassword} from "./pages/change-user-password";
 import {LayoutSplashScreen} from "./layout/_core/metronic-splash-screen";
 import {ContentRoute} from "./layout/components/content/content-route";
 
-const AccountPage = lazy(() => import('./pages/account/pages/account-page'));
+const AccountPage = lazy(() => import('./pages/account'));
 
-const ProductPage = lazy(() => import('./pages/product/pages/product-page'));
+const ProductPage = lazy(() => import('./pages/product'));
 
-const AgencyPage = lazy(() => import('./pages/agency/agency-page'));
+const AgencyPage = lazy(() => import('./pages/agency-management'));
 const CategoryPage = lazy(() => import('./pages/category/category-page'));
 
 export default function BasePage() {
