@@ -36,8 +36,8 @@ function GroupingItemAgencyOnSelect(props: any) {
 
 function GroupingItemBasicUnitOnSelect(props: any) {
   const { ids, setIds, customerId } = props;
-  if (ids.some((basicUnitCode: any) => basicUnitCode === customerId)) {
-    setIds(ids.filter((basicUnitCode: any) => basicUnitCode !== customerId));
+  if (ids.some((code: any) => code === customerId)) {
+    setIds(ids.filter((code: any) => code !== customerId));
   } else {
     const newIds = [...ids];
     newIds.push(customerId);
@@ -75,7 +75,7 @@ function GroupingAllBasicUnitOnSelect(props: any) {
   const { isSelected, setIds, basicUnitArray } = props;
   if (!isSelected) {
     const allIds: any[] = [];
-    basicUnitArray.forEach((el: any) => allIds.push(el.basicUnitCode));
+    basicUnitArray.forEach((el: any) => allIds.push(el.code));
     setIds(allIds);
   } else {
     setIds([]);
@@ -155,8 +155,8 @@ export function GetSelectBasicUnitRow(props: any) {
       );
     },
     selectionRenderer: ({ rowIndex }: any) => {
-      const isSelected = ids.some((el: any) => el === basicUnitArray[rowIndex].basicUnitCode);
-      const props = { ids, setIds, customerId: basicUnitArray[rowIndex].basicUnitCode };
+      const isSelected = ids.some((el: any) => el === basicUnitArray[rowIndex].code);
+      const props = { ids, setIds, customerId: basicUnitArray[rowIndex].code };
       return (
         <SelectionCheckbox
           isSelected={isSelected}

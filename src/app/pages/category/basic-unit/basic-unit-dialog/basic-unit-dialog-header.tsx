@@ -8,11 +8,11 @@ function BasicUnitDialogHeader({ unitForEdit }: { unitForEdit: any }) {
   return (
     <>
       <Modal.Header closeButton>
-        <Modal.Title id="example-modal-sizes-title-lg" className="text-danger">
+        <Modal.Title id="example-modal-sizes-title" className="text-danger">
           {unitForEdit ? (
-            <p>{intl.formatMessage({ id: 'BASIC_UNIT.CARD.EDIT_DIALOG.TITLE' })}</p>
+            <span>{intl.formatMessage({ id: 'BASIC_UNIT.CARD.EDIT_DIALOG.TITLE' })}</span>
           ) : (
-            <p>Thêm mới</p>
+            <span>Thêm mới</span>
           )}
         </Modal.Title>
       </Modal.Header>

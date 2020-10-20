@@ -42,9 +42,9 @@ export function CustomSelect({
     <>
       <div className={isHorizontal ? 'row' : ''}>
         <div
-          className={`col-xl-${labelWidth ? labelWidth : 3} col-md-${
-            labelWidth ? labelWidth : 3
-          } col-12`}>
+          className={`col-xl-${labelWidth ? labelWidth : 3} 
+            col-md-${labelWidth ? labelWidth : 3} 
+            col-12`}>
           {label && (
             <label
               style={width ? styleLabe : {}}
@@ -54,9 +54,9 @@ export function CustomSelect({
           )}
         </div>
         <div
-          className={`col-xl-${labelWidth ? 12 - labelWidth - 1 : 8} col-md-${
-            labelWidth ? 12 - labelWidth : 9
-          } col-12`}>
+          className={`col-xl-${labelWidth ? 12 - labelWidth - 1 : 8} 
+          col-md-${labelWidth ? 12 - labelWidth : 9} 
+          col-12`}>
           <select
             style={width ? styleInput : {}}
             className={checkSelect ? 'form-control' : 'form-control border border-danger'}

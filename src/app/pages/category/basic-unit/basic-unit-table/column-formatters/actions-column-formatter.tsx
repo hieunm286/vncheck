@@ -7,16 +7,32 @@ import Visibility from '@material-ui/icons/Visibility';
 import './actions-column.scss';
 import { ToAbsoluteUrl } from '../../../../../components/helpers/assets-helpers';
 
+interface ActionColumnProps {
+  openDetailDialog: any;
+  openEditDialog: any;
+  openDeleteDialog: any;
+  detailTitle: string;
+  editTitle: string;
+  deleteTitle: string;
+}
+
 export function ActionsColumnFormatter(
   cellContent: any,
   row: any,
-  rowIndex: any,
-  { openDetailDialog, openEditDialog, openDeleteDialog }: any,
+  rowIndex: number,
+  {
+    openDetailDialog,
+    openEditDialog,
+    openDeleteDialog,
+    detailTitle,
+    editTitle,
+    deleteTitle,
+  }: ActionColumnProps,
 ) {
   return (
     <>
       <a
-        title="View user"
+        title={detailTitle}
         className="btn btn-icon btn-light btn-hover-danger btn-sm visibility"
         onClick={() => openDetailDialog(row, 'detail')}>
         <span className="svg-icon svg-icon-md svg-icon-danger">
@@ -24,7 +40,7 @@ export function ActionsColumnFormatter(
         </span>
       </a>
       <a
-        title="Edit user"
+        title={editTitle}
         className="btn btn-icon btn-light btn-hover-danger btn-sm mx-1"
         onClick={() => openEditDialog(row, 'edit')}>
         <span className="svg-icon svg-icon-md svg-icon-danger">
@@ -32,7 +48,7 @@ export function ActionsColumnFormatter(
         </span>
       </a>
       <a
-        title="Delete user"
+        title={deleteTitle}
         className="btn btn-icon btn-light btn-hover-danger btn-sm"
         onClick={() => openDeleteDialog(row, 'delete')}>
         <span className="svg-icon svg-icon-md svg-icon-danger">

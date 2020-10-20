@@ -16,8 +16,8 @@ function BasicUnitFilter() {
     <>
       <Formik
         initialValues={{
-          basicUnitCode: '',
-          basicUnitName: '',
+          code: '',
+          name: '',
         }}
         onSubmit={values => {}}>
         {({ values, handleSubmit, handleBlur, handleChange, setFieldValue, resetForm }) => (
@@ -25,7 +25,7 @@ function BasicUnitFilter() {
             <div className="form-group row">
               <div className="col-xxl-3 col-md-3 mt-md-0 mt-5">
                 <Field
-                  name="basicUnitCode"
+                  name="code"
                   component={Input}
                   placeholder={intl.formatMessage({ id: 'BASIC_UNIT.CARD_HEADER.CODE_INPUT' })}
                   label={intl.formatMessage({ id: 'BASIC_UNIT.CARD_HEADER.CODE' })}
@@ -82,6 +82,7 @@ function BasicUnitFilter() {
                     fill="#EE4C4C"
                   />
                 </svg>
+                &nbsp;
                 {intl.formatMessage({ id: 'BASIC_UNIT.CARD_HEADER.BUTTON.RESET_FILTER' })}
               </button>
             </div>

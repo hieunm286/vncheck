@@ -5,9 +5,9 @@ import { NavLink } from 'react-router-dom';
 import SVG from 'react-inlinesvg';
 import { useIntl } from 'react-intl';
 import { makeStyles } from '@material-ui/core/styles';
-import '../aside.css';
 import { ToAbsoluteUrl } from '../../../../components/helpers/assets-helpers';
 import { CheckIsActive } from '../../../../components/helpers/router-helpers';
+import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 
 const useStyles = makeStyles(theme => ({
   subMenu: {
@@ -162,7 +162,7 @@ export function AsideMenuList({ layoutProps }: any) {
             <i className="menu-arrow" />
           </NavLink>
           <div className="menu-submenu ">
-            <i className="menu-arrow" />
+            {/* <ArrowForwardIosIcon className="menu-arrow" /> */}
             <ul className="menu-subnav">
               <li className="menu-item  menu-item-parent" aria-haspopup="true">
                 <span className="menu-link">

@@ -7,6 +7,12 @@ import { MainInput } from '../../../../components/forms/main-input';
 import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import { iconStyle } from '../../style';
+import * as Yup from 'yup';
+
+const BasicUnitSchema = Yup.object().shape({
+  code: Yup.string().required('Vui lòng nhập mã đơn vị'),
+  name: Yup.string().required('Vui lòng nhập tên đơn vị'),
+});
 
 function BasicUnitForm({
   unitForEdit,
@@ -20,12 +26,12 @@ function BasicUnitForm({
   error: string;
 }) {
   const [state, setState] = React.useState({
-    status: unitForEdit.status == 0,
+    status: unitForEdit.status == 1,
   });
   const intl = useIntl();
 
   useEffect(() => {
-    setState({ status: unitForEdit.status == 0 });
+    setState({ status: unitForEdit.status == 1 });
   }, [unitForEdit.status]);
 
   const handleChange = (event: any) => {
@@ -37,12 +43,14 @@ function BasicUnitForm({
       <Formik
         enableReinitialize={true}
         initialValues={unitForEdit}
-        // validationSchema={AgencyTypeEditSchema}
+        validationSchema={BasicUnitSchema}
         onSubmit={values => {
           const valueEdit = {
             ...values,
-            status: state.status ? 0 : 1,
+            status: state.status ? 1 : 0,
+            quantity: 10,
           };
+          console.log(valueEdit);
           handleActionBasicUnit(valueEdit);
         }}>
         {({ handleSubmit }) => (
@@ -56,10 +64,10 @@ function BasicUnitForm({
               <Form className="form form-label-right">
                 <div className="mt-3">
                   <Field
-                    name="basicUnitCode"
+                    name="code"
                     component={MainInput}
                     placeholder={intl.formatMessage({ id: 'BASIC_UNIT.CARD.EDIT_DIALOG.CODE' })}
-                    withValidation
+                    withFeedbackLabel
                     labelWidth={4}
                     isHorizontal
                     label={intl.formatMessage({ id: 'BASIC_UNIT.CARD.TABLE.CODE' })}
@@ -75,11 +83,11 @@ function BasicUnitForm({
                 </div>
                 <div className="mt-3">
                   <Field
-                    name="basicUnitName"
+                    name="name"
                     component={MainInput}
                     labelWidth={4}
                     placeholder={intl.formatMessage({ id: 'BASIC_UNIT.CARD.EDIT_DIALOG.NAME' })}
-                    withValidation
+                    withFeedbackLabel
                     isHorizontal
                     label={intl.formatMessage({ id: 'BASIC_UNIT.CARD.TABLE.NAME' })}
                   />

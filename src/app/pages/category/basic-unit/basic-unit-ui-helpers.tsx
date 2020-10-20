@@ -23,7 +23,7 @@ export const sizePerPageList = [
 export const initialFilter = {
   data: {},
   sortOrder: 'asc', // asc||desc
-  sortField: 'username',
+  sortField: 'name',
   pageNumber: 1,
   pageSize: 5,
 };

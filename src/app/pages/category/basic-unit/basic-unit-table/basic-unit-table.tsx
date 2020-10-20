@@ -19,35 +19,41 @@ import { defaultSorted, sizePerPageList } from '../basic-unit-ui-helpers';
 import './basic-unit-table.scss';
 import { useBasicUnitUIContext } from '../basic-unit-ui-context';
 import { GetSelectBasicUnitRow } from '../../../../components/helpers/table-row-selection-helpers';
+import { BasicUnitDataProps } from '../basic-unit-card';
 
-function BasicUnitTable({ show, showModal, hideModal, basicUnitArray }: any) {
+function BasicUnitTable({
+  show,
+  showModal,
+  hideModal,
+  basicUnitArray,
+  total,
+  loading,
+  queryParams,
+  setQueryParamsBase,
+  ids,
+  setIds,
+  setQueryParams,
+}: BasicUnitDataProps) {
   const intl = useIntl();
-
-  const basicUnitUIContext = useBasicUnitUIContext();
-  const basicUnitUIProps = useMemo(() => {
-    return {
-      ids: basicUnitUIContext.ids,
-      setIds: basicUnitUIContext.setIds,
-      queryParams: basicUnitUIContext.queryParams,
-      setQueryParams: basicUnitUIContext.setQueryParams,
-    };
-  }, [basicUnitUIContext]);
 
   const columns = [
     {
       dataField: 'ordinal',
       text: 'STT',
-      formatter: (cell: any, row: any, rowIndex: number) => <p>{rowIndex + 1}</p>,
+      formatter: (cell: any, row: any, rowIndex: number) => (
+        <p>{rowIndex + 1 + (queryParams.pageNumber - 1) * queryParams.pageSize}</p>
+      ),
+      style: { paddingTop: 20 },
     },
     {
-      dataField: 'basicUnitCode',
+      dataField: 'code',
       text: `${intl.formatMessage({ id: 'BASIC_UNIT.CARD.TABLE.CODE' })}`,
       sort: true,
       sortCaret: SortCaret,
       headerSortingClasses: HeaderSortingClasses,
     },
     {
-      dataField: 'basicUnitName',
+      dataField: 'name',
       text: `${intl.formatMessage({ id: 'BASIC_UNIT.CARD.TABLE.NAME' })}`,
       sort: true,
       sortCaret: SortCaret,
@@ -64,7 +70,7 @@ function BasicUnitTable({ show, showModal, hideModal, basicUnitArray }: any) {
       headerClasses: 'text-center',
       classes: 'text-center pr-0',
       formatter: (cell: any, row: any) =>
-        row.status === 0 ? (
+        row.status === 1 ? (
           <CheckCircleIcon style={{ color: '#1DBE2D' }} />
         ) : (
           <IndeterminateCheckBoxIcon />
@@ -79,6 +85,9 @@ function BasicUnitTable({ show, showModal, hideModal, basicUnitArray }: any) {
         openDeleteDialog: showModal,
         openDetailDialog: showModal,
         show: show,
+        detailTitle: `${intl.formatMessage({ id: 'BASIC_UNIT.CARD.TABLE.ACTION.DETAIL.TITLE' })}`,
+        editTitle: `${intl.formatMessage({ id: 'BASIC_UNIT.CARD.TABLE.ACTION.EDIT.TITLE' })}`,
+        deleteTitle: `${intl.formatMessage({ id: 'BASIC_UNIT.CARD.TABLE.ACTION.DELETE.TITLE' })}`,
       },
       classes: 'text-center pr-0',
       headerClasses: 'text-center',
@@ -90,24 +99,11 @@ function BasicUnitTable({ show, showModal, hideModal, basicUnitArray }: any) {
 
   const paginationOptions = {
     basicUnit: true,
-    totalSize: basicUnitArray.length,
+    totalSize: total,
     tableName: 'đơn vị cơ bản',
-    sizePerPageList: [
-      {
-        text: '5',
-        value: 5,
-      },
-      {
-        text: '10',
-        value: 10,
-      },
-      {
-        text: '15',
-        value: 15,
-      },
-    ],
-    sizePerPage: 5,
-    page: 1,
+    sizePerPageList: sizePerPageList,
+    sizePerPage: queryParams.pageSize,
+    page: queryParams.pageNumber,
   };
 
   return (
@@ -115,7 +111,7 @@ function BasicUnitTable({ show, showModal, hideModal, basicUnitArray }: any) {
       <PaginationProvider pagination={paginationFactory(paginationOptions)}>
         {({ paginationProps, paginationTableProps }) => {
           return (
-            <Pagination /*isLoading={listLoading}*/ paginationProps={paginationProps}>
+            <Pagination isLoading={loading} paginationProps={paginationProps}>
               <BootstrapTable
                 wrapperClasses="table-responsive"
                 bordered={false}
@@ -123,18 +119,18 @@ function BasicUnitTable({ show, showModal, hideModal, basicUnitArray }: any) {
                 bootstrap4
                 remote
                 {...paginationTableProps}
-                keyField="basicUnitCode"
+                keyField="code"
                 data={basicUnitArray}
                 columns={columns}
                 defaultSorted={defaultSorted as any}
                 selectRow={
                   GetSelectBasicUnitRow({
                     basicUnitArray,
-                    ids: basicUnitUIProps.ids,
-                    setIds: basicUnitUIProps.setIds,
+                    ids: ids,
+                    setIds: setIds,
                   }) as any
                 }
-                onTableChange={getHandlerTableChange(basicUnitUIProps.setQueryParams)}
+                onTableChange={getHandlerTableChange(setQueryParams)}
                 {...paginationProps}>
                 <PleaseWaitMessage entities={basicUnitArray} />
                 <NoRecordsFoundMessage entities={basicUnitArray} />

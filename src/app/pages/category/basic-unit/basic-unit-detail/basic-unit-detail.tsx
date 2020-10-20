@@ -13,19 +13,19 @@ function BasicUnitDetail({ unitForEdit }: { unitForEdit: AnyAction }) {
           <div className="col-7">
             {intl.formatMessage({ id: 'BASIC_UNIT.CARD.DETAIL_DIALOG.CODE' })}:
           </div>
-          <div className="col-5">{unitForEdit.basicUnitCode}</div>
+          <div className="col-5">{unitForEdit.code}</div>
         </div>
         <div className="row mt-5">
           <div className="col-7">
             {intl.formatMessage({ id: 'BASIC_UNIT.CARD.DETAIL_DIALOG.NAME' })}:
           </div>
-          <div className="col-5">{unitForEdit.basicUnitName}</div>
+          <div className="col-5">{unitForEdit.name}</div>
         </div>
         <div className="row mt-5">
           <div className="col-7">
             {intl.formatMessage({ id: 'BASIC_UNIT.CARD.DETAIL_DIALOG.STATUS' })}:
           </div>
-          <div className="col-5">{unitForEdit.status == 0 ? 'Hoạt động' : 'Không hoạt động'}</div>
+          <div className="col-5">{unitForEdit.status == 1 ? 'Hoạt động' : 'Không hoạt động'}</div>
         </div>
       </Modal.Body>
     </>
