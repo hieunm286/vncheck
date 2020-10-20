@@ -5,7 +5,7 @@ import {useAgencyUIContext} from './agency-ui-context';
 import {Link} from 'react-router-dom';
 import {Card, CardBody, CardHeader} from "../../components/card";
 
-export function AgencyCard() {
+export function AgencyCard(props: any) {
   const agencyUIContext: any = useAgencyUIContext();
   const agencyUIProps = useMemo(() => {
     return {
@@ -22,7 +22,7 @@ export function AgencyCard() {
         <div className="row no-gutters mb-10"/>
         
         {/* <AgencyFilter /> */}
-        <AgencyTable/>
+        <AgencyTable showPagination={props.showPagination} />
       </CardBody>
     </Card>
   );

@@ -9,7 +9,6 @@ export const fetchAllAgencyType = (queryParams: any) => (
   dispatch: (arg0: { payload: any; type: string }) => void,
 ) => {
   dispatch(actions.startCall({callType: callTypes.list}));
-  
   return requestFromServer
     .getAllAgencyTypes(queryParams)
     .then(response => {
@@ -38,8 +37,9 @@ export const fetchAgencyTypeById = (id: string) => (
   return requestFromServer
     .getAgencyTypeById(id)
     .then(response => {
+      console.log(response);
       const agencyTypeForEdit = {
-        ...response.data,
+        ...response.data.results[0],
       };
       console.log(agencyTypeForEdit);
       dispatch(actions.agencyTypeFetched({agencyTypeForEdit}));
@@ -67,8 +67,9 @@ export const fetchAgencyTypeViewById = (id: string) => (
     .getAgencyTypeById(id)
     .then(response => {
       const agenctTypeForView = {
-        ...response.data,
+        ...response.data.results[0],
       };
+      console.log(response);
       dispatch(actions.agencyTypeViewFetched({agenctTypeForView}));
     })
     .catch(error => {
@@ -82,7 +83,7 @@ export const fetchAgencyTypeViewById = (id: string) => (
     });
 };
 
-export const updateAgencyType = (agencyType: any) => (
+export const updateAgencyType = (agencyType: AgencyType) => (
   dispatch: (arg0: { payload: any; type: string }) => void,
 ) => {
   console.log(agencyType);
@@ -141,9 +142,13 @@ export const deleteAgencyType = (agencyTypeId: any) => (
 
 export const createAgencyType = (agencyType: AgencyType) => (dispatch: (arg0: { payload: any; type: string }) => void) => {
   dispatch(actions.startCall({callType: callTypes.action}));
+  console.log('uoc bi loi')
+  console.log(agencyType)
   return requestFromServer
     .createAgencyType(agencyType)
     .then(response => {
+      console.log('code oc cho')
+      console.log(response);
       dispatch(
         actions.agencyTypeCreated({
           agencyType,

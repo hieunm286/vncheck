@@ -17,7 +17,7 @@ import {GetSelectAgencyRow} from "../../../components/helpers/table-row-selectio
 import paginationFactory, {PaginationProvider} from "react-bootstrap-table2-paginator";
 import {Pagination} from "../../../components/pagination/pagination";
 
-export function AgencyTable() {
+export function AgencyTable(props:  any) {
   // Customers UI Context
   const agencyUIContext: any = useAgencyUIContext();
   const agencyUIProps = useMemo(() => {
@@ -86,13 +86,21 @@ export function AgencyTable() {
   };
   
   console.log(entities ? (Object.values(entities)[0] ? 'undefined' : '[objects]') : '[]');
-  
+  // const showPagination = props.showPagination ? props.showPagination : true; // code tau hai
+  let showPagination = true;
+  if(props.showPagination === undefined || props.showPagination === null) {
+
+  }
+
+  if(props.showPagination === false) {
+    showPagination = false;
+  }
   return (
     <>
       <PaginationProvider pagination={paginationFactory(paginationOptions)}>
         {({paginationProps, paginationTableProps}) => {
           return (
-            <Pagination isLoading={listLoading} paginationProps={paginationProps}>
+            <Pagination isShown={showPagination} isLoading={listLoading} paginationProps={paginationProps}>
               <BootstrapTable
                 wrapperClasses="table-responsive"
                 bordered={false}

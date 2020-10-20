@@ -2,19 +2,15 @@ import axios from 'axios';
 import {API_BASE_URL} from '../../../const';
 import {AgencyType} from "../../../models/agency-type.model";
 
-export const AGENCY_TYPE_URL = API_BASE_URL + '/agency-type';
+export const AGENCY_TYPE_URL = API_BASE_URL + '/agency-types';
 export const AGENCY_URL_SEARCH = API_BASE_URL + '/admin/v1/search/agency';
 
 export function createAgencyType(agencyType: AgencyType) {
   const form_data = new FormData();
-  console.log(agencyType);
   form_data.append('code', agencyType.code);
   form_data.append('name', agencyType.name);
   form_data.append('status', agencyType.status.toString());
-  for (let value of form_data.values()) {
-    console.log(value);
-  }
-  return axios.post(AGENCY_TYPE_URL, form_data);
+  return axios.post(AGENCY_TYPE_URL, agencyType);
 }
 
 export function getAllAgencyTypes(queryParams: {
@@ -49,9 +45,9 @@ export function getAgencyTypeById(id: string) {
   return axios.get(`${AGENCY_TYPE_URL}/${id}`);
 }
 
-export function updateAgencyType(agencyId: any) {
+export function updateAgencyType(agency: AgencyType) {
   // console.log(`${AGENCIES_URL}/${user.username}`);
-  return axios.put(`${AGENCY_TYPE_URL}/${agencyId.agency_type_id}`, agencyId);
+  return axios.put(`${AGENCY_TYPE_URL}/${agency.code}`, agency);
 }
 
 export function deleteAgencyType(agencyId: any) {

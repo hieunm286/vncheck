@@ -53,7 +53,7 @@ export function AgencyTypeTable() {
   // Table columns
   const columns = [
     {
-      dataField: 'type_name',
+      dataField: 'name',
       text: 'Tên loại',
       sort: true,
       sortCaret: SortCaret,
@@ -87,8 +87,11 @@ export function AgencyTypeTable() {
   
   const rowEvents = {
     onClick: (e: any, row: any, rowIndex: any) => {
+      console.log('huhu')
       if (e.target.tagName.toLowerCase() === 'td') {
-        dispatch(fetchAgencyTypeViewById(row.agency_type_id));
+        console.log('hihi')
+        console.log(row);
+        dispatch(fetchAgencyTypeViewById(row.code));
       }
     },
   };
@@ -105,7 +108,7 @@ export function AgencyTypeTable() {
       classes="table table-head-custom table-vertical-center overflow-hidden"
       bootstrap4
       remote
-      keyField="agency_type_id"
+      keyField="code"
       data={entities || []}
       columns={columns}
       // defaultSorted={defaultSorted}

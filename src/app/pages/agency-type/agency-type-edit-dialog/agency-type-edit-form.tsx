@@ -60,15 +60,14 @@ const NewAgencyTypeSchema = Yup.object().shape({
 
 export function AgencyTypeEditForm({saveAgencyType, agencyType, actionsLoading, onHide}: any) {
   const [state, setState] = React.useState({
-    type_status: agencyType.type_status == 0,
+    status: agencyType.status === 1,
   });
   
   useEffect(() => {
-    setState({type_status: agencyType.type_status == 0});
-  }, [agencyType.type_status]);
+    setState({status: agencyType.status});
+  }, [agencyType.status]);
   
   const handleChange = (event: any) => {
-    console.log(state.type_status);
     setState({...state, [event.target.name]: event.target.checked});
   };
   return (
@@ -83,8 +82,9 @@ export function AgencyTypeEditForm({saveAgencyType, agencyType, actionsLoading, 
           //   dateofbirth: new Date(values.dateofbirth).toISOString(),
           // };
           const updateValue = {
-            ...values,
-            type_status: state.type_status ? '0' : '1',
+            code: values.code,
+            name: values.name,
+            status: state.status,
           };
           saveAgencyType(updateValue);
         }}>
@@ -98,7 +98,7 @@ export function AgencyTypeEditForm({saveAgencyType, agencyType, actionsLoading, 
               )}
               <Form className="form form-label-right">
                 <Field
-                  name="type_name"
+                  name="name"
                   component={Input}
                   placeholder="Nhập tên loại đại lý"
                   withValidation
@@ -106,7 +106,7 @@ export function AgencyTypeEditForm({saveAgencyType, agencyType, actionsLoading, 
                   label="Tên loại:"
                 />
                 <Field
-                  name="agency_type_id"
+                  name="code"
                   component={Input}
                   placeholder="Nhập mã loại đại lý"
                   withValidation
@@ -117,10 +117,10 @@ export function AgencyTypeEditForm({saveAgencyType, agencyType, actionsLoading, 
                 <div>
                   <label>Trạng thái hoạt động:</label>
                   <Switch
-                    checked={state.type_status}
+                    checked={state.status}
                     onChange={handleChange}
                     color="primary"
-                    name="type_status"
+                    name="status"
                     inputProps={{'aria-label': 'primary checkbox'}}
                   />
                 </div>

@@ -54,11 +54,12 @@ export const agencyTypeSlice = createSlice({
       state.error = null;
     },
     agencyTypesFetched: (state, action) => {
-      const {total, data} = action.payload;
+      const { results } = action.payload;
+      console.log(action.payload);
       state.listLoading = false;
       state.error = null;
-      state.entities = data;
-      state.totalCount = total;
+      state.entities = results;
+      state.totalCount = results.length;
     },
     agencyTypeCreated: (state, action) => {
       state.actionsLoading = false;
@@ -68,8 +69,8 @@ export const agencyTypeSlice = createSlice({
     agencyTypeUpdated: (state, action) => {
       state.error = null;
       state.actionsLoading = false;
-      state.entities = state.entities.map((entity: { agency_type_id: any }) => {
-        if (entity.agency_type_id === action.payload.agencyType.agency_type_id) {
+      state.entities = state.entities.map((entity: { code: string }) => {
+        if (entity.code === action.payload.agencyType.code) {
           return action.payload.agencyType;
         }
         return entity;
@@ -78,7 +79,8 @@ export const agencyTypeSlice = createSlice({
     agencyTypeDeleted: (state, action) => {
       state.error = null;
       state.actionsLoading = false;
-      state.entities = state.entities.filter((el: { id: any }) => el.id !== action.payload.id);
+      console.log(action.payload);
+      state.entities = state.entities.filter((el: { code: string }) => el.code !== action.payload.code);
     },
     agencyTypeViewFetched: (state, action) => {
       console.log(action.payload);

@@ -1,6 +1,7 @@
 import React, {createContext, useCallback, useContext, useState} from 'react';
 import {isEqual, isFunction} from 'lodash';
 import {initialFilter} from './agency-type-ui-helpers';
+import { AgencyType }  from '../../models/agency-type.model';
 
 const AgencyTypeUIContext = createContext<any>(null);
 
@@ -27,10 +28,10 @@ export function AgencyTypeUIProvider({agencyTypeUIEvents, children}: any) {
     });
   }, []);
   
-  const initAgencyType = {
-    type_name: '',
-    agency_type_id: '',
-    type_status: '0',
+  const initAgencyType : AgencyType = {
+    name: '',
+    code: '',
+    status: true,
   };
   
   const value = {

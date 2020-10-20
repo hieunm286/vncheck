@@ -48,7 +48,8 @@ export function AgencyTypeDeleteDialog({id, show, onHide}: any) {
     // server request for deleting customer by id
     (dispatch(actions.deleteAgencyType(id)) as any).then(() => {
       // refresh list after deletion
-      if (agencyTypeForEdit.agencies.length === 0) {
+      console.log(agencyTypeForEdit);
+      if (agencyTypeForEdit.length && agencyTypeForEdit.agencies.length === 0) {
         cancelAndRefresh();
       }
     });

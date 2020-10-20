@@ -112,7 +112,7 @@ function AgencyType({history}: { history: any }) {
           </Route>
           
           {/* <AgencyCardHeader /> */}
-          <AgencyCard/>
+          <AgencyCard showPagination={false} />
         </AgencyUIProvider>
       </div>
     </div>
