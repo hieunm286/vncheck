@@ -64,7 +64,6 @@ export const Layout = ({children}: any) => {
             <QuickUser/>
             <QuickPanel/>
             <ScrollTop/>
-            <StickyToolbar/>
             {/*end::Main*/}
             <LayoutInit/>
         </>) : (<div className="d-flex flex-column flex-root">{children}</div>)

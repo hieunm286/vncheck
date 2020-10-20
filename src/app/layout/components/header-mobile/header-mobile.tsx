@@ -1,9 +1,14 @@
-import React, {useMemo} from "react";
+import React, {CSSProperties, useMemo} from "react";
 import {Link} from "react-router-dom";
 import objectPath from "object-path";
 import SVG from "react-inlinesvg";
 import {ToAbsoluteUrl} from "../../../components/helpers/assets-helpers";
 import {useHtmlClassService} from "../../_core/metronic-layout";
+
+const logoStyles : CSSProperties = {
+    height: '55px',
+}
+
 
 export const HeaderMobile = () => {
     const uiService: any = useHtmlClassService();
@@ -28,7 +33,7 @@ export const HeaderMobile = () => {
             >
                 {/*begin::Logo*/}
                 <Link to="/">
-                    <img alt="logo" src={layoutProps.headerLogo}/>
+                    <img style={logoStyles} alt="logo" src={layoutProps.headerLogo}/>
                 </Link>
                 {/*end::Logo*/}
 
