@@ -1,6 +1,6 @@
 import React from 'react';
 import {Redirect, Switch} from 'react-router-dom';
-import {ContentRoute} from "../../../layout/components/content/content-route";
+import {ContentRoute} from "../../layout/components/content/content-route";
 import Product from "./product";
 import ProductGroup from "./product-group";
 
