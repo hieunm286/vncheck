@@ -1,6 +1,6 @@
-import React, { createContext, useContext, useState, useCallback } from 'react';
-import { isEqual, isFunction } from 'lodash';
-import { initialFilter } from './agency-ui-helpers';
+import React, {createContext, useCallback, useContext, useState} from 'react';
+import {isEqual, isFunction} from 'lodash';
+import {initialFilter} from './agency-ui-helpers';
 
 const AgencyUIContext = createContext<any>(null);
 
@@ -10,7 +10,7 @@ export function useAgencyUIContext() {
 
 export const AgencyUIConsumer = AgencyUIContext.Consumer;
 
-export function AgencyUIProvider({ agencyUIEvents, children }: any) {
+export function AgencyUIProvider({agencyUIEvents, children}: any) {
   const [queryParams, setQueryParamsBase] = useState(initialFilter);
   const [ids, setIds] = useState([]);
   const setQueryParams = useCallback(nextQueryParams => {
@@ -18,19 +18,19 @@ export function AgencyUIProvider({ agencyUIEvents, children }: any) {
       if (isFunction(nextQueryParams)) {
         nextQueryParams = nextQueryParams(prevQueryParams);
       }
-
+      
       if (isEqual(prevQueryParams, nextQueryParams)) {
         return prevQueryParams;
       }
-
+      
       return nextQueryParams;
     });
   }, []);
-
+  
   const useAutofill = false;
-
+  
   let initAgency = null;
-
+  
   if (useAutofill) {
     initAgency = {
       // id: undefined,
@@ -77,7 +77,7 @@ export function AgencyUIProvider({ agencyUIEvents, children }: any) {
       agency_image: '',
     };
   }
-
+  
   const value: any = {
     queryParams,
     setQueryParamsBase,
@@ -91,6 +91,6 @@ export function AgencyUIProvider({ agencyUIEvents, children }: any) {
     openDetailAgencyDialog: agencyUIEvents.openDetailAgencyDialog,
     openDeleteManyAgencyDialog: agencyUIEvents.openDeleteManyAgencyDialog,
   };
-
+  
   return <AgencyUIContext.Provider value={value}> {children} </AgencyUIContext.Provider>;
 }

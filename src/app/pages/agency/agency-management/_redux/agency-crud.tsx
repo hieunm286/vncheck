@@ -1,6 +1,5 @@
 import axios from 'axios';
-import { any } from 'prop-types';
-import { API_BASE_URL } from '../../../../const';
+import {API_BASE_URL} from '../../../../const';
 
 export const AGENCIES_URL = API_BASE_URL + '/agency';
 export const AGENCY_URL = API_BASE_URL + '/agency';
@@ -8,13 +7,13 @@ export const AGENCY_URL_SEARCH = API_BASE_URL + '/admin/v1/search/agency';
 
 export function createAgency(user: any, imageArray: any) {
   console.log(user);
-
+  
   let formData = new FormData();
-
+  
   for (var key in user) {
     formData.append(key, user[key]);
   }
-
+  
   if (imageArray && imageArray.length > 0) {
     imageArray.forEach((file: any) => {
       formData.append('image[]', file);
@@ -22,7 +21,7 @@ export function createAgency(user: any, imageArray: any) {
   }
   // console.log(formData);
   // Object.keys(user).forEach(key => formData.append(key, user[key]));
-
+  
   // console.log(Object.keys(user));
   // return axios.post(AGENCIES_URL, formData);
   return axios({
@@ -75,11 +74,11 @@ export function getImage(imagePath: string) {
 export function updateAgency(user: any, imageArray: any) {
   // console.log(`${AGENCIES_URL}/${user.username}`);
   let formData = new FormData();
-
+  
   for (var key in user) {
     formData.append(key, user[key]);
   }
-
+  
   if (imageArray && imageArray.length > 0) {
     imageArray.forEach((file: any) => {
       formData.append('image[]', file);

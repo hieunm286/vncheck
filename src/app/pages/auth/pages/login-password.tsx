@@ -1,23 +1,16 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { useFormik } from 'formik';
+import React, {useEffect, useState} from 'react';
+import {Link} from 'react-router-dom';
+import {useFormik} from 'formik';
 import * as Yup from 'yup';
-import { connect, RootStateOrAny, useSelector } from 'react-redux';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import {connect, RootStateOrAny, useSelector} from 'react-redux';
+import {FormattedMessage, injectIntl} from 'react-intl';
 import * as auth from '../_redux/auth-redux';
-import { getUserFromIdentity, GetCredential, Ping } from '../_redux/auth.service';
-import {
-  GenerateKeyPair,
-  GenerateKeyPairAndEncrypt,
-  loginCryption,
-  SignMessage,
-  SymmetricDecrypt,
-  VerifyMessage,
-} from '../service/auth-cryptography';
-import { CERTIFICATE_EXP } from '../../../const';
+import {GetCredential, Ping} from '../_redux/auth.service';
+import {GenerateKeyPair, SignMessage, SymmetricDecrypt,} from '../service/auth-cryptography';
+import {CERTIFICATE_EXP} from '../../../const';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import clsx from 'clsx';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 
 import OutlinedInput from '@material-ui/core/OutlinedInput';
@@ -74,18 +67,18 @@ const LoginPassword = (props: {
   savePingErrorData?: any;
   intl?: any;
 }) => {
-  const { intl } = props;
-  const userInfo = useSelector(({ auth }: { auth: RootStateOrAny }) => auth);
+  const {intl} = props;
+  const userInfo = useSelector(({auth}: { auth: RootStateOrAny }) => auth);
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  const { state } = props.location;
-
+  const {state} = props.location;
+  
   const location = window.location;
-  const { pathname } = location;
-  const { search } = location;
+  const {pathname} = location;
+  const {search} = location;
   let callbackUrl = new URLSearchParams(search).get('callbackUrl');
   callbackUrl = callbackUrl ? callbackUrl : pathname;
-
+  
   const classes = useStyles();
   const [values, setValues] = React.useState<State>({
     amount: '',
@@ -94,7 +87,7 @@ const LoginPassword = (props: {
     weightRange: '',
     showPassword: false,
   });
-
+  
   const LoginSchema = Yup.object().shape({
     // password: Yup.string()
     //   .min(3, 'Minimum 3 symbols')
@@ -105,35 +98,35 @@ const LoginPassword = (props: {
     //     }),
     //   ),
   });
-
+  
   useEffect(() => {
     return () => {
       setLoading(false);
     };
   }, []);
-
+  
   // const getInputClasses = fieldName => {
   //   if (formik.touched[fieldName] && formik.errors[fieldName]) {
   //     return 'is-invalid';
   //   }
-
+  
   //   if (formik.touched[fieldName] && !formik.errors[fieldName]) {
   //     return 'is-valid';
   //   }
-
+  
   //   return '';
   // };
-
+  
   const submitPassword = (
-    { password }: { password: string },
-    { setStatus, setSubmitting }: { setStatus: any; setSubmitting: any },
+    {password}: { password: string },
+    {setStatus, setSubmitting}: { setStatus: any; setSubmitting: any },
   ) => {
     setLoading(true);
     setTimeout(() => {
       GetCredential(userInfo.username)
         .then(response => {
           // console.log(response.data);
-          const { encryptedPrivateKey, publicKey } = response.data;
+          const {encryptedPrivateKey, publicKey} = response.data;
           // console.log(password);
           const _privateKey = SymmetricDecrypt(encryptedPrivateKey, values.password);
           console.log('prv:' + _privateKey);
@@ -189,34 +182,34 @@ const LoginPassword = (props: {
         });
     }, 200);
   };
-
+  
   const GenerateCertificate = (
     certificateInfo: { username: string; timestamp: Date; exp: number },
     privateKey: string,
   ) => {
     const keyPair = GenerateKeyPair(privateKey);
     const signature = SignMessage(privateKey, certificateInfo);
-    return { signature, certificateInfo, publicKey: keyPair.publicKey };
+    return {signature, certificateInfo, publicKey: keyPair.publicKey};
   };
-
+  
   const formik = useFormik({
     initialValues,
     validationSchema: LoginSchema,
     onSubmit: submitPassword,
   });
-
+  
   const handleChange = (prop: keyof State) => (event: React.ChangeEvent<HTMLInputElement>) => {
-    setValues({ ...values, [prop]: event.target.value });
+    setValues({...values, [prop]: event.target.value});
   };
-
+  
   const handleClickShowPassword = () => {
-    setValues({ ...values, showPassword: !values.showPassword });
+    setValues({...values, showPassword: !values.showPassword});
   };
-
+  
   const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
   };
-
+  
   return (
     <div
       className="login-form login-signin p-5"
@@ -238,8 +231,8 @@ const LoginPassword = (props: {
         <div className="mx-auto text-center w-50">
           <h6
             className="font-weight-bold mt-5 pt-3 pb-3 border rounded-pill"
-            style={{ border: '1px solid #dadce0', color: '#3c4043' }}>
-            <AccountCircleIcon />
+            style={{border: '1px solid #dadce0', color: '#3c4043'}}>
+            <AccountCircleIcon/>
             {'\u00A0'}
             {userInfo.fullName}
           </h6>
@@ -290,7 +283,7 @@ const LoginPassword = (props: {
                     onClick={handleClickShowPassword}
                     onMouseDown={handleMouseDownPassword}
                     edge="end">
-                    {values.showPassword ? <Visibility /> : <VisibilityOff />}
+                    {values.showPassword ? <Visibility/> : <VisibilityOff/>}
                   </IconButton>
                 </InputAdornment>
               }
@@ -310,14 +303,14 @@ const LoginPassword = (props: {
             )
           )}
         </div>
-
+        
         <div className="form-group d-flex flex-wrap justify-content-between align-items-center">
           <Link
             to={'/auth/forgot-password?callbackUrl=' + callbackUrl}
             className="text-dark-50 text-hover-primary my-3 mr-2"
             id="kt_login_forgot">
             <p className="text-muted font-weight-bold">
-              <FormattedMessage id="AUTH.GENERAL.FORGOT_BUTTON" />
+              <FormattedMessage id="AUTH.GENERAL.FORGOT_BUTTON"/>
             </p>
           </Link>
           <button

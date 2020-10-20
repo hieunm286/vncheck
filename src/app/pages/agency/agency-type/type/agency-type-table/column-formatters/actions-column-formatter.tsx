@@ -8,38 +8,38 @@ import './actions-column.scss';
 import {ToAbsoluteUrl} from "../../../../../../components/helpers/assets-helpers";
 
 export function ActionsColumnFormatter(
-    cellContent: any,
-    row: any,
-    rowIndex: any,
-    {openDetailAgencyTypeDialog, openEditAgencyTypeDialog, openDeleteAgencyTypeDialog}: any,
+  cellContent: any,
+  row: any,
+  rowIndex: any,
+  {openDetailAgencyTypeDialog, openEditAgencyTypeDialog, openDeleteAgencyTypeDialog}: any,
 ) {
-    return (
-        <>
-            <a
-                title="View user"
-                className="btn btn-icon btn-light btn-hover-danger btn-sm visibility"
-                onClick={() => openDetailAgencyTypeDialog(row.agency_type_id)}>
+  return (
+    <>
+      <a
+        title="View user"
+        className="btn btn-icon btn-light btn-hover-danger btn-sm visibility"
+        onClick={() => openDetailAgencyTypeDialog(row.agency_type_id)}>
         <span className="svg-icon svg-icon-md svg-icon-danger">
           {/* <SVG src={ToAbsoluteUrl('/media/svg/icons/Communication/Write.svg')} /> */}
-            <Visibility className="text-danger eye"/>
+          <Visibility className="text-danger eye"/>
         </span>
-            </a>
-            <a
-                title="Edit user"
-                className="btn btn-icon btn-light btn-hover-danger btn-sm mx-1"
-                onClick={() => openEditAgencyTypeDialog(row.agency_type_id)}>
+      </a>
+      <a
+        title="Edit user"
+        className="btn btn-icon btn-light btn-hover-danger btn-sm mx-1"
+        onClick={() => openEditAgencyTypeDialog(row.agency_type_id)}>
         <span className="svg-icon svg-icon-md svg-icon-danger">
           <SVG src={ToAbsoluteUrl('/media/svg/icons/Communication/Write.svg')}/>
         </span>
-            </a>
-            <a
-                title="Delete user"
-                className="btn btn-icon btn-light btn-hover-danger btn-sm"
-                onClick={() => openDeleteAgencyTypeDialog(row.agency_type_id)}>
+      </a>
+      <a
+        title="Delete user"
+        className="btn btn-icon btn-light btn-hover-danger btn-sm"
+        onClick={() => openDeleteAgencyTypeDialog(row.agency_type_id)}>
         <span className="svg-icon svg-icon-md svg-icon-danger">
           <SVG src={ToAbsoluteUrl('/media/svg/icons/General/Trash.svg')}/>
         </span>
-            </a>
-        </>
-    );
+      </a>
+    </>
+  );
 }

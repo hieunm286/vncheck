@@ -1,5 +1,6 @@
-import React, { useMemo } from 'react';
-import { useAgencyUIContext } from '../agency-ui-context';
+import React, {useMemo} from 'react';
+import {useAgencyUIContext} from '../agency-ui-context';
+
 export function AgencyGrouping() {
   // Customers UI Context
   const agencyUIContext = useAgencyUIContext();
@@ -13,7 +14,7 @@ export function AgencyGrouping() {
       //     customersUIContext.openUpdateCustomersStatusDialog,
     };
   }, [agencyUIContext]);
-
+  
   return (
     <div className="form">
       <div className="row align-items-center form-group-actions margin-top-20 margin-bottom-20">

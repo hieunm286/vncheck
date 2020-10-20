@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import {createSlice} from '@reduxjs/toolkit';
 
 export interface AgencyState {
   listLoading: boolean;
@@ -52,7 +52,7 @@ export const agencySlice = createSlice({
       state.error = null;
     },
     agencysFetched: (state, action) => {
-      const { total, data } = action.payload;
+      const {total, data} = action.payload;
       state.listLoading = false;
       state.error = null;
       state.entities = data;
@@ -81,7 +81,7 @@ export const agencySlice = createSlice({
     agencyDeleteMany: (state, action) => {
       state.error = null;
       state.actionsLoading = false;
-      state.entities = state.entities.filter(function(el: any) {
+      state.entities = state.entities.filter(function (el: any) {
         return !action.payload.arr.includes(el);
       });
     },

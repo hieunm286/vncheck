@@ -1,4 +1,4 @@
-import { SortOrder } from 'react-bootstrap-table-next';
+import {SortOrder} from 'react-bootstrap-table-next';
 
 export const AgencyStatusCssClasses = ['danger', 'success', 'info', ''];
 export const AgencyStatusTitles = ['Suspended', 'Active', 'Pending', ''];

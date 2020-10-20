@@ -1,5 +1,5 @@
 import CryptoJS from 'crypto-js';
-import { randomBytes } from 'crypto';
+import {randomBytes} from 'crypto';
 
 const secp256k1 = require('secp256k1');
 const hash256 = require('hash.js');
@@ -13,7 +13,7 @@ export const SymmetricDecrypt = (
 ): string => {
   const cipher: any = CryptoJS.AES.decrypt(cipherText, key);
   const cipherUtf8 = cipher.toString(CryptoJS.enc.Utf8); // WordArray object
-
+  
   return cipherUtf8;
   //   return cipher.toString();
 };
@@ -39,9 +39,9 @@ export const GenerateKeyPair = (
 export const GenerateKeyPairAndEncrypt = (
   password: string,
 ): { publicKey: string; privateKey: string; encryptedPrivateKey: string } => {
-  const { privateKey, publicKey } = GenerateKeyPair(null);
+  const {privateKey, publicKey} = GenerateKeyPair(null);
   const encryptedPrivateKey = SymmetricEncrypt(privateKey, password);
-  return { publicKey, privateKey, encryptedPrivateKey };
+  return {publicKey, privateKey, encryptedPrivateKey};
 };
 
 export const SignMessage = (privateKey: string, message: any) => {

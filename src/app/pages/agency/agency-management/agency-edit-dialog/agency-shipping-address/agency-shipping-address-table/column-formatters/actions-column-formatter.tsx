@@ -8,10 +8,10 @@ import './actions-column.scss';
 import {ToAbsoluteUrl} from "../../../../../../../components/helpers/assets-helpers";
 
 export function ActionsColumnFormatter(
-  cellContent : any,
-  row : any,
+  cellContent: any,
+  row: any,
   rowIndex: any,
-  { openDetailAgencyShippingDialog, openEditAgencyShippingDialog, openDeleteAgencyShippingDialog } : any,
+  {openDetailAgencyShippingDialog, openEditAgencyShippingDialog, openDeleteAgencyShippingDialog}: any,
 ) {
   return (
     <>
@@ -21,7 +21,7 @@ export function ActionsColumnFormatter(
         onClick={() => openDetailAgencyShippingDialog('showView')}>
         <span className="svg-icon svg-icon-md svg-icon-danger">
           {/* <SVG src={toAbsoluteUrl('/media/svg/icons/Communication/Write.svg')} /> */}
-          <Visibility className="text-danger eye" />
+          <Visibility className="text-danger eye"/>
         </span>
       </a>
       <a
@@ -29,7 +29,7 @@ export function ActionsColumnFormatter(
         className="btn btn-icon btn-hover-danger btn-sm mx-1"
         onClick={() => openEditAgencyShippingDialog('showEdit')}>
         <span className="svg-icon svg-icon-md svg-icon-danger">
-          <SVG src={ToAbsoluteUrl('/media/svg/icons/Communication/Write.svg')} />
+          <SVG src={ToAbsoluteUrl('/media/svg/icons/Communication/Write.svg')}/>
         </span>
       </a>
       <a
@@ -37,7 +37,7 @@ export function ActionsColumnFormatter(
         className="btn btn-icon btn-hover-danger btn-sm"
         onClick={() => openDeleteAgencyShippingDialog('showDelete')}>
         <span className="svg-icon svg-icon-md svg-icon-danger">
-          <SVG src={ToAbsoluteUrl('/media/svg/icons/General/Trash.svg')} />
+          <SVG src={ToAbsoluteUrl('/media/svg/icons/General/Trash.svg')}/>
         </span>
       </a>
     </>

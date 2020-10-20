@@ -1,37 +1,38 @@
 .btn-group .btn {
-  margin: 0px 40px !important;
-  border-radius: 0.42rem !important;
-  width: 120px;
+    margin: 0px 40px !important;
+    border-radius: 0.42rem !important;
+    width: 120px;
 }
 
 .btn:hover {
-  background-color: black;
+    background-color: black;
 }
+
 .btn.btn-primary:hover:not(.btn-text):not(:disabled):not(.disabled) {
-  background-color: black;
+    background-color: black;
 }
 
 .form-control {
-  margin-right: 120px;
+    margin-right: 120px;
 }
 
 .btn-new-agency {
-  width: 100px;
-  height: 34px;
-  margin: 0px 15px;
+    width: 100px;
+    height: 34px;
+    margin: 0px 15px;
 }
 
 input::-webkit-file-upload-button {
-  visibility: hidden;
+    visibility: hidden;
 }
 
 .form-label {
-  width: 130px;
-  margin-bottom: 0px;
+    width: 130px;
+    margin-bottom: 0px;
 }
 
 .form-input {
-  margin-right: 120px;
+    margin-right: 120px;
 }
 
 /* input[type=file] {

@@ -5,7 +5,7 @@ interface ItemProps {
   key: number;
 }
 
-const InfiniteItem: React.FC<ItemProps> = ({ item }: ItemProps) => {
+const InfiniteItem: React.FC<ItemProps> = ({item}: ItemProps) => {
   return (
     <div className="infinite-item">
       <div className="d-flex item">
@@ -18,11 +18,11 @@ const InfiniteItem: React.FC<ItemProps> = ({ item }: ItemProps) => {
         <div className="ml-3">
           <h4>{item.username}</h4>
           <span className="text-muted">Quả xoài. Tên thật là xoài, là loài trái cây màu vàng</span>
-          <br />
+          <br/>
           <strong>Như trên nhưng vẫn là quả xoài với màu chữ đậm</strong>
         </div>
       </div>
-      <hr />
+      <hr/>
     </div>
   );
 };

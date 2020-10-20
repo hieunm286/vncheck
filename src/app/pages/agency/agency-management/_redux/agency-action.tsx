@@ -1,13 +1,13 @@
 import * as requestFromServer from './agency-crud';
-import { agencySlice, callTypes } from './agency-slice';
+import {agencySlice, callTypes} from './agency-slice';
 
-const { actions } = agencySlice;
+const {actions} = agencySlice;
 
 export const fetchAllAgency = (queryParams: any) => (
   dispatch: (arg0: { payload: any; type: string }) => void,
 ) => {
-  dispatch(actions.startCall({ callType: callTypes.list }));
-
+  dispatch(actions.startCall({callType: callTypes.list}));
+  
   return requestFromServer
     .getAllAgencys(queryParams)
     .then(response => {
@@ -30,9 +30,9 @@ export const fetchAgencyById = (id: string) => (
 ) => {
   console.log(id);
   if (!id) {
-    return dispatch(actions.agencyFetched({ agencyForEdit: undefined }));
+    return dispatch(actions.agencyFetched({agencyForEdit: undefined}));
   }
-  dispatch(actions.startCall({ callType: callTypes.action }));
+  dispatch(actions.startCall({callType: callTypes.action}));
   return requestFromServer
     .getAgencyById(id)
     .then(response => {
@@ -40,7 +40,7 @@ export const fetchAgencyById = (id: string) => (
         ...response.data,
       };
       console.log(agencyForEdit);
-      dispatch(actions.agencyFetched({ agencyForEdit }));
+      dispatch(actions.agencyFetched({agencyForEdit}));
     })
     .catch(error => {
       error.clientMessage = "Can't find agency";
@@ -68,8 +68,8 @@ export const updateAgency = (agency: any, imageArray: any) => (
       // agency.dateofbirth = new Date(agency.dateofbirth).toLocaleDateString('vi-VN', {
       //   timeZone: 'Asia/Bangkok',
       // });
-
-      dispatch(actions.agencyUpdated({ agency }));
+      
+      dispatch(actions.agencyUpdated({agency}));
     })
     .catch(error => {
       error.clientMessage = "Can't update agency";
@@ -121,7 +121,7 @@ export const deleteManyAgency = (arr: any) => (
   return requestFromServer
     .deleteManyAgency(arr)
     .then(response => {
-      dispatch(actions.agencyDeleteMany({ arr }));
+      dispatch(actions.agencyDeleteMany({arr}));
     })
     .catch(error => {
       error.clientMessage = "Can't delete agency";

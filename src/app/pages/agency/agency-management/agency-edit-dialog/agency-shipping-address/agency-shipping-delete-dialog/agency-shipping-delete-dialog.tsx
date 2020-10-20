@@ -1,21 +1,21 @@
-import React, { useEffect } from 'react';
-import { Modal } from 'react-bootstrap';
-import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import { ModalProgressBar } from '../../../../../../components/modal-progress-bar';
+import React, {useEffect} from 'react';
+import {Modal} from 'react-bootstrap';
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
+import {ModalProgressBar} from '../../../../../../components/modal-progress-bar';
 // import * as actions from '../../../../_redux/agencyAction';
 import * as actions from '../../../_redux/agency-action';
 import DeleteIcon from '@material-ui/icons/Delete';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 
 export function AgencyShippingDeleteDialog({
-  show,
-  openModal,
-  hideModal,
-  rowShippingData,
-  saveNewData,
-}: any) {
+                                             show,
+                                             openModal,
+                                             hideModal,
+                                             rowShippingData,
+                                             saveNewData,
+                                           }: any) {
   const dispatch = useDispatch();
-  const { isLoading, agencyForEdit } = useSelector(
+  const {isLoading, agencyForEdit} = useSelector(
     (state: any) => ({
       isLoading: state.agencyType.actionsLoading,
       error: state.agencyType.error,
@@ -23,16 +23,17 @@ export function AgencyShippingDeleteDialog({
     }),
     shallowEqual,
   );
-
-  useEffect(() => {}, [agencyForEdit, dispatch]);
-
+  
+  useEffect(() => {
+  }, [agencyForEdit, dispatch]);
+  
   const deleteAgencyType = () => {
     const shippingAdressArr =
       agencyForEdit && agencyForEdit.shipping_address
         ? JSON.parse(agencyForEdit.shipping_address)
         : [];
     shippingAdressArr.splice(rowShippingData.rowIndex, 1);
-
+    
     if (rowShippingData.data.id == 0 && shippingAdressArr.length > 0) {
       shippingAdressArr[shippingAdressArr.length - 1].id = '0';
     }
@@ -49,15 +50,15 @@ export function AgencyShippingDeleteDialog({
       }
     });
   };
-
+  
   const cancelAndRefresh = () => {
     hideModal();
   };
-
+  
   return (
     <Modal show={show} onHide={hideModal} aria-labelledby="example-modal-sizes-title-lg">
       {/*begin::Loading*/}
-      {isLoading && <ModalProgressBar />}
+      {isLoading && <ModalProgressBar/>}
       {/*end::Loading*/}
       <Modal.Header closeButton>
         <Modal.Title id="example-modal-sizes-title-lg" className="text-danger">
@@ -68,7 +69,7 @@ export function AgencyShippingDeleteDialog({
         {!isLoading && (
           <div>
             <p>Bạn đang thực hiện xóa địa chỉ giao hàng này </p>
-
+            
             <p className="mt-3">Tiếp tục xóa?</p>
           </div>
         )}
@@ -77,10 +78,10 @@ export function AgencyShippingDeleteDialog({
       <Modal.Footer>
         <div>
           <button type="button" onClick={deleteAgencyType} className="btn btn-danger btn-elevate">
-            <DeleteIcon /> Xóa
+            <DeleteIcon/> Xóa
           </button>
           <button type="button" onClick={cancelAndRefresh} className="btn btn-outline-danger">
-            <CancelOutlinedIcon /> Hủy bỏ
+            <CancelOutlinedIcon/> Hủy bỏ
           </button>
         </div>
       </Modal.Footer>

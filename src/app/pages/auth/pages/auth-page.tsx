@@ -1,12 +1,11 @@
-import React, { useLayoutEffect, useState } from 'react';
-import { Link, Switch, Redirect } from 'react-router-dom';
+import React, {useLayoutEffect, useState} from 'react';
+import {Link, Switch} from 'react-router-dom';
 import LoginUsername from './login-username';
 import ForgotPassword from './forgot-password';
 import '../../../../_metronic/_assets/sass/pages/login/classic/login-1.scss';
 import ChangePassword from './change-password';
-import { useLocation } from 'react-router';
 import LoginPassword from './login-password';
-import { FormattedMessage } from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 import ReceiveCode from './receive-code';
 import VerificationCode from './verification-code';
 import {ToAbsoluteUrl} from "../../../components/helpers/assets-helpers";
@@ -19,7 +18,7 @@ function useWindowSize() {
     function updateSize() {
       setSize([window.innerWidth, window.innerHeight]);
     }
-
+    
     window.addEventListener('resize', updateSize);
     updateSize();
     return () => window.removeEventListener('resize', updateSize);
@@ -29,10 +28,10 @@ function useWindowSize() {
 
 export function AuthPage() {
   const [width] = useWindowSize();
-  const { search } = window.location;
+  const {search} = window.location;
   let callbackUrl = new URLSearchParams(search).get('callbackUrl');
   console.log(callbackUrl);
-
+  
   const style = {
     customBg: {
       //   backgroundImage: `url('https://www.chotot.com/kinhnghiem/wp-content/uploads/2015/04/Nen-mua-hay-thue-dat-lam-trang-trai-7.jpg')`,
@@ -73,7 +72,7 @@ export function AuthPage() {
                 />
               </Link> */}
               {/* end:: Aside header */}
-
+              
               {/* start:: Aside content */}
               <div className="flex-column-fluid d-flex flex-column justify-content-center">
                 {/* <h3 className="font-size-h1 mb-5 text-white" style={{ fontSize: 50 }}>
@@ -84,7 +83,7 @@ export function AuthPage() {
                 </p> */}
               </div>
               {/* end:: Aside content */}
-
+              
               {/* start:: Aside footer for desktop */}
               <div className="d-none flex-column-auto d-lg-flex justify-content-between mt-10">
                 <div className="opacity-70 font-weight-bold	text-white">&copy; 2020 VnCheck</div>
@@ -96,7 +95,7 @@ export function AuthPage() {
                     <FormattedMessage id="AUTH.GENERAL.LEGAL" />
                   </Link> */}
                   <Link to="/terms" className="text-white ml-10">
-                    <FormattedMessage id="AUTH.GENERAL.CONTACT" />
+                    <FormattedMessage id="AUTH.GENERAL.CONTACT"/>
                   </Link>
                 </div>
               </div>
@@ -108,26 +107,28 @@ export function AuthPage() {
           {/* <div className="flex-row-fluid d-flex flex-column position-relative p-7 overflow-hidden">
             <img src={ToAbsoluteUrl('/media/logos/logo-unifarm.png')} alt="logo" />
           </div> */}
-
+          
           {/*begin::Content*/}
           <div
             className="flex-row-fluid d-flex flex-column position-relative p-7 overflow-hidden"
             style={style.linearContent}>
             {/*begin::Content header*/}
-            <div className="position-absolute top-0 right-0 text-right mt-5 mb-15 mb-lg-0 flex-column-auto justify-content-center py-5 px-10">
+            <div
+              className="position-absolute top-0 right-0 text-right mt-5 mb-15 mb-lg-0 flex-column-auto justify-content-center py-5 px-10">
               <span className="font-weight-bold text-dark-50">
-                <FormattedMessage id="AUTH.GENERAL.NO_ACCOUNT" />
+                <FormattedMessage id="AUTH.GENERAL.NO_ACCOUNT"/>
               </span>
               <Link to="/auth/registration" className="font-weight-bold ml-2" id="kt_login_signup">
-                <FormattedMessage id="AUTH.GENERAL.SIGNUP_BUTTON" />
+                <FormattedMessage id="AUTH.GENERAL.SIGNUP_BUTTON"/>
               </Link>
             </div>
             {/*end::Content header*/}
-
+            
             {/* begin::Content body */}
-            <div className="d-flex flex-column-fluid justify-content-center align-items-center flex-column mt-30 mt-lg-0 input-section">
+            <div
+              className="d-flex flex-column-fluid justify-content-center align-items-center flex-column mt-30 mt-lg-0 input-section">
               <div className="d-flex justify-content-center align-items-center flex-column mb-10">
-                <img src={ToAbsoluteUrl('/media/logos/logo-unifarm.png')} alt="logo" width="50" />
+                <img src={ToAbsoluteUrl('/media/logos/logo-unifarm.png')} alt="logo" width="50"/>
                 <h6 className="text-center mt-5">
                   VNCheck - Giải pháp Blockchain truy xuất nguồn gốc nông sản
                 </h6>
@@ -179,9 +180,10 @@ export function AuthPage() {
             </div>
             {/* <div className="text-right font-weight-bold">Chọn ngôn ngữ của bạn</div> */}
             {/*end::Content body*/}
-
+            
             {/* begin::Mobile footer */}
-            <div className="d-flex d-lg-none flex-column-auto flex-column flex-sm-row justify-content-between align-items-center mt-5 p-5">
+            <div
+              className="d-flex d-lg-none flex-column-auto flex-column flex-sm-row justify-content-between align-items-center mt-5 p-5">
               <div className="text-dark-50 font-weight-bold order-2 order-sm-1 my-2">
                 &copy; 2020 Metronic
               </div>
