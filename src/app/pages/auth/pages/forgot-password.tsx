@@ -1,19 +1,19 @@
-import React, { useState } from 'react';
-import { useFormik } from 'formik';
-import { connect } from 'react-redux';
-import { Link, Redirect } from 'react-router-dom';
+import React, {useState} from 'react';
+import {useFormik} from 'formik';
+import {connect} from 'react-redux';
+import {Link, Redirect} from 'react-router-dom';
 import * as Yup from 'yup';
-import { injectIntl } from 'react-intl';
+import {injectIntl} from 'react-intl';
 import * as auth from '../_redux/auth-redux';
-import { requestPassword } from '../_redux/auth.service';
-import { TextField } from '@material-ui/core';
+import {requestPassword} from '../_redux/auth.service';
+import {TextField} from '@material-ui/core';
 
 const initialValues = {
   email: '',
 };
 
 function ForgotPassword(props: { intl: any }) {
-  const { intl } = props;
+  const {intl} = props;
   const [isRequested, setIsRequested] = useState(false);
   const ForgotPasswordSchema = Yup.object().shape({
     email: Yup.string()
@@ -26,40 +26,40 @@ function ForgotPassword(props: { intl: any }) {
         }),
       ),
   });
-
+  
   // const getInputClasses = fieldname => {
   //   if (formik.touched[fieldname] && formik.errors[fieldname]) {
   //     return 'is-invalid';
   //   }
-
+  
   //   if (formik.touched[fieldname] && !formik.errors[fieldname]) {
   //     return 'is-valid';
   //   }
-
+  
   //   return '';
   // };
-
+  
   const formik = useFormik({
     initialValues,
     validationSchema: ForgotPasswordSchema,
-    onSubmit: (values, { setStatus, setSubmitting }) => {
+    onSubmit: (values, {setStatus, setSubmitting}) => {
       requestPassword(values.email)
         .then(() => setIsRequested(true))
         .catch(() => {
           setIsRequested(false);
           setSubmitting(false);
           setStatus(
-            intl.formatMessage({ id: 'AUTH.VALIDATION.NOT_FOUND' }, { name: values.email }),
+            intl.formatMessage({id: 'AUTH.VALIDATION.NOT_FOUND'}, {name: values.email}),
           );
         });
     },
   });
-
+  
   return (
     <>
-      {isRequested && <Redirect to="/auth" />}
+      {isRequested && <Redirect to="/auth"/>}
       {!isRequested && (
-        <div className="login-form login-forgot" style={{ display: 'block' }}>
+        <div className="login-form login-forgot" style={{display: 'block'}}>
           <div className="text-center mb-10 mb-lg-20">
             <h3 className="font-size-h1">Forgotten Password ?</h3>
             <div className="text-muted font-weight-bold">
@@ -92,7 +92,7 @@ function ForgotPassword(props: { intl: any }) {
                 variant="outlined"
                 // name="username"
                 // onClick={() => alert('cc')}
-
+                
                 {...formik.getFieldProps('email')}
               />
               {formik.touched.email && formik.errors.email ? (

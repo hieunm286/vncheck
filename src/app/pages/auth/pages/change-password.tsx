@@ -1,31 +1,23 @@
-import React, { useState } from 'react';
-import { useFormik } from 'formik';
-import { connect, RootStateOrAny, shallowEqual, useSelector } from 'react-redux';
+import React, {useState} from 'react';
+import {useFormik} from 'formik';
+import {connect, RootStateOrAny, useSelector} from 'react-redux';
 import * as Yup from 'yup';
-import { Link, useHistory } from 'react-router-dom';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import {useHistory} from 'react-router-dom';
+import {FormattedMessage, injectIntl} from 'react-intl';
 import * as auth from '../_redux/auth-redux';
-import {
-  getUserFromIdentity,
-  Ping,
-  saveIdentity,
-  SetPassword,
-  SetTempPassword,
-} from '../_redux/auth.service';
-import { GenerateKeyPair, SignMessage, SymmetricEncrypt } from '../service/auth-cryptography';
-import { CERTIFICATE_EXP } from '../../../const';
+import {Ping, SetPassword, SetTempPassword,} from '../_redux/auth.service';
+import {GenerateKeyPair, SignMessage, SymmetricEncrypt} from '../service/auth-cryptography';
+import {CERTIFICATE_EXP} from '../../../const';
 import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
+import {createMuiTheme, makeStyles, MuiThemeProvider} from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import FormControl from '@material-ui/core/FormControl';
-import TextField from '@material-ui/core/TextField';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import Tooltip from '@material-ui/core/Tooltip';
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
 const initialValues = {
   newPassword: '123',
@@ -55,7 +47,6 @@ const theme = createMuiTheme({
         fontSize: "1em",
         // color: "yellow",
         // backgroundColor: "red",
-        
       }
     }
   }
@@ -74,12 +65,12 @@ function ChangePassword(props: {
   savePingErrorData?: any;
   intl?: any;
 }) {
-  const { intl } = props;
+  const {intl} = props;
   const [loading, setLoading] = useState(false);
   const [isRequested, setIsRequested] = useState(false);
-
+  
   const history = useHistory();
-
+  
   const classes = useStyles();
   const [values, setValues] = React.useState<State>({
     newPassword: '',
@@ -87,13 +78,13 @@ function ChangePassword(props: {
     showNewPassword: false,
     showPassword: false,
   });
-
+  
   const location = window.location;
-  const { pathname } = location;
-  const { search } = location;
+  const {pathname} = location;
+  const {search} = location;
   let callbackUrl = new URLSearchParams(search).get('callbackUrl');
   callbackUrl = callbackUrl ? callbackUrl : pathname;
-  const userInfo = useSelector(({ auth }: { auth: RootStateOrAny }) => auth);
+  const userInfo = useSelector(({auth}: { auth: RootStateOrAny }) => auth);
   console.log(userInfo);
   const ChangePasswordSchema = Yup.object().shape({
     newPassword: Yup.string()
@@ -111,26 +102,26 @@ function ChangePassword(props: {
         }),
       )
       .when('newPassword', {
-        is: val => (val && val.length > 0 ? true : false),
+        is: val => (!!(val && val.length > 0)),
         then: Yup.string().oneOf(
           [Yup.ref('newPassword')],
           "New Password and Confirm New Password didn't match",
         ),
       }),
   });
-
+  
   const handleClickShowPassword = (prop: keyof State, show: boolean) => {
-    setValues({ ...values, [prop]: !show });
+    setValues({...values, [prop]: !show});
   };
-
+  
   const handleChange = (prop: keyof State) => (event: React.ChangeEvent<HTMLInputElement>) => {
-    setValues({ ...values, [prop]: event.target.value });
+    setValues({...values, [prop]: event.target.value});
   };
-
+  
   const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
   };
-
+  
   const logoutClick = () => {
     const toggle = document.getElementById('kt_quick_user_toggle');
     if (toggle) {
@@ -144,30 +135,17 @@ function ChangePassword(props: {
     localStorage.setItem('persist:vncheck', JSON.stringify(resetLocal));
     history.push('/logout?callbackUrl=' + callbackUrl);
   };
-
-  // const getInputClasses = fieldname => {
-  //   if (formik.touched[fieldname] && formik.errors[fieldname]) {
-  //     return 'is-invalid';
-  //   }
-
-  //   if (formik.touched[fieldname] && !formik.errors[fieldname]) {
-  //     return 'is-valid';
-  //   }
-
-  //   return '';
-  // };
-
   const GenerateCertificate = (
     certificateInfo: { username: string; timestamp: Date; exp: number },
     privateKey: string,
   ) => {
     const keyPair = GenerateKeyPair(privateKey);
     const signature = SignMessage(privateKey, certificateInfo);
-    return { signature, certificateInfo, publicKey: keyPair.publicKey };
+    return {signature, certificateInfo, publicKey: keyPair.publicKey};
   };
   const changePassword = (
-    { newPassword, privateKey }: { newPassword: string; privateKey: string },
-    { setStatus, setSubmitting }: { setStatus: any; setSubmitting: any },
+    {newPassword, privateKey}: { newPassword: string; privateKey: string },
+    {setStatus, setSubmitting}: { setStatus: any; setSubmitting: any },
   ) => {
     const keyPair = GenerateKeyPair(null);
     const encryptedPrivateKey = SymmetricEncrypt(keyPair.privateKey, newPassword);
@@ -180,7 +158,7 @@ function ChangePassword(props: {
       console.log(1111111111111111111);
       SetPassword(data).then(res => {
         //TODO:Save new credential
-
+        
         const certificate = GenerateCertificate(
           {
             username: userInfo.username,
@@ -211,43 +189,25 @@ function ChangePassword(props: {
           });
       });
     });
-    // getUserFromIdentity(username)
-    //     .then(res => {
-    //         setIsRequested(true);
-    //         let en_private_key = res.data.en_private_key;
-    //         let public_key = res.data.public_key;
-    //         const {signature, e_NewprivateKey} = ChangePasswordCryption(en_private_key, old_password, newPassword);
-    //         saveIdentity(username, 0, signature, e_NewprivateKey, public_key);
-    //         logoutClick();
-    //         localStorage.removeItem('old_info');
-    //     })
-    //     .catch(() => {
-    //         setIsRequested(false);
-    //         setSubmitting(false);
-    //         setStatus(intl.formatMessage({id: 'AUTH.VALIDATION.INVALID_CHANGEPASSWORD'}));
-    //     });
-
-    // changepassword(values.password)
   };
-
+  
   const formik = useFormik({
     initialValues,
     validationSchema: ChangePasswordSchema,
     onSubmit: (values, ob) => {
-      // return changePassword({ ...values, privateKey: userInfo.privateKey }, ob);
-      return changePassword({ ...values, privateKey: userInfo.privateKey }, ob);
+      return changePassword({...values, privateKey: userInfo.privateKey}, ob);
     },
   });
   return (
     <>
-      <div className="login-form login-signin" style={{ display: 'block' }}>
+      <div className="login-form login-signin" style={{display: 'block'}}>
         <div className="text-center mb-10 mb-lg-10">
           <h3 className="font-size-h1">
-            <FormattedMessage id="AUTH.CHANGEPASSWORD.TITLE" />
+            <FormattedMessage id="AUTH.CHANGEPASSWORD.TITLE"/>
           </h3>
           <p className="text-muted font-weight-bold">{intl.formatMessage({id: 'AUTH.CHANGEPASSWORD.SUB_TITLE'})}</p>
         </div>
-
+        
         <form
           id="kt_login_signin_form"
           className="form fv-plugins-bootstrap fv-plugins-framework animated animate__animated animate__backInUp"
@@ -259,50 +219,49 @@ function ChangePassword(props: {
             </div>
           )}
           {/* end: Alert */}
-
+          
           {/* begin: Password */}
           <div className="form-group fv-plugins-icon-container">
             <FormControl
               className={clsx(classes.margin, classes.textField) + ' form-control w-100'}
               variant="outlined">
-              <InputLabel htmlFor="outlined-adornment-password">{intl.formatMessage({id: 'AUTH.INPUT.PASSWORD'})}</InputLabel>
+              <InputLabel
+                htmlFor="outlined-adornment-password">{intl.formatMessage({id: 'AUTH.INPUT.PASSWORD'})}</InputLabel>
               <OutlinedInput
                 id="outlined-adornment-password"
                 type={values.showNewPassword ? 'text' : 'password'}
-                // value={values.newPassword}
-                // onChange={handleChange('newPassword')}
-                // name="newPassword"
                 endAdornment={
                   <InputAdornment position="end">
                     <MuiThemeProvider theme={theme}>
                       {
                         values.showNewPassword ? (
-                        <Tooltip title={intl.formatMessage({id: 'AUTH.BUTTON.HIDEPASSWORD'})} placement="right-end">
-                          <IconButton
-                            aria-label="toggle password visibility"
-                            onClick={e =>
-                              handleClickShowPassword('showNewPassword', values.showNewPassword)
-                            }
-                            onMouseDown={handleMouseDownPassword}
-                            edge="end">
-                            <Visibility />
-                          </IconButton>
-                        </Tooltip>
+                          <Tooltip title={intl.formatMessage({id: 'AUTH.BUTTON.HIDEPASSWORD'})} placement="right-end"
+                                   tabIndex={-1}>
+                            <IconButton
+                              aria-label="toggle password visibility"
+                              onClick={e =>
+                                handleClickShowPassword('showNewPassword', values.showNewPassword)
+                              }
+                              onMouseDown={handleMouseDownPassword}
+                              edge="end">
+                              <Visibility/>
+                            </IconButton>
+                          </Tooltip>
                         ) : (
-                          <Tooltip title={intl.formatMessage({id: 'AUTH.BUTTON.SHOWPASSWORD'})} placement="right-end">
-                          <IconButton
-                            aria-label="toggle password visibility"
-                            onClick={e =>
-                              handleClickShowPassword('showNewPassword', values.showNewPassword)
-                            }
-                            onMouseDown={handleMouseDownPassword}
-                            edge="end">
-                            <VisibilityOff />
-                          </IconButton>
-                        </Tooltip>
+                          <Tooltip title={intl.formatMessage({id: 'AUTH.BUTTON.SHOWPASSWORD'})} placement="right-end" tabIndex={-1}>
+                            <IconButton
+                              aria-label="toggle password visibility"
+                              onClick={e =>
+                                handleClickShowPassword('showNewPassword', values.showNewPassword)
+                              }
+                              onMouseDown={handleMouseDownPassword}
+                              edge="end">
+                              <VisibilityOff/>
+                            </IconButton>
+                          </Tooltip>
                         )
                       }
-                      
+                    
                     </MuiThemeProvider>
                   </InputAdornment>
                 }
@@ -316,23 +275,12 @@ function ChangePassword(props: {
               </div>
             ) : null}
           </div>
-          {/* end: Password */}
-
-          {/* begin: Confirm Password */}
           <div className="form-group fv-plugins-icon-container">
-            {/* <input
-              placeholder="Confirm New Password"
-              type="password"
-              className={`form-control form-control-solid h-auto py-5 px-6 ${getInputClasses(
-                'repeatNewPassword',
-              )}`}
-              name="repeatNewPassword"
-              {...formik.getFieldProps('repeatNewPassword')}
-            /> */}
             <FormControl
               className={clsx(classes.margin, classes.textField) + ' form-control w-100'}
               variant="outlined">
-              <InputLabel htmlFor="outlined-adornment-password">{intl.formatMessage({id: 'AUTH.INPUT.CONFIRM_PASSWORD'})}</InputLabel>
+              <InputLabel
+                htmlFor="outlined-adornment-password">{intl.formatMessage({id: 'AUTH.INPUT.CONFIRM_PASSWORD'})}</InputLabel>
               <OutlinedInput
                 id="outlined-adornment-password-2"
                 type={values.showPassword ? 'text' : 'password'}
@@ -349,9 +297,9 @@ function ChangePassword(props: {
                             onClick={e => handleClickShowPassword('showPassword', values.showPassword)}
                             onMouseDown={handleMouseDownPassword}
                             edge="end">
-                            {values.showPassword ? <Visibility /> : <VisibilityOff />}
+                            {values.showPassword ? <Visibility/> : <VisibilityOff/>}
                           </IconButton>
-                      </Tooltip>
+                        </Tooltip>
                       ) : (
                         <Tooltip title={intl.formatMessage({id: 'AUTH.BUTTON.SHOWPASSWORD'})} placement="right-end">
                           <IconButton
@@ -359,11 +307,11 @@ function ChangePassword(props: {
                             onClick={e => handleClickShowPassword('showPassword', values.showPassword)}
                             onMouseDown={handleMouseDownPassword}
                             edge="end">
-                            {values.showPassword ? <Visibility /> : <VisibilityOff />}
+                            {values.showPassword ? <Visibility/> : <VisibilityOff/>}
                           </IconButton>
-                      </Tooltip>
+                        </Tooltip>
                       )}
-
+                    
                     </MuiThemeProvider>
                   </InputAdornment>
                 }
@@ -378,13 +326,13 @@ function ChangePassword(props: {
             ) : null}
           </div>
           {/* end: Confirm Password */}
-
+          
           <div className="form-group d-flex flex-wrap flex-center">
             <button type="submit" className="btn btn-danger font-weight-bold px-9 py-4 my-3 mx-4">
               <span>Xác nhận</span>
-              {loading && <span className="ml-3 spinner spinner-white"></span>}
+              {loading && <span className="ml-3 spinner spinner-white"/>}
             </button>
-
+            
             <button
               type="button"
               className="btn btn-outline-danger font-weight-bold px-9 py-4 my-3 mx-4"

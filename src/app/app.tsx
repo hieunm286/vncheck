@@ -5,7 +5,7 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { PersistGate } from 'redux-persist/integration/react';
-import { I18nProvider } from '../_metronic/i18n';
+import { I18nProvider } from './layout/i18n';
 import {Routes} from './routes';
 import {LayoutSplashScreen} from "./layout/_core/metronic-splash-screen";
 import {MaterialThemeProvider} from "./layout/_core/material-theme-provider";

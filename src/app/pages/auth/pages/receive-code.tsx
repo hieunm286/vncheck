@@ -1,13 +1,11 @@
-import React, { useState } from 'react';
-import { useFormik } from 'formik';
-import { connect } from 'react-redux';
-import { Link, Redirect, useHistory } from 'react-router-dom';
+import React, {useState} from 'react';
+import {useFormik} from 'formik';
+import {connect} from 'react-redux';
+import {Link, Redirect, useHistory} from 'react-router-dom';
 import * as Yup from 'yup';
-import { injectIntl } from 'react-intl';
+import {injectIntl} from 'react-intl';
 import * as auth from '../_redux/auth-redux';
-import { requestPassword } from '../_redux/auth.service';
-import { TextField } from '@material-ui/core';
-import { Form } from 'react-bootstrap';
+import {Form} from 'react-bootstrap';
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
 import SmsOutlinedIcon from '@material-ui/icons/SmsOutlined';
 
@@ -16,14 +14,14 @@ const initialValues = {
 };
 
 function ReceiveCode(props: { intl: any }) {
-  const { intl } = props;
+  const {intl} = props;
   const [isRequested, setIsRequested] = useState(false);
   const location = window.location;
-  const { pathname } = location;
-  const { search } = location;
+  const {pathname} = location;
+  const {search} = location;
   let callbackUrl = new URLSearchParams(search).get('callbackUrl');
   callbackUrl = callbackUrl ? callbackUrl : pathname;
-
+  
   const history = useHistory();
   const ForgotPasswordSchema = Yup.object().shape({
     // email: Yup.string()
@@ -36,23 +34,23 @@ function ReceiveCode(props: { intl: any }) {
     //     }),
     //   ),
   });
-
+  
   // const getInputClasses = fieldname => {
   //   if (formik.touched[fieldname] && formik.errors[fieldname]) {
   //     return 'is-invalid';
   //   }
-
+  
   //   if (formik.touched[fieldname] && !formik.errors[fieldname]) {
   //     return 'is-valid';
   //   }
-
+  
   //   return '';
   // };
-
+  
   const formik = useFormik({
     initialValues,
     validationSchema: ForgotPasswordSchema,
-    onSubmit: (values, { setStatus, setSubmitting }) => {
+    onSubmit: (values, {setStatus, setSubmitting}) => {
       history.push('/auth/verify-code?callbackUrl=' + callbackUrl);
       //   requestPassword(values.email)
       //     .then(() => setIsRequested(true))
@@ -65,12 +63,12 @@ function ReceiveCode(props: { intl: any }) {
       //     });
     },
   });
-
+  
   return (
     <>
-      {isRequested && <Redirect to="/auth" />}
+      {isRequested && <Redirect to="/auth"/>}
       {!isRequested && (
-        <div className="login-form login-forgot" style={{ display: 'block' }}>
+        <div className="login-form login-forgot" style={{display: 'block'}}>
           <div className="text-center mb-10 mb-lg-10">
             <h3 className="font-size-h1">Phương thức nhận mã</h3>
             <div className="text-muted font-weight-bold">Chọn phương thức để nhận mã xác minh</div>
@@ -89,7 +87,7 @@ function ReceiveCode(props: { intl: any }) {
                 label={
                   <div>
                     <p>
-                      Gửi mã qua email <MailOutlineIcon className="ml-2" />
+                      Gửi mã qua email <MailOutlineIcon className="ml-2"/>
                     </p>
                     <p> *********@gmail.com</p>
                   </div>
@@ -103,7 +101,7 @@ function ReceiveCode(props: { intl: any }) {
                 label={
                   <div>
                     <p>
-                      Gửi mã qua SMS <SmsOutlinedIcon className="ml-2" />
+                      Gửi mã qua SMS <SmsOutlinedIcon className="ml-2"/>
                     </p>
                     <p> 09******89m</p>
                   </div>
