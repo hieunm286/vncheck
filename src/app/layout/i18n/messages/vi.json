@@ -73,7 +73,6 @@
   "ECOMMERCE.CUSTOMERS.UPDATE_STATUS.MESSAGE": "Selected customers status have successfully been updated",
   "ECOMMERCE.CUSTOMERS.EDIT.UPDATE_MESSAGE": "Customer has been updated",
   "ECOMMERCE.CUSTOMERS.EDIT.ADD_MESSAGE": "Customer has been created",
-
   "MENU.DASHBOARD": "Bảng điều khiên",
   "MENU.USER": "Quản lý tài khoản",
   "MENU.USER.ACCOUNT": "Tài khoản",
@@ -122,6 +121,15 @@
 
   "BASIC_UNIT.CARD.DELETE_DIALOG.TITLE": "XÓA ĐƠN VỊ CƠ BẢN",
   "BASIC_UNIT.CARD.DELETE_DIALOG.CONTENT_NOTICE": "Đơn vị cơ bản sẽ bị xóa vĩnh viễn và không thể khôi phục.",
-  "BASIC_UNIT.CARD.DELETE_DIALOG.CONFIRM": "Tiếp tục xóa?"
-
+  "BASIC_UNIT.CARD.DELETE_DIALOG.CONFIRM": "Tiếp tục xóa?",
+  "BASIC_UNIT.CARD.TABLE.ACTION.DETAIL.TITLE": "Chi tiết đơn vị cơ bản",
+  "BASIC_UNIT.CARD.TABLE.ACTION.EDIT.TITLE": "Chỉnh sửa đơn vị cơ bản",
+  "BASIC_UNIT.CARD.TABLE.ACTION.DELETE.TITLE": "Xóa đơn vị cơ bản",
+  "BASIC_UNIT.CARD.HEADER.BUTTON.ADD": "Tạo mới",
+  "BASIC_UNIT.CARD.HEADER.BUTTON.DELETE": "Xóa",
+  "BASIC_UNIT.CARD.HEADER.NO_CHOOSEN": "Bạn chưa chọn bất kỳ đơn vị cơ bản nào!",
+  "BASIC_UNIT.CARD.HEADER.DELETING": "Đang xóa...",
+  "BASIC_UNIT.ERROR.CODE.EMPTY": "Mã đơn vị không được để trống",
+  "BASIC_UNIT.ERROR.CODE.EXISTS": "Mã đơn vị đã tồn tại",
+  "BASIC_UNIT.ERROR.NAME.EMPTY": "Tên đơn vị không được để trống"
 }

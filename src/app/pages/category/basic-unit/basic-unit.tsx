@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import BasicUnitCard from './basic-unit-card';
 import BasicUnitCardHeader from './basic-unit-card-header';
@@ -6,94 +6,173 @@ import BasicUnitDeleteDialog from './basic-unit-delete/basic-unit-delete-dialog'
 import BasicUnitDetailDialog from './basic-unit-detail/basic-unit-detail-dialog';
 import BasicUnitDialog from './basic-unit-dialog/basic-unit-dialog';
 import { BasicUnitUIProvider } from './basic-unit-ui-context';
+import { useIntl } from 'react-intl';
+import * as requestFromServer from './api/basic-unit.api';
+import { isEqual, isFunction } from 'lodash';
+import { initialFilter } from './basic-unit-ui-helpers';
+import BasicUnitDeleteManyDialog from './basic-unit-delete/basic-unit-delete-many-dialog';
 
-// const basicUnitArray = [
-//   {
-//     basicUnitCode: 'Bo',
-//     basicUnitName: 'Bó',
-//     status: 0,
-//   },
-//   {
-//     basicUnitCode: 'Qua',
-//     basicUnitName: 'Quả',
-//     status: 0,
-//   },
-//   {
-//     basicUnitCode: 'Nai',
-//     basicUnitName: 'Nải',
-//     status: 0,
-//   },
-// ];
-
-function BasicUnitManagement({ history }: { history: any }) {
+function BasicUnitManagement() {
   const basicUnitUIEvents = {};
   const [show, setShow] = useState({
     edit: false,
     delete: false,
     detail: false,
+    deleteMany: false,
   });
 
-  const [basicUnitArray, setBasicUnitArray] = useState([
-    {
-      basicUnitCode: 'Bo',
-      basicUnitName: 'Bó',
-      status: 0,
-    },
-    {
-      basicUnitCode: 'Qua',
-      basicUnitName: 'Quả',
-      status: 0,
-    },
-    {
-      basicUnitCode: 'Nai',
-      basicUnitName: 'Nải',
-      status: 0,
-    },
-  ]);
+  const intl = useIntl();
+
+  const [basicUnitArray, setBasicUnitArray] = useState<any>([]);
 
   const [unitForEdit, setUnitForEdit] = useState(null);
   const [error, setError] = useState('');
 
-  const showModal = (data: any, action: string): void => {
+  const [queryParams, setQueryParamsBase] = useState(initialFilter);
+  const [ids, setIds] = useState([]);
+
+  const setQueryParams = useCallback(nextQueryParams => {
+    setQueryParamsBase((prevQueryParams: any) => {
+      if (isFunction(nextQueryParams)) {
+        nextQueryParams = nextQueryParams(prevQueryParams);
+      }
+
+      if (isEqual(prevQueryParams, nextQueryParams)) {
+        return prevQueryParams;
+      }
+
+      return nextQueryParams;
+    });
+  }, []);
+
+  const [total, setTotal] = useState<number>(0);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  console.log(ids);
+
+  useEffect(() => {
+    const fetchAllBasicUnit = async () => {
+      setLoading(true);
+      requestFromServer
+        .getAllBasicUnit(queryParams)
+        .then(res => {
+          console.log(res.data.total);
+          setIds([]);
+          setTotal(res.data.total);
+          setBasicUnitArray(res.data.result);
+          setLoading(false);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    };
+
+    setIds([]);
+
+    fetchAllBasicUnit();
+  }, [queryParams]);
+
+  const showModal = (data: any, action: string) => {
+    setError('');
     setShow({ ...show, [action]: true });
     setUnitForEdit(data);
   };
 
-  const hideModal = (action: string): void => {
+  const hideModal = (action: string) => {
+    setError('');
     setShow({ ...show, [action]: false });
   };
 
-  const editBasicUnit = (values: any): void => {
-    const updateUnit = [...basicUnitArray];
-    updateUnit.forEach(el => {
-      if (el.basicUnitCode === values.basicUnitCode) {
-        el.basicUnitCode = values.basicUnitCode;
-        el.basicUnitName = values.basicUnitName;
-        el.status = values.status;
+  const editBasicUnit = (value: any) => {
+    const updateUnit: any = [...basicUnitArray];
+    updateUnit.forEach((el: { code: any; name: any; status: any }) => {
+      if (el.code === value.code) {
+        el.code = value.code;
+        el.name = value.name;
+        el.status = value.status;
       }
     });
     setBasicUnitArray(updateUnit);
 
-    setShow({ edit: false, delete: false, detail: false });
+    console.log(value);
+
+    requestFromServer
+      .updateBasicUnit(value)
+      .then(res => {
+        setShow({ edit: false, delete: false, detail: false, deleteMany: false });
+      })
+      .catch(error => {
+        console.log(error);
+      });
   };
 
-  const addBasicUnit = (values: any): void => {
+  const addBasicUnit = (values: any) => {
     const updateUnit = [...basicUnitArray];
-    const index = updateUnit.findIndex(el => el.basicUnitCode === values.basicUnitCode);
+    const index = updateUnit.findIndex(el => el.code === values.code);
     if (index !== -1) {
-      setError('Mã đơn vị đã tồn tại!');
+      setError(intl.formatMessage({ id: 'BASIC_UNIT.ERROR.CODE.EXISTS' }));
       return;
     }
     updateUnit.push(values);
     setBasicUnitArray(updateUnit);
-    setError('');
-    setShow({ edit: false, delete: false, detail: false });
+
+    requestFromServer
+      .createBasicUnit(values)
+      .then(res => {
+        setError('');
+        setShow({ edit: false, delete: false, detail: false, deleteMany: false });
+      })
+      .catch(error => {
+        console.log(error);
+      });
   };
 
-  const deleteBasicUnit = (basicUnitCode: string) => {
-    const updateUnit = basicUnitArray.filter(el => el.basicUnitCode !== basicUnitCode);
+  const deleteBasicUnit = (code: string) => {
+    const updateUnit = basicUnitArray.filter((el: { code: string }) => el.code !== code);
     setBasicUnitArray(updateUnit);
-    setShow({ edit: false, delete: false, detail: false });
+    requestFromServer.deleteBasicUnit(code).then(res => {
+      setShow({ edit: false, delete: false, detail: false, deleteMany: false });
+    });
+  };
+
+  const deleteManyBasicUnit = () => {
+    setLoading(true);
+    requestFromServer
+      .deleteManyBasicUnit(ids)
+      .then(res => {
+        console.log(res);
+        setError('');
+        setShow({ edit: false, delete: false, detail: false, deleteMany: false });
+        requestFromServer
+          .getAllBasicUnit(queryParams)
+          .then(res => {
+            setIds([]);
+            setTotal(res.data.total);
+            setBasicUnitArray(res.data.result);
+            setLoading(false);
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
+  const basicUnitSearch = (data: { code: string; name: string }) => {
+    setLoading(true);
+    requestFromServer
+      .searchBasicUnit(data)
+      .then(res => {
+        setIds([]);
+        setTotal(res.data.total);
+        setBasicUnitArray(res.data.result);
+        setLoading(false);
+      })
+      .catch(error => {
+        console.log(error);
+      });
   };
 
   return (
@@ -113,12 +192,27 @@ function BasicUnitManagement({ history }: { history: any }) {
         unitForEdit={unitForEdit}
         deleteBasicUnit={deleteBasicUnit}
       />
-      <BasicUnitCardHeader />
+      <BasicUnitDeleteManyDialog
+        ids={ids}
+        show={show}
+        hideModal={hideModal}
+        unitForEdit={unitForEdit}
+        loading={loading}
+        deleteManyBasicUnit={deleteManyBasicUnit}
+      />
+      <BasicUnitCardHeader basicUnitSearch={basicUnitSearch} />
       <BasicUnitCard
         showModal={showModal}
         hideModal={hideModal}
         show={show}
         basicUnitArray={basicUnitArray}
+        total={total}
+        loading={loading}
+        queryParams={queryParams}
+        setQueryParamsBase={setQueryParamsBase}
+        ids={ids}
+        setIds={setIds}
+        setQueryParams={setQueryParams}
       />
     </BasicUnitUIProvider>
   );

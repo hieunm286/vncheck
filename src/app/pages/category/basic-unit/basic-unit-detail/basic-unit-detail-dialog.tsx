@@ -14,8 +14,8 @@ function BasicUnitDetailDialog({
   hideModal: any;
 }) {
   const initUnit = {
-    basicUnitCode: '',
-    basicUnitName: '',
+    code: '',
+    name: '',
     status: 0,
   };
 
@@ -33,6 +33,7 @@ function BasicUnitDetailDialog({
           {intl.formatMessage({ id: 'BASIC_UNIT.CARD.DETAIL_DIALOG.TITLE' })}
         </Modal.Title>
       </Modal.Header>
+
       <BasicUnitDetail unitForEdit={unitForEdit || initUnit} />
       <Modal.Footer>
         <button

@@ -13,9 +13,9 @@ function BasicUnitDialog({
 }: any) {
   const { edit }: { edit: boolean } = show;
   const initForm = {
-    basicUnitCode: '',
-    basicUnitName: '',
-    status: 0,
+    code: '',
+    name: '',
+    status: 1,
   };
 
   const handleActionBasicUnit = (values: any) => {

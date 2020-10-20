@@ -39,7 +39,7 @@ function BasicUnitDeleteDialog({
         <button
           type="button"
           className="btn btn-danger"
-          onClick={e => deleteBasicUnit(unitForEdit.basicUnitCode)}>
+          onClick={e => deleteBasicUnit(unitForEdit.code)}>
           <DeleteIcon style={iconStyle} />
           {intl.formatMessage({ id: 'BASIC_UNIT.CARD.DIALOG.BUTTON.DELETE' })}
         </button>
