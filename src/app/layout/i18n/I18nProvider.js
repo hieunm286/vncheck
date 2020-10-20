@@ -5,8 +5,8 @@ import '@formatjs/intl-relativetimeformat/polyfill';
 import '@formatjs/intl-relativetimeformat/dist/locale-data/en';
 import '@formatjs/intl-relativetimeformat/dist/locale-data/vi';
 
-import viMessages from './messages/vi';
-import enMessages from './messages/en';
+import viMessages from './messages/vi.json';
+import enMessages from './messages/en.json';
 
 const allMessages = {
   en: enMessages,

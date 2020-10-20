@@ -20,7 +20,7 @@ import './_metronic/_assets/plugins/flaticon2/flaticon.css';
 // Datepicker
 import 'react-datepicker/dist/react-datepicker.css';
 
-import { MetronicI18nProvider } from './_metronic/i18n';
+import { MetronicI18nProvider } from './app/layout/i18n';
 import {MetronicLayoutProvider} from "./app/layout/_core/metronic-layout";
 import {MetronicSubheaderProvider} from "./app/layout/_core/metronic-subheader";
 import {MetronicSplashScreenProvider} from "./app/layout/_core/metronic-splash-screen";
