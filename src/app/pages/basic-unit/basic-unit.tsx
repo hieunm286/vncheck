@@ -1,11 +1,9 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { Switch, Route } from 'react-router-dom';
 import BasicUnitCard from './basic-unit-card';
 import BasicUnitCardHeader from './basic-unit-card-header';
 import BasicUnitDeleteDialog from './basic-unit-delete/basic-unit-delete-dialog';
 import BasicUnitDetailDialog from './basic-unit-detail/basic-unit-detail-dialog';
 import BasicUnitDialog from './basic-unit-dialog/basic-unit-dialog';
-import { BasicUnitUIProvider } from './basic-unit-ui-context';
 import { useIntl } from 'react-intl';
 import * as requestFromServer from './api/basic-unit.api';
 import { isEqual, isFunction } from 'lodash';
@@ -13,7 +11,6 @@ import { initialFilter } from './basic-unit-ui-helpers';
 import BasicUnitDeleteManyDialog from './basic-unit-delete/basic-unit-delete-many-dialog';
 
 function BasicUnitManagement() {
-  const basicUnitUIEvents = {};
   const [show, setShow] = useState({
     edit: false,
     delete: false,
@@ -176,7 +173,7 @@ function BasicUnitManagement() {
   };
 
   return (
-    <BasicUnitUIProvider basicUnitUIEvents={basicUnitUIEvents}>
+    <>
       <BasicUnitDialog
         show={show}
         hideModal={hideModal}
@@ -214,7 +211,7 @@ function BasicUnitManagement() {
         setIds={setIds}
         setQueryParams={setQueryParams}
       />
-    </BasicUnitUIProvider>
+    </>
   );
 }
 

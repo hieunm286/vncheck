@@ -3,10 +3,10 @@ import { Modal } from 'react-bootstrap';
 import { Formik, Form, Field } from 'formik';
 import { Switch } from '@material-ui/core';
 import { useIntl } from 'react-intl';
-import { MainInput } from '../../../../components/forms/main-input';
+import { MainInput } from '../../../components/forms/main-input';
 import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
-import { iconStyle } from '../../style';
+import { iconStyle } from '../style';
 import * as Yup from 'yup';
 
 const BasicUnitSchema = Yup.object().shape({
@@ -93,17 +93,19 @@ function BasicUnitForm({
                   />
                 </div>
                 <div className="mt-3 row">
-                  <label className="col-md-4">
+                  <label className="col-md-4 mt-3">
                     {intl.formatMessage({ id: 'BASIC_UNIT.CARD.TABLE.STATUS' })}
                   </label>
                   <div className="col-md-8">
-                    <Switch
-                      checked={state.status}
-                      onChange={handleChange}
-                      color="primary"
-                      name="status"
-                      inputProps={{ 'aria-label': 'primary checkbox' }}
-                    />
+                    <div style={{ marginLeft: '-1em' }}>
+                      <Switch
+                        checked={state.status}
+                        onChange={handleChange}
+                        color="primary"
+                        name="status"
+                        inputProps={{ 'aria-label': 'primary checkbox' }}
+                      />
+                    </div>
                   </div>
                 </div>
               </Form>

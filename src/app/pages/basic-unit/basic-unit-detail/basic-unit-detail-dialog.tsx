@@ -23,7 +23,6 @@ function BasicUnitDetailDialog({
 
   return (
     <Modal
-      size="sm"
       show={show.detail}
       onHide={() => hideModal('detail')}
       aria-labelledby="example-modal-sizes-title-lg"
@@ -40,7 +39,7 @@ function BasicUnitDetailDialog({
           type="button"
           onClick={() => hideModal('detail')}
           className="btn btn-outline-danger">
-          <CancelOutlinedIcon style={{ fontSize: 14 }} />{' '}
+          <CancelOutlinedIcon style={{ fontSize: '1em' }} />{' '}
           {intl.formatMessage({ id: 'BASIC_UNIT.CARD.DIALOG.BUTTON.CLOSE' })}
         </button>
       </Modal.Footer>
