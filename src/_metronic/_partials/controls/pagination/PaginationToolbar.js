@@ -15,7 +15,11 @@ function PagiTotal(props) {
   //   setState({from: start, to: end});
   // }, [props.page, props.sizePerPage]);
 
-  return <span className="text-muted">đại lý / trang trong tổng số {props.totalSize}</span>;
+  return (
+    <span className="text-muted">
+      {props.tableName}/trang trong tổng số {props.totalSize}
+    </span>
+  );
 }
 
 export function PaginationToolbar(props) {

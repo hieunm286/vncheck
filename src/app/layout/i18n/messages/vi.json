@@ -91,5 +91,45 @@
   "MENU.PURCHASE_ORDER": "Đơn hàng",
   "MENU.REPORT": "Báo cáo vấn đề",
   "MENU.PRODUCT_MANAGEMENT": "Quản lý sản xuất",
-  "MENU.INVENTORY": "Hàng tồn kho"
+  "MENU.INVENTORY": "Hàng tồn kho",
+
+  "BASIC_UNIT.CARD_HEADER.TITLE": "DANH MỤC ĐƠN VỊ CƠ BẢN",
+  "BASIC_UNIT.CARD_HEADER.CODE": "Mã đơn vị cơ bản",
+  "BASIC_UNIT.CARD_HEADER.NAME": "Tên đơn vị cơ bản",
+  "BASIC_UNIT.CARD_HEADER.CODE_INPUT": "Nhập mã",
+  "BASIC_UNIT.CARD_HEADER.NAME_INPUT": "Nhập tên",
+  "BASIC_UNIT.CARD_HEADER.BUTTON.SEARCH": "Tìm kiếm",
+  "BASIC_UNIT.CARD_HEADER.BUTTON.RESET_FILTER": "Bỏ lọc",
+
+  "BASIC_UNIT.CARD.TABLE.CODE": "Mã đơn vị cơ bản",
+  "BASIC_UNIT.CARD.TABLE.NAME": "Tên đơn vị cơ bản",
+  "BASIC_UNIT.CARD.TABLE.STATUS": "Trạng thái",
+  "BASIC_UNIT.CARD.TABLE.ACTION": "Tác vụ",
+
+  "BASIC_UNIT.CARD.EDIT_DIALOG.TITLE": "CHỈNH SỬA",
+  "BASIC_UNIT.CARD.DIALOG.BUTTON.SAVE": "Lưu",
+  "BASIC_UNIT.CARD.DIALOG.BUTTON.CANCEL": "Hủy",
+  "BASIC_UNIT.CARD.DIALOG.BUTTON.DELETE": "Xóa",
+  "BASIC_UNIT.CARD.DIALOG.BUTTON.CLOSE": "Đóng",
+  "BASIC_UNIT.CARD.EDIT_DIALOG.CODE": "Nhập mã đơn vị tính",
+  "BASIC_UNIT.CARD.EDIT_DIALOG.NAME": "Nhập tên đơn vị tính",
+
+  "BASIC_UNIT.CARD.DETAIL_DIALOG.TITLE": "THÔNG TIN CHI TIẾT",
+  "BASIC_UNIT.CARD.DETAIL_DIALOG.CODE": "Mã đơn vị cơ bản",
+  "BASIC_UNIT.CARD.DETAIL_DIALOG.NAME": "Tên đơn vị cơ bản",
+  "BASIC_UNIT.CARD.DETAIL_DIALOG.STATUS": "Trạng thái",
+
+  "BASIC_UNIT.CARD.DELETE_DIALOG.TITLE": "XÓA ĐƠN VỊ CƠ BẢN",
+  "BASIC_UNIT.CARD.DELETE_DIALOG.CONTENT_NOTICE": "Đơn vị cơ bản sẽ bị xóa vĩnh viễn và không thể khôi phục.",
+  "BASIC_UNIT.CARD.DELETE_DIALOG.CONFIRM": "Tiếp tục xóa?",
+  "BASIC_UNIT.CARD.TABLE.ACTION.DETAIL.TITLE": "Chi tiết đơn vị cơ bản",
+  "BASIC_UNIT.CARD.TABLE.ACTION.EDIT.TITLE": "Chỉnh sửa đơn vị cơ bản",
+  "BASIC_UNIT.CARD.TABLE.ACTION.DELETE.TITLE": "Xóa đơn vị cơ bản",
+  "BASIC_UNIT.CARD.HEADER.BUTTON.ADD": "Tạo mới",
+  "BASIC_UNIT.CARD.HEADER.BUTTON.DELETE": "Xóa",
+  "BASIC_UNIT.CARD.HEADER.NO_CHOOSEN": "Bạn chưa chọn bất kỳ đơn vị cơ bản nào!",
+  "BASIC_UNIT.CARD.HEADER.DELETING": "Đang xóa...",
+  "BASIC_UNIT.ERROR.CODE.EMPTY": "Mã đơn vị không được để trống",
+  "BASIC_UNIT.ERROR.CODE.EXISTS": "Mã đơn vị đã tồn tại",
+  "BASIC_UNIT.ERROR.NAME.EMPTY": "Tên đơn vị không được để trống"
 }
