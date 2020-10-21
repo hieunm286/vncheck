@@ -1,5 +1,5 @@
 /* eslint-disable no-script-url,jsx-a11y/anchor-is-valid */
-import React, {ReactElement} from 'react';
+import React, {Fragment, ReactElement} from 'react';
 import {useLocation} from 'react-router';
 import {NavLink} from 'react-router-dom';
 import {useIntl} from 'react-intl';
@@ -31,15 +31,15 @@ export function AsideMenuList({layoutProps}: any) {
     const hasSubmenu = item.children ? item.children.length > 0 : false;
     const url = item.url ?? '';
     if (item.section) {
-      return (<>
+      return (<Fragment key={'menuitem_' + index}>
         <li className="menu-section " key={'menuitem_' + index}>
           <h4 className="menu-text">{intl.formatMessage({id: item.title})}</h4>
           <i className="menu-icon flaticon-more-v2"/>
         </li>
         {item.children?.map(MenuItem)}
-      </>)
+      </Fragment>)
     } else if (hasSubmenu) {
-      return (<li className={`menu-item menu-item-submenu ${getMenuItemActive(url, hasSubmenu)}`}
+      return (<li key={'menuitem_' + index} className={`menu-item menu-item-submenu ${getMenuItemActive(url, hasSubmenu)}`}
                   aria-haspopup="true" data-menu-toggle="hover">
         <NavLink className="menu-link menu-toggle" to={url}>
           {item.icon ? (<span className="svg-icon menu-icon">

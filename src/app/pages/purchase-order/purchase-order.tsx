@@ -171,19 +171,19 @@ function PurchaseOrder() {
         deleteManyBasicUnit={deleteManyBasicUnit}
       />
       {/*<BasicUnitCardHeader basicUnitSearch={basicUnitSearch}/>*/}
-      <BasicUnitCard
-        showModal={showModal}
-        hideModal={hideModal}
-        show={show}
-        basicUnitArray={basicUnitArray}
-        total={total}
-        loading={loading}
-        queryParams={queryParams}
-        setQueryParamsBase={setQueryParamsBase}
-        ids={ids}
-        setIds={setIds}
-        setQueryParams={setQueryParams}
-      />
+      {/*<BasicUnitCard*/}
+      {/*  showModal={showModal}*/}
+      {/*  hideModal={hideModal}*/}
+      {/*  show={show}*/}
+      {/*  basicUnitArray={basicUnitArray}*/}
+      {/*  total={total}*/}
+      {/*  loading={loading}*/}
+      {/*  queryParams={queryParams}*/}
+      {/*  setQueryParamsBase={setQueryParamsBase}*/}
+      {/*  ids={ids}*/}
+      {/*  setIds={setIds}*/}
+      {/*  setQueryParams={setQueryParams}*/}
+      {/*/>*/}
     </BasicUnitUIProvider>
   );
 }
