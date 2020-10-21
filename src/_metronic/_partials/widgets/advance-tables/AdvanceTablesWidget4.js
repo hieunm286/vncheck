@@ -1,7 +1,7 @@
 /* eslint-disable no-script-url,jsx-a11y/anchor-is-valid,jsx-a11y/img-redundant-alt */
 import React from "react";
 import SVG from "react-inlinesvg";
-import {ToAbsoluteUrl} from "../../../../app/components/helpers/assets-helpers";
+import {ToAbsoluteUrl} from "../../../../app/common-library/helpers/assets-helpers";
 
 export function AdvanceTablesWidget4({className}) {
     return (

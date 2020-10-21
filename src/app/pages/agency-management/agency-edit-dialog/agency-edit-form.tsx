@@ -19,9 +19,9 @@ import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ImageUploading from 'react-images-uploading';
 import './style/agency-edit-form.scss';
 import { getCodeFromName, getNameFromCode } from '../utilities';
-import { MainInput } from '../../../components/forms/main-input';
+import { MainInput } from '../../../common-library/forms/main-input';
 
-import { CustomSelect } from '../../../components/forms/custom-select';
+import { CustomSelect } from '../../../common-library/forms/custom-select';
 import { AgencyShippingAddressTable } from './agency-shipping-address/agency-shipping-address-table/agency-shipping-address-table';
 import { AgencyShippingEditDialog } from './agency-shipping-address/agency-shipping-edit-dialog/agency-shipping-edit-dialog';
 import { AgencyShippingDetailDialog } from './agency-shipping-address/agency-shipping-detail-dialog/agency-shipping-detail-dialog';

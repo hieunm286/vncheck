@@ -4,9 +4,9 @@ import {Dropdown, OverlayTrigger, Tooltip} from 'react-bootstrap';
 import SVG from 'react-inlinesvg';
 import objectPath from 'object-path';
 import {SearchResult} from './search-result';
-import {ToAbsoluteUrl} from "../../../../../components/helpers/assets-helpers";
+import {ToAbsoluteUrl} from "../../../../../common-library/helpers/assets-helpers";
 import {useHtmlClassService} from "../../../../_core/metronic-layout";
-import {DropdownTopbarItemToggler} from "../../../../../components/dropdowns/dropdown-topbar-item-toggler";
+import {DropdownTopbarItemToggler} from "../../../../../common-library/dropdowns/dropdown-topbar-item-toggler";
 
 const fakeData = [
     {

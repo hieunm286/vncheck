@@ -1,5 +1,5 @@
 import {SortOrder} from "react-bootstrap-table-next";
-import {QueryParamsProps} from "./common-type";
+import {QueryParamsProps} from "../common-types/common-type";
 
 export const SortDefault: { dataField: any; order: SortOrder }[] = [
   {dataField: 'id', order: 'asc'}

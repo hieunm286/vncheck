@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, CardBody, CardHeader } from '../../components/card';
+import { Card, CardBody, CardHeader } from '../../common-library/card';
 import PurchaseOrderTable from './basic-unit-table/purchase-order-table';
 import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined';
 import InsertDriveFileOutlinedIcon from '@material-ui/icons/InsertDriveFileOutlined';

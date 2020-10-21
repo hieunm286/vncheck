@@ -1,6 +1,6 @@
 import React from 'react';
 
-function SelectionCheckbox({ isSelected, onChange }: any) {
+export function SelectionCheckbox({ isSelected, onChange }: any) {
   return (
     <>
       <input type="checkbox" style={{ display: 'none' }} />
@@ -12,7 +12,7 @@ function SelectionCheckbox({ isSelected, onChange }: any) {
   );
 }
 
-function GroupingItemOnSelect(props: any) {
+export function GroupingItemOnSelect(props: any) {
   const { ids, setIds, customerId } = props;
   if (ids.some((username: any) => username === customerId)) {
     setIds(ids.filter((username: any) => username !== customerId));
@@ -23,7 +23,7 @@ function GroupingItemOnSelect(props: any) {
   }
 }
 
-function GroupingItemAgencyOnSelect(props: any) {
+export function GroupingItemAgencyOnSelect(props: any) {
   const { ids, setIds, customerId } = props;
   if (ids.some((agency_id: any) => agency_id === customerId)) {
     setIds(ids.filter((agency_id: any) => agency_id !== customerId));
@@ -34,7 +34,7 @@ function GroupingItemAgencyOnSelect(props: any) {
   }
 }
 
-function GroupingItemBasicUnitOnSelect(props: any) {
+export function GroupingItemBasicUnitOnSelect(props: any) {
   const { ids, setIds, customerId } = props;
   if (ids.some((code: any) => code === customerId)) {
     setIds(ids.filter((code: any) => code !== customerId));
@@ -45,7 +45,7 @@ function GroupingItemBasicUnitOnSelect(props: any) {
   }
 }
 
-function GroupingAllOnSelect(props: any) {
+export function GroupingAllOnSelect(props: any) {
   const { isSelected, setIds, entities } = props;
   if (!isSelected) {
     const allIds: any[] = [];
@@ -58,7 +58,7 @@ function GroupingAllOnSelect(props: any) {
   return isSelected;
 }
 
-function GroupingAllAgencyOnSelect(props: any) {
+export function GroupingAllAgencyOnSelect(props: any) {
   const { isSelected, setIds, entities } = props;
   if (!isSelected) {
     const allIds: any[] = [];
@@ -71,7 +71,7 @@ function GroupingAllAgencyOnSelect(props: any) {
   return isSelected;
 }
 
-function GroupingAllBasicUnitOnSelect(props: any) {
+export function GroupingAllBasicUnitOnSelect(props: any) {
   const { isSelected, setIds, basicUnitArray } = props;
   if (!isSelected) {
     const allIds: any[] = [];

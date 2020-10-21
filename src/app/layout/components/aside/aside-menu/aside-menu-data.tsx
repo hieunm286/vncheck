@@ -1,5 +1,5 @@
 import {MenuItemModel} from "./menu-item-model";
-import {ToAbsoluteUrl} from "../../../../components/helpers/assets-helpers";
+import {ToAbsoluteUrl} from "../../../../common-library/helpers/assets-helpers";
 import SVG from "react-inlinesvg";
 import React from "react";
 import ImageOutlinedIcon from '@material-ui/icons/ImageOutlined';

@@ -3,7 +3,7 @@ import React from 'react';
 import SVG from 'react-inlinesvg';
 import {useHistory} from 'react-router-dom';
 import {useSelector} from 'react-redux';
-import {ToAbsoluteUrl} from "../../../../components/helpers/assets-helpers";
+import {ToAbsoluteUrl} from "../../../../common-library/helpers/assets-helpers";
 
 export function QuickUser() {
     const history = useHistory();

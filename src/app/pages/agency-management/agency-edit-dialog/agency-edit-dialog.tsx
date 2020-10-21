@@ -8,7 +8,7 @@ import { Card } from '@material-ui/core';
 import { fetchAllAgencyType } from '../../agency-type/_redux/agency-type-action';
 import { useAgencyUIContext } from '../agency-ui-context';
 import { AgencyEditForm } from './agency-edit-form';
-import { CardBody } from '../../../components/card';
+import { CardBody } from '../../../common-library/card';
 
 export function AgencyEditDialog({id, show, onHide}: { id: any; show: any; onHide: any }) {
   // Customers UI Context

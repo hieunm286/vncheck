@@ -1,4 +1,4 @@
-import {ToAbsoluteUrl} from "../../../components/helpers/assets-helpers";
+import {ToAbsoluteUrl} from "../../../common-library/helpers/assets-helpers";
 
 export default [
   {

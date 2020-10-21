@@ -3,7 +3,7 @@ import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { Modal } from 'react-bootstrap';
 import { useIntl } from 'react-intl';
-import {ModalProgressBar} from "../../../components/modal-progress-bar";
+import {ModalProgressBar} from "../modal-progress-bar";
 
 interface DeleteMany {
   ids: string[];
@@ -14,7 +14,7 @@ interface DeleteMany {
   deleteManyBasicUnit: any;
 }
 
-function BasicUnitDeleteManyDialog({
+function DeleteManyDialog({
   ids,
   show,
   hideModal,
@@ -75,4 +75,4 @@ function BasicUnitDeleteManyDialog({
   );
 }
 
-export default BasicUnitDeleteManyDialog;
+export default DeleteManyDialog;

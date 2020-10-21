@@ -2,7 +2,7 @@ import React, {useMemo} from 'react';
 import {Link} from 'react-router-dom';
 import objectPath from 'object-path';
 import SVG from 'react-inlinesvg';
-import {ToAbsoluteUrl} from "../../../components/helpers/assets-helpers";
+import {ToAbsoluteUrl} from "../../../common-library/helpers/assets-helpers";
 import {useHtmlClassService} from "../../_core/metronic-layout";
 
 export function Brand() {

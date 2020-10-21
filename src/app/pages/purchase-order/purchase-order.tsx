@@ -1,25 +1,25 @@
 import React, {useEffect, useState} from 'react';
-import BasicUnitDeleteDialog from './basic-unit-delete/basic-unit-delete-dialog';
+import  {DeleteDialog} from '../../common-library/common-components/delete-dialog';
 import BasicUnitDetailDialog from './basic-unit-detail/basic-unit-detail-dialog';
 import BasicUnitDialog from './basic-unit-dialog/basic-unit-dialog';
 import {BasicUnitUIProvider} from './basic-unit-ui-context';
 import {useIntl} from 'react-intl';
-import BasicUnitDeleteManyDialog from './basic-unit-delete/basic-unit-delete-many-dialog';
-import {InitQueryParams, InitShow} from "../../common-function";
+import DeleteManyDialog from '../../common-library/common-components/delete-many-dialog';
+import {InitQueryParams, InitShow} from "../../common-library/helpers/common-function";
 import {Create, Delete, DeleteMany, GetAll, Update} from "./purchase-order.service";
 import {PurchaseOrderModel} from "./purchase-order.model";
-import {FilterDefault, SortDefault} from "../../const";
+import {FilterDefault, SortDefault} from "../../common-library/common-const/const";
 import BasicUnitCardHeader from "./basic-unit-card-header";
 import BasicUnitCard from "./basic-unit-card";
 
 function PurchaseOrder() {
-  const basicUnitUIEvents = {};
+  const intl = useIntl();
+  const events = {};
   const [show, setShow] = InitShow();
   const defaultSorted = [...SortDefault];
   const initialFilter = {...FilterDefault}
-  const intl = useIntl();
   const [list, setList] = useState<PurchaseOrderModel[]>([]);
-  const [unitForEdit, setUnitForEdit] = useState(null);
+  const [modifyEntity, setModifyEntity] = useState(null);
   const [error, setError] = useState('');
   const [ids, setIds] = useState([]);
   const {queryParams, setQueryParams, setQueryParamsBase} = InitQueryParams(initialFilter);
@@ -47,7 +47,7 @@ function PurchaseOrder() {
   const showModal = (data: any, action: string) => {
     setError('');
     setShow({...show, [action]: true});
-    setUnitForEdit(data);
+    setModifyEntity(data);
   };
   
   const hideModal = (action: string) => {
@@ -97,7 +97,7 @@ function PurchaseOrder() {
       });
   };
   
-  const deleteBasicUnit = (code: string) => {
+  const deleteFn = (code: string) => {
     const updateUnit = list.filter((el: { code: string }) => el.code !== code);
     setList(updateUnit);
     Delete(code).then(res => {
@@ -144,27 +144,26 @@ function PurchaseOrder() {
   // };
   
   return (
-    <BasicUnitUIProvider basicUnitUIEvents={basicUnitUIEvents}>
+    <BasicUnitUIProvider basicUnitUIEvents={events}>
       <BasicUnitDialog
         show={show}
         hideModal={hideModal}
-        unitForEdit={unitForEdit}
+        unitForEdit={modifyEntity}
         editBasicUnit={editBasicUnit}
         addBasicUnit={addBasicUnit}
         error={error}
       />
-      <BasicUnitDetailDialog show={show} hideModal={hideModal} unitForEdit={unitForEdit}/>
-      <BasicUnitDeleteDialog
+      <BasicUnitDetailDialog show={show} hideModal={hideModal} unitForEdit={modifyEntity}/>
+      <DeleteDialog
         show={show}
         hideModal={hideModal}
-        unitForEdit={unitForEdit}
-        deleteBasicUnit={deleteBasicUnit}
-      />
-      <BasicUnitDeleteManyDialog
+        entity={modifyEntity}
+        deleteFn={deleteFn}/>
+      <DeleteManyDialog
         ids={ids}
         show={show}
         hideModal={hideModal}
-        unitForEdit={unitForEdit}
+        unitForEdit={modifyEntity}
         loading={loading}
         deleteManyBasicUnit={deleteManyBasicUnit}
       />

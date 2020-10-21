@@ -5,10 +5,10 @@ import {NavLink} from 'react-router-dom';
 import {useIntl} from 'react-intl';
 import {makeStyles} from '@material-ui/core/styles';
 import '../aside.css';
-import {CheckIsActive} from "../../../../components/helpers/router-helpers";
+import {CheckIsActive} from "../../../../common-library/helpers/router-helpers";
 import {MenuItemModel} from "./menu-item-model";
 import {MenuItems} from "./aside-menu-data";
-import {ToAbsoluteUrl} from "../../../../components/helpers/assets-helpers";
+import {ToAbsoluteUrl} from "../../../../common-library/helpers/assets-helpers";
 import SVG from "react-inlinesvg";
 
 const useStyles = makeStyles(theme => ({

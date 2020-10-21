@@ -17,12 +17,12 @@ import {
   getHandlerTableChange,
   NoRecordsFoundMessage,
   PleaseWaitMessage,
-} from '../../../components/helpers/table-pagination-helpers';
+} from '../../../common-library/helpers/pagination-helper';
 import {
   HeaderSortingClasses,
   SortCaret,
-} from '../../../components/helpers/table-sorting-helpers';
-import { GetSelectAgencyRow } from '../../../components/helpers/table-row-selection-helpers';
+} from '../../../common-library/helpers/table-sorting-helpers';
+import { GetSelectAgencyRow } from '../../../common-library/helpers/table-row-selection-helpers';
 
 export function AgencyTable() {
   // Customers UI Context

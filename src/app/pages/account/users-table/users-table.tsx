@@ -11,13 +11,13 @@ import {
     getHandlerTableChange,
     NoRecordsFoundMessage,
     PleaseWaitMessage
-} from "../../../components/helpers/table-pagination-helpers";
+} from "../../../common-library/helpers/pagination-helper";
 import {defaultSorted, sizePerPageList} from "../users-ui-helpers";
 import {ActionsColumnFormatter} from "./column-formatters/actions-column-formatter";
-import {Pagination} from "../../../components/pagination/pagination";
-import {HeaderSortingClasses, SortCaret} from "../../../components/helpers/table-sorting-helpers";
+import {Pagination} from "../../../common-library/pagination/pagination";
+import {HeaderSortingClasses, SortCaret} from "../../../common-library/helpers/table-sorting-helpers";
 import {fetchAllUser} from "../_redux/user-action";
-import {GetSelectRow} from "../../../components/helpers/table-row-selection-helpers";
+import {GetSelectRow} from "../../../common-library/helpers/table-row-selection-helpers";
 
 export function UsersTable() {
   // Customers UI Context

@@ -11,7 +11,7 @@ import { ActionsColumnFormatter } from './column-formatters/actions-column-forma
 import {
   NoRecordsFoundMessage,
   PleaseWaitMessage,
-} from '../../../../../components/helpers/table-pagination-helpers';
+} from '../../../../../common-library/helpers/pagination-helper';
 
 export function AgencyShippingAddressTable({
                                              openModal,

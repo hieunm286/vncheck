@@ -1,6 +1,6 @@
 import React from "react";
 import SVG from "react-inlinesvg";
-import {ToAbsoluteUrl} from "../../../components/helpers/assets-helpers";
+import {ToAbsoluteUrl} from "../../../common-library/helpers/assets-helpers";
 
 export function ScrollTop() {
     return (

@@ -1,7 +1,7 @@
 import React from "react";
 import "../sass/pages/error/error-4.scss";
 
-import {ToAbsoluteUrl} from "../../components/helpers/assets-helpers";
+import {ToAbsoluteUrl} from "../../common-library/helpers/assets-helpers";
 
 export function ErrorPage3() {
   return (

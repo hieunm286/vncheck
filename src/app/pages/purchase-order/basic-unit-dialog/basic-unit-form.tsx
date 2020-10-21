@@ -6,7 +6,7 @@ import { useIntl } from 'react-intl';
 import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import * as Yup from 'yup';
-import {MainInput} from "../../../components/forms/main-input";
+import {MainInput} from "../../../common-library/forms/main-input";
 import {iconStyle} from "../../category/style";
 
 const BasicUnitSchema = Yup.object().shape({

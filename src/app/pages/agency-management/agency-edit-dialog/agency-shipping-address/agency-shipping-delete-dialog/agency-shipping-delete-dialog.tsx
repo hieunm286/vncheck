@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Modal } from 'react-bootstrap';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import { ModalProgressBar } from '../../../../../components/modal-progress-bar';
+import { ModalProgressBar } from '../../../../../common-library/modal-progress-bar';
 // import * as actions from '../../../../_redux/agencyAction';
 import * as actions from '../../../_redux/agency-action';
 import DeleteIcon from '@material-ui/icons/Delete';

@@ -1,6 +1,6 @@
 import React from 'react';
 import {AgencyTypeFilter} from './agency-type-filter/agency-type-filter';
-import {Card, CardBody, CardHeader} from "../../components/card";
+import {Card, CardBody, CardHeader} from "../../common-library/card";
 
 export default function AgencyTypeCardHeader() {
   return (

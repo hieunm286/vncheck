@@ -6,30 +6,74 @@ import {
   getHandlerTableChange,
   NoRecordsFoundMessage,
   PleaseWaitMessage,
-} from '../../../components/helpers/table-pagination-helpers';
-import {HeaderSortingClasses, SortCaret,} from '../../../components/helpers/table-sorting-helpers';
+} from '../../../common-library/helpers/pagination-helper';
+import {HeaderSortingClasses, SortCaret,} from '../../../common-library/helpers/table-sorting-helpers';
 import {Pagination} from '../../../../_metronic/_partials/controls';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import IndeterminateCheckBoxIcon from '@material-ui/icons/IndeterminateCheckBox';
 import {ActionsColumnFormatter} from './column-formatters/actions-column-formatter';
 import './basic-unit-table.scss';
-import {GetSelectBasicUnitRow} from '../../../components/helpers/table-row-selection-helpers';
 import {BasicUnitDataProps} from '../basic-unit-card';
-import {SizePerPageList, SortDefault} from "../../../const";
+import {SizePerPageList, SortDefault} from "../../../common-library/common-const/const";
+import {
+  GroupingItemBasicUnitOnSelect,
+  SelectionCheckbox
+} from "../../../common-library/helpers/table-row-selection-helpers";
+
+export function GroupingAllOnSelect({ isSelected, setIds, list } : { isSelected : any, setIds : any, list: any }) {
+  if (!isSelected) {
+    const allIds: any[] = [];
+    list.forEach((el: any) => allIds.push(el.code));
+    setIds(allIds);
+  } else {
+    setIds([]);
+  }
+  return isSelected;
+}
+
+
+export function GetSelectRow({list, ids, setIds}: { list: any, ids: any, setIds: any }) {
+  return {
+    mode: 'checkbox',
+    clickToSelect: true,
+    hideSelectAll: false,
+    selectionHeaderRenderer: () => {
+      const isSelected =
+        list && list.length > 0 && list.length === ids.length;
+      const props = {isSelected, list, setIds};
+      return (
+        <SelectionCheckbox
+          isSelected={isSelected}
+          onChange={() => GroupingAllOnSelect(props)}
+        />
+      );
+    },
+    selectionRenderer: ({rowIndex}: any) => {
+      const isSelected = ids.some((el: any) => el === list[rowIndex].code);
+      const props = {ids, setIds, customerId: list[rowIndex].code};
+      return (
+        <SelectionCheckbox
+          isSelected={isSelected}
+          onChange={() => GroupingItemBasicUnitOnSelect(props)}
+        />
+      );
+    },
+  };
+}
 
 function PurchaseOrderTable({
-                          show,
-                          showModal,
-                          hideModal,
-                          list,
-                          total,
-                          loading,
-                          queryParams,
-                          setQueryParamsBase,
-                          ids,
-                          setIds,
-                          setQueryParams,
-                        }: BasicUnitDataProps) {
+                              show,
+                              showModal,
+                              hideModal,
+                              list,
+                              total,
+                              loading,
+                              queryParams,
+                              setQueryParamsBase,
+                              ids,
+                              setIds,
+                              setQueryParams,
+                            }: BasicUnitDataProps) {
   const intl = useIntl();
   
   const columns = [
@@ -120,7 +164,7 @@ function PurchaseOrderTable({
                 columns={columns}
                 defaultSorted={SortDefault as any}
                 selectRow={
-                  GetSelectBasicUnitRow({
+                  GetSelectRow({
                     list: list,
                     ids: ids,
                     setIds: setIds,

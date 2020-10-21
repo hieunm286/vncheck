@@ -11,11 +11,11 @@ import {
     getHandlerTableChange,
     NoRecordsFoundMessage,
     PleaseWaitMessage
-} from "../../../components/helpers/table-pagination-helpers";
+} from "../../../common-library/helpers/pagination-helper";
 import {ActionsColumnFormatter} from "./column-formatters/actions-column-formatter";
-import {GetSelectAgencyRow} from "../../../components/helpers/table-row-selection-helpers";
+import {GetSelectAgencyRow} from "../../../common-library/helpers/table-row-selection-helpers";
 import paginationFactory, {PaginationProvider} from "react-bootstrap-table2-paginator";
-import {Pagination} from "../../../components/pagination/pagination";
+import {Pagination} from "../../../common-library/pagination/pagination";
 
 export function AgencyTable() {
   // Customers UI Context

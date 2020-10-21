@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { API_BASE_URL } from '../../../const';
 import { queryParamsProps } from '../_interface/basic-unit.interface';
+import {API_BASE_URL} from "../../../common-library/common-const/enviroment";
 
 export const BASIC_UNIT_API_URL = API_BASE_URL + '/basic-unit';
 export const BASIC_UNIT_SEARCH = API_BASE_URL + '/basic-unit/search/all';

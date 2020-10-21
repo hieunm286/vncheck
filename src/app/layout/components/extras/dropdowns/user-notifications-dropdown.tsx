@@ -6,7 +6,7 @@ import PerfectScrollbar from 'react-perfect-scrollbar';
 import SVG from 'react-inlinesvg';
 import objectPath from 'object-path';
 import {DropdownTopbarItemToggler} from '../../../../../_metronic/_partials/dropdowns';
-import {ToAbsoluteUrl} from "../../../../components/helpers/assets-helpers";
+import {ToAbsoluteUrl} from "../../../../common-library/helpers/assets-helpers";
 import {useHtmlClassService} from "../../../_core/metronic-layout";
 import NotificationsIcon from '@material-ui/icons/Notifications';
 

@@ -6,15 +6,15 @@ import {
   getHandlerTableChange,
   NoRecordsFoundMessage,
   PleaseWaitMessage,
-} from '../../../components/helpers/table-pagination-helpers';
-import { HeaderSortingClasses, SortCaret } from '../../../components/helpers/table-sorting-helpers';
+} from '../../../common-library/helpers/pagination-helper';
+import { HeaderSortingClasses, SortCaret } from '../../../common-library/helpers/table-sorting-helpers';
 import { Pagination } from '../../../../_metronic/_partials/controls';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import IndeterminateCheckBoxIcon from '@material-ui/icons/IndeterminateCheckBox';
 import { ActionsColumnFormatter } from './column-formatters/actions-column-formatter';
 import { defaultSorted, sizePerPageList } from '../basic-unit-ui-helpers';
 import './basic-unit-table.scss';
-import { GetSelectBasicUnitRow } from '../../../components/helpers/table-row-selection-helpers';
+import { GetSelectBasicUnitRow } from '../../../common-library/helpers/table-row-selection-helpers';
 import { BasicUnitDataProps } from '../_interface/basic-unit.interface';
 
 function BasicUnitTable({

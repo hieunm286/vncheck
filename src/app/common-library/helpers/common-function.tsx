@@ -1,6 +1,6 @@
 import {useCallback, useState} from "react";
 import {isEqual, isFunction} from "lodash";
-import {QueryParamsProps} from "./common-type";
+import {QueryParamsProps} from "../common-types/common-type";
 
 export const InitQueryParams = (initialFilter: QueryParamsProps) => {
   const [queryParams, setQueryParamsBase] = useState(initialFilter);

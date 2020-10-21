@@ -8,7 +8,7 @@ import LoginPassword from './login-password';
 import {FormattedMessage} from 'react-intl';
 import ReceiveCode from './receive-code';
 import VerificationCode from './verification-code';
-import {ToAbsoluteUrl} from "../../../components/helpers/assets-helpers";
+import {ToAbsoluteUrl} from "../../../common-library/helpers/assets-helpers";
 import {ContentRoute} from "../../../layout/components/content/content-route";
 
 //Custom hook

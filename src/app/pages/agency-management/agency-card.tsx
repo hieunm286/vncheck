@@ -4,7 +4,7 @@ import {AgencyTable} from './agency-table/agency-table';
 import {useAgencyUIContext} from './agency-ui-context';
 import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined';
 import InsertDriveFileOutlinedIcon from '@material-ui/icons/InsertDriveFileOutlined';
-import {Card, CardBody} from "../../components/card";
+import {Card, CardBody} from "../../common-library/card";
 
 export function AgencyCard() {
   const agencyUIContext: any = useAgencyUIContext();

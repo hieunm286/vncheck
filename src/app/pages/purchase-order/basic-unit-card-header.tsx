@@ -2,8 +2,8 @@ import React from 'react';
 import {useIntl} from 'react-intl';
 import {Field, Formik} from 'formik';
 import SearchIcon from '@material-ui/icons/Search';
-import {Input} from "../../components/forms/input";
-import {Card, CardBody, CardHeader} from "../../components/card";
+import {Input} from "../../common-library/forms/input";
+import {Card, CardBody, CardHeader} from "../../common-library/card";
 
 function BasicUnitCardHeader({basicUnitSearch}: any) {
   const intl = useIntl();

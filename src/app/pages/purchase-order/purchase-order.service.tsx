@@ -1,7 +1,7 @@
 import axios from 'axios';
-import {API_BASE_URL} from '../../enviroment';
-import {QueryParamsProps} from "../../common-type";
-import {AddSearchQuery} from "../../common-function";
+import {API_BASE_URL} from '../../common-library/common-const/enviroment';
+import {QueryParamsProps} from "../../common-library/common-types/common-type";
+import {AddSearchQuery} from "../../common-library/helpers/common-function";
 
 export const API_URL = API_BASE_URL + '/purchase-order';
 export const BASIC_UNIT_SEARCH = API_BASE_URL + '/basic-unit/search/all';
