@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {API_BASE_URL} from '../../../const';
+import {API_BASE_URL} from '../../../enviroment';
 
 const BASE_URL = API_BASE_URL + '/auth';
 export const CREDENTIAL_URL = BASE_URL + '/credential';

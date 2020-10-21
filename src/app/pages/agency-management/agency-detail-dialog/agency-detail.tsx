@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Table} from 'react-bootstrap';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import IndeterminateCheckBoxIcon from '@material-ui/icons/IndeterminateCheckBox';
-import {API_BASE_URL} from '../../../const';
+import {API_BASE_URL} from '../../../enviroment';
 
 function AgencyDetail(props: any) {
   const {agency} = props;

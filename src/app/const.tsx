@@ -1,35 +1,18 @@
-// export const BASE_URL: string
-//     = (process.env.REACT_APP_BASE_URL && process.env.REACT_APP_BASE_URL.charAt(0) == ':') ? window.location.protocol + "//" + window.location.hostname + process.env.REACT_APP_BASE_URL : window.location.origin;
-// if (!BASE_URL) {
-//     throw new Error('Missing BASE_URL');
-// }
-// export const SOCKET_BASE_URL: string
-//     = (process.env.REACT_APP_SOCKET_BASE_URL && process.env.REACT_APP_SOCKET_BASE_URL.charAt(0) == ':') ?
-//     (window.location.protocol == "https:" ? "wss:" : "ws:") + "//" + window.location.hostname + process.env.REACT_APP_SOCKET_BASE_URL : '';
-export const IS_DEVELOPMENT = process.env.REACT_APP_ENV === 'development';
-export const REACT_APP_ENV = process.env.REACT_APP_ENV;
-export const CERTIFICATE_EXP = 1000 * 60 * 60;
-export const PROJECT_NAME = 'vncheck';
-// export const APP_TITLE: string = process.env.REACT_APP_TITLE ?? '';
-export const API_BASE_URL = (() => {
-  if (REACT_APP_ENV === 'mock' || REACT_APP_ENV === 'production') return '/api';
-  // console.log(1);
-  if (process.env.REACT_APP_API_BASE_URL) {
-    // console.log(2);
-    if (process.env.REACT_APP_API_BASE_URL.charAt(0) === ':') {
-      // console.log(3);
-      return (
-        window.location.protocol +
-        '//' +
-        window.location.hostname +
-        process.env.REACT_APP_API_BASE_URL
-      );
-    }
-    console.log(process.env.REACT_APP_API_BASE_URL);
-    return process.env.REACT_APP_API_BASE_URL;
-  }
-  return '/api';
-})();
+import {SortOrder} from "react-bootstrap-table-next";
+import {QueryParamsProps} from "./common-type";
 
-//TODO: Pincode....
-export const USE_PIN_CODE = false;
+export const SortDefault: { dataField: any; order: SortOrder }[] = [
+  {dataField: 'id', order: 'asc'}
+];
+export const SizePerPageList = [
+  {text: '5', value: 5,},
+  {text: '10', value: 10,},
+  {text: '15', value: 15,},
+];
+export const FilterDefault: QueryParamsProps = {
+  data: {},
+  orderBy: SortDefault[0].dataField,
+  orderType: SortDefault[0].order,
+  pageNumber: 1,
+  pageSize: 5,
+};

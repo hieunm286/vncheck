@@ -2,7 +2,7 @@ import {Action} from 'redux';
 import {persistReducer} from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import {put, takeLatest} from 'redux-saga/effects';
-import {PROJECT_NAME} from '../../../const';
+import {PROJECT_NAME} from '../../../enviroment';
 
 export class AuthAction implements Action {
   type: any;

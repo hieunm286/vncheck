@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {API_BASE_URL} from '../../const';
+import {API_BASE_URL} from '../../enviroment';
 import {QueryParamsProps} from "../../common-type";
 import {AddSearchQuery} from "../../common-function";
 

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {API_BASE_URL} from '../../../const';
+import {API_BASE_URL} from '../../../enviroment';
 import {AgencyType} from "../../../models/agency-type.model";
 
 export const AGENCY_TYPE_URL = API_BASE_URL + '/agency-type';

@@ -74,7 +74,6 @@ export function AsideMenuList({layoutProps}: any) {
   return (
     <ul className={`menu-nav ${layoutProps.ulClasses}`}>
       {MenuItems.map((me, index) => {
-        console.log(me);
         return MenuItem(me, index);
       })}
     </ul>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, CardBody, CardHeader } from '../../components/card';
-import BasicUnitTable from './basic-unit-table/basic-unit-table';
+import PurchaseOrderTable from './basic-unit-table/purchase-order-table';
 import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined';
 import InsertDriveFileOutlinedIcon from '@material-ui/icons/InsertDriveFileOutlined';
 import { useIntl } from 'react-intl';
@@ -10,7 +10,7 @@ export interface BasicUnitDataProps {
   showModal: any;
   hideModal: any;
   show: any;
-  basicUnitArray: any[];
+  list: any[];
   total: number;
   loading: boolean;
   queryParams: any;
@@ -24,7 +24,7 @@ function BasicUnitCard({
   showModal,
   hideModal,
   show,
-  basicUnitArray,
+  list,
   total,
   loading,
   queryParams,
@@ -57,11 +57,11 @@ function BasicUnitCard({
             </button>
           </div>
         </div>
-        <BasicUnitTable
+        <PurchaseOrderTable
           showModal={showModal}
           hideModal={hideModal}
           show={show}
-          basicUnitArray={basicUnitArray}
+          list={list}
           total={total}
           loading={loading}
           queryParams={queryParams}

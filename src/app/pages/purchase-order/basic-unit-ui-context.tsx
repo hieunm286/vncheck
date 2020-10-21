@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useCallback } from 'react';
 import { isEqual, isFunction } from 'lodash';
-import { initialFilter } from './basic-unit-ui-helpers';
+import {FilterDefault} from "../../const";
 
 const BasicUnitUIContext = createContext<any>(null);
 
@@ -11,7 +11,7 @@ export function useBasicUnitUIContext() {
 export const BasicUnitUIConsumer = BasicUnitUIContext.Consumer;
 
 export function BasicUnitUIProvider({ basicUnitUIEvents, children }: any) {
-  const [queryParams, setQueryParamsBase] = useState(initialFilter);
+  const [queryParams, setQueryParamsBase] = useState(FilterDefault);
   const [ids, setIds] = useState([]);
   const setQueryParams = useCallback(nextQueryParams => {
     setQueryParamsBase(prevQueryParams => {

@@ -7,7 +7,7 @@ import {FormattedMessage, injectIntl} from 'react-intl';
 import * as auth from '../_redux/auth-redux';
 import {GetCredential, Ping} from '../_redux/auth.service';
 import {GenerateKeyPair, SignMessage, SymmetricDecrypt,} from '../service/auth-cryptography';
-import {CERTIFICATE_EXP} from '../../../const';
+import {CERTIFICATE_EXP} from '../../../enviroment';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import clsx from 'clsx';
 import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';

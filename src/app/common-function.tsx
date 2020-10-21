@@ -25,3 +25,12 @@ export const InitQueryParams = (initialFilter: QueryParamsProps) => {
 export const AddSearchQuery = ({pageNumber, pageSize, orderBy, orderType}: QueryParamsProps): string => {
   return `page=${pageNumber}&limit=${pageSize}&orderBy=${orderBy}&orderType=${orderType}`;
 }
+
+export const InitShow = () => {
+  return useState({
+    edit: false,
+    delete: false,
+    detail: false,
+    deleteMany: false,
+  })
+}
