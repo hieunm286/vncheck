@@ -23,8 +23,8 @@ export const sizePerPageList = [
 ];
 export const initialFilter: QueryParamsProps = {
   data: {},
-  orderBy: 'asc', // asc||desc
-  orderType: 'name',
+  orderBy: 'name',
+  orderType: 'asc',
   pageNumber: 1,
   pageSize: 5,
 };
