@@ -50,12 +50,12 @@ export const MenuItems: MenuItemModel[] = [
       },
       {
         title: 'MENU.DATA.AGENCY',
-        url: '/agency-management',
+        url: '/agency',
         icon: 'distributor-1.svg',
         children: [
           {
             title: 'MENU.DATA.AGENCY.AGENCY',
-            url: '/agency-management',
+            url: '/agency',
             icon: 'distributor-2.svg',
           },
           {title: 'MENU.DATA.AGENCY.AGENCY_TYPE', url: '/agency-type', icon: 'distributor-type.svg',},

@@ -11,81 +11,81 @@ import {AgencyUIProvider} from './agency-ui-context';
 function AgencyManagement({history}: { history: any }) {
   const agencyUIEvents = {
     newAgencyButtonClick: () => {
-      history.push('/agency-management/new');
+      history.push('/agency/new');
     },
     openEditAgencyDialog: (id: any) => {
-      history.push(`/agency-management/${id}/edit`);
+      history.push(`/agency/${id}/edit`);
     },
     openDeleteAgencyDialog: (id: any) => {
-      history.push(`/agency-management/${id}/delete`);
+      history.push(`/agency/${id}/delete`);
     },
     openDetailAgencyDialog: (id: any) => {
-      history.push(`/agency-management/${id}/view`);
+      history.push(`/agency/${id}/view`);
     },
     openDeleteManyAgencyDialog: () => {
-      history.push(`/agency-management/delete-agencies`);
+      history.push(`/agency/delete-agencies`);
     },
   };
   
   return (
     <AgencyUIProvider agencyUIEvents={agencyUIEvents}>
-      <Route path="/agency-management/:id/view">
-        {({history, match}) => (
-          <AgencyDetailDialog
-            show={match != null}
-            id={match && match.params.id}
-            onHide={() => {
-              history.push('/agency-management');
-            }}
-          />
-        )}
-      </Route>
-      <Route path="/agency-management/delete-agencies">
-        {({history, match}) => (
-          <AgencyDeleteManyDialog
-            show={match != null}
-            onHide={() => {
-              history.push('/agency-management');
-            }}
-          />
-        )}
-      </Route>
-      <Route path="/agency-management/:id/delete">
-        {({history, match}) => (
-          <AgencyDeleteDialog
-            show={match != null}
-            id={match && match.params.id}
-            onHide={() => {
-              history.push('/agency-management');
-            }}
-          />
-        )}
-      </Route>
+      {/*<Route path="/agency/:id/view">*/}
+      {/*  {({history, match}) => (*/}
+      {/*    <AgencyDetailDialog*/}
+      {/*      show={match != null}*/}
+      {/*      id={match && match.params.id}*/}
+      {/*      onHide={() => {*/}
+      {/*        history.push('/agency');*/}
+      {/*      }}*/}
+      {/*    />*/}
+      {/*  )}*/}
+      {/*</Route>*/}
+      {/*<Route path="/agency/delete-agencies">*/}
+      {/*  {({history, match}) => (*/}
+      {/*    <AgencyDeleteManyDialog*/}
+      {/*      show={match != null}*/}
+      {/*      onHide={() => {*/}
+      {/*        history.push('/agency');*/}
+      {/*      }}*/}
+      {/*    />*/}
+      {/*  )}*/}
+      {/*</Route>*/}
+      {/*<Route path="/agency/:id/delete">*/}
+      {/*  {({history, match}) => (*/}
+      {/*    <AgencyDeleteDialog*/}
+      {/*      show={match != null}*/}
+      {/*      id={match && match.params.id}*/}
+      {/*      onHide={() => {*/}
+      {/*        history.push('/agency');*/}
+      {/*      }}*/}
+      {/*    />*/}
+      {/*  )}*/}
+      {/*</Route>*/}
       <Switch>
-        <Route path="/agency-management/:id/edit">
-          {({history, match}) => (
-            <AgencyEditDialog
-              show={match != null}
-              id={match && match.params.id}
-              onHide={() => {
-                history.push('/agency-management');
-              }}
-            />
-          )}
-        </Route>
-        <Route path="/agency-management/new">
-          {({history, match}) => (
-            <AgencyEditDialog
-              show={match != null}
-              id={match && match.params.id}
-              onHide={() => {
-                history.push('/agency-management');
-              }}
-            />
-          )}
-        </Route>
+        {/*<Route path="/agency/:id/edit">*/}
+        {/*  {({history, match}) => (*/}
+        {/*    <AgencyEditDialog*/}
+        {/*      show={match != null}*/}
+        {/*      id={match && match.params.id}*/}
+        {/*      onHide={() => {*/}
+        {/*        history.push('/agency');*/}
+        {/*      }}*/}
+        {/*    />*/}
+        {/*  )}*/}
+        {/*</Route>*/}
+        {/*<Route path="/agency/new">*/}
+        {/*  {({history, match}) => (*/}
+        {/*    <AgencyEditDialog*/}
+        {/*      show={match != null}*/}
+        {/*      id={match && match.params.id}*/}
+        {/*      onHide={() => {*/}
+        {/*        history.push('/agency');*/}
+        {/*      }}*/}
+        {/*    />*/}
+        {/*  )}*/}
+        {/*</Route>*/}
         
-        <Route path="/agency-management">
+        <Route path="/agency">
           <AgencyCardHeader/>
           <AgencyCard/>
         </Route>
