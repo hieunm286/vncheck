@@ -4,7 +4,7 @@ import PurchaseOrderTable from './basic-unit-table/purchase-order-table';
 import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined';
 import InsertDriveFileOutlinedIcon from '@material-ui/icons/InsertDriveFileOutlined';
 import { useIntl } from 'react-intl';
-import {iconStyle} from "../category/style";
+import {iconStyle} from "../../common-library/common-const/const";
 
 export interface BasicUnitDataProps {
   showModal: any;

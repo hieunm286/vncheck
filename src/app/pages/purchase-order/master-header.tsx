@@ -7,29 +7,28 @@ import {Card, CardBody, CardHeader} from "../../common-library/card";
 import SVG from "react-inlinesvg";
 import {ToAbsoluteUrl} from "../../common-library/helpers/assets-helpers";
 
-function BasicUnitCardHeader({basicUnitSearch}: any) {
+export function MasterHeader<T>({title, onSearch}: { title: any, onSearch: (data: T) => any }) {
   const intl = useIntl();
-  
+  const initValue: any = {
+    code: '',
+    name: '',
+  };
   const handleResetForm = (resetForm: any) => {
     resetForm();
-    const initValue = {
-      code: '',
-      name: '',
-    };
-    basicUnitSearch(initValue);
+    
+    onSearch(initValue);
   };
-  
+  const searchModel = [
+    {name: 'code',}
+  ]
   return (
     <Card>
-      <CardHeader title={intl.formatMessage({id: 'BASIC_UNIT.CARD_HEADER.TITLE'})}/>
+      <CardHeader title={intl.formatMessage({id: title}).toUpperCase()}/>
       <CardBody>
         <Formik
-          initialValues={{
-            code: '',
-            name: '',
-          }}
+          initialValues={initValue}
           onSubmit={values => {
-            basicUnitSearch(values);
+            onSearch(values);
           }}>
           {({values, handleSubmit, handleBlur, handleChange, setFieldValue, resetForm}) => (
             <form onSubmit={handleSubmit} className="form form-label-right">
@@ -84,5 +83,3 @@ function BasicUnitCardHeader({basicUnitSearch}: any) {
     </Card>
   );
 }
-
-export default BasicUnitCardHeader;

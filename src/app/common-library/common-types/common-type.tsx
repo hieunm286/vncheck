@@ -1,9 +1,13 @@
-export interface QueryParamsProps {
+export interface PaginationProps {
   data: any;
   pageSize: number | string;
   pageNumber: number | string;
   orderType: string;
   orderBy: string;
+}
+
+export interface SortProps {
+  [t: string]: 'asc' | 'des';
 }
 
 export interface ShowProps {

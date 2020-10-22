@@ -115,5 +115,10 @@
   "BASIC_UNIT.CARD.HEADER.DELETING": "Đang xóa...",
   "BASIC_UNIT.ERROR.CODE.EMPTY": "Mã đơn vị không được để trống",
   "BASIC_UNIT.ERROR.CODE.EXISTS": "Mã đơn vị đã tồn tại",
-  "BASIC_UNIT.ERROR.NAME.EMPTY": "Tên đơn vị không được để trống"
+  "BASIC_UNIT.ERROR.NAME.EMPTY": "Tên đơn vị không được để trống",
+
+  "PURCHASE_ORDER.MASTER.HEADER.TITLE" : "Danh mục đơn hàng",
+  "PURCHASE_ORDER.HEADER.TITLE" : "Danh mục đơn hàng",
+  "PURCHASE_ORDER.MASTER.CODE_INPUT" : "Danh mục đơn hàng",
+  "PURCHASE_ORDER.MASTER.CODE_INPUT_LB" : "Danh mục đơn hàng"
 }

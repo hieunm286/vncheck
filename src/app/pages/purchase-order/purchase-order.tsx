@@ -9,8 +9,8 @@ import {InitQueryParams, InitShow} from "../../common-library/helpers/common-fun
 import {Create, Delete, DeleteMany, GetAll, Update} from "./purchase-order.service";
 import {PurchaseOrderModel} from "./purchase-order.model";
 import {FilterDefault, SortDefault} from "../../common-library/common-const/const";
-import BasicUnitCardHeader from "./basic-unit-card-header";
 import BasicUnitCard from "./basic-unit-card";
+import {MasterHeader} from "./master-header";
 
 function PurchaseOrder() {
   const intl = useIntl();
@@ -127,21 +127,20 @@ function PurchaseOrder() {
         console.log(error);
       });
   };
-  //
-  // const basicUnitSearch = (data: { code: string; name: string }) => {
-  //   setLoading(true);
-  //   requestFromServer
-  //     .searchBasicUnit(data)
-  //     .then(res => {
-  //       setIds([]);
-  //       setTotal(res.data.total);
-  //       setList(res.data.result);
-  //       setLoading(false);
-  //     })
-  //     .catch(error => {
-  //       console.log(error);
-  //     });
-  // };
+
+  const search = (data: { code: string; name: string }) => {
+    setLoading(true);
+    GetAll(data)
+      .then(res => {
+        setIds([]);
+        setTotal(res.data.total);
+        setList(res.data.result);
+        setLoading(false);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
   
   return (
     <BasicUnitUIProvider basicUnitUIEvents={events}>
@@ -167,7 +166,7 @@ function PurchaseOrder() {
         loading={loading}
         deleteManyBasicUnit={deleteManyBasicUnit}
       />
-      <BasicUnitCardHeader basicUnitSearch={null}/>
+      <MasterHeader title={'PURCHASE_ORDER.MASTER.HEADER.TITLE'} onSearch={search}/>
       <BasicUnitCard
         showModal={showModal}
         hideModal={hideModal}

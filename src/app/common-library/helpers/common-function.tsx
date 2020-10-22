@@ -1,8 +1,8 @@
 import {useCallback, useState} from "react";
 import {isEqual, isFunction} from "lodash";
-import {QueryParamsProps} from "../common-types/common-type";
+import {PaginationProps, SortProps} from "../common-types/common-type";
 
-export const InitQueryParams = (initialFilter: QueryParamsProps) => {
+export const InitQueryParams = (initialFilter: PaginationProps) => {
   const [queryParams, setQueryParamsBase] = useState(initialFilter);
   const setQueryParams = useCallback(nextQueryParams => {
     setQueryParamsBase((prevQueryParams: any) => {
@@ -21,11 +21,18 @@ export const InitQueryParams = (initialFilter: QueryParamsProps) => {
     setQueryParams
   }
 }
-
-export const AddSearchQuery = ({pageNumber, pageSize, orderBy, orderType}: QueryParamsProps): string => {
-  return `page=${pageNumber}&limit=${pageSize}&orderBy=${orderBy}&orderType=${orderType}`;
+export const ParamsSerializer = (params: { sortList: SortProps, [t: string]: any }): string => {
+  const orderParams = Object.keys(params.sortList).reduce((pre, current, i) => {
+    return {
+      orderBy: pre.orderBy + (i == 0 ? '' : ',') + current,
+      orderType: pre.orderType + (i == 0 ? '' : ',') + params.sortList[current]
+    }
+  }, {orderBy: '', orderType: ''})
+  return Object.entries({
+    ...params,
+    sortList: undefined, ...orderParams
+  }).map(([key, value]) => `${key}=${value}`).join('&');
 }
-
 export const InitShow = () => {
   return useState({
     edit: false,

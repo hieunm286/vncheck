@@ -1,7 +1,7 @@
 import axios from 'axios';
 import {API_BASE_URL} from '../../common-library/common-const/enviroment';
-import {QueryParamsProps} from "../../common-library/common-types/common-type";
-import {AddSearchQuery} from "../../common-library/helpers/common-function";
+import {PaginationProps, SortProps} from "../../common-library/common-types/common-type";
+import {ParamsSerializer} from "../../common-library/helpers/common-function";
 
 export const API_URL = API_BASE_URL + '/purchase-order';
 export const BASIC_UNIT_SEARCH = API_BASE_URL + '/basic-unit/search/all';
@@ -10,8 +10,11 @@ export const Create = (data: any) => {
   return axios.post(API_URL, data);
 };
 
-export const GetAll = (queryParams: QueryParamsProps) => {
-  return axios.get(`${API_URL}?${AddSearchQuery(queryParams)}`);
+export const GetAll = (queryProps: any, sortList?: SortProps[], paginationProps?: PaginationProps) => {
+  return axios.get(`${API_URL}`, {
+    params: {...queryProps, ...paginationProps, sortList},
+    paramsSerializer: ParamsSerializer
+  });
 };
 
 export const Get = (code: string) => {
@@ -35,6 +38,6 @@ export const DeleteMany = (arrayCode: string[]) => {
   });
 };
 
-// export const searchBasicUnit = (data: any) => {
-//   return axios.get(`${BASIC_UNIT_SEARCH}?code=${data.code}&name=${data.name}`);
-// };
+export const searchBasicUnit = (data: any) => {
+  return axios.get(`${BASIC_UNIT_SEARCH}?code=${data.code}&name=${data.name}`);
+};

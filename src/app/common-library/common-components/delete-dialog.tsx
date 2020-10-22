@@ -3,8 +3,8 @@ import {Modal} from 'react-bootstrap';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import DeleteIcon from '@material-ui/icons/Delete';
 import {useIntl} from 'react-intl';
-import {iconStyle} from "../../pages/category/style";
 import {DeleteDialogProps} from "../common-types/common-type";
+import {iconStyle} from "../common-const/const";
 
 
 export const DeleteDialog = ({
