@@ -13,7 +13,7 @@ export const Create = (data: any) => {
 export const GetAll = (queryProps: any, sortList?: SortProps[], paginationProps?: PaginationProps) => {
   return axios.get(`${API_URL}`, {
     params: {...queryProps, ...paginationProps, sortList},
-    paramsSerializer: ParamsSerializer
+    // paramsSerializer: ParamsSerializer
   });
 };
 

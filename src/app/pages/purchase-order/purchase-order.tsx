@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import  {DeleteDialog} from '../../common-library/common-components/delete-dialog';
-import BasicUnitDetailDialog from './basic-unit-detail/basic-unit-detail-dialog';
+import {DeleteDialog} from '../../common-library/common-components/delete-dialog';
 import BasicUnitDialog from './basic-unit-dialog/basic-unit-dialog';
 import {BasicUnitUIProvider} from './basic-unit-ui-context';
 import {useIntl} from 'react-intl';
@@ -11,6 +10,7 @@ import {PurchaseOrderModel} from "./purchase-order.model";
 import {FilterDefault, SortDefault} from "../../common-library/common-const/const";
 import BasicUnitCard from "./basic-unit-card";
 import {MasterHeader} from "./master-header";
+import {MasterEntityDetailDialog} from '../../common-library/common-components/master-entity-detail-dialog';
 
 function PurchaseOrder() {
   const intl = useIntl();
@@ -127,7 +127,7 @@ function PurchaseOrder() {
         console.log(error);
       });
   };
-
+  
   const search = (data: { code: string; name: string }) => {
     setLoading(true);
     GetAll(data)
@@ -142,6 +142,13 @@ function PurchaseOrder() {
       });
   };
   
+  const masterEntityDetailDialog = {
+    titles: {
+      code: 'BASIC_UNIT.CARD.DETAIL_DIALOG.CODE',
+      name: 'BASIC_UNIT.CARD.DETAIL_DIALOG.NAME',
+      status: 'BASIC_UNIT.CARD.DETAIL_DIALOG.NAME',
+    }
+  }
   return (
     <BasicUnitUIProvider basicUnitUIEvents={events}>
       <BasicUnitDialog
@@ -152,7 +159,8 @@ function PurchaseOrder() {
         addBasicUnit={addBasicUnit}
         error={error}
       />
-      <BasicUnitDetailDialog show={show} hideModal={hideModal} unitForEdit={modifyEntity}/>
+      <MasterEntityDetailDialog {...masterEntityDetailDialog} show={show} hideModal={hideModal}
+                                unitForEdit={modifyEntity}/>
       <DeleteDialog
         show={show}
         hideModal={hideModal}
