@@ -10,7 +10,7 @@ import {fetchAgencyTypeViewById, fetchAllAgencyType} from "../_redux/agency-type
 import {HeaderSortingClasses, SortCaret} from "../../../common-library/helpers/table-sorting-helpers";
 import {defaultSorted, sizePerPageList} from "../agency-ui-helpers";
 import {
-    getHandlerTableChange,
+    onTableChange,
     NoRecordsFoundMessage,
     PleaseWaitMessage
 } from "../../../common-library/helpers/pagination-helper";
@@ -109,7 +109,7 @@ export function AgencyTypeTable() {
       data={entities || []}
       columns={columns}
       // defaultSorted={defaultSorted}
-      onTableChange={getHandlerTableChange(agencyTypeUIProps.setQueryParams)}
+      onTableChange={onTableChange(agencyTypeUIProps.setQueryParams)}
       rowEvents={rowEvents}
       
       // selectRow={getSelectAgencyRow({

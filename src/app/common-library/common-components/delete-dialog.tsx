@@ -7,24 +7,23 @@ import {DeleteDialogProps} from "../common-types/common-type";
 import {iconStyle} from "../common-const/const";
 
 
-export const DeleteDialog = ({
-                               show,
+export function DeleteDialog<T> ({
+                               isShow,
                                entity,
-                               idProperty = 'code',
-                               hideModal,
-                               deleteFn,
+                               onHide,
+                               onDelete,
                                title = 'COMMON_COMPONENT.DELETE_DIALOG.TITLE',
                                bodyTitle = 'COMMON_COMPONENT.DELETE_DIALOG.BODY_TITLE',
                                confirmMessage = 'COMMON_COMPONENT.DELETE_DIALOG.CONFIRM',
                                deleteBtn = 'COMMON_COMPONENT.DELETE_DIALOG.DELETE_BTN',
                                cancelBtn = 'COMMON_COMPONENT.DELETE_DIALOG.CANCEL_BTN',
                                moduleName = 'COMMON_COMPONENT.DELETE_DIALOG.MODULE_NAME'
-                             }: DeleteDialogProps) => {
+                             }: DeleteDialogProps<T>)  {
   const intl = useIntl();
   return (
     <Modal
-      show={show.delete}
-      onHide={() => hideModal('delete')}
+      show={isShow}
+      onHide={onHide}
       aria-labelledby="example-modal-sizes-title-lg"
       dialogClassName="modal-detail">
       <Modal.Header closeButton>
@@ -42,13 +41,13 @@ export const DeleteDialog = ({
         <button
           type="button"
           className="btn btn-danger"
-          onClick={e => deleteFn(entity[idProperty])}>
+          onClick={e => onDelete(entity)}>
           <DeleteIcon style={iconStyle}/>
           {intl.formatMessage({id: deleteBtn})}
         </button>
         <button
           type="button"
-          onClick={() => hideModal('delete')}
+          onClick={onHide}
           className="btn btn-outline-danger">
           <CancelOutlinedIcon style={iconStyle}/>
           {intl.formatMessage({id: cancelBtn})}
@@ -56,4 +55,4 @@ export const DeleteDialog = ({
       </Modal.Footer>
     </Modal>
   );
-};
+}

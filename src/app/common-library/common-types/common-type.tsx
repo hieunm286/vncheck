@@ -17,13 +17,13 @@ export interface ShowProps {
 }
 
 
-export interface DeleteDialogProps {
-  show: ShowProps;
-  hideModal: (a: string) => any;
-  deleteFn: (a: string) => any;
+export interface DeleteDialogProps<T> {
+  isShow: boolean;
+  onHide: () => any;
+  onDelete: (entity: T) => any;
   title?: string,
   moduleName?: string,
-  entity: any,
+  entity: T,
   idProperty?: string,
   bodyTitle?: string,
   confirmMessage?: string,

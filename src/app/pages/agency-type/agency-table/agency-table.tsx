@@ -8,7 +8,7 @@ import './agency-table.scss';
 import {useAgencyUIContext} from "../agency-ui-context";
 import {defaultSorted, sizePerPageList} from "../agency-ui-helpers";
 import {
-    getHandlerTableChange,
+    onTableChange,
     NoRecordsFoundMessage,
     PleaseWaitMessage
 } from "../../../common-library/helpers/pagination-helper";
@@ -106,7 +106,7 @@ export function AgencyTable() {
                 data={agencyTypeForView ? agencyTypeForView.agencies : []}
                 columns={columns}
                 defaultSorted={defaultSorted as any}
-                onTableChange={getHandlerTableChange(agencyUIProps.setQueryParams)}
+                onTableChange={onTableChange(agencyUIProps.setQueryParams)}
                 selectRow={GetSelectAgencyRow({
                   entities,
                   ids: agencyUIProps.ids,

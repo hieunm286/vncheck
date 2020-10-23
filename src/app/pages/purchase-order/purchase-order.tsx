@@ -12,6 +12,8 @@ import {HeaderSortingClasses, SortCaret} from "../../common-library/helpers/tabl
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import IndeterminateCheckBoxIcon from "@material-ui/icons/IndeterminateCheckBox";
 import {ActionsColumnFormatter} from "../../common-library/common-components/actions-column-formatter";
+import {DeleteDialog} from "../../common-library/common-components/delete-dialog";
+import isEqual from "react-fast-compare";
 
 function PurchaseOrder() {
   const intl = useIntl();
@@ -109,12 +111,14 @@ function PurchaseOrder() {
       });
   };
   
-  const deleteFn = (code: string) => {
-    const updateUnit = entities.filter((el: { code: string }) => el.code !== code);
-    setEntities(updateUnit);
-    Delete(code).then(res => {
+  const deleteFn = (entity: PurchaseOrderModel) => {
+    console.log(entity);
+    Delete(entity).then(res => {
+      setEntities(entities.filter(e => isEqual(e, entity)));
+      setShowDelete(false);
       // setShow({edit: false, delete: false, detail: false, deleteMany: false});
     });
+    
   };
   
   const deleteManyBasicUnit = () => {
@@ -210,8 +214,12 @@ function PurchaseOrder() {
       text: `${intl.formatMessage({id: 'BASIC_UNIT.CARD.TABLE.ACTION'})}`,
       formatter: ActionsColumnFormatter,
       formatExtraData: {
+        intl,
         onShowDetail: setShowDetail,
-        // onDelete: setShowDelete,
+        onDelete: (entity: PurchaseOrderModel) => {
+          setShowDelete(true);
+          setDeleteEntity(entity)
+        },
         // onEdit: setShowEdit,
         // openDeleteDialog: showModal,
         // openDetailDialog: showModal,
@@ -251,11 +259,13 @@ function PurchaseOrder() {
                                   setShowDetail(false)
                                 }}
                                 entity={detailEntity}/>
-      {/*<DeleteDialog*/}
-      {/*  show={show}*/}
-      {/*  hideModal={hideModal}*/}
-      {/*  entity={modifyEntity}*/}
-      {/*  deleteFn={deleteFn}/>*/}
+      <DeleteDialog
+        isShow={showDelete}
+        onHide={() => {
+          setShowDelete(false)
+        }}
+        entity={deleteEntity}
+        onDelete={deleteFn}/>
       {/*<DeleteManyDialog*/}
       {/*  ids={ids}*/}
       {/*  show={show}*/}

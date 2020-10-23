@@ -1,6 +1,8 @@
 /* Pagination Helprs */
 import React from "react";
 import {useIntl} from "react-intl";
+import {TableChangeHandler} from "react-bootstrap-table-next";
+import {PaginationProps} from "../common-types/common-type";
 
 export const GetPagesCount = (totalSize: number, sizePerPage: number) => {
   return Math.ceil(totalSize / sizePerPage);
@@ -67,11 +69,11 @@ export const GetPages = (page: number, pagesCount: number, paginationSize: numbe
   return result;
 };
 
-export function getHandlerTableChange(setQueryParams: any) {
-  return (type: any, {page = 1, sizePerPage, sortField, sortOrder, data}: any) => {
-    setQueryParams((prev: any) =>
+export function onTableChange(setQueryParams: (data: any) => void): TableChangeHandler<PaginationProps> {
+  return (type: any, {page = 1, sizePerPage, orderBy, orderType}: any) => {
+    setQueryParams((prev: PaginationProps) =>
       type === "sort"
-        ? {...prev, sortOrder, sortField}
+        ? {...prev, orderType, orderBy}
         : type === "pagination"
         ? {...prev, page, limit: sizePerPage}
         : prev

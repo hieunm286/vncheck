@@ -14,7 +14,7 @@ import {defaultSorted, sizePerPageList} from '../agency-ui-helpers';
 import {useAgencyUIContext} from '../agency-ui-context';
 import paginationFactory, {PaginationProvider} from 'react-bootstrap-table2-paginator';
 import {
-  getHandlerTableChange,
+  onTableChange,
   NoRecordsFoundMessage,
   PleaseWaitMessage,
 } from '../../../common-library/helpers/pagination-helper';
@@ -141,7 +141,7 @@ export function AgencyTable() {
                 data={entities || []}
                 columns={columns}
                 defaultSorted={defaultSorted as any}
-                onTableChange={getHandlerTableChange(agencyUIProps.setQueryParams)}
+                onTableChange={onTableChange(agencyUIProps.setQueryParams)}
                 selectRow={
                   GetSelectAgencyRow({
                     entities,

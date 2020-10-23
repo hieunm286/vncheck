@@ -3,7 +3,7 @@ import { useIntl } from 'react-intl';
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory, { PaginationProvider } from 'react-bootstrap-table2-paginator';
 import {
-  getHandlerTableChange,
+  onTableChange,
   NoRecordsFoundMessage,
   PleaseWaitMessage,
 } from '../../../common-library/helpers/pagination-helper';
@@ -126,7 +126,7 @@ function BasicUnitTable({
                     setIds: setIds,
                   }) as any
                 }
-                onTableChange={getHandlerTableChange(setQueryParams)}
+                onTableChange={onTableChange(setQueryParams)}
                 {...paginationProps}>
                 <PleaseWaitMessage entities={basicUnitArray} />
                 <NoRecordsFoundMessage entities={basicUnitArray} />

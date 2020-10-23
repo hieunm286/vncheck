@@ -110,7 +110,7 @@ var KTOffcanvas = function(elementId, options) {
             return (the.state == 'shown' ? true : false);
         },
 
-        toggle: function() {;
+        toggle: function() {
             Plugin.eventTrigger('toggle');
 
             if (the.state == 'shown') {
@@ -262,7 +262,7 @@ var KTOffcanvas = function(elementId, options) {
     /**
      * Set to show the canvas
      */
-    the.show = function() {
+    the.isShow = function() {
         return Plugin.show();
     };
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import BootstrapTable, {ColumnDescription, RowSelectionType} from 'react-bootstrap-table-next';
 import paginationFactory, {PaginationProvider} from 'react-bootstrap-table2-paginator';
-import {getHandlerTableChange, NoRecordsFoundMessage, PleaseWaitMessage,} from '../helpers/pagination-helper';
+import {onTableChange, NoRecordsFoundMessage, PleaseWaitMessage,} from '../helpers/pagination-helper';
 import './master-table.scss';
 import {SizePerPageList, SortDefault} from "../common-const/const";
 import {SelectionCheckbox} from "./table-row-selection-helpers";
@@ -86,7 +86,7 @@ export function MasterTable<T>({
                 bootstrap4
                 remote
                 {...paginationTableProps}
-                keyField="code"
+                keyField="_id"
                 data={entities}
                 columns={columns}
                 defaultSorted={SortDefault as any}
@@ -97,7 +97,7 @@ export function MasterTable<T>({
                     onSelectMany: onSelectMany
                   })
                 }
-                onTableChange={getHandlerTableChange(setQueryParams)}
+                onTableChange={onTableChange(setQueryParams)}
                 {...paginationProps}>
                 <PleaseWaitMessage entities={entities}/>
                 <NoRecordsFoundMessage entities={entities}/>

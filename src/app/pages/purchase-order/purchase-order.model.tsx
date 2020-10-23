@@ -1,3 +1,5 @@
 export interface PurchaseOrderModel {
-  code: string
+  code: string;
+  agencyAddress: string;
+  phoneNumber: string;
 }

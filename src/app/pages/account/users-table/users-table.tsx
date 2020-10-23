@@ -8,7 +8,7 @@ import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {useUsersUIContext} from '../users-ui-context';
 import './user-table.scss';
 import {
-    getHandlerTableChange,
+    onTableChange,
     NoRecordsFoundMessage,
     PleaseWaitMessage
 } from "../../../common-library/helpers/pagination-helper";
@@ -136,7 +136,7 @@ export function UsersTable() {
                 data={entities || []}
                 columns={columns}
                 defaultSorted={defaultSorted as any}
-                onTableChange={getHandlerTableChange(usersUIProps.setQueryParams)}
+                onTableChange={onTableChange(usersUIProps.setQueryParams)}
                 selectRow={GetSelectRow({
                   entities,
                   ids: usersUIProps.ids,
