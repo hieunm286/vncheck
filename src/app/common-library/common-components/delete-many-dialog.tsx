@@ -3,7 +3,8 @@ import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { Modal } from 'react-bootstrap';
 import { useIntl } from 'react-intl';
-import {ModalProgressBar} from "../modal-progress-bar";
+import { ModalProgressBar } from '../modal-progress-bar';
+import { DeleteManyDialogProps } from '../common-types/common-type';
 
 interface DeleteMany {
   ids: string[];
@@ -14,21 +15,23 @@ interface DeleteMany {
   deleteManyBasicUnit: any;
 }
 
-function DeleteManyDialog({
+function DeleteManyDialog<T>({
   ids,
-  show,
-  hideModal,
-  unitForEdit,
+  isShow,
+  onHide,
+  onDelete,
+  title = 'COMMON_COMPONENT.DELETE_DIALOG.TITLE',
+  bodyTitle = 'COMMON_COMPONENT.DELETE_DIALOG.BODY_TITLE',
+  confirmMessage = 'COMMON_COMPONENT.DELETE_DIALOG.CONFIRM',
+  deleteBtn = 'COMMON_COMPONENT.DELETE_DIALOG.DELETE_BTN',
+  cancelBtn = 'COMMON_COMPONENT.DELETE_DIALOG.CANCEL_BTN',
+  moduleName = 'COMMON_COMPONENT.DELETE_DIALOG.MODULE_NAME',
   loading,
-  deleteManyBasicUnit,
-}: DeleteMany) {
+}: DeleteManyDialogProps<T>) {
   const intl = useIntl();
 
   return (
-    <Modal
-      show={show.deleteMany}
-      onHide={() => hideModal('deleteMany')}
-      aria-labelledby="example-modal-sizes-title-lg">
+    <Modal show={isShow} onHide={() => onHide()} aria-labelledby="example-modal-sizes-title-lg">
       {/*begin::Loading*/}
       {loading && <ModalProgressBar />}
       {/*end::Loading*/}
@@ -58,15 +61,12 @@ function DeleteManyDialog({
       <Modal.Footer>
         <div>
           {ids && ids.length > 0 && (
-            <button type="button" onClick={deleteManyBasicUnit} className="btn btn-danger mr-3">
+            <button type="button" onClick={() => onDelete()} className="btn btn-danger mr-3">
               <DeleteIcon /> {intl.formatMessage({ id: 'BASIC_UNIT.CARD.HEADER.BUTTON.DELETE' })}
             </button>
           )}
-          <button
-            type="button"
-            onClick={() => hideModal('deleteMany')}
-            className="btn btn-outline-danger">
-            <CancelOutlinedIcon />{' '}
+          <button type="button" onClick={() => onHide()} className="btn btn-outline-danger">
+            <CancelOutlinedIcon />
             {intl.formatMessage({ id: 'BASIC_UNIT.CARD.DIALOG.BUTTON.CANCEL' })}
           </button>
         </div>

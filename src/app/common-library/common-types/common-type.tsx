@@ -16,28 +16,42 @@ export interface ShowProps {
   deleteMany: boolean;
 }
 
-
 export interface DeleteDialogProps<T> {
   isShow: boolean;
   onHide: () => any;
   onDelete: (entity: T) => any;
-  title?: string,
-  moduleName?: string,
-  entity: T,
-  idProperty?: string,
-  bodyTitle?: string,
-  confirmMessage?: string,
-  deleteBtn?: string,
-  cancelBtn?: string,
+  title?: string;
+  moduleName?: string;
+  entity: T;
+  idProperty?: string;
+  bodyTitle?: string;
+  confirmMessage?: string;
+  deleteBtn?: string;
+  cancelBtn?: string;
 }
 
+export interface DeleteManyDialogProps<T> {
+  isShow: boolean;
+  onHide: () => any;
+  onDelete: () => any;
+  ids: any[];
+  title?: string;
+  moduleName?: string;
+  entity?: T;
+  idProperty?: string;
+  bodyTitle?: string;
+  confirmMessage?: string;
+  deleteBtn?: string;
+  cancelBtn?: string;
+  loading?: boolean;
+}
 
 export interface ActionColumnProps<T> {
   onShowDetail: (entity: T) => void;
   onDelete: (entity: T) => void;
   onEdit: (entity: T) => void;
   onSelectMany: (entities: T[]) => void;
-  
+  onDeleteMany?: () => any;
   // openEditDialog: any;
   // openDeleteDialog: any;
   // detailTitle: string;

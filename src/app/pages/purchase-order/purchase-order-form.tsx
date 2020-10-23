@@ -6,23 +6,24 @@ import { useIntl } from 'react-intl';
 import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import * as Yup from 'yup';
-import {MainInput} from "../../common-library/forms/main-input";
-import {iconStyle} from "../../common-library/common-const/const";
+import { MainInput } from '../../common-library/forms/main-input';
+import { iconStyle } from '../../common-library/common-const/const';
 
-const BasicUnitSchema = Yup.object().shape({
+const PurchaseOrderSchema = Yup.object().shape({
   code: Yup.string().required('Vui lòng nhập mã đơn vị'),
-  name: Yup.string().required('Vui lòng nhập tên đơn vị'),
+  agencyAddress: Yup.string().required('Vui lòng nhập tên đơn vị'),
+  phoneNumber: Yup.string().required('Vui lòng nhập số điện thoại'),
 });
 
-function BasicUnitForm({
+function PurchaseOrderForm({
   unitForEdit,
   onHide,
-  handleActionBasicUnit,
+  handleActionPurchaseOrder,
   error,
 }: {
   unitForEdit: any;
   onHide: any;
-  handleActionBasicUnit: any;
+  handleActionPurchaseOrder: any;
   error: string;
 }) {
   const [state, setState] = React.useState({
@@ -43,15 +44,9 @@ function BasicUnitForm({
       <Formik
         enableReinitialize={true}
         initialValues={unitForEdit}
-        validationSchema={BasicUnitSchema}
+        validationSchema={PurchaseOrderSchema}
         onSubmit={values => {
-          const valueEdit = {
-            ...values,
-            status: state.status ? 1 : 0,
-            quantity: 10,
-          };
-          console.log(valueEdit);
-          handleActionBasicUnit(valueEdit);
+          handleActionPurchaseOrder(values);
         }}>
         {({ handleSubmit }) => (
           <>
@@ -66,11 +61,13 @@ function BasicUnitForm({
                   <Field
                     name="code"
                     component={MainInput}
-                    placeholder={intl.formatMessage({ id: 'BASIC_UNIT.CARD.EDIT_DIALOG.CODE' })}
+                    placeholder={intl.formatMessage({
+                      id: 'PURCHASE_ORDER.MASTER.TABLE.CODE_COLUMN',
+                    })}
                     withFeedbackLabel
                     labelWidth={4}
                     isHorizontal
-                    label={intl.formatMessage({ id: 'BASIC_UNIT.CARD.TABLE.CODE' })}
+                    label={intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.CODE_COLUMN' })}
                   />
                   {error !== '' && (
                     <div className="row">
@@ -83,16 +80,32 @@ function BasicUnitForm({
                 </div>
                 <div className="mt-3">
                   <Field
-                    name="name"
+                    name="agencyAddress"
                     component={MainInput}
                     labelWidth={4}
-                    placeholder={intl.formatMessage({ id: 'BASIC_UNIT.CARD.EDIT_DIALOG.NAME' })}
+                    placeholder={intl.formatMessage({
+                      id: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS',
+                    })}
                     withFeedbackLabel
                     isHorizontal
-                    label={intl.formatMessage({ id: 'BASIC_UNIT.CARD.TABLE.NAME' })}
+                    label={intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS' })}
                   />
                 </div>
-                <div className="mt-3 row">
+
+                <div className="mt-3">
+                  <Field
+                    name="phoneNumber"
+                    component={MainInput}
+                    labelWidth={4}
+                    placeholder={intl.formatMessage({
+                      id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER',
+                    })}
+                    withFeedbackLabel
+                    isHorizontal
+                    label={intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER' })}
+                  />
+                </div>
+                {/* <div className="mt-3 row">
                   <label className="col-md-4">
                     {intl.formatMessage({ id: 'BASIC_UNIT.CARD.TABLE.STATUS' })}
                   </label>
@@ -105,7 +118,7 @@ function BasicUnitForm({
                       inputProps={{ 'aria-label': 'primary checkbox' }}
                     />
                   </div>
-                </div>
+                </div> */}
               </Form>
             </Modal.Body>
             <Modal.Footer>
@@ -126,4 +139,4 @@ function BasicUnitForm({
   );
 }
 
-export default BasicUnitForm;
+export default PurchaseOrderForm;

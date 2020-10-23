@@ -1,10 +1,22 @@
 import React from 'react';
-import {Modal} from 'react-bootstrap';
+import { Modal } from 'react-bootstrap';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
-import {useIntl} from 'react-intl';
+import { useIntl } from 'react-intl';
 
-export function MasterEntityDetailDialog({titles, show, entity, onClose,}: { titles: any, show: boolean, entity: any, onClose: () => void}) {
-  const initUnit = {code: '', name: '', status: 0,};
+export function MasterEntityDetailDialog({
+  // titles,
+  show,
+  entity,
+  onClose,
+  renderInfo,
+}: {
+  // titles: any;
+  show: boolean;
+  entity: any;
+  renderInfo: any;
+  onClose: () => void;
+}) {
+  const initUnit = { code: '', name: '', status: 0 };
   const intl = useIntl();
   return (
     <Modal
@@ -15,31 +27,36 @@ export function MasterEntityDetailDialog({titles, show, entity, onClose,}: { tit
       dialogClassName="modal-detail">
       <Modal.Header closeButton>
         <Modal.Title id="example-modal-sizes-title-lg" className="text-danger">
-          {intl.formatMessage({id: 'COMMON_COMPONENT.DETAIL_DIALOG.HEADER_TITLE'})}
+          {intl.formatMessage({ id: 'COMMON_COMPONENT.DETAIL_DIALOG.HEADER_TITLE' })}
         </Modal.Title>
       </Modal.Header>
-      
-      <MasterEntityDetail data={entity || initUnit} titles={titles}/>
+
+      <MasterEntityDetail data={entity || initUnit} renderInfo={renderInfo} />
       <Modal.Footer>
-        <button
-          type="button"
-          onClick={onClose}
-          className="btn btn-outline-danger">
-          <CancelOutlinedIcon style={{fontSize: 14}}/>{' '}
-          {intl.formatMessage({id: 'COMMON_COMPONENT.DETAIL_DIALOG.CLOSE_BTN'})}
+        <button type="button" onClick={onClose} className="btn btn-outline-danger">
+          <CancelOutlinedIcon style={{ fontSize: 14 }} />{' '}
+          {intl.formatMessage({ id: 'COMMON_COMPONENT.DETAIL_DIALOG.CLOSE_BTN' })}
         </button>
       </Modal.Footer>
     </Modal>
   );
 }
 
-export function MasterEntityDetail({titles, data, convertFunctions = {}}: {
-  titles: { [V: string]: string }, data: any, convertFunctions?: { [V: string]: (input: any) => string }
+export function MasterEntityDetail({
+  // titles,
+  data,
+  renderInfo,
+  convertFunctions = {},
+}: {
+  // titles: { [V: string]: string };
+  renderInfo: any[];
+  data: any;
+  convertFunctions?: { [V: string]: (input: any) => string };
 }) {
   const intl = useIntl();
   return (
     <Modal.Body>
-      {Object.keys(titles).map(titleKey => {
+      {/* {Object.keys(titles).map(titleKey => {
         return (<div className="row mt-5" key={'master-entity-detail' + titleKey}>
           <div className="col-7">
             {intl.formatMessage({id: titles[titleKey]})}:
@@ -47,7 +64,12 @@ export function MasterEntityDetail({titles, data, convertFunctions = {}}: {
           <div
             className="col-5">{convertFunctions[titleKey] ? convertFunctions[titleKey](data[titleKey]) : data[titleKey]}</div>
         </div>)
-      })}
+      })} */}
+      {renderInfo.map((value, key) => (
+        <p key={key}>
+          {value.title}: <strong>{data[value.keyField]}</strong>
+        </p>
+      ))}
     </Modal.Body>
   );
 }

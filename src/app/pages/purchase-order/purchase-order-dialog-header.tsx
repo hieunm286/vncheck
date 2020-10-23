@@ -2,7 +2,7 @@ import React from 'react';
 import { Modal } from 'react-bootstrap';
 import { useIntl } from 'react-intl';
 
-function BasicUnitDialogHeader({ unitForEdit }: { unitForEdit: any }) {
+function PurchaseOrderDialogHeader({ unitForEdit }: { unitForEdit: any }) {
   const intl = useIntl();
 
   return (
@@ -20,4 +20,4 @@ function BasicUnitDialogHeader({ unitForEdit }: { unitForEdit: any }) {
   );
 }
 
-export default BasicUnitDialogHeader;
+export default PurchaseOrderDialogHeader;
