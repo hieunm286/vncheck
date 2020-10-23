@@ -2,10 +2,10 @@ import React from 'react';
 import {useIntl} from 'react-intl';
 import {Field, Formik} from 'formik';
 import SearchIcon from '@material-ui/icons/Search';
-import {Input} from "../../common-library/forms/input";
-import {Card, CardBody, CardHeader} from "../../common-library/card";
+import {Input} from "../forms/input";
+import {Card, CardBody, CardHeader} from "../card";
 import SVG from "react-inlinesvg";
-import {ToAbsoluteUrl} from "../../common-library/helpers/assets-helpers";
+import {ToAbsoluteUrl} from "../helpers/assets-helpers";
 
 export function MasterHeader<T>({title, onSearch}: { title: any, onSearch: (data: T) => any }) {
   const intl = useIntl();

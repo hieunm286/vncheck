@@ -5,6 +5,11 @@
 #pageDropDown {
   display: none;
 }
+.visibility:hover {
+  .eye {
+    color: white !important;
+  }
+}
 
 // .noBorderOnClick  {
 //     th:focus{      

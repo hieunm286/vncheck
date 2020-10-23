@@ -6,19 +6,19 @@ import {
   getHandlerTableChange,
   NoRecordsFoundMessage,
   PleaseWaitMessage,
-} from '../../../common-library/helpers/pagination-helper';
-import {HeaderSortingClasses, SortCaret,} from '../../../common-library/helpers/table-sorting-helpers';
-import {Pagination} from '../../../../_metronic/_partials/controls';
+} from '../helpers/pagination-helper';
+import {HeaderSortingClasses, SortCaret,} from '../helpers/table-sorting-helpers';
+import {Pagination} from '../../../_metronic/_partials/controls/index';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import IndeterminateCheckBoxIcon from '@material-ui/icons/IndeterminateCheckBox';
-import {ActionsColumnFormatter} from './column-formatters/actions-column-formatter';
-import './basic-unit-table.scss';
-import {SizePerPageList, SortDefault} from "../../../common-library/common-const/const";
+import {ActionsColumnFormatter} from './actions-column-formatter';
+import './master-table.scss';
+import {SizePerPageList, SortDefault} from "../common-const/const";
 import {
   GroupingItemBasicUnitOnSelect,
   SelectionCheckbox
-} from "../../../common-library/helpers/table-row-selection-helpers";
-import {ActionColumnProps} from "../../../common-library/common-types/common-type";
+} from "../helpers/table-row-selection-helpers";
+import {ActionColumnProps} from "../common-types/common-type";
 
 export function GroupingAllOnSelect({isSelected, setIds, list}: { isSelected: any, setIds: any, list: any }) {
   if (!isSelected) {

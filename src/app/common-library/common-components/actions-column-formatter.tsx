@@ -4,9 +4,9 @@
 import React from 'react';
 import SVG from 'react-inlinesvg';
 import Visibility from '@material-ui/icons/Visibility';
-import './actions-column.scss';
-import { ToAbsoluteUrl } from '../../../../common-library/helpers/assets-helpers';
-import {ActionColumnProps} from "../../../../common-library/common-types/common-type";
+import './master-table.scss';
+import { ToAbsoluteUrl } from '../helpers/assets-helpers';
+import {ActionColumnProps} from "../common-types/common-type";
 
 
 
@@ -18,17 +18,12 @@ export function ActionsColumnFormatter<T>(
     onShowDetail,
     onDelete,
     onEdit,
-    openEditDialog,
-    openDeleteDialog,
-    detailTitle,
-    editTitle,
-    deleteTitle,
   }: ActionColumnProps<T>,
 ) {
   return (
     <>
       <a
-        title={detailTitle}
+        title={'detailTitle'}
         className="btn btn-icon btn-light btn-hover-danger btn-sm visibility"
         onClick={() => onShowDetail(row)}>
         <span className="svg-icon svg-icon-md svg-icon-danger">
@@ -36,7 +31,7 @@ export function ActionsColumnFormatter<T>(
         </span>
       </a>
       <a
-        title={editTitle}
+        title={'editTitle'}
         className="btn btn-icon btn-light btn-hover-danger btn-sm mx-1"
         onClick={() => onEdit(row)}>
         <span className="svg-icon svg-icon-md svg-icon-danger">
@@ -44,7 +39,7 @@ export function ActionsColumnFormatter<T>(
         </span>
       </a>
       <a
-        title={deleteTitle}
+        title={'deleteTitle'}
         className="btn btn-icon btn-light btn-hover-danger btn-sm"
         onClick={() => onDelete(row)}>
         <span className="svg-icon svg-icon-md svg-icon-danger">

@@ -1,10 +1,10 @@
 import React from 'react';
-import {Card, CardBody} from '../../common-library/card';
+import {Card, CardBody} from '../card';
 import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined';
 import {useIntl} from 'react-intl';
-import {iconStyle} from "../../common-library/common-const/const";
-import {MasterTable} from "./basic-unit-table/master-table";
-import {ActionColumnProps} from "../../common-library/common-types/common-type";
+import {iconStyle} from "../common-const/const";
+import {MasterTable} from "./master-table";
+import {ActionColumnProps} from "../common-types/common-type";
 
 export interface BasicUnitDataProps {
   showModal: any;

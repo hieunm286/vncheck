@@ -5,9 +5,9 @@ import {InitQueryParams} from "../../common-library/helpers/common-function";
 import {Create, Delete, DeleteMany, GetAll, Update} from "./purchase-order.service";
 import {PurchaseOrderModel} from "./purchase-order.model";
 import {FilterDefault, SortDefault} from "../../common-library/common-const/const";
-import {MasterHeader} from "./master-header";
+import {MasterHeader} from "../../common-library/common-components/master-header";
 import {MasterEntityDetailDialog} from '../../common-library/common-components/master-entity-detail-dialog';
-import {MasterBody} from "./master-body";
+import {MasterBody} from "../../common-library/common-components/master-body";
 
 function PurchaseOrder() {
   const intl = useIntl();
