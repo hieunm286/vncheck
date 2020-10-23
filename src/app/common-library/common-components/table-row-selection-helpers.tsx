@@ -1,19 +1,19 @@
 import React from 'react';
 
-export function SelectionCheckbox({ isSelected, onChange }: any) {
+export function SelectionCheckbox({isSelected, onChange}: { isSelected: boolean, onChange: (e: any) => boolean | void }) {
   return (
     <>
-      <input type="checkbox" style={{ display: 'none' }} />
+      <input type="checkbox" style={{display: 'none'}}/>
       <label className="checkbox checkbox-single">
-        <input type="checkbox" checked={isSelected} onChange={onChange} />
-        <span />
+        <input type="checkbox" checked={isSelected} onChange={onChange}/>
+        <span/>
       </label>
     </>
   );
 }
 
 export function GroupingItemOnSelect(props: any) {
-  const { ids, setIds, customerId } = props;
+  const {ids, setIds, customerId} = props;
   if (ids.some((username: any) => username === customerId)) {
     setIds(ids.filter((username: any) => username !== customerId));
   } else {
@@ -24,7 +24,7 @@ export function GroupingItemOnSelect(props: any) {
 }
 
 export function GroupingItemAgencyOnSelect(props: any) {
-  const { ids, setIds, customerId } = props;
+  const {ids, setIds, customerId} = props;
   if (ids.some((agency_id: any) => agency_id === customerId)) {
     setIds(ids.filter((agency_id: any) => agency_id !== customerId));
   } else {
@@ -35,18 +35,11 @@ export function GroupingItemAgencyOnSelect(props: any) {
 }
 
 export function GroupingItemBasicUnitOnSelect(props: any) {
-  const { ids, setIds, customerId } = props;
-  if (ids.some((code: any) => code === customerId)) {
-    setIds(ids.filter((code: any) => code !== customerId));
-  } else {
-    const newIds = [...ids];
-    newIds.push(customerId);
-    setIds(newIds);
-  }
+
 }
 
 export function GroupingAllOnSelect(props: any) {
-  const { isSelected, setIds, entities } = props;
+  const {isSelected, setIds, entities} = props;
   if (!isSelected) {
     const allIds: any[] = [];
     entities.forEach((el: any) => allIds.push(el.username));
@@ -54,12 +47,12 @@ export function GroupingAllOnSelect(props: any) {
   } else {
     setIds([]);
   }
-
+  
   return isSelected;
 }
 
 export function GroupingAllAgencyOnSelect(props: any) {
-  const { isSelected, setIds, entities } = props;
+  const {isSelected, setIds, entities} = props;
   if (!isSelected) {
     const allIds: any[] = [];
     entities.forEach((el: any) => allIds.push(el.agency_id));
@@ -67,12 +60,12 @@ export function GroupingAllAgencyOnSelect(props: any) {
   } else {
     setIds([]);
   }
-
+  
   return isSelected;
 }
 
 export function GroupingAllBasicUnitOnSelect(props: any) {
-  const { isSelected, setIds, basicUnitArray } = props;
+  const {isSelected, setIds, basicUnitArray} = props;
   if (!isSelected) {
     const allIds: any[] = [];
     basicUnitArray.forEach((el: any) => allIds.push(el.code));
@@ -80,43 +73,43 @@ export function GroupingAllBasicUnitOnSelect(props: any) {
   } else {
     setIds([]);
   }
-
+  
   return isSelected;
 }
 
 // check official documentations: https://react-bootstrap-table.github.io/react-bootstrap-table2/storybook/index.html?selectedKind=Row%20Selection&selectedStory=Custom%20Selection%20Column%20Header%20Style&full=0&addons=1&stories=1&panelRight=0&addonPanel=storybook%2Factions%2Factions-panel
 export function GetSelectRow(props: any) {
-  const { entities, ids, setIds } = props;
+  const {entities, ids, setIds} = props;
   return {
     mode: 'checkbox',
     clickToSelect: true,
     hideSelectAll: false,
     selectionHeaderRenderer: () => {
       const isSelected = entities && entities.length > 0 && entities.length === ids.length;
-      const props = { isSelected, entities, setIds };
+      const props = {isSelected, entities, setIds};
       return (
-        <SelectionCheckbox isSelected={isSelected} onChange={() => GroupingAllOnSelect(props)} />
+        <SelectionCheckbox isSelected={isSelected} onChange={() => GroupingAllOnSelect(props)}/>
       );
     },
-    selectionRenderer: ({ rowIndex }: any) => {
+    selectionRenderer: ({rowIndex}: any) => {
       const isSelected = ids.some((el: any) => el === entities[rowIndex].username);
-      const props = { ids, setIds, customerId: entities[rowIndex].username };
+      const props = {ids, setIds, customerId: entities[rowIndex].username};
       return (
-        <SelectionCheckbox isSelected={isSelected} onChange={() => GroupingItemOnSelect(props)} />
+        <SelectionCheckbox isSelected={isSelected} onChange={() => GroupingItemOnSelect(props)}/>
       );
     },
   };
 }
 
 export function GetSelectAgencyRow(props: any) {
-  const { entities, ids, setIds } = props;
+  const {entities, ids, setIds} = props;
   return {
     mode: 'checkbox',
     clickToSelect: true,
     hideSelectAll: false,
     selectionHeaderRenderer: () => {
       const isSelected = entities && entities.length > 0 && entities.length === ids.length;
-      const props = { isSelected, entities, setIds };
+      const props = {isSelected, entities, setIds};
       return (
         <SelectionCheckbox
           isSelected={isSelected}
@@ -124,9 +117,9 @@ export function GetSelectAgencyRow(props: any) {
         />
       );
     },
-    selectionRenderer: ({ rowIndex }: any) => {
+    selectionRenderer: ({rowIndex}: any) => {
       const isSelected = ids.some((el: any) => el === entities[rowIndex].agency_id);
-      const props = { ids, setIds, customerId: entities[rowIndex].agency_id };
+      const props = {ids, setIds, customerId: entities[rowIndex].agency_id};
       return (
         <SelectionCheckbox
           isSelected={isSelected}
@@ -138,7 +131,7 @@ export function GetSelectAgencyRow(props: any) {
 }
 
 export function GetSelectBasicUnitRow(props: any) {
-  const { basicUnitArray, ids, setIds } = props;
+  const {basicUnitArray, ids, setIds} = props;
   return {
     mode: 'checkbox',
     clickToSelect: true,
@@ -146,7 +139,7 @@ export function GetSelectBasicUnitRow(props: any) {
     selectionHeaderRenderer: () => {
       const isSelected =
         basicUnitArray && basicUnitArray.length > 0 && basicUnitArray.length === ids.length;
-      const props = { isSelected, basicUnitArray, setIds };
+      const props = {isSelected, basicUnitArray, setIds};
       return (
         <SelectionCheckbox
           isSelected={isSelected}
@@ -154,9 +147,9 @@ export function GetSelectBasicUnitRow(props: any) {
         />
       );
     },
-    selectionRenderer: ({ rowIndex }: any) => {
+    selectionRenderer: ({rowIndex}: any) => {
       const isSelected = ids.some((el: any) => el === basicUnitArray[rowIndex].code);
-      const props = { ids, setIds, customerId: basicUnitArray[rowIndex].code };
+      const props = {ids, setIds, customerId: basicUnitArray[rowIndex].code};
       return (
         <SelectionCheckbox
           isSelected={isSelected}

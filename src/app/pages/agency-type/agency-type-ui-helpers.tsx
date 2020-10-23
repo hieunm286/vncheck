@@ -42,5 +42,5 @@ export const initialFilter = {
   sortOrder: 'asc', // asc||desc
   sortField: 'username',
   pageNumber: 1,
-  pageSize: 5,
+  limit: 5,
 };

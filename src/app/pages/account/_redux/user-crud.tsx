@@ -17,7 +17,7 @@ export function createUser(user: {
 export function getAllUsers(queryParams: {
   filter: { field: string; searchText: any };
   pageNumber: any;
-  pageSize: any;
+  limit: any;
   sortField: any;
   sortOrder: any;
 }) {
@@ -25,7 +25,7 @@ export function getAllUsers(queryParams: {
   // console.log(sign);
   if (queryParams.filter && queryParams.filter.field) {
     return axios.get(
-      `${USER_URL_SEARCH}?page=${queryParams.pageNumber}&limit=${queryParams.pageSize}&sortby=${queryParams.sortField}&orderby=${queryParams.sortOrder}
+      `${USER_URL_SEARCH}?page=${queryParams.pageNumber}&limit=${queryParams.limit}&sortby=${queryParams.sortField}&orderby=${queryParams.sortOrder}
       &field=${queryParams.filter.field}
       &query=${queryParams.filter.searchText}`,
     );
@@ -34,13 +34,13 @@ export function getAllUsers(queryParams: {
     (!queryParams.filter.field || queryParams.filter.field === 'all')
   ) {
     return axios.get(
-      `${USER_URL_SEARCH}?page=${queryParams.pageNumber}&limit=${queryParams.pageSize}&sortby=${queryParams.sortField}&orderby=${queryParams.sortOrder}
+      `${USER_URL_SEARCH}?page=${queryParams.pageNumber}&limit=${queryParams.limit}&sortby=${queryParams.sortField}&orderby=${queryParams.sortOrder}
       &field=all
       &query=${queryParams.filter.searchText}`,
     );
   } else {
     return axios.get(
-      `${USERS_URL}?page=${queryParams.pageNumber}&limit=${queryParams.pageSize}&sortby=${queryParams.sortField}&orderby=${queryParams.sortOrder}
+      `${USERS_URL}?page=${queryParams.pageNumber}&limit=${queryParams.limit}&sortby=${queryParams.sortField}&orderby=${queryParams.sortOrder}
       `,
     );
   }

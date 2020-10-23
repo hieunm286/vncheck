@@ -17,7 +17,7 @@ import {ActionsColumnFormatter} from "./column-formatters/actions-column-formatt
 import {Pagination} from "../../../common-library/pagination/pagination";
 import {HeaderSortingClasses, SortCaret} from "../../../common-library/helpers/table-sorting-helpers";
 import {fetchAllUser} from "../_redux/user-action";
-import {GetSelectRow} from "../../../common-library/helpers/table-row-selection-helpers";
+import {GetSelectRow} from "../../../common-library/common-components/table-row-selection-helpers";
 
 export function UsersTable() {
   // Customers UI Context
@@ -116,7 +116,7 @@ export function UsersTable() {
     user: true,
     totalSize: totalCount,
     sizePerPageList: sizePerPageList,
-    sizePerPage: usersUIProps.queryParams.pageSize,
+    sizePerPage: usersUIProps.queryParams.limit,
     page: usersUIProps.queryParams.pageNumber,
   };
   return (

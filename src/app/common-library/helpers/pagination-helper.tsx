@@ -68,13 +68,12 @@ export const GetPages = (page: number, pagesCount: number, paginationSize: numbe
 };
 
 export function getHandlerTableChange(setQueryParams: any) {
-  return (type: any, {page, sizePerPage, sortField, sortOrder, data}: any) => {
-    const pageNumber = page || 1;
+  return (type: any, {page = 1, sizePerPage, sortField, sortOrder, data}: any) => {
     setQueryParams((prev: any) =>
       type === "sort"
         ? {...prev, sortOrder, sortField}
         : type === "pagination"
-        ? {...prev, pageNumber, pageSize: sizePerPage}
+        ? {...prev, page, limit: sizePerPage}
         : prev
     );
   };

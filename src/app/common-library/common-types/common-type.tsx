@@ -1,7 +1,6 @@
 export interface PaginationProps {
-  data: any;
-  pageSize: number | string;
-  pageNumber: number | string;
+  limit: number | string;
+  page: number | string;
   orderType: string;
   orderBy: string;
 }
@@ -33,11 +32,12 @@ export interface DeleteDialogProps {
 }
 
 
-
 export interface ActionColumnProps<T> {
-  onShowDetail: (entity:T)=>void;
-  onDelete: (entity:T)=>void;
-  onEdit: (entity:T)=>void;
+  onShowDetail: (entity: T) => void;
+  onDelete: (entity: T) => void;
+  onEdit: (entity: T) => void;
+  onSelectMany: (entities: T[]) => void;
+  
   // openEditDialog: any;
   // openDeleteDialog: any;
   // detailTitle: string;

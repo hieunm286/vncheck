@@ -20,7 +20,7 @@ export function createAgencyType(agencyType: AgencyType) {
 export function getAllAgencyTypes(queryParams: {
   filter: any;
   pageNumber: any;
-  pageSize: any;
+  limit: any;
   sortField: any;
   sortOrder: any;
 }) {
@@ -33,7 +33,7 @@ export function getAllAgencyTypes(queryParams: {
     (!queryParams.filter.field || queryParams.filter.field === 'all')
   ) {
     return axios.get(
-      `${AGENCY_URL_SEARCH}?page=${queryParams.pageNumber}&limit=${queryParams.pageSize}&sortby=${queryParams.sortField}&orderby=${queryParams.sortOrder}
+      `${AGENCY_URL_SEARCH}?page=${queryParams.pageNumber}&limit=${queryParams.limit}&sortby=${queryParams.sortField}&orderby=${queryParams.sortOrder}
       &field=all
       &query=${queryParams.filter.searchText}`,
     );

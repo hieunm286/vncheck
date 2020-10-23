@@ -3,7 +3,7 @@ import React from "react";
 export const makeTablePaginationRenderer = ({
                                                 isLoading,
                                                 totalCount,
-                                                pageSize
+                                                limit
                                             }: any) => (props: any) => {
     console.log(props, isLoading, totalCount);
     const {pages, onPageChange} = props;

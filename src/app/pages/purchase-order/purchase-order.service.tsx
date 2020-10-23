@@ -17,6 +17,10 @@ export const GetAll = (queryProps: any, sortList?: SortProps[], paginationProps?
   });
 };
 
+export const Count = (queryProps: any) => {
+  return axios.get(`${API_URL}/count`);
+};
+
 export const Get = (code: string) => {
   return axios.get(`${API_URL}/${code}`);
 };

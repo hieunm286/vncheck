@@ -1,13 +1,17 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {BasicUnitUIProvider} from './basic-unit-ui-context';
 import {useIntl} from 'react-intl';
 import {InitQueryParams} from "../../common-library/helpers/common-function";
-import {Create, Delete, DeleteMany, GetAll, Update} from "./purchase-order.service";
+import {Count, Create, Delete, DeleteMany, GetAll, Update} from "./purchase-order.service";
 import {PurchaseOrderModel} from "./purchase-order.model";
 import {FilterDefault, SortDefault} from "../../common-library/common-const/const";
 import {MasterHeader} from "../../common-library/common-components/master-header";
 import {MasterEntityDetailDialog} from '../../common-library/common-components/master-entity-detail-dialog';
 import {MasterBody} from "../../common-library/common-components/master-body";
+import {HeaderSortingClasses, SortCaret} from "../../common-library/helpers/table-sorting-helpers";
+import CheckCircleIcon from "@material-ui/icons/CheckCircle";
+import IndeterminateCheckBoxIcon from "@material-ui/icons/IndeterminateCheckBox";
+import {ActionsColumnFormatter} from "../../common-library/common-components/actions-column-formatter";
 
 function PurchaseOrder() {
   const intl = useIntl();
@@ -17,7 +21,7 @@ function PurchaseOrder() {
   const [entities, setEntities] = useState<PurchaseOrderModel[]>([]);
   const [deleteEntity, setDeleteEntity] = useState<PurchaseOrderModel>(null as any);
   const [editEntity, setEditEntity] = useState<PurchaseOrderModel>(null as any);
-  const [deleteEntities, setDeleteEntities] = useState([]);
+  const [selectedEntities, setSelectedEntities] = useState<PurchaseOrderModel[]>([]);
   const [detailEntity, setDetailEntity] = useState<PurchaseOrderModel>(null as any);
   const [showDelete, setShowDelete] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
@@ -27,23 +31,27 @@ function PurchaseOrder() {
   const [error, setError] = useState('');
   const [ids, setIds] = useState([]);
   const {queryParams, setQueryParams, setQueryParamsBase} = InitQueryParams(initialFilter);
+  // const [queryParams, setQueryParamsBase] = useState(initialFilter);
+  // const setQueryParams = InitQueryParams(setQueryParamsBase)
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
-  
-  useEffect(() => {
-    const getAll = () => {
-      setLoading(true);
-      GetAll(queryParams)
-        .then(res => {
+  const getAll = useCallback(() => {
+    setLoading(true);
+    GetAll(queryParams)
+      .then(res => {
+        Count(queryParams).then(ress => {
           setIds([]);
-          setTotal(5);
           setEntities(res.data);
           setLoading(false);
+          setTotal(ress.data)
         })
-        .catch(error => {
-          console.log(error);
-        });
-    };
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }, [queryParams]);
+  
+  useEffect(() => {
     setIds([]);
     getAll();
   }, [queryParams]);
@@ -146,6 +154,81 @@ function PurchaseOrder() {
       });
   };
   
+  console.log(queryParams)
+  const columns = [
+    {
+      dataField: 'ordinal',
+      text: 'STT',
+      formatter: (cell: any, row: any, rowIndex: number) => (
+        <p>{rowIndex + 1 + (queryParams.page as any - 1) * (queryParams.limit as any)}</p>),
+      style: {paddingTop: 20},
+    },
+    {
+      dataField: 'code',
+      text: `${intl.formatMessage({id: 'PURCHASE_ORDER.MASTER.TABLE.CODE_COLUMN'})}`,
+      sort: true,
+      sortCaret: SortCaret,
+      headerSortingClasses: HeaderSortingClasses,
+    },
+    {
+      dataField: 'agencyAddress',
+      text: `${intl.formatMessage({id: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS'})}`,
+      sort: true,
+      sortCaret: SortCaret,
+      headerSortingClasses: HeaderSortingClasses,
+    },
+    
+    {
+      dataField: 'phoneNumber',
+      text: `${intl.formatMessage({id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER',})}`,
+      sort: true,
+      sortCaret: SortCaret,
+      headerSortingClasses: HeaderSortingClasses,
+      headerClasses: 'text-center',
+      classes: 'text-center pr-0',
+      
+    },
+    {
+      dataField: 'status',
+      text: `\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0 ${intl.formatMessage({
+        id: 'PURCHASE_ORDER.MASTER.TABLE.STATUS',
+      })}`,
+      sort: true,
+      sortCaret: SortCaret,
+      headerSortingClasses: HeaderSortingClasses,
+      headerClasses: 'text-center',
+      classes: 'text-center pr-0',
+      formatter: (cell: any, row: any) =>
+        row.status === 1 ? (
+          <CheckCircleIcon style={{color: '#1DBE2D'}}/>
+        ) : (
+          <IndeterminateCheckBoxIcon/>
+        ),
+    },
+    {
+      dataField: 'action',
+      text: `${intl.formatMessage({id: 'BASIC_UNIT.CARD.TABLE.ACTION'})}`,
+      formatter: ActionsColumnFormatter,
+      formatExtraData: {
+        onShowDetail: setShowDetail,
+        // onDelete: setShowDelete,
+        // onEdit: setShowEdit,
+        // openDeleteDialog: showModal,
+        // openDetailDialog: showModal,
+        // show: show,
+        detailTitle: `${intl.formatMessage({id: 'BASIC_UNIT.CARD.TABLE.ACTION.DETAIL.TITLE'})}`,
+        editTitle: `${intl.formatMessage({id: 'BASIC_UNIT.CARD.TABLE.ACTION.EDIT.TITLE'})}`,
+        deleteTitle: `${intl.formatMessage({id: 'BASIC_UNIT.CARD.TABLE.ACTION.DELETE.TITLE'})}`,
+      },
+      classes: 'text-center pr-0',
+      headerClasses: 'text-center',
+      style: {
+        minWidth: '130px',
+      },
+    },
+  ];
+  
+  
   const masterEntityDetailDialog = {
     titles: {
       code: 'BASIC_UNIT.CARD.DETAIL_DIALOG.CODE',
@@ -163,9 +246,10 @@ function PurchaseOrder() {
       {/*  addBasicUnit={addBasicUnit}*/}
       {/*  error={error}*/}
       {/*/>*/}
-      <MasterEntityDetailDialog {...masterEntityDetailDialog} show={showDetail} onClose={() => {
-        setShowDetail(false)
-      }}
+      <MasterEntityDetailDialog {...masterEntityDetailDialog} show={showDetail}
+                                onClose={() => {
+                                  setShowDetail(false)
+                                }}
                                 entity={detailEntity}/>
       {/*<DeleteDialog*/}
       {/*  show={show}*/}
@@ -188,14 +272,17 @@ function PurchaseOrder() {
         }}
         onEdit={(entity) => {
           setEditEntity(entity);
-          setShowDetail(true)
+          setShowEdit(true)
         }}
         onDelete={(entity) => {
           setDeleteEntity(entity);
-          setShowDetail(true)
+          setShowDelete(true)
         }}
+        selectedEntities={selectedEntities}
+        onSelectMany={setSelectedEntities}
         entities={entities}
         total={total}
+        columns={columns}
         loading={loading}
         queryParams={queryParams}
         setQueryParamsBase={setQueryParamsBase}

@@ -14,7 +14,7 @@ import IndeterminateCheckBoxIcon from '@material-ui/icons/IndeterminateCheckBox'
 import { ActionsColumnFormatter } from './column-formatters/actions-column-formatter';
 import { defaultSorted, sizePerPageList } from '../basic-unit-ui-helpers';
 import './basic-unit-table.scss';
-import { GetSelectBasicUnitRow } from '../../../common-library/helpers/table-row-selection-helpers';
+import { GetSelectBasicUnitRow } from '../../../common-library/common-components/table-row-selection-helpers';
 import { BasicUnitDataProps } from '../_interface/basic-unit.interface';
 
 function BasicUnitTable({
@@ -37,7 +37,7 @@ function BasicUnitTable({
       dataField: 'ordinal',
       text: 'STT',
       formatter: (cell: any, row: any, rowIndex: number) => (
-        <p>{rowIndex + 1 + (queryParams.pageNumber - 1) * queryParams.pageSize}</p>
+        <p>{rowIndex + 1 + (queryParams.page - 1) * queryParams.limit}</p>
       ),
       style: { paddingTop: 20 },
     },
@@ -98,7 +98,7 @@ function BasicUnitTable({
     totalSize: total,
     tableName: 'đơn vị cơ bản',
     sizePerPageList: sizePerPageList,
-    sizePerPage: queryParams.pageSize,
+    sizePerPage: queryParams.limit,
     page: queryParams.pageNumber,
   };
 

@@ -22,7 +22,7 @@ import {
   HeaderSortingClasses,
   SortCaret,
 } from '../../../common-library/helpers/table-sorting-helpers';
-import { GetSelectAgencyRow } from '../../../common-library/helpers/table-row-selection-helpers';
+import { GetSelectAgencyRow } from '../../../common-library/common-components/table-row-selection-helpers';
 
 export function AgencyTable() {
   // Customers UI Context
@@ -121,7 +121,7 @@ export function AgencyTable() {
     agency: true,
     totalSize: totalCount,
     sizePerPageList: sizePerPageList,
-    sizePerPage: agencyUIProps.queryParams.pageSize,
+    sizePerPage: agencyUIProps.queryParams.limit,
     page: agencyUIProps.queryParams.pageNumber,
   };
   return (

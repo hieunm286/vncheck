@@ -81,7 +81,7 @@ export function AgencyTypeTable() {
     agencyType: true,
     totalSize: totalCount,
     sizePerPageList: sizePerPageList,
-    sizePerPage: agencyTypeUIProps.queryParams.pageSize,
+    sizePerPage: agencyTypeUIProps.queryParams.limit,
     page: agencyTypeUIProps.queryParams.pageNumber,
   };
   

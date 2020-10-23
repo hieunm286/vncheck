@@ -36,7 +36,7 @@ export function createAgency(user: any, imageArray: any) {
 export function getAllAgencys(queryParams: {
   filter: any;
   pageNumber: any;
-  pageSize: any;
+  limit: any;
   sortField: any;
   sortOrder: any;
 }) {
@@ -49,13 +49,13 @@ export function getAllAgencys(queryParams: {
     (!queryParams.filter.field || queryParams.filter.field === 'all')
   ) {
     return axios.get(
-      `${AGENCY_URL_SEARCH}?page=${queryParams.pageNumber}&limit=${queryParams.pageSize}&sortby=${queryParams.sortField}&orderby=${queryParams.sortOrder}
+      `${AGENCY_URL_SEARCH}?page=${queryParams.pageNumber}&limit=${queryParams.limit}&sortby=${queryParams.sortField}&orderby=${queryParams.sortOrder}
       &field=all
       &query=${queryParams.filter.searchText}`,
     );
   } else {
     return axios.get(
-      `${AGENCIES_URL}?page=${queryParams.pageNumber}&limit=${queryParams.pageSize}&sortby=${queryParams.sortField}&orderby=${queryParams.sortOrder}
+      `${AGENCIES_URL}?page=${queryParams.pageNumber}&limit=${queryParams.limit}&sortby=${queryParams.sortField}&orderby=${queryParams.sortOrder}
       `,
     );
   }

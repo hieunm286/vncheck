@@ -5,6 +5,11 @@ import {useIntl} from 'react-intl';
 import {iconStyle} from "../common-const/const";
 import {MasterTable} from "./master-table";
 import {ActionColumnProps} from "../common-types/common-type";
+import {HeaderSortingClasses, SortCaret} from "../helpers/table-sorting-helpers";
+import CheckCircleIcon from "@material-ui/icons/CheckCircle";
+import IndeterminateCheckBoxIcon from "@material-ui/icons/IndeterminateCheckBox";
+import {ActionsColumnFormatter} from "./actions-column-formatter";
+import {ColumnDescription} from "react-bootstrap-table-next";
 
 export interface BasicUnitDataProps {
   showModal: any;
@@ -34,10 +39,14 @@ export function MasterBody<T>({
                                 setQueryParams,
                                 onEdit,
                                 onDelete,
+                                onSelectMany,
                                 onShowDetail,
-                                onCreate
-                              }: ActionColumnProps<T> & { entities: T[], onShowDetail: (entity: T) => void, [T: string]: any }) {
+                                onCreate,
+                                selectedEntities,
+                                columns
+                              }: ActionColumnProps<T> & { columns: ColumnDescription[], entities: T[], selectedEntities: T[], onShowDetail: (entity: T) => void, [T: string]: any }) {
   const intl = useIntl();
+  
   
   return (
     <Card>
@@ -47,7 +56,7 @@ export function MasterBody<T>({
             <button
               type="button"
               className="btn btn-danger w-100"
-              onClick={() => showModal(null, 'edit')}>
+              onClick={onCreate}>
               + {intl.formatMessage({id: 'COMMON_COMPONENT.MASTER_BODY.HEADER.ADD_BTN'})}
             </button>
           </div>
@@ -55,7 +64,9 @@ export function MasterBody<T>({
             <button
               type="button"
               className="btn btn-outline-danger w-100"
-              onClick={() => showModal(null, 'deleteMany')}>
+              onClick={() => {
+                onSelectMany(selectedEntities)
+              }}>
               <DeleteOutlineOutlinedIcon style={iconStyle}/>{' '}
               {intl.formatMessage({id: 'COMMON_COMPONENT.MASTER_BODY.HEADER.DELETE_BTN'})}
             </button>
@@ -64,16 +75,16 @@ export function MasterBody<T>({
         <MasterTable
           show={show}
           entities={entities}
+          columns={columns}
           total={total}
           loading={loading}
           queryParams={queryParams}
-          setQueryParamsBase={setQueryParamsBase}
-          ids={ids}
-          setIds={setIds}
           setQueryParams={setQueryParams}
           onShowDetail={onShowDetail}
           onDelete={onDelete}
           onEdit={onEdit}
+          onSelectMany={onSelectMany}
+          selectedEntities={selectedEntities}
         />
       </CardBody>
     </Card>

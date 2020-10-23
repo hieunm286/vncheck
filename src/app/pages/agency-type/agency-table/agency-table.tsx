@@ -13,7 +13,7 @@ import {
     PleaseWaitMessage
 } from "../../../common-library/helpers/pagination-helper";
 import {ActionsColumnFormatter} from "./column-formatters/actions-column-formatter";
-import {GetSelectAgencyRow} from "../../../common-library/helpers/table-row-selection-helpers";
+import {GetSelectAgencyRow} from "../../../common-library/common-components/table-row-selection-helpers";
 import paginationFactory, {PaginationProvider} from "react-bootstrap-table2-paginator";
 import {Pagination} from "../../../common-library/pagination/pagination";
 
@@ -81,7 +81,7 @@ export function AgencyTable() {
     agency: true,
     totalSize: totalCount,
     sizePerPageList: sizePerPageList,
-    sizePerPage: agencyUIProps.queryParams.pageSize,
+    sizePerPage: agencyUIProps.queryParams.limit,
     page: agencyUIProps.queryParams.pageNumber,
   };
   
