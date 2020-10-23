@@ -3,30 +3,30 @@ import {Modal} from 'react-bootstrap';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import {useIntl} from 'react-intl';
 
-export function MasterEntityDetailDialog({titles, show, unitForEdit, hideModal,}: { titles: any, show: any, unitForEdit: any, hideModal: any, }) {
+export function MasterEntityDetailDialog({titles, show, entity, onClose,}: { titles: any, show: boolean, entity: any, onClose: () => void}) {
   const initUnit = {code: '', name: '', status: 0,};
   const intl = useIntl();
   return (
     <Modal
       size="lg"
-      show={show.detail}
-      onHide={() => hideModal('detail')}
+      show={show}
+      onHide={onClose}
       aria-labelledby="example-modal-sizes-title-lg"
       dialogClassName="modal-detail">
       <Modal.Header closeButton>
         <Modal.Title id="example-modal-sizes-title-lg" className="text-danger">
-          {intl.formatMessage({id: 'BASIC_UNIT.CARD.DETAIL_DIALOG.TITLE'})}
+          {intl.formatMessage({id: 'COMMON_COMPONENT.DETAIL_DIALOG.HEADER_TITLE'})}
         </Modal.Title>
       </Modal.Header>
       
-      <MasterEntityDetail data={unitForEdit || initUnit} titles={titles}/>
+      <MasterEntityDetail data={entity || initUnit} titles={titles}/>
       <Modal.Footer>
         <button
           type="button"
-          onClick={() => hideModal('detail')}
+          onClick={onClose}
           className="btn btn-outline-danger">
           <CancelOutlinedIcon style={{fontSize: 14}}/>{' '}
-          {intl.formatMessage({id: 'BASIC_UNIT.CARD.DIALOG.BUTTON.CLOSE'})}
+          {intl.formatMessage({id: 'COMMON_COMPONENT.DETAIL_DIALOG.CLOSE_BTN'})}
         </button>
       </Modal.Footer>
     </Modal>
@@ -40,7 +40,7 @@ export function MasterEntityDetail({titles, data, convertFunctions = {}}: {
   return (
     <Modal.Body>
       {Object.keys(titles).map(titleKey => {
-        return (<div className="row mt-5">
+        return (<div className="row mt-5" key={'master-entity-detail' + titleKey}>
           <div className="col-7">
             {intl.formatMessage({id: titles[titleKey]})}:
           </div>

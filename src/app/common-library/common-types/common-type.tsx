@@ -31,3 +31,16 @@ export interface DeleteDialogProps {
   deleteBtn?: string,
   cancelBtn?: string,
 }
+
+
+
+export interface ActionColumnProps<T> {
+  onShowDetail: (entity:T)=>void;
+  onDelete: (entity:T)=>void;
+  onEdit: (entity:T)=>void;
+  // openEditDialog: any;
+  // openDeleteDialog: any;
+  // detailTitle: string;
+  // editTitle: string;
+  // deleteTitle: string;
+}

@@ -6,35 +6,31 @@ import SVG from 'react-inlinesvg';
 import Visibility from '@material-ui/icons/Visibility';
 import './actions-column.scss';
 import { ToAbsoluteUrl } from '../../../../common-library/helpers/assets-helpers';
+import {ActionColumnProps} from "../../../../common-library/common-types/common-type";
 
-interface ActionColumnProps {
-  openDetailDialog: any;
-  openEditDialog: any;
-  openDeleteDialog: any;
-  detailTitle: string;
-  editTitle: string;
-  deleteTitle: string;
-}
 
-export function ActionsColumnFormatter(
+
+export function ActionsColumnFormatter<T>(
   cellContent: any,
-  row: any,
+  row: T,
   rowIndex: number,
   {
-    openDetailDialog,
+    onShowDetail,
+    onDelete,
+    onEdit,
     openEditDialog,
     openDeleteDialog,
     detailTitle,
     editTitle,
     deleteTitle,
-  }: ActionColumnProps,
+  }: ActionColumnProps<T>,
 ) {
   return (
     <>
       <a
         title={detailTitle}
         className="btn btn-icon btn-light btn-hover-danger btn-sm visibility"
-        onClick={() => openDetailDialog(row, 'detail')}>
+        onClick={() => onShowDetail(row)}>
         <span className="svg-icon svg-icon-md svg-icon-danger">
           <Visibility className="text-danger eye" />
         </span>
@@ -42,7 +38,7 @@ export function ActionsColumnFormatter(
       <a
         title={editTitle}
         className="btn btn-icon btn-light btn-hover-danger btn-sm mx-1"
-        onClick={() => openEditDialog(row, 'edit')}>
+        onClick={() => onEdit(row)}>
         <span className="svg-icon svg-icon-md svg-icon-danger">
           <SVG src={ToAbsoluteUrl('/media/svg/icons/Communication/Write.svg')} />
         </span>
@@ -50,7 +46,7 @@ export function ActionsColumnFormatter(
       <a
         title={deleteTitle}
         className="btn btn-icon btn-light btn-hover-danger btn-sm"
-        onClick={() => openDeleteDialog(row, 'delete')}>
+        onClick={() => onDelete(row)}>
         <span className="svg-icon svg-icon-md svg-icon-danger">
           <SVG src={ToAbsoluteUrl('/media/svg/icons/General/Trash.svg')} />
         </span>

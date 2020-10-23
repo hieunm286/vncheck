@@ -35,11 +35,3 @@ export const ParamsSerializer = (params: { sortList: SortProps, [t: string]: any
   }).map(([key, value]) => `${key}=${value}`).join('&');
   return res;
 }
-export const InitShow = () => {
-  return useState({
-    edit: false,
-    delete: false,
-    detail: false,
-    deleteMany: false,
-  })
-}

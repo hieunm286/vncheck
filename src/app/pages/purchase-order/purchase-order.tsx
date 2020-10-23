@@ -1,25 +1,29 @@
 import React, {useEffect, useState} from 'react';
-import {DeleteDialog} from '../../common-library/common-components/delete-dialog';
-import BasicUnitDialog from './basic-unit-dialog/basic-unit-dialog';
 import {BasicUnitUIProvider} from './basic-unit-ui-context';
 import {useIntl} from 'react-intl';
-import DeleteManyDialog from '../../common-library/common-components/delete-many-dialog';
-import {InitQueryParams, InitShow} from "../../common-library/helpers/common-function";
+import {InitQueryParams} from "../../common-library/helpers/common-function";
 import {Create, Delete, DeleteMany, GetAll, Update} from "./purchase-order.service";
 import {PurchaseOrderModel} from "./purchase-order.model";
 import {FilterDefault, SortDefault} from "../../common-library/common-const/const";
-import BasicUnitCard from "./basic-unit-card";
 import {MasterHeader} from "./master-header";
 import {MasterEntityDetailDialog} from '../../common-library/common-components/master-entity-detail-dialog';
+import {MasterBody} from "./master-body";
 
 function PurchaseOrder() {
   const intl = useIntl();
   const events = {};
-  const [show, setShow] = InitShow();
   const defaultSorted = [...SortDefault];
   const initialFilter = {...FilterDefault}
-  const [list, setList] = useState<PurchaseOrderModel[]>([]);
-  const [modifyEntity, setModifyEntity] = useState(null);
+  const [entities, setEntities] = useState<PurchaseOrderModel[]>([]);
+  const [deleteEntity, setDeleteEntity] = useState<PurchaseOrderModel>(null as any);
+  const [editEntity, setEditEntity] = useState<PurchaseOrderModel>(null as any);
+  const [deleteEntities, setDeleteEntities] = useState([]);
+  const [detailEntity, setDetailEntity] = useState<PurchaseOrderModel>(null as any);
+  const [showDelete, setShowDelete] = useState(false);
+  const [showEdit, setShowEdit] = useState(false);
+  const [showDeleteList, setShowDeleteList] = useState(false);
+  const [showDetail, setShowDetail] = useState(false);
+  
   const [error, setError] = useState('');
   const [ids, setIds] = useState([]);
   const {queryParams, setQueryParams, setQueryParamsBase} = InitQueryParams(initialFilter);
@@ -33,7 +37,7 @@ function PurchaseOrder() {
         .then(res => {
           setIds([]);
           setTotal(5);
-          setList(res.data);
+          setEntities(res.data);
           setLoading(false);
         })
         .catch(error => {
@@ -43,20 +47,20 @@ function PurchaseOrder() {
     setIds([]);
     getAll();
   }, [queryParams]);
-  
-  const showModal = (data: any, action: string) => {
-    setError('');
-    setShow({...show, [action]: true});
-    setModifyEntity(data);
-  };
-  
-  const hideModal = (action: string) => {
-    setError('');
-    setShow({...show, [action]: false});
-  };
+  //
+  // const showModal = (data: any, action: string) => {
+  //   setError('');
+  //   setShow({...show, [action]: true});
+  //   setModifyEntity(data);
+  // };
+  //
+  // const hideModal = (action: string) => {
+  //   setError('');
+  //   setShow({...show, [action]: false});
+  // };
   
   const editBasicUnit = (value: any) => {
-    const updateUnit: any = [...list];
+    const updateUnit: any = [...entities];
     updateUnit.forEach((el: { code: any; name: any; status: any }) => {
       if (el.code === value.code) {
         el.code = value.code;
@@ -64,13 +68,13 @@ function PurchaseOrder() {
         el.status = value.status;
       }
     });
-    setList(updateUnit);
+    setEntities(updateUnit);
     
     console.log(value);
     
     Update(value)
       .then(res => {
-        setShow({edit: false, delete: false, detail: false, deleteMany: false});
+        // setShow({edit: false, delete: false, detail: false, deleteMany: false});
       })
       .catch(error => {
         console.log(error);
@@ -78,19 +82,19 @@ function PurchaseOrder() {
   };
   
   const addBasicUnit = (values: any) => {
-    const updateUnit = [...list];
+    const updateUnit = [...entities];
     const index = updateUnit.findIndex(el => el.code === values.code);
     if (index !== -1) {
       setError(intl.formatMessage({id: 'BASIC_UNIT.ERROR.CODE.EXISTS'}));
       return;
     }
     updateUnit.push(values);
-    setList(updateUnit);
+    setEntities(updateUnit);
     
     Create(values)
       .then(res => {
         setError('');
-        setShow({edit: false, delete: false, detail: false, deleteMany: false});
+        // setShow({edit: false, delete: false, detail: false, deleteMany: false});
       })
       .catch(error => {
         console.log(error);
@@ -98,10 +102,10 @@ function PurchaseOrder() {
   };
   
   const deleteFn = (code: string) => {
-    const updateUnit = list.filter((el: { code: string }) => el.code !== code);
-    setList(updateUnit);
+    const updateUnit = entities.filter((el: { code: string }) => el.code !== code);
+    setEntities(updateUnit);
     Delete(code).then(res => {
-      setShow({edit: false, delete: false, detail: false, deleteMany: false});
+      // setShow({edit: false, delete: false, detail: false, deleteMany: false});
     });
   };
   
@@ -111,12 +115,12 @@ function PurchaseOrder() {
       .then(res => {
         console.log(res);
         setError('');
-        setShow({edit: false, delete: false, detail: false, deleteMany: false});
+        // setShow({edit: false, delete: false, detail: false, deleteMany: false});
         GetAll(queryParams)
           .then(res => {
             setIds([]);
             setTotal(res.data.total);
-            setList(res.data.result);
+            setEntities(res.data.result);
             setLoading(false);
           })
           .catch(error => {
@@ -134,7 +138,7 @@ function PurchaseOrder() {
       .then(res => {
         setIds([]);
         setTotal(res.data.total);
-        setList(res.data.result);
+        setEntities(res.data.result);
         setLoading(false);
       })
       .catch(error => {
@@ -151,35 +155,46 @@ function PurchaseOrder() {
   }
   return (
     <BasicUnitUIProvider basicUnitUIEvents={events}>
-      <BasicUnitDialog
-        show={show}
-        hideModal={hideModal}
-        unitForEdit={modifyEntity}
-        editBasicUnit={editBasicUnit}
-        addBasicUnit={addBasicUnit}
-        error={error}
-      />
-      <MasterEntityDetailDialog {...masterEntityDetailDialog} show={show} hideModal={hideModal}
-                                unitForEdit={modifyEntity}/>
-      <DeleteDialog
-        show={show}
-        hideModal={hideModal}
-        entity={modifyEntity}
-        deleteFn={deleteFn}/>
-      <DeleteManyDialog
-        ids={ids}
-        show={show}
-        hideModal={hideModal}
-        unitForEdit={modifyEntity}
-        loading={loading}
-        deleteManyBasicUnit={deleteManyBasicUnit}
-      />
+      {/*<BasicUnitDialog*/}
+      {/*  show={show}*/}
+      {/*  hideModal={hideModal}*/}
+      {/*  unitForEdit={modifyEntity}*/}
+      {/*  editBasicUnit={editBasicUnit}*/}
+      {/*  addBasicUnit={addBasicUnit}*/}
+      {/*  error={error}*/}
+      {/*/>*/}
+      <MasterEntityDetailDialog {...masterEntityDetailDialog} show={showDetail} onClose={() => {
+        setShowDetail(false)
+      }}
+                                entity={detailEntity}/>
+      {/*<DeleteDialog*/}
+      {/*  show={show}*/}
+      {/*  hideModal={hideModal}*/}
+      {/*  entity={modifyEntity}*/}
+      {/*  deleteFn={deleteFn}/>*/}
+      {/*<DeleteManyDialog*/}
+      {/*  ids={ids}*/}
+      {/*  show={show}*/}
+      {/*  hideModal={hideModal}*/}
+      {/*  unitForEdit={modifyEntity}*/}
+      {/*  loading={loading}*/}
+      {/*  deleteManyBasicUnit={deleteManyBasicUnit}*/}
+      {/*/>*/}
       <MasterHeader title={'PURCHASE_ORDER.MASTER.HEADER.TITLE'} onSearch={search}/>
-      <BasicUnitCard
-        showModal={showModal}
-        hideModal={hideModal}
-        show={show}
-        list={list}
+      <MasterBody
+        onShowDetail={(entity) => {
+          setDetailEntity(entity);
+          setShowDetail(true)
+        }}
+        onEdit={(entity) => {
+          setEditEntity(entity);
+          setShowDetail(true)
+        }}
+        onDelete={(entity) => {
+          setDeleteEntity(entity);
+          setShowDetail(true)
+        }}
+        entities={entities}
         total={total}
         loading={loading}
         queryParams={queryParams}

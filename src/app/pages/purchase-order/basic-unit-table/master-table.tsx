@@ -13,14 +13,14 @@ import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import IndeterminateCheckBoxIcon from '@material-ui/icons/IndeterminateCheckBox';
 import {ActionsColumnFormatter} from './column-formatters/actions-column-formatter';
 import './basic-unit-table.scss';
-import {BasicUnitDataProps} from '../basic-unit-card';
 import {SizePerPageList, SortDefault} from "../../../common-library/common-const/const";
 import {
   GroupingItemBasicUnitOnSelect,
   SelectionCheckbox
 } from "../../../common-library/helpers/table-row-selection-helpers";
+import {ActionColumnProps} from "../../../common-library/common-types/common-type";
 
-export function GroupingAllOnSelect({ isSelected, setIds, list } : { isSelected : any, setIds : any, list: any }) {
+export function GroupingAllOnSelect({isSelected, setIds, list}: { isSelected: any, setIds: any, list: any }) {
   if (!isSelected) {
     const allIds: any[] = [];
     list.forEach((el: any) => allIds.push(el.code));
@@ -61,19 +61,22 @@ export function GetSelectRow({list, ids, setIds}: { list: any, ids: any, setIds:
   };
 }
 
-function PurchaseOrderTable({
-                              show,
-                              showModal,
-                              hideModal,
-                              list,
-                              total,
-                              loading,
-                              queryParams,
-                              setQueryParamsBase,
-                              ids,
-                              setIds,
-                              setQueryParams,
-                            }: BasicUnitDataProps) {
+export function MasterTable<T>({
+                                 show,
+                                 showModal,
+                                 hideModal,
+                                 entities,
+                                 total,
+                                 loading,
+                                 queryParams,
+                                 setQueryParamsBase,
+                                 ids,
+                                 setIds,
+                                 setQueryParams,
+                                 onShowDetail,
+                                 onDelete,
+                                 onEdit
+                               }: ActionColumnProps<T> & { entities: T[], [T: string]: any }) {
   const intl = useIntl();
   
   const columns = [
@@ -121,7 +124,9 @@ function PurchaseOrderTable({
       text: `${intl.formatMessage({id: 'BASIC_UNIT.CARD.TABLE.ACTION'})}`,
       formatter: ActionsColumnFormatter,
       formatExtraData: {
-        openEditDialog: showModal,
+        onShowDetail: onShowDetail,
+        onDelete: onDelete,
+        onEdit: onEdit,
         openDeleteDialog: showModal,
         openDetailDialog: showModal,
         show: show,
@@ -160,20 +165,20 @@ function PurchaseOrderTable({
                 remote
                 {...paginationTableProps}
                 keyField="code"
-                data={list}
+                data={entities}
                 columns={columns}
                 defaultSorted={SortDefault as any}
                 selectRow={
                   GetSelectRow({
-                    list: list,
+                    list: entities,
                     ids: ids,
                     setIds: setIds,
                   }) as any
                 }
                 onTableChange={getHandlerTableChange(setQueryParams)}
                 {...paginationProps}>
-                <PleaseWaitMessage entities={list}/>
-                <NoRecordsFoundMessage entities={list}/>
+                <PleaseWaitMessage entities={entities}/>
+                <NoRecordsFoundMessage entities={entities}/>
               </BootstrapTable>
             </Pagination>
           );
@@ -183,4 +188,3 @@ function PurchaseOrderTable({
   );
 }
 
-export default PurchaseOrderTable;
