@@ -3,7 +3,7 @@ import { Modal } from 'react-bootstrap';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { useIntl } from 'react-intl';
-import {iconStyle} from "../../../common-library/common-const/const";
+import {iconStyle} from "../../../common-library/common-consts/const";
 
 function BasicUnitDeleteDialog({
   show,

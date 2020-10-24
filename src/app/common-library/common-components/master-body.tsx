@@ -2,7 +2,7 @@ import React from 'react';
 import {Card, CardBody} from '../card';
 import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined';
 import {useIntl} from 'react-intl';
-import {iconStyle} from '../common-const/const';
+import {iconStyle} from '../common-consts/const';
 import {MasterTable} from './master-table';
 import {ActionColumnProps, PaginationProps} from '../common-types/common-type';
 import {ColumnDescription} from 'react-bootstrap-table-next';

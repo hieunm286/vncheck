@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { API_BASE_URL } from '../../common-library/common-const/enviroment';
+import { API_BASE_URL } from '../../common-library/common-consts/enviroment';
 import { PaginationProps, SortProps } from '../../common-library/common-types/common-type';
 import { ParamsSerializer } from '../../common-library/helpers/common-function';
 import { PurchaseOrderModel } from './purchase-order.model';

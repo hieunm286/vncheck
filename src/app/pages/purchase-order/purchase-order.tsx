@@ -1,9 +1,8 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { BasicUnitUIProvider } from './basic-unit-ui-context';
+import React, {Fragment, useCallback, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { Count, Create, Delete, DeleteMany, Get, GetAll, Update } from './purchase-order.service';
 import { PurchaseOrderModel } from './purchase-order.model';
-import { DefaultPagination, SortDefault } from '../../common-library/common-const/const';
+import { DefaultPagination, SortDefault } from '../../common-library/common-consts/const';
 import { MasterHeader } from '../../common-library/common-components/master-header';
 import { MasterEntityDetailDialog } from '../../common-library/common-components/master-entity-detail-dialog';
 import { MasterBody } from '../../common-library/common-components/master-body';
@@ -41,6 +40,9 @@ function PurchaseOrder() {
   // const setQueryParams = InitQueryParams(setQueryParamsBase)
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
+  
+  const moduleName = 'PURCHASE_ORDER.CUSTOM.MODULE_NAME';
+  const headerTitle = 'PURCHASE_ORDER.MASTER.HEADER.TITLE';
   const getAll = useCallback(() => {
     setLoading(true);
     GetAll(paginationParams)
@@ -304,7 +306,7 @@ function PurchaseOrder() {
   ];
   console.log(paginationParams);
   return (
-    <BasicUnitUIProvider basicUnitUIEvents={events}>
+    <Fragment>
       <MasterEntityDetailDialog
         // {...masterEntityDetailDialog}
         show={showDetail}
@@ -314,7 +316,7 @@ function PurchaseOrder() {
         entity={detailEntity}
         renderInfo={masterEntityDetailDialog}
       />
-      <DeleteDialog
+      <DeleteDialog moduleName={moduleName}
         isShow={showDelete}
         onHide={() => {
           setShowDelete(false);
@@ -323,6 +325,7 @@ function PurchaseOrder() {
         onDelete={deleteFn}
       />
       <DeleteManyDialog
+        moduleName={moduleName}
         ids={selectedEntities}
         loading={loading}
         isShow={showDeleteMany}
@@ -340,7 +343,7 @@ function PurchaseOrder() {
         onEdit={updatePurchaseOrder}
         onCreate={addPurchaseOrder}
       />
-      <MasterHeader title={'PURCHASE_ORDER.MASTER.HEADER.TITLE'} onSearch={search} />
+      <MasterHeader title={headerTitle} onSearch={search} />
       <MasterBody
         onShowDetail={entity => {
           getPurchaseOrder(entity);
@@ -370,7 +373,7 @@ function PurchaseOrder() {
         ids={ids}
         setIds={setIds}
       />
-    </BasicUnitUIProvider>
+    </Fragment>
   );
 }
 

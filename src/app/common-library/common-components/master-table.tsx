@@ -3,7 +3,7 @@ import BootstrapTable, {ColumnDescription, RowSelectionType} from 'react-bootstr
 import paginationFactory, {PaginationProvider} from 'react-bootstrap-table2-paginator';
 import {NoRecordsFoundMessage, onTableChange, PleaseWaitMessage,} from '../helpers/pagination-helper';
 import './master-table.scss';
-import {SizePerPageList, SortDefault} from '../common-const/const';
+import {SizePerPageList, SortDefault} from '../common-consts/const';
 import {SelectionCheckbox} from './table-row-selection-helpers';
 import {ActionColumnProps, PaginationProps} from '../common-types/common-type';
 import {Pagination} from '../pagination/pagination';

@@ -41,6 +41,8 @@ export interface DeleteManyDialogProps<T> {
   idProperty?: string;
   bodyTitle?: string;
   confirmMessage?: string;
+  noSelectedEntityMessage?: string;
+  deletingMessage?: string;
   deleteBtn?: string;
   cancelBtn?: string;
   loading?: boolean;

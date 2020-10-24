@@ -5,7 +5,7 @@ import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined'
 import InsertDriveFileOutlinedIcon from '@material-ui/icons/InsertDriveFileOutlined';
 import { useIntl } from 'react-intl';
 import { BasicUnitDataProps } from './_interface/basic-unit.interface';
-import {iconStyle} from "../../common-library/common-const/const";
+import {iconStyle} from "../../common-library/common-consts/const";
 
 function BasicUnitCard({
   showModal,
