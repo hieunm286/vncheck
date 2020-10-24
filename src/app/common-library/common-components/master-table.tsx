@@ -27,8 +27,6 @@ export function GetSelectRow<T>({
         selectedEntities &&
         selectedEntities.length > 0 &&
         selectedEntities.length === entities.length;
-      console.log(selectedEntities);
-      console.log(isSelected);
       return (
         <SelectionCheckbox
           isSelected={isSelected}
