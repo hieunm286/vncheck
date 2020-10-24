@@ -136,7 +136,6 @@ export function UsersTable() {
                 data={entities || []}
                 columns={columns}
                 defaultSorted={defaultSorted as any}
-                onTableChange={onTableChange(usersUIProps.setQueryParams)}
                 selectRow={GetSelectRow({
                   entities,
                   ids: usersUIProps.ids,

@@ -1,6 +1,6 @@
 export interface PaginationProps {
-  limit: number | string;
-  page: number | string;
+  limit: number | undefined;
+  page: number | undefined;
   orderType: string;
   orderBy: string;
 }

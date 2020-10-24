@@ -46,7 +46,6 @@
   "AUTH.VALIDATION.INVALID_FIELD": "Trường không hợp lệ",
   "AUTH.BUTTON.SHOWPASSWORD": "Hiển thị mật khẩu",
   "AUTH.BUTTON.HIDEPASSWORD": "Ẩn mật khẩu",
-
   "MENU.DASHBOARD": "Bảng điều khiên",
   "MENU.USER": "Quản lý tài khoản",
   "MENU.USER.ACCOUNT": "Tài khoản",
@@ -67,7 +66,6 @@
   "MENU.REPORT": "Báo cáo vấn đề",
   "MENU.PRODUCT_MANAGEMENT": "Quản lý sản xuất",
   "MENU.INVENTORY": "Hàng tồn kho",
-
   "COMMON_COMPONENT.DELETE_DIALOG.MODULE_NAME": "Dữ liệu",
   "COMMON_COMPONENT.DELETE_DIALOG.TITLE": "XÓA {moduleName}",
   "COMMON_COMPONENT.DELETE_DIALOG.BODY_TITLE": "{moduleName} sẽ bị xóa vĩnh viễn và không thể khôi phục.",
@@ -83,7 +81,8 @@
   "COMMON_COMPONENT.MASTER_BODY.TABLE.EDIT_BTN": "Sửa",
   "COMMON_COMPONENT.DETAIL_DIALOG.CLOSE_BTN": "Xóa",
   "COMMON_COMPONENT.DETAIL_DIALOG.HEADER_TITLE": "Xóa",
-
+  "COMMON_COMPONENT.PAGINATION.LOADING": "Đang tải...",
+  "COMMON_COMPONENT.PAGINATION.RECORD_PER_PAGE": "bản ghi / trang trong tổng số",
   "BASIC_UNIT.CARD_HEADER.TITLE": "DANH MỤC ĐƠN VỊ CƠ BẢN",
   "BASIC_UNIT.CARD_HEADER.CODE": "Mã đơn vị cơ bản",
   "BASIC_UNIT.CARD_HEADER.NAME": "Tên đơn vị cơ bản",
@@ -91,12 +90,10 @@
   "BASIC_UNIT.CARD_HEADER.NAME_INPUT": "Nhập tên",
   "BASIC_UNIT.CARD_HEADER.BUTTON.SEARCH": "Tìm kiếm",
   "BASIC_UNIT.CARD_HEADER.BUTTON.RESET_FILTER": "Bỏ lọc",
-
   "BASIC_UNIT.CARD.TABLE.CODE": "Mã đơn vị cơ bản",
   "BASIC_UNIT.CARD.TABLE.NAME": "Tên đơn vị cơ bản",
   "BASIC_UNIT.CARD.TABLE.STATUS": "Trạng thái",
   "BASIC_UNIT.CARD.TABLE.ACTION": "Tác vụ",
-
   "BASIC_UNIT.CARD.EDIT_DIALOG.TITLE": "CHỈNH SỬA",
   "BASIC_UNIT.CARD.DIALOG.BUTTON.SAVE": "Lưu",
   "BASIC_UNIT.CARD.DIALOG.BUTTON.CANCEL": "Hủy",
@@ -104,12 +101,10 @@
   "BASIC_UNIT.CARD.DIALOG.BUTTON.CLOSE": "Đóng",
   "BASIC_UNIT.CARD.EDIT_DIALOG.CODE": "Nhập mã đơn vị tính",
   "BASIC_UNIT.CARD.EDIT_DIALOG.NAME": "Nhập tên đơn vị tính",
-
   "BASIC_UNIT.CARD.DETAIL_DIALOG.TITLE": "THÔNG TIN CHI TIẾT",
   "BASIC_UNIT.CARD.DETAIL_DIALOG.CODE": "Mã đơn vị cơ bản",
   "BASIC_UNIT.CARD.DETAIL_DIALOG.NAME": "Tên đơn vị cơ bản",
   "BASIC_UNIT.CARD.DETAIL_DIALOG.STATUS": "Trạng thái",
-
   "BASIC_UNIT.CARD.DELETE_DIALOG.TITLE": "XÓA ĐƠN VỊ CƠ BẢN",
   "BASIC_UNIT.CARD.DELETE_DIALOG.CONTENT_NOTICE": "Đơn vị cơ bản sẽ bị xóa vĩnh viễn và không thể khôi phục.",
   "BASIC_UNIT.CARD.DELETE_DIALOG.CONFIRM": "Tiếp tục xóa?",
@@ -123,13 +118,12 @@
   "BASIC_UNIT.ERROR.CODE.EMPTY": "Mã đơn vị không được để trống",
   "BASIC_UNIT.ERROR.CODE.EXISTS": "Mã đơn vị đã tồn tại",
   "BASIC_UNIT.ERROR.NAME.EMPTY": "Tên đơn vị không được để trống",
-
-  "PURCHASE_ORDER.MASTER.HEADER.TITLE" : "Danh mục đơn hàng",
-  "PURCHASE_ORDER.HEADER.TITLE" : "Danh mục đơn hàng",
-  "PURCHASE_ORDER.MASTER.CODE_INPUT" : "Danh mục đơn hàng",
-  "PURCHASE_ORDER.MASTER.CODE_INPUT_LB" : "Danh mục đơn hàng",
-  "PURCHASE_ORDER.MASTER.TABLE.CODE_COLUMN" : "Mã",
-  "PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS" : "Địa chỉ đại lý",
-  "PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER" : "Số điện thoại",
-  "PURCHASE_ORDER.MASTER.TABLE.STATUS" : "Trạng thái"
+  "PURCHASE_ORDER.MASTER.HEADER.TITLE": "Danh mục đơn hàng",
+  "PURCHASE_ORDER.HEADER.TITLE": "Danh mục đơn hàng",
+  "PURCHASE_ORDER.MASTER.CODE_INPUT": "Danh mục đơn hàng",
+  "PURCHASE_ORDER.MASTER.CODE_INPUT_LB": "Danh mục đơn hàng",
+  "PURCHASE_ORDER.MASTER.TABLE.CODE_COLUMN": "Mã",
+  "PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS": "Địa chỉ đại lý",
+  "PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER": "Số điện thoại",
+  "PURCHASE_ORDER.MASTER.TABLE.STATUS": "Trạng thái"
 }

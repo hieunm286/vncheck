@@ -1,10 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { BasicUnitUIProvider } from './basic-unit-ui-context';
 import { useIntl } from 'react-intl';
-import { InitQueryParams } from '../../common-library/helpers/common-function';
 import { Count, Create, Delete, DeleteMany, Get, GetAll, Update } from './purchase-order.service';
 import { PurchaseOrderModel } from './purchase-order.model';
-import { FilterDefault, SortDefault } from '../../common-library/common-const/const';
+import { DefaultPagination, SortDefault } from '../../common-library/common-const/const';
 import { MasterHeader } from '../../common-library/common-components/master-header';
 import { MasterEntityDetailDialog } from '../../common-library/common-components/master-entity-detail-dialog';
 import { MasterBody } from '../../common-library/common-components/master-body';
@@ -23,8 +22,6 @@ import PurchaseOrderDialog from './purchase-order-dialog';
 function PurchaseOrder() {
   const intl = useIntl();
   const events = {};
-  const defaultSorted = [...SortDefault];
-  const initialFilter = { ...FilterDefault };
   const [entities, setEntities] = useState<PurchaseOrderModel[]>([]);
   const [deleteEntity, setDeleteEntity] = useState<PurchaseOrderModel>(null as any);
   const [editEntity, setEditEntity] = useState<PurchaseOrderModel | null>(null as any);
@@ -38,16 +35,17 @@ function PurchaseOrder() {
 
   const [error, setError] = useState('');
   const [ids, setIds] = useState([]);
-  const { queryParams, setQueryParams, setQueryParamsBase } = InitQueryParams(initialFilter);
+  // const { queryParams, setQueryParams, setQueryParamsBase } = InitQueryParams(initialFilter);
   // const [queryParams, setQueryParamsBase] = useState(initialFilter);
+  const [paginationParams, setPaginationParams] = useState(DefaultPagination);
   // const setQueryParams = InitQueryParams(setQueryParamsBase)
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
   const getAll = useCallback(() => {
     setLoading(true);
-    GetAll(queryParams)
+    GetAll(paginationParams)
       .then(res => {
-        Count(queryParams).then(ress => {
+        Count(paginationParams).then(ress => {
           setIds([]);
           setEntities(res.data);
           setLoading(false);
@@ -57,72 +55,19 @@ function PurchaseOrder() {
       .catch(error => {
         console.log(error);
       });
-  }, [queryParams]);
+  }, [paginationParams]);
 
   useEffect(() => {
     setIds([]);
     getAll();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [queryParams]);
-  //
-  // const showModal = (data: any, action: string) => {
-  //   setError('');
-  //   setShow({...show, [action]: true});
-  //   setModifyEntity(data);
-  // };
-  //
-  // const hideModal = (action: string) => {
-  //   setError('');
-  //   setShow({...show, [action]: false});
-  // };
-
-  // const editBasicUnit = (value: any) => {
-  //   const updateUnit: any = [...entities];
-  //   updateUnit.forEach((el: { code: any; name: any; status: any }) => {
-  //     if (el.code === value.code) {
-  //       el.code = value.code;
-  //       el.name = value.name;
-  //       el.status = value.status;
-  //     }
-  //   });
-  //   setEntities(updateUnit);
-
-  //   console.log(value);
-
-  //   Update(value)
-  //     .then(res => {
-  //       // setShow({edit: false, delete: false, detail: false, deleteMany: false});
-  //     })
-  //     .catch(error => {
-  //       console.log(error);
-  //     });
-  // };
-
-  // const addBasicUnit = (values: any) => {
-  //   const updateUnit = [...entities];
-  //   const index = updateUnit.findIndex(el => el.code === values.code);
-  //   if (index !== -1) {
-  //     setError(intl.formatMessage({ id: 'BASIC_UNIT.ERROR.CODE.EXISTS' }));
-  //     return;
-  //   }
-  //   updateUnit.push(values);
-  //   setEntities(updateUnit);
-
-  //   Create(values)
-  //     .then(res => {
-  //       setError('');
-  //       // setShow({edit: false, delete: false, detail: false, deleteMany: false});
-  //     })
-  //     .catch(error => {
-  //       console.log(error);
-  //     });
-  // };
+  }, [paginationParams]);
 
   const deleteFn = (entity: PurchaseOrderModel) => {
     Delete(entity).then(res => {
-      GetAll(queryParams)
+      GetAll(paginationParams)
         .then(res => {
-          Count(queryParams).then(ress => {
+          Count(paginationParams).then(ress => {
             setSelectedEntities([]);
             setEntities(res.data);
             setLoading(false);
@@ -140,9 +85,9 @@ function PurchaseOrder() {
     setLoading(true);
     DeleteMany(selectedEntities)
       .then(res => {
-        GetAll(queryParams)
+        GetAll(paginationParams)
           .then(res => {
-            Count(queryParams).then(ress => {
+            Count(paginationParams).then(ress => {
               setSelectedEntities([]);
               setEntities(res.data);
               setLoading(false);
@@ -173,9 +118,9 @@ function PurchaseOrder() {
   const updatePurchaseOrder = (entity: PurchaseOrderModel) => {
     Update(entity)
       .then(res => {
-        GetAll(queryParams)
+        GetAll(paginationParams)
           .then(res => {
-            Count(queryParams).then(ress => {
+            Count(paginationParams).then(ress => {
               setSelectedEntities([]);
               setEntities(res.data);
               setLoading(false);
@@ -195,9 +140,9 @@ function PurchaseOrder() {
   const addPurchaseOrder = (entity: PurchaseOrderModel) => {
     Create(entity)
       .then(res => {
-        GetAll(queryParams)
+        GetAll(paginationParams)
           .then(res => {
-            Count(queryParams).then(ress => {
+            Count(paginationParams).then(ress => {
               setSelectedEntities([]);
               setEntities(res.data);
               setLoading(false);
@@ -256,7 +201,7 @@ function PurchaseOrder() {
       dataField: 'ordinal',
       text: 'STT',
       formatter: (cell: any, row: any, rowIndex: number) => (
-        <p>{rowIndex + 1 + ((queryParams.page as any) - 1) * (queryParams.limit as any)}</p>
+        <p>{rowIndex + 1 + ((paginationParams.page as any) - 1) * (paginationParams.limit as any)}</p>
       ),
       style: { paddingTop: 20 },
     },
@@ -357,7 +302,7 @@ function PurchaseOrder() {
       title: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER',
     },
   ];
-
+  console.log(paginationParams);
   return (
     <BasicUnitUIProvider basicUnitUIEvents={events}>
       <MasterEntityDetailDialog
@@ -420,11 +365,10 @@ function PurchaseOrder() {
         total={total}
         columns={columns}
         loading={loading}
-        queryParams={queryParams}
-        setQueryParamsBase={setQueryParamsBase}
+        paginationParams={paginationParams}
+        setPaginationParams={setPaginationParams}
         ids={ids}
         setIds={setIds}
-        setQueryParams={setQueryParams}
       />
     </BasicUnitUIProvider>
   );

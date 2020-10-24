@@ -109,7 +109,6 @@ export function AgencyTypeTable() {
       data={entities || []}
       columns={columns}
       // defaultSorted={defaultSorted}
-      onTableChange={onTableChange(agencyTypeUIProps.setQueryParams)}
       rowEvents={rowEvents}
       
       // selectRow={getSelectAgencyRow({

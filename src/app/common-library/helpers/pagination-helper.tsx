@@ -69,15 +69,16 @@ export const GetPages = (page: number, pagesCount: number, paginationSize: numbe
   return result;
 };
 
-export function onTableChange(setQueryParams: (data: any) => void): TableChangeHandler<PaginationProps> {
-  return (type: any, {page = 1, sizePerPage, orderBy, orderType}: any) => {
-    setQueryParams((prev: PaginationProps) =>
-      type === "sort"
-        ? {...prev, orderType, orderBy}
-        : type === "pagination"
-        ? {...prev, page, limit: sizePerPage}
-        : prev
-    );
+export function onTableChange(setPaginationParams: (data: PaginationProps) => void, paginationParams: PaginationProps): TableChangeHandler<PaginationProps> {
+  return (type, data) => {
+    // console.log(type);
+    console.log(data);
+    if (type === "sort") {
+      setPaginationParams({...paginationParams, page: 1, orderBy: data.sortField, orderType: data.sortOrder})
+    }
+    // setPaginationParams(type === "sort"
+    //   ? {...paginationParams}
+    //   : paginationParams);
   };
 }
 

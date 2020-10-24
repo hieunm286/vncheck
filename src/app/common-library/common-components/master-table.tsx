@@ -1,23 +1,19 @@
 import React from 'react';
-import BootstrapTable, { ColumnDescription, RowSelectionType } from 'react-bootstrap-table-next';
-import paginationFactory, { PaginationProvider } from 'react-bootstrap-table2-paginator';
-import {
-  onTableChange,
-  NoRecordsFoundMessage,
-  PleaseWaitMessage,
-} from '../helpers/pagination-helper';
+import BootstrapTable, {ColumnDescription, RowSelectionType} from 'react-bootstrap-table-next';
+import paginationFactory, {PaginationProvider} from 'react-bootstrap-table2-paginator';
+import {NoRecordsFoundMessage, onTableChange, PleaseWaitMessage,} from '../helpers/pagination-helper';
 import './master-table.scss';
-import { SizePerPageList, SortDefault } from '../common-const/const';
-import { SelectionCheckbox } from './table-row-selection-helpers';
-import { ActionColumnProps } from '../common-types/common-type';
-import { Pagination } from '../pagination/pagination';
+import {SizePerPageList, SortDefault} from '../common-const/const';
+import {SelectionCheckbox} from './table-row-selection-helpers';
+import {ActionColumnProps, PaginationProps} from '../common-types/common-type';
+import {Pagination} from '../pagination/pagination';
 import isEqual from 'react-fast-compare';
 
 export function GetSelectRow<T>({
-  entities,
-  selectedEntities,
-  onSelectMany,
-}: {
+                                  entities,
+                                  selectedEntities,
+                                  onSelectMany,
+                                }: {
   entities: T[];
   selectedEntities: T[];
   onSelectMany: (entities: T[]) => void;
@@ -46,7 +42,7 @@ export function GetSelectRow<T>({
         />
       );
     },
-    selectionRenderer: ({ rowIndex }: { rowIndex: number }) => {
+    selectionRenderer: ({rowIndex}: { rowIndex: number }) => {
       const isSelected =
         selectedEntities && selectedEntities.some(entity => isEqual(entity, entities[rowIndex]));
       return (
@@ -66,65 +62,72 @@ export function GetSelectRow<T>({
 }
 
 export function MasterTable<T>({
-  show,
-  showModal,
-  entities,
-  selectedEntities,
-  total,
-  loading,
-  queryParams,
-  setQueryParams,
-  onShowDetail,
-  onDelete,
-  onEdit,
-  onSelectMany,
-  columns,
-}: ActionColumnProps<T> & {
+                                 show,
+                                 showModal,
+                                 entities,
+                                 selectedEntities,
+                                 total,
+                                 loading,
+                                 // queryParams,
+                                 // setQueryParams,
+                                 paginationParams,
+                                 setPaginationParams,
+                                 onShowDetail,
+                                 onDelete,
+                                 onEdit,
+                                 onSelectMany,
+                                 columns,
+                               }: ActionColumnProps<T> & {
   selectedEntities: T[];
   columns: ColumnDescription[];
   entities: T[];
+  // queryParams: PaginationProps,
+  // setQueryParams: (data: PaginationProps) => void,
+  paginationParams: PaginationProps,
+  setPaginationParams: (data: PaginationProps) => void,
   [T: string]: any;
 }) {
   const paginationOptions = {
-    basicUnit: true,
     totalSize: total,
-    tableName: 'đơn vị cơ bản',
     sizePerPageList: SizePerPageList,
-    sizePerPage: queryParams.limit,
-    page: queryParams.pageNumber,
+    sizePerPage: paginationParams.limit,
+    page: paginationParams.page,
+    onSizePerPageChange: (page: number, sizePerPage: number) => {
+      setPaginationParams({...paginationParams, page: 1, limit: sizePerPage});
+    },
+    onPageChange: (page: number) => {
+      setPaginationParams({...paginationParams, page});
+    }
   };
-
   return (
-    <>
-      <PaginationProvider pagination={paginationFactory(paginationOptions)}>
-        {({ paginationProps, paginationTableProps }) => {
-          return (
-            <Pagination isLoading={loading} paginationProps={paginationProps}>
-              <BootstrapTable
-                wrapperClasses="table-responsive"
-                bordered={false}
-                classes="table table-head-custom table-vertical-center overflow-hidden noBorderOnClick"
-                bootstrap4
-                remote
-                {...paginationTableProps}
-                keyField="_id"
-                data={entities}
-                columns={columns}
-                defaultSorted={SortDefault as any}
-                selectRow={GetSelectRow({
-                  entities: entities,
-                  selectedEntities: selectedEntities,
-                  onSelectMany: onSelectMany,
-                })}
-                onTableChange={onTableChange(setQueryParams)}
-                {...paginationProps}>
-                <PleaseWaitMessage entities={entities} />
-                <NoRecordsFoundMessage entities={entities} />
-              </BootstrapTable>
-            </Pagination>
-          );
-        }}
-      </PaginationProvider>
-    </>
+    <PaginationProvider pagination={paginationFactory(paginationOptions)}>
+      {({paginationProps, paginationTableProps}) => {
+        return (
+          <Pagination isLoading={loading} paginationProps={paginationProps}>
+            <BootstrapTable
+              wrapperClasses="table-responsive"
+              bordered={false}
+              classes="table table-head-custom table-vertical-center overflow-hidden noBorderOnClick"
+              bootstrap4
+              remote
+              {...paginationTableProps}
+              keyField="_id"
+              data={entities}
+              columns={columns}
+              defaultSorted={SortDefault as any}
+              selectRow={GetSelectRow({
+                entities: entities,
+                selectedEntities: selectedEntities,
+                onSelectMany: onSelectMany,
+              })}
+              onTableChange={onTableChange(setPaginationParams, paginationParams)}
+            >
+              <PleaseWaitMessage entities={entities}/>
+              <NoRecordsFoundMessage entities={entities}/>
+            </BootstrapTable>
+          </Pagination>
+        );
+      }}
+    </PaginationProvider>
   );
 }

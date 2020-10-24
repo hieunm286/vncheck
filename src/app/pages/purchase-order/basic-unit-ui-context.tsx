@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useCallback } from 'react';
 import { isEqual, isFunction } from 'lodash';
-import {FilterDefault} from "../../common-library/common-const/const";
+import {DefaultPagination} from "../../common-library/common-const/const";
 
 const BasicUnitUIContext = createContext<any>(null);
 
@@ -11,21 +11,21 @@ export function useBasicUnitUIContext() {
 export const BasicUnitUIConsumer = BasicUnitUIContext.Consumer;
 
 export function BasicUnitUIProvider({ basicUnitUIEvents, children }: any) {
-  const [queryParams, setQueryParamsBase] = useState(FilterDefault);
+  const [queryParams, setQueryParamsBase] = useState(DefaultPagination);
   const [ids, setIds] = useState([]);
-  const setQueryParams = useCallback(nextQueryParams => {
-    setQueryParamsBase(prevQueryParams => {
-      if (isFunction(nextQueryParams)) {
-        nextQueryParams = nextQueryParams(prevQueryParams);
-      }
-
-      if (isEqual(prevQueryParams, nextQueryParams)) {
-        return prevQueryParams;
-      }
-
-      return nextQueryParams;
-    });
-  }, []);
+  // const setQueryParams = useCallback(nextQueryParams => {
+  //   setQueryParamsBase(prevQueryParams => {
+  //     if (isFunction(nextQueryParams)) {
+  //       nextQueryParams = nextQueryParams(prevQueryParams);
+  //     }
+  //
+  //     if (isEqual(prevQueryParams, nextQueryParams)) {
+  //       return prevQueryParams;
+  //     }
+  //
+  //     return nextQueryParams;
+  //   });
+  // }, []);
 
   const useAutofill = false;
 
@@ -42,7 +42,7 @@ export function BasicUnitUIProvider({ basicUnitUIEvents, children }: any) {
     setQueryParamsBase,
     ids,
     setIds,
-    setQueryParams,
+    // setQueryParams,
     initBasicUnit,
     // newBasicUnitButtonClick: basicUnitUIEvents.newBasicUnitButtonClick,
     // openEditBasicUnitDialog: basicUnitUIEvents.openEditBasicUnitDialog,

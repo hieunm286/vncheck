@@ -126,7 +126,6 @@ function BasicUnitTable({
                     setIds: setIds,
                   }) as any
                 }
-                onTableChange={onTableChange(setQueryParams)}
                 {...paginationProps}>
                 <PleaseWaitMessage entities={basicUnitArray} />
                 <NoRecordsFoundMessage entities={basicUnitArray} />

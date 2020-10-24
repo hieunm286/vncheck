@@ -141,7 +141,6 @@ export function AgencyTable() {
                 data={entities || []}
                 columns={columns}
                 defaultSorted={defaultSorted as any}
-                onTableChange={onTableChange(agencyUIProps.setQueryParams)}
                 selectRow={
                   GetSelectAgencyRow({
                     entities,
