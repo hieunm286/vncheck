@@ -16,7 +16,7 @@ import { ActionsColumnFormatter } from '../../common-library/common-components/a
 import { DeleteDialog } from '../../common-library/common-components/delete-dialog';
 import isEqual from 'react-fast-compare';
 import DeleteManyDialog from '../../common-library/common-components/delete-many-dialog';
-import PurchaseOrderDialog from './purchase-order-dialog';
+import ModifyEntityDialog from './modify-entity-dialog';
 
 function PurchaseOrder() {
   const intl = useIntl();
@@ -160,30 +160,6 @@ function PurchaseOrder() {
         console.log(error);
       });
   };
-
-  // const deleteManyBasicUnit = () => {
-  //   setLoading(true);
-  //   DeleteMany(ids)
-  //     .then(res => {
-  //       console.log(res);
-  //       setError('');
-  //       // setShow({edit: false, delete: false, detail: false, deleteMany: false});
-  //       GetAll(queryParams)
-  //         .then(res => {
-  //           setIds([]);
-  //           setTotal(res.data.total);
-  //           setEntities(res.data.result);
-  //           setLoading(false);
-  //         })
-  //         .catch(error => {
-  //           console.log(error);
-  //         });
-  //     })
-  //     .catch(error => {
-  //       console.log(error);
-  //     });
-  // };
-
   const search = (data: { code: string; name: string }) => {
     setLoading(true);
     GetAll(data)
@@ -280,15 +256,6 @@ function PurchaseOrder() {
       },
     },
   ];
-
-  // const masterEntityDetailDialog = {
-  //   titles: {
-  //     code: 'BASIC_UNIT.CARD.DETAIL_DIALOG.CODE',
-  //     name: 'BASIC_UNIT.CARD.DETAIL_DIALOG.NAME',
-  //     status: 'BASIC_UNIT.CARD.DETAIL_DIALOG.NAME',
-  //   },
-  // };
-
   const masterEntityDetailDialog = [
     {
       keyField: 'code',
@@ -304,7 +271,6 @@ function PurchaseOrder() {
       title: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER',
     },
   ];
-  console.log(paginationParams);
   return (
     <Fragment>
       <MasterEntityDetailDialog
@@ -334,7 +300,16 @@ function PurchaseOrder() {
         }}
         onDelete={deleteMany}
       />
-      <PurchaseOrderDialog
+      <ModifyEntityDialog
+        isShow={showEdit}
+        onHide={() => {
+          setShowEdit(false);
+        }}
+        entity={editEntity}
+        onEdit={updatePurchaseOrder}
+        onCreate={addPurchaseOrder}
+      />
+      <ModifyEntityDialog
         isShow={showEdit}
         onHide={() => {
           setShowEdit(false);

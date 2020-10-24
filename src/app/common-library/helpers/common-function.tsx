@@ -1,26 +1,8 @@
-import {useCallback, useState} from "react";
-import {isEqual, isFunction} from "lodash";
-import {PaginationProps, SortProps} from "../common-types/common-type";
-//
-// export const InitQueryParams = (initialFilter: PaginationProps) => {
-//   const [paginationParams, setQueryParamsBase] = useState(initialFilter);
-//   const setQueryParams = useCallback(nextQueryParams => {
-//     setQueryParamsBase((prevQueryParams) => {
-//       if (isFunction(nextQueryParams)) {
-//         nextQueryParams = nextQueryParams(prevQueryParams);
-//       }
-//       if (isEqual(prevQueryParams, nextQueryParams)) {
-//         return prevQueryParams;
-//       }
-//       return nextQueryParams;
-//     });
-//   }, []);
-//   return {
-//     queryParams: paginationParams,
-//     setQueryParamsBase,
-//     setQueryParams
-//   }
-// }
+import {SortProps} from "../common-types/common-type";
+
+export const CapitalizeFirstLetter = (string: string) => {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
 export const ParamsSerializer = (params: { sortList: SortProps, [t: string]: any }): string => {
   console.log(111);
   const orderParams = Object.keys(params.sortList).reduce((pre, current, i) => {

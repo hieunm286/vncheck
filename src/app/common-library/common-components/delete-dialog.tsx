@@ -5,7 +5,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import {useIntl} from 'react-intl';
 import {DeleteDialogProps} from '../common-types/common-type';
 import {iconStyle} from '../common-consts/const';
-import {CapitalizeFirstLetter} from "../common-functions/common-function";
+import {CapitalizeFirstLetter} from "../helpers/common-function";
 
 export function DeleteDialog<T>({
                                   isShow,
