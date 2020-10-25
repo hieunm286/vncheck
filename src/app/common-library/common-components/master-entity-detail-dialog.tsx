@@ -4,19 +4,20 @@ import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import {useIntl} from 'react-intl';
 
 export function MasterEntityDetailDialog({
-                                           // titles,
+                                           title = 'COMMON_COMPONENT.DETAIL_DIALOG.HEADER_TITLE',
+                                           moduleName = 'COMMON_COMPONENT.DETAIL_DIALOG.MODULE_NAME',
                                            show,
                                            entity,
                                            onClose,
                                            renderInfo,
                                          }: {
-  // titles: any;
+  title?: string;
+  moduleName?: string;
   show: boolean;
   entity: any;
   renderInfo: any;
   onClose: () => void;
 }) {
-  const initUnit = {code: '', name: '', status: 0};
   const intl = useIntl();
   return (
     <Modal
@@ -27,11 +28,11 @@ export function MasterEntityDetailDialog({
       dialogClassName="modal-detail">
       <Modal.Header closeButton>
         <Modal.Title id="example-modal-sizes-title-lg" className="text-danger">
-          {intl.formatMessage({id: 'COMMON_COMPONENT.DETAIL_DIALOG.HEADER_TITLE'})}
+          {intl.formatMessage({id: title}, {moduleName: intl.formatMessage({id: moduleName})}).toUpperCase()}
         </Modal.Title>
       </Modal.Header>
       
-      <MasterEntityDetail data={entity || initUnit} renderInfo={renderInfo}/>
+      <MasterEntityDetail data={entity} renderInfo={renderInfo}/>
       <Modal.Footer>
         <button type="button" onClick={onClose} className="btn btn-outline-danger">
           <CancelOutlinedIcon style={{fontSize: 14}}/>{' '}
@@ -43,24 +44,22 @@ export function MasterEntityDetailDialog({
 }
 
 export function MasterEntityDetail({
-                                     // titles,
                                      data,
                                      renderInfo,
                                      convertFunctions = {},
                                    }: {
-  // titles: { [V: string]: string };
   renderInfo: any[];
   data: any;
   convertFunctions?: { [V: string]: (input: any) => string };
 }) {
   const intl = useIntl();
   return (
-    <Modal.Body>
+    data ? <Modal.Body>
       {renderInfo.map((value, key) => (
         <p key={key}>
           {intl.formatMessage({id: value.title})}: <strong>{data[value.keyField]}</strong>
         </p>
       ))}
-    </Modal.Body>
+    </Modal.Body> : <></>
   );
 }

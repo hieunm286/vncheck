@@ -16,7 +16,7 @@ interface DeleteMany {
 }
 
 function DeleteManyDialog<T>({
-                               ids,
+                               selectedEntities,
                                isShow,
                                onHide,
                                onDelete,
@@ -43,7 +43,7 @@ function DeleteManyDialog<T>({
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        {ids && ids.length > 0 ? (
+        {selectedEntities && selectedEntities.length > 0 ? (
           !loading && (
             <div>
               <p>
@@ -67,7 +67,7 @@ function DeleteManyDialog<T>({
       </Modal.Body>
       <Modal.Footer>
         <div>
-          {ids && ids.length > 0 && (
+          {selectedEntities && selectedEntities.length > 0 && (
             <button type="button" onClick={() => onDelete()} className="btn btn-danger mr-3">
               <DeleteIcon/> {intl.formatMessage({id: deleteBtn})}
             </button>

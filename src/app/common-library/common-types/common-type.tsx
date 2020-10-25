@@ -34,7 +34,7 @@ export interface DeleteManyDialogProps<T> {
   isShow: boolean;
   onHide: () => any;
   onDelete: () => any;
-  ids: any[];
+  selectedEntities: any[];
   title?: string;
   moduleName?: string;
   entity?: T;

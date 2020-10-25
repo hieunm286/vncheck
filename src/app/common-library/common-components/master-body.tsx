@@ -30,8 +30,6 @@ export function MasterBody<T>({
                                 loading,
                                 // queryParams,
                                 // setQueryParamsBase,
-                                ids,
-                                setIds,
                                 // setQueryParams,
                                 paginationParams,
                                 setPaginationParams,
