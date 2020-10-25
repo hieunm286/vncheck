@@ -6,7 +6,7 @@ import {Input} from '../forms/input';
 import {Card, CardBody, CardHeader} from '../card';
 import SVG from 'react-inlinesvg';
 import {ToAbsoluteUrl} from '../helpers/assets-helpers';
-import {SearchModel} from "../../pages/purchase-order/purchase-order.search.model";
+import {SearchModel} from "../common-types/common-type";
 
 export function MasterHeader<T>({title, onSearch, searchModel, initValue}: { searchModel: SearchModel, title: string; initValue: T, onSearch: (data: T) => void }) {
   const intl = useIntl();

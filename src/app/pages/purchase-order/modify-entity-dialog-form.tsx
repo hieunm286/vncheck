@@ -14,25 +14,25 @@ const PurchaseOrderSchema = Yup.object().shape({
   phoneNumber: Yup.string().required('Vui lòng nhập số điện thoại'),
 });
 
-function ModifyEntityDialogForm({
-                                  unitForEdit,
+function ModifyEntityDialogForm<T>({
+                                  entity,
                                   onHide,
-                                  handleActionPurchaseOrder,
+                                  onModify,
                                   error,
                                 }: {
-  unitForEdit: any;
-  onHide: any;
-  handleActionPurchaseOrder: any;
+  entity: T;
+  onHide: ()=> void;
+  onModify: (values: any) => void;
   error: string;
 }) {
   const [state, setState] = React.useState({
-    status: unitForEdit.status == 1,
+    status: entity.status == 1,
   });
   const intl = useIntl();
   
   useEffect(() => {
-    setState({status: unitForEdit.status == 1});
-  }, [unitForEdit.status]);
+    setState({status: entity.status == 1});
+  }, [entity.status]);
   
   const handleChange = (event: any) => {
     console.log(state.status);
@@ -42,10 +42,10 @@ function ModifyEntityDialogForm({
     <>
       <Formik
         enableReinitialize={true}
-        initialValues={unitForEdit}
+        initialValues={entity}
         validationSchema={PurchaseOrderSchema}
         onSubmit={values => {
-          handleActionPurchaseOrder(values);
+          onModify(values);
         }}>
         {({handleSubmit}) => (
           <>
@@ -104,20 +104,6 @@ function ModifyEntityDialogForm({
                     label={intl.formatMessage({id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER'})}
                   />
                 </div>
-                {/* <div className="mt-3 row">
-                  <label className="col-md-4">
-                    {intl.formatMessage({ id: 'BASIC_UNIT.CARD.TABLE.STATUS' })}
-                  </label>
-                  <div className="col-md-8">
-                    <Switch
-                      checked={state.status}
-                      onChange={handleChange}
-                      color="primary"
-                      name="status"
-                      inputProps={{ 'aria-label': 'primary checkbox' }}
-                    />
-                  </div>
-                </div> */}
               </Form>
             </Modal.Body>
             <Modal.Footer>
@@ -126,7 +112,7 @@ function ModifyEntityDialogForm({
               </button>
               <button
                 type="button"
-                onClick={() => onHide('edit')}
+                onClick={onHide}
                 className="btn btn-outline-danger">
                 <CancelOutlinedIcon style={iconStyle}/> Hủy
               </button>

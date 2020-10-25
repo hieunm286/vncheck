@@ -60,3 +60,11 @@ export interface ActionColumnProps<T> {
   // editTitle: string;
   // deleteTitle: string;
 }
+
+export type SearchModel = {
+  [T: string]: {
+    type: 'string' | 'number' | 'Datetime',
+    placeholder: string,
+    label: string,
+  }
+}

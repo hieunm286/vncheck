@@ -3,7 +3,7 @@ import {Modal} from 'react-bootstrap';
 import ModifyEntityDialogForm from './modify-entity-dialog-form';
 import {useIntl} from "react-intl";
 
-function ModifyEntityDialog({isShow, onHide, entity, error, onEdit, onCreate}: any) {
+function ModifyEntityDialog<T>({isShow, onHide, entity, error, onModify}: { isShow: boolean, onHide: () => void, entity: T, error: string, onModify: (values: any) => void }) {
   const initForm = {
     code: '',
     agencyAddress: '',
@@ -11,35 +11,27 @@ function ModifyEntityDialog({isShow, onHide, entity, error, onEdit, onCreate}: a
     // status: 1,
   };
   
-  const handleActionPurchaseOrder = (values: any) => {
-    if (entity && entity.length > 0) {
-      onEdit(values);
-      return;
-    } else {
-      onCreate(values);
-    }
-  };
   
   return (
     <Modal show={isShow} onHide={onHide} aria-labelledby="example-modal-sizes-title-lg">
-      <ModifyEntityDialogHeader unitForEdit={entity}/>
+      <ModifyEntityDialogHeader entity={entity}/>
       <ModifyEntityDialogForm
-        unitForEdit={entity || initForm}
+        entity={entity || initForm}
         onHide={onHide}
-        handleActionPurchaseOrder={handleActionPurchaseOrder}
+        handleActionPurchaseOrder={onModify}
         error={error}
       />
     </Modal>
   );
 }
 
-function ModifyEntityDialogHeader({unitForEdit}: { unitForEdit: any }) {
+function ModifyEntityDialogHeader<T>({entity}: { entity: T }) {
   const intl = useIntl();
   return (
     <>
       <Modal.Header closeButton>
         <Modal.Title id="example-modal-sizes-title" className="text-danger">
-          {unitForEdit ? (
+          {entity ? (
             <span>{intl.formatMessage({id: 'BASIC_UNIT.CARD.EDIT_DIALOG.TITLE'})}</span>
           ) : (
             <span>Thêm mới</span>

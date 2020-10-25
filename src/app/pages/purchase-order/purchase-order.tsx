@@ -12,11 +12,10 @@ import {ActionsColumnFormatter} from '../../common-library/common-components/act
 import {DeleteDialog} from '../../common-library/common-components/delete-dialog';
 import DeleteManyDialog from '../../common-library/common-components/delete-many-dialog';
 import ModifyEntityDialog from './modify-entity-dialog';
-import {SearchModel} from "./purchase-order.search.model";
+import {SearchModel} from "../../common-library/common-types/common-type";
 
 function PurchaseOrder() {
   const intl = useIntl();
-  const events = {};
   const [entities, setEntities] = useState<PurchaseOrderModel[]>([]);
   const [deleteEntity, setDeleteEntity] = useState<PurchaseOrderModel>(null as any);
   const [editEntity, setEditEntity] = useState<PurchaseOrderModel | null>(null as any);
@@ -26,24 +25,22 @@ function PurchaseOrder() {
   const [showEdit, setShowEdit] = useState(false);
   const [showDetail, setShowDetail] = useState(false);
   const [showDeleteMany, setShowDeleteMany] = useState(false);
-  
-  const [error, setError] = useState('');
   const [paginationProps, setPaginationProps] = useState(DefaultPagination);
-  const [filter, setFilter] = useState({name: '', code: ''});
+  const [filterProps, setFilterProps] = useState({name: '', code: ''});
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
   const [trigger, setTrigger] = useState(false);
   
   const moduleName = 'PURCHASE_ORDER.CUSTOM.MODULE_NAME';
   const headerTitle = 'PURCHASE_ORDER.MASTER.HEADER.TITLE';
-  const getAll = useCallback((filter?) => {
+  const getAll = useCallback((filterProps?) => {
     setLoading(true);
-    GetAll({paginationProps, queryProps: filter})
-      .then(res => {
-        Count(paginationProps).then(ress => {
-          setEntities(res.data);
+    GetAll({paginationProps, queryProps: filterProps})
+      .then(getAllResponse => {
+        Count(paginationProps).then(countResponse => {
+          setEntities(getAllResponse.data);
           setLoading(false);
-          setTotal(ress.data);
+          setTotal(countResponse.data);
         });
       })
       .catch(error => {
@@ -52,9 +49,9 @@ function PurchaseOrder() {
   }, [paginationProps]);
   
   useEffect(() => {
-    getAll(filter);
+    getAll(filterProps);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [paginationProps, trigger, filter]);
+  }, [paginationProps, trigger, filterProps]);
   const refreshData = () => {
     setPaginationProps({...paginationProps, page: 1});
     setTrigger(!trigger);
@@ -100,11 +97,6 @@ function PurchaseOrder() {
       .catch(error => {
         console.log(error);
       });
-  };
-  const search = (data: any) => {
-    setLoading(true);
-    console.log(data);
-    refreshData();
   };
   
   const columns = [
@@ -162,14 +154,11 @@ function PurchaseOrder() {
       style: {minWidth: '130px'},
     },
   ];
-  const initValue = {code: '', name: ''};
   const masterEntityDetailDialog = [
     {keyField: 'code', title: 'PURCHASE_ORDER.MASTER.TABLE.CODE_COLUMN'},
     {keyField: 'agencyAddress', title: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS_COLUMN'},
     {keyField: 'phoneNumber', title: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN'},
   ];
-  
-  
   const purchaseOrderSearchModel: SearchModel = {
     code: {
       type: 'string',
@@ -204,7 +193,7 @@ function PurchaseOrder() {
                           onHide={() => {
                             setShowEdit(false);
                           }}/>
-      <MasterHeader title={headerTitle} onSearch={setFilter} searchModel={purchaseOrderSearchModel} initValue={filter}/>
+      <MasterHeader title={headerTitle} onSearch={setFilterProps} searchModel={purchaseOrderSearchModel} initValue={filterProps}/>
       <MasterBody
         onShowDetail={entity => {
           get(entity);
