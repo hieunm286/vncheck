@@ -5,7 +5,7 @@ import {NoRecordsFoundMessage, onTableChange, PleaseWaitMessage,} from '../helpe
 import './master-table.scss';
 import {SizePerPageList, SortDefault} from '../common-consts/const';
 import {SelectionCheckbox} from './table-row-selection-helpers';
-import {ActionColumnProps, PaginationProps} from '../common-types/common-type';
+import {PaginationProps} from '../common-types/common-type';
 import {Pagination} from '../pagination/pagination';
 import isEqual from 'react-fast-compare';
 
@@ -60,30 +60,24 @@ export function GetSelectRow<T>({
 }
 
 export function MasterTable<T>({
-                                 show,
-                                 showModal,
                                  entities,
                                  selectedEntities,
                                  total,
                                  loading,
-                                 // queryParams,
-                                 // setQueryParams,
                                  paginationParams,
                                  setPaginationParams,
-                                 onShowDetail,
-                                 onDelete,
-                                 onEdit,
                                  onSelectMany,
                                  columns,
-                               }: ActionColumnProps<T> & {
+                               }: {
+  total: number,
+  loading: boolean,
+  onSelectMany: (entities: T[]) => void,
   selectedEntities: T[];
   columns: ColumnDescription[];
   entities: T[];
-  // queryParams: PaginationProps,
-  // setQueryParams: (data: PaginationProps) => void,
   paginationParams: PaginationProps,
   setPaginationParams: (data: PaginationProps) => void,
-  [T: string]: any;
+  // [T: string]: any;
 }) {
   const paginationOptions = {
     totalSize: total,

@@ -7,7 +7,7 @@ import {DeleteDialogProps} from '../common-types/common-type';
 import {iconStyle} from '../common-consts/const';
 import {CapitalizeFirstLetter} from "../helpers/common-function";
 
-export function DeleteDialog<T>({
+export function DeleteEntityDialog<T>({
                                   isShow,
                                   entity,
                                   onHide,

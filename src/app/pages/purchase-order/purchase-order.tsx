@@ -1,103 +1,74 @@
-import React, {Fragment, useCallback, useEffect, useState} from 'react';
+import React, {Fragment, useEffect} from 'react';
 import {useIntl} from 'react-intl';
 import {Count, Create, Delete, DeleteMany, Get, GetAll, Update} from './purchase-order.service';
 import {PurchaseOrderModel} from './purchase-order.model';
-import {DefaultPagination, NormalColumn, SortColumn} from '../../common-library/common-consts/const';
+import {NormalColumn, SortColumn} from '../../common-library/common-consts/const';
 import {MasterHeader} from '../../common-library/common-components/master-header';
 import {MasterEntityDetailDialog} from '../../common-library/common-components/master-entity-detail-dialog';
 import {MasterBody} from '../../common-library/common-components/master-body';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import IndeterminateCheckBoxIcon from '@material-ui/icons/IndeterminateCheckBox';
 import {ActionsColumnFormatter} from '../../common-library/common-components/actions-column-formatter';
-import {DeleteDialog} from '../../common-library/common-components/delete-dialog';
-import DeleteManyDialog from '../../common-library/common-components/delete-many-dialog';
-import ModifyEntityDialog from './modify-entity-dialog';
-import {SearchModel} from "../../common-library/common-types/common-type";
+import {DeleteEntityDialog} from '../../common-library/common-components/delete-entity-dialog';
+import DeleteManyEntitiesDialog from '../../common-library/common-components/delete-many-dialog';
+import ModifyEntityDialog from '../../common-library/common-components/modify-entity-dialog';
+import {ModifyModel, SearchModel} from "../../common-library/common-types/common-type";
+import {InitMasterProps} from "../../common-library/helpers/common-function";
 
 function PurchaseOrder() {
   const intl = useIntl();
-  const [entities, setEntities] = useState<PurchaseOrderModel[]>([]);
-  const [deleteEntity, setDeleteEntity] = useState<PurchaseOrderModel>(null as any);
-  const [editEntity, setEditEntity] = useState<PurchaseOrderModel | null>(null as any);
-  const [selectedEntities, setSelectedEntities] = useState<PurchaseOrderModel[]>([]);
-  const [detailEntity, setDetailEntity] = useState<PurchaseOrderModel>(null as any);
-  const [showDelete, setShowDelete] = useState(false);
-  const [showEdit, setShowEdit] = useState(false);
-  const [showDetail, setShowDetail] = useState(false);
-  const [showDeleteMany, setShowDeleteMany] = useState(false);
-  const [paginationProps, setPaginationProps] = useState(DefaultPagination);
-  const [filterProps, setFilterProps] = useState({name: '', code: ''});
-  const [total, setTotal] = useState(0);
-  const [loading, setLoading] = useState(true);
-  const [trigger, setTrigger] = useState(false);
+  const {
+    entities,
+    setEntities,
+    deleteEntity,
+    setDeleteEntity,
+    editEntity,
+    setEditEntity,
+    createEntity,
+    setCreateEntity,
+    selectedEntities,
+    setSelectedEntities,
+    detailEntity,
+    setDetailEntity,
+    showDelete,
+    setShowDelete,
+    showEdit,
+    setShowEdit,
+    showCreate,
+    setShowCreate,
+    showDetail,
+    setShowDetail,
+    showDeleteMany,
+    setShowDeleteMany,
+    trigger,
+    setTrigger,
+    paginationProps,
+    setPaginationProps,
+    filterProps,
+    setFilterProps,
+    total,
+    setTotal,
+    loading,
+    setLoading,
+    add, update, get, deleteMany, deleteFn, getAll, refreshData
+  } = InitMasterProps<PurchaseOrderModel>({
+    getServer: Get,
+    countServer: Count,
+    createServer: Create,
+    deleteServer: Delete,
+    deleteManyServer: DeleteMany,
+    getAllServer: GetAll,
+    updateServer: Update
+  });
   
   const moduleName = 'PURCHASE_ORDER.CUSTOM.MODULE_NAME';
   const headerTitle = 'PURCHASE_ORDER.MASTER.HEADER.TITLE';
-  const getAll = useCallback((filterProps?) => {
-    setLoading(true);
-    GetAll({paginationProps, queryProps: filterProps})
-      .then(getAllResponse => {
-        Count(paginationProps).then(countResponse => {
-          setEntities(getAllResponse.data);
-          setLoading(false);
-          setTotal(countResponse.data);
-        });
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }, [paginationProps]);
+  const createTitle = 'PURCHASE_ORDER.CREATE.TITLE';
+  const updateTitle = 'PURCHASE_ORDER.UPDATE.TITLE';
   
   useEffect(() => {
     getAll(filterProps);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [paginationProps, trigger, filterProps]);
-  const refreshData = () => {
-    setPaginationProps({...paginationProps, page: 1});
-    setTrigger(!trigger);
-    setShowDelete(false);
-    setShowDetail(false);
-    setShowEdit(false);
-    setShowDeleteMany(false);
-  }
-  const deleteFn = (entity: PurchaseOrderModel) => {
-    Delete(entity).then(refreshData);
-  };
-  
-  const deleteMany = () => {
-    setLoading(true);
-    DeleteMany(selectedEntities)
-      .then(refreshData)
-      .catch(error => {
-        console.log(error);
-      });
-  };
-  
-  const get = (entity: PurchaseOrderModel) => {
-    Get(entity.code)
-      .then(res => {
-        setDetailEntity(res.data.results);
-        setEditEntity(res.data.results);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  };
-  const update = (entity: PurchaseOrderModel) => {
-    Update(entity)
-      .then(refreshData)
-      .catch(error => {
-        console.log(error);
-      });
-  };
-  
-  const add = (entity: PurchaseOrderModel) => {
-    Create(entity)
-      .then(refreshData)
-      .catch(error => {
-        console.log(error);
-      });
-  };
   
   const columns = [
     {
@@ -142,11 +113,11 @@ function PurchaseOrder() {
           setShowDetail(true);
         },
         onDelete: (entity: PurchaseOrderModel) => {
-          setShowDelete(true);
           setDeleteEntity(entity);
+          setShowDelete(true);
         },
         onEdit: (entity: PurchaseOrderModel) => {
-          get(entity);
+          setEditEntity(entity);
           setShowEdit(true);
         }
       },
@@ -170,46 +141,53 @@ function PurchaseOrder() {
       label: 'PURCHASE_ORDER.MASTER.HEADER.NAME.LABEL'
     }
   }
+  const modifyModel: ModifyModel = {
+    code: {
+      type: 'string',
+      placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.PLACEHOLDER',
+      label: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL'
+    }, x: {
+      type: 'string',
+      placeholder: 'PURCHASE_ORDER.MASTER.HEADER.NAME.PLACEHOLDER',
+      label: 'PURCHASE_ORDER.MASTER.HEADER.NAME.LABEL'
+    },
+    orderTime: {
+      type: 'string',
+      placeholder: 'PURCHASE_ORDER.MASTER.HEADER.ORDER_TIME.PLACEHOLDER',
+      label: 'PURCHASE_ORDER.MASTER.HEADER.ORDER_TIME.LABEL'
+    }
+  }
   return (
     <Fragment>
       <MasterEntityDetailDialog show={showDetail} entity={detailEntity} renderInfo={masterEntityDetailDialog}
                                 onClose={() => {
                                   setShowDetail(false);
                                 }}/>
-      <DeleteDialog moduleName={moduleName} entity={deleteEntity} onDelete={deleteFn} isShow={showDelete}
-                    onHide={() => {
-                      setShowDelete(false);
-                    }}/>
-      <DeleteManyDialog moduleName={moduleName} selectedEntities={selectedEntities} loading={loading}
-                        isShow={showDeleteMany} onDelete={deleteMany}
-                        onHide={() => {
-                          setShowDeleteMany(false);
-                        }}/>
-      <ModifyEntityDialog isShow={showEdit} entity={editEntity} onEdit={update} onCreate={add}
+      <DeleteEntityDialog moduleName={moduleName} entity={deleteEntity} onDelete={deleteFn} isShow={showDelete}
+                          onHide={() => {
+                            setShowDelete(false);
+                          }}/>
+      <DeleteManyEntitiesDialog moduleName={moduleName} selectedEntities={selectedEntities} loading={loading}
+                                isShow={showDeleteMany} onDelete={deleteMany}
+                                onHide={() => {
+                                  setShowDeleteMany(false);
+                                }}/>
+      <ModifyEntityDialog isShow={showCreate} entity={createEntity} onModify={add} title={createTitle}
+                          modifyModel={modifyModel}
+                          onHide={() => {
+                            setShowCreate(false);
+                          }}/>
+      <ModifyEntityDialog isShow={showEdit} entity={editEntity} onModify={update} title={updateTitle}
+                          modifyModel={modifyModel}
                           onHide={() => {
                             setShowEdit(false);
                           }}/>
-      <ModifyEntityDialog isShow={showEdit} entity={editEntity} onEdit={update} onCreate={add}
-                          onHide={() => {
-                            setShowEdit(false);
-                          }}/>
-      <MasterHeader title={headerTitle} onSearch={setFilterProps} searchModel={purchaseOrderSearchModel} initValue={filterProps}/>
+      <MasterHeader title={headerTitle} onSearch={setFilterProps} searchModel={purchaseOrderSearchModel}
+                    initValue={filterProps}/>
       <MasterBody
-        onShowDetail={entity => {
-          get(entity);
-          setShowDetail(true);
-        }}
-        onEdit={entity => {
-          setEditEntity(entity);
-          setShowEdit(true);
-        }}
-        onDelete={entity => {
-          setDeleteEntity(entity);
-          setShowDelete(true);
-        }}
         onCreate={() => {
-          setEditEntity(null);
-          setShowEdit(true);
+          setCreateEntity(null);
+          setShowCreate(true);
         }}
         onDeleteMany={() => setShowDeleteMany(true)}
         selectedEntities={selectedEntities}

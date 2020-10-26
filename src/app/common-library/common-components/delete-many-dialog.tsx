@@ -6,15 +6,6 @@ import {useIntl} from 'react-intl';
 import {ModalProgressBar} from '../modal-progress-bar';
 import {DeleteManyDialogProps} from '../common-types/common-type';
 
-interface DeleteMany {
-  ids: string[];
-  show: any;
-  hideModal: any;
-  unitForEdit: any;
-  loading: boolean;
-  deleteManyBasicUnit: any;
-}
-
 function DeleteManyDialog<T>({
                                selectedEntities,
                                isShow,

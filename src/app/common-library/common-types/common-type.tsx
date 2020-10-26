@@ -1,3 +1,5 @@
+import {AxiosResponse} from "axios";
+
 export interface PaginationProps {
   limit: number | undefined;
   page: number | undefined;
@@ -52,8 +54,23 @@ export interface ActionColumnProps<T> {
   onShowDetail: (entity: T) => void;
   onDelete: (entity: T) => void;
   onEdit: (entity: T) => void;
-  onSelectMany: (entities: T[]) => void;
-  onDeleteMany?: () => any;
+  // onCreate: (entity?: T) => void;
+  // onSelectMany: (entities: T[]) => void;
+  // onDeleteMany?: () => any;
+  // openEditDialog: any;
+  // openDeleteDialog: any;
+  // detailTitle: string;
+  // editTitle: string;
+  // deleteTitle: string;
+}
+
+export interface ActionColumnProps<T> {
+  onShowDetail: (entity: T) => void;
+  onDelete: (entity: T) => void;
+  onEdit: (entity: T) => void;
+  // onCreate: (entity?: T) => void;
+  // onSelectMany: (entities: T[]) => void;
+  // onDeleteMany?: () => any;
   // openEditDialog: any;
   // openDeleteDialog: any;
   // detailTitle: string;
@@ -68,3 +85,19 @@ export type SearchModel = {
     label: string,
   }
 }
+export type ModifyModel = {
+  [T: string]: {
+    type: 'string' | 'number' | 'Datetime',
+    placeholder: string,
+    label: string,
+  }
+}
+
+export type GetAllProps<T> = ({queryProps, sortList, paginationProps}: { queryProps: any, sortList?: SortProps[], paginationProps?: PaginationProps }) =>
+  Promise<AxiosResponse<T[]>>;
+export type CountProps = (queryProps: any) => Promise<AxiosResponse>;
+export type GetProps<T> = (entity: T) => Promise<AxiosResponse>;
+export type UpdateProps<T> = (entity: T) => Promise<AxiosResponse>;
+export type DeleteProps<T> = (entity: T) => Promise<AxiosResponse>;
+export type CreateProps<T> = (entity: T) => Promise<AxiosResponse>;
+export type DeleteManyProps<T> = (entities: T[]) => Promise<AxiosResponse>;

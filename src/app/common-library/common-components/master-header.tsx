@@ -12,7 +12,7 @@ export function MasterHeader<T>({title, onSearch, searchModel, initValue}: { sea
   const intl = useIntl();
   const handleResetForm = (resetForm: any) => {
     resetForm();
-    onSearch(initValue);
+    // onSearch(initValue);
   };
   const searchM: any = {...searchModel};
   
@@ -23,7 +23,12 @@ export function MasterHeader<T>({title, onSearch, searchModel, initValue}: { sea
         <Formik
           initialValues={initValue}
           onSubmit={values => {
+            console.log(values);
             onSearch(values);
+          }}
+          onReset={(data) => {
+            console.log(data);
+            onSearch(data);
           }}>
           {({values, handleSubmit, handleBlur, handleChange, setFieldValue, resetForm}) => (
             <form onSubmit={handleSubmit} className="form form-label-right">
@@ -47,26 +52,6 @@ export function MasterHeader<T>({title, onSearch, searchModel, initValue}: { sea
                   }
                   return (<>NOT IMPLEMENTED!</>)
                 }) : (<></>)}
-                
-                {/*<div className="col-xxl-3 col-md-3 mt-md-0 mt-5">*/}
-                {/*  <Field*/}
-                {/*    name="code"*/}
-                {/*    component={Input}*/}
-                {/*    placeholder={intl.formatMessage({id: 'PURCHASE_ORDER.MASTER.CODE_INPUT'})}*/}
-                {/*    label={intl.formatMessage({id: 'PURCHASE_ORDER.MASTER.CODE_INPUT_LB'})}*/}
-                {/*    withFeedbackLabel={true}*/}
-                {/*  />*/}
-                {/*</div>*/}
-                
-                {/*<div className="col-xxl-3 col-md-3 mt-md-0 mt-5">*/}
-                {/*  <Field*/}
-                {/*    name="name"*/}
-                {/*    component={Input}*/}
-                {/*    placeholder={intl.formatMessage({id: 'BASIC_UNIT.CARD_HEADER.NAME_INPUT'})}*/}
-                {/*    label={intl.formatMessage({id: 'BASIC_UNIT.CARD_HEADER.NAME'})}*/}
-                {/*    withFeedbackLabel={true}*/}
-                {/*  />*/}
-                {/*</div>*/}
               </div>
               <div>
                 <button className="btn btn-danger" type="submit">
