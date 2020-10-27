@@ -1,4 +1,4 @@
-import {AxiosResponse} from "axios";
+import { AxiosResponse } from 'axios';
 
 export interface PaginationProps {
   limit: number | undefined;
@@ -80,21 +80,31 @@ export interface ActionColumnProps<T> {
 
 export type SearchModel = {
   [T: string]: {
-    type: 'string' | 'number' | 'Datetime',
-    placeholder: string,
-    label: string,
-  }
-}
+    type: 'string' | 'number' | 'Datetime' | 'SearchSelect';
+    placeholder: string;
+    label: string;
+    keyField: string;
+    service?: any;
+    ref?: boolean;
+  };
+};
 export type ModifyModel = {
   [T: string]: {
-    type: 'string' | 'number' | 'Datetime',
-    placeholder: string,
-    label: string,
-  }
-}
+    type: 'string' | 'number' | 'Datetime';
+    placeholder: string;
+    label: string;
+  };
+};
 
-export type GetAllProps<T> = ({queryProps, sortList, paginationProps}: { queryProps: any, sortList?: SortProps[], paginationProps?: PaginationProps }) =>
-  Promise<AxiosResponse<T[]>>;
+export type GetAllProps<T> = ({
+  queryProps,
+  sortList,
+  paginationProps,
+}: {
+  queryProps: any;
+  sortList?: SortProps[];
+  paginationProps?: PaginationProps;
+}) => Promise<AxiosResponse<T[]>>;
 export type CountProps = (queryProps: any) => Promise<AxiosResponse>;
 export type GetProps<T> = (entity: T) => Promise<AxiosResponse>;
 export type UpdateProps<T> = (entity: T) => Promise<AxiosResponse>;

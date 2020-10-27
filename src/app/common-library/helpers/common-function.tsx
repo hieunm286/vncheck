@@ -1,5 +1,5 @@
-import {useCallback, useEffect, useState} from "react";
-import {DefaultPagination} from "../common-consts/const";
+import { useCallback, useEffect, useState } from 'react';
+import { DefaultPagination } from '../common-consts/const';
 import {
   CountProps,
   CreateProps,
@@ -7,19 +7,30 @@ import {
   DeleteProps,
   GetAllProps,
   GetProps,
-  UpdateProps
-} from "../common-types/common-type";
+  UpdateProps,
+} from '../common-types/common-type';
 
 export const CapitalizeFirstLetter = (string: string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
-}
+};
 
-export function InitMasterProps<T>({getAllServer, countServer, getServer, createServer, updateServer, deleteServer, deleteManyServer}:
-                                     {
-                                       getAllServer: GetAllProps<T>, getServer: GetProps<T>, countServer: CountProps,
-                                       createServer: CreateProps<T>, updateServer: UpdateProps<T>,
-                                       deleteServer: DeleteProps<T>, deleteManyServer: DeleteManyProps<T>
-                                     }) {
+export function InitMasterProps<T>({
+  getAllServer,
+  countServer,
+  getServer,
+  createServer,
+  updateServer,
+  deleteServer,
+  deleteManyServer,
+}: {
+  getAllServer: GetAllProps<T>;
+  getServer: GetProps<T>;
+  countServer: CountProps;
+  createServer: CreateProps<T>;
+  updateServer: UpdateProps<T>;
+  deleteServer: DeleteProps<T>;
+  deleteManyServer: DeleteManyProps<T>;
+}) {
   const [entities, setEntities] = useState<T[]>([]);
   const [deleteEntity, setDeleteEntity] = useState<T>(null as any);
   const [editEntity, setEditEntity] = useState<T | null>(null as any);
@@ -33,38 +44,43 @@ export function InitMasterProps<T>({getAllServer, countServer, getServer, create
   const [showDeleteMany, setShowDeleteMany] = useState(false);
   const [trigger, setTrigger] = useState(false);
   const [paginationProps, setPaginationProps] = useState(DefaultPagination);
-  const [filterProps, setFilterProps] = useState({name: '', code: ''});
+  const [filterProps, setFilterProps] = useState({ name: '', code: '' });
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
-  
-  const getAll = useCallback((filterProps?) => {
-    setLoading(true);
-    getAllServer({paginationProps, queryProps: filterProps})
-      .then(getAllResponse => {
-        countServer(filterProps).then(countResponse => {
-          setEntities(getAllResponse.data);
-          setLoading(false);
-          setTotal(countResponse.data);
+
+  const getAll = useCallback(
+    (filterProps?) => {
+      setLoading(true);
+      getAllServer({ paginationProps, queryProps: filterProps })
+        .then(getAllResponse => {
+          countServer(filterProps).then(countResponse => {
+            setEntities(getAllResponse.data);
+            setLoading(false);
+            setTotal(countResponse.data);
+          });
+        })
+        .catch(error => {
+          console.log(error);
         });
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }, [paginationProps]);
-  
+    },
+    [paginationProps],
+  );
+
   const refreshData = () => {
-    setPaginationProps({...paginationProps, page: 1});
+    setPaginationProps({ ...paginationProps, page: 1 });
     setTrigger(!trigger);
     setShowDelete(false);
     setShowDetail(false);
     setShowEdit(false);
     setShowDeleteMany(false);
     setShowCreate(false);
-  }
+    setSelectedEntities([]);
+    setLoading(false);
+  };
   const deleteFn = (entity: T) => {
     deleteServer(entity).then(refreshData);
   };
-  
+
   const deleteMany = () => {
     setLoading(true);
     deleteManyServer(selectedEntities)
@@ -73,7 +89,7 @@ export function InitMasterProps<T>({getAllServer, countServer, getServer, create
         console.log(error);
       });
   };
-  
+
   const get = (entity: T) => {
     getServer(entity)
       .then(res => {
@@ -91,7 +107,7 @@ export function InitMasterProps<T>({getAllServer, countServer, getServer, create
         console.log(error);
       });
   };
-  
+
   const add = (entity: T) => {
     createServer(entity)
       .then(refreshData)
@@ -132,10 +148,15 @@ export function InitMasterProps<T>({getAllServer, countServer, getServer, create
     setTotal,
     loading,
     setLoading,
-    add, update, get, deleteMany, deleteFn, getAll, refreshData
-  }
+    add,
+    update,
+    get,
+    deleteMany,
+    deleteFn,
+    getAll,
+    refreshData,
+  };
 }
-
 
 // export const ParamsSerializer = (params: { sortList: SortProps, [t: string]: any }): string => {
 //   console.log(111);

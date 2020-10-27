@@ -9,19 +9,16 @@ import {
   GetProps,
   UpdateProps,
 } from '../../common-library/common-types/common-type';
+import { AgencyModel } from './agency.model';
 import { PurchaseOrderModel } from './purchase-order.model';
 
-export const API_URL = API_BASE_URL + '/purchase-order';
+export const API_URL = API_BASE_URL + '/agency';
 
 export const Create: CreateProps<PurchaseOrderModel> = (data: PurchaseOrderModel) => {
   return axios.post(API_URL, data);
 };
 
-export const GetAll: GetAllProps<PurchaseOrderModel> = ({
-  queryProps,
-  sortList,
-  paginationProps,
-}) => {
+export const GetAll: GetAllProps<AgencyModel> = ({ queryProps, sortList, paginationProps }) => {
   return axios.get(`${API_URL}`, {
     params: { ...queryProps, ...paginationProps, sortList },
     // paramsSerializer: ParamsSerializer
@@ -29,7 +26,6 @@ export const GetAll: GetAllProps<PurchaseOrderModel> = ({
 };
 
 export const Count: CountProps = (queryProps: any) => {
-  console.log(queryProps.queryProps);
   return axios.get(`${API_URL}/count`, {
     params: { ...queryProps.queryProps },
   });
@@ -40,7 +36,7 @@ export const Get: GetProps<PurchaseOrderModel> = entity => {
 };
 
 export const Update: UpdateProps<PurchaseOrderModel> = (entity: PurchaseOrderModel) => {
-  return axios.put(`${API_URL}/${entity._id}`, entity);
+  return axios.put(`${API_URL}/${entity.code}`, entity);
 };
 
 export const Delete: DeleteProps<PurchaseOrderModel> = (entity: PurchaseOrderModel) => {

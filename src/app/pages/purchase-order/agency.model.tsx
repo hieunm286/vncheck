@@ -1,5 +1,4 @@
-export interface PurchaseOrderModel {
-  _id: any;
+export interface AgencyModel {
   code: string;
   name: string;
   agencyAddress: string;
