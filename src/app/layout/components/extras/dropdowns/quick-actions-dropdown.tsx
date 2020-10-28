@@ -10,165 +10,165 @@ import {ToAbsoluteUrl} from "../../../../common-library/helpers/assets-helpers";
 import {useHtmlClassService} from "../../../_core/metronic-layout";
 
 export function QuickActionsDropdown() {
-    const bgImage = ToAbsoluteUrl("/media/misc/bg-2.jpg");
-    const uiService: any = useHtmlClassService();
-    const layoutProps = useMemo(() => {
-        return {
-            offcanvas:
-                objectPath.get(uiService.config, "extras.quick-actions.layout") ===
-                "offcanvas",
-        };
-    }, [uiService]);
-    return (
-        <>
-            {layoutProps.offcanvas && (
-                <OverlayTrigger
-                    placement="left"
-                    overlay={<Tooltip id="quick-actions-tooltip">Quick actions</Tooltip>}
-                >
-                    <div className="topbar-item">
-                        <div
-                            className="btn btn-icon btn-clean btn-dropdown btn-lg mr-1"
-                            id="kt_quick_actions_toggle"
-                        >
+  const bgImage = ToAbsoluteUrl("/media/misc/bg-2.jpg");
+  const uiService: any = useHtmlClassService();
+  const layoutProps = useMemo(() => {
+    return {
+      offcanvas:
+        objectPath.get(uiService.config, "extras.quick-actions.layout") ===
+        "offcanvas",
+    };
+  }, [uiService]);
+  return (
+    <>
+      {layoutProps.offcanvas && (
+        <OverlayTrigger
+          placement="left"
+          overlay={<Tooltip id="quick-actions-tooltip">Quick actions</Tooltip>}
+        >
+          <div className="topbar-item">
+            <div
+              className="btn btn-icon btn-clean btn-dropdown btn-lg mr-1"
+              id="kt_quick_actions_toggle"
+            >
               <span className="svg-icon svg-icon-xl svg-icon-primary">
                 <SVG
-                    src={ToAbsoluteUrl("/media/svg/icons/Media/Equalizer.svg")}
+                  src={ToAbsoluteUrl("/media/svg/icons/Media/Equalizer.svg")}
                 />
               </span>
-                        </div>
-                    </div>
-                </OverlayTrigger>
-            )}
-            {!layoutProps.offcanvas && (
-                <Dropdown drop="down" alignRight>
-                    <Dropdown.Toggle
-                        as={DropdownTopbarItemToggler}
-                        id="kt_quick_actions_panel_toggle"
-                    >
-                        <OverlayTrigger
-                            placement="bottom"
-                            overlay={
-                                <Tooltip id="quick-actions-tooltip">Quick actions</Tooltip>
-                            }
-                        >
-                            <div className="btn btn-icon btn-clean btn-dropdown btn-lg mr-1">
+            </div>
+          </div>
+        </OverlayTrigger>
+      )}
+      {!layoutProps.offcanvas && (
+        <Dropdown drop="down" alignRight>
+          <Dropdown.Toggle
+            as={DropdownTopbarItemToggler}
+            id="kt_quick_actions_panel_toggle"
+          >
+            <OverlayTrigger
+              placement="bottom"
+              overlay={
+                <Tooltip id="quick-actions-tooltip">Quick actions</Tooltip>
+              }
+            >
+              <div className="btn btn-icon btn-clean btn-dropdown btn-lg mr-1">
                 <span className="svg-icon svg-icon-xl svg-icon-primary">
                   <SVG
-                      src={ToAbsoluteUrl("/media/svg/icons/Media/Equalizer.svg")}
+                    src={ToAbsoluteUrl("/media/svg/icons/Media/Equalizer.svg")}
                   />
                 </span>
-                            </div>
-                        </OverlayTrigger>
-                    </Dropdown.Toggle>
-
-                    <Dropdown.Menu
-                        className="p-0 m-0 dropdown-menu-right dropdown-menu-anim dropdown-menu-top-unround dropdown-menu-lg">
-                        <form>
-                            {/* begin: Head */}
-                            <div
-                                className="d-flex flex-column align-items-center justify-content-center pt-10 pb-10 bgi-size-cover bgi-no-repeat rounded-top"
-                                style={{backgroundImage: `url(${bgImage})`}}
-                            >
-                                <h3 className="text-white font-weight-bold font-size-5">
-                                    Quick Actions
-                                </h3>
-                                <span className="btn btn-success btn-sm btn-bold btn-font-md mt-2">
+              </div>
+            </OverlayTrigger>
+          </Dropdown.Toggle>
+          
+          <Dropdown.Menu
+            className="p-0 m-0 dropdown-menu-right dropdown-menu-anim dropdown-menu-top-unround dropdown-menu-lg">
+            <form>
+              {/* begin: Head */}
+              <div
+                className="d-flex flex-column align-items-center justify-content-center pt-10 pb-10 bgi-size-cover bgi-no-repeat rounded-top"
+                style={{backgroundImage: `url(${bgImage})`}}
+              >
+                <h3 className="text-white font-weight-bold font-size-5">
+                  Quick Actions
+                </h3>
+                <span className="btn btn-success btn-sm btn-bold btn-font-md mt-2">
                   23 tasks pending
                 </span>
-                            </div>
-                            {/* end: Head */}
-
-                            <div className="row row-paddingless">
-                                <div className="col-6">
-                                    <a
-                                        href="#"
-                                        className="d-block py-10 px-5 text-center bg-hover-light border-right border-bottom"
-                                    >
+              </div>
+              {/* end: Head */}
+              
+              <div className="row row-paddingless">
+                <div className="col-6">
+                  <a
+                    href="#"
+                    className="d-block py-10 px-5 text-center bg-hover-light border-right border-bottom"
+                  >
                     <span className="svg-icon svg-icon-3x svg-icon-success">
                       <SVG
-                          src={ToAbsoluteUrl(
-                              "/media/svg/icons/Shopping/Euro.svg"
-                          )}
+                        src={ToAbsoluteUrl(
+                          "/media/svg/icons/Shopping/Euro.svg"
+                        )}
                       />
                     </span>
-                                        <span className="d-block text-dark-75 font-weight-bold font-size-h6 mt-2 mb-1">
+                    <span className="d-block text-dark-75 font-weight-bold font-size-h6 mt-2 mb-1">
                       Accounting
                     </span>
-                                        <span className="d-block text-dark-50 font-size-lg">
+                    <span className="d-block text-dark-50 font-size-lg">
                       eCommerce
                     </span>
-                                    </a>
-                                </div>
-
-                                <div className="col-6">
-                                    <a
-                                        href="#"
-                                        className="d-block py-10 px-5 text-center bg-hover-light border-bottom"
-                                    >
-                                        {" "}
-                                        <span className="svg-icon svg-icon-3x svg-icon-success">
+                  </a>
+                </div>
+                
+                <div className="col-6">
+                  <a
+                    href="#"
+                    className="d-block py-10 px-5 text-center bg-hover-light border-bottom"
+                  >
+                    {" "}
+                    <span className="svg-icon svg-icon-3x svg-icon-success">
                       <SVG
-                          src={ToAbsoluteUrl(
-                              "/media/svg/icons/Communication/Mail-attachment.svg"
-                          )}
+                        src={ToAbsoluteUrl(
+                          "/media/svg/icons/Communication/Mail-attachment.svg"
+                        )}
                       />
                     </span>
-                                        <span className="d-block text-dark-75 font-weight-bold font-size-h6 mt-2 mb-1">
+                    <span className="d-block text-dark-75 font-weight-bold font-size-h6 mt-2 mb-1">
                       Administration
                     </span>
-                                        <span className="d-block text-dark-50 font-size-lg">
+                    <span className="d-block text-dark-50 font-size-lg">
                       Console
                     </span>
-                                    </a>
-                                </div>
-
-                                <div className="col-6">
-                                    <a
-                                        href="#"
-                                        className="d-block py-10 px-5 text-center bg-hover-light border-right"
-                                    >
+                  </a>
+                </div>
+                
+                <div className="col-6">
+                  <a
+                    href="#"
+                    className="d-block py-10 px-5 text-center bg-hover-light border-right"
+                  >
                     <span className="svg-icon svg-icon-3x svg-icon-success">
                       <SVG
-                          src={ToAbsoluteUrl(
-                              "/media/svg/icons/Shopping/Box2.svg"
-                          )}
+                        src={ToAbsoluteUrl(
+                          "/media/svg/icons/Shopping/Box2.svg"
+                        )}
                       />
                     </span>
-                                        <span className="d-block text-dark-75 font-weight-bold font-size-h6 mt-2 mb-1">
+                    <span className="d-block text-dark-75 font-weight-bold font-size-h6 mt-2 mb-1">
                       Projects
                     </span>
-                                        <span className="d-block text-dark-50 font-size-lg">
+                    <span className="d-block text-dark-50 font-size-lg">
                       Pending Tasks
                     </span>
-                                    </a>
-                                </div>
-
-                                <div className="col-6">
-                                    <a
-                                        href="#"
-                                        className="d-block py-10 px-5 text-center bg-hover-light"
-                                    >
+                  </a>
+                </div>
+                
+                <div className="col-6">
+                  <a
+                    href="#"
+                    className="d-block py-10 px-5 text-center bg-hover-light"
+                  >
                     <span className="svg-icon svg-icon-3x svg-icon-success">
                       <SVG
-                          src={ToAbsoluteUrl(
-                              "/media/svg/icons/Communication/Group.svg"
-                          )}
+                        src={ToAbsoluteUrl(
+                          "/media/svg/icons/Communication/Group.svg"
+                        )}
                       />
                     </span>
-                                        <span className="d-block text-dark-75 font-weight-bold font-size-h6 mt-2 mb-1">
+                    <span className="d-block text-dark-75 font-weight-bold font-size-h6 mt-2 mb-1">
                       Customers
                     </span>
-                                        <span className="d-block text-dark-50 font-size-lg">
+                    <span className="d-block text-dark-50 font-size-lg">
                       Latest cases
                     </span>
-                                    </a>
-                                </div>
-                            </div>
-                        </form>
-                    </Dropdown.Menu>
-                </Dropdown>
-            )}
-        </>
-    );
+                  </a>
+                </div>
+              </div>
+            </form>
+          </Dropdown.Menu>
+        </Dropdown>
+      )}
+    </>
+  );
 }

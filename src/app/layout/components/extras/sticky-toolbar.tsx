@@ -20,7 +20,7 @@ export function StickyToolbar() {
             </Link>
           </li>
         </OverlayTrigger>
-
+        
         <OverlayTrigger
           placement="left"
           overlay={<Tooltip id="documentations-tooltip">Documentation</Tooltip>}

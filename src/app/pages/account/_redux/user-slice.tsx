@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import {createSlice} from '@reduxjs/toolkit';
 
 export interface UserState {
   listLoading: boolean;
@@ -54,7 +54,7 @@ export const usersSlice = createSlice({
       state.error = null;
     },
     usersFetched: (state, action) => {
-      const { total, data } = action.payload;
+      const {total, data} = action.payload;
       state.listLoading = false;
       state.error = null;
       state.entities = data;

@@ -16,10 +16,10 @@ $menu-scroll-color: #637099;
 
 // Tablet & Mobile Modes
 @include media-breakpoint-down(md) {
-	.header-menu-wrapper {
-        background-color: get($layout-themes, dark);
+  .header-menu-wrapper {
+    background-color: get($layout-themes, dark);
 
-    	// Scrollbar
-    	@include perfect-scrollbar-theme($menu-scroll-color);
-	}
+    // Scrollbar
+    @include perfect-scrollbar-theme($menu-scroll-color);
+  }
 }

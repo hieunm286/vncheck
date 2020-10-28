@@ -1,9 +1,9 @@
-import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
+import {configureStore, getDefaultMiddleware} from '@reduxjs/toolkit';
 import createSagaMiddleware from 'redux-saga';
-import { reduxBatch } from '@manaflair/redux-batch';
-import { persistStore } from 'redux-persist';
-import { rootReducer, rootSaga } from './root-reducer';
-import { useDispatch } from 'react-redux';
+import {reduxBatch} from '@manaflair/redux-batch';
+import {persistStore} from 'redux-persist';
+import {rootReducer, rootSaga} from './root-reducer';
+import {useDispatch} from 'react-redux';
 
 const sagaMiddleware = createSagaMiddleware();
 const middleware = [

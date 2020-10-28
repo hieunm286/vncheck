@@ -1,31 +1,31 @@
 import React from 'react';
-import { useField } from 'formik';
-import { FieldFeedbackLabel } from './field-feedback-label';
+import {useField} from 'formik';
+import {FieldFeedbackLabel} from './field-feedback-label';
 
 const getFieldCSSClasses = (touched: any, errors: any) => {
   const classes = ['form-control', 'form-control-solid'];
   if (touched && errors) {
     classes.push('is-invalid-select');
   }
-
+  
   if (touched && !errors) {
     classes.push('is-valid-select');
   }
-
+  
   return classes.join(' ');
 };
 
 export function Select({
-  label,
-  withFeedbackLabel,
-  type = 'text',
-  customFeedbackLabel,
-  children,
-  isHorizontal,
-  ...props
-}: any) {
+                         label,
+                         withFeedbackLabel,
+                         type = 'text',
+                         customFeedbackLabel,
+                         children,
+                         isHorizontal,
+                         ...props
+                       }: any) {
   const [field, meta] = useField(props);
-  const { touched, error } = meta;
+  const {touched, error} = meta;
   return (
     <>
       <div className={isHorizontal && 'd-flex align-items-center'}>

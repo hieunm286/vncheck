@@ -10,7 +10,7 @@ const initCssClasses = [
   "dialog-top-center"
 ];
 
-export function LoadingDialog({ isLoading, text }) {
+export function LoadingDialog({isLoading, text}) {
   const [cssClasses, setCssClasses] = useState(initCssClasses);
 
   useEffect(() => {

@@ -1,9 +1,8 @@
-import React, { useMemo, useState } from 'react';
-import { isEqual } from 'lodash';
-import { useAgencyUIContext } from '../agency-ui-context';
-import { Formik, Form, Field } from 'formik';
-import * as Yup from 'yup';
-import { Input, Select } from '../../../../_metronic/_partials/controls/index';
+import React, {useMemo, useState} from 'react';
+import {isEqual} from 'lodash';
+import {useAgencyUIContext} from '../agency-ui-context';
+import {Field, Formik} from 'formik';
+import {Input, Select} from '../../../../_metronic/_partials/controls/index';
 import STATE_LIST from '../../../../_metronic/AdministrativeDivision/state.json';
 import CITY_LIST from '../../../../_metronic/AdministrativeDivision/city.json';
 import DISTRICT_LIST from '../../../../_metronic/AdministrativeDivision/district.json';

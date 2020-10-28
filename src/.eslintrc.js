@@ -4,8 +4,8 @@ const fs = require("fs");
 const path = require("path");
 
 const restrictedPaths = [
-  { name: "react-bootstrap" },
-  { name: "@material-ui/core" }
+  {name: "react-bootstrap"},
+  {name: "@material-ui/core"}
 ].map(pkg =>
   fs
     .readdirSync(path.dirname(require.resolve(`${pkg.name}/package.json`)))
@@ -22,6 +22,6 @@ module.exports = {
   rules: {
     // "no-script-url": "warn",
     "jsx-a11y/anchor-is-valid": "warn",
-    "no-restricted-imports": ["error", { paths: [].concat(...restrictedPaths) }]
+    "no-restricted-imports": ["error", {paths: [].concat(...restrictedPaths)}]
   }
 };

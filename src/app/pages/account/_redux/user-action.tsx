@@ -1,20 +1,19 @@
-import { saveIdentity } from '../../auth/_redux/auth.service';
 import * as requestFromServer from './user-crud';
-import { usersSlice, callTypes } from './user-slice';
-import { GenerateKeyPairAndEncrypt } from '../../auth/service/auth-cryptography';
+import {callTypes, usersSlice} from './user-slice';
+import {GenerateKeyPairAndEncrypt} from '../../auth/service/auth-cryptography';
 
-const { actions } = usersSlice;
+const {actions} = usersSlice;
 
 export const fetchAllUser = (queryParams: any) => (
   dispatch: (arg0: { payload: any; type: string }) => void,
 ) => {
-  dispatch(actions.startCall({ callType: callTypes.list }));
-
+  dispatch(actions.startCall({callType: callTypes.list}));
+  
   return requestFromServer
     .getAllUsers(queryParams)
     .then(response => {
       const user = response.data;
-      dispatch(actions.usersFetched({ data: user }));
+      dispatch(actions.usersFetched({data: user}));
     })
     .catch(error => {
       error.clientMessage = "Can't find user";
@@ -32,9 +31,9 @@ export const fetchUserById = (id: string) => (
 ) => {
   // console.log(id);
   if (!id) {
-    return dispatch(actions.userFetched({ userForEdit: undefined }));
+    return dispatch(actions.userFetched({userForEdit: undefined}));
   }
-  dispatch(actions.startCall({ callType: callTypes.action }));
+  dispatch(actions.startCall({callType: callTypes.action}));
   return requestFromServer
     .getUserById(id)
     .then(response => {
@@ -42,7 +41,7 @@ export const fetchUserById = (id: string) => (
         ...response.data,
       };
       // console.log(userForEdit);
-      dispatch(actions.userFetched({ userForEdit }));
+      dispatch(actions.userFetched({userForEdit}));
     })
     .catch(error => {
       error.clientMessage = "Can't find user";
@@ -70,8 +69,8 @@ export const updateUser = (user: any) => (
       // user.dateofbirth = new Date(user.dateofbirth).toLocaleDateString('vi-VN', {
       //   timeZone: 'Asia/Bangkok',
       // });
-
-      dispatch(actions.userUpdated({ user }));
+      
+      dispatch(actions.userUpdated({user}));
     })
     .catch(error => {
       error.clientMessage = "Can't update user";
@@ -116,7 +115,7 @@ export const createUser = (transactionWithSign: { password: string }) => (
   dispatch: (arg0: { payload: any; type: string }) => void,
 ) => {
   // const { publicKey, sign, user } = transactionWithSign;
-  const { publicKey, encryptedPrivateKey } = GenerateKeyPairAndEncrypt(
+  const {publicKey, encryptedPrivateKey} = GenerateKeyPairAndEncrypt(
     transactionWithSign.password,
   );
   dispatch(

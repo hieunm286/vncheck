@@ -1,6 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useEffect, useState } from 'react';
-import { PaginationTotalStandalone } from 'react-bootstrap-table2-paginator';
+import React from 'react';
 
 function PagiTotal(props) {
   // const [state, setState] = useState({
@@ -29,9 +28,18 @@ export function PaginationToolbar(props) {
     sizePerPage,
     totalSize,
     onSizePerPageChange = [
-      { text: '3', value: 3 },
-      { text: '5', value: 5 },
-      { text: '10', value: 10 },
+      {
+        text: '3',
+        value: 3
+      },
+      {
+        text: '5',
+        value: 5
+      },
+      {
+        text: '10',
+        value: 10
+      },
     ],
   } = paginationProps;
   const style = {
@@ -54,7 +62,7 @@ export function PaginationToolbar(props) {
       <select
         disabled={totalSize === 0}
         className={`form-control form-control-sm font-weight-bold mr-4 border-0 bg-light ${totalSize ===
-          0 && 'disabled'}`}
+        0 && 'disabled'}`}
         onChange={onSizeChange}
         value={sizePerPage}
         style={style}>

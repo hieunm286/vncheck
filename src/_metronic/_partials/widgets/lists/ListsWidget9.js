@@ -1,7 +1,7 @@
 /* eslint-disable no-script-url,jsx-a11y/anchor-is-valid */
-import React from "react";
-import { Dropdown } from "react-bootstrap";
-import { DropdownCustomToggler, DropdownMenu1 } from "../../dropdowns";
+import React from 'react';
+import { Dropdown } from 'react-bootstrap';
+import { DropdownCustomToggler, DropdownMenu1 } from '../../dropdowns';
 
 export function ListsWidget9({ className }) {
   return (
@@ -21,10 +21,10 @@ export function ListsWidget9({ className }) {
                 id="dropdown-toggle-top"
                 as={DropdownCustomToggler}
               >
-                <i className="ki ki-bold-more-hor" />
+                <i className="ki ki-bold-more-hor"/>
               </Dropdown.Toggle>
               <Dropdown.Menu className="dropdown-menu dropdown-menu-sm dropdown-menu-right">
-                <DropdownMenu1 />
+                <DropdownMenu1/>
               </Dropdown.Menu>
             </Dropdown>
           </div>
@@ -103,7 +103,7 @@ export function ListsWidget9({ className }) {
               </div>
 
               <div className="timeline-content font-weight-bolder text-dark-75 pl-3 font-size-lg">
-                New order placed{" "}
+                New order placed{' '}
                 <a href="#" className="text-primary">
                   #XF-2356
                 </a>
@@ -149,7 +149,7 @@ export function ListsWidget9({ className }) {
               </div>
 
               <div className="timeline-content font-weight-bolder font-size-lg text-dark-75 pl-3">
-                New order placed{" "}
+                New order placed{' '}
                 <a href="#" className="text-primary">
                   #XF-2356
                 </a>

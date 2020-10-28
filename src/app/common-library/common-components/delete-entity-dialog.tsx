@@ -8,17 +8,17 @@ import {iconStyle} from '../common-consts/const';
 import {CapitalizeFirstLetter} from "../helpers/common-function";
 
 export function DeleteEntityDialog<T>({
-                                  isShow,
-                                  entity,
-                                  onHide,
-                                  onDelete,
-                                  title = 'COMMON_COMPONENT.DELETE_DIALOG.TITLE',
-                                  bodyTitle = 'COMMON_COMPONENT.DELETE_DIALOG.BODY_TITLE',
-                                  confirmMessage = 'COMMON_COMPONENT.DELETE_DIALOG.CONFIRM',
-                                  deleteBtn = 'COMMON_COMPONENT.DELETE_DIALOG.DELETE_BTN',
-                                  cancelBtn = 'COMMON_COMPONENT.DELETE_DIALOG.CANCEL_BTN',
-                                  moduleName = 'COMMON_COMPONENT.DELETE_DIALOG.MODULE_NAME',
-                                }: DeleteDialogProps<T>) {
+                                        isShow,
+                                        entity,
+                                        onHide,
+                                        onDelete,
+                                        title = 'COMMON_COMPONENT.DELETE_DIALOG.TITLE',
+                                        bodyTitle = 'COMMON_COMPONENT.DELETE_DIALOG.BODY_TITLE',
+                                        confirmMessage = 'COMMON_COMPONENT.DELETE_DIALOG.CONFIRM',
+                                        deleteBtn = 'COMMON_COMPONENT.DELETE_DIALOG.DELETE_BTN',
+                                        cancelBtn = 'COMMON_COMPONENT.DELETE_DIALOG.CANCEL_BTN',
+                                        moduleName = 'COMMON_COMPONENT.DELETE_DIALOG.MODULE_NAME',
+                                      }: DeleteDialogProps<T>) {
   const intl = useIntl();
   return (
     <Modal

@@ -1,24 +1,24 @@
 /* eslint-disable no-script-url,jsx-a11y/anchor-is-valid */
-import React, {useState, useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {KTCodeBlock} from "./KTCodeBlock";
 import {Card, CardBody, CardHeader} from "../../../../app/common-library/card.tsx";
 import {CodeBlockToolbar} from "../code-examples/CodeBlockToolbar";
 
 export function KTCodeExample({
-  jsCode,
-  children,
-  beforeCodeTitle,
-  languages,
-  codeBlockHeight
-}) {
+                                jsCode,
+                                children,
+                                beforeCodeTitle,
+                                languages,
+                                codeBlockHeight
+                              }) {
   const defaultLanguages = !languages
     ? [
-        {
-          code: jsCode,
-          language: "javascript",
-          shortCode: "JS"
-        }
-      ]
+      {
+        code: jsCode,
+        language: "javascript",
+        shortCode: "JS"
+      }
+    ]
     : languages;
   const [isCodeBlockShown, setIsCodeBlockShown] = useState(false);
   const [tabId, setTabId] = useState(0);
@@ -53,13 +53,13 @@ export function KTCodeExample({
 
   return (
     <Card className="example example-compact">
-      <CardHeader title={beforeCodeTitle} toolbar={toolbar} />
+      <CardHeader title={beforeCodeTitle} toolbar={toolbar}/>
       <CardBody>
         <>{children}</>
         <KTCodeBlock
           languages={defaultLanguages}
-          tabs={{ tabId, setTabId }}
-          codeShown={{ isCodeBlockShown, setIsCodeBlockShown }}
+          tabs={{tabId, setTabId}}
+          codeShown={{isCodeBlockShown, setIsCodeBlockShown}}
           customStyle={customStyle}
         />
       </CardBody>

@@ -7,7 +7,6 @@ import {Field, Form, Formik} from 'formik';
 import * as Yup from 'yup';
 import SaveIcon from '@material-ui/icons/Save';
 import CancelIcon from '@material-ui/icons/Cancel';
-import ImageOutlinedIcon from '@material-ui/icons/ImageOutlined';
 import STATE_LIST from '../../../../_metronic/AdministrativeDivision/state.json';
 import CITY_LIST from '../../../../_metronic/AdministrativeDivision/city.json';
 import DISTRICT_LIST from '../../../../_metronic/AdministrativeDivision/district.json';
@@ -18,14 +17,14 @@ import {Switch} from '@material-ui/core';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ImageUploading from 'react-images-uploading';
 import './style/agency-edit-form.scss';
-import { getCodeFromName, getNameFromCode } from '../utilities';
-import { MainInput } from '../../../common-library/forms/main-input';
+import {getCodeFromName, getNameFromCode} from '../utilities';
+import {MainInput} from '../../../common-library/forms/main-input';
 
-import { CustomSelect } from '../../../common-library/forms/custom-select';
-import { AgencyShippingAddressTable } from './agency-shipping-address/agency-shipping-address-table/agency-shipping-address-table';
-import { AgencyShippingEditDialog } from './agency-shipping-address/agency-shipping-edit-dialog/agency-shipping-edit-dialog';
-import { AgencyShippingDetailDialog } from './agency-shipping-address/agency-shipping-detail-dialog/agency-shipping-detail-dialog';
-import { AgencyShippingDeleteDialog } from './agency-shipping-address/agency-shipping-delete-dialog/agency-shipping-delete-dialog';
+import {CustomSelect} from '../../../common-library/forms/custom-select';
+import {AgencyShippingAddressTable} from './agency-shipping-address/agency-shipping-address-table/agency-shipping-address-table';
+import {AgencyShippingEditDialog} from './agency-shipping-address/agency-shipping-edit-dialog/agency-shipping-edit-dialog';
+import {AgencyShippingDetailDialog} from './agency-shipping-address/agency-shipping-detail-dialog/agency-shipping-detail-dialog';
+import {AgencyShippingDeleteDialog} from './agency-shipping-address/agency-shipping-delete-dialog/agency-shipping-delete-dialog';
 
 const getOnlyFile = (arr: any[]) => {
   const fileArray: any[] = [];

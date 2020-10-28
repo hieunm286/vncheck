@@ -1,5 +1,5 @@
-import React from "react";
-import {SVGInjector} from "@tanem/svg-injector";
+import React from 'react';
+import { SVGInjector } from '@tanem/svg-injector';
 
 export function SVGIcon({ src, className, parentElementId }) {
   const parentElement = document.getElementById(parentElementId);
@@ -7,11 +7,11 @@ export function SVGIcon({ src, className, parentElementId }) {
     return <></>;
   }
 
-  parentElement.current.setAttribute("data-src", src);
+  parentElement.current.setAttribute('data-src', src);
   SVGInjector(parentElement, {
-    wrapper: "span",
+    wrapper: 'span',
     beforeEach(svg) {
-      const classList = className.split(" ");
+      const classList = className.split(' ');
       classList.forEach(cn => {
         svg.classList.add(cn);
       });

@@ -1,6 +1,4 @@
-import React, { createContext } from 'react';
-import { useMemo } from 'react';
-import { useContext } from 'react';
+import React, { createContext, useContext, useMemo } from 'react';
 
 const I18N_CONFIG_KEY = process.env.REACT_APP_I18N_CONFIG_KEY || 'i18nConfig';
 const initialState = {
@@ -38,7 +36,7 @@ export function withI18n(Component) {
     static contextType = I18nContext;
 
     render() {
-      return <Component {...this.props} menu={this.context} />;
+      return <Component {...this.props} menu={this.context}/>;
     }
   }
 

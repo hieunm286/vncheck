@@ -4,11 +4,11 @@ import copy from "clipboard-copy";
 import {Tooltip} from "@material-ui/core";
 
 export function CodeBlockToolbar({
-  showViewCode = false,
-  code,
-  isCodeBlockShown,
-  setIsCodeBlockShown
-}) {
+                                   showViewCode = false,
+                                   code,
+                                   isCodeBlockShown,
+                                   setIsCodeBlockShown
+                                 }) {
   const [isCopySucceed, setIsCopySucceed] = useState(false);
   const copyCode = () => {
     copy(code).then(() => {

@@ -29,7 +29,7 @@ export default function BasePage() {
         <Route path="/product-category" component={ProductPage}/>
         <Route path="/agency" component={AgencyPage}/>
         {/*<Route path="/category" component={CategoryPage}/>*/}
-        <Route path="/basic-unit" component={BasicUnitPage} />
+        <Route path="/basic-unit" component={BasicUnitPage}/>
         <Route path="/purchase-order" component={PurchaseOrderPage}/>
         <Redirect to="/error/error-v1"/>
       </Switch>

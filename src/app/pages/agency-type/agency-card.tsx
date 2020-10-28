@@ -2,7 +2,6 @@ import React, {useMemo} from 'react';
 
 import {AgencyTable} from './agency-table/agency-table';
 import {useAgencyUIContext} from './agency-ui-context';
-import {Link} from 'react-router-dom';
 import {Card, CardBody, CardHeader} from "../../common-library/card";
 
 export function AgencyCard() {

@@ -248,7 +248,8 @@ function ChangePassword(props: {
                             </IconButton>
                           </Tooltip>
                         ) : (
-                          <Tooltip title={intl.formatMessage({id: 'AUTH.BUTTON.SHOWPASSWORD'})} placement="right-end" tabIndex={-1}>
+                          <Tooltip title={intl.formatMessage({id: 'AUTH.BUTTON.SHOWPASSWORD'})} placement="right-end"
+                                   tabIndex={-1}>
                             <IconButton
                               aria-label="toggle password visibility"
                               onClick={e =>

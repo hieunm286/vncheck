@@ -1,8 +1,8 @@
 /* eslint-disable no-script-url,jsx-a11y/anchor-is-valid */
-import React, {useMemo, useEffect} from "react";
-import objectPath from "object-path";
-import ApexCharts from "apexcharts";
-import {useHtmlClassService} from "../../../../app/layout/_core/metronic-layout";
+import React, { useEffect, useMemo } from 'react';
+import objectPath from 'object-path';
+import ApexCharts from 'apexcharts';
+import { useHtmlClassService } from '../../../../app/layout/_core/metronic-layout';
 
 export function StatsWidget11({ className }) {
   const uiService = useHtmlClassService();
@@ -10,30 +10,30 @@ export function StatsWidget11({ className }) {
     return {
       colorsGrayGray500: objectPath.get(
         uiService.config,
-        "js.colors.gray.gray500"
+        'js.colors.gray.gray500'
       ),
       colorsGrayGray200: objectPath.get(
         uiService.config,
-        "js.colors.gray.gray200"
+        'js.colors.gray.gray200'
       ),
       colorsGrayGray300: objectPath.get(
         uiService.config,
-        "js.colors.gray.gray300"
+        'js.colors.gray.gray300'
       ),
       colorsThemeBaseSuccess: objectPath.get(
         uiService.config,
-        "js.colors.theme.base.success"
+        'js.colors.theme.base.success'
       ),
       colorsThemeLightSuccess: objectPath.get(
         uiService.config,
-        "js.colors.theme.light.success"
+        'js.colors.theme.light.success'
       ),
-      fontFamily: objectPath.get(uiService.config, "js.fontFamily")
+      fontFamily: objectPath.get(uiService.config, 'js.fontFamily')
     };
   }, [uiService]);
 
   useEffect(() => {
-    const element = document.getElementById("kt_stats_widget_7_chart");
+    const element = document.getElementById('kt_stats_widget_7_chart');
 
     if (!element) {
       return;
@@ -71,7 +71,7 @@ export function StatsWidget11({ className }) {
         <div
           id="kt_stats_widget_7_chart"
           className="card-rounded-bottom"
-          style={{ height: "150px" }}
+          style={{ height: '150px' }}
         ></div>
       </div>
     </div>
@@ -82,12 +82,12 @@ function getChartOption(layoutProps) {
   const options = {
     series: [
       {
-        name: "Net Profit",
+        name: 'Net Profit',
         data: [30, 45, 32, 70, 40]
       }
     ],
     chart: {
-      type: "area",
+      type: 'area',
       height: 150,
       toolbar: {
         show: false
@@ -107,17 +107,17 @@ function getChartOption(layoutProps) {
       enabled: false
     },
     fill: {
-      type: "solid",
+      type: 'solid',
       opacity: 1
     },
     stroke: {
-      curve: "smooth",
+      curve: 'smooth',
       show: true,
       width: 3,
       colors: [layoutProps.colorsThemeBaseSuccess]
     },
     xaxis: {
-      categories: ["Feb", "Mar", "Apr", "May", "Jun", "Jul"],
+      categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
       axisBorder: {
         show: false
       },
@@ -128,13 +128,13 @@ function getChartOption(layoutProps) {
         show: false,
         style: {
           colors: layoutProps.colorsGrayGray500,
-          fontSize: "12px",
+          fontSize: '12px',
           fontFamily: layoutProps.fontFamily
         }
       },
       crosshairs: {
         show: false,
-        position: "front",
+        position: 'front',
         stroke: {
           color: layoutProps.colorsGrayGray300,
           width: 1,
@@ -146,7 +146,7 @@ function getChartOption(layoutProps) {
         formatter: undefined,
         offsetY: 0,
         style: {
-          fontSize: "12px",
+          fontSize: '12px',
           fontFamily: layoutProps.fontFamily
         }
       }
@@ -156,7 +156,7 @@ function getChartOption(layoutProps) {
         show: false,
         style: {
           colors: layoutProps.colorsGrayGray500,
-          fontSize: "12px",
+          fontSize: '12px',
           fontFamily: layoutProps.fontFamily
         }
       }
@@ -164,32 +164,32 @@ function getChartOption(layoutProps) {
     states: {
       normal: {
         filter: {
-          type: "none",
+          type: 'none',
           value: 0
         }
       },
       hover: {
         filter: {
-          type: "none",
+          type: 'none',
           value: 0
         }
       },
       active: {
         allowMultipleDataPointsSelection: false,
         filter: {
-          type: "none",
+          type: 'none',
           value: 0
         }
       }
     },
     tooltip: {
       style: {
-        fontSize: "12px",
+        fontSize: '12px',
         fontFamily: layoutProps.fontFamily
       },
       y: {
-        formatter: function(val) {
-          return "$" + val + " thousands";
+        formatter: function (val) {
+          return '$' + val + ' thousands';
         }
       }
     },

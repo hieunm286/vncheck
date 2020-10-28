@@ -3,9 +3,9 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
 import PerfectScrollbar from "react-perfect-scrollbar";
-import { Dropdown, OverlayTrigger, Tooltip } from "react-bootstrap";
+import {Dropdown, OverlayTrigger, Tooltip} from "react-bootstrap";
 import SVG from "react-inlinesvg";
-import { DropdownTopbarItemToggler } from "../../../../../_metronic/_partials/dropdowns";
+import {DropdownTopbarItemToggler} from "../../../../../_metronic/_partials/dropdowns";
 import {ToAbsoluteUrl} from "../../../../common-library/helpers/assets-helpers";
 
 const perfectScrollbarOptions = {
@@ -27,16 +27,17 @@ export function MyCartDropdown() {
         >
           <div className="btn btn-icon btn-clean btn-lg mr-1">
             <span className="svg-icon svg-icon-xl svg-icon-primary">
-              <SVG src={ToAbsoluteUrl("/media/svg/icons/Shopping/Cart3.svg")} />
+              <SVG src={ToAbsoluteUrl("/media/svg/icons/Shopping/Cart3.svg")}/>
             </span>
           </div>
         </OverlayTrigger>
       </Dropdown.Toggle>
-      <Dropdown.Menu className="p-0 m-0 dropdown-menu-right dropdown-menu-anim dropdown-menu-top-unround dropdown-menu-lg">
+      <Dropdown.Menu
+        className="p-0 m-0 dropdown-menu-right dropdown-menu-anim dropdown-menu-top-unround dropdown-menu-lg">
         <form>
           <div
             className="d-flex align-items-center py-10 px-8 bgi-size-cover bgi-no-repeat rounded-top"
-            style={{ backgroundImage: `url(${bgImage})` }}
+            style={{backgroundImage: `url(${bgImage})`}}
           >
             <span className="btn btn-md btn-icon bg-white-o-15 mr-4">
               <i className="flaticon2-shopping-cart-1 text-success"/>
@@ -49,7 +50,7 @@ export function MyCartDropdown() {
           <PerfectScrollbar
             options={perfectScrollbarOptions}
             className="scroll"
-            style={{ maxHeight: "35vh", position: "relative" }}
+            style={{maxHeight: "35vh", position: "relative"}}
           >
             <div className="d-flex align-items-center justify-content-between p-8">
               <div className="d-flex flex-column mr-2">
@@ -86,9 +87,9 @@ export function MyCartDropdown() {
                 />
               </a>
             </div>
-
+            
             <div className="separator separator-solid"/>
-
+            
             <div className="d-flex align-items-center justify-content-between p-8">
               <div className="d-flex flex-column mr-2">
                 <a
@@ -124,9 +125,9 @@ export function MyCartDropdown() {
                 />
               </a>
             </div>
-
+            
             <div className="separator separator-solid"/>
-
+            
             <div className="d-flex align-items-center justify-content-between p-8">
               <div className="d-flex flex-column mr-2">
                 <a
@@ -164,9 +165,9 @@ export function MyCartDropdown() {
                 />
               </a>
             </div>
-
+            
             <div className="separator separator-solid"/>
-
+            
             <div className="d-flex align-items-center justify-content-between p-8">
               <div className="d-flex flex-column mr-2">
                 <a
@@ -203,7 +204,7 @@ export function MyCartDropdown() {
               </a>
             </div>
           </PerfectScrollbar>
-
+          
           <div className="p-8">
             <div className="d-flex align-items-center justify-content-between mb-4">
               <span className="font-weight-bold text-muted font-size-sm mr-2">

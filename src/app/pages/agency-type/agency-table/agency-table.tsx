@@ -7,11 +7,7 @@ import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import './agency-table.scss';
 import {useAgencyUIContext} from "../agency-ui-context";
 import {defaultSorted, sizePerPageList} from "../agency-ui-helpers";
-import {
-    onTableChange,
-    NoRecordsFoundMessage,
-    PleaseWaitMessage
-} from "../../../common-library/helpers/pagination-helper";
+import {NoRecordsFoundMessage, PleaseWaitMessage} from "../../../common-library/helpers/pagination-helper";
 import {ActionsColumnFormatter} from "./column-formatters/actions-column-formatter";
 import {GetSelectAgencyRow} from "../../../common-library/common-components/table-row-selection-helpers";
 import paginationFactory, {PaginationProvider} from "react-bootstrap-table2-paginator";

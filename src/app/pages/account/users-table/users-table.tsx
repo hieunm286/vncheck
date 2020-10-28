@@ -7,11 +7,7 @@ import paginationFactory, {PaginationProvider} from 'react-bootstrap-table2-pagi
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {useUsersUIContext} from '../users-ui-context';
 import './user-table.scss';
-import {
-    onTableChange,
-    NoRecordsFoundMessage,
-    PleaseWaitMessage
-} from "../../../common-library/helpers/pagination-helper";
+import {NoRecordsFoundMessage, PleaseWaitMessage} from "../../../common-library/helpers/pagination-helper";
 import {defaultSorted, sizePerPageList} from "../users-ui-helpers";
 import {ActionsColumnFormatter} from "./column-formatters/actions-column-formatter";
 import {Pagination} from "../../../common-library/pagination/pagination";

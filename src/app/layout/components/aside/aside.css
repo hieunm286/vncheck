@@ -1,12 +1,12 @@
 .aside-menu .menu-nav > .menu-item .menu-submenu .menu-item.menu-item-active > .menu-link,
 .aside-menu .menu-nav > .menu-item > .menu-submenu .menu-subnav > .menu-item > .menu-link {
-  padding-left: 50px !important;
+    padding-left: 50px !important;
 }
 
-.menu-text{
-  font-size: 12px !important;
+.menu-text {
+    font-size: 12px !important;
 }
 
-.menu-section .menu-text{
-  color: #888C9F !important;
+.menu-section .menu-text {
+    color: #888C9F !important;
 }

@@ -112,7 +112,7 @@ const LoginUsername = (props: { saveUserInfo?: any; intl?: any; location?: any }
   });
   const errorMessage = new URLSearchParams(search).get('errorMessage');
   useEffect(() => {
-    if (errorMessage && errorMessage != 'null'&& errorMessage != 'undefined') {
+    if (errorMessage && errorMessage != 'null' && errorMessage != 'undefined') {
       formik.setStatus(intl.formatMessage({id: errorMessage}));
     }
   }, [errorMessage]);
@@ -172,9 +172,9 @@ const LoginUsername = (props: { saveUserInfo?: any; intl?: any; location?: any }
         </div>
         <div className="form-group d-flex flex-wrap justify-content-between align-items-center">
           <Link tabIndex={-1}
-            to="/auth/forgot-password"
-            className="text-dark-50 text-hover-primary my-3 mr-2"
-            id="kt_login_forgot">
+                to="/auth/forgot-password"
+                className="text-dark-50 text-hover-primary my-3 mr-2"
+                id="kt_login_forgot">
             <p className="text-muted font-weight-bold"/>
           </Link>
           <button

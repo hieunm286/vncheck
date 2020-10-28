@@ -1,17 +1,17 @@
 import React from 'react';
 import './custom.css';
-import { FieldFeedbackLabel } from './field-feedback-label';
+import {FieldFeedbackLabel} from './field-feedback-label';
 
 const getFieldCSSClasses = (touched: any, errors: any) => {
   const classes = ['form-control'];
   if (touched && errors) {
     classes.push('is-invalid');
   }
-
+  
   if (touched && !errors) {
     classes.push('is-valid');
   }
-
+  
   return classes.join(' ');
 };
 
@@ -29,26 +29,26 @@ interface MainInputState {
 }
 
 export function MainInput({
-  field, // { name, value, onChange, onBlur }
-  form: { touched, errors }, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
-  label,
-  withFeedbackLabel,
-  withValidation,
-  customFeedbackLabel,
-  isHorizontal,
-  labelWidth,
-  width,
-  type = 'text',
-  ...props
-}: MainInputState) {
+                            field, // { name, value, onChange, onBlur }
+                            form: {touched, errors}, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
+                            label,
+                            withFeedbackLabel,
+                            withValidation,
+                            customFeedbackLabel,
+                            isHorizontal,
+                            labelWidth,
+                            width,
+                            type = 'text',
+                            ...props
+                          }: MainInputState) {
   const styleLabe = {
     width: width,
   };
-
+  
   const styleInput = {
     marginRight: 0,
   };
-
+  
   return (
     <>
       <div className={isHorizontal && 'row'}>
@@ -72,14 +72,14 @@ export function MainInput({
             className={
               type === 'text' || type === 'email' || type === 'file' || type === 'image'
                 ? withFeedbackLabel
-                  ? getFieldCSSClasses(touched[field.name], errors[field.name])
-                  : 'form-control'
+                ? getFieldCSSClasses(touched[field.name], errors[field.name])
+                : 'form-control'
                 : ''
             }
             {...field}
             {...props}
           />
-
+          
           {withFeedbackLabel && (
             <FieldFeedbackLabel
               error={errors[field.name]}

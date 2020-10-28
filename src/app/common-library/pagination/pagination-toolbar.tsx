@@ -49,7 +49,8 @@ export function PaginationToolbar({isLoading, paginationProps}: { isLoading: boo
           );
         })}
       </select>
-      <span className="text-muted">{intl.formatMessage({id: 'COMMON_COMPONENT.PAGINATION.RECORD_PER_PAGE'})} {totalSize}</span>
+      <span
+        className="text-muted">{intl.formatMessage({id: 'COMMON_COMPONENT.PAGINATION.RECORD_PER_PAGE'})} {totalSize}</span>
     </div>
   );
 }

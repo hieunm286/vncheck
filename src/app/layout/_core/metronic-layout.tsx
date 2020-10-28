@@ -3,24 +3,24 @@ import {getInitLayoutConfig} from "./layout-config";
 import {HtmlClassService} from "./html-class-service";
 
 const LAYOUT_CONFIG_KEY =
-    process.env.REACT_APP_LAYOUT_CONFIG_KEY || "LayoutConfig";
+  process.env.REACT_APP_LAYOUT_CONFIG_KEY || "LayoutConfig";
 
 function getConfig() {
-    const ls = localStorage.getItem(LAYOUT_CONFIG_KEY);
-    if (ls) {
-        try {
-            return JSON.parse(ls);
-        } catch (er) {
-            console.error(er);
-        }
+  const ls = localStorage.getItem(LAYOUT_CONFIG_KEY);
+  if (ls) {
+    try {
+      return JSON.parse(ls);
+    } catch (er) {
+      console.error(er);
     }
-    return getInitLayoutConfig();
+  }
+  return getInitLayoutConfig();
 }
 
 // Side effect
 export function setLayoutConfig(config: any) {
-    localStorage.setItem(LAYOUT_CONFIG_KEY, JSON.stringify(config));
-    window.location.reload();
+  localStorage.setItem(LAYOUT_CONFIG_KEY, JSON.stringify(config));
+  window.location.reload();
 }
 
 const HtmlClassServiceContext = createContext(null);
@@ -32,39 +32,39 @@ const HtmlClassServiceContext = createContext(null);
  * @returns Layout context from 'localStorage'
  */
 export function useHtmlClassService() {
-    return useContext(HtmlClassServiceContext);
+  return useContext(HtmlClassServiceContext);
 }
 
 export function withHtmlClassService(Component: any) {
-    class WithHtmlClassService extends React.Component {
-        static displayName = `WithHtmlClassService(${Component.displayName ||
-        Component.name})`;
-
-        static contextType = HtmlClassServiceContext;
-
-        render() {
-            return <Component {...this.props} htmlClassService={this.context}/>;
-        }
+  class WithHtmlClassService extends React.Component {
+    static displayName = `WithHtmlClassService(${Component.displayName ||
+    Component.name})`;
+    
+    static contextType = HtmlClassServiceContext;
+    
+    render() {
+      return <Component {...this.props} htmlClassService={this.context}/>;
     }
-
-    return WithHtmlClassService;
+  }
+  
+  return WithHtmlClassService;
 }
 
 export const HtmlClassServiceConsumer = HtmlClassServiceContext.Consumer;
 
 export function MetronicLayoutProvider({children}: any) {
-    const lc = useMemo(getConfig, []);
-    const hcs: any = useMemo(() => {
-        const service = new HtmlClassService();
-
-        service.setConfig(lc);
-
-        return service;
-    }, [lc]);
-
-    return (
-        <HtmlClassServiceContext.Provider value={hcs}>
-            {children}
-        </HtmlClassServiceContext.Provider>
-    );
+  const lc = useMemo(getConfig, []);
+  const hcs: any = useMemo(() => {
+    const service = new HtmlClassService();
+    
+    service.setConfig(lc);
+    
+    return service;
+  }, [lc]);
+  
+  return (
+    <HtmlClassServiceContext.Provider value={hcs}>
+      {children}
+    </HtmlClassServiceContext.Provider>
+  );
 }

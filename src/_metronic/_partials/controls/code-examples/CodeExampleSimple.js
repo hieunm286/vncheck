@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/aria-proptypes */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useState, useEffect } from "react";
+import React, {useEffect, useState} from "react";
 import clsx from "clsx";
 import copy from "clipboard-copy";
 import {Tooltip} from "@material-ui/core";
@@ -9,7 +9,7 @@ import {Prism as SyntaxHighlighter} from "react-syntax-highlighter";
 // See https://github.com/PrismJS/prism-themes
 import {coy as highlightStyle} from "react-syntax-highlighter/dist/esm/styles/prism";
 
-export function CodeExampleSimple({ languages, children, codeBlockHeight }) {
+export function CodeExampleSimple({languages, children, codeBlockHeight}) {
   const [isCopySucceed, setIsCopySucceed] = useState(false);
   const [tabId, setTabId] = useState(0);
 
@@ -48,7 +48,7 @@ export function CodeExampleSimple({ languages, children, codeBlockHeight }) {
 
       {languages.length === 0 && <></>}
       {languages.length === 1 && (
-        <div className="example-code" style={{ background: "#F3F6F9" }}>
+        <div className="example-code" style={{background: "#F3F6F9"}}>
           <Tooltip title="Copy code">
             <span
               className={`example-copy ${clsx({
@@ -100,7 +100,7 @@ export function CodeExampleSimple({ languages, children, codeBlockHeight }) {
           <div className="tab-content">
             {languages.map((lang, index) => (
               <div
-                style={{ background: "#F3F6F9" }}
+                style={{background: "#F3F6F9"}}
                 className={`tab-pane  ${tabId === index ? "active" : ""}`}
                 key={`divTabPane${index}`}
               >
@@ -124,15 +124,15 @@ export function CodeExampleSimple({ languages, children, codeBlockHeight }) {
   );
 }
 
-export function CodeExampleSimplePreview({ children }) {
+export function CodeExampleSimplePreview({children}) {
   return <div className="example-preview">{children}</div>;
 }
 
-export function CodeExampleSimpleDescription({ children }) {
+export function CodeExampleSimpleDescription({children}) {
   return <p className="example-description">{children}</p>;
 }
 
-export function CodeExampleSimpleWrapper({ title, children }) {
+export function CodeExampleSimpleWrapper({title, children}) {
   return (
     <div className="card card-custom gutter-b example">
       <div className="card-header">

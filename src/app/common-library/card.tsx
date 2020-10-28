@@ -1,17 +1,17 @@
-import React, { forwardRef, useEffect, useState } from 'react';
+import React, {forwardRef, useEffect, useState} from 'react';
 import clsx from 'clsx';
-import { isFragment } from 'react-is';
+import {isFragment} from 'react-is';
 
-export const CardHeaderIcon = forwardRef(({ className }: any, ref: any) => (
-  <span ref={ref} className={clsx('card-head-icon', className)} />
+export const CardHeaderIcon = forwardRef(({className}: any, ref: any) => (
+  <span ref={ref} className={clsx('card-head-icon', className)}/>
 ));
 
-export const CardHeaderTitle = forwardRef(({ className, ...props }: any, ref) => (
+export const CardHeaderTitle = forwardRef(({className, ...props}: any, ref) => (
   // eslint-disable-next-line jsx-a11y/heading-has-content
-  <h3 {...props} ref={ref} className={clsx('card-label', className)} />
+  <h3 {...props} ref={ref} className={clsx('card-label', className)}/>
 ));
 
-export const CardHeaderToolbar = forwardRef(({ children, className, ...props }: any, ref) => (
+export const CardHeaderToolbar = forwardRef(({children, className, ...props}: any, ref) => (
   <div {...props} ref={ref} className={clsx('card-toolbar', className)}>
     {children}
   </div>
@@ -19,26 +19,26 @@ export const CardHeaderToolbar = forwardRef(({ children, className, ...props }: 
 
 export const CardHeader = forwardRef(
   (
-    { children, icon, title, toolbar, className, sticky = false, labelRef, ...props }: any,
+    {children, icon, title, toolbar, className, sticky = false, labelRef, ...props}: any,
     ref: any,
   ) => {
     const [top, setTop] = useState(0);
     const [windowHeight, setWindowHeight] = useState(0);
-
+    
     useEffect(() => {
       handleResize();
-
+      
       function handleResize() {
         setWindowHeight(window.innerWidth);
       }
-
+      
       window.addEventListener('resize', handleResize);
-
+      
       return () => {
         window.removeEventListener('resize', handleResize);
       };
     });
-
+    
     useEffect(() => {
       // Skip if sticky is disabled or on initial render when we don't know about window height.
       if (!sticky || windowHeight === 0) {
@@ -62,7 +62,7 @@ export const CardHeader = forwardRef(
             if (document.body.classList.contains('header-fixed')) {
               nextMarginTop += headerElement.offsetHeight;
             }
-
+            
             if (document.body.classList.contains('subheader-fixed')) {
               nextMarginTop += subheaderElement.offsetHeight;
             }
@@ -71,25 +71,25 @@ export const CardHeader = forwardRef(
       }
       setTop(nextMarginTop);
     }, [sticky, windowHeight]);
-
+    
     return (
       <div
         ref={ref}
         className="card-header"
-        style={!sticky ? undefined : { top, position: 'sticky', backgroundColor: '#fff' }}>
+        style={!sticky ? undefined : {top, position: 'sticky', backgroundColor: '#fff'}}>
         {title != null && (
           <div ref={labelRef} className={clsx('card-title', className)}>
             {icon}
-
+            
             {/* Wrap string and fragments in CardHeaderTitle */
-            typeof title === 'string' || isFragment(title) ? (
-              <CardHeaderTitle className="text-primary">{title}</CardHeaderTitle>
-            ) : (
-              title
-            )}
+              typeof title === 'string' || isFragment(title) ? (
+                <CardHeaderTitle className="text-primary">{title}</CardHeaderTitle>
+              ) : (
+                title
+              )}
           </div>
         )}
-
+        
         {toolbar}
         {children}
       </div>
@@ -97,7 +97,7 @@ export const CardHeader = forwardRef(
   },
 );
 
-export const CardBody = forwardRef(({ fit, fluid, className, ...props }: any, ref) => (
+export const CardBody = forwardRef(({fit, fluid, className, ...props}: any, ref) => (
   <div
     {...props}
     ref={ref}
@@ -112,27 +112,27 @@ export const CardBody = forwardRef(({ fit, fluid, className, ...props }: any, re
   />
 ));
 
-export const CardFooter = forwardRef(({ className, ...props }: any, ref) => (
-  <div {...props} ref={ref} className={clsx('card-footer', className)} />
+export const CardFooter = forwardRef(({className, ...props}: any, ref) => (
+  <div {...props} ref={ref} className={clsx('card-footer', className)}/>
 ));
 
-export const Card = forwardRef(({ fluidHeight, className, ...props }: any, ref) => (
+export const Card = forwardRef(({fluidHeight, className, ...props}: any, ref) => (
   <div
     {...props}
     ref={ref}
-    className={clsx('card card-custom gutter-b', { 'card-height-fluid': fluidHeight }, className)}
+    className={clsx('card card-custom gutter-b', {'card-height-fluid': fluidHeight}, className)}
   />
 ));
 
 // Set display names for debugging.
 if (process.env.NODE_ENV !== 'production') {
   Card.displayName = 'Card';
-
+  
   CardHeader.displayName = 'CardHeader';
   CardHeaderIcon.displayName = 'CardHeaderIcon';
   CardHeaderTitle.displayName = 'CardHeaderTitle';
   CardHeaderToolbar.displayName = 'CardHeaderToolbar';
-
+  
   CardBody.displayName = 'CardBody';
   CardFooter.displayName = 'CardFooter';
 }

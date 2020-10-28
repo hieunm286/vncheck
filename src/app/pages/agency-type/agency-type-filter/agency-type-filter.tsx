@@ -1,8 +1,7 @@
 import React, {useMemo, useState} from 'react';
 import {isEqual} from 'lodash';
 import {useAgencyTypeUIContext} from '../agency-type-ui-context';
-import {Formik, Form, Field} from 'formik';
-import * as Yup from 'yup';
+import {Field, Formik} from 'formik';
 import {Input, Select} from '../../../../_metronic/_partials/controls/index';
 import STATE_LIST from '../../../../_metronic/AdministrativeDivision/state.json';
 import CITY_LIST from '../../../../_metronic/AdministrativeDivision/city.json';

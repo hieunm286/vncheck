@@ -1,15 +1,15 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 
-const inputLabel = ({ label, touched, error, customFeedbackLabel }: any) => {
+const inputLabel = ({label, touched, error, customFeedbackLabel}: any) => {
   if (touched && error) {
     return <div className="invalid-feedback">{error}</div>;
   }
-
+  
   if (touched && !error && label) {
     return <></>;
   }
-
+  
   return (
     <div className="feedback">
       {customFeedbackLabel && <>{customFeedbackLabel}</>}
@@ -18,11 +18,11 @@ const inputLabel = ({ label, touched, error, customFeedbackLabel }: any) => {
   );
 };
 
-const selectLabel = ({ label, touched, error, customFeedbackLabel }: any) => {
+const selectLabel = ({label, touched, error, customFeedbackLabel}: any) => {
   if (touched && error) {
     return <div className="invalid-feedback">{error}</div>;
   }
-
+  
   return (
     <div className="feedback">
       {customFeedbackLabel && <>{customFeedbackLabel}</>}
@@ -35,15 +35,15 @@ const selectLabel = ({ label, touched, error, customFeedbackLabel }: any) => {
   );
 };
 
-export function FieldFeedbackLabel({ label, touched, error, type, customFeedbackLabel }: any) {
+export function FieldFeedbackLabel({label, touched, error, type, customFeedbackLabel}: any) {
   switch (type) {
     case 'text':
-      return inputLabel({ label, touched, error, customFeedbackLabel });
+      return inputLabel({label, touched, error, customFeedbackLabel});
     case 'email':
-      return inputLabel({ label, touched, error, customFeedbackLabel });
+      return inputLabel({label, touched, error, customFeedbackLabel});
     case 'password':
-      return inputLabel({ label, touched, error, customFeedbackLabel });
+      return inputLabel({label, touched, error, customFeedbackLabel});
     default:
-      return selectLabel({ label, touched, error, customFeedbackLabel });
+      return selectLabel({label, touched, error, customFeedbackLabel});
   }
 }

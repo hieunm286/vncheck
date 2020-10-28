@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { queryParamsProps } from '../_interface/basic-unit.interface';
+import {queryParamsProps} from '../_interface/basic-unit.interface';
 import {API_BASE_URL} from "../../../common-library/common-consts/enviroment";
 
 export const BASIC_UNIT_API_URL = API_BASE_URL + '/basic-unit';
@@ -10,7 +10,7 @@ export const createBasicUnit = (data: any) => {
 };
 
 export const getAllBasicUnit = (queryParams: queryParamsProps) => {
-  const { limit, pageNumber, sortOrder, sortField } = queryParams;
+  const {limit, pageNumber, sortOrder, sortField} = queryParams;
   return axios.get(
     `${BASIC_UNIT_API_URL}?page=${pageNumber}&limit=${limit}&sortBy=${sortField}&orderBy=${sortOrder}`,
   );
@@ -21,8 +21,8 @@ export const getBasicUnit = (code: string) => {
 };
 
 export const updateBasicUnit = (data: any) => {
-  const { name, status, quantity } = data;
-  return axios.put(`${BASIC_UNIT_API_URL}/${data.code}`, { name, status, quantity });
+  const {name, status, quantity} = data;
+  return axios.put(`${BASIC_UNIT_API_URL}/${data.code}`, {name, status, quantity});
 };
 
 export const deleteBasicUnit = (code: string) => {

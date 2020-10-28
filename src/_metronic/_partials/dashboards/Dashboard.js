@@ -10,21 +10,22 @@ import {Demo7Dashboard} from "./Demo7Dashboard";
 import {useHtmlClassService} from "../../../app/layout/_core/metronic-layout";
 
 export function Dashboard() {
-    const uiService = useHtmlClassService();
-    const layoutProps = useMemo(() => {
-        return {
-            demo: objectPath.get(
-                uiService.config,
-                "demo"
-            )};
-    }, [uiService]);
-    return <>
-        {layoutProps.demo === 'demo1' && <Demo1Dashboard />}
-        {layoutProps.demo === 'demo2' && <Demo2Dashboard />}
-        {layoutProps.demo === 'demo3' && <Demo3Dashboard />}
-        {layoutProps.demo === 'demo4' && <Demo4Dashboard />}
-        {layoutProps.demo === 'demo5' && <Demo5Dashboard />}
-        {layoutProps.demo === 'demo6' && <Demo6Dashboard />}
-        {layoutProps.demo === 'demo7' && <Demo7Dashboard />}
-    </>;
+  const uiService = useHtmlClassService();
+  const layoutProps = useMemo(() => {
+    return {
+      demo: objectPath.get(
+        uiService.config,
+        "demo"
+      )
+    };
+  }, [uiService]);
+  return <>
+    {layoutProps.demo === 'demo1' && <Demo1Dashboard/>}
+    {layoutProps.demo === 'demo2' && <Demo2Dashboard/>}
+    {layoutProps.demo === 'demo3' && <Demo3Dashboard/>}
+    {layoutProps.demo === 'demo4' && <Demo4Dashboard/>}
+    {layoutProps.demo === 'demo5' && <Demo5Dashboard/>}
+    {layoutProps.demo === 'demo6' && <Demo6Dashboard/>}
+    {layoutProps.demo === 'demo7' && <Demo7Dashboard/>}
+  </>;
 }

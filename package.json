@@ -62,6 +62,7 @@
     "date-fns": "2.8.1",
     "downshift": "3.4.2",
     "env-cmd": "^10.1.0",
+    "eslint-config-airbnb": "^18.2.0",
     "fg-loadcss": "2.1.0",
     "formik": "2.1.4",
     "json2mq": "0.2.0",

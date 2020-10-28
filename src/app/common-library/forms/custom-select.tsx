@@ -1,5 +1,4 @@
 import React from 'react';
-import { useField } from 'formik';
 
 interface CustomSelectState {
   label: string;
@@ -17,27 +16,27 @@ interface CustomSelectState {
 }
 
 export function CustomSelect({
-  label,
-  withFeedbackLabel,
-  type = 'text',
-  children,
-  isHorizontal,
-  width,
-  checkSelect,
-  labelWidth,
-  ...props
-}: CustomSelectState) {
+                               label,
+                               withFeedbackLabel,
+                               type = 'text',
+                               children,
+                               isHorizontal,
+                               width,
+                               checkSelect,
+                               labelWidth,
+                               ...props
+                             }: CustomSelectState) {
   //   const [field, meta] = useField(props);
   //   const { touched, error } = meta;
-
+  
   const styleLabe = {
     width: width,
   };
-
+  
   const styleInput = {
     marginRight: 0,
   };
-
+  
   return (
     <>
       <div className={isHorizontal ? 'row' : ''}>
@@ -64,9 +63,9 @@ export function CustomSelect({
             {...props}>
             {children}
           </select>
-
+          
           {!checkSelect && (
-            <span className="text-danger" style={{ fontSize: 12 }}>
+            <span className="text-danger" style={{fontSize: 12}}>
               Vui lòng chọn {label}
             </span>
           )}
