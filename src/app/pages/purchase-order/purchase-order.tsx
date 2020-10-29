@@ -2,7 +2,7 @@ import React, { Fragment, useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import { Count, Create, Delete, DeleteMany, Get, GetAll, Update } from './purchase-order.service';
 import { PurchaseOrderModel } from './purchase-order.model';
-import { NormalColumn, SortColumn } from '../../common-library/common-consts/const';
+import { NormalColumn, SortColumn, StatusValue } from '../../common-library/common-consts/const';
 import { MasterHeader } from '../../common-library/common-components/master-header';
 import { MasterEntityDetailDialog } from '../../common-library/common-components/master-entity-detail-dialog';
 import { MasterBody } from '../../common-library/common-components/master-body';
@@ -78,43 +78,35 @@ function PurchaseOrder() {
     getAll(filterProps);
   }, [paginationProps, trigger, filterProps]);
 
-  const columns = [
-    {
-      dataField: 'ordinal',
-      text: '#',
-      formatter: (cell: any, row: any, rowIndex: number) => (
-        <p>{rowIndex + 1 + ((paginationProps.page ?? 0) - 1) * (paginationProps.limit ?? 0)}</p>
-      ),
-      style: { paddingTop: 20 },
-    },
-    {
+  const columns = {
+    code: {
       dataField: 'code',
       text: `${intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.CODE_COLUMN' })}`,
       ...SortColumn,
     },
-    {
+    agencyAddress: {
       dataField: 'agencyAddress',
       text: `${intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS_COLUMN' })}`,
       ...SortColumn,
     },
 
-    {
+    phoneNumber: {
       dataField: 'phoneNumber',
       text: `${intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' })}`,
       ...SortColumn,
     },
-    {
+    status: {
       dataField: 'status',
       text: `${intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.STATUS_COLUMN' })}`,
       ...SortColumn,
       formatter: (cell: any, row: any) =>
-        row.status === 1 ? (
+        row.status === StatusValue ? (
           <CheckCircleIcon style={{ color: '#1DBE2D' }} />
         ) : (
           <IndeterminateCheckBoxIcon />
         ),
     },
-    {
+    action: {
       dataField: 'action',
       text: `${intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.ACTION_COLUMN' })}`,
       formatter: ActionsColumnFormatter,
@@ -136,7 +128,7 @@ function PurchaseOrder() {
       ...NormalColumn,
       style: { minWidth: '130px' },
     },
-  ];
+  };
   const masterEntityDetailDialog = [
     { keyField: 'code', title: 'PURCHASE_ORDER.MASTER.TABLE.CODE_COLUMN' },
     { keyField: 'agencyAddress', title: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS_COLUMN' },
@@ -253,11 +245,11 @@ function PurchaseOrder() {
         onSearch={setFilterProps}
         searchModel={purchaseOrderSearchModel}
         initValue={{
-          code: '',
-          agencyAddress: '',
-          agency: '',
+          code: null,
+          agencyAddress: null,
+          agency: null,
           date: '',
-          count: '',
+          count: 15,
         }}
       />
       <MasterBody
@@ -270,10 +262,11 @@ function PurchaseOrder() {
         onSelectMany={setSelectedEntities}
         entities={entities}
         total={total}
-        columns={columns}
+        columns={columns as any}
         loading={loading}
         paginationParams={paginationProps}
         setPaginationParams={setPaginationProps}
+        isShowId={true}
       />
     </Fragment>
   );

@@ -32,6 +32,7 @@ export function MasterBody<T>({
   selectedEntities,
   columns,
   onDeleteMany,
+  isShowId,
 }: {
   total: number;
   loading: boolean;
@@ -43,8 +44,26 @@ export function MasterBody<T>({
   paginationParams: PaginationProps;
   setPaginationParams: (data: PaginationProps) => void;
   onDeleteMany: () => void;
+  isShowId: boolean;
 }) {
   const intl = useIntl();
+
+  const masterColumn = isShowId
+    ? {
+        _id: {
+          dataField: '_id',
+          text: '#',
+          formatter: (cell: any, row: any, rowIndex: number) => (
+            <p>
+              {rowIndex + 1 + ((paginationParams.page ?? 0) - 1) * (paginationParams.limit ?? 0)}
+            </p>
+          ),
+          style: { paddingTop: 20 },
+        },
+        ...columns,
+      }
+    : columns;
+
   return (
     <Card>
       <CardBody>
@@ -69,7 +88,7 @@ export function MasterBody<T>({
         </div>
         <MasterTable
           entities={entities}
-          columns={columns}
+          columns={masterColumn}
           total={total}
           loading={loading}
           paginationParams={paginationParams}

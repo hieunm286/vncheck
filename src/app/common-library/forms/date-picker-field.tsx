@@ -36,6 +36,7 @@ export function DatePickerField({ ...props }: any) {
           onChange={val => {
             setFieldValue(field.name, val);
           }}
+          autoComplete="off"
           wrapperClassName="d-block"
           locale="vi"
           placeholderText="Ngày tháng"

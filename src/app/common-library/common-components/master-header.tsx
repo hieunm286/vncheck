@@ -25,18 +25,14 @@ export function MasterHeader<T>({
 }: {
   searchModel: SearchModel;
   title: string;
-  initValue: T;
+  initValue: any;
   onSearch: (data: any) => void;
 }) {
   const intl = useIntl();
 
   const searchM: any = { ...searchModel };
 
-  const [search, onChange] = useState<any>({
-    code: null,
-    agencyAddress: null,
-    agency: null,
-  });
+  const [search, onChange] = useState<any>(initValue);
 
   const [searchTerm, setSearchTerm] = useState({
     code: '',
@@ -47,19 +43,8 @@ export function MasterHeader<T>({
   const handleResetForm = (resetForm: any) => {
     resetForm();
     // onSearch(initValue);
-    onChange({
-      code: null,
-      agencyAddress: null,
-      agency: null,
-    });
+    onChange(initValue);
   };
-
-  const [selectedDate, setSelectedDate] = React.useState<Date | null>(new Date());
-
-  const handleDateChange = (date: Date | null) => {
-    setSelectedDate(date);
-  };
-
   // const loadOptions = async (search: string, prevOptions: any, service: any, keyField: string) => {
   //   return new Promise<{ options: { label: string; value: string }[]; hasMore: boolean }>(
   //     resolve => {
@@ -85,7 +70,6 @@ export function MasterHeader<T>({
   //     },
   //   );
   // };
-  const [startDate, setStartDate] = useState<any>(new Date());
 
   const loadOptions = async (
     search: string,
@@ -104,7 +88,7 @@ export function MasterHeader<T>({
     };
 
     const entities = await service.GetAll({ queryProps, paginationProps });
-    const count = await service.Count({ queryProps });
+    const count = await service.Count(queryProps);
 
     const hasMore = prevOptions.length < count.data - (DefaultPagination.limit ?? 0);
 

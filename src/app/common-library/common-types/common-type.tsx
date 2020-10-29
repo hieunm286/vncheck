@@ -90,7 +90,7 @@ export type SearchModel = {
 };
 export type ModifyModel = {
   [T: string]: {
-    type: 'string' | 'number' | 'Datetime';
+    type: 'string' | 'number' | 'Datetime' | 'SearchSelect';
     placeholder: string;
     label: string;
   };

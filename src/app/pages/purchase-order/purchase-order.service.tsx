@@ -29,9 +29,8 @@ export const GetAll: GetAllProps<PurchaseOrderModel> = ({
 };
 
 export const Count: CountProps = (queryProps: any) => {
-  console.log(queryProps.queryProps);
   return axios.get(`${API_URL}/count`, {
-    params: { ...queryProps.queryProps },
+    params: { ...queryProps },
   });
 };
 

@@ -50,7 +50,7 @@ function ModifyEntityDialogForm<T>({
                   switch (modifyM[key].type) {
                     case 'string':
                       return (
-                        <div className="mt-3">
+                        <div className="mt-3" key={key}>
                           <Field
                             name={key}
                             component={MainInput}

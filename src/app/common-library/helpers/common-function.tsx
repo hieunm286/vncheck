@@ -7,11 +7,28 @@ import {
   DeleteProps,
   GetAllProps,
   GetProps,
+  ModifyModel,
   UpdateProps,
 } from '../common-types/common-type';
 
 export const CapitalizeFirstLetter = (string: string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
+};
+
+export const generateInitForm = (modifyModel: ModifyModel) => {
+  const initValue = {} as any;
+  Object.keys(modifyModel).map(key => {
+    if (modifyModel[key].type === 'string') {
+      initValue[key] = '';
+    } else if (modifyModel[key].type === 'number') {
+      initValue[key] = 0;
+    } else if (modifyModel[key].type === 'SearchSelect') {
+      initValue[key] = null;
+    } else if (modifyModel[key].type === 'Datetime') {
+      initValue[key] = new Date();
+    }
+  });
+  return initValue;
 };
 
 export function InitMasterProps<T>({
