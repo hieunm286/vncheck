@@ -42,7 +42,7 @@ export function InitMasterProps<T>({
 }: {
   getAllServer: GetAllProps<T>;
   getServer: GetProps<T>;
-  countServer: CountProps;
+  countServer: CountProps<T>;
   createServer: CreateProps<T>;
   updateServer: UpdateProps<T>;
   deleteServer: DeleteProps<T>;

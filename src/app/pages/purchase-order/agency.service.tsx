@@ -25,9 +25,9 @@ export const GetAll: GetAllProps<AgencyModel> = ({ queryProps, sortList, paginat
   });
 };
 
-export const Count: CountProps = (queryProps: any) => {
+export const Count: CountProps<AgencyModel> = ({ queryProps, sortList, paginationProps }) => {
   return axios.get(`${API_URL}/count`, {
-    params: { ...queryProps },
+    params: { ...queryProps, ...paginationProps, sortList },
   });
 };
 

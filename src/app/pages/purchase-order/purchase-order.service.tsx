@@ -7,9 +7,10 @@ import {
   DeleteProps,
   GetAllProps,
   GetProps,
+  SearchModel,
   UpdateProps,
 } from '../../common-library/common-types/common-type';
-import { PurchaseOrderModel } from './purchase-order.model';
+import { PurchaseOrderModel, PurchaseOrderSearchModel } from './purchase-order.model';
 
 export const API_URL = API_BASE_URL + '/purchase-order';
 
@@ -28,9 +29,13 @@ export const GetAll: GetAllProps<PurchaseOrderModel> = ({
   });
 };
 
-export const Count: CountProps = (queryProps: any) => {
+export const Count: CountProps<PurchaseOrderModel> = ({
+  queryProps,
+  sortList,
+  paginationProps,
+}) => {
   return axios.get(`${API_URL}/count`, {
-    params: { ...queryProps },
+    params: { ...queryProps, ...paginationProps, sortList },
   });
 };
 

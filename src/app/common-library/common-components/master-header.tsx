@@ -88,7 +88,7 @@ export function MasterHeader<T>({
     };
 
     const entities = await service.GetAll({ queryProps, paginationProps });
-    const count = await service.Count(queryProps);
+    const count = await service.Count({ queryProps });
 
     const hasMore = prevOptions.length < count.data - (DefaultPagination.limit ?? 0);
 
