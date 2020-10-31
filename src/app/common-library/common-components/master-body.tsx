@@ -6,6 +6,7 @@ import { iconStyle } from '../common-consts/const';
 import { MasterTable } from './master-table';
 import { PaginationProps } from '../common-types/common-type';
 import { ColumnDescription } from 'react-bootstrap-table-next';
+import { Link } from 'react-router-dom';
 
 export interface BasicUnitDataProps {
   showModal: any;

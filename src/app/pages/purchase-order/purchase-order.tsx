@@ -16,6 +16,10 @@ import { ModifyModel, SearchModel } from '../../common-library/common-types/comm
 import { InitMasterProps } from '../../common-library/helpers/common-function';
 import * as AgencyService from './agency.service';
 import * as PurchaseOrderService from './purchase-order.service';
+import { Switch, Route, Redirect, useHistory } from 'react-router-dom';
+import ModifyEntityPage from '../../common-library/common-components/modify-entity-page';
+import { purchaseOrderSlice, callTypes } from './purchase-order.redux';
+import ImageUploading from 'react-images-uploading';
 
 function PurchaseOrder() {
   const intl = useIntl();
@@ -73,6 +77,7 @@ function PurchaseOrder() {
   const headerTitle = 'PURCHASE_ORDER.MASTER.HEADER.TITLE';
   const createTitle = 'PURCHASE_ORDER.CREATE.TITLE';
   const updateTitle = 'PURCHASE_ORDER.UPDATE.TITLE';
+  const history = useHistory();
 
   useEffect(() => {
     getAll(filterProps);
@@ -121,7 +126,8 @@ function PurchaseOrder() {
           setShowDelete(true);
         },
         onEdit: (entity: PurchaseOrderModel) => {
-          setEditEntity(entity);
+          // history.push(`${window.location.pathname}/${entity.code}`);
+          get(entity);
           setShowEdit(true);
         },
       },
@@ -129,11 +135,11 @@ function PurchaseOrder() {
       style: { minWidth: '130px' },
     },
   };
-  const masterEntityDetailDialog = [
-    { keyField: 'code', title: 'PURCHASE_ORDER.MASTER.TABLE.CODE_COLUMN' },
-    { keyField: 'agencyAddress', title: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS_COLUMN' },
-    { keyField: 'phoneNumber', title: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' },
-  ];
+  const masterEntityDetailDialog = {
+    code: { title: 'PURCHASE_ORDER.MASTER.TABLE.CODE_COLUMN' },
+    agencyAddress: { title: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS_COLUMN' },
+    phoneNumber: { title: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' },
+  };
 
   const purchaseOrderSearchModel: SearchModel = {
     code: {
@@ -190,6 +196,11 @@ function PurchaseOrder() {
       placeholder: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN',
       label: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN',
     },
+    image: {
+      type: 'image',
+      placeholder: 'input image',
+      label: 'Image',
+    },
   };
   return (
     <Fragment>
@@ -220,7 +231,7 @@ function PurchaseOrder() {
           setShowDeleteMany(false);
         }}
       />
-      <ModifyEntityDialog
+      {/* <ModifyEntityDialog
         isShow={showCreate}
         entity={createEntity}
         onModify={add}
@@ -229,7 +240,7 @@ function PurchaseOrder() {
         onHide={() => {
           setShowCreate(false);
         }}
-      />
+      />*/}
       <ModifyEntityDialog
         isShow={showEdit}
         entity={editEntity}
@@ -240,34 +251,65 @@ function PurchaseOrder() {
           setShowEdit(false);
         }}
       />
-      <MasterHeader
-        title={headerTitle}
-        onSearch={setFilterProps}
-        searchModel={purchaseOrderSearchModel}
-        initValue={{
-          code: null,
-          agencyAddress: null,
-          agency: null,
-          date: '',
-          count: 15,
-        }}
-      />
-      <MasterBody
-        onCreate={() => {
-          setCreateEntity(null);
-          setShowCreate(true);
-        }}
-        onDeleteMany={() => setShowDeleteMany(true)}
-        selectedEntities={selectedEntities}
-        onSelectMany={setSelectedEntities}
-        entities={entities}
-        total={total}
-        columns={columns as any}
-        loading={loading}
-        paginationParams={paginationProps}
-        setPaginationParams={setPaginationProps}
-        isShowId={true}
-      />
+      <Switch>
+        <Redirect from="/purchase-order/edit" to="/purchase-order" />
+
+        <Route path="/purchase-order/new">
+          <ModifyEntityPage
+            entity={createEntity}
+            onModify={add}
+            title={createTitle}
+            modifyModel={modifyModel}
+            reduxModel="purchaseOrder"
+            code={null}
+            get={() => null}
+          />
+        </Route>
+        {/* <Route path={`/purchase-order/:code`}>
+          {({ history, match }) => (
+            <ModifyEntityPage
+              entity={editEntity}
+              onModify={update}
+              title={updateTitle}
+              modifyModel={modifyModel}
+              reduxModel="purchaseOrder"
+              code={match && match.params.code}
+              get={PurchaseOrderService.GetById}
+            />
+          )}
+        </Route> */}
+        <Route path="/purchase-order">
+          <MasterHeader
+            title={headerTitle}
+            onSearch={setFilterProps}
+            searchModel={purchaseOrderSearchModel}
+            initValue={{
+              code: null,
+              agencyAddress: null,
+              agency: null,
+              date: '',
+              count: 15,
+            }}
+          />
+          <MasterBody
+            onCreate={() => {
+              setCreateEntity(null);
+              // setShowCreate(true);
+              history.push(`${window.location.pathname}/new`);
+            }}
+            onDeleteMany={() => setShowDeleteMany(true)}
+            selectedEntities={selectedEntities}
+            onSelectMany={setSelectedEntities}
+            entities={entities}
+            total={total}
+            columns={columns as any}
+            loading={loading}
+            paginationParams={paginationProps}
+            setPaginationParams={setPaginationProps}
+            isShowId={true}
+          />
+        </Route>
+      </Switch>
     </Fragment>
   );
 }

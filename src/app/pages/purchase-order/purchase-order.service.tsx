@@ -11,6 +11,7 @@ import {
   UpdateProps,
 } from '../../common-library/common-types/common-type';
 import { PurchaseOrderModel, PurchaseOrderSearchModel } from './purchase-order.model';
+import { purchaseOrderSlice, callTypes } from './purchase-order.redux';
 
 export const API_URL = API_BASE_URL + '/purchase-order';
 
@@ -43,6 +44,9 @@ export const Get: GetProps<PurchaseOrderModel> = entity => {
   return axios.get(`${API_URL}/${entity.code}`);
 };
 
+export const GetById = (code: string) => {
+  return axios.get(`${API_URL}/${code}`);
+};
 export const Update: UpdateProps<PurchaseOrderModel> = (entity: PurchaseOrderModel) => {
   return axios.put(`${API_URL}/${entity._id}`, entity);
 };

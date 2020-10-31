@@ -8,13 +8,15 @@ import './master-table.scss';
 import { ToAbsoluteUrl } from '../helpers/assets-helpers';
 import { ActionColumnProps } from '../common-types/common-type';
 import { IntlShape } from 'react-intl';
+import { Link } from 'react-router-dom';
 
 export function ActionsColumnFormatter<T>(
   cellContent: any,
-  row: T,
+  row: any,
   rowIndex: number,
   { onShowDetail, onDelete, onEdit, intl }: ActionColumnProps<T> & { intl: IntlShape },
 ) {
+  console.log(row);
   return (
     <>
       <a
@@ -26,6 +28,7 @@ export function ActionsColumnFormatter<T>(
         </span>
       </a>
       <a
+        // to={`/purchase-order/${row.code}`}
         // title={intl.formatMessage({id: 'COMMON_COMPONENT.MASTER_BODY.TABLE.EDIT_BTN'})}
         className="btn btn-icon btn-light btn-hover-primary btn-sm mx-1"
         onClick={() => onEdit(row)}>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Modal } from 'react-bootstrap';
 import { Field, Form, Formik } from 'formik';
 import { useIntl } from 'react-intl';
@@ -8,12 +8,16 @@ import * as Yup from 'yup';
 import { MainInput } from '../forms/main-input';
 import { iconStyle } from '../common-consts/const';
 import { ModifyModel } from '../common-types/common-type';
+import CustomImageUpload from '../forms/custom-image-upload';
+import { getOnlyFile } from '../helpers/common-function';
 
 const PurchaseOrderSchema = Yup.object().shape({
   code: Yup.string().required('Vui lòng nhập mã đơn vị'),
   agencyAddress: Yup.string().required('Vui lòng nhập tên đơn vị'),
   phoneNumber: Yup.string().required('Vui lòng nhập số điện thoại'),
 });
+
+// type PurchaseOrderValidation = Yup.InferType<typeof PurchaseOrderSchema>
 
 function ModifyEntityDialogForm<T>({
   entity,
@@ -28,6 +32,16 @@ function ModifyEntityDialogForm<T>({
 }) {
   const intl = useIntl();
   const modifyM = { ...modifyModel } as any;
+  const [images, setImages] = useState([]);
+  const [imageRootArr, setImageRootArr] = useState<any>([]);
+
+  const onChange = (imageList: any, addUpdateIndex: any) => {
+    console.log(imageList);
+    const imageArray = getOnlyFile(imageList);
+    // data for submit
+    setImages(imageList);
+    setImageRootArr(imageArray);
+  };
   return (
     <Formik
       enableReinitialize={true}
@@ -70,6 +84,19 @@ function ModifyEntityDialogForm<T>({
                       return <>NOT IMPLEMENTED!</>;
                     case 'Datetime':
                       return <>NOT IMPLEMENTED!</>;
+                    case 'image':
+                      return (
+                        <div className="mt-3" key={key}>
+                          <CustomImageUpload
+                            images={images}
+                            onChange={onChange}
+                            label="Thêm ảnh"
+                            labelWidth={4}
+                            isHorizontal={true}
+                            isRequired
+                          />
+                        </div>
+                      );
                   }
                   return <>NOT IMPLEMENTED!</>;
                 })

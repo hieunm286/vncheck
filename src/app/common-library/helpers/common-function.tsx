@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { DefaultPagination } from '../common-consts/const';
 import {
   CountProps,
@@ -29,6 +30,15 @@ export const generateInitForm = (modifyModel: ModifyModel) => {
     }
   });
   return initValue;
+};
+
+export const getOnlyFile = (arr: any[]) => {
+  const fileArray: any[] = [];
+  arr.forEach(values => {
+    fileArray.push(values.file);
+  });
+  console.log(fileArray);
+  return fileArray;
 };
 
 export function InitMasterProps<T>({
@@ -64,6 +74,8 @@ export function InitMasterProps<T>({
   const [filterProps, setFilterProps] = useState({ name: '', code: '' });
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
+
+  const dispatch = useDispatch();
 
   const getAll = useCallback(
     (filterProps?) => {
@@ -107,11 +119,18 @@ export function InitMasterProps<T>({
       });
   };
 
-  const get = (entity: T) => {
+  const get = (entity: T, ModelSlice?: any) => {
     getServer(entity)
       .then(res => {
         setDetailEntity(res.data);
         setEditEntity(res.data);
+
+        if (ModelSlice) {
+          const { actions } = ModelSlice;
+          const editEntity = res.data;
+
+          dispatch(actions.entityFetched({ editEntity }));
+        }
       })
       .catch(error => {
         console.log(error);
