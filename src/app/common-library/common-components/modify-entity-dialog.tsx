@@ -11,8 +11,10 @@ function ModifyEntityDialog<T>({
   onModify,
   title,
   modifyModel,
+  validationModel
 }: {
   modifyModel: ModifyModel;
+  validationModel: any;
   title: string;
   isShow: boolean;
   onHide: () => void;
@@ -35,6 +37,7 @@ function ModifyEntityDialog<T>({
       </Modal.Header>
       <ModifyEntityDialogForm
         modifyModel={modifyModel}
+        validationModel={validationModel}
         entity={entity || initForm}
         onHide={onHide}
         onModify={onModify}

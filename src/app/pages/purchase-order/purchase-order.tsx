@@ -16,6 +16,7 @@ import { ModifyModel, SearchModel } from '../../common-library/common-types/comm
 import { InitMasterProps } from '../../common-library/helpers/common-function';
 import * as AgencyService from './agency.service';
 import * as PurchaseOrderService from './purchase-order.service';
+import * as Yup from 'yup';
 
 function PurchaseOrder() {
   const intl = useIntl();
@@ -73,6 +74,12 @@ function PurchaseOrder() {
   const headerTitle = 'PURCHASE_ORDER.MASTER.HEADER.TITLE';
   const createTitle = 'PURCHASE_ORDER.CREATE.TITLE';
   const updateTitle = 'PURCHASE_ORDER.UPDATE.TITLE';
+
+  const PurchaseOrderSchema = Yup.object().shape({
+    code: Yup.string().required('Vui lòng nhập mã đơn vị'),
+    agencyAddress: Yup.string().required('Vui lòng nhập tên đơn vị'),
+    phoneNumber: Yup.string().required('Vui lòng nhập số điện thoại'),
+  });
 
   useEffect(() => {
     getAll(filterProps);
@@ -234,6 +241,7 @@ function PurchaseOrder() {
         onModify={add}
         title={createTitle}
         modifyModel={modifyModel}
+        validationModel={PurchaseOrderSchema}
         onHide={() => {
           setShowCreate(false);
         }}
@@ -244,6 +252,7 @@ function PurchaseOrder() {
         onModify={update}
         title={updateTitle}
         modifyModel={modifyModel}
+        validationModel={PurchaseOrderSchema}
         onHide={() => {
           setShowEdit(false);
         }}
