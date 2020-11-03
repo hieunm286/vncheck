@@ -8,7 +8,10 @@ const AccountPage = lazy(() => import('./pages/account'));
 
 const ProductPage = lazy(() => import('./pages/product'));
 
-const AgencyPage = lazy(() => import('./pages/agency-management'));
+const AgencyPage = lazy(() => import('./pages/agency/agency'));
+
+const AgencyTypePage = lazy(() => import('./pages/agency-type-2/'));
+
 // const CategoryPage = lazy(() => import('./pages/category/category-page'));
 const BasicUnitPage = lazy(() => import('./pages/basic-unit/basic-unit'));
 
@@ -28,6 +31,7 @@ export default function BasePage() {
         <Route path="/account" component={AccountPage}/>
         <Route path="/product-category" component={ProductPage}/>
         <Route path="/agency" component={AgencyPage}/>
+        <Route path="/agency-type" component={AgencyTypePage}/>
         {/*<Route path="/category" component={CategoryPage}/>*/}
         <Route path="/basic-unit" component={BasicUnitPage} />
         <Route path="/purchase-order" component={PurchaseOrderPage}/>
