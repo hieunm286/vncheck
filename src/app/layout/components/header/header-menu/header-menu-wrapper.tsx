@@ -1,7 +1,7 @@
 import React, {useMemo} from 'react';
 import objectPath from 'object-path';
 import {Link} from 'react-router-dom';
-import {ToAbsoluteUrl} from "../../../../components/helpers/assets-helpers";
+import {ToAbsoluteUrl} from "../../../../common-library/helpers/assets-helpers";
 import {useHtmlClassService} from "../../../_core/metronic-layout";
 
 export function HeaderMenuWrapper() {

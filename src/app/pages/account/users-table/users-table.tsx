@@ -8,16 +8,16 @@ import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {useUsersUIContext} from '../users-ui-context';
 import './user-table.scss';
 import {
-    getHandlerTableChange,
+    onTableChange,
     NoRecordsFoundMessage,
     PleaseWaitMessage
-} from "../../../components/helpers/table-pagination-helpers";
+} from "../../../common-library/helpers/pagination-helper";
 import {defaultSorted, sizePerPageList} from "../users-ui-helpers";
 import {ActionsColumnFormatter} from "./column-formatters/actions-column-formatter";
-import {Pagination} from "../../../components/pagination/pagination";
-import {HeaderSortingClasses, SortCaret} from "../../../components/helpers/table-sorting-helpers";
+import {Pagination} from "../../../common-library/pagination/pagination";
+import {HeaderSortingClasses, SortCaret} from "../../../common-library/helpers/table-sorting-helpers";
 import {fetchAllUser} from "../_redux/user-action";
-import {GetSelectRow} from "../../../components/helpers/table-row-selection-helpers";
+import {GetSelectRow} from "../../../common-library/common-components/table-row-selection-helpers";
 
 export function UsersTable() {
   // Customers UI Context
@@ -116,7 +116,7 @@ export function UsersTable() {
     user: true,
     totalSize: totalCount,
     sizePerPageList: sizePerPageList,
-    sizePerPage: usersUIProps.queryParams.pageSize,
+    sizePerPage: usersUIProps.queryParams.limit,
     page: usersUIProps.queryParams.pageNumber,
   };
   return (
@@ -136,7 +136,6 @@ export function UsersTable() {
                 data={entities || []}
                 columns={columns}
                 defaultSorted={defaultSorted as any}
-                onTableChange={getHandlerTableChange(usersUIProps.setQueryParams)}
                 selectRow={GetSelectRow({
                   entities,
                   ids: usersUIProps.ids,

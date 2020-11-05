@@ -1,11 +1,11 @@
 import React from 'react';
-import { Card, CardBody, CardHeader } from '../../components/card';
+import { Card, CardBody, CardHeader } from '../../common-library/card';
 import BasicUnitTable from './basic-unit-table/basic-unit-table';
 import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined';
 import InsertDriveFileOutlinedIcon from '@material-ui/icons/InsertDriveFileOutlined';
-import { iconStyle } from './style';
 import { useIntl } from 'react-intl';
 import { BasicUnitDataProps } from './_interface/basic-unit.interface';
+import {iconStyle} from "../../common-library/common-consts/const";
 
 function BasicUnitCard({
   showModal,
@@ -65,5 +65,4 @@ function BasicUnitCard({
     </Card>
   );
 }
-
 export default BasicUnitCard;

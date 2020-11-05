@@ -37,7 +37,7 @@ export default function setupAxios(axios: AxiosStatic, store: EnhancedStore) {
   axios.interceptors.response.use(
     (next) => {
       const nextData = next.data;
-      console.log(nextData);
+      // console.log(nextData);
       if (nextData && (nextData.success === false || nextData.success === 'false')) {
         if (nextData.reason === 'AUTH.ERROR.NEED_TO_CHANGE_PASSWORD') {
         } else if (nextData.reason.indexOf('AUTH.ERROR.') > -1) {
@@ -52,7 +52,7 @@ export default function setupAxios(axios: AxiosStatic, store: EnhancedStore) {
       //const responseRegex = /\bAUTH.ERROR./i;
       if (errorCode === 'AUTH.ERROR.NEED_TO_CHANGE_PASSWORD') {
       } else if (errorCode.indexOf('AUTH.ERROR.') > -1) {
-        console.log(errorCode);
+        // console.log(errorCode);
         store.dispatch({type: actionTypes.Logout, payload: errorCode});
       }
       return Promise.reject(error);

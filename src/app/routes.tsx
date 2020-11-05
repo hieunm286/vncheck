@@ -2,7 +2,7 @@
  * High level router.
  *
  * Note: It's recommended to compose related routes in internal router
- * components (e.g: `src/app/modules/auth/pages/AuthPage`, `src/app/BasePage`).
+ * common-library (e.g: `src/app/modules/auth/pages/AuthPage`, `src/app/BasePage`).
  */
 
 import React from 'react';

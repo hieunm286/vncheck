@@ -1,5 +1,5 @@
 /**
- * Entry application components used to compose providers and render Routes.
+ * Entry application common-library used to compose providers and render Routes.
  * */
 import React from 'react';
 import { Provider } from 'react-redux';

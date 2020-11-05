@@ -3,11 +3,11 @@ import { Modal } from 'react-bootstrap';
 import { Formik, Form, Field } from 'formik';
 import { Switch } from '@material-ui/core';
 import { useIntl } from 'react-intl';
-import { MainInput } from '../../../components/forms/main-input';
+import { MainInput } from '../../../common-library/forms/main-input';
 import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
-import { iconStyle } from '../style';
 import * as Yup from 'yup';
+import {iconStyle} from "../../../common-library/common-consts/const";
 
 const BasicUnitSchema = Yup.object().shape({
   code: Yup.string().required('Vui lòng nhập mã đơn vị'),

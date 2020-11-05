@@ -2,7 +2,7 @@ import React from 'react';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { Modal } from 'react-bootstrap';
-import { ModalProgressBar } from '../../../components/modal-progress-bar';
+import { ModalProgressBar } from '../../../common-library/modal-progress-bar';
 import { useIntl } from 'react-intl';
 import { DeleteMany } from '../_interface/basic-unit.interface';
 

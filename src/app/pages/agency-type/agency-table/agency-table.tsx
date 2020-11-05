@@ -8,14 +8,14 @@ import './agency-table.scss';
 import {useAgencyUIContext} from "../agency-ui-context";
 import {defaultSorted, sizePerPageList} from "../agency-ui-helpers";
 import {
-    getHandlerTableChange,
+    onTableChange,
     NoRecordsFoundMessage,
     PleaseWaitMessage
-} from "../../../components/helpers/table-pagination-helpers";
+} from "../../../common-library/helpers/pagination-helper";
 import {ActionsColumnFormatter} from "./column-formatters/actions-column-formatter";
-import {GetSelectAgencyRow} from "../../../components/helpers/table-row-selection-helpers";
+import {GetSelectAgencyRow} from "../../../common-library/common-components/table-row-selection-helpers";
 import paginationFactory, {PaginationProvider} from "react-bootstrap-table2-paginator";
-import {Pagination} from "../../../components/pagination/pagination";
+import {Pagination} from "../../../common-library/pagination/pagination";
 
 export function AgencyTable() {
   // Customers UI Context
@@ -81,7 +81,7 @@ export function AgencyTable() {
     agency: true,
     totalSize: totalCount,
     sizePerPageList: sizePerPageList,
-    sizePerPage: agencyUIProps.queryParams.pageSize,
+    sizePerPage: agencyUIProps.queryParams.limit,
     page: agencyUIProps.queryParams.pageNumber,
   };
   
@@ -106,7 +106,6 @@ export function AgencyTable() {
                 data={agencyTypeForView ? agencyTypeForView.agencies : []}
                 columns={columns}
                 defaultSorted={defaultSorted as any}
-                onTableChange={getHandlerTableChange(agencyUIProps.setQueryParams)}
                 selectRow={GetSelectAgencyRow({
                   entities,
                   ids: agencyUIProps.ids,

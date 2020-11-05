@@ -1,5 +1,5 @@
 import React from "react";
-import {Card, CardBody, CardHeader} from "../../../../app/components/card.tsx";
+import {Card, CardBody, CardHeader} from "../../../../app/common-library/card.tsx";
 import {CodeBlock} from "./CodeBlock";
 
 export function CodeExample({

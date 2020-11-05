@@ -1,6 +1,6 @@
 import React from "react";
 import "../sass/pages/error/error-6.scss";
-import {ToAbsoluteUrl} from "../../components/helpers/assets-helpers";
+import {ToAbsoluteUrl} from "../../common-library/helpers/assets-helpers";
 
 export function ErrorPage6() {
   return (

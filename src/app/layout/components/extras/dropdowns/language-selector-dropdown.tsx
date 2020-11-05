@@ -5,7 +5,7 @@ import {Dropdown} from 'react-bootstrap';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {useLang, setLanguage} from '../../../i18n';
 import {DropdownTopbarItemToggler} from '../../../../../_metronic/_partials/dropdowns';
-import {ToAbsoluteUrl} from "../../../../components/helpers/assets-helpers";
+import {ToAbsoluteUrl} from "../../../../common-library/helpers/assets-helpers";
 
 const languages = [
     {

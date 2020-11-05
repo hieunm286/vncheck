@@ -3,7 +3,7 @@ import React, {useMemo, useEffect} from "react";
 import objectPath from "object-path";
 import ApexCharts from "apexcharts";
 import SVG from "react-inlinesvg";
-import {ToAbsoluteUrl} from "../../../../app/components/helpers/assets-helpers";
+import {ToAbsoluteUrl} from "../../../../app/common-library/helpers/assets-helpers";
 import {useHtmlClassService} from "../../../../app/layout/_core/metronic-layout";
 
 export function StatsWidget12({className}) {

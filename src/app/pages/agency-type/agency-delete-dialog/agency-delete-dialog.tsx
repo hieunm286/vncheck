@@ -3,7 +3,7 @@ import {Modal} from 'react-bootstrap';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import * as actions from '../_redux/agency-type-action';
 import {useAgencyUIContext} from '../agency-ui-context';
-import {ModalProgressBar} from "../../../components/modal-progress-bar";
+import {ModalProgressBar} from "../../../common-library/modal-progress-bar";
 
 export function AgencyDeleteDialog({id, show, onHide}: any) {
   // agency UI Context

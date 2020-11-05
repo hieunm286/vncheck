@@ -9,7 +9,7 @@ $root-font-size-md:                             	12px; // Root font size for mob
 
 // Layout Theme Colors
 $layout-themes: (
-	dark:  #1e1e2d, // Dark theme color
+	dark:  #ffffff, // Dark theme color
 	light: #ffffff // Light theme color
 ) !default;
 
@@ -480,9 +480,9 @@ $header-menu-config: (
 									self: (
 										bg-color: (
 											default: transparent,
-											open: #1b1b28,
-											active: #1b1b28,
-											hover: #1b1b28
+											open: #0B9446,
+											active: #0B9446,
+											hover: #0B9446
 										)
 									),
 
@@ -519,7 +519,7 @@ $header-menu-config: (
 									// Text
 									text: (
 										font-color:	(
-											default: #a2a3b7,
+											default: #0B9446,
 											here: #ffffff,
 											active: #ffffff,
 											hover: #ffffff
@@ -555,7 +555,7 @@ $header-menu-config: (
 
 											// Text
 											text: (
-												font-color:	#a2a3b7
+												font-color:	#0B9446
 											)
 										)
 									)
@@ -795,10 +795,10 @@ $header-menu-config: (
 								self: (
 									bg-color: (
 										default: transparent,
-										open: #1b1b28,
-										here: #1b1b28,
-										active: #1b1b28,
-										hover: #1b1b28
+										open: #0B9446,
+										here: #0B9446,
+										active: #0B9446,
+										hover: #0B9446
 									)
 								),
 								// Icon
@@ -835,7 +835,7 @@ $header-menu-config: (
 								// Text
 								text:	(
 									font-color:	(
-										default: #a2a3b7,
+										default: #0B9446,
 										open: #ffffff,
 										here: #ffffff,
 										active: #ffffff,
@@ -883,10 +883,10 @@ $header-menu-config: (
 										self: (
 											bg-color: (
 												default: transparent,
-												open: #1b1b28,
-												here: #1b1b28,
-												active: #1b1b28,
-												hover: #1b1b28
+												open: #0B9446,
+												here: #0B9446,
+												active: #0B9446,
+												hover: #0B9446
 											)
 										),
 
@@ -925,7 +925,7 @@ $header-menu-config: (
 										// Text
 										text: (
 											font-color:	(
-												default: #9899ac,
+												default: #0B9446,
 												open: #ffffff,
 												active: #ffffff,
 												hover: #ffffff
@@ -1230,7 +1230,7 @@ $aside-config: (
 
 // Aside Menu
 $aside-menu-config: (
-	// Base parameters required to build the base menu(see mixin: src/sass/components/mixins/_menu-vertical.scss)
+	// Base parameters required to build the base menu(see mixin: src/sass/common-library/mixins/_menu-vertical.scss)
 	base:	(
 		class: aside-menu, // Menu element class name
 		parent-class: aside, // Menu parent aside element class name
@@ -1653,10 +1653,10 @@ $aside-menu-config: (
 							self: (
 								bg-color: (
 									default: transparent,
-									open: #1b1b28,
-									here: #1b1b28,
-									active: #1b1b28,
-									hover: #1b1b28
+									open: #0B9446,
+									here: #0B9446,
+									active: #0B9446,
+									hover: #0B9446
 								)
 							),
 
@@ -1697,7 +1697,7 @@ $aside-menu-config: (
 							// Text
 							text:	(
 								font-color:	(
-									default: #a2a3b7,
+									default: #0B9446,
 									open: #ffffff,
 									here: #ffffff,
 									active: #ffffff,
@@ -1747,10 +1747,10 @@ $aside-menu-config: (
 									self: (
 										bg-color: (
 											default: transparent,
-											open: #1b1b28,
-											here: #1b1b28,
-											active: #1b1b28,
-											hover: #1b1b28
+											open: #0B9446,
+											here: #0B9446,
+											active: #0B9446,
+											hover: #0B9446
 										)
 									),
 									// Icon
@@ -1787,7 +1787,7 @@ $aside-menu-config: (
 									// Text
 									text: (
 										font-color:	(
-											default: #9899ac,
+											default: #0B9446,
 											open: #ffffff,
 											active: #ffffff,
 											hover: #ffffff

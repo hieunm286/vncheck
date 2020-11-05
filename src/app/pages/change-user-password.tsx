@@ -1,5 +1,5 @@
 import React, {useMemo} from 'react';
-import {Card, CardHeader, CardHeaderToolbar} from "../components/card";
+import {Card, CardHeader, CardHeaderToolbar} from "../common-library/card";
 
 export function ChangeUserPassword() {
     return (

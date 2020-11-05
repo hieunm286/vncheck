@@ -1,6 +1,6 @@
 export interface queryParamsProps {
   data: any;
-  pageSize: number | string;
+  limit: number | string;
   pageNumber: number | string;
   sortOrder: string;
   sortField: string;

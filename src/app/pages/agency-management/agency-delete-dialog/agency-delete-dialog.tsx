@@ -5,7 +5,7 @@ import * as actions from '../_redux/agency-action';
 import {useAgencyUIContext} from '../agency-ui-context';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import DeleteIcon from '@material-ui/icons/Delete';
-import {ModalProgressBar} from "../../../components/modal-progress-bar";
+import {ModalProgressBar} from "../../../common-library/modal-progress-bar";
 
 export function AgencyDeleteDialog({id, show, onHide}: any) {
   // agency UI Context

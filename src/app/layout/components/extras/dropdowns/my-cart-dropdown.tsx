@@ -6,7 +6,7 @@ import PerfectScrollbar from "react-perfect-scrollbar";
 import { Dropdown, OverlayTrigger, Tooltip } from "react-bootstrap";
 import SVG from "react-inlinesvg";
 import { DropdownTopbarItemToggler } from "../../../../../_metronic/_partials/dropdowns";
-import {ToAbsoluteUrl} from "../../../../components/helpers/assets-helpers";
+import {ToAbsoluteUrl} from "../../../../common-library/helpers/assets-helpers";
 
 const perfectScrollbarOptions = {
   wheelSpeed: 2,

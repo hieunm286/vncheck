@@ -1,11 +1,11 @@
 /* eslint-disable no-restricted-imports */
 /* eslint-disable no-script-url,jsx-a11y/anchor-is-valid */
-import React, {useMemo} from 'react';
-import {OverlayTrigger, Tooltip} from 'react-bootstrap';
-import {useSelector} from 'react-redux';
+import React, { useMemo } from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
 import objectPath from 'object-path';
-import {UserProfileDropdown} from './dropdowns/user-profile-dropdown';
-import {useHtmlClassService} from "../../_core/metronic-layout";
+import { UserProfileDropdown } from './dropdowns/user-profile-dropdown';
+import { useHtmlClassService } from '../../_core/metronic-layout';
 
 export function QuickUserToggler() {
   const user = useSelector((state: any) => state.auth);
@@ -15,7 +15,7 @@ export function QuickUserToggler() {
       offcanvas: objectPath.get(uiService.config, 'extras.user.layout') === 'offcanvas',
     };
   }, [uiService]);
-  
+
   return (
     <>
       {layoutProps.offcanvas && (
@@ -34,9 +34,10 @@ export function QuickUserToggler() {
                   {user.fullName}
                 </span> */}
                 <span className="symbol symbol-35 symbol-light-danger">
-                  <span className="symbol-label font-size-h5 font-weight-bold"
-                        style={{color: 'white', background: '#EE4C4C'}}>
-                    {user.fullName[0]}
+                  <span
+                    className="symbol-label font-size-h5 font-weight-bold"
+                    style={{ color: 'white', background: '#0B9446' }}>
+                    {user.firstName[0]}
                   </span>
                 </span>
               </>
@@ -44,8 +45,8 @@ export function QuickUserToggler() {
           </div>
         </OverlayTrigger>
       )}
-      
-      {!layoutProps.offcanvas && <UserProfileDropdown/>}
+
+      {!layoutProps.offcanvas && <UserProfileDropdown />}
     </>
   );
 }

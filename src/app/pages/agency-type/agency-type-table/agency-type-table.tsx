@@ -7,13 +7,13 @@ import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {useAgencyTypeUIContext} from '../agency-type-ui-context';
 import './agency-type-table.scss';
 import {fetchAgencyTypeViewById, fetchAllAgencyType} from "../_redux/agency-type-action";
-import {HeaderSortingClasses, SortCaret} from "../../../components/helpers/table-sorting-helpers";
+import {HeaderSortingClasses, SortCaret} from "../../../common-library/helpers/table-sorting-helpers";
 import {defaultSorted, sizePerPageList} from "../agency-ui-helpers";
 import {
-    getHandlerTableChange,
+    onTableChange,
     NoRecordsFoundMessage,
     PleaseWaitMessage
-} from "../../../components/helpers/table-pagination-helpers";
+} from "../../../common-library/helpers/pagination-helper";
 import {ActionsColumnFormatter} from "./column-formatters/actions-column-formatter";
 
 export function AgencyTypeTable() {
@@ -81,7 +81,7 @@ export function AgencyTypeTable() {
     agencyType: true,
     totalSize: totalCount,
     sizePerPageList: sizePerPageList,
-    sizePerPage: agencyTypeUIProps.queryParams.pageSize,
+    sizePerPage: agencyTypeUIProps.queryParams.limit,
     page: agencyTypeUIProps.queryParams.pageNumber,
   };
   
@@ -109,7 +109,6 @@ export function AgencyTypeTable() {
       data={entities || []}
       columns={columns}
       // defaultSorted={defaultSorted}
-      onTableChange={getHandlerTableChange(agencyTypeUIProps.setQueryParams)}
       rowEvents={rowEvents}
       
       // selectRow={getSelectAgencyRow({

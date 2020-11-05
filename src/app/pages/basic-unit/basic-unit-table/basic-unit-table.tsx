@@ -3,18 +3,18 @@ import { useIntl } from 'react-intl';
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory, { PaginationProvider } from 'react-bootstrap-table2-paginator';
 import {
-  getHandlerTableChange,
+  onTableChange,
   NoRecordsFoundMessage,
   PleaseWaitMessage,
-} from '../../../components/helpers/table-pagination-helpers';
-import { HeaderSortingClasses, SortCaret } from '../../../components/helpers/table-sorting-helpers';
+} from '../../../common-library/helpers/pagination-helper';
+import { HeaderSortingClasses, SortCaret } from '../../../common-library/helpers/table-sorting-helpers';
 import { Pagination } from '../../../../_metronic/_partials/controls';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import IndeterminateCheckBoxIcon from '@material-ui/icons/IndeterminateCheckBox';
 import { ActionsColumnFormatter } from './column-formatters/actions-column-formatter';
 import { defaultSorted, sizePerPageList } from '../basic-unit-ui-helpers';
 import './basic-unit-table.scss';
-import { GetSelectBasicUnitRow } from '../../../components/helpers/table-row-selection-helpers';
+import { GetSelectBasicUnitRow } from '../../../common-library/common-components/table-row-selection-helpers';
 import { BasicUnitDataProps } from '../_interface/basic-unit.interface';
 
 function BasicUnitTable({
@@ -37,7 +37,7 @@ function BasicUnitTable({
       dataField: 'ordinal',
       text: 'STT',
       formatter: (cell: any, row: any, rowIndex: number) => (
-        <p>{rowIndex + 1 + (queryParams.pageNumber - 1) * queryParams.pageSize}</p>
+        <p>{rowIndex + 1 + (queryParams.page - 1) * queryParams.limit}</p>
       ),
       style: { paddingTop: 20 },
     },
@@ -98,7 +98,7 @@ function BasicUnitTable({
     totalSize: total,
     tableName: 'đơn vị cơ bản',
     sizePerPageList: sizePerPageList,
-    sizePerPage: queryParams.pageSize,
+    sizePerPage: queryParams.limit,
     page: queryParams.pageNumber,
   };
 
@@ -126,7 +126,6 @@ function BasicUnitTable({
                     setIds: setIds,
                   }) as any
                 }
-                onTableChange={getHandlerTableChange(setQueryParams)}
                 {...paginationProps}>
                 <PleaseWaitMessage entities={basicUnitArray} />
                 <NoRecordsFoundMessage entities={basicUnitArray} />
