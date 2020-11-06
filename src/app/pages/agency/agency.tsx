@@ -22,7 +22,7 @@ import DeleteManyEntitiesDialog from '../../common-library/common-components/del
 import ModifyEntityDialog from '../../common-library/common-components/modify-entity-dialog';
 import { MasterEntityDetailDialog } from '../../common-library/common-components/master-entity-detail-dialog';
 import * as Yup from "yup";
-import { FormGroup } from "../../common-library/common-components/form-group";
+import {  MasterEntityDetailAgency } from "../../common-library/common-components/master-entity-detail-dialog-agency";
 import { getUserById } from "../account/_redux/user-crud";
 import * as agencyTypeService from "../agency-type-2/agency-type.service";
 
@@ -100,9 +100,10 @@ function AgencyPage() {
 
   const moduleName = 'PURCHASE_ORDER.CUSTOM.MODULE_NAME';
   const headerTitle = 'AGENCY.MASTER.HEADER.TITLE';
+  const detailTitle = 'COMMON_COMPONENT.DETAIL_DIALOG.HEADER_TITLE.2';
   const createTitle = 'PURCHASE_ORDER.CREATE.TITLE';
   const updateTitle = 'PURCHASE_ORDER.UPDATE.TITLE';
-
+  console.log(entities);
   const columns = [
     {
       dataField: 'ordinal',
@@ -113,7 +114,7 @@ function AgencyPage() {
       style: {paddingTop: 20},
     },    {
       dataField: 'name',
-      text: 'PURCHASE_ORDER.MASTER.TABLE.',
+      text: `${intl.formatMessage({id: 'PURCHASE_ORDER.MASTER.HEADER.NAME.LABEL'})}`,
       ...SortColumn
     },
     {
@@ -153,37 +154,25 @@ function AgencyPage() {
         onShowDetail: (entity: AgencyModel) => {
           get(entity)
             .then(res => {
-              Promise.all(
-                [getUserById(res.data.owner),
-                  agencyTypeService.Get(
-                    {_id: res.data.type, code: '', name: '', status: true}
-                  )
-                ]
-              ).then(values => {
-                const agency = res.data;
-                const agencyOwner = values[0].data;
-                const agencyType = values[1].data;
-                setDetailEntity(
-                  { ...agency, owner: agencyOwner, type: agencyType }
-                );
-                setEditEntity(
-                  { ...agency, owner: agencyOwner, type: agencyType }
-                );
-              });
-              // getUserById(res.data.owner)
-              //   .then(userRes => {
-              //     const agency = res.data;
-              //     const agencyOwner = userRes.data;
-              //     setDetailEntity({...agency, owner: agencyOwner});
-              //     setEditEntity({...agency, owner: agencyOwner});
+              setDetailEntity(res.data);
+              setEditEntity(res.data);
+              // Promise.all(
+              //   [getUserById(res.data.owner),
+              //     agencyTypeService.Get(
+              //       {_id: res.data.type, code: '', name: '', status: true}
+              //     )
+              //   ]
+              // ).then(values => {
+              //   const agency = res.data;
+              //   const agencyOwner = values[0].data;
+              //   const agencyType = values[1].data;
+              //   setDetailEntity(
+              //     { ...agency, owner: agencyOwner, type: agencyType }
+              //   );
+              //   setEditEntity(
+              //     { ...agency, owner: agencyOwner, type: agencyType }
+              //   );
               // });
-              // console.log(res);
-              // agencyTypeService.Get(
-              //   {_id: res.data.type, code: '', name: '', status: true}
-              //   )
-              // .then(res => {
-              //   console.log(res);
-              // })
             })
             .catch(error => {
               console.log(error);
@@ -283,17 +272,35 @@ function AgencyPage() {
   };
 
   const masterEntityDetailDialog = [
-    { keyField: 'code', title: 'PURCHASE_ORDER.MASTER.TABLE.CODE_COLUMN' },
-    { keyField: 'address.state', title: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS_COLUMN' },
-    { keyField: 'address.city', title: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS_COLUMN' },
-    { keyField: 'address.district', title: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS_COLUMN' },
-    { keyField: 'phone', title: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' },
-    { keyField: 'owner.username', title: 'PURCHASE_ORDER.MASTER.TABLE.OWNER' },
-    { keyField: 'owner.email', title: 'PURCHASE_ORDER.MASTER.TABLE.EMAIL' },
-    { keyField: 'type.name', title: 'AGENCY_TYPE.MASTER.TABLE.NAME' },
-    { keyField: 'type.code', title: 'AGENCY_TYPE.MASTER.TABLE.CODE' },
-    { keyField: 'taxId', title: 'PURCHASE_ORDER.MASTER.TABLE.TAX_ID' },
-    { keyField: 'status', title: 'PURCHASE_ORDER.MASTER.TABLE.STATUS' },
+    {
+      header: 'AGENCY.MASTER.HEADER.AGENCY_INFO',
+      data: [
+        { keyField: 'code', title: 'AGENCY.VIEW.LABEL.AGENCY_CODE' },
+        { keyField: 'name', title: 'AGENCY.VIEW.LABEL.AGENCY_NAME' },
+        { keyField: ['address.district', 'address.city', 'address.state'], title: 'AGENCY.VIEW.LABEL.AGENCY_ADDRESS' },
+        { keyField: 'phone', title: 'AGENCY.VIEW.LABEL.PHONE' },
+        { keyField: 'taxId', title: 'AGENCY.VIEW.LABEL.AGENCY_NAME.TAX_ID' },
+        { keyField: 'status', title: 'AGENCY.VIEW.LABEL.AGENCY_NAME.STATUS' },
+        // { keyField: 'type.name', title: 'AGENCY_TYPE.MASTER.TABLE.NAME' },
+        // { keyField: 'type.code', title: 'AGENCY_TYPE.MASTER.TABLE.CODE' },
+      ]
+    },
+    {
+      header: 'AGENCY.MASTER.HEADER.AGENCY_OWNER_INFO',
+      data: [
+        { keyField: 'owner.username', title: 'AGENCY.VIEW.LABEL.OWNER_NAME' },
+        { keyField: 'owner.email', title: 'AGENCY.VIEW.LABEL.OWNER_EMAIL' },
+        { keyField: 'owner.phone', title: 'AGENCY.VIEW.LABEL.OWNER_PHONE' },
+      ]
+    },
+    {
+      header: 'AGENCY.VIEW.LABEL.SHIPPING_ADDRESS',
+      data: [
+        { keyField: 'shippingAddress', title: 'AGENCY.VIEW.LABEL.SHIPPING_ADDRESS' },
+      ]
+    },  
+    
+ 
   ];
 
   return (
@@ -335,7 +342,7 @@ function AgencyPage() {
           setShowDeleteMany(false);
         }}
       />
-      {/* <ModifyEntityDialog
+      <ModifyEntityDialog
         isShow={showCreate}
         entity={createEntity}
         onModify={add}
@@ -356,15 +363,16 @@ function AgencyPage() {
         onHide={() => {
           setShowEdit(false);
         }}
-      /> */}
+      />
 
-      <FormGroup
+      <MasterEntityDetailAgency
         show={showDetail}
         entity={detailEntity}
         renderInfo={masterEntityDetailDialog}
         onClose={() => {
           setShowDetail(false);
         }}
+        title={detailTitle}
       />
     </>
   );

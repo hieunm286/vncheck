@@ -107,6 +107,7 @@
     "secp256k1": "^4.0.2",
     "sha256": "^0.2.0",
     "socicon": "3.0.5",
+    "styled-components": "^5.2.1",
     "yup": "0.29.0"
   },
   "devDependencies": {
@@ -122,6 +123,7 @@
     "@types/react-redux": "^7.1.9",
     "@types/react-router": "^5.1.8",
     "@types/react-router-dom": "^5.1.5",
+    "@types/styled-components": "^5.1.4",
     "@types/yup": "^0.29.7",
     "copyfiles": "2.1.1",
     "node-sass": "^4.14.1",

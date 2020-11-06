@@ -1,0 +1,17 @@
+.modal-header {
+    border-bottom: 0;
+}
+
+.table th, .table td {
+    // padding: 0.75rem;
+    // vertical-align: top;
+    border-top: 0;
+}
+
+.modal-footer {
+    border-top: 0;
+}
+
+.table td:nth-child(1) {
+    width: '40%';
+}
