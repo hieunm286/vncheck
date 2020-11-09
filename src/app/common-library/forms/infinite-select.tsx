@@ -19,6 +19,7 @@ export function InfiniteSelect({
   return (
     <div>
       <label>{label}</label>
+
       <div>
         <AsyncPaginate
           value={value}

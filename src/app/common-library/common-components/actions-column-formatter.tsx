@@ -16,7 +16,7 @@ export function ActionsColumnFormatter<T>(
   rowIndex: number,
   { onShowDetail, onDelete, onEdit, intl }: ActionColumnProps<T> & { intl: IntlShape },
 ) {
-  console.log(row);
+  
   return (
     <>
       <a
@@ -27,6 +27,7 @@ export function ActionsColumnFormatter<T>(
           <Visibility className="text-primary eye" />
         </span>
       </a>
+
       <a
         // to={`/purchase-order/${row.code}`}
         // title={intl.formatMessage({id: 'COMMON_COMPONENT.MASTER_BODY.TABLE.EDIT_BTN'})}
@@ -39,6 +40,7 @@ export function ActionsColumnFormatter<T>(
           />
         </span>
       </a>
+
       <a
         // title={intl.formatMessage({id: 'COMMON_COMPONENT.MASTER_BODY.TABLE.DELETE_BTN'})}
         className="btn btn-icon btn-light btn-hover-primary btn-sm"

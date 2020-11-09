@@ -19,6 +19,7 @@ export function MasterEntityDetailDialog({
   onClose: () => void;
 }) {
   const intl = useIntl();
+
   return (
     <Modal
       // size="lg"
@@ -35,6 +36,7 @@ export function MasterEntityDetailDialog({
       </Modal.Header>
 
       <MasterEntityDetail data={entity} renderInfo={renderInfo} />
+
       <Modal.Footer>
         <button type="button" onClick={onClose} className="btn btn-outline-danger">
           <CancelOutlinedIcon style={{ fontSize: 14 }} />{' '}
@@ -57,10 +59,22 @@ export function MasterEntityDetail({
   const intl = useIntl();
   return data ? (
     <Modal.Body>
-      {Object.keys(renderInfo).map((key: any) => (
-        <p key={key}>
-          {intl.formatMessage({ id: renderInfo[key].title })}: <strong>{data[key]}</strong>
-        </p>
+      {renderInfo.map((value: any, key: any) => (
+        <div key={key} className="mt-5">
+          <p className="text-primary font-weight-bold">{value.header}</p>
+          {Object.keys(value.data).map((dataKey: any) => (
+            <div key={dataKey}>
+              <div className="row">
+                <div className="col-6">
+                  {intl.formatMessage({ id: value.data[dataKey].title })}:
+                </div>
+                <div className="col-6">
+                  <strong>{data[dataKey]}</strong>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
       ))}
     </Modal.Body>
   ) : (

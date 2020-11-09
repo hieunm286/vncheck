@@ -23,14 +23,17 @@ export function GetSelectRow<T>({
   onSelectMany: (entities: T[]) => void;
 }) {
   return {
+
     mode: 'checkbox' as RowSelectionType,
     clickToSelect: true,
     hideSelectAll: false,
+
     selectionHeaderRenderer: () => {
       const isSelected =
         selectedEntities &&
         selectedEntities.length > 0 &&
         selectedEntities.length === entities.length;
+        
       return (
         <SelectionCheckbox
           isSelected={isSelected}
@@ -44,6 +47,7 @@ export function GetSelectRow<T>({
         />
       );
     },
+
     selectionRenderer: ({ rowIndex }: { rowIndex: number }) => {
       const isSelected =
         selectedEntities && selectedEntities.some(entity => isEqual(entity, entities[rowIndex]));
@@ -95,6 +99,7 @@ export function MasterTable<T>({
       setPaginationParams({ ...paginationParams, page });
     },
   };
+
   return (
     <PaginationProvider pagination={paginationFactory(paginationOptions)}>
       {({ paginationProps, paginationTableProps }) => {

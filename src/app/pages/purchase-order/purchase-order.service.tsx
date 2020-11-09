@@ -15,6 +15,8 @@ import { purchaseOrderSlice, callTypes } from './purchase-order.redux';
 
 export const API_URL = API_BASE_URL + '/purchase-order';
 
+export const API_FILE_URL = API_BASE_URL + '/file';
+
 export const Create: CreateProps<PurchaseOrderModel> = (data: PurchaseOrderModel) => {
   return axios.post(API_URL, data);
 };
@@ -58,5 +60,17 @@ export const Delete: DeleteProps<PurchaseOrderModel> = (entity: PurchaseOrderMod
 export const DeleteMany: DeleteManyProps<PurchaseOrderModel> = (entities: PurchaseOrderModel[]) => {
   return axios.delete(API_URL, {
     data: { arrayEntities: entities },
+  });
+};
+
+export const uploadImage = (image: any) => {
+  console.log('run updload');
+  console.log(image);
+  let formData = new FormData();
+  formData.append('image', image);
+  return axios({
+    method: 'POST',
+    url: API_FILE_URL,
+    data: formData,
   });
 };

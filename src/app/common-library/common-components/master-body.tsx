@@ -7,6 +7,7 @@ import { MasterTable } from './master-table';
 import { PaginationProps } from '../common-types/common-type';
 import { ColumnDescription } from 'react-bootstrap-table-next';
 import { Link } from 'react-router-dom';
+import MasterTreeStructure from './master-tree-structure';
 
 export interface BasicUnitDataProps {
   showModal: any;
@@ -74,6 +75,7 @@ export function MasterBody<T>({
               + {intl.formatMessage({ id: 'COMMON_COMPONENT.MASTER_BODY.HEADER.ADD_BTN' })}
             </button>
           </div>
+
           <div className="col-xxl-1 col-xl-2 col-lg-2 mr-5">
             <button
               type="button"
@@ -87,6 +89,7 @@ export function MasterBody<T>({
             </button>
           </div>
         </div>
+        
         <MasterTable
           entities={entities}
           columns={masterColumn}
@@ -97,6 +100,8 @@ export function MasterBody<T>({
           onSelectMany={onSelectMany}
           selectedEntities={selectedEntities}
         />
+
+        <MasterTreeStructure />
       </CardBody>
     </Card>
   );

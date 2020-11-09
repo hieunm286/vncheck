@@ -16,6 +16,34 @@ interface CustomSelectState {
   disabled: boolean;
 }
 
+const getClassName = (labelWidth: number | null | undefined, labelStart: boolean) => {
+  const classes: string[] = [];
+
+  if (labelStart) {
+    if (labelWidth) {
+      classes.push(`col-xl-${labelWidth}`);
+      classes.push(`col-md-${labelWidth}`);
+      classes.push('col-12');
+    } else {
+      classes.push(`col-xl-3`);
+      classes.push(`col-md-3`);
+      classes.push('col-12');
+    }
+  } else {
+    if (labelWidth) {
+      classes.push(`col-xl-${12 - labelWidth - 1}`);
+      classes.push(`col-md-${12 - labelWidth}`);
+      classes.push('col-12');
+    } else {
+      classes.push(`col-xl-8`);
+      classes.push(`col-md-9`);
+      classes.push('col-12');
+    }
+  }
+
+  return classes.join(' ');
+};
+
 export function CustomSelect({
   label,
   withFeedbackLabel,
@@ -41,10 +69,7 @@ export function CustomSelect({
   return (
     <>
       <div className={isHorizontal ? 'row' : ''}>
-        <div
-          className={`col-xl-${labelWidth ? labelWidth : 3} 
-            col-md-${labelWidth ? labelWidth : 3} 
-            col-12`}>
+        <div className={getClassName(labelWidth, true)}>
           {label && (
             <label
               style={width ? styleLabe : {}}
@@ -53,10 +78,8 @@ export function CustomSelect({
             </label>
           )}
         </div>
-        <div
-          className={`col-xl-${labelWidth ? 12 - labelWidth - 1 : 8} 
-          col-md-${labelWidth ? 12 - labelWidth : 9} 
-          col-12`}>
+
+        <div className={getClassName(labelWidth, false)}>
           <select
             style={width ? styleInput : {}}
             className={checkSelect ? 'form-control' : 'form-control border border-danger'}

@@ -15,7 +15,11 @@ import { DefaultPagination } from '../common-consts/const';
 import { InfiniteSelect } from '../forms/infinite-select';
 import { DatePickerField } from '../forms/date-picker-field';
 // import InfiniteSelect from '../forms/infinite-select';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import { Button } from 'antd';
+
 import './master-header.css';
+import CustomeTreeSelect from '../forms/tree-select';
 
 export function MasterHeader<T>({
   title,
@@ -39,6 +43,8 @@ export function MasterHeader<T>({
     agencyAddress: '',
     agency: '',
   });
+
+  const [treeValue, setTreeValue] = useState();
 
   const handleResetForm = (resetForm: any) => {
     resetForm();
@@ -80,6 +86,7 @@ export function MasterHeader<T>({
     key: string,
   ) => {
     const queryProps: any = {};
+
     queryProps[keyField] = search;
 
     const paginationProps = {
@@ -92,7 +99,7 @@ export function MasterHeader<T>({
 
     const hasMore = prevOptions.length < count.data - (DefaultPagination.limit ?? 0);
 
-    setSearchTerm({ ...searchTerm, [key]: search });
+    // setSearchTerm({ ...searchTerm, [key]: search });
 
     const data = [...new Set(entities.data)];
 
@@ -109,7 +116,15 @@ export function MasterHeader<T>({
 
   return (
     <Card>
-      <CardHeader title={intl.formatMessage({ id: title }).toUpperCase()} />
+      <CardHeader
+        title={
+          <>
+            <ArrowBackIosIcon />
+            {intl.formatMessage({ id: title }).toUpperCase()}
+          </>
+        }
+      />
+
       <CardBody>
         <Formik
           initialValues={initValue}
@@ -118,7 +133,6 @@ export function MasterHeader<T>({
             onSearch(values);
           }}
           onReset={data => {
-            console.log(data);
             onSearch(data);
           }}>
           {({ values, handleSubmit, handleBlur, handleChange, setFieldValue, resetForm }) => (
@@ -146,13 +160,13 @@ export function MasterHeader<T>({
                         return (
                           <div
                             className="col-xxl-3 col-md-3 mt-md-5 mt-5"
-                            key={'master_header' + key}>
+                            key={`master_header${key}`}>
                             <Field
                               name={key}
                               type="number"
                               component={Input}
-                              placeholder="Nhập số"
-                              label="Số"
+                              placeholder={intl.formatMessage({ id: searchM[key].placeholder })}
+                              label={intl.formatMessage({ id: searchM[key].label })}
                               withFeedbackLabel={true}
                             />
                           </div>
@@ -161,9 +175,10 @@ export function MasterHeader<T>({
                       case 'Datetime':
                         return (
                           <div className="col-xxl-3 col-md-3 mt-md-5 mt-5 " key={key}>
-                            <div className="customDatePickerWidth">
-                              <DatePickerField name="date" label="Ngày đặt" />
-                            </div>
+                            <DatePickerField
+                              name="date"
+                              label={intl.formatMessage({ id: searchM[key].label })}
+                            />
                           </div>
                         );
 
@@ -176,10 +191,10 @@ export function MasterHeader<T>({
                               value={search[key]}
                               onChange={(value: any) => {
                                 onChange({ ...search, [key]: value });
-                                setSearchTerm({
-                                  ...searchTerm,
-                                  [key]: searchM[key].ref ? value.value : value.label,
-                                });
+                                // setSearchTerm({
+                                //   ...searchTerm,
+                                //   [key]: searchM[key].ref ? value.value : value.label,
+                                // });
                               }}
                               loadOptions={(search: string, prevOptions: any, { page }: any) =>
                                 loadOptions(
@@ -200,8 +215,21 @@ export function MasterHeader<T>({
                             />
                           </div>
                         );
+
+                      case 'TreeSelect':
+                        return (
+                          <div className="col-xxl-3 col-md-3 mt-md-5 mt-5" key={key}>
+                            <CustomeTreeSelect
+                              label="Tree Select"
+                              data={searchM[key].data}
+                              value={search[key]}
+                              onChange={(value: any) => onChange({ ...search, [key]: value })}
+                              name={key}
+                            />
+                          </div>
+                        );
                     }
-                    return <>NOT IMPLEMENTED!</>;
+                    return <></>;
                   })
                 ) : (
                   <></>

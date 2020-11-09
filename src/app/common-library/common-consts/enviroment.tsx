@@ -13,11 +13,8 @@ export const PROJECT_NAME = 'vncheck';
 // export const APP_TITLE: string = process.env.REACT_APP_TITLE ?? '';
 export const API_BASE_URL = (() => {
   if (REACT_APP_ENV === 'mock' || REACT_APP_ENV === 'production') return '/api';
-  // console.log(1);
   if (process.env.REACT_APP_API_BASE_URL) {
-    // console.log(2);
     if (process.env.REACT_APP_API_BASE_URL.charAt(0) === ':') {
-      // console.log(3);
       return (
         window.location.protocol +
         '//' +
@@ -25,9 +22,10 @@ export const API_BASE_URL = (() => {
         process.env.REACT_APP_API_BASE_URL
       );
     }
-    console.log(process.env.REACT_APP_API_BASE_URL);
+
     return process.env.REACT_APP_API_BASE_URL;
   }
+
   return '/api';
 })();
 
