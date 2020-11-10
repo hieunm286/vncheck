@@ -35,10 +35,10 @@ function ModifyEntityPage<T>({
   // reduxModel: string;
   // code: string | null;
   // get: (code: string) => any | null;
-  images: any;
-  onChange: any;
+  images?: any;
+  onChange?: any;
   title?: string;
-  column: number;
+  column?: number;
 }) {
   const intl = useIntl();
   // const initForm = generateInitForm(modifyModel);
@@ -91,10 +91,10 @@ function ModifyEntityPage<T>({
     <>
       {/* <Form className="form form-label-right"> */}
       {title && <h6 className="text-primary">{title.toUpperCase()}</h6>}
-      <div className={column > 1 ? 'row' : ''}>
+      <div className={(column ? column : 1) > 1 ? 'row' : ''}>
         {modifyModel &&
           modifyModel.map((value: any, key: any) => (
-            <div className={`col-md-${12 / column} col-12`} key={key}>
+            <div className={`col-md-${12 / (column ? column : 1)} col-12`} key={key}>
               {Object.keys(value).map(key => {
                 switch (value[key].type) {
                   case 'string':

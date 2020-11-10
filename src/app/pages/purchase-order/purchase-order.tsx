@@ -13,7 +13,11 @@ import { DeleteEntityDialog } from '../../common-library/common-components/delet
 import DeleteManyEntitiesDialog from '../../common-library/common-components/delete-many-dialog';
 import ModifyEntityDialog from '../../common-library/common-components/modify-entity-dialog';
 import { ModifyModel, SearchModel } from '../../common-library/common-types/common-type';
-import { ConvertToTreeNode, GenerateAllFormField, InitMasterProps } from '../../common-library/helpers/common-function';
+import {
+  ConvertToTreeNode,
+  GenerateAllFormField,
+  InitMasterProps,
+} from '../../common-library/helpers/common-function';
 import * as AgencyService from './agency.service';
 import * as PurchaseOrderService from './purchase-order.service';
 import { Switch, Route, Redirect, useHistory } from 'react-router-dom';
@@ -24,6 +28,7 @@ import EntityCrudPage from '../../common-library/common-components/entity-crud-p
 import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import { isArray, isNull } from 'lodash';
+import MasterGoogleMap from '../../common-library/common-components/master-google-map';
 
 const DataExample: any = [
   {
@@ -311,68 +316,72 @@ function PurchaseOrder() {
     },
   ];
 
-  const modifyModel_3 = [{
-    time: {
-      type: 'Datetime',
-      placeholder: 'Thời gian thu hoạch',
-      label: 'Thời gian thu hoạch',
+  const modifyModel_3 = [
+    {
+      time: {
+        type: 'Datetime',
+        placeholder: 'Thời gian thu hoạch',
+        label: 'Thời gian thu hoạch',
+      },
+      time2: {
+        type: 'Datetime',
+        placeholder: 'Thời gian thu hoạch2',
+        label: 'Thời gian thu hoạch2',
+      },
+      quantity: {
+        type: 'number',
+        label: 'Sản lượng thu hoạch (kg)',
+        placeholder: 'Sản lượng',
+      },
     },
-    time2: {
-      type: 'Datetime',
-      placeholder: 'Thời gian thu hoạch2',
-      label: 'Thời gian thu hoạch2',
-    },
-    quantity: {
-      type: 'number',
-      label: 'Sản lượng thu hoạch (kg)',
-      placeholder: 'Sản lượng',
-    },
-  }];
+  ];
 
-  const modifyModel_2 = [{
-    director: {
-      type: 'string',
-      label: 'Thông tin giám đốc',
-      placeholder: 'Thông tin giám đốc',
+  const modifyModel_2 = [
+    {
+      director: {
+        type: 'string',
+        label: 'Thông tin giám đốc',
+        placeholder: 'Thông tin giám đốc',
+      },
+      leader: {
+        type: 'string',
+        label: 'Tổ trưởng gieo trồng',
+        placeholder: 'Tổ trưởng gieo trồng',
+      },
     },
-    leader: {
-      type: 'string',
-      label: 'Tổ trưởng gieo trồng',
-      placeholder: 'Tổ trưởng gieo trồng',
-    },
-  }];
+  ];
 
   const modifyModel_4 = [
     {
       test4: {
         type: 'string',
         label: 'Test 4',
-        placeholder: 'Test 4'
+        placeholder: 'Test 4',
       },
       test5: {
         type: 'string',
         label: 'Test 5',
-        placeholder: 'Test 5'
-      }
+        placeholder: 'Test 5',
+      },
     },
     {
       test6: {
         type: 'string',
         label: 'Test 6',
-        placeholder: 'Test 6'
+        placeholder: 'Test 6',
       },
       test7: {
         type: 'string',
         label: 'Test 7',
-        placeholder: 'Test 7'
+        placeholder: 'Test 7',
       },
       test8: {
         type: 'string',
         label: 'Test 8',
-        placeholder: 'Test 8'
-      }
-    }
-  ]
+        placeholder: 'Test 8',
+      },
+    },
+  ];
 
   const formPart: any = {
     form_1: {
@@ -389,8 +398,8 @@ function PurchaseOrder() {
       modifyModel: modifyModel_3,
     },
     form_4: {
-      title: "Thông tin test",
-      modifyModel: modifyModel_4
+      title: 'Thông tin test',
+      modifyModel: modifyModel_4,
     },
     // form_5: {
     //   title: "xxx",
@@ -399,7 +408,7 @@ function PurchaseOrder() {
   };
 
   const allFormField: any = {
-    ...GenerateAllFormField(modifyModel, modifyModel_2, modifyModel_3, modifyModel_4)
+    ...GenerateAllFormField(modifyModel, modifyModel_2, modifyModel_3, modifyModel_4),
   };
 
   const allFormButton: any = {
@@ -428,6 +437,11 @@ function PurchaseOrder() {
       icon: <CancelOutlinedIcon />,
     },
   };
+
+  const location = {
+    latitude: 21.027763,
+    longitude: 105.834160
+  }
 
   return (
     <Fragment>
@@ -562,6 +576,8 @@ function PurchaseOrder() {
             setPaginationParams={setPaginationProps}
             isShowId={true}
           />
+
+          <MasterGoogleMap location={location} />
         </Route>
       </Switch>
     </Fragment>
