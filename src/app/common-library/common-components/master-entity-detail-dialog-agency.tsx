@@ -23,8 +23,6 @@ export function MasterEntityDetailAgency({
   onClose: () => void;
 }) {
   const intl = useIntl();
-  console.log(title);
-  console.log(moduleName);
   return (
     <Modal
       size="lg"
@@ -109,7 +107,7 @@ export function FormGroup({
         <thead>
           <tr>
             <td>
-              <h3 className="text-primary">{title}</h3>
+              <h3 className="text-primary">{title.toUpperCase()}</h3>
             </td>
           </tr>
         </thead>

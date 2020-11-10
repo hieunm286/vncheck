@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, Fragment } from "react";
 import {useIntl} from 'react-intl';
 
 
@@ -25,6 +25,11 @@ import * as Yup from "yup";
 import {  MasterEntityDetailAgency } from "../../common-library/common-components/master-entity-detail-dialog-agency";
 import { getUserById } from "../account/_redux/user-crud";
 import * as agencyTypeService from "../agency-type-2/agency-type.service";
+import ModifyEntityPage from '../../common-library/common-components/modify-entity-page';
+import EntityCrudPageAgency from "../../common-library/common-components/entity-crud-page-agency";
+import * as AgencyService from './agency.service';
+import { ConvertToTreeNode, GenerateAllFormField } from '../../common-library/helpers/common-function';
+import { Switch, Route, Redirect, useHistory } from 'react-router-dom';
 
 function AgencyPage() {
 
@@ -103,6 +108,7 @@ function AgencyPage() {
   const detailTitle = 'COMMON_COMPONENT.DETAIL_DIALOG.HEADER_TITLE.2';
   const createTitle = 'PURCHASE_ORDER.CREATE.TITLE';
   const updateTitle = 'PURCHASE_ORDER.UPDATE.TITLE';
+  const history = useHistory();
   console.log(entities);
   const columns = [
     {
@@ -142,8 +148,8 @@ function AgencyPage() {
       dataField: 'status',
       text: `${intl.formatMessage({id: 'PURCHASE_ORDER.MASTER.TABLE.STATUS_COLUMN'})}`,
       ...SortColumn,
-      formatter: (cell: any, row: any) => row.status == 1 ?
-        (<CheckCircleIcon style={{color: '#1DBE2D'}}/>) : (<IndeterminateCheckBoxIcon/>),
+      formatter: (cell: any, row: any) => row.status === "true" ?
+        (<CheckCircleIcon style={{color: '#1DBE2D'}}/>) : (<CheckCircleIcon style={{color: '#C4C4C4'}}/>),
     },
     {
       dataField: 'action',
@@ -184,8 +190,10 @@ function AgencyPage() {
           setShowDelete(true);
         },
         onEdit: (entity: AgencyModel) => {
+          // setEditEntity(entity);
+          get(entity);
           setEditEntity(entity);
-          setShowEdit(true);
+          history.push(`agency/${entity._id}`) // setShowEdit(true);
         }
       },
       ...NormalColumn,
@@ -215,7 +223,7 @@ function AgencyPage() {
     // phoneNumber: Yup.string().required('Vui lòng nhập số điện thoại'),
   });
 
-  const modifyModel: ModifyModel = {
+  const oldModifyModel: ModifyModel = {
     code: {
       type: 'string',
       placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.PLACEHOLDER',
@@ -303,25 +311,216 @@ function AgencyPage() {
  
   ];
 
+  const modifyModel = [
+    {
+      code: {
+        type: 'string',
+        placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.AGENCY_CODE' }),
+        label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.AGENCY_CODE' }),
+        disabled: !editEntity,
+      },
+      name: {
+        type: 'string',
+        placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.AGENCY_NAME' }),
+        label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.AGENCY_NAME' }),
+      },
+      type: {
+        type: 'string',
+        placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.SELL_GOOD_LEVEL' }),
+        label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.SELL_GOOD_LEVEL' }), 
+      },
+      state: {
+        type: 'string',
+        placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.STATE' }),
+        label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.STATE' }), 
+      },
+      city: {
+        type: 'string',
+        placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.CITY' }),
+        label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.CITY' }), 
+      },
+      district: {
+        type: 'string',
+        placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.DISTRICT' }),
+        label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.DISTRICT' }), 
+      },
+      address: {
+        type: 'string',
+        placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.AGENCY_ADDRESS' }),
+        label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.AGENCY_ADDRESS' }),
+      },
+      status: {
+        type: 'boolean',
+        placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.STATUS' }),
+        label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.STATUS' }),
+      },
+      phoneNumber: {
+        type: 'string',
+        placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
+        label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
+      },
+      taxId: {
+        type: 'string',
+        placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.TAX_ID' }),
+        label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.TAX_ID' }),
+      },
+      image: {
+        type: 'image',
+        placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL' }),
+        label: 'Album 1',
+      },
+      // image2: {
+      //   type: 'image',
+      //   placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL' }),
+      //   label: 'Album 2',
+      // },
+    },
+    {
+      username: {
+        type: 'string',
+        placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.PLACEHOLDER' }),
+        label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL' }),
+        disabled: !!editEntity,
+      },
+      name: {
+        type: 'string',
+        placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.NAME.PLACEHOLDER' }),
+        label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.NAME.LABEL' }),
+      },
+      ownerPhone: {
+        type: 'string',
+        placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
+        label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
+      },
+      email: {
+        type: 'string',
+        placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
+        label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
+      },
+      gender: {
+        type: 'option',
+        placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
+        label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
+      },
+      birthDay: {
+        type: 'string',
+        placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
+        label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
+      },
+      role: {
+        type: 'string',
+        placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
+        label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
+      },
+      avatar: {
+        type: 'image',
+        placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
+        label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
+      },
+    },
+    {
+      shippingAddress: {
+        type: 'string',
+        placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
+        label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
+      }
+    }
+  ];
+
+  const modifyModel_3 = [{
+    time: {
+      type: 'Datetime',
+      placeholder: 'Thời gian thu hoạch',
+      label: 'Thời gian thu hoạch',
+    },
+    time2: {
+      type: 'Datetime',
+      placeholder: 'Thời gian thu hoạch2',
+      label: 'Thời gian thu hoạch2',
+    },
+    quantity: {
+      type: 'number',
+      label: 'Sản lượng thu hoạch (kg)',
+      placeholder: 'Sản lượng',
+    },
+  }];
+
+  const modifyModel_2 = [{
+    director: {
+      type: 'string',
+      label: 'Thông tin giám đốc',
+      placeholder: 'Thông tin giám đốc',
+    },
+    leader: {
+      type: 'string',
+      label: 'Tổ trưởng gieo trồng',
+      placeholder: 'Tổ trưởng gieo trồng',
+    },
+  }];
+
+  const modifyModel_4 = [
+    {
+      test4: {
+        type: 'string',
+        label: 'Test 4',
+        placeholder: 'Test 4'
+      },
+      test5: {
+        type: 'string',
+        label: 'Test 5',
+        placeholder: 'Test 5'
+      }
+    },
+    {
+      test6: {
+        type: 'string',
+        label: 'Test 6',
+        placeholder: 'Test 6'
+      },
+      test7: {
+        type: 'string',
+        label: 'Test 7',
+        placeholder: 'Test 7'
+      },
+      test8: {
+        type: 'string',
+        label: 'Test 8',
+        placeholder: 'Test 8'
+      }
+    }
+  ]
+
+  const formPart: any = {
+    form_1: {
+      title: 'Thông tin đơn vị bán hàng',
+      modifyModel: modifyModel,
+      header: 'THÔNG TIN ĐƠN VỊ BÁN HÀNG',
+    },
+    // form_2: {
+    //   title: 'Thông tin quản trị',
+    //   modifyModel: modifyModel_2,
+    // },
+    // form_3: {
+    //   title: 'Thông tin thu hoạch',
+    //   modifyModel: modifyModel_3,
+    // },
+    // form_4: {
+    //   title: "Thông tin test",
+    //   modifyModel: modifyModel_4
+    // },
+    // form_5: {
+    //   title: "xxx",
+    //   modifyModel: modifyModel_2
+    // }
+  };
+
+  const allFormField: any = {
+    ...GenerateAllFormField(modifyModel, modifyModel_2, modifyModel_3, modifyModel_4)
+  };
+
   return (
-    <>
-      {/* <MasterHeader title={headerTitle} onSearch={setFilterProps} searchModel={purchaseOrderSearchModel} */}
-                    {/* initValue={filterProps}/> */}
-      <MasterBody
-        onCreate={() => {
-          setCreateEntity(null);
-          setShowCreate(true);
-        }}
-        onDeleteMany={() => setShowDeleteMany(true)}
-        selectedEntities={selectedEntities}
-        onSelectMany={setSelectedEntities}
-        entities={entities}
-        total={total}
-        columns={columns}
-        loading={loading}
-        paginationParams={paginationProps}
-        setPaginationParams={setPaginationProps}
-      />
+    <Fragment>
+
 
       <DeleteEntityDialog
         moduleName={moduleName}
@@ -347,7 +546,7 @@ function AgencyPage() {
         entity={createEntity}
         onModify={add}
         title={createTitle}
-        modifyModel={modifyModel}
+        modifyModel={oldModifyModel}
         validationModel={agencySchema}
         onHide={() => {
           setShowCreate(false);
@@ -358,12 +557,51 @@ function AgencyPage() {
         entity={editEntity}
         onModify={update}
         title={updateTitle}
-        modifyModel={modifyModel}
+        modifyModel={oldModifyModel}
         validationModel={agencySchema}
         onHide={() => {
           setShowEdit(false);
         }}
       />
+
+      <Switch>
+        {/* <Redirect from="/purchase-order/edit" to="/purchase-order" /> */}
+        <Route path="/agency" exact={true}>
+          {/* <MasterHeader title={headerTitle} onSearch={setFilterProps} searchModel={purchaseOrderSearchModel} */}
+              {/* initValue={filterProps}/> */}
+          <MasterBody
+            onCreate={() => {
+              setCreateEntity(null);
+              setShowCreate(true);
+            }}
+            onDeleteMany={() => setShowDeleteMany(true)}
+            selectedEntities={selectedEntities}
+            onSelectMany={setSelectedEntities}
+            entities={entities}
+            total={total}
+            columns={columns}
+            loading={loading}
+            paginationParams={paginationProps}
+            setPaginationParams={setPaginationProps}
+          />
+        </Route>
+        <Route path="/agency/:id">
+          {({ history, match }) => (
+            <EntityCrudPageAgency
+              entity={editEntity}
+              onModify={update}
+              // title={updateTitle}
+              //  modifyModel={modifyModel}
+              // reduxModel="purchaseOrder"
+              code={match && match.params.id}
+              get={AgencyService.GetById}
+              formPart={formPart}
+              allFormField={allFormField}
+              // allFormButton={allFormButton}
+            />
+          )}
+        </Route>
+      </Switch>
 
       <MasterEntityDetailAgency
         show={showDetail}
@@ -374,7 +612,7 @@ function AgencyPage() {
         }}
         title={detailTitle}
       />
-    </>
+    </Fragment>
   );
 }
 

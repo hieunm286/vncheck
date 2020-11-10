@@ -167,6 +167,14 @@
   "AGENCY.VIEW.LABEL.AGENCY_NAME.STATUS": "Trạng thái",
   "AGENCY.VIEW.LABEL.AGENCY_NAME.TAX_ID": "Mã số thuế",
 
+  "AGENCY.EDIT.LABEL.AGENCY_CODE": "Mã đơn vị bán hàng",
+  "AGENCY.EDIT.LABEL.AGENCY_NAME": "Tên đơn vị bán hàng",
+  "AGENCY.EDIT.LABEL.SELL_GOOD_LEVEL": "Cấp bán hàng",
+  "AGENCY.EDIT.LABEL.STATE": "Tỉnh/Thành phố",
+  "AGENCY.EDIT.LABEL.CITY": "Quận/Huyện",
+  "AGENCY.EDIT.LABEL.DISTRICT": "Phường/Xã",
+  "AGENCY.EDIT.LABEL.AGENCY_ADDRESS": "Địa chỉ đơn vị bán hàng",
+
 
   "VALIDATE_TEST_01": "Vui lòng nhập mã đơn vị",
   "VALIDATE_TEST_02": "Vui lòng nhập tên đơn vị",
