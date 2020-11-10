@@ -95,21 +95,23 @@ function ModifyEntityPage<T>({
         {modifyModel &&
           modifyModel.map((value: any, key: any) => (
             <div className={`col-md-${12 / (column ? column : 1)} col-12`} key={key}>
-              {Object.keys(value).map(key => {
-                switch (value[key].type) {
+              <h6 className="text-primary">{value.title.toUpperCase()}</h6>
+              {Object.keys(value.data).map(key => {
+                
+                switch (value.data[key].type) {
                   case 'string':
                     return (
                       <div className="mt-3" key={key}>
                         <Field
                           name={key}
                           component={MainInput}
-                          placeholder={value[key].placeholder}
+                          placeholder={value.data[key].placeholder}
                           withFeedbackLabel
                           labelWidth={4}
                           isHorizontal
-                          label={value[key].label}
-                          disabled={value[key].disabled}
-                          required={value[key].required}
+                          label={value.data[key].label}
+                          disabled={value.data[key].disabled}
+                          required={value.data[key].required}
                         />
                       </div>
                     );
@@ -123,9 +125,9 @@ function ModifyEntityPage<T>({
                           isHorizontal
                           withFeedbackLabel
                           labelWidth={4}
-                          placeholder={value[key].placeholder}
-                          label={value[key].label}
-                          required={value[key].required}
+                          placeholder={value.data[key].placeholder}
+                          label={value.data[key].label}
+                          required={value.data[key].required}
                         />
                       </div>
                     );
@@ -135,10 +137,10 @@ function ModifyEntityPage<T>({
                         <DatePickerField
                           name={key}
                           isHorizontal
-                          label={value[key].label}
+                          label={value.data[key].label}
                           labelWidth={4}
                           type="Datetime"
-                          required={value[key].required}
+                          required={value.data[key].required}
                         />
                       </div>
                     );
@@ -150,10 +152,10 @@ function ModifyEntityPage<T>({
                           onChange={(imageList: any, addUpdateIndex: any) => {
                             onChange(imageList, addUpdateIndex, key);
                           }}
-                          label={value[key].label}
+                          label={value.data[key].label}
                           labelWidth={4}
                           isHorizontal={true}
-                          required={value[key].required}
+                          required={value.data[key].required}
                         />
                       </div>
                     );
