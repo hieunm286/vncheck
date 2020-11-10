@@ -27,6 +27,7 @@ function EntityCrudPage({
   formPart,
   allFormField,
   allFormButton,
+  validation
 }: {
   // modifyModel: ModifyModel;
   title: string;
@@ -38,6 +39,7 @@ function EntityCrudPage({
   formPart: any;
   allFormField: any;
   allFormButton: any;
+  validation?: any
 }) {
   const intl = useIntl();
   const initForm = generateInitForm(allFormField);
@@ -52,7 +54,7 @@ function EntityCrudPage({
     const imageArray = getOnlyFile(imageList);
 
     const newArr = getNewImage(imageRootArr, imageArray);
-    console.log(key)
+    console.log(key);
     newArr.forEach((file, index) => {
       uploadImage(file)
         .then(res => {
@@ -63,7 +65,7 @@ function EntityCrudPage({
         });
     });
     // data for submit
-    setImages({...images, [key]: imageList});
+    setImages({ ...images, [key]: imageList });
     setImageRootArr(imageArray);
   };
 
@@ -82,11 +84,11 @@ function EntityCrudPage({
       <Formik
         enableReinitialize={true}
         initialValues={entityForEdit || initForm}
-        // validationSchema={PurchaseOrderSchema}
+        validationSchema={validation}
         onSubmit={values => {
           console.log(values);
           onModify(values);
-          history.goBack()
+          history.goBack();
         }}>
         {({ handleSubmit }) => (
           <>
@@ -100,7 +102,9 @@ function EntityCrudPage({
                           <a onClick={() => history.goBack()}>
                             <ArrowBackIosIcon />
                           </a>
-                          {entityForEdit ? `CHỈNH SỬA ${formPart[key].header}` : `THÊM MỚI ${formPart[key].header}`}
+                          {entityForEdit
+                            ? `CHỈNH SỬA ${formPart[key].header}`
+                            : `THÊM MỚI ${formPart[key].header}`}
                         </>
                       }
                     />
@@ -110,7 +114,6 @@ function EntityCrudPage({
                       images={images}
                       onChange={(imageList: any, addUpdateIndex: any, key: any) => {
                         onChange(imageList, addUpdateIndex, key);
-
                       }}
                       modifyModel={formPart[key].modifyModel as any}
                       column={formPart[key].modifyModel.length}
@@ -130,40 +133,42 @@ function EntityCrudPage({
                 <CancelOutlinedIcon style={iconStyle} /> Hủy
               </button>
             </Link> */}
-            {Object.keys(allFormButton).map(key => {
-              switch (allFormButton[key].role) {
-                case 'submit':
-                  return (
-                    <button
-                      type={allFormButton[key].type}
-                      className={allFormButton[key].className}
-                      key={key}
-                      onClick={() => handleSubmit()}>
-                      {allFormButton[key].icon} {allFormButton[key].label}
-                    </button>
-                  );
-
-                case 'button':
-                  return (
-                    <button
-                      type={allFormButton[key].type}
-                      className={allFormButton[key].className}
-                      key={key}>
-                      {allFormButton[key].icon} {allFormButton[key].label}
-                    </button>
-                  );
-                case 'link-button':
-                  return (
-                    <Link to={allFormButton[key].linkto} key={key}>
+            <div className="text-right">
+              {Object.keys(allFormButton).map(key => {
+                switch (allFormButton[key].role) {
+                  case 'submit':
+                    return (
                       <button
                         type={allFormButton[key].type}
-                        className={allFormButton[key].className}>
+                        className={allFormButton[key].className}
+                        key={key}
+                        onClick={() => handleSubmit()}>
                         {allFormButton[key].icon} {allFormButton[key].label}
                       </button>
-                    </Link>
-                  );
-              }
-            })}
+                    );
+
+                  case 'button':
+                    return (
+                      <button
+                        type={allFormButton[key].type}
+                        className={allFormButton[key].className}
+                        key={key}>
+                        {allFormButton[key].icon} {allFormButton[key].label}
+                      </button>
+                    );
+                  case 'link-button':
+                    return (
+                      <Link to={allFormButton[key].linkto} key={key}>
+                        <button
+                          type={allFormButton[key].type}
+                          className={allFormButton[key].className}>
+                          {allFormButton[key].icon} {allFormButton[key].label}
+                        </button>
+                      </Link>
+                    );
+                }
+              })}
+            </div>
           </>
         )}
       </Formik>

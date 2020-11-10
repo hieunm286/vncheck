@@ -13,7 +13,11 @@ import { DeleteEntityDialog } from '../../common-library/common-components/delet
 import DeleteManyEntitiesDialog from '../../common-library/common-components/delete-many-dialog';
 import ModifyEntityDialog from '../../common-library/common-components/modify-entity-dialog';
 import { ModifyModel, SearchModel } from '../../common-library/common-types/common-type';
-import { ConvertToTreeNode, GenerateAllFormField, InitMasterProps } from '../../common-library/helpers/common-function';
+import {
+  ConvertToTreeNode,
+  GenerateAllFormField,
+  InitMasterProps,
+} from '../../common-library/helpers/common-function';
 import * as AgencyService from './agency.service';
 import * as PurchaseOrderService from './purchase-order.service';
 import * as Yup from 'yup';
@@ -25,6 +29,8 @@ import EntityCrudPage from '../../common-library/common-components/entity-crud-p
 import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import { isArray, isNull } from 'lodash';
+import MasterGoogleMap from '../../common-library/common-components/master-google-map';
+import MasterMap from '../../common-library/common-components/master-google-map-other';
 
 const DataExample: any = [
   {
@@ -66,6 +72,44 @@ const DataExample: any = [
     ],
   },
 ];
+
+// const validateSchema = {
+//   code: {
+//     required: true,
+//   },
+//   phone: {
+//     required: true,
+
+//   }
+// }
+
+// const ValidationByNguyenMinhHieu = (data: any, validateSchema: any) => {
+
+//   const _validationResult = {}
+
+//   Object.keys(validateSchema).map(key => {
+//     switch(validateSchema[key])
+//   })
+// }
+
+const PurchaseOrderSchema = Yup.object().shape({
+  code: Yup.string()
+    .min(3, 'Minimum 3 symbols')
+    .max(50, 'Maximum 50 symbols')
+    .required('Code không được để trống'),
+  // dateofbirth: Yup.mixed()
+  //   .nullable(false)
+  //   .required('Date of Birth is required'),
+  agencyAddress: Yup.string().required('Vui lòng nhập Agency Address'),
+  phoneNumber: Yup.string()
+    .required('Last name không được để trống')
+    .matches(/[0-9]$/u, {
+      message: 'Vui lòng nhập tên đúng định dạng',
+    }),
+  time: Yup.date().required('Vui lòng nhập date'),
+  time2: Yup.date().required('Vui lòng nhập date'),
+  quantity: Yup.number().required('Vui lòng nhập số lượng'),
+});
 
 function PurchaseOrder() {
   const intl = useIntl();
@@ -271,134 +315,153 @@ function PurchaseOrder() {
 
   const modifyModel = [
     {
-      code: {
-        type: 'string',
-        placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.PLACEHOLDER' }),
-        label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL' }),
-        disabled: !!editEntity,
-      },
-      agencyAddress: {
-        type: 'string',
-        placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.NAME.PLACEHOLDER' }),
-        label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.NAME.LABEL' }),
-      },
-      phoneNumber: {
-        type: 'string',
-        placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
-        label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
-      },
-      image: {
-        type: 'image',
-        placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL' }),
-        label: 'Album 1',
-      },
-      image2: {
-        type: 'image',
-        placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL' }),
-        label: 'Album 2',
+      title: 'Test',
+      data: {
+        code: {
+          type: 'string',
+          placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.PLACEHOLDER' }),
+          label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL' }),
+          required: true,
+          disabled: !!editEntity,
+        },
+        agencyAddress: {
+          type: 'string',
+          placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.NAME.PLACEHOLDER' }),
+          required: true,
+          label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.NAME.LABEL' }),
+        },
+        phoneNumber: {
+          type: 'string',
+          placeholder: intl.formatMessage({
+            id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN',
+          }),
+          required: true,
+          label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
+        },
+        image: {
+          type: 'image',
+          placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL' }),
+          label: 'Album 1',
+        },
+        image2: {
+          type: 'image',
+          placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL' }),
+          label: 'Album 2',
+        },
       },
     },
     {
-      test1: {
-        type: 'string',
-        placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.PLACEHOLDER' }),
-        label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL' }),
-        disabled: !!editEntity,
-      },
-      test2: {
-        type: 'string',
-        placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.NAME.PLACEHOLDER' }),
-        label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.NAME.LABEL' }),
-      },
-      test3: {
-        type: 'string',
-        placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
-        label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
+      title: 'Test222',
+      data: {
+        test1: {
+          type: 'string',
+          placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.PLACEHOLDER' }),
+          label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL' }),
+          disabled: !!editEntity,
+        },
+        test2: {
+          type: 'string',
+          placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.NAME.PLACEHOLDER' }),
+          label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.NAME.LABEL' }),
+        },
+        test3: {
+          type: 'string',
+          placeholder: intl.formatMessage({
+            id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN',
+          }),
+          label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
+        },
       },
     },
   ];
 
-  const modifyModel_3 = [{
-    time: {
-      type: 'Datetime',
-      placeholder: 'Thời gian thu hoạch',
-      label: 'Thời gian thu hoạch',
+  const modifyModel_3 = [
+    {
+      time: {
+        type: 'Datetime',
+        placeholder: 'Thời gian thu hoạch',
+        label: 'Thời gian thu hoạch',
+        required: true,
+      },
+      time2: {
+        type: 'Datetime',
+        placeholder: 'Thời gian thu hoạch2',
+        label: 'Thời gian thu hoạch2',
+      },
+      quantity: {
+        type: 'number',
+        label: 'Sản lượng thu hoạch (kg)',
+        placeholder: 'Sản lượng',
+        required: true,
+      },
     },
-    time2: {
-      type: 'Datetime',
-      placeholder: 'Thời gian thu hoạch2',
-      label: 'Thời gian thu hoạch2',
-    },
-    quantity: {
-      type: 'number',
-      label: 'Sản lượng thu hoạch (kg)',
-      placeholder: 'Sản lượng',
-    },
-  }];
+  ];
 
-  const modifyModel_2 = [{
-    director: {
-      type: 'string',
-      label: 'Thông tin giám đốc',
-      placeholder: 'Thông tin giám đốc',
+  const modifyModel_2 = [
+    {
+      director: {
+        type: 'string',
+        label: 'Thông tin giám đốc',
+        placeholder: 'Thông tin giám đốc',
+      },
+      leader: {
+        type: 'string',
+        label: 'Tổ trưởng gieo trồng',
+        placeholder: 'Tổ trưởng gieo trồng',
+      },
     },
-    leader: {
-      type: 'string',
-      label: 'Tổ trưởng gieo trồng',
-      placeholder: 'Tổ trưởng gieo trồng',
-    },
-  }];
+  ];
 
   const modifyModel_4 = [
     {
       test4: {
         type: 'string',
         label: 'Test 4',
-        placeholder: 'Test 4'
+        placeholder: 'Test 4',
       },
       test5: {
         type: 'string',
         label: 'Test 5',
-        placeholder: 'Test 5'
-      }
+        placeholder: 'Test 5',
+      },
     },
     {
       test6: {
         type: 'string',
         label: 'Test 6',
-        placeholder: 'Test 6'
+        placeholder: 'Test 6',
       },
       test7: {
         type: 'string',
         label: 'Test 7',
-        placeholder: 'Test 7'
+        placeholder: 'Test 7',
       },
       test8: {
         type: 'string',
         label: 'Test 8',
-        placeholder: 'Test 8'
-      }
-    }
-  ]
+        placeholder: 'Test 8',
+      },
+    },
+  ];
 
   const formPart: any = {
     form_1: {
-      title: 'Thông tin chung',
+      title: '',
       modifyModel: modifyModel,
       header: 'ĐƠN HÀNG',
     },
-    form_2: {
-      title: 'Thông tin quản trị',
-      modifyModel: modifyModel_2,
-    },
-    form_3: {
-      title: 'Thông tin thu hoạch',
-      modifyModel: modifyModel_3,
-    },
-    form_4: {
-      title: "Thông tin test",
-      modifyModel: modifyModel_4
-    },
+    // form_2: {
+    //   title: 'Thông tin quản trị',
+    //   modifyModel: modifyModel_2,
+    // },
+    // form_3: {
+    //   title: 'Thông tin thu hoạch',
+    //   modifyModel: modifyModel_3,
+    // },
+    // form_4: {
+    //   title: 'Thông tin test',
+    //   modifyModel: modifyModel_4,
+    // },
     // form_5: {
     //   title: "xxx",
     //   modifyModel: modifyModel_2
@@ -406,7 +469,11 @@ function PurchaseOrder() {
   };
 
   const allFormField: any = {
-    ...GenerateAllFormField(modifyModel, modifyModel_2, modifyModel_3, modifyModel_4)
+    ...GenerateAllFormField(
+      modifyModel,
+      modifyModel_3,
+      // , modifyModel_2, modifyModel_3, modifyModel_4
+    ),
   };
 
   const allFormButton: any = {
@@ -434,6 +501,11 @@ function PurchaseOrder() {
       label: 'Test',
       icon: <CancelOutlinedIcon />,
     },
+  };
+
+  const location = {
+    latitude: 21.027763,
+    longitude: 105.83416,
   };
 
   return (
@@ -511,6 +583,7 @@ function PurchaseOrder() {
             formPart={formPart}
             allFormField={allFormField}
             allFormButton={allFormButton}
+            validation={PurchaseOrderSchema}
           />
         </Route>
         <Route path={`/purchase-order/:code`}>
@@ -535,6 +608,7 @@ function PurchaseOrder() {
               formPart={formPart}
               allFormField={allFormField}
               allFormButton={allFormButton}
+              validation={PurchaseOrderSchema}
             />
           )}
         </Route>
@@ -571,6 +645,10 @@ function PurchaseOrder() {
             setPaginationParams={setPaginationProps}
             isShowId={true}
           />
+
+          <MasterGoogleMap location={location} />
+
+          {/* <MasterMap /> */}
         </Route>
       </Switch>
     </Fragment>

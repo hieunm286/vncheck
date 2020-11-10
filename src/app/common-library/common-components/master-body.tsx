@@ -8,6 +8,7 @@ import { PaginationProps } from '../common-types/common-type';
 import { ColumnDescription } from 'react-bootstrap-table-next';
 import { Link } from 'react-router-dom';
 import MasterTreeStructure from './master-tree-structure';
+import MasterGoogleMap from './master-google-map';
 
 export interface BasicUnitDataProps {
   showModal: any;

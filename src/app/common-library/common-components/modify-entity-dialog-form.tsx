@@ -98,7 +98,7 @@ function ModifyEntityDialogForm<T>({
                             })}
                             labelWidth={4}
                             isHorizontal={true}
-                            isRequired
+                            required={modifyM[key].required}
                           />
                         </div>
                       );

@@ -37,10 +37,10 @@ function ModifyEntityPage<T>({
   // reduxModel: string;
   // code: string | null;
   // get: (code: string) => any | null;
-  images: any;
-  onChange: any;
+  images?: any;
+  onChange?: any;
   title?: string;
-  column: number;
+  column?: number;
 }) {
   const intl = useIntl();
   // const initForm = generateInitForm(modifyModel);
@@ -93,30 +93,27 @@ function ModifyEntityPage<T>({
     <>
       {/* <Form className="form form-label-right"> */}
       {title && <h6 className="text-primary">{title.toUpperCase()}</h6>}
-      <div className={column > 1 ? 'row' : ''}>
+      <div className={(column ? column : 1) > 1 ? 'row' : ''}>
         {modifyModel &&
           modifyModel.map((value: any, key: any) => (
-            <div className={`col-md-${12 / column} col-12`} key={key}>
-              {
-                console.log(value)
-              }
-              {
-                console.log(key)
-              }
-              {Object.keys(value).map(key => {
-                switch (value[key].type) {
+            <div className={`col-md-${12 / (column ? column : 1)} col-12`} key={key}>
+              <h6 className="text-primary">{value.title.toUpperCase()}</h6>
+              {Object.keys(value.data).map(key => {
+                
+                switch (value.data[key].type) {
                   case 'string':
                     return (
                       <div className="mt-3" key={key}>
                         <Field
                           name={key}
                           component={MainInput}
-                          placeholder={value[key].placeholder}
+                          placeholder={value.data[key].placeholder}
                           withFeedbackLabel
                           labelWidth={4}
                           isHorizontal
-                          label={value[key].label}
-                          disabled={value[key].disabled}
+                          label={value.data[key].label}
+                          disabled={value.data[key].disabled}
+                          required={value.data[key].required}
                         />
                       </div>
                     );
@@ -130,8 +127,9 @@ function ModifyEntityPage<T>({
                           isHorizontal
                           withFeedbackLabel
                           labelWidth={4}
-                          placeholder={value[key].placeholder}
-                          label={value[key].label}
+                          placeholder={value.data[key].placeholder}
+                          label={value.data[key].label}
+                          required={value.data[key].required}
                         />
                       </div>
                     );
@@ -141,8 +139,10 @@ function ModifyEntityPage<T>({
                         <DatePickerField
                           name={key}
                           isHorizontal
-                          label={value[key].label}
+                          label={value.data[key].label}
                           labelWidth={4}
+                          type="Datetime"
+                          required={value.data[key].required}
                         />
                       </div>
                     );
@@ -154,10 +154,10 @@ function ModifyEntityPage<T>({
                           onChange={(imageList: any, addUpdateIndex: any) => {
                             onChange(imageList, addUpdateIndex, key);
                           }}
-                          label={value[key].label}
+                          label={value.data[key].label}
                           labelWidth={4}
                           isHorizontal={true}
-                          isRequired
+                          required={value.data[key].required}
                         />
                       </div>
                     );
