@@ -5,6 +5,7 @@ import {FormattedMessage, useIntl} from 'react-intl';
 import ModifyEntityDialog from './modify-entity-dialog';
 import './master-entity-detail-dialog-agency.scss'
 // import { ThemeProvider } from 'styled-components';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 
 export function MasterEntityDetailAgency({
                                            title,
@@ -41,8 +42,19 @@ export function MasterEntityDetailAgency({
           renderInfo ?
           (
             <>
-            <FormGroup data={entity} renderInfo={renderInfo[0].data} title={intl.formatMessage({id: renderInfo[0].header})}/>
-            {/* <FormGroup data={entity} renderInfo={renderInfo[1].data} title={intl.formatMessage({id: renderInfo[1].header})}/> */}
+              <div className="row">
+                <div className="col-6">
+                <FormGroup data={entity} renderInfo={renderInfo[0].data} title={intl.formatMessage({id: renderInfo[0].header})}/>
+                </div>
+                <div className="col-6">
+                  <div className="row h-60">
+                    <FormGroup data={entity} renderInfo={renderInfo[1].data} title={intl.formatMessage({id: renderInfo[1].header})}/>
+                  </div>
+                  <div className="row">
+                  <FormGroup data={entity} renderInfo={renderInfo[2].data} title={intl.formatMessage({id: renderInfo[2].header})}/>
+                  </div>
+                </div>
+              </div>
             </>
           ) : <></>
           // renderInfo.map((renderInfoFrag: any, key: any) => {
@@ -51,7 +63,7 @@ export function MasterEntityDetailAgency({
         }
       </Modal.Body>
       <Modal.Footer>
-        <button type="button" onClick={onClose} className="btn btn-outline-danger">
+        <button type="button" onClick={onClose} className="btn btn-outline-primary">
           <CancelOutlinedIcon style={{fontSize: 14}}/>{' '}
           {intl.formatMessage({id: 'COMMON_COMPONENT.DETAIL_DIALOG.CLOSE_BTN'})}
         </button>
@@ -114,13 +126,11 @@ export function FormGroup({
                   {intl.formatMessage({id: formField.title})}:{'\u00A0'} 
                 </td>
                 <td>
-                  <strong>
-                    {
-                      formField.keyField.map((el: any) => {
-                        return getPropByString(data, el);
-                      }).join(", ")
-                    }
-                  </strong>
+                  {
+                    formField.keyField.map((el: any) => {
+                      return getPropByString(data, el);
+                    }).join(", ")
+                  }
                 </td>
               </tr>
               :
@@ -135,9 +145,7 @@ export function FormGroup({
                             {intl.formatMessage({id: formField.title})}:{'\u00A0'}
                           </td>
                           <td>
-                            <strong>
-                              {el.district}, {el.city}, {el.state}
-                            </strong>
+                            {el.district}, {el.city}, {el.state}
                           </td>
                         </tr>
                       )
@@ -148,9 +156,7 @@ export function FormGroup({
                             
                           </td>
                           <td>
-                            <strong>
-                              {el.district}, {el.city}, {el.state}
-                            </strong>
+                            {el.district}, {el.city}, {el.state}
                           </td>
                         </tr>
                       )
@@ -163,11 +169,14 @@ export function FormGroup({
                       {intl.formatMessage({id: formField.title})}:{'\u00A0'} 
                     </td>
                     <td>
-                      <strong>
-                      {   
+                      { 
+                        formField.keyField !== "status" ?   
                         getPropByString(data, formField.keyField)
+                          : 
+                          getPropByString(data, formField.keyField) === "true" ?
+                          <CheckCircleIcon style={{ color: '#27AE60' }} />
+                            : <CheckCircleIcon style={{ color: '#C4C4C4' }} />
                       }
-                      </strong>
                     </td>
                   </tr>
               }

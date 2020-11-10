@@ -279,7 +279,7 @@ function AgencyPage() {
         { keyField: 'name', title: 'AGENCY.VIEW.LABEL.AGENCY_NAME' },
         { keyField: ['address.district', 'address.city', 'address.state'], title: 'AGENCY.VIEW.LABEL.AGENCY_ADDRESS' },
         { keyField: 'phone', title: 'AGENCY.VIEW.LABEL.PHONE' },
-        { keyField: 'taxId', title: 'AGENCY.VIEW.LABEL.AGENCY_NAME.TAX_ID' },
+        // { keyField: 'taxId', title: 'AGENCY.VIEW.LABEL.AGENCY_NAME.TAX_ID' },
         { keyField: 'status', title: 'AGENCY.VIEW.LABEL.AGENCY_NAME.STATUS' },
         // { keyField: 'type.name', title: 'AGENCY_TYPE.MASTER.TABLE.NAME' },
         // { keyField: 'type.code', title: 'AGENCY_TYPE.MASTER.TABLE.CODE' },
