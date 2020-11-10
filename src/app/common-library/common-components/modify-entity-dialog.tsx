@@ -3,6 +3,7 @@ import { Modal } from 'react-bootstrap';
 import ModifyEntityDialogForm from './modify-entity-dialog-form';
 import { useIntl } from 'react-intl';
 import { ModifyModel } from '../common-types/common-type';
+import { generateInitForm } from '../helpers/common-function';
 
 function ModifyEntityDialog<T>({
   isShow,
@@ -21,13 +22,9 @@ function ModifyEntityDialog<T>({
   entity: T;
   onModify: (values: any) => void;
 }) {
-  const initForm = {
-    code: '',
-    agencyAddress: '',
-    phoneNumber: '',
-    // status: 1,
-  };
   const intl = useIntl();
+  const initForm = generateInitForm(modifyModel);
+
   return (
     <Modal show={isShow} onHide={onHide} aria-labelledby="example-modal-sizes-title-lg">
       <Modal.Header closeButton>
@@ -35,6 +32,7 @@ function ModifyEntityDialog<T>({
           <span>{intl.formatMessage({ id: title })}</span>
         </Modal.Title>
       </Modal.Header>
+      
       <ModifyEntityDialogForm
         modifyModel={modifyModel}
         validationModel={validationModel}

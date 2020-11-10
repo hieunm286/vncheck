@@ -41,13 +41,13 @@ export const CardHeader = forwardRef(
 
     useEffect(() => {
       // Skip if sticky is disabled or on initial render when we don't know about window height.
-      if (!sticky || windowHeight === 0) {
-        return;
-      }
+      if (!sticky || windowHeight === 0) return;
+
       const headerElement: HTMLElement | null = document.querySelector('.header');
       const subheaderElement: HTMLElement | null = document.querySelector('.subheader');
       const headerMobileElement: HTMLElement | null = document.querySelector('.header-mobile');
       let nextMarginTop = 0;
+
       // mobile header
       if (headerElement && headerMobileElement && subheaderElement) {
         if (window.getComputedStyle(headerElement).height === '0px') {
@@ -69,6 +69,7 @@ export const CardHeader = forwardRef(
           }
         }
       }
+
       setTop(nextMarginTop);
     }, [sticky, windowHeight]);
 

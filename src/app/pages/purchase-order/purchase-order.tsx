@@ -2,7 +2,7 @@ import React, { Fragment, useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import { Count, Create, Delete, DeleteMany, Get, GetAll, Update } from './purchase-order.service';
 import { PurchaseOrderModel } from './purchase-order.model';
-import { NormalColumn, SortColumn } from '../../common-library/common-consts/const';
+import { NormalColumn, SortColumn, StatusValue } from '../../common-library/common-consts/const';
 import { MasterHeader } from '../../common-library/common-components/master-header';
 import { MasterEntityDetailDialog } from '../../common-library/common-components/master-entity-detail-dialog';
 import { MasterBody } from '../../common-library/common-components/master-body';
@@ -13,10 +13,59 @@ import { DeleteEntityDialog } from '../../common-library/common-components/delet
 import DeleteManyEntitiesDialog from '../../common-library/common-components/delete-many-dialog';
 import ModifyEntityDialog from '../../common-library/common-components/modify-entity-dialog';
 import { ModifyModel, SearchModel } from '../../common-library/common-types/common-type';
-import { InitMasterProps } from '../../common-library/helpers/common-function';
+import { ConvertToTreeNode, GenerateAllFormField, InitMasterProps } from '../../common-library/helpers/common-function';
 import * as AgencyService from './agency.service';
 import * as PurchaseOrderService from './purchase-order.service';
 import * as Yup from 'yup';
+import { Switch, Route, Redirect, useHistory } from 'react-router-dom';
+import ModifyEntityPage from '../../common-library/common-components/modify-entity-page';
+import { purchaseOrderSlice, callTypes } from './purchase-order.redux';
+import ImageUploading from 'react-images-uploading';
+import EntityCrudPage from '../../common-library/common-components/entity-crud-page';
+import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
+import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
+import { isArray, isNull } from 'lodash';
+
+const DataExample: any = [
+  {
+    _id: 'dlc1',
+    code: 'zz_1',
+    title: 'Đại lý cấp 1',
+    child: [
+      {
+        _id: 'xxx-xxx',
+        code: 'cccc',
+        title: 'Đại lý cấp 2',
+        parentId: 'dlc1',
+      },
+    ],
+  },
+  {
+    _id: 'sieuthi',
+    code: 'abcxyz',
+    title: 'Siêu thị',
+    child: [],
+  },
+  {
+    _id: 'bigC',
+    code: 'dcvf',
+    title: 'Big C',
+    child: [
+      {
+        _id: 'xxx-xxx4',
+        code: 'cvfv',
+        title: 'Đại lý cấp 4',
+        parentId: 'bigC',
+      },
+      {
+        _id: 'xxx-xxx5',
+        code: 'dfs',
+        title: 'Đại lý cấp 5',
+        parentId: 'bigC',
+      },
+    ],
+  },
+];
 
 function PurchaseOrder() {
   const intl = useIntl();
@@ -74,6 +123,7 @@ function PurchaseOrder() {
   const headerTitle = 'PURCHASE_ORDER.MASTER.HEADER.TITLE';
   const createTitle = 'PURCHASE_ORDER.CREATE.TITLE';
   const updateTitle = 'PURCHASE_ORDER.UPDATE.TITLE';
+  const history = useHistory();
 
   const PurchaseOrderSchema = Yup.object().shape({
     code: Yup.string().required('Vui lòng nhập mã đơn vị'),
@@ -85,43 +135,35 @@ function PurchaseOrder() {
     getAll(filterProps);
   }, [paginationProps, trigger, filterProps]);
 
-  const columns = [
-    {
-      dataField: 'ordinal',
-      text: '#',
-      formatter: (cell: any, row: any, rowIndex: number) => (
-        <p>{rowIndex + 1 + ((paginationProps.page ?? 0) - 1) * (paginationProps.limit ?? 0)}</p>
-      ),
-      style: { paddingTop: 20 },
-    },
-    {
+  const columns = {
+    code: {
       dataField: 'code',
       text: `${intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.CODE_COLUMN' })}`,
       ...SortColumn,
     },
-    {
+    agencyAddress: {
       dataField: 'agencyAddress',
       text: `${intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS_COLUMN' })}`,
       ...SortColumn,
     },
 
-    {
+    phoneNumber: {
       dataField: 'phoneNumber',
       text: `${intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' })}`,
       ...SortColumn,
     },
-    {
+    status: {
       dataField: 'status',
       text: `${intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.STATUS_COLUMN' })}`,
       ...SortColumn,
       formatter: (cell: any, row: any) =>
-        row.status === 1 ? (
+        row.status === StatusValue ? (
           <CheckCircleIcon style={{ color: '#1DBE2D' }} />
         ) : (
           <IndeterminateCheckBoxIcon />
         ),
     },
-    {
+    action: {
       dataField: 'action',
       text: `${intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.ACTION_COLUMN' })}`,
       formatter: ActionsColumnFormatter,
@@ -136,18 +178,42 @@ function PurchaseOrder() {
           setShowDelete(true);
         },
         onEdit: (entity: PurchaseOrderModel) => {
+          get(entity);
+          // setShowEdit(true);
           setEditEntity(entity);
-          setShowEdit(true);
+          history.push(`${window.location.pathname}/${entity.code}`);
         },
       },
       ...NormalColumn,
       style: { minWidth: '130px' },
     },
-  ];
+  };
+
   const masterEntityDetailDialog = [
-    { keyField: 'code', title: 'PURCHASE_ORDER.MASTER.TABLE.CODE_COLUMN' },
-    { keyField: 'agencyAddress', title: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS_COLUMN' },
-    { keyField: 'phoneNumber', title: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' },
+    {
+      header: 'THÔNG TIN 1',
+      data: {
+        code: { title: 'PURCHASE_ORDER.MASTER.TABLE.CODE_COLUMN' },
+        agencyAddress: { title: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS_COLUMN' },
+        phoneNumber: { title: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' },
+      },
+    },
+    {
+      header: 'THÔNG TIN 2',
+      data: {
+        code: { title: 'PURCHASE_ORDER.MASTER.TABLE.CODE_COLUMN' },
+        agencyAddress: { title: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS_COLUMN' },
+        phoneNumber: { title: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' },
+      },
+    },
+    {
+      header: 'THÔNG TIN 3',
+      data: {
+        code: { title: 'PURCHASE_ORDER.MASTER.TABLE.CODE_COLUMN' },
+        agencyAddress: { title: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS_COLUMN' },
+        phoneNumber: { title: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' },
+      },
+    },
   ];
 
   const purchaseOrderSearchModel: SearchModel = {
@@ -187,25 +253,189 @@ function PurchaseOrder() {
       service: PurchaseOrderService,
       keyField: 'count',
     },
+    tree: {
+      type: 'TreeSelect',
+      placeholder: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS_COLUMN',
+      label: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS_COLUMN',
+      keyField: 'code',
+      data: ConvertToTreeNode(DataExample),
+    },
+    tree2: {
+      type: 'TreeSelect',
+      placeholder: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS_COLUMN',
+      label: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS_COLUMN',
+      keyField: 'code',
+      data: ConvertToTreeNode(DataExample),
+    },
   };
 
-  const modifyModel: ModifyModel = {
-    code: {
-      type: 'string',
-      placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.PLACEHOLDER',
-      label: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
+  const modifyModel = [
+    {
+      code: {
+        type: 'string',
+        placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.PLACEHOLDER' }),
+        label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL' }),
+        disabled: !!editEntity,
+      },
+      agencyAddress: {
+        type: 'string',
+        placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.NAME.PLACEHOLDER' }),
+        label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.NAME.LABEL' }),
+      },
+      phoneNumber: {
+        type: 'string',
+        placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
+        label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
+      },
+      image: {
+        type: 'image',
+        placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL' }),
+        label: 'Album 1',
+      },
+      image2: {
+        type: 'image',
+        placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL' }),
+        label: 'Album 2',
+      },
     },
-    agencyAddress: {
-      type: 'string',
-      placeholder: 'PURCHASE_ORDER.MASTER.HEADER.NAME.PLACEHOLDER',
-      label: 'PURCHASE_ORDER.MASTER.HEADER.NAME.LABEL',
+    {
+      test1: {
+        type: 'string',
+        placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.PLACEHOLDER' }),
+        label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL' }),
+        disabled: !!editEntity,
+      },
+      test2: {
+        type: 'string',
+        placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.NAME.PLACEHOLDER' }),
+        label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.NAME.LABEL' }),
+      },
+      test3: {
+        type: 'string',
+        placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
+        label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
+      },
     },
-    phoneNumber: {
+  ];
+
+  const modifyModel_3 = [{
+    time: {
+      type: 'Datetime',
+      placeholder: 'Thời gian thu hoạch',
+      label: 'Thời gian thu hoạch',
+    },
+    time2: {
+      type: 'Datetime',
+      placeholder: 'Thời gian thu hoạch2',
+      label: 'Thời gian thu hoạch2',
+    },
+    quantity: {
+      type: 'number',
+      label: 'Sản lượng thu hoạch (kg)',
+      placeholder: 'Sản lượng',
+    },
+  }];
+
+  const modifyModel_2 = [{
+    director: {
       type: 'string',
-      placeholder: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN',
-      label: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN',
+      label: 'Thông tin giám đốc',
+      placeholder: 'Thông tin giám đốc',
+    },
+    leader: {
+      type: 'string',
+      label: 'Tổ trưởng gieo trồng',
+      placeholder: 'Tổ trưởng gieo trồng',
+    },
+  }];
+
+  const modifyModel_4 = [
+    {
+      test4: {
+        type: 'string',
+        label: 'Test 4',
+        placeholder: 'Test 4'
+      },
+      test5: {
+        type: 'string',
+        label: 'Test 5',
+        placeholder: 'Test 5'
+      }
+    },
+    {
+      test6: {
+        type: 'string',
+        label: 'Test 6',
+        placeholder: 'Test 6'
+      },
+      test7: {
+        type: 'string',
+        label: 'Test 7',
+        placeholder: 'Test 7'
+      },
+      test8: {
+        type: 'string',
+        label: 'Test 8',
+        placeholder: 'Test 8'
+      }
+    }
+  ]
+
+  const formPart: any = {
+    form_1: {
+      title: 'Thông tin chung',
+      modifyModel: modifyModel,
+      header: 'ĐƠN HÀNG',
+    },
+    form_2: {
+      title: 'Thông tin quản trị',
+      modifyModel: modifyModel_2,
+    },
+    form_3: {
+      title: 'Thông tin thu hoạch',
+      modifyModel: modifyModel_3,
+    },
+    form_4: {
+      title: "Thông tin test",
+      modifyModel: modifyModel_4
+    },
+    // form_5: {
+    //   title: "xxx",
+    //   modifyModel: modifyModel_2
+    // }
+  };
+
+  const allFormField: any = {
+    ...GenerateAllFormField(modifyModel, modifyModel_2, modifyModel_3, modifyModel_4)
+  };
+
+  const allFormButton: any = {
+    save: {
+      role: 'submit',
+      type: 'submit',
+      linkto: undefined,
+      className: 'btn btn-primary mr-2',
+      label: 'Lưu',
+      icon: <SaveOutlinedIcon />,
+    },
+    cancel: {
+      role: 'link-button',
+      type: 'button',
+      linkto: '/purchase-order',
+      className: 'btn btn-outline-primary mr-2',
+      label: 'Hủy',
+      icon: <CancelOutlinedIcon />,
+    },
+    test: {
+      role: 'button',
+      type: 'button',
+      linkto: undefined,
+      className: 'btn btn-outline-primary',
+      label: 'Test',
+      icon: <CancelOutlinedIcon />,
     },
   };
+
   return (
     <Fragment>
       <MasterEntityDetailDialog
@@ -235,7 +465,7 @@ function PurchaseOrder() {
           setShowDeleteMany(false);
         }}
       />
-      <ModifyEntityDialog
+      {/* <ModifyEntityDialog
         isShow={showCreate}
         entity={createEntity}
         onModify={add}
@@ -245,8 +475,8 @@ function PurchaseOrder() {
         onHide={() => {
           setShowCreate(false);
         }}
-      />
-      <ModifyEntityDialog
+      />*/}
+      {/* <ModifyEntityDialog
         isShow={showEdit}
         entity={editEntity}
         onModify={update}
@@ -256,34 +486,93 @@ function PurchaseOrder() {
         onHide={() => {
           setShowEdit(false);
         }}
-      />
-      <MasterHeader
-        title={headerTitle}
-        onSearch={setFilterProps}
-        searchModel={purchaseOrderSearchModel}
-        initValue={{
-          code: '',
-          agencyAddress: '',
-          agency: '',
-          date: '',
-          count: '',
-        }}
-      />
-      <MasterBody
-        onCreate={() => {
-          setCreateEntity(null);
-          setShowCreate(true);
-        }}
-        onDeleteMany={() => setShowDeleteMany(true)}
-        selectedEntities={selectedEntities}
-        onSelectMany={setSelectedEntities}
-        entities={entities}
-        total={total}
-        columns={columns}
-        loading={loading}
-        paginationParams={paginationProps}
-        setPaginationParams={setPaginationProps}
-      />
+      /> */}
+      <Switch>
+        <Redirect from="/purchase-order/edit" to="/purchase-order" />
+
+        <Route path="/purchase-order/new">
+          {/* <ModifyEntityPage
+            entity={createEntity}
+            onModify={add}
+            title={createTitle}
+            modifyModel={modifyModel}
+            reduxModel="purchaseOrder"
+            code={null}
+            get={() => null}
+          /> */}
+          <EntityCrudPage
+            entity={createEntity}
+            onModify={add}
+            title={createTitle}
+            //  modifyModel={modifyModel}
+            reduxModel="purchaseOrder"
+            code={null}
+            get={() => null}
+            formPart={formPart}
+            allFormField={allFormField}
+            allFormButton={allFormButton}
+          />
+        </Route>
+        <Route path={`/purchase-order/:code`}>
+          {({ history, match }) => (
+            // <ModifyEntityPage
+            //   entity={editEntity}
+            //   onModify={update}
+            //   title={updateTitle}
+            //   modifyModel={modifyModel}
+            //   reduxModel="purchaseOrder"
+            //   code={match && match.params.code}
+            //   get={PurchaseOrderService.GetById}
+            // />
+            <EntityCrudPage
+              entity={editEntity}
+              onModify={update}
+              title={updateTitle}
+              //  modifyModel={modifyModel}
+              reduxModel="purchaseOrder"
+              code={match && match.params.code}
+              get={PurchaseOrderService.GetById}
+              formPart={formPart}
+              allFormField={allFormField}
+              allFormButton={allFormButton}
+            />
+          )}
+        </Route>
+        <Route path="/purchase-order">
+          <MasterHeader
+            title={headerTitle}
+            onSearch={setFilterProps}
+            searchModel={purchaseOrderSearchModel}
+            initValue={{
+              code: null,
+              agencyAddress: null,
+              agency: null,
+              date: '',
+              count: 15,
+              tree: undefined,
+              tree2: undefined,
+            }}
+          />
+          <MasterBody
+            onCreate={() => {
+              setCreateEntity(null);
+              setEditEntity(null);
+              // setShowCreate(true);
+              history.push(`${window.location.pathname}/new`);
+            }}
+            onDeleteMany={() => setShowDeleteMany(true)}
+            selectedEntities={selectedEntities}
+            onSelectMany={setSelectedEntities}
+            entities={entities}
+            total={total}
+            columns={columns as any}
+            loading={loading}
+            paginationParams={paginationProps}
+            setPaginationParams={setPaginationProps}
+            isShowId={true}
+          />
+        </Route>
+      </Switch>
     </Fragment>
   );
 }

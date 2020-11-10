@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Modal } from 'react-bootstrap';
 import { Field, Form, Formik } from 'formik';
 import { useIntl } from 'react-intl';
@@ -8,12 +8,16 @@ import * as Yup from 'yup';
 import { MainInput } from '../forms/main-input';
 import { iconStyle } from '../common-consts/const';
 import { ModifyModel } from '../common-types/common-type';
+import CustomImageUpload from '../forms/custom-image-upload';
+import { getOnlyFile } from '../helpers/common-function';
 
 const PurchaseOrderSchema = Yup.object().shape({
-  code: Yup.string().required('Vui lòng nhập mã đơn vị'),
-  agencyAddress: Yup.string().required('Vui lòng nhập tên đơn vị'),
-  phoneNumber: Yup.string().required('Vui lòng nhập số điện thoại'),
+  code: Yup.string().required('VALIDATE_TEST_01'),
+  agencyAddress: Yup.string().required('VALIDATE_TEST_01'),
+  phoneNumber: Yup.string().required('VALIDATE_TEST_01'),
 });
+
+// type PurchaseOrderValidation = Yup.InferType<typeof PurchaseOrderSchema>
 
 function ModifyEntityDialogForm<T>({
   entity,
@@ -30,6 +34,17 @@ function ModifyEntityDialogForm<T>({
 }) {
   const intl = useIntl();
   const modifyM = { ...modifyModel } as any;
+  const [images, setImages] = useState([]);
+  const [imageRootArr, setImageRootArr] = useState<any>([]);
+
+  const onChange = (imageList: any, addUpdateIndex: any) => {
+    console.log(imageList);
+    const imageArray = getOnlyFile(imageList);
+    // data for submit
+    setImages(imageList);
+    setImageRootArr(imageArray);
+  };
+  
   return (
     <Formik
       enableReinitialize={true}
@@ -52,7 +67,7 @@ function ModifyEntityDialogForm<T>({
                   switch (modifyM[key].type) {
                     case 'string':
                       return (
-                        <div className="mt-3">
+                        <div className="mt-3" key={key}>
                           <Field
                             name={key}
                             component={MainInput}
@@ -69,21 +84,38 @@ function ModifyEntityDialogForm<T>({
                         </div>
                       );
                     case 'number':
-                      return <>NOT IMPLEMENTED!</>;
+                      return <></>;
                     case 'Datetime':
-                      return <>NOT IMPLEMENTED!</>;
+                      return <></>;
+                    case 'image':
+                      return (
+                        <div className="mt-3" key={key}>
+                          <CustomImageUpload
+                            images={images}
+                            onChange={onChange}
+                            label={intl.formatMessage({
+                              id: modifyM[key].label,
+                            })}
+                            labelWidth={4}
+                            isHorizontal={true}
+                            isRequired
+                          />
+                        </div>
+                      );
                   }
-                  return <>NOT IMPLEMENTED!</>;
+                  return <></>;
                 })
               ) : (
                 <></>
               )}
             </Form>
           </Modal.Body>
+
           <Modal.Footer>
             <button type="submit" onClick={() => handleSubmit()} className="btn btn-primary">
               <SaveOutlinedIcon style={iconStyle} /> Lưu
             </button>
+
             <button type="button" onClick={onHide} className="btn btn-outline-primary">
               <CancelOutlinedIcon style={iconStyle} /> Hủy
             </button>

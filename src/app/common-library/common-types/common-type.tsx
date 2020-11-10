@@ -80,19 +80,21 @@ export interface ActionColumnProps<T> {
 
 export type SearchModel = {
   [T: string]: {
-    type: 'string' | 'number' | 'Datetime' | 'SearchSelect';
+    type: 'string' | 'number' | 'Datetime' | 'SearchSelect' | 'file' | 'TreeSelect';
     placeholder: string;
     label: string;
     keyField: string;
     service?: any;
     ref?: boolean;
+    data?: any[];
   };
 };
 export type ModifyModel = {
   [T: string]: {
-    type: 'string' | 'number' | 'Datetime';
+    type: 'string' | 'number' | 'Datetime' | 'SearchSelect' | 'file' | 'image' | 'TreeSelect';
     placeholder: string;
     label: string;
+    disabled?: boolean;
   };
 };
 
@@ -105,7 +107,17 @@ export type GetAllProps<T> = ({
   sortList?: SortProps[];
   paginationProps?: PaginationProps;
 }) => Promise<AxiosResponse<T[]>>;
-export type CountProps = (queryProps: any) => Promise<AxiosResponse>;
+
+export type CountProps<T> = ({
+  queryProps,
+  sortList,
+  paginationProps,
+}: {
+  queryProps: any;
+  sortList?: SortProps[];
+  paginationProps?: PaginationProps;
+}) => Promise<AxiosResponse>;
+
 export type GetProps<T> = (entity: T) => Promise<AxiosResponse>;
 export type UpdateProps<T> = (entity: T) => Promise<AxiosResponse>;
 export type DeleteProps<T> = (entity: T) => Promise<AxiosResponse>;

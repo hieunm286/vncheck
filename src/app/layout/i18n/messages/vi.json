@@ -165,7 +165,10 @@
   "AGENCY.VIEW.LABEL.AGENCY_ADDRESS": "Địa chỉ đơn vị bán hàng",
   "AGENCY.VIEW.LABEL.PHONE": "Điện thoại",
   "AGENCY.VIEW.LABEL.AGENCY_NAME.STATUS": "Trạng thái",
-  "AGENCY.VIEW.LABEL.AGENCY_NAME.TAX_ID": "Mã số thuế"
+  "AGENCY.VIEW.LABEL.AGENCY_NAME.TAX_ID": "Mã số thuế",
 
 
+  "VALIDATE_TEST_01": "Vui lòng nhập mã đơn vị",
+  "VALIDATE_TEST_02": "Vui lòng nhập tên đơn vị",
+  "VALIDATE_TEST_03": "Vui lòng nhập số điện thoại"
 }

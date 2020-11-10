@@ -4,12 +4,37 @@ import { FieldFeedbackLabel } from './field-feedback-label';
 
 const getFieldCSSClasses = (touched: any, errors: any) => {
   const classes = ['form-control'];
-  if (touched && errors) {
-    classes.push('is-invalid');
-  }
 
-  if (touched && !errors) {
-    classes.push('is-valid');
+  if (touched && errors) classes.push('is-invalid');
+
+  if (touched && errors) classes.push('is-valid');
+
+  return classes.join(' ');
+};
+
+const getClassName = (labelWidth: number | null | undefined, labelStart: boolean) => {
+  const classes: string[] = [];
+
+  if (labelStart) {
+    if (labelWidth) {
+      classes.push(`col-xl-${labelWidth}`);
+      classes.push(`col-md-${labelWidth}`);
+      classes.push('col-12');
+    } else {
+      classes.push(`col-xl-3`);
+      classes.push(`col-md-3`);
+      classes.push('col-12');
+    }
+  } else {
+    if (labelWidth) {
+      classes.push(`col-xl-${12 - labelWidth - 1}`);
+      classes.push(`col-md-${12 - labelWidth}`);
+      classes.push('col-12');
+    } else {
+      classes.push(`col-xl-8`);
+      classes.push(`col-md-9`);
+      classes.push('col-12');
+    }
   }
 
   return classes.join(' ');
@@ -52,25 +77,20 @@ export function MainInput({
   return (
     <>
       <div className={isHorizontal && 'row'}>
-        <div
-          className={`col-xl-${labelWidth ? labelWidth : 3} col-md-${
-            labelWidth ? labelWidth : 3
-          } col-12`}>
+        <div className={isHorizontal && getClassName(labelWidth, true)}>
           {label && (
             <label style={width && styleLabe} className={isHorizontal && 'mb-0 input-label mt-2'}>
               {label} {withFeedbackLabel && <span className="text-danger">*</span>}
             </label>
           )}
         </div>
-        <div
-          className={`col-xl-${labelWidth ? 12 - labelWidth - 1 : 8} col-md-${
-            labelWidth ? 12 - labelWidth : 9
-          } col-12`}>
+
+        <div className={isHorizontal && getClassName(labelWidth, false)}>
           <input
             type={type}
             style={width && styleInput}
             className={
-              type === 'text' || type === 'email' || type === 'file' || type === 'image'
+              ['text', 'email', 'file', 'image', 'number'].includes(type)
                 ? withFeedbackLabel
                   ? getFieldCSSClasses(touched[field.name], errors[field.name])
                   : 'form-control'

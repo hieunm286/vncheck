@@ -4,13 +4,10 @@ import { FieldFeedbackLabel } from './field-feedback-label';
 
 const getFieldCSSClasses = (touched: any, errors: any) => {
   const classes = ['form-control', 'form-control-solid'];
-  if (touched && errors) {
-    classes.push('is-invalid-select');
-  }
 
-  if (touched && !errors) {
-    classes.push('is-valid-select');
-  }
+  if (touched && errors.length > 0) classes.push('is-invalid-select');
+
+  if (touched && !(errors.length > 0)) classes.push('is-valid-select');
 
   return classes.join(' ');
 };
@@ -36,9 +33,10 @@ export function Select({
           {...props}>
           {children}
         </select>
+
         {withFeedbackLabel && (
           <FieldFeedbackLabel
-            erros={error}
+            error={error}
             touched={touched}
             label={label}
             customFeedbackLabel={customFeedbackLabel}

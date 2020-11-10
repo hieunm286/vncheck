@@ -5,12 +5,14 @@ import * as auth from '../app/pages/auth/_redux/auth-redux';
 import { usersSlice } from '../app/pages/account/_redux/user-slice';
 import { agencySlice } from '../app/pages/agency-management/_redux/agency-slice';
 import { agencyTypeSlice } from '../app/pages/agency-type/_redux/agency-type-slice';
+import { purchaseOrderSlice } from '../app/pages/purchase-order/purchase-order.redux';
 
 export const rootReducer = combineReducers({
   auth: auth.reducer,
   users: usersSlice.reducer,
   agency: agencySlice.reducer,
   agencyType: agencyTypeSlice.reducer,
+  purchaseOrder: purchaseOrderSlice.reducer,
 });
 
 export function* rootSaga() {

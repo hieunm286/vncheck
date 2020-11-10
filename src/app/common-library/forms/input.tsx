@@ -1,14 +1,12 @@
 import React from 'react';
 import './custom.css';
+
 const getFieldCSSClasses = (touched: any, errors: any) => {
   const classes = ['form-control'];
-  if (touched && errors) {
-    classes.push('is-invalid');
-  }
 
-  if (touched && !errors) {
-    classes.push('is-valid');
-  }
+  if (touched && errors.length > 0) classes.push('is-invalid');
+
+  if (touched && !(errors.length > 0)) classes.push('is-valid');
 
   return classes.join(' ');
 };
@@ -32,6 +30,7 @@ export function Input({
             {label}
           </label>
         )}
+
         <input
           type={type}
           className={

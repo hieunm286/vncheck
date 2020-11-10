@@ -7,11 +7,15 @@ import {
   DeleteProps,
   GetAllProps,
   GetProps,
+  SearchModel,
   UpdateProps,
 } from '../../common-library/common-types/common-type';
-import { PurchaseOrderModel } from './purchase-order.model';
+import { PurchaseOrderModel, PurchaseOrderSearchModel } from './purchase-order.model';
+import { purchaseOrderSlice, callTypes } from './purchase-order.redux';
 
 export const API_URL = API_BASE_URL + '/purchase-order';
+
+export const API_FILE_URL = API_BASE_URL + '/file';
 
 export const Create: CreateProps<PurchaseOrderModel> = (data: PurchaseOrderModel) => {
   return axios.post(API_URL, data);
@@ -28,10 +32,13 @@ export const GetAll: GetAllProps<PurchaseOrderModel> = ({
   });
 };
 
-export const Count: CountProps = (queryProps: any) => {
-  console.log(queryProps.queryProps);
+export const Count: CountProps<PurchaseOrderModel> = ({
+  queryProps,
+  sortList,
+  paginationProps,
+}) => {
   return axios.get(`${API_URL}/count`, {
-    params: { ...queryProps.queryProps },
+    params: { ...queryProps, ...paginationProps, sortList },
   });
 };
 
@@ -39,6 +46,9 @@ export const Get: GetProps<PurchaseOrderModel> = entity => {
   return axios.get(`${API_URL}/${entity.code}`);
 };
 
+export const GetById = (code: string) => {
+  return axios.get(`${API_URL}/${code}`);
+};
 export const Update: UpdateProps<PurchaseOrderModel> = (entity: PurchaseOrderModel) => {
   return axios.put(`${API_URL}/${entity._id}`, entity);
 };
@@ -50,5 +60,17 @@ export const Delete: DeleteProps<PurchaseOrderModel> = (entity: PurchaseOrderMod
 export const DeleteMany: DeleteManyProps<PurchaseOrderModel> = (entities: PurchaseOrderModel[]) => {
   return axios.delete(API_URL, {
     data: { arrayEntities: entities },
+  });
+};
+
+export const uploadImage = (image: any) => {
+  console.log('run updload');
+  console.log(image);
+  let formData = new FormData();
+  formData.append('image', image);
+  return axios({
+    method: 'POST',
+    url: API_FILE_URL,
+    data: formData,
   });
 };
