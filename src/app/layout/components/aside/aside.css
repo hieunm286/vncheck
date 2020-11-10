@@ -7,3 +7,17 @@
   font-size: 13px !important;
   font-weight: bold !important;
 }
+
+.menu-icon svg {
+  fill: green
+}
+
+.menu-link:hover svg path {
+  fill: white;
+}
+
+.active svg {
+  fill: white
+}
+
+

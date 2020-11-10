@@ -29,6 +29,7 @@ import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import { isArray, isNull } from 'lodash';
 import MasterGoogleMap from '../../common-library/common-components/master-google-map';
+import MasterMap from '../../common-library/common-components/master-google-map-other';
 
 const DataExample: any = [
   {
@@ -578,6 +579,8 @@ function PurchaseOrder() {
           />
 
           <MasterGoogleMap location={location} />
+
+          {/* <MasterMap /> */}
         </Route>
       </Switch>
     </Fragment>
