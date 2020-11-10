@@ -30,6 +30,7 @@ import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import { isArray, isNull } from 'lodash';
 import MasterGoogleMap from '../../common-library/common-components/master-google-map';
 import MasterMap from '../../common-library/common-components/master-google-map-other';
+import * as Yup from 'yup';
 
 const DataExample: any = [
   {
@@ -71,6 +72,44 @@ const DataExample: any = [
     ],
   },
 ];
+
+// const validateSchema = {
+//   code: {
+//     required: true,
+//   },
+//   phone: {
+//     required: true,
+
+//   }
+// }
+
+// const ValidationByNguyenMinhHieu = (data: any, validateSchema: any) => {
+
+//   const _validationResult = {}
+
+//   Object.keys(validateSchema).map(key => {
+//     switch(validateSchema[key])
+//   })
+// }
+
+const PurchaseOrderSchema = Yup.object().shape({
+  code: Yup.string()
+    .min(3, 'Minimum 3 symbols')
+    .max(50, 'Maximum 50 symbols')
+    .required('Code không được để trống'),
+  // dateofbirth: Yup.mixed()
+  //   .nullable(false)
+  //   .required('Date of Birth is required'),
+  agencyAddress: Yup.string().required('Vui lòng nhập Agency Address'),
+  phoneNumber: Yup.string()
+    .required('Last name không được để trống')
+    .matches(/[0-9]$/u, {
+      message: 'Vui lòng nhập tên đúng định dạng',
+    }),
+    time: Yup.date().required('Vui lòng nhập date'),
+    time2: Yup.date().required('Vui lòng nhập date'),
+    quantity: Yup.number().required('Vui lòng nhập số lượng')
+});
 
 function PurchaseOrder() {
   const intl = useIntl();
@@ -274,16 +313,19 @@ function PurchaseOrder() {
         type: 'string',
         placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.PLACEHOLDER' }),
         label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL' }),
+        required: true,
         disabled: !!editEntity,
       },
       agencyAddress: {
         type: 'string',
         placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.NAME.PLACEHOLDER' }),
+        required: true,
         label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.NAME.LABEL' }),
       },
       phoneNumber: {
         type: 'string',
         placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
+        required: true,
         label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
       },
       image: {
@@ -297,24 +339,24 @@ function PurchaseOrder() {
         label: 'Album 2',
       },
     },
-    {
-      test1: {
-        type: 'string',
-        placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.PLACEHOLDER' }),
-        label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL' }),
-        disabled: !!editEntity,
-      },
-      test2: {
-        type: 'string',
-        placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.NAME.PLACEHOLDER' }),
-        label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.NAME.LABEL' }),
-      },
-      test3: {
-        type: 'string',
-        placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
-        label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
-      },
-    },
+    // {
+    //   test1: {
+    //     type: 'string',
+    //     placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.PLACEHOLDER' }),
+    //     label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL' }),
+    //     disabled: !!editEntity,
+    //   },
+    //   test2: {
+    //     type: 'string',
+    //     placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.NAME.PLACEHOLDER' }),
+    //     label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.NAME.LABEL' }),
+    //   },
+    //   test3: {
+    //     type: 'string',
+    //     placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
+    //     label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
+    //   },
+    // },
   ];
 
   const modifyModel_3 = [
@@ -323,6 +365,7 @@ function PurchaseOrder() {
         type: 'Datetime',
         placeholder: 'Thời gian thu hoạch',
         label: 'Thời gian thu hoạch',
+        required: true,
       },
       time2: {
         type: 'Datetime',
@@ -333,6 +376,7 @@ function PurchaseOrder() {
         type: 'number',
         label: 'Sản lượng thu hoạch (kg)',
         placeholder: 'Sản lượng',
+        required: true,
       },
     },
   ];
@@ -390,18 +434,18 @@ function PurchaseOrder() {
       modifyModel: modifyModel,
       header: 'ĐƠN HÀNG',
     },
-    form_2: {
-      title: 'Thông tin quản trị',
-      modifyModel: modifyModel_2,
-    },
+    // form_2: {
+    //   title: 'Thông tin quản trị',
+    //   modifyModel: modifyModel_2,
+    // },
     form_3: {
       title: 'Thông tin thu hoạch',
       modifyModel: modifyModel_3,
     },
-    form_4: {
-      title: 'Thông tin test',
-      modifyModel: modifyModel_4,
-    },
+    // form_4: {
+    //   title: 'Thông tin test',
+    //   modifyModel: modifyModel_4,
+    // },
     // form_5: {
     //   title: "xxx",
     //   modifyModel: modifyModel_2
@@ -409,7 +453,11 @@ function PurchaseOrder() {
   };
 
   const allFormField: any = {
-    ...GenerateAllFormField(modifyModel, modifyModel_2, modifyModel_3, modifyModel_4),
+    ...GenerateAllFormField(
+      modifyModel,
+      modifyModel_3,
+      // , modifyModel_2, modifyModel_3, modifyModel_4
+    ),
   };
 
   const allFormButton: any = {
@@ -441,8 +489,8 @@ function PurchaseOrder() {
 
   const location = {
     latitude: 21.027763,
-    longitude: 105.834160
-  }
+    longitude: 105.83416,
+  };
 
   return (
     <Fragment>
@@ -517,6 +565,7 @@ function PurchaseOrder() {
             formPart={formPart}
             allFormField={allFormField}
             allFormButton={allFormButton}
+            validation={PurchaseOrderSchema}
           />
         </Route>
         <Route path={`/purchase-order/:code`}>
@@ -541,6 +590,7 @@ function PurchaseOrder() {
               formPart={formPart}
               allFormField={allFormField}
               allFormButton={allFormButton}
+              validation={PurchaseOrderSchema}
             />
           )}
         </Route>

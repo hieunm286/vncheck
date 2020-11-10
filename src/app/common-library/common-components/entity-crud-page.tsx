@@ -27,6 +27,7 @@ function EntityCrudPage({
   formPart,
   allFormField,
   allFormButton,
+  validation
 }: {
   // modifyModel: ModifyModel;
   title: string;
@@ -38,6 +39,7 @@ function EntityCrudPage({
   formPart: any;
   allFormField: any;
   allFormButton: any;
+  validation?: any
 }) {
   const intl = useIntl();
   const initForm = generateInitForm(allFormField);
@@ -82,7 +84,7 @@ function EntityCrudPage({
       <Formik
         enableReinitialize={true}
         initialValues={entityForEdit || initForm}
-        // validationSchema={PurchaseOrderSchema}
+        validationSchema={validation}
         onSubmit={values => {
           console.log(values);
           onModify(values);

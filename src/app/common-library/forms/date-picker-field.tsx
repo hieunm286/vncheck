@@ -70,15 +70,20 @@ export function DatePickerField({ ...props }: any) {
             locale="vi"
             placeholderText="Ngày tháng"
           />
+          {errors[field.name] && touched[field.name] ? (
+            <div className="invalid-datepicker-feedback text-danger" style={{ fontSize: '0.9rem' }}>
+              Vui lòng nhập 
+              {
+                // errors[field.name]?.toString()
+                 props.label
+              }
+            </div>
+          ) : (
+            <div className="feedback">
+              {/* Please enter <b>{props.label}</b> in 'mm/dd/yyyy' format */}
+            </div>
+          )}
         </div>
-
-        {errors[field.name] && touched[field.name] ? (
-          <div className="invalid-datepicker-feedback">{errors[field.name]?.toString()}</div>
-        ) : (
-          <div className="feedback">
-            {/* Please enter <b>{props.label}</b> in 'mm/dd/yyyy' format */}
-          </div>
-        )}
       </div>
     </>
   );

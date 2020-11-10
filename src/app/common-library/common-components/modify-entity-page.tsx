@@ -109,6 +109,7 @@ function ModifyEntityPage<T>({
                           isHorizontal
                           label={value[key].label}
                           disabled={value[key].disabled}
+                          required={value[key].required}
                         />
                       </div>
                     );
@@ -124,6 +125,7 @@ function ModifyEntityPage<T>({
                           labelWidth={4}
                           placeholder={value[key].placeholder}
                           label={value[key].label}
+                          required={value[key].required}
                         />
                       </div>
                     );
@@ -135,6 +137,8 @@ function ModifyEntityPage<T>({
                           isHorizontal
                           label={value[key].label}
                           labelWidth={4}
+                          type="Datetime"
+                          required={value[key].required}
                         />
                       </div>
                     );
@@ -149,7 +153,7 @@ function ModifyEntityPage<T>({
                           label={value[key].label}
                           labelWidth={4}
                           isHorizontal={true}
-                          isRequired
+                          required={value[key].required}
                         />
                       </div>
                     );

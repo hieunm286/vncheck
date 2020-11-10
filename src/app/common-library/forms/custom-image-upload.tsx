@@ -8,7 +8,7 @@ interface ImageUploadPros {
   label: string;
   labelWidth: number;
   isHorizontal: boolean;
-  isRequired?: boolean;
+  required?: boolean;
 }
 
 const getClassName = (labelWidth: number | null | undefined, labelStart: boolean) => {
@@ -45,7 +45,7 @@ function CustomImageUpload({
   images,
   onChange,
   isHorizontal,
-  isRequired,
+  required,
 }: ImageUploadPros) {
   return (
     <div className={isHorizontal ? 'row' : ''}>
@@ -53,7 +53,7 @@ function CustomImageUpload({
         {label && (
           <label className={isHorizontal ? 'mb-0 select-label mt-2' : ''}>
             {label}
-            {isRequired && <span className="text-danger"> *</span>}
+            {required && <span className="text-danger"> *</span>}
           </label>
         )}
       </div>

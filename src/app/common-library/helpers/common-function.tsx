@@ -24,11 +24,11 @@ export const generateInitForm = (modifyModel: ModifyModel) => {
     if (modifyModel[key].type === 'string') {
       initValue[key] = '';
     } else if (modifyModel[key].type === 'number') {
-      initValue[key] = 0;
+      initValue[key] = undefined;
     } else if (modifyModel[key].type === 'SearchSelect') {
       initValue[key] = null;
     } else if (modifyModel[key].type === 'Datetime') {
-      initValue[key] = new Date();
+      initValue[key] = null;
     } else if (modifyModel[key].type === 'image')
       initValue[key] = []
   });

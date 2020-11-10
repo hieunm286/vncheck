@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl';
 interface FeedBackProps {
   label: string;
   touched: any;
-  error?: string;
+  error?: any;
   customFeedbackLabel: string;
   type?: string;
 }
@@ -67,6 +67,8 @@ export function FieldFeedbackLabel({
     case 'password':
       return inputLabel({ label, touched, error, customFeedbackLabel });
     case 'number':
+      return inputLabel({ label, touched, error, customFeedbackLabel });
+    case 'Datetime':
       return inputLabel({ label, touched, error, customFeedbackLabel });
     default:
       return selectLabel({ label, touched, error, customFeedbackLabel });
