@@ -23,14 +23,17 @@ export function GetSelectRow<T>({
   onSelectMany: (entities: T[]) => void;
 }) {
   return {
+
     mode: 'checkbox' as RowSelectionType,
     clickToSelect: true,
     hideSelectAll: false,
+
     selectionHeaderRenderer: () => {
       const isSelected =
         selectedEntities &&
         selectedEntities.length > 0 &&
         selectedEntities.length === entities.length;
+        
       return (
         <SelectionCheckbox
           isSelected={isSelected}

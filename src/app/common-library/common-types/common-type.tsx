@@ -80,19 +80,21 @@ export interface ActionColumnProps<T> {
 
 export type SearchModel = {
   [T: string]: {
-    type: 'string' | 'number' | 'Datetime' | 'SearchSelect' | 'file';
+    type: 'string' | 'number' | 'Datetime' | 'SearchSelect' | 'file' | 'TreeSelect' | 'Search';
     placeholder: string;
     label: string;
     keyField: string;
     service?: any;
     ref?: boolean;
+    data?: any[];
   };
 };
 export type ModifyModel = {
   [T: string]: {
-    type: 'string' | 'number' | 'Datetime' | 'SearchSelect' | 'file' | 'image';
+    type: 'string' | 'number' | 'Datetime' | 'SearchSelect' | 'file' | 'image' | 'TreeSelect' | 'object';
     placeholder: string;
     label: string;
+    disabled?: boolean;
   };
 };
 

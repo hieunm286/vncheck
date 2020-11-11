@@ -7,6 +7,8 @@ import { MasterTable } from './master-table';
 import { PaginationProps } from '../common-types/common-type';
 import { ColumnDescription } from 'react-bootstrap-table-next';
 import { Link } from 'react-router-dom';
+import MasterTreeStructure from './master-tree-structure';
+import MasterGoogleMap from './master-google-map';
 
 export interface BasicUnitDataProps {
   showModal: any;
@@ -45,7 +47,7 @@ export function MasterBody<T>({
   paginationParams: PaginationProps;
   setPaginationParams: (data: PaginationProps) => void;
   onDeleteMany: () => void;
-  isShowId: boolean;
+  isShowId?: boolean;
 }) {
   const intl = useIntl();
 
@@ -87,6 +89,7 @@ export function MasterBody<T>({
             </button>
           </div>
         </div>
+        
         <MasterTable
           entities={entities}
           columns={masterColumn}
@@ -97,6 +100,9 @@ export function MasterBody<T>({
           onSelectMany={onSelectMany}
           selectedEntities={selectedEntities}
         />
+
+        <MasterTreeStructure />
+
       </CardBody>
     </Card>
   );

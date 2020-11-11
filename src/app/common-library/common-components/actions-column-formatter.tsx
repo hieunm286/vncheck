@@ -16,7 +16,7 @@ export function ActionsColumnFormatter<T>(
   rowIndex: number,
   { onShowDetail, onDelete, onEdit, intl }: ActionColumnProps<T> & { intl: IntlShape },
 ) {
-  console.log(row);
+  
   return (
     <>
       <a

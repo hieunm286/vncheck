@@ -151,5 +151,9 @@
   "PURCHASE_ORDER.MASTER.HEADER.NAME.PLACEHOLDER": "Tên đại lý",
   "PURCHASE_ORDER.MASTER.HEADER.NAME.LABEL": "Tên đại lý",
   "PURCHASE_ORDER.CREATE.TITLE": "Thêm mới đơn hàng",
-  "PURCHASE_ORDER.UPDATE.TITLE": "Cập nhật đơn hàng"
+  "PURCHASE_ORDER.UPDATE.TITLE": "Cập nhật đơn hàng",
+
+  "VALIDATE_TEST_01": "Vui lòng nhập mã đơn vị",
+  "VALIDATE_TEST_02": "Vui lòng nhập tên đơn vị",
+  "VALIDATE_TEST_03": "Vui lòng nhập số điện thoại"
 }

@@ -12,9 +12,9 @@ import CustomImageUpload from '../forms/custom-image-upload';
 import { getOnlyFile } from '../helpers/common-function';
 
 const PurchaseOrderSchema = Yup.object().shape({
-  code: Yup.string().required('Vui lòng nhập mã đơn vị'),
-  agencyAddress: Yup.string().required('Vui lòng nhập tên đơn vị'),
-  phoneNumber: Yup.string().required('Vui lòng nhập số điện thoại'),
+  code: Yup.string().required('VALIDATE_TEST_01'),
+  agencyAddress: Yup.string().required('VALIDATE_TEST_01'),
+  phoneNumber: Yup.string().required('VALIDATE_TEST_01'),
 });
 
 // type PurchaseOrderValidation = Yup.InferType<typeof PurchaseOrderSchema>
@@ -42,6 +42,7 @@ function ModifyEntityDialogForm<T>({
     setImages(imageList);
     setImageRootArr(imageArray);
   };
+  
   return (
     <Formik
       enableReinitialize={true}
@@ -81,24 +82,26 @@ function ModifyEntityDialogForm<T>({
                         </div>
                       );
                     case 'number':
-                      return <>NOT IMPLEMENTED!</>;
+                      return <></>;
                     case 'Datetime':
-                      return <>NOT IMPLEMENTED!</>;
+                      return <></>;
                     case 'image':
                       return (
                         <div className="mt-3" key={key}>
                           <CustomImageUpload
                             images={images}
                             onChange={onChange}
-                            label="Thêm ảnh"
+                            label={intl.formatMessage({
+                              id: modifyM[key].label,
+                            })}
                             labelWidth={4}
                             isHorizontal={true}
-                            isRequired
+                            required={modifyM[key].required}
                           />
                         </div>
                       );
                   }
-                  return <>NOT IMPLEMENTED!</>;
+                  return <></>;
                 })
               ) : (
                 <></>

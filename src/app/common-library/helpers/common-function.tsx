@@ -1,3 +1,4 @@
+import { isArray } from 'lodash';
 import { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { DefaultPagination } from '../common-consts/const';
@@ -16,30 +17,101 @@ export const CapitalizeFirstLetter = (string: string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
 };
 
-export const generateInitForm = (modifyModel: ModifyModel) => {
+export const generateInitForm = (modifyModel: any) => {
   const initValue = {} as any;
+
   Object.keys(modifyModel).map(key => {
     if (modifyModel[key].type === 'string') {
       initValue[key] = '';
     } else if (modifyModel[key].type === 'number') {
-      initValue[key] = 0;
+      initValue[key] = undefined;
     } else if (modifyModel[key].type === 'SearchSelect') {
       initValue[key] = null;
     } else if (modifyModel[key].type === 'Datetime') {
-      initValue[key] = new Date();
+      initValue[key] = null;
+    } else if (modifyModel[key].type === 'image') {
+      initValue[key] = []
+    } 
+    else if (modifyModel[key].type === 'object') {
+      initValue[key] = {}
+      Object.keys(modifyModel[key]).map(childKey => {
+        if (modifyModel[key][childKey].type === 'string') {
+          initValue[key][childKey] = ''
+        } else if (modifyModel[key][childKey].type === 'number') {
+          initValue[key][childKey] = undefined
+        }
+      })
     }
   });
+
   return initValue;
 };
 
 export const getOnlyFile = (arr: any[]) => {
   const fileArray: any[] = [];
+
   arr.forEach(values => {
     fileArray.push(values.file);
   });
-  console.log(fileArray);
+
   return fileArray;
 };
+
+export const getNewImage = (prevArr: any[], currentArr: any[]) => {
+  const newArr: any[] = [];
+
+  if (prevArr.length === 0) {
+    return currentArr;
+  }
+
+  currentArr.forEach(curEl => {
+    const index = prevArr.findIndex(prevEl => curEl === prevEl);
+
+    if (index === -1) {
+      newArr.push(curEl);
+    }
+  });
+
+  return newArr;
+};
+
+export const ConvertToTreeNode = (data: any) => {
+  const treeData: any[] = [];
+  data.forEach((value: any, key: any) => {
+    const treeNode = {
+      title: value.title,
+      value: value.code || value._id,
+      key: value.code || value._id,
+      children: value.child.map((childValue: any, childKey: any) => ({
+        title: childValue.title,
+        value: childValue.code || childValue._id,
+        key: childValue.code || childValue._id,
+      })),
+    };
+
+    treeData.push(treeNode);
+  });
+
+  return treeData;
+};
+
+export const GenerateAllFormField = (...params: any) => {
+
+  let fieldForm: any = {};
+
+  params.forEach((value: any) => {
+    if (isArray(value)) {
+      // fieldForm = {...fieldForm, ...Object.assign({}, ...value)}
+      value.forEach((item: any) => {
+        fieldForm = {...fieldForm, ...item.data}
+      })
+    }
+  })
+
+  console.log(fieldForm)
+
+  return fieldForm;
+}
 
 export function InitMasterProps<T>({
   getAllServer,

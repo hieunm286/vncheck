@@ -29,6 +29,7 @@ function ModifyEntityDialog<T>({
           <span>{intl.formatMessage({ id: title })}</span>
         </Modal.Title>
       </Modal.Header>
+      
       <ModifyEntityDialogForm
         modifyModel={modifyModel}
         entity={entity || initForm}

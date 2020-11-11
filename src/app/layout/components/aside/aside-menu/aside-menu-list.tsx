@@ -3,19 +3,12 @@ import React, { Fragment, ReactElement } from 'react';
 import { useLocation } from 'react-router';
 import { NavLink } from 'react-router-dom';
 import { useIntl } from 'react-intl';
-import { makeStyles } from '@material-ui/core/styles';
 import '../aside.css';
 import { CheckIsActive } from '../../../../common-library/helpers/router-helpers';
 import { MenuItemModel } from './menu-item-model';
 import { MenuItems } from './aside-menu-data';
 import { ToAbsoluteUrl } from '../../../../common-library/helpers/assets-helpers';
 import SVG from 'react-inlinesvg';
-
-const useStyles = makeStyles(theme => ({
-  subMenu: {
-    paddingLeft: '50px',
-  },
-}));
 
 export function AsideMenuList({ layoutProps }: any) {
   const intl = useIntl();
@@ -52,10 +45,10 @@ export function AsideMenuList({ layoutProps }: any) {
             {item.icon ? (
               <span className="svg-icon menu-icon">
                 {typeof item.icon == 'string' ? (
-                  <SVG
-                    style={{ width: '17px' }}
-                    src={ToAbsoluteUrl('/media/svg/vncheck/' + item.icon)}
-                  />
+                    <SVG
+                      style={{ width: '17px' }}
+                      src={ToAbsoluteUrl('/media/svg/vncheck/' + item.icon)}
+                    />
                 ) : (
                   item.icon
                 )}
@@ -82,10 +75,10 @@ export function AsideMenuList({ layoutProps }: any) {
             {item.icon ? (
               <span className="svg-icon menu-icon">
                 {typeof item.icon == 'string' ? (
-                  <SVG
-                    style={{ width: '17px' }}
-                    src={ToAbsoluteUrl('/media/svg/vncheck/' + item.icon)}
-                  />
+                    <SVG
+                      style={{ width: '17px' }}
+                      src={ToAbsoluteUrl('/media/svg/vncheck/' + item.icon)}
+                    />
                 ) : (
                   item.icon
                 )}

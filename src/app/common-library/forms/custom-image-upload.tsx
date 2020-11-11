@@ -8,8 +8,36 @@ interface ImageUploadPros {
   label: string;
   labelWidth: number;
   isHorizontal: boolean;
-  isRequired?: boolean;
+  required?: boolean;
 }
+
+const getClassName = (labelWidth: number | null | undefined, labelStart: boolean) => {
+  const classes: string[] = [];
+
+  if (labelStart) {
+    if (labelWidth) {
+      classes.push(`col-xl-${labelWidth}`);
+      classes.push(`col-md-${labelWidth}`);
+      classes.push('col-12');
+    } else {
+      classes.push(`col-xl-3`);
+      classes.push(`col-md-3`);
+      classes.push('col-12');
+    }
+  } else {
+    if (labelWidth) {
+      classes.push(`col-xl-${12 - labelWidth - 1}`);
+      classes.push(`col-md-${12 - labelWidth}`);
+      classes.push('col-12');
+    } else {
+      classes.push(`col-xl-8`);
+      classes.push(`col-md-9`);
+      classes.push('col-12');
+    }
+  }
+
+  return classes.join(' ');
+};
 
 function CustomImageUpload({
   label,
@@ -17,25 +45,19 @@ function CustomImageUpload({
   images,
   onChange,
   isHorizontal,
-  isRequired,
+  required,
 }: ImageUploadPros) {
   return (
     <div className={isHorizontal ? 'row' : ''}>
-      <div
-        className={`col-xl-${labelWidth ? labelWidth : 3} 
-            col-md-${labelWidth ? labelWidth : 3} 
-            col-12`}>
+      <div className={getClassName(labelWidth, true)}>
         {label && (
           <label className={isHorizontal ? 'mb-0 select-label mt-2' : ''}>
             {label}
-            {isRequired && <span className="text-danger"> *</span>}
+            {required && <span className="text-danger"> *</span>}
           </label>
         )}
       </div>
-      <div
-        className={`col-xl-${labelWidth ? 12 - labelWidth - 1 : 8} 
-          col-md-${labelWidth ? 12 - labelWidth : 9} 
-          col-12`}>
+      <div className={getClassName(labelWidth, false)}>
         <ImageUploading
           multiple
           value={images}
@@ -76,6 +98,7 @@ function CustomImageUpload({
                 onClick={onImageUpload}
                 className="button-add-image"
                 {...dragProps}>
+                  
                 <svg
                   width="40"
                   height="40"
