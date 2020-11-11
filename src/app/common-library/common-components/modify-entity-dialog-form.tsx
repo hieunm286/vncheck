@@ -9,7 +9,10 @@ import { MainInput } from '../forms/main-input';
 import { iconStyle } from '../common-consts/const';
 import { ModifyModel } from '../common-types/common-type';
 import CustomImageUpload from '../forms/custom-image-upload';
-import { getOnlyFile } from '../helpers/common-function';
+import { getNewImage, getOnlyFile } from '../helpers/common-function';
+import { Card, CardBody, CardHeader } from '../card';
+import { uploadImage } from '../../pages/purchase-order/purchase-order.service';
+import ModifyEntityPage from './modify-entity-page';
 
 const PurchaseOrderSchema = Yup.object().shape({
   code: Yup.string().required('VALIDATE_TEST_01'),
@@ -24,22 +27,37 @@ function ModifyEntityDialogForm<T>({
   onHide,
   onModify,
   modifyModel,
+  formPart,
+  validation
 }: {
   entity: T;
   onHide: () => void;
   onModify: (values: any) => void;
   modifyModel: ModifyModel;
+  formPart: any;
+  validation: any;
 }) {
   const intl = useIntl();
   const modifyM = { ...modifyModel } as any;
-  const [images, setImages] = useState([]);
+  const [images, setImages] = useState(entity);
   const [imageRootArr, setImageRootArr] = useState<any>([]);
 
-  const onChange = (imageList: any, addUpdateIndex: any) => {
-    console.log(imageList);
+  const onChange = (imageList: any, addUpdateIndex: any, key: any) => {
     const imageArray = getOnlyFile(imageList);
+
+    const newArr = getNewImage(imageRootArr, imageArray);
+    console.log(key);
+    newArr.forEach((file, index) => {
+      uploadImage(file)
+        .then(res => {
+          // console.log('update: ' + index);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    });
     // data for submit
-    setImages(imageList);
+    setImages({ ...images, [key]: imageList });
     setImageRootArr(imageArray);
   };
   
@@ -59,7 +77,35 @@ function ModifyEntityDialogForm<T>({
                             <div className="spinner spinner-lg spinner-success"/>
                         </div>
                     )} */}
-            <Form className="form form-label-right">
+             <Form className="form form-label-right">
+              {Object.keys(formPart).map(key => (
+                <>
+                  {/* {formPart[key].header && (
+                      title={
+                        <>
+                          <a onClick={() => history.goBack()}>
+                            <ArrowBackIosIcon />
+                          </a>
+                          {entityForEdit
+                            ? `CHỈNH SỬA ${formPart[key].header}`
+                            : `THÊM MỚI ${formPart[key].header}`}
+                        </>
+                      }
+                    
+                  )} */}
+                    <ModifyEntityPage
+                      images={images}
+                      onChange={(imageList: any, addUpdateIndex: any, key: any) => {
+                        onChange(imageList, addUpdateIndex, key);
+                      }}
+                      modifyModel={formPart[key].modifyModel as any}
+                      column={formPart[key].modifyModel.length}
+                      title={formPart[key].title}
+                    />
+                </>
+              ))}
+            </Form>
+            {/* <Form className="form form-label-right">
               {modifyModel ? (
                 Object.keys(modifyM).map(key => {
                   switch (modifyM[key].type) {
@@ -106,7 +152,7 @@ function ModifyEntityDialogForm<T>({
               ) : (
                 <></>
               )}
-            </Form>
+            </Form> */}
           </Modal.Body>
           <Modal.Footer>
             <button type="submit" onClick={() => handleSubmit()} className="btn btn-primary">
