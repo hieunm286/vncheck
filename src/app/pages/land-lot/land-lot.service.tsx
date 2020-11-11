@@ -12,6 +12,31 @@ import {
 } from '../../common-library/common-types/common-type';
 import { LandLotModel, LandLotSearchModel } from './land-lot.model';
 import { purchaseOrderSlice, callTypes } from './land-lot.redux';
+import AxiosResponse from "axios";
+import LandLot from './land-lot';
+
+const entities: LandLotModel[] = [
+  {
+    _id: '1',
+    lot: 'A',
+    subLot: '42',
+  },
+  {
+    _id: '2',
+    lot: 'C',
+    subLot: '57',
+  },
+  {
+    _id: '3',
+    lot: 'Z',
+    subLot: '89',
+  },
+  {
+    _id: '4',
+    lot: 'B',
+    subLot: '06',
+  },
+];
 
 export const API_URL = API_BASE_URL + '/purchase-order';
 
@@ -26,9 +51,22 @@ export const GetAll: GetAllProps<LandLotModel> = ({
   sortList,
   paginationProps,
 }) => {
-  return axios.get(`${API_URL}`, {
-    params: { ...queryProps, ...paginationProps, sortList },
-    // paramsSerializer: ParamsSerializer
+  // return axios.get(`${API_URL}`, {
+  //   params: { ...queryProps, ...paginationProps, sortList },
+  //   // paramsSerializer: ParamsSerializer
+  // });
+  // const response = new AxiosResponse<LandLotModel[]>;
+  // return response;
+  return new Promise((resolve, reject) => {
+    // : AxiosResponse<LandLotModel[]> 
+    const response = {
+      data: entities,
+      status: 200,
+      statusText: 'OK',
+      headers: 'Header oc cho',
+      config: {},
+    }
+    resolve(response);
   });
 };
 
@@ -37,29 +75,98 @@ export const Count: CountProps<LandLotModel> = ({
   sortList,
   paginationProps,
 }) => {
-  return axios.get(`${API_URL}/count`, {
-    params: { ...queryProps, ...paginationProps, sortList },
+  return new Promise((resolve, reject) => {
+    // : AxiosResponse<LandLotModel[]> 
+    const response = {
+      data: entities.length,
+      status: 200,
+      statusText: 'OK',
+      headers: 'Header oc cho',
+      config: {},
+    }
+    resolve(response);
   });
 };
 
 export const Get: GetProps<LandLotModel> = entity => {
-  return axios.get(`${API_URL}/${entity.code}`);
+  // return axios.get(`${API_URL}/${entity.code}`);
+  const result = entities.filter(_entity => {
+    return _entity._id === entity._id;
+  });
+  return new Promise((resolve, reject) => {
+    // : AxiosResponse<LandLotModel[]> 
+    const response = {
+      data: result[0],
+      status: 200,
+      statusText: 'OK',
+      headers: 'Header oc cho',
+      config: {},
+    }
+    resolve(response);
+  });
 };
 
 export const GetById = (code: string) => {
-  return axios.get(`${API_URL}/${code}`);
+  // return axios.get(`${API_URL}/${code}`);
+  const result = entities.filter(_entity => {
+    return _entity._id === code;
+  });
+  return new Promise((resolve, reject) => {
+    // : AxiosResponse<LandLotModel[]> 
+    const response = {
+      data: result[0],
+      status: 200,
+      statusText: 'OK',
+      headers: 'Header oc cho',
+      config: {},
+    }
+    resolve(response);
+  });
 };
 export const Update: UpdateProps<LandLotModel> = (entity: LandLotModel) => {
-  return axios.put(`${API_URL}/${entity._id}`, entity);
+  // return axios.put(`${API_URL}/${entity._id}`, entity);
+  return new Promise((resolve, reject) => {
+    // : AxiosResponse<LandLotModel[]> 
+    const response = {
+      data: {},
+      status: 200,
+      statusText: 'OK',
+      headers: 'Server has not been implemented',
+      config: {},
+    }
+    resolve(response);
+  });
 };
 
 export const Delete: DeleteProps<LandLotModel> = (entity: LandLotModel) => {
-  return axios.delete(`${API_URL}/${entity.code}`);
+  // return axios.delete(`${API_URL}/${entity.code}`);
+  return new Promise((resolve, reject) => {
+    // : AxiosResponse<LandLotModel[]> 
+    const response = {
+      data: {},
+      status: 200,
+      statusText: 'OK',
+      headers: 'Server has not been implemented',
+      config: {},
+    }
+    resolve(response);
+  });
 };
 
 export const DeleteMany: DeleteManyProps<LandLotModel> = (entities: LandLotModel[]) => {
-  return axios.delete(API_URL, {
-    data: { arrayEntities: entities },
+  // return axios.delete(API_URL, {
+  //   data: { arrayEntities: entities },
+  // });
+  return new Promise((resolve, reject) => {
+    // : AxiosResponse<LandLotModel[]> 
+    const response = {
+      data: {},
+      status: 200,
+      statusText: 'OK',
+      headers: 'Server has not been implemented',
+      config: {},
+    }
+    resolve(response);
   });
 };
 

@@ -108,7 +108,6 @@ export const GenerateAllFormField = (...params: any) => {
     }
   })
 
-  console.log(fieldForm)
 
   return fieldForm;
 }

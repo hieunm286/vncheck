@@ -72,25 +72,6 @@ const DataExample: any = [
   },
 ];
 
-// const validateSchema = {
-//   code: {
-//     required: true,
-//   },
-//   phone: {
-//     required: true,
-
-//   }
-// }
-
-// const ValidationByNguyenMinhHieu = (data: any, validateSchema: any) => {
-
-//   const _validationResult = {}
-
-//   Object.keys(validateSchema).map(key => {
-//     switch(validateSchema[key])
-//   })
-// }
-
 const PurchaseOrderSchema = Yup.object().shape({
   // code: Yup.string()
   //   .min(3, 'Minimum 3 symbols')
@@ -174,36 +155,40 @@ function LandLot() {
 
   useEffect(() => {
     getAll(filterProps);
-  }, [paginationProps, trigger, filterProps]);
 
+  }, [paginationProps, trigger, filterProps]);
+  //TODO: change fields to get data from server
   const columns = {
     code: {
       dataField: 'code',
-      text: `${intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.CODE_COLUMN' })}`,
+      text: `${intl.formatMessage({ id: 'LAND_LOT.MASTER.HEADER.CODE' })}`,
+      formatter: (cell: any, row: any, rowIndex: any) => {
+        return (<p>{row.lot + row.subLot}</p>);
+      },
       ...SortColumn,
     },
-    agencyAddress: {
-      dataField: 'agencyAddress',
-      text: `${intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS_COLUMN' })}`,
+    lot: {
+      dataField: 'lot',
+      text: `${intl.formatMessage({ id: 'LAND_LOT.MASTER.HEADER.LOT_CODE' })}`,
       ...SortColumn,
     },
 
-    phoneNumber: {
-      dataField: 'phoneNumber',
-      text: `${intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' })}`,
+    subLot: {
+      dataField: 'subLot',
+      text: `${intl.formatMessage({ id: 'LAND_LOT.MASTER.HEADER.SUB_LOT_CODE' })}`,
       ...SortColumn,
     },
-    status: {
-      dataField: 'status',
-      text: `${intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.STATUS_COLUMN' })}`,
-      ...SortColumn,
-      formatter: (cell: any, row: any) =>
-        row.status === StatusValue ? (
-          <CheckCircleIcon style={{ color: '#1DBE2D' }} />
-        ) : (
-          <IndeterminateCheckBoxIcon />
-        ),
-    },
+    // status: {
+    //   dataField: 'status',
+    //   text: `${intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.STATUS_COLUMN' })}`,
+    //   ...SortColumn,
+    //   formatter: (cell: any, row: any) =>
+    //     row.status === StatusValue ? (
+    //       <CheckCircleIcon style={{ color: '#1DBE2D' }} />
+    //     ) : (
+    //       <IndeterminateCheckBoxIcon />
+    //     ),
+    // },
     action: {
       dataField: 'action',
       text: `${intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.ACTION_COLUMN' })}`,
@@ -220,7 +205,7 @@ function LandLot() {
         },
         onEdit: (entity: LandLotModel) => {
           get(entity);
-          // setShowEdit(true);
+          setShowEdit(true);
           setEditEntity(entity);
           history.push(`${window.location.pathname}/${entity.code}`);
         },
@@ -234,80 +219,79 @@ function LandLot() {
     {
       header: 'THÔNG TIN 1',
       data: {
-        code: { title: 'PURCHASE_ORDER.MASTER.TABLE.CODE_COLUMN' },
-        agencyAddress: { title: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS_COLUMN' },
-        phoneNumber: { title: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' },
+        // code: { title: 'PURCHASE_ORDER.MASTER.TABLE.CODE_COLUMN' },
+        lot: { title: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS_COLUMN' },
+        subLot: { title: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' },
       },
     },
-    {
-      header: 'THÔNG TIN 2',
-      data: {
-        code: { title: 'PURCHASE_ORDER.MASTER.TABLE.CODE_COLUMN' },
-        agencyAddress: { title: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS_COLUMN' },
-        phoneNumber: { title: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' },
-      },
-    },
-    {
-      header: 'THÔNG TIN 3',
-      data: {
-        code: { title: 'PURCHASE_ORDER.MASTER.TABLE.CODE_COLUMN' },
-        agencyAddress: { title: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS_COLUMN' },
-        phoneNumber: { title: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' },
-      },
-    },
+    // {
+    //   header: 'THÔNG TIN 2',
+    //   data: {
+    //     code: { title: 'PURCHASE_ORDER.MASTER.TABLE.CODE_COLUMN' },
+    //     agencyAddress: { title: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS_COLUMN' },
+    //     phoneNumber: { title: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' },
+    //   },
+    // },
   ];
 
   const purchaseOrderSearchModel: SearchModel = {
-    code: {
+    lotSubLotCode: {
+      type: 'string',
+      placeholder: 'LAND_LOT.MASTER.PLACEHOLDER.CODE',
+      label: 'LAND_LOT.MASTER.HEADER.CODE',
+      service: LandLotService,
+      keyField: 'lotSubLotCOde',
+    },
+    lot: {
       type: 'SearchSelect',
-      placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.PLACEHOLDER',
-      label: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
-    //   service: LandLotService,
-      keyField: 'code',
+      placeholder: 'LAND_LOT.MASTER.PLACEHOLDER.LOT_CODE',
+      label: 'LAND_LOT.MASTER.HEADER.LOT_CODE',
+      service: LandLotService,
+      keyField: 'lot',
     },
-    agencyAddress: {
+    subLot: {
       type: 'SearchSelect',
-      placeholder: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS_COLUMN',
-      label: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS_COLUMN',
-    //   service: LandLotService,
-      keyField: 'agencyAddress',
+      placeholder: 'LAND_LOT.MASTER.PLACEHOLDER.SUB_LOT_CODE',
+      label: 'LAND_LOT.MASTER.HEADER.SUB_LOT_CODE',
+      service: LandLotService,
+      keyField: 'subLot',
     },
-    date: {
-      type: 'Datetime',
-      placeholder: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS_COLUMN',
-      label: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS_COLUMN',
-    //   service: LandLotService,
-      keyField: 'agencyAddress',
-    },
-    agency: {
-      type: 'SearchSelect',
-      placeholder: 'PURCHASE_ORDER.MASTER.HEADER.NAME.PLACEHOLDER',
-      label: 'PURCHASE_ORDER.MASTER.HEADER.NAME.LABEL',
-    //   service: AgencyService,
-      keyField: 'name',
-      ref: true,
-    },
-    count: {
-      type: 'number',
-      placeholder: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS_COLUMN',
-      label: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS_COLUMN',
-    //   service: LandLotService,
-      keyField: 'count',
-    },
-    tree: {
-      type: 'TreeSelect',
-      placeholder: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS_COLUMN',
-      label: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS_COLUMN',
-      keyField: 'code',
-      data: ConvertToTreeNode(DataExample),
-    },
-    tree2: {
-      type: 'TreeSelect',
-      placeholder: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS_COLUMN',
-      label: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS_COLUMN',
-      keyField: 'code',
-      data: ConvertToTreeNode(DataExample),
-    },
+    // date: {
+    //   type: 'Datetime',
+    //   placeholder: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS_COLUMN',
+    //   label: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS_COLUMN',
+    // //   service: LandLotService,
+    //   keyField: 'agencyAddress',
+    // },
+    // agency: {
+    //   type: 'SearchSelect',
+    //   placeholder: 'PURCHASE_ORDER.MASTER.HEADER.NAME.PLACEHOLDER',
+    //   label: 'PURCHASE_ORDER.MASTER.HEADER.NAME.LABEL',
+    // //   service: AgencyService,
+    //   keyField: 'name',
+    //   ref: true,
+    // },
+    // count: {
+    //   type: 'number',
+    //   placeholder: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS_COLUMN',
+    //   label: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS_COLUMN',
+    // //   service: LandLotService,
+    //   keyField: 'count',
+    // },
+    // tree: {
+    //   type: 'TreeSelect',
+    //   placeholder: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS_COLUMN',
+    //   label: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS_COLUMN',
+    //   keyField: 'code',
+    //   data: ConvertToTreeNode(DataExample),
+    // },
+    // tree2: {
+    //   type: 'TreeSelect',
+    //   placeholder: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS_COLUMN',
+    //   label: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS_COLUMN',
+    //   keyField: 'code',
+    //   data: ConvertToTreeNode(DataExample),
+    // },
   };
 
   const modifyModel = [
@@ -385,75 +369,6 @@ function LandLot() {
     // },
   ];
 
-  const modifyModel_3 = [
-    {
-      time: {
-        type: 'Datetime',
-        placeholder: 'Thời gian thu hoạch',
-        label: 'Thời gian thu hoạch',
-        required: true,
-      },
-      time2: {
-        type: 'Datetime',
-        placeholder: 'Thời gian thu hoạch2',
-        label: 'Thời gian thu hoạch2',
-      },
-      quantity: {
-        type: 'number',
-        label: 'Sản lượng thu hoạch (kg)',
-        placeholder: 'Sản lượng',
-        required: true,
-      },
-    },
-  ];
-
-  const modifyModel_2 = [
-    {
-      director: {
-        type: 'string',
-        label: 'Thông tin giám đốc',
-        placeholder: 'Thông tin giám đốc',
-      },
-      leader: {
-        type: 'string',
-        label: 'Tổ trưởng gieo trồng',
-        placeholder: 'Tổ trưởng gieo trồng',
-      },
-    },
-  ];
-
-  const modifyModel_4 = [
-    {
-      test4: {
-        type: 'string',
-        label: 'Test 4',
-        placeholder: 'Test 4',
-      },
-      test5: {
-        type: 'string',
-        label: 'Test 5',
-        placeholder: 'Test 5',
-      },
-    },
-    {
-      test6: {
-        type: 'string',
-        label: 'Test 6',
-        placeholder: 'Test 6',
-      },
-      test7: {
-        type: 'string',
-        label: 'Test 7',
-        placeholder: 'Test 7',
-      },
-      test8: {
-        type: 'string',
-        label: 'Test 8',
-        placeholder: 'Test 8',
-      },
-    },
-  ];
-
   const formPart: any = {
     form_1: {
       title: '',
@@ -464,25 +379,11 @@ function LandLot() {
     //   title: 'Thông tin quản trị',
     //   modifyModel: modifyModel_2,
     // },
-    // form_3: {
-    //   title: 'Thông tin thu hoạch',
-    //   modifyModel: modifyModel_3,
-    // },
-    // form_4: {
-    //   title: 'Thông tin test',
-    //   modifyModel: modifyModel_4,
-    // },
-    // form_5: {
-    //   title: "xxx",
-    //   modifyModel: modifyModel_2
-    // }
   };
 
   const allFormField: any = {
     ...GenerateAllFormField(
       modifyModel,
-      // modifyModel_3,
-      // , modifyModel_2, modifyModel_3, modifyModel_4
     ),
   };
 
@@ -498,7 +399,7 @@ function LandLot() {
     cancel: {
       role: 'link-button',
       type: 'button',
-      linkto: '/purchase-order',
+      linkto: '/land-lot',
       className: 'btn btn-outline-primary mr-2',
       label: 'Hủy',
       icon: <CancelOutlinedIcon />,
@@ -547,7 +448,9 @@ function LandLot() {
           setShowDeleteMany(false);
         }}
       />
-      {/* <ModifyEntityDialog
+      <ModifyEntityDialog
+        formPart={formPart}
+        allFormField={allFormField}
         isShow={showCreate}
         entity={createEntity}
         onModify={add}
@@ -556,8 +459,10 @@ function LandLot() {
         onHide={() => {
           setShowCreate(false);
         }}
-      />*/}
-      {/* <ModifyEntityDialog
+      />
+      <ModifyEntityDialog
+        formPart={formPart}
+        allFormField={allFormField}
         isShow={showEdit}
         entity={editEntity}
         onModify={update}
@@ -566,73 +471,24 @@ function LandLot() {
         onHide={() => {
           setShowEdit(false);
         }}
-      /> */}
+      />
       <Switch>
-        <Redirect from="/purchase-order/edit" to="/purchase-order" />
-
-        <Route path="/purchase-order/new">
-          {/* <ModifyEntityPage
-            entity={createEntity}
-            onModify={add}
-            title={createTitle}
-            modifyModel={modifyModel}
-            reduxModel="purchaseOrder"
-            code={null}
-            get={() => null}
-          /> */}
-          <EntityCrudPage
-            entity={createEntity}
-            onModify={add}
-            title={createTitle}
-            //  modifyModel={modifyModel}
-            reduxModel="purchaseOrder"
-            code={null}
-            get={() => null}
-            formPart={formPart}
-            allFormField={allFormField}
-            allFormButton={allFormButton}
-            validation={PurchaseOrderSchema}
-          />
-        </Route>
-        <Route path={`/purchase-order/:code`}>
-          {({ history, match }) => (
-            // <ModifyEntityPage
-            //   entity={editEntity}
-            //   onModify={update}
-            //   title={updateTitle}
-            //   modifyModel={modifyModel}
-            //   reduxModel="purchaseOrder"
-            //   code={match && match.params.code}
-            //   get={LandLotService.GetById}
-            // />
-            <EntityCrudPage
-              entity={editEntity}
-              onModify={update}
-              title={updateTitle}
-              //  modifyModel={modifyModel}
-              reduxModel="purchaseOrder"
-              code={match && match.params.code}
-              get={LandLotService.GetById}
-              formPart={formPart}
-              allFormField={allFormField}
-              allFormButton={allFormButton}
-              validation={PurchaseOrderSchema}
-            />
-          )}
-        </Route>
-        <Route path="/purchase-order">
+        <Redirect from="/land-lot/edit" to="/land-lot" />
+        <Route path="/land-lot">
           <MasterHeader
             title={headerTitle}
             onSearch={setFilterProps}
             searchModel={purchaseOrderSearchModel}
             initValue={{
-              code: null,
-              agencyAddress: null,
-              agency: null,
-              date: '',
-              count: 15,
-              tree: undefined,
-              tree2: undefined,
+              lotSubLotCode: '',
+              lot: '',
+              subLot: '',
+              // agencyAddress: '',
+              // agency: null,
+              // date: '',
+              // count: 1,
+              // tree: undefined,
+              // tree2: undefined,
             }}
           />
           <MasterBody
@@ -654,7 +510,7 @@ function LandLot() {
             isShowId={true}
           />
 
-          <MasterGoogleMap location={location} />
+          {/* <MasterGoogleMap location={location} /> */}
 
           {/* <MasterMap /> */}
         </Route>

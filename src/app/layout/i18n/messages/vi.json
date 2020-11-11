@@ -176,6 +176,15 @@
   "AGENCY.EDIT.LABEL.DISTRICT": "Phường/Xã",
   "AGENCY.EDIT.LABEL.AGENCY_ADDRESS": "Địa chỉ đơn vị bán hàng",
 
+  "LAND_LOT.MASTER.HEADER.CODE": "Mã lô thửa",
+  "LAND_LOT.MASTER.HEADER.LOT_CODE": "Mã lô",
+  "LAND_LOT.MASTER.HEADER.SUB_LOT_CODE": "Mã thửa",
+
+  "LAND_LOT.MASTER.PLACEHOLDER.CODE": "Nhập",
+  "LAND_LOT.MASTER.PLACEHOLDER.LOT_CODE": "Chọn",
+  "LAND_LOT.MASTER.PLACEHOLDER.SUB_LOT_CODE": "Chọn",
+  
+
 
   "VALIDATE_TEST_01": "Vui lòng nhập mã đơn vị",
   "VALIDATE_TEST_02": "Vui lòng nhập tên đơn vị",

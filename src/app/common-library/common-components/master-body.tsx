@@ -55,7 +55,7 @@ export function MasterBody<T>({
     ? {
         _id: {
           dataField: '_id',
-          text: '#',
+          text: 'STT',
           formatter: (cell: any, row: any, rowIndex: number) => (
             <p>
               {rowIndex + 1 + ((paginationParams.page ?? 0) - 1) * (paginationParams.limit ?? 0)}

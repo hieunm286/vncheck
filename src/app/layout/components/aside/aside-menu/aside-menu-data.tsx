@@ -25,15 +25,15 @@ export const MenuItems: MenuItemModel[] = [
     title: 'MENU.DATA',
     children: [
       {
+        title: 'MENU.DATA.CATEGORY.BATCH',
+        url: '/land-lot',
+        icon: (<ImageOutlinedIcon style={{width: '17px'}} htmlColor='#888C9F'/>)
+      },
+      {
         title: 'MENU.DATA.CATEGORY',
         url: '/category',
         icon: 'product.svg',
         children: [
-          {
-            title: 'MENU.DATA.CATEGORY.BATCH',
-            url: '/category/BATCH',
-            icon: (<ImageOutlinedIcon style={{width: '17px'}} htmlColor='#888C9F'/>)
-          },
           {
             title: 'MENU.DATA.CATEGORY.PRODUCT',
             url: '/category/PRODUCT',

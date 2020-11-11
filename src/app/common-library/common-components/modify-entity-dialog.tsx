@@ -25,7 +25,7 @@ function ModifyEntityDialog<T>({
   onModify: (values: any) => void;
   formPart: any;
   allFormField: any;
-  allFormButton: any;
+  allFormButton?: any;
   validation?: any
 }) {
   const intl = useIntl();

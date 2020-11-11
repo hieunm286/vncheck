@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { Field, Formik } from 'formik';
 import SearchIcon from '@material-ui/icons/Search';
@@ -147,6 +147,18 @@ export function MasterHeader<T>({
                             key={'master_header' + key}>
                             <Field
                               name={key}
+                              value={search[key]}
+                              onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                                if(searchM[key].keyField === "lotSubLotCode") {
+                                  onChange({
+                                    ...search, 
+                                    [key]: e.target.value,
+                                    lot: e.target.value
+                                  });
+                                } else {
+                                  onChange({ ...search, [key]: e.target.value });
+                                }
+                              }}
                               component={Input}
                               placeholder={intl.formatMessage({ id: searchM[key].placeholder })}
                               label={intl.formatMessage({ id: searchM[key].label })}
@@ -189,7 +201,9 @@ export function MasterHeader<T>({
                               isHorizontal={false}
                               value={search[key]}
                               onChange={(value: any) => {
-                                onChange({ ...search, [key]: value });
+                                
+                                console.log('run')
+                                // onChange({ ...search, [key]: value });
                                 // setSearchTerm({
                                 //   ...searchTerm,
                                 //   [key]: searchM[key].ref ? value.value : value.label,

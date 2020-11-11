@@ -36,6 +36,7 @@ export function GetSelectRow<T>({
         
       return (
         <SelectionCheckbox
+          isFirstRow={true}
           isSelected={isSelected}
           onChange={() => {
             if (!isSelected) {
