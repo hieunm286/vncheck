@@ -8,7 +8,10 @@ const AccountPage = lazy(() => import('./pages/account'));
 
 const ProductPage = lazy(() => import('./pages/product'));
 
-const AgencyPage = lazy(() => import('./pages/agency-management'));
+const AgencyPage = lazy(() => import('./pages/agency/agency'));
+
+const AgencyTypePage = lazy(() => import('./pages/agency-type-2/agency-type'));
+
 // const CategoryPage = lazy(() => import('./pages/category/category-page'));
 const BasicUnitPage = lazy(() => import('./pages/basic-unit/basic-unit'));
 

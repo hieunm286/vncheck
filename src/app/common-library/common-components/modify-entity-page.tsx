@@ -14,6 +14,8 @@ import CustomImageUpload from '../forms/custom-image-upload';
 import { uploadImage } from '../../pages/purchase-order/purchase-order.service';
 import { Card, CardBody } from '../card';
 import { DatePickerField } from '../forms/date-picker-field';
+import { Switch } from '@material-ui/core';
+import CheckCircleOutlinedIcon from '@material-ui/icons/CheckCircleOutlined';
 
 function ModifyEntityPage<T>({
   // entity,
@@ -158,6 +160,17 @@ function ModifyEntityPage<T>({
                         />
                       </div>
                     );
+                  case 'boolean':
+                    return (
+                      <div className="mt-3" key={`${key}`}>
+                        <Switch 
+                          // style={{color: "#1DBE2D"}}
+                          color="primary"
+                          checkedIcon={<CheckCircleOutlinedIcon style={{backgroundColor: "#FFFFFF"}} />}
+                          // icon={<CheckCircleIcon />}
+                        />
+                      </div>
+                    );  
 
                   case 'object':
                     return (

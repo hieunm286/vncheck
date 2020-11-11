@@ -1,9 +1,9 @@
 import axios from 'axios';
 import { API_BASE_URL } from '../../../common-library/common-consts/enviroment';
 
-export const USERS_URL = API_BASE_URL + '/users';
+export const USERS_URL = API_BASE_URL + '/user';
 export const USER_URL = API_BASE_URL + '/user';
-export const USER_URL_SEARCH = API_BASE_URL + '/users';
+export const USER_URL_SEARCH = API_BASE_URL + '/user';
 
 export function createUser(user: {
   publicKey: string;
@@ -52,7 +52,7 @@ export function getUserById(id: string) {
 
 export function updateUser(user: any) {
   // console.log(`${USERS_URL}/${user.username}`);
-  return axios.put(`${USER_URL}/${user.username}`, user);
+  return axios.put(`${USER_URL}/${user._id}`, user);
 }
 
 export function deleteUser(userId: any) {
