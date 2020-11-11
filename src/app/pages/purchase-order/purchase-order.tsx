@@ -20,7 +20,6 @@ import {
 } from '../../common-library/helpers/common-function';
 import * as AgencyService from './agency.service';
 import * as PurchaseOrderService from './purchase-order.service';
-import * as Yup from 'yup';
 import { Switch, Route, Redirect, useHistory } from 'react-router-dom';
 import ModifyEntityPage from '../../common-library/common-components/modify-entity-page';
 import { purchaseOrderSlice, callTypes } from './purchase-order.redux';
@@ -31,6 +30,7 @@ import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import { isArray, isNull } from 'lodash';
 import MasterGoogleMap from '../../common-library/common-components/master-google-map';
 import MasterMap from '../../common-library/common-components/master-google-map-other';
+import * as Yup from 'yup';
 
 const DataExample: any = [
   {
@@ -93,22 +93,26 @@ const DataExample: any = [
 // }
 
 const PurchaseOrderSchema = Yup.object().shape({
-  code: Yup.string()
-    .min(3, 'Minimum 3 symbols')
-    .max(50, 'Maximum 50 symbols')
-    .required('Code không được để trống'),
-  // dateofbirth: Yup.mixed()
-  //   .nullable(false)
-  //   .required('Date of Birth is required'),
-  agencyAddress: Yup.string().required('Vui lòng nhập Agency Address'),
+  // code: Yup.string()
+  //   .min(3, 'Minimum 3 symbols')
+  //   .max(50, 'Maximum 50 symbols')
+  //   .required('Code không được để trống'),
+  // // dateofbirth: Yup.mixed()
+  // //   .nullable(false)
+  // //   .required('Date of Birth is required'),
+  // agencyAddress: Yup.string().required('Vui lòng nhập Agency Address'),
   phoneNumber: Yup.string()
     .required('Last name không được để trống')
     .matches(/[0-9]$/u, {
       message: 'Vui lòng nhập tên đúng định dạng',
     }),
-  time: Yup.date().required('Vui lòng nhập date'),
-  time2: Yup.date().required('Vui lòng nhập date'),
-  quantity: Yup.number().required('Vui lòng nhập số lượng'),
+  // time: Yup.date().required('Vui lòng nhập date'),
+  // time2: Yup.date().required('Vui lòng nhập date'),
+  // quantity: Yup.number().required('Vui lòng nhập số lượng'),
+  agency: Yup.object().shape({
+    name: Yup.string().required('Name ko đc để trống'),
+    taxId: Yup.string().required('TaxId ko đc để trống'),
+  })
 });
 
 function PurchaseOrder() {
@@ -168,12 +172,6 @@ function PurchaseOrder() {
   const createTitle = 'PURCHASE_ORDER.CREATE.TITLE';
   const updateTitle = 'PURCHASE_ORDER.UPDATE.TITLE';
   const history = useHistory();
-
-  const PurchaseOrderSchema = Yup.object().shape({
-    code: Yup.string().required('Vui lòng nhập mã đơn vị'),
-    agencyAddress: Yup.string().required('Vui lòng nhập tên đơn vị'),
-    phoneNumber: Yup.string().required('Vui lòng nhập số điện thoại'),
-  });
 
   useEffect(() => {
     getAll(filterProps);
@@ -317,19 +315,19 @@ function PurchaseOrder() {
     {
       title: 'Test',
       data: {
-        code: {
-          type: 'string',
-          placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.PLACEHOLDER' }),
-          label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL' }),
-          required: true,
-          disabled: !!editEntity,
-        },
-        agencyAddress: {
-          type: 'string',
-          placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.NAME.PLACEHOLDER' }),
-          required: true,
-          label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.NAME.LABEL' }),
-        },
+        // code: {
+        //   type: 'string',
+        //   placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.PLACEHOLDER' }),
+        //   label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL' }),
+        //   required: true,
+        //   disabled: !!editEntity,
+        // },
+        // agencyAddress: {
+        //   type: 'string',
+        //   placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.NAME.PLACEHOLDER' }),
+        //   required: true,
+        //   label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.NAME.LABEL' }),
+        // },
         phoneNumber: {
           type: 'string',
           placeholder: intl.formatMessage({
@@ -338,41 +336,54 @@ function PurchaseOrder() {
           required: true,
           label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
         },
-        image: {
-          type: 'image',
-          placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL' }),
-          label: 'Album 1',
-        },
-        image2: {
-          type: 'image',
-          placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL' }),
-          label: 'Album 2',
-        },
+        // image: {
+        //   type: 'image',
+        //   placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL' }),
+        //   label: 'Album 1',
+        // },
+        // image2: {
+        //   type: 'image',
+        //   placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL' }),
+        //   label: 'Album 2',
+        // },
+        agency: {
+          type: 'object',
+          name: {
+            type: 'string',
+            label: 'Name',
+            placeholder: 'Name'
+          },
+          taxId: {
+            type: 'string',
+            label: 'Tax',
+            placeholder: 'Tax'
+          }
+        }
       },
     },
-    {
-      title: 'Test222',
-      data: {
-        test1: {
-          type: 'string',
-          placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.PLACEHOLDER' }),
-          label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL' }),
-          disabled: !!editEntity,
-        },
-        test2: {
-          type: 'string',
-          placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.NAME.PLACEHOLDER' }),
-          label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.NAME.LABEL' }),
-        },
-        test3: {
-          type: 'string',
-          placeholder: intl.formatMessage({
-            id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN',
-          }),
-          label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
-        },
-      },
-    },
+    // {
+    //   title: 'Test222',
+    //   data: {
+    //     test1: {
+    //       type: 'string',
+    //       placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.PLACEHOLDER' }),
+    //       label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL' }),
+    //       disabled: !!editEntity,
+    //     },
+    //     test2: {
+    //       type: 'string',
+    //       placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.NAME.PLACEHOLDER' }),
+    //       label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.NAME.LABEL' }),
+    //     },
+    //     test3: {
+    //       type: 'string',
+    //       placeholder: intl.formatMessage({
+    //         id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN',
+    //       }),
+    //       label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
+    //     },
+    //   },
+    // },
   ];
 
   const modifyModel_3 = [
@@ -543,7 +554,6 @@ function PurchaseOrder() {
         onModify={add}
         title={createTitle}
         modifyModel={modifyModel}
-        validationModel={PurchaseOrderSchema}
         onHide={() => {
           setShowCreate(false);
         }}
@@ -554,7 +564,6 @@ function PurchaseOrder() {
         onModify={update}
         title={updateTitle}
         modifyModel={modifyModel}
-        validationModel={PurchaseOrderSchema}
         onHide={() => {
           setShowEdit(false);
         }}

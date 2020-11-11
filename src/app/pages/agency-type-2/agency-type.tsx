@@ -230,7 +230,7 @@ function AgencyType() {
         onModify={add}
         title={createTitle}
         modifyModel={modifyModel}
-        validationModel={agencyTypeSchema}
+        // validationModel={agencyTypeSchema}
         onHide={() => {
           setShowCreate(false);
         }}
@@ -241,7 +241,7 @@ function AgencyType() {
         onModify={update}
         title={updateTitle}
         modifyModel={modifyModel}
-        validationModel={agencyTypeSchema}
+        // validationModel={agencyTypeSchema}
         onHide={() => {
           setShowEdit(false);
         }}

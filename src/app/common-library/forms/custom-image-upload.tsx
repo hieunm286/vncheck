@@ -92,7 +92,6 @@ function CustomImageUpload({
                 </div>
                 // </div>
               ))}
-
               <button
                 type="button"
                 style={isDragging ? { color: 'red' } : undefined}

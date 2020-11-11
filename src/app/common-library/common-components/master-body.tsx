@@ -76,7 +76,6 @@ export function MasterBody<T>({
               + {intl.formatMessage({ id: 'COMMON_COMPONENT.MASTER_BODY.HEADER.ADD_BTN' })}
             </button>
           </div>
-
           <div className="col-xxl-1 col-xl-2 col-lg-2 mr-5">
             <button
               type="button"

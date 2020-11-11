@@ -14,7 +14,6 @@ export function FormAlert({
         <div className="alert-icon">
           <i className={icon}></i>
         </div>
-
         <div className="alert-text">{message}</div>
       </div>
     );

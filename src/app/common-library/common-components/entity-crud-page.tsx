@@ -84,6 +84,7 @@ function EntityCrudPage({
       <Formik
         enableReinitialize={true}
         initialValues={entityForEdit || initForm}
+        // initialValues={initForm}
         validationSchema={validation}
         onSubmit={values => {
           console.log(values);

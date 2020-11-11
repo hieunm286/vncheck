@@ -560,7 +560,7 @@ function AgencyPage() {
         onModify={add}
         title={createTitle}
         modifyModel={oldModifyModel}
-        validationModel={agencySchema}
+        // validationModel={agencySchema}
         onHide={() => {
           setShowCreate(false);
         }}
@@ -571,7 +571,7 @@ function AgencyPage() {
         onModify={update}
         title={updateTitle}
         modifyModel={oldModifyModel}
-        validationModel={agencySchema}
+        // validationModel={agencySchema}
         onHide={() => {
           setShowEdit(false);
         }}

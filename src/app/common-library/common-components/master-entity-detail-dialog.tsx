@@ -19,7 +19,6 @@ export function MasterEntityDetailDialog({
   onClose: () => void;
 }) {
   const intl = useIntl();
-
   return (
     <Modal
       // size="lg"
@@ -36,7 +35,6 @@ export function MasterEntityDetailDialog({
       </Modal.Header>
 
       <MasterEntityDetail data={entity} renderInfo={renderInfo} />
-
       <Modal.Footer>
         <button type="button" onClick={onClose} className="btn btn-outline-danger">
           <CancelOutlinedIcon style={{ fontSize: 14 }} />{' '}

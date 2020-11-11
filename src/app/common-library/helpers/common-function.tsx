@@ -17,7 +17,7 @@ export const CapitalizeFirstLetter = (string: string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
 };
 
-export const generateInitForm = (modifyModel: ModifyModel) => {
+export const generateInitForm = (modifyModel: any) => {
   const initValue = {} as any;
 
   Object.keys(modifyModel).map(key => {
@@ -29,8 +29,19 @@ export const generateInitForm = (modifyModel: ModifyModel) => {
       initValue[key] = null;
     } else if (modifyModel[key].type === 'Datetime') {
       initValue[key] = null;
-    } else if (modifyModel[key].type === 'image')
+    } else if (modifyModel[key].type === 'image') {
       initValue[key] = []
+    } 
+    else if (modifyModel[key].type === 'object') {
+      initValue[key] = {}
+      Object.keys(modifyModel[key]).map(childKey => {
+        if (modifyModel[key][childKey].type === 'string') {
+          initValue[key][childKey] = ''
+        } else if (modifyModel[key][childKey].type === 'number') {
+          initValue[key][childKey] = undefined
+        }
+      })
+    }
   });
 
   return initValue;
@@ -97,6 +108,8 @@ export const GenerateAllFormField = (...params: any) => {
     }
   })
 
+  console.log(fieldForm)
+
   return fieldForm;
 }
 
@@ -139,7 +152,6 @@ export function InitMasterProps<T>({
   const getAll = useCallback(
     (filterProps?) => {
       setLoading(true);
-
       getAllServer({ paginationProps, queryProps: filterProps })
         .then(getAllResponse => {
           countServer(filterProps).then(countResponse => {
@@ -166,14 +178,12 @@ export function InitMasterProps<T>({
     setSelectedEntities([]);
     setLoading(false);
   };
-
   const deleteFn = (entity: T) => {
     deleteServer(entity).then(refreshData);
   };
 
   const deleteMany = () => {
     setLoading(true);
-
     deleteManyServer(selectedEntities)
       .then(refreshData)
       .catch(error => {
@@ -198,7 +208,6 @@ export function InitMasterProps<T>({
         console.log(error);
       });
   };
-
   const update = (entity: T) => {
     updateServer(entity)
       .then(refreshData)
@@ -214,7 +223,6 @@ export function InitMasterProps<T>({
         console.log(error);
       });
   };
-
   return {
     entities,
     setEntities,

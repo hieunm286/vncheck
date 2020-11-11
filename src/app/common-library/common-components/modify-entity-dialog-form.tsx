@@ -24,13 +24,11 @@ function ModifyEntityDialogForm<T>({
   onHide,
   onModify,
   modifyModel,
-  validationModel
 }: {
   entity: T;
   onHide: () => void;
   onModify: (values: any) => void;
   modifyModel: ModifyModel;
-  validationModel: any;
 }) {
   const intl = useIntl();
   const modifyM = { ...modifyModel } as any;
@@ -49,7 +47,7 @@ function ModifyEntityDialogForm<T>({
     <Formik
       enableReinitialize={true}
       initialValues={entity}
-      validationSchema={validationModel}
+      validationSchema={PurchaseOrderSchema}
       onSubmit={values => {
         onModify(values);
       }}>
@@ -110,12 +108,10 @@ function ModifyEntityDialogForm<T>({
               )}
             </Form>
           </Modal.Body>
-
           <Modal.Footer>
             <button type="submit" onClick={() => handleSubmit()} className="btn btn-primary">
               <SaveOutlinedIcon style={iconStyle} /> Lưu
             </button>
-
             <button type="button" onClick={onHide} className="btn btn-outline-primary">
               <CancelOutlinedIcon style={iconStyle} /> Hủy
             </button>

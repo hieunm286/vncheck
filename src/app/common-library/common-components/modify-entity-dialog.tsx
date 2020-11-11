@@ -12,10 +12,8 @@ function ModifyEntityDialog<T>({
   onModify,
   title,
   modifyModel,
-  validationModel
 }: {
   modifyModel: ModifyModel;
-  validationModel: any;
   title: string;
   isShow: boolean;
   onHide: () => void;
@@ -24,7 +22,6 @@ function ModifyEntityDialog<T>({
 }) {
   const intl = useIntl();
   const initForm = generateInitForm(modifyModel);
-
   return (
     <Modal show={isShow} onHide={onHide} aria-labelledby="example-modal-sizes-title-lg">
       <Modal.Header closeButton>
@@ -35,7 +32,6 @@ function ModifyEntityDialog<T>({
       
       <ModifyEntityDialogForm
         modifyModel={modifyModel}
-        validationModel={validationModel}
         entity={entity || initForm}
         onHide={onHide}
         onModify={onModify}

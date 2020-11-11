@@ -80,7 +80,7 @@ export interface ActionColumnProps<T> {
 
 export type SearchModel = {
   [T: string]: {
-    type: 'string' | 'number' | 'Datetime' | 'SearchSelect' | 'file' | 'TreeSelect';
+    type: 'string' | 'number' | 'Datetime' | 'SearchSelect' | 'file' | 'TreeSelect' | 'Search';
     placeholder: string;
     label: string;
     keyField: string;
@@ -91,7 +91,7 @@ export type SearchModel = {
 };
 export type ModifyModel = {
   [T: string]: {
-    type: 'string' | 'number' | 'Datetime' | 'SearchSelect' | 'file' | 'image' | 'TreeSelect';
+    type: 'string' | 'number' | 'Datetime' | 'SearchSelect' | 'file' | 'image' | 'TreeSelect' | 'object';
     placeholder: string;
     label: string;
     disabled?: boolean;

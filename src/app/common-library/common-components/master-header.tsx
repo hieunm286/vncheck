@@ -86,7 +86,6 @@ export function MasterHeader<T>({
     key: string,
   ) => {
     const queryProps: any = {};
-
     queryProps[keyField] = search;
 
     const paginationProps = {
