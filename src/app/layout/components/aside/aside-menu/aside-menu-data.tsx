@@ -17,7 +17,8 @@ export const MenuItems: MenuItemModel[] = [
         url: '/account/user',
         icon: <SVG src={ToAbsoluteUrl('/media/svg/vncheck/account.svg')} style={{width: '17px'}}/>,
       },
-      {title: 'MENU.USER.ROLE', url: '/account/role', icon: 'role.svg',}
+      {title: 'MENU.USER.ROLE', url: '/account/role', icon: 'role.svg',},
+      {title: 'MENU.USER.ORGANIZATION', url: '/account/organization', icon: 'role.svg'}
     ]
   },
   {
@@ -61,6 +62,19 @@ export const MenuItems: MenuItemModel[] = [
           {title: 'MENU.DATA.AGENCY.AGENCY_TYPE', url: '/agency-type', icon: 'distributor-type.svg',},
         ],
       },
+      {
+        title: 'MENU.DATA.PRODUCT',
+        url: '/product',
+        icon: 'distributor-1.svg',
+        children: [
+          {
+            title: 'MENU.DATA.PRODUCT.PRODUCT_TYPE',
+            url: '/product-type',
+            icon: 'distributor-2.svg',
+          },
+          {title: 'MENU.DATA.PRODUCT.PACK', url: '/product-packaging', icon: 'distributor-type.svg',},
+        ],
+      }
     ]
   },
   {section: true, title: 'MENU.QRCODE',},

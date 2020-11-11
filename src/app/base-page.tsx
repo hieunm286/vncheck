@@ -14,6 +14,11 @@ const BasicUnitPage = lazy(() => import('./pages/basic-unit/basic-unit'));
 
 const PurchaseOrderPage = lazy(() => import('./pages/purchase-order/purchase-order'));
 
+const ProductType = lazy(() => import('./pages/product-type/product-type'));
+
+const ProductPackaging = lazy(() => import('./pages/product-packaging/product-packaging'));
+
+
 export default function BasePage() {
   // useEffect(() => {
   //   console.log('Base page');
@@ -35,6 +40,10 @@ export default function BasePage() {
         {/*<Route path="/category" component={CategoryPage}/>*/}
         <Route path="/basic-unit" component={BasicUnitPage} />
         <Route path="/purchase-order" component={PurchaseOrderPage} />
+        <Route path="/product-type" component={ProductType} />
+        <Route path="/product-packaging" component={ProductPackaging} />
+
+
         {/* <Redirect to="/error/error-v1" /> */}
       </Switch>
     </Suspense>

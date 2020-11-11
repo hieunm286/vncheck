@@ -115,14 +115,7 @@ export function MasterHeader<T>({
 
   return (
     <Card>
-      <CardHeader
-        title={
-          <>
-            <ArrowBackIosIcon />
-            {intl.formatMessage({ id: title }).toUpperCase()}
-          </>
-        }
-      />
+      <CardHeader title={intl.formatMessage({ id: title }).toUpperCase()} />
 
       <CardBody>
         <Formik

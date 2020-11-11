@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, CardBody } from '../card';
+import { Card, CardBody, CardHeader } from '../card';
 import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined';
 import { useIntl } from 'react-intl';
 import { iconStyle } from '../common-consts/const';
@@ -36,6 +36,7 @@ export function MasterBody<T>({
   columns,
   onDeleteMany,
   isShowId,
+  title,
 }: {
   total: number;
   loading: boolean;
@@ -48,6 +49,7 @@ export function MasterBody<T>({
   setPaginationParams: (data: PaginationProps) => void;
   onDeleteMany: () => void;
   isShowId?: boolean;
+  title?: string;
 }) {
   const intl = useIntl();
 
@@ -69,6 +71,7 @@ export function MasterBody<T>({
 
   return (
     <Card>
+      {title && <CardHeader title={intl.formatMessage({ id: title }).toUpperCase()} />}
       <CardBody>
         <div className="row no-gutters mb-10">
           <div className="col-xxl-1 col-xl-2 col-lg-2 mr-5">
@@ -89,7 +92,7 @@ export function MasterBody<T>({
             </button>
           </div>
         </div>
-        
+
         <MasterTable
           entities={entities}
           columns={masterColumn}
@@ -100,9 +103,6 @@ export function MasterBody<T>({
           onSelectMany={onSelectMany}
           selectedEntities={selectedEntities}
         />
-
-        <MasterTreeStructure />
-
       </CardBody>
     </Card>
   );

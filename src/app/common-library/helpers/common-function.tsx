@@ -17,7 +17,7 @@ export const CapitalizeFirstLetter = (string: string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
 };
 
-export const generateInitForm = (modifyModel: any) => {
+export const generateInitForm = (modifyModel: any, initField?: string, initData?: string) => {
   const initValue = {} as any;
 
   Object.keys(modifyModel).map(key => {
@@ -44,6 +44,10 @@ export const generateInitForm = (modifyModel: any) => {
     }
   });
 
+  if (initField && initData) {
+    initValue[initField] = initData;
+  }
+  
   return initValue;
 };
 
@@ -108,9 +112,17 @@ export const GenerateAllFormField = (...params: any) => {
     }
   })
 
-  console.log(fieldForm)
-
   return fieldForm;
+}
+
+export const GetHomePage = (url: string) => {
+  const index = url.lastIndexOf('/')
+
+  if (index === -1) return window.location.pathname;
+
+  const homeURL: string = url.slice(0, index)
+
+  return homeURL;
 }
 
 export function InitMasterProps<T>({

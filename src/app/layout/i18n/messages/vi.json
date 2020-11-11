@@ -66,6 +66,10 @@
   "MENU.REPORT": "Báo cáo vấn đề",
   "MENU.PRODUCT_MANAGEMENT": "Quản lý sản xuất",
   "MENU.INVENTORY": "Hàng tồn kho",
+  "MENU.USER.ORGANIZATION": "Đơn vị quản lý",
+  "MENU.DATA.PRODUCT": "Danh mục chủng loại",
+  "MENU.DATA.PRODUCT.PRODUCT_TYPE": "Chủng loại",
+  "MENU.DATA.PRODUCT.PACK": "Quy cách đóng gói",
 
   "COMMON_COMPONENT.DELETE_DIALOG.MODULE_NAME": "Dữ liệu",
   "COMMON_COMPONENT.DELETE_DIALOG.TITLE": "XÓA {moduleName}",
@@ -155,5 +159,22 @@
 
   "VALIDATE_TEST_01": "Vui lòng nhập mã đơn vị",
   "VALIDATE_TEST_02": "Vui lòng nhập tên đơn vị",
-  "VALIDATE_TEST_03": "Vui lòng nhập số điện thoại"
+  "VALIDATE_TEST_03": "Vui lòng nhập số điện thoại",
+
+  "PRODUCT_TYPE.MASTER.TABLE.CODE_COLUMN": "Mã chủng loại",
+  "PRODUCT_TYPE.MASTER.TABLE.NAME_COLUMN": "Tên chủng loại",
+  "PRODUCT_TYPE.MASTER.TABLE.BARCODE_COLUMN": "Đăng ký vạch",
+  "PRODUCT_TYPE.MASTER.DETAIL_DIALOG.TITLE": "Chi tiết chủng loại",
+  "PRODUCT_TYPE.MASTER.DETAIL_DIALOG.CODE": "Mã chủng loại",
+  "PRODUCT_TYPE.MASTER.DETAIL_DIALOG.NAME": "Tên chủng loại",
+  "PRODUCT_TYPE.MASTER.DETAIL_DIALOG.BARCODE": "Đăng ký vạch",
+  "PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW": "Số ngày gieo giống",
+  "PRODUCT_TYPE.MASTER.DETAIL_DIALOG.PLANTING": "Số ngày gieo trồng",
+  "PRODUCT_TYPE.MASTER.DETAIL_DIALOG.EXPIRY": "Hạn sử dụng",
+  "PRODUCT_TYPE.MASTER.HEADER.TITLE": "Bộ lọc",
+  "PRODUCT_TYPE.MASTER.BODY.TITLE": "Danh mục chủng loại",
+  "PRODUCT_TYPE.DELETE_DIALOG.TITLE": "Xóa",
+  "PRODUCT_TYPE.MODULE_NAME": "Chủng loại",
+  "PRODUCT_TYPE.CREATE.TITLE": "Tạo chủng loại mới"
+  
 }

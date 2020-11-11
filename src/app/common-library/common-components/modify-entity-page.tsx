@@ -95,7 +95,7 @@ function ModifyEntityPage<T>({
         {modifyModel &&
           modifyModel.map((value: any, key: any) => (
             <div className={`col-md-${12 / (column ? column : 1)} col-12`} key={key}>
-              <h6 className="text-primary">{value.title.toUpperCase()}</h6>
+              {value.title && <h6 className="text-primary">{value.title.toUpperCase()}</h6>}
               {Object.keys(value.data).map(key => {
                 switch (value.data[key].type) {
                   case 'string':
@@ -184,7 +184,7 @@ function ModifyEntityPage<T>({
                               return (
                                 <div className="mt-3" key={`${childKey}`}>
                                   <Field
-                                    name={childKey}
+                                    name={`${key}.${childKey}`}
                                     type="number"
                                     component={MainInput}
                                     isHorizontal
