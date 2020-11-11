@@ -10,10 +10,16 @@ interface FeedBackProps {
 }
 
 const inputLabel = ({ label, touched, error, customFeedbackLabel }: FeedBackProps) => {
+// console.log('touced:' + touched)
+//   console.log('err:' + error)
+
   if (touched && error) {
+    console.log('runnn')
+    console.log(error)
     return (
       <div className="invalid-feedback">
-        <FormattedMessage id={error}></FormattedMessage>
+        {/* <FormattedMessage id={error}></FormattedMessage> */}
+        {error}
       </div>
     );
   }
@@ -59,6 +65,7 @@ export function FieldFeedbackLabel({
   type,
   customFeedbackLabel,
 }: FeedBackProps) {
+  // console.log(error)
   switch (type) {
     case 'text':
       return inputLabel({ label, touched, error, customFeedbackLabel });

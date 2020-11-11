@@ -97,7 +97,6 @@ function ModifyEntityPage<T>({
             <div className={`col-md-${12 / (column ? column : 1)} col-12`} key={key}>
               <h6 className="text-primary">{value.title.toUpperCase()}</h6>
               {Object.keys(value.data).map(key => {
-                
                 switch (value.data[key].type) {
                   case 'string':
                     return (
@@ -158,6 +157,48 @@ function ModifyEntityPage<T>({
                           required={value.data[key].required}
                         />
                       </div>
+                    );
+
+                  case 'object':
+                    return (
+                      <>
+                        {Object.keys(value.data[key]).map(childKey => {
+                          switch (value.data[key][childKey].type) {
+                            case 'string':
+                              return (
+                                <div className="mt-3" key={childKey}>
+                                  <Field
+                                    name={`${key}.${childKey}`}
+                                    component={MainInput}
+                                    placeholder={value.data[key][childKey].placeholder}
+                                    withFeedbackLabel
+                                    labelWidth={4}
+                                    isHorizontal
+                                    label={value.data[key][childKey].label}
+                                    disabled={value.data[key][childKey].disabled}
+                                    required={value.data[key][childKey].required}
+                                  />
+                                </div>
+                              );
+                            case 'number':
+                              return (
+                                <div className="mt-3" key={`${childKey}`}>
+                                  <Field
+                                    name={childKey}
+                                    type="number"
+                                    component={MainInput}
+                                    isHorizontal
+                                    withFeedbackLabel
+                                    labelWidth={4}
+                                    placeholder={value.data[key][childKey].placeholder}
+                                    label={value.data[key][childKey].label}
+                                    required={value.data[key][childKey].required}
+                                  />
+                                </div>
+                              );
+                          }
+                        })}
+                      </>
                     );
                 }
                 return <></>;

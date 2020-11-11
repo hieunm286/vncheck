@@ -19,5 +19,9 @@
 .active svg {
   fill: white
 }
+/* 
+a.menu-link.active {
+  border-radius: 10px;
+} */
 
 
