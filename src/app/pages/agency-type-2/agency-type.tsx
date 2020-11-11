@@ -224,7 +224,7 @@ function AgencyType() {
           setShowDeleteMany(false);
         }}
       />
-      <ModifyEntityDialog
+      {/* <ModifyEntityDialog
         isShow={showCreate}
         entity={createEntity}
         onModify={add}
@@ -245,7 +245,7 @@ function AgencyType() {
         onHide={() => {
           setShowEdit(false);
         }}
-      />
+      /> */}
 
       <MasterEntityDetailDialog
         show={showDetail}

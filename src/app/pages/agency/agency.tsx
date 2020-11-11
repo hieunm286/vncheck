@@ -554,7 +554,7 @@ function AgencyPage() {
           setShowDeleteMany(false);
         }}
       />
-      <ModifyEntityDialog
+      {/* <ModifyEntityDialog
         isShow={showCreate}
         entity={createEntity}
         onModify={add}
@@ -575,7 +575,7 @@ function AgencyPage() {
         onHide={() => {
           setShowEdit(false);
         }}
-      />
+      /> */}
 
       <Switch>
         {/* <Redirect from="/purchase-order/edit" to="/purchase-order" /> */}
