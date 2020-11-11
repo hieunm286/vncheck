@@ -30,7 +30,6 @@ export function Input({
             {label}
           </label>
         )}
-
         <input
           type={type}
           className={

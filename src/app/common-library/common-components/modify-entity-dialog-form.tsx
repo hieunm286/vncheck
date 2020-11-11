@@ -108,12 +108,10 @@ function ModifyEntityDialogForm<T>({
               )}
             </Form>
           </Modal.Body>
-
           <Modal.Footer>
             <button type="submit" onClick={() => handleSubmit()} className="btn btn-primary">
               <SaveOutlinedIcon style={iconStyle} /> Lưu
             </button>
-
             <button type="button" onClick={onHide} className="btn btn-outline-primary">
               <CancelOutlinedIcon style={iconStyle} /> Hủy
             </button>

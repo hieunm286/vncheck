@@ -22,7 +22,6 @@ function ModifyEntityDialog<T>({
 }) {
   const intl = useIntl();
   const initForm = generateInitForm(modifyModel);
-
   return (
     <Modal show={isShow} onHide={onHide} aria-labelledby="example-modal-sizes-title-lg">
       <Modal.Header closeButton>

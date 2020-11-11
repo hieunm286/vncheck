@@ -152,7 +152,6 @@ export function InitMasterProps<T>({
   const getAll = useCallback(
     (filterProps?) => {
       setLoading(true);
-
       getAllServer({ paginationProps, queryProps: filterProps })
         .then(getAllResponse => {
           countServer(filterProps).then(countResponse => {
@@ -179,14 +178,12 @@ export function InitMasterProps<T>({
     setSelectedEntities([]);
     setLoading(false);
   };
-
   const deleteFn = (entity: T) => {
     deleteServer(entity).then(refreshData);
   };
 
   const deleteMany = () => {
     setLoading(true);
-
     deleteManyServer(selectedEntities)
       .then(refreshData)
       .catch(error => {
@@ -211,7 +208,6 @@ export function InitMasterProps<T>({
         console.log(error);
       });
   };
-
   const update = (entity: T) => {
     updateServer(entity)
       .then(refreshData)
@@ -227,7 +223,6 @@ export function InitMasterProps<T>({
         console.log(error);
       });
   };
-
   return {
     entities,
     setEntities,

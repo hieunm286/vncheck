@@ -47,7 +47,6 @@ export function GetSelectRow<T>({
         />
       );
     },
-
     selectionRenderer: ({ rowIndex }: { rowIndex: number }) => {
       const isSelected =
         selectedEntities && selectedEntities.some(entity => isEqual(entity, entities[rowIndex]));
@@ -99,7 +98,6 @@ export function MasterTable<T>({
       setPaginationParams({ ...paginationParams, page });
     },
   };
-
   return (
     <PaginationProvider pagination={paginationFactory(paginationOptions)}>
       {({ paginationProps, paginationTableProps }) => {

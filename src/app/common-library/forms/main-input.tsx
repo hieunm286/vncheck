@@ -4,69 +4,16 @@ import { FieldFeedbackLabel } from './field-feedback-label';
 
 const getFieldCSSClasses = (touched: any, errors: any) => {
   const classes = ['form-control'];
+  if (touched && errors) {
+    classes.push('is-invalid');
+  }
 
-  if (touched && errors) classes.push('is-invalid');
-
-  if (touched && errors) classes.push('is-valid');
-
-  return classes.join(' ');
-};
-
-const getClassName = (labelWidth: number | null | undefined, labelStart: boolean) => {
-  const classes: string[] = [];
-
-  if (labelStart) {
-    if (labelWidth) {
-      classes.push(`col-xl-${labelWidth}`);
-      classes.push(`col-md-${labelWidth}`);
-      classes.push('col-12');
-    } else {
-      classes.push(`col-xl-3`);
-      classes.push(`col-md-3`);
-      classes.push('col-12');
-    }
-  } else {
-    if (labelWidth) {
-      classes.push(`col-xl-${12 - labelWidth - 1}`);
-      classes.push(`col-md-${12 - labelWidth}`);
-      classes.push('col-12');
-    } else {
-      classes.push(`col-xl-8`);
-      classes.push(`col-md-9`);
-      classes.push('col-12');
-    }
+  if (touched && !errors) {
+    classes.push('is-valid');
   }
 
   return classes.join(' ');
 };
-
-const getError = (error: any, fieldName: string) => {
-  if (fieldName.indexOf('.') === -1) {
-    return error[fieldName]
-  }
-
-  const arrName = fieldName.split('.')
-
-  if (arrName.length === 3) {
-    return error[arrName[0]] ? error[arrName[0]][arrName[1]][arrName[2]] : ''
-  }
-
-  return error[arrName[0]] ? error[arrName[0]][arrName[1]] : ''
-}
-
-const getTouched = (touched: any, fieldName: string) => {
-  if (fieldName.indexOf('.') === -1) {
-    return touched[fieldName]
-  }
-
-  const arrName = fieldName.split('.')
-
-  if (arrName.length === 3) {
-    return touched[arrName[0]] ? touched[arrName[0]][arrName[1]][arrName[2]] : ''
-  }
-
-  return touched[arrName[0]] ? touched[arrName[0]][arrName[1]] : ''
-}
 
 interface MainInputState {
   field: any; // { name, value, onChange, onBlur }
@@ -102,28 +49,30 @@ export function MainInput({
     marginRight: 0,
   };
 
-  // console.log(errors)
-  // console.log(touched)
-
   return (
     <>
       <div className={isHorizontal && 'row'}>
-        <div className={isHorizontal && getClassName(labelWidth, true)}>
+        <div
+          className={`col-xl-${labelWidth ? labelWidth : 3} col-md-${
+            labelWidth ? labelWidth : 3
+          } col-12`}>
           {label && (
             <label style={width && styleLabe} className={isHorizontal && 'mb-0 input-label mt-2'}>
               {label} {withFeedbackLabel && <span className="text-danger">*</span>}
             </label>
           )}
         </div>
-
-        <div className={isHorizontal && getClassName(labelWidth, false)}>
+        <div
+          className={`col-xl-${labelWidth ? 12 - labelWidth - 1 : 8} col-md-${
+            labelWidth ? 12 - labelWidth : 9
+          } col-12`}>
           <input
             type={type}
             style={width && styleInput}
             className={
-              ['text', 'email', 'file', 'image', 'number'].includes(type)
+              type === 'text' || type === 'email' || type === 'file' || type === 'image'
                 ? withFeedbackLabel
-                  ? getFieldCSSClasses(getTouched(touched, field.name), getError(errors, field.name))
+                  ? getFieldCSSClasses(touched[field.name], errors[field.name])
                   : 'form-control'
                 : ''
             }
@@ -133,8 +82,8 @@ export function MainInput({
 
           {withFeedbackLabel && (
             <FieldFeedbackLabel
-              error={getError(errors, field.name)}
-              touched={getTouched(touched, field.name)}
+              error={errors[field.name]}
+              touched={touched[field.name]}
               label={label}
               type={type}
               customFeedbackLabel={customFeedbackLabel}
