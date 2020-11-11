@@ -14,6 +14,8 @@ const BasicUnitPage = lazy(() => import('./pages/basic-unit/basic-unit'));
 
 const PurchaseOrderPage = lazy(() => import('./pages/purchase-order/purchase-order'));
 
+const LandLotPage = lazy(() => import('./pages/land-lot/land-lot'));
+
 export default function BasePage() {
   // useEffect(() => {
   //   console.log('Base page');
@@ -35,6 +37,7 @@ export default function BasePage() {
         {/*<Route path="/category" component={CategoryPage}/>*/}
         <Route path="/basic-unit" component={BasicUnitPage} />
         <Route path="/purchase-order" component={PurchaseOrderPage} />
+        <Route path="/land-lot" component={LandLotPage} />
         {/* <Redirect to="/error/error-v1" /> */}
       </Switch>
     </Suspense>
