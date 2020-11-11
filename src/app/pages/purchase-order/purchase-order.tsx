@@ -112,7 +112,7 @@ const PurchaseOrderSchema = Yup.object().shape({
   agency: Yup.object().shape({
     name: Yup.string().required('Name ko đc để trống'),
     taxId: Yup.string().required('TaxId ko đc để trống'),
-  })
+  }),
 });
 
 function PurchaseOrder() {
@@ -221,9 +221,9 @@ function PurchaseOrder() {
         },
         onEdit: (entity: PurchaseOrderModel) => {
           get(entity);
-          // setShowEdit(true);
+          setShowEdit(true);
           setEditEntity(entity);
-          history.push(`${window.location.pathname}/${entity.code}`);
+          // history.push(`${window.location.pathname}/${entity.code}`);
         },
       },
       ...NormalColumn,
@@ -351,14 +351,14 @@ function PurchaseOrder() {
           name: {
             type: 'string',
             label: 'Name',
-            placeholder: 'Name'
+            placeholder: 'Name',
           },
           taxId: {
             type: 'string',
             label: 'Tax',
-            placeholder: 'Tax'
-          }
-        }
+            placeholder: 'Tax',
+          },
+        },
       },
     },
     // {
@@ -558,16 +558,19 @@ function PurchaseOrder() {
           setShowCreate(false);
         }}
       />*/}
-      {/* <ModifyEntityDialog
+      <ModifyEntityDialog
         isShow={showEdit}
         entity={editEntity}
         onModify={update}
         title={updateTitle}
-        modifyModel={modifyModel}
+        formPart={formPart}
+        allFormField={allFormField}
+        allFormButton={allFormButton}
+        validation={PurchaseOrderSchema}
         onHide={() => {
           setShowEdit(false);
         }}
-      /> */}
+      />
       <Switch>
         <Redirect from="/purchase-order/edit" to="/purchase-order" />
 
@@ -595,7 +598,7 @@ function PurchaseOrder() {
             validation={PurchaseOrderSchema}
           />
         </Route>
-        <Route path={`/purchase-order/:code`}>
+        {/* <Route path={`/purchase-order/:code`}>
           {({ history, match }) => (
             // <ModifyEntityPage
             //   entity={editEntity}
@@ -620,7 +623,7 @@ function PurchaseOrder() {
               validation={PurchaseOrderSchema}
             />
           )}
-        </Route>
+        </Route> */}
         <Route path="/purchase-order">
           <MasterHeader
             title={headerTitle}
