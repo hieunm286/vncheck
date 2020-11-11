@@ -313,118 +313,131 @@ function AgencyPage() {
 
   const modifyModel = [
     {
-      code: {
-        type: 'string',
-        placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.AGENCY_CODE' }),
-        label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.AGENCY_CODE' }),
-        disabled: !editEntity,
-      },
-      name: {
-        type: 'string',
-        placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.AGENCY_NAME' }),
-        label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.AGENCY_NAME' }),
-      },
-      type: {
-        type: 'string',
-        placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.SELL_GOOD_LEVEL' }),
-        label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.SELL_GOOD_LEVEL' }), 
-      },
-      state: {
-        type: 'string',
-        placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.STATE' }),
-        label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.STATE' }), 
-      },
-      city: {
-        type: 'string',
-        placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.CITY' }),
-        label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.CITY' }), 
-      },
-      district: {
-        type: 'string',
-        placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.DISTRICT' }),
-        label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.DISTRICT' }), 
-      },
-      address: {
-        type: 'string',
-        placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.AGENCY_ADDRESS' }),
-        label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.AGENCY_ADDRESS' }),
-      },
-      status: {
-        type: 'boolean',
-        placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.STATUS' }),
-        label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.STATUS' }),
-      },
-      phoneNumber: {
-        type: 'string',
-        placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
-        label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
-      },
-      taxId: {
-        type: 'string',
-        placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.TAX_ID' }),
-        label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.TAX_ID' }),
-      },
-      image: {
-        type: 'image',
-        placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL' }),
-        label: 'Album 1',
-      },
-      // image2: {
-      //   type: 'image',
-      //   placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL' }),
-      //   label: 'Album 2',
-      // },
+      title: 'THÔNG TIN ĐƠN VỊ BÁN HÀNG',
+      data: {
+        code: {
+          type: 'string',
+          placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.AGENCY_CODE' }),
+          label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.AGENCY_CODE' }),
+          disabled: editEntity,
+        },
+        name: {
+          type: 'string',
+          placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.AGENCY_NAME' }),
+          label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.AGENCY_NAME' }),
+        },
+        type: {
+          type: 'string',
+          placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.SELL_GOOD_LEVEL' }),
+          label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.SELL_GOOD_LEVEL' }), 
+        },
+        state: {
+          type: 'string',
+          placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.STATE' }),
+          label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.STATE' }), 
+        },
+        city: {
+          type: 'string',
+          placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.CITY' }),
+          label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.CITY' }), 
+        },
+        district: {
+          type: 'string',
+          placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.DISTRICT' }),
+          label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.DISTRICT' }), 
+        },
+        address: {
+          type: 'string',
+          placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.AGENCY_ADDRESS' }),
+          label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.AGENCY_ADDRESS' }),
+        },
+        status: {
+          type: 'boolean',
+          placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.STATUS' }),
+          label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.STATUS' }),
+        },
+        phoneNumber: {
+          type: 'string',
+          placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
+          label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
+        },
+        taxId: {
+          type: 'string',
+          placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.TAX_ID' }),
+          label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.TAX_ID' }),
+        },
+        image: {
+          type: 'image',
+          placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL' }),
+          label: 'Album 1',
+        },
+        // image2: {
+        //   type: 'image',
+        //   placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL' }),
+        //   label: 'Album 2',
+        // },
+      }
     },
     {
-      username: {
-        type: 'string',
-        placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.PLACEHOLDER' }),
-        label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL' }),
-        disabled: !!editEntity,
-      },
-      name: {
-        type: 'string',
-        placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.NAME.PLACEHOLDER' }),
-        label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.NAME.LABEL' }),
-      },
-      ownerPhone: {
-        type: 'string',
-        placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
-        label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
-      },
-      email: {
-        type: 'string',
-        placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
-        label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
-      },
-      gender: {
-        type: 'option',
-        placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
-        label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
-      },
-      birthDay: {
-        type: 'string',
-        placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
-        label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
-      },
-      role: {
-        type: 'string',
-        placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
-        label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
-      },
-      avatar: {
-        type: 'image',
-        placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
-        label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
+      title: 'AGENCY.EDIT.HEADER.AGENCY_INFO',
+      data: {
+        username: {
+          type: 'string',
+          placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.PLACEHOLDER' }),
+          label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL' }),
+          disabled: !!editEntity,
+        },
+        name: {
+          type: 'string',
+          placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.NAME.PLACEHOLDER' }),
+          label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.NAME.LABEL' }),
+        },
+        ownerPhone: {
+          type: 'string',
+          placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
+          label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
+        },
+        email: {
+          type: 'string',
+          placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
+          label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
+        },
+        gender: {
+          type: 'option',
+          placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
+          label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
+        },
+        birthDay: {
+          type: 'string',
+          placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
+          label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
+        },
+        role: {
+          type: 'string',
+          placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
+          label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
+        },
+        avatar: {
+          type: 'image',
+          placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
+          label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
+        },
       },
     },
     {
-      shippingAddress: {
-        type: 'string',
-        placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
-        label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
+      title: 'AGENCY.EDIT.HEADER.AGENCY_INFO',
+      data: {
+        shippingAddress: {
+          type: 'string',
+          placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
+          label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
+        }
       }
     }
+
+    // {
+
+    // }
   ];
 
   const modifyModel_3 = [{
@@ -492,9 +505,9 @@ function AgencyPage() {
 
   const formPart: any = {
     form_1: {
-      title: 'Thông tin đơn vị bán hàng',
+      // title: 'Thông tin đơn vị bán hàng',
       modifyModel: modifyModel,
-      header: 'THÔNG TIN ĐƠN VỊ BÁN HÀNG',
+      // header: 'THÔNG TIN ĐƠN VỊ BÁN HÀNG',
     },
     // form_2: {
     //   title: 'Thông tin quản trị',

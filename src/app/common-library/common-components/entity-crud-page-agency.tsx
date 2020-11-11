@@ -114,6 +114,9 @@ function EntityCrudPageAgency({
                     />
                   )}
                   <CardBody>
+                    {
+                      console.log(formParts[key])
+                    }
                     <ModifyEntityPage
                       images={images}
                       onChange={(imageList: any, addUpdateIndex: any, key: any) => {
@@ -122,7 +125,7 @@ function EntityCrudPageAgency({
                       }}
                       modifyModel={formParts[key].modifyModel as any}
                       column={formParts[key].modifyModel.length}
-                      title={formParts[key].title}
+                      // title={intl.formatMessage({id: formParts[key].title}).toUpperCase()}
                     />
                   </CardBody>
                 </Card>

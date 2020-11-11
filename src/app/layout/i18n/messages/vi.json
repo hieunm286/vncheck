@@ -167,6 +167,7 @@
   "AGENCY.VIEW.LABEL.AGENCY_NAME.STATUS": "Trạng thái",
   "AGENCY.VIEW.LABEL.AGENCY_NAME.TAX_ID": "Mã số thuế",
 
+  "AGENCY.EDIT.HEADER.AGENCY_INFO": "Thông tin đơn vị bán hàng", 
   "AGENCY.EDIT.LABEL.AGENCY_CODE": "Mã đơn vị bán hàng",
   "AGENCY.EDIT.LABEL.AGENCY_NAME": "Tên đơn vị bán hàng",
   "AGENCY.EDIT.LABEL.SELL_GOOD_LEVEL": "Cấp bán hàng",
