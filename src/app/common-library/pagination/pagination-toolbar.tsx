@@ -21,10 +21,12 @@ export function PaginationToolbar({
   const style = {
     width: '75px',
   };
+
   const onSizeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const newSize = Number.parseInt(event.target.value);
     onSizePerPageChange(page ?? -1, newSize);
   };
+
   return (
     <div className="d-flex align-items-center py-3">
       {isLoading && (

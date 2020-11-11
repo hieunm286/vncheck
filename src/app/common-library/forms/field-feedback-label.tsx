@@ -65,7 +65,6 @@ export function FieldFeedbackLabel({
   type,
   customFeedbackLabel,
 }: FeedBackProps) {
-  // console.log(error)
   switch (type) {
     case 'text':
       return inputLabel({ label, touched, error, customFeedbackLabel });

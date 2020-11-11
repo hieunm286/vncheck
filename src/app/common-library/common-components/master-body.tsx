@@ -101,8 +101,7 @@ export function MasterBody<T>({
           selectedEntities={selectedEntities}
         />
 
-        <MasterTreeStructure />
-
+        {/* <MasterTreeStructure /> */}
       </CardBody>
     </Card>
   );

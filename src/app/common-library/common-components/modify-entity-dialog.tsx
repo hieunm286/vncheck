@@ -12,16 +12,24 @@ function ModifyEntityDialog<T>({
   onModify,
   title,
   modifyModel,
+  formPart,
+  allFormField,
+  allFormButton,
+  validation
 }: {
-  modifyModel: ModifyModel;
+  modifyModel?: any;
   title: string;
   isShow: boolean;
   onHide: () => void;
   entity: T;
   onModify: (values: any) => void;
+  formPart: any;
+  allFormField: any;
+  allFormButton: any;
+  validation?: any
 }) {
   const intl = useIntl();
-  const initForm = generateInitForm(modifyModel);
+  const initForm = generateInitForm(allFormField);
   return (
     <Modal show={isShow} onHide={onHide} aria-labelledby="example-modal-sizes-title-lg">
       <Modal.Header closeButton>
@@ -32,6 +40,8 @@ function ModifyEntityDialog<T>({
       
       <ModifyEntityDialogForm
         modifyModel={modifyModel}
+        formPart={formPart}
+        validation={validation}
         entity={entity || initForm}
         onHide={onHide}
         onModify={onModify}
