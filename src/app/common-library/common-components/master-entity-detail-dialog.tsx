@@ -26,16 +26,20 @@ export function MasterEntityDetailDialog({
       onHide={onClose}
       aria-labelledby="example-modal-sizes-title-lg"
       dialogClassName="modal-detail">
-      <Modal.Header closeButton>
-        <Modal.Title id="example-modal-sizes-title-lg" className="text-danger">
+      <Modal.Header closeButton className="border-bottom-0">
+        <Modal.Title id="example-modal-sizes-title-lg" className="text-primary">
           {intl
-            .formatMessage({ id: title }, { moduleName: intl.formatMessage({ id: moduleName }) })
-            .toUpperCase()}
+            .formatMessage({ id: title })
+            .toUpperCase()}{'\u00A0'}
+          {intl
+            .formatMessage({ id: moduleName })
+            .toUpperCase()
+          }
         </Modal.Title>
       </Modal.Header>
 
       <MasterEntityDetail data={entity} renderInfo={renderInfo} />
-      <Modal.Footer>
+      <Modal.Footer className="border-top-0">
         <button type="button" onClick={onClose} className="btn btn-outline-danger">
           <CancelOutlinedIcon style={{ fontSize: 14 }} />{' '}
           {intl.formatMessage({ id: 'COMMON_COMPONENT.DETAIL_DIALOG.CLOSE_BTN' })}

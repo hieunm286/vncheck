@@ -147,10 +147,11 @@ function LandLot() {
     updateServer: Update,
   });
 
-  const moduleName = 'PURCHASE_ORDER.CUSTOM.MODULE_NAME';
-  const headerTitle = 'PURCHASE_ORDER.MASTER.HEADER.TITLE';
-  const createTitle = 'PURCHASE_ORDER.CREATE.TITLE';
-  const updateTitle = 'PURCHASE_ORDER.UPDATE.TITLE';
+  const moduleName = 'LAND_LOT.MODULE_NAME';
+  const headerTitle = 'LAND_LOT.MASTER.HEADER.TITLE';
+  const createTitle = 'LAND_LOT.CREATE.TITLE';
+  const updateTitle = 'LAND_LOT.EDIT.TITLE';
+  const viewTitle = 'LAND_LOT.VIEW.TITLE';
   const history = useHistory();
 
   useEffect(() => {
@@ -207,7 +208,7 @@ function LandLot() {
           get(entity);
           setShowEdit(true);
           setEditEntity(entity);
-          history.push(`${window.location.pathname}/${entity.code}`);
+          // history.push(`${window.location.pathname}/${entity.code}`);
         },
       },
       ...NormalColumn,
@@ -217,7 +218,7 @@ function LandLot() {
 
   const masterEntityDetailDialog = [
     {
-      header: 'THÔNG TIN 1',
+      header: '',
       data: {
         // code: { title: 'PURCHASE_ORDER.MASTER.TABLE.CODE_COLUMN' },
         lot: { title: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS_COLUMN' },
@@ -296,28 +297,28 @@ function LandLot() {
 
   const modifyModel = [
     {
-      title: 'Test',
+      title: '',
       data: {
-        // code: {
-        //   type: 'string',
-        //   placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.PLACEHOLDER' }),
-        //   label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL' }),
-        //   required: true,
-        //   disabled: !!editEntity,
-        // },
-        // agencyAddress: {
-        //   type: 'string',
-        //   placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.NAME.PLACEHOLDER' }),
-        //   required: true,
-        //   label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.NAME.LABEL' }),
-        // },
-        phoneNumber: {
+        _id: {
+          type: 'string',
+          placeholder: intl.formatMessage({ id: 'LAND_LOT.MASTER.PLACEHOLDER.CODE' }),
+          label: intl.formatMessage({ id: 'LAND_LOT.MASTER.HEADER.CODE' }),
+          required: true,
+          disabled: !!editEntity,
+        },
+        lot: {
+          type: 'string',
+          placeholder: intl.formatMessage({ id: 'LAND_LOT.MASTER.PLACEHOLDER.LOT_CODE' }),
+          required: true,
+          label: intl.formatMessage({ id: 'LAND_LOT.MASTER.HEADER.LOT_CODE' }),
+        },
+        subLot: {
           type: 'string',
           placeholder: intl.formatMessage({
-            id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN',
+            id: 'LAND_LOT.MASTER.PLACEHOLDER.SUB_LOT_CODE',
           }),
           required: true,
-          label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
+          label: intl.formatMessage({ id: 'LAND_LOT.MASTER.HEADER.SUB_LOT_CODE' }),
         },
         // image: {
         //   type: 'image',
@@ -329,19 +330,19 @@ function LandLot() {
         //   placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL' }),
         //   label: 'Album 2',
         // },
-        agency: {
-          type: 'object',
-          name: {
-            type: 'string',
-            label: 'Name',
-            placeholder: 'Name'
-          },
-          taxId: {
-            type: 'string',
-            label: 'Tax',
-            placeholder: 'Tax'
-          }
-        }
+        // agency: {
+        //   type: 'object',
+        //   name: {
+        //     type: 'string',
+        //     label: 'Name',
+        //     placeholder: 'Name'
+        //   },
+        //   taxId: {
+        //     type: 'string',
+        //     label: 'Tax',
+        //     placeholder: 'Tax'
+        //   }
+        // }
       },
     },
     // {
@@ -422,6 +423,8 @@ function LandLot() {
   return (
     <Fragment>
       <MasterEntityDetailDialog
+        title={viewTitle}
+        moduleName={moduleName}
         show={showDetail}
         entity={detailEntity}
         renderInfo={masterEntityDetailDialog}
@@ -495,8 +498,8 @@ function LandLot() {
             onCreate={() => {
               setCreateEntity(null);
               setEditEntity(null);
-              // setShowCreate(true);
-              history.push(`${window.location.pathname}/new`);
+              setShowCreate(true);
+              // history.push(`${window.location.pathname}/new`);
             }}
             onDeleteMany={() => setShowDeleteMany(true)}
             selectedEntities={selectedEntities}

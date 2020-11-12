@@ -14,29 +14,7 @@ import { LandLotModel, LandLotSearchModel } from './land-lot.model';
 import { purchaseOrderSlice, callTypes } from './land-lot.redux';
 import AxiosResponse from "axios";
 import LandLot from './land-lot';
-
-const entities: LandLotModel[] = [
-  {
-    _id: '1',
-    lot: 'A',
-    subLot: '42',
-  },
-  {
-    _id: '2',
-    lot: 'C',
-    subLot: '57',
-  },
-  {
-    _id: '3',
-    lot: 'Z',
-    subLot: '89',
-  },
-  {
-    _id: '4',
-    lot: 'B',
-    subLot: '06',
-  },
-];
+import { entities } from './helpers/mock';
 
 export const API_URL = API_BASE_URL + '/purchase-order';
 

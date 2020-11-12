@@ -32,9 +32,9 @@ function ModifyEntityDialog<T>({
   const initForm = generateInitForm(allFormField);
   return (
     <Modal show={isShow} onHide={onHide} aria-labelledby="example-modal-sizes-title-lg">
-      <Modal.Header closeButton>
+      <Modal.Header closeButton className="border-bottom-0">
         <Modal.Title id="example-modal-sizes-title" className="text-primary">
-          <span>{intl.formatMessage({ id: title })}</span>
+          <span>{intl.formatMessage({ id: title }).toUpperCase()}</span>
         </Modal.Title>
       </Modal.Header>
       
