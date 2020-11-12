@@ -7,13 +7,67 @@ import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import * as Yup from 'yup';
 import { MainInput } from '../forms/main-input';
-import { iconStyle } from '../common-consts/const';
+import { DefaultPagination, iconStyle } from '../common-consts/const';
 import { Link, useHistory } from 'react-router-dom';
 import ImageUploading from 'react-images-uploading';
 import CustomImageUpload from '../forms/custom-image-upload';
 import { uploadImage } from '../../pages/purchase-order/purchase-order.service';
 import { Card, CardBody } from '../card';
 import { DatePickerField } from '../forms/date-picker-field';
+import { InfiniteSelect } from '../forms/infinite-select';
+
+const dataT: any = [
+  {
+    _id: 'abc',
+    code: '000001',
+    name: 'Rau muống',
+    barcode: '8930000001',
+    imageURL: 'https://product.hstatic.net/1000191320/product/rau-cai-chip_master.jpg',
+    growingDays: 15,
+    plantingDays: 30,
+    expiryDate: 30,
+  },
+  {
+    _id: 'abcd',
+    code: '000003',
+    name: 'Rau cải',
+    barcode: '8930000003',
+    imageURL: 'https://product.hstatic.net/1000191320/product/rau-cai-chip_master.jpg',
+    growingDays: 15,
+    plantingDays: 30,
+    expiryDate: 60,
+  },
+  {
+    _id: 'abce',
+    code: '000004',
+    name: 'Rau muống',
+    barcode: '8930000004',
+    imageURL: 'https://product.hstatic.net/1000191320/product/rau-cai-chip_master.jpg',
+    growingDays: 15,
+    plantingDays: 30,
+    expiryDate: 17,
+  },
+  {
+    _id: 'abcf',
+    code: '000005',
+    name: 'Rau muống',
+    barcode: '8930000005',
+    imageURL: 'https://product.hstatic.net/1000191320/product/rau-cai-chip_master.jpg',
+    growingDays: 15,
+    plantingDays: 30,
+    expiryDate: 19,
+  },
+  {
+    _id: 'abdacf',
+    code: '000009',
+    name: 'Rau cần',
+    barcode: '8930000009',
+    imageURL: 'https://product.hstatic.net/1000191320/product/rau-cai-chip_master.jpg',
+    growingDays: 15,
+    plantingDays: 30,
+    expiryDate: 19,
+  },
+];
 
 function ModifyEntityPage<T>({
   // entity,
@@ -27,6 +81,8 @@ function ModifyEntityPage<T>({
   onChange,
   title,
   column,
+  search,
+  setSearch,
 }: {
   modifyModel: any;
   // title: string;
@@ -39,42 +95,85 @@ function ModifyEntityPage<T>({
   onChange?: any;
   title?: string;
   column?: number;
+  search?: any;
+  setSearch?: any;
 }) {
   const intl = useIntl();
   // const initForm = generateInitForm(modifyModel);
   const modifyM = { ...modifyModel } as any;
-  // const history = useHistory();
-  // const [entityForEdit, setEntityForEdit] = useState(entity);
+  
+  const loadOptions = async (
+    search: string,
+    prevOptions: any,
+    { page }: any,
+    service: any,
+    keyField: string,
+    key: string,
+  ) => {
+    const queryProps: any = {};
+    queryProps[keyField] = search;
 
-  // const [images, setImages] = useState([]);
-  // const [imageRootArr, setImageRootArr] = useState<any>([]);
+    const paginationProps = {
+      ...DefaultPagination,
+      page: page,
+    };
 
-  // const onChange = (imageList: any, addUpdateIndex: any) => {
-  //   const imageArray = getOnlyFile(imageList);
+    console.log(keyField);
+    console.log(key)
 
-  //   const newArr = getNewImage(imageRootArr, imageArray);
+    // const entities = await service.GetAll({ queryProps, paginationProps });
+    // const count = await service.Count({ queryProps });
 
-  //   newArr.forEach((file, index) => {
-  //     uploadImage(file)
-  //       .then(res => {
-  //         console.log('update: ' + index);
-  //       })
-  //       .catch(err => {
-  //         console.log(err);
-  //       });
-  //   });
-  //   // data for submit
-  //   setImages(imageList);
-  //   setImageRootArr(imageArray);
-  // };
+    // const hasMore = prevOptions.length < count.data - (DefaultPagination.limit ?? 0);
 
-  // useEffect(() => {
-  //   if (code) {
-  //     get(code).then((res: { data: any }) => {
-  //       setEntityForEdit(res.data);
-  //     });
+    // // setSearchTerm({ ...searchTerm, [key]: search });
+
+    const data = [...new Set(dataT)];
+
+    return {
+      options: data.map((e: any) => {
+        console.log(e)
+        return { label: e[keyField], value: e._id };
+      }),
+      hasMore: false,
+      additional: {
+        page: page + 1,
+      },
+    };
+  };
+
+  // const sleep = (ms: any) =>
+  // new Promise(resolve => {
+  //   setTimeout(() => {
+  //     resolve();
+  //   }, ms);
+  // });
+
+  // const loadOptions = async (search: any, prevOptions: any) => {
+  //   await sleep(1000);
+  
+  //   let filteredOptions;
+  //   if (!search) {
+  //     filteredOptions = data;
+  //   } else {
+  //     const searchLower = search.toLowerCase();
+  //     console.log(data)
+  //     filteredOptions = data.filter(({ name }: any) =>
+  //       name.toLowerCase().includes(searchLower)
+  //     );
   //   }
-  // }, [code]);
+  
+  //   const hasMore = filteredOptions.length > prevOptions.length + 10;
+  //   const slicedOptions = filteredOptions.slice(
+  //     prevOptions.length,
+  //     prevOptions.length + 10
+  //   );
+
+  //   return {
+  //     options: slicedOptions,
+  //     hasMore
+  //   };
+  // };
 
   return (
     // <Card>
@@ -200,6 +299,40 @@ function ModifyEntityPage<T>({
                         })}
                       </>
                     );
+
+                    case 'SearchSelect':
+                        return (
+                          <div className="mt-3" key={key}>
+                            <InfiniteSelect
+                              label={value.data[key].label}
+                              isHorizontal={true}
+                              value={search[key]}
+                              onChange={(value: any) => {
+                                setSearch({ ...search, [key]: value });
+                                // setSearchTerm({
+                                //   ...searchTerm,
+                                //   [key]: searchM[key].ref ? value.value : value.label,
+                                // });
+                              }}
+                              loadOptions={(search: string, prevOptions: any, { page }: any) =>
+                                loadOptions(
+                                  search,
+                                  prevOptions,
+                                  { page },
+                                  value.data[key].service,
+                                  value.data[key].keyField,
+                                  key,
+                                )
+                              }
+                              refs={value.data[key].ref}
+                              additional={{
+                                page: DefaultPagination.page,
+                              }}
+                              name={key}
+                              placeholder={value.data[key].placeholder}
+                            />
+                          </div>
+                        );
                 }
                 return <></>;
               })}

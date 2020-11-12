@@ -2,29 +2,19 @@ import React, { Fragment, useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import { NormalColumn, SortColumn, StatusValue } from '../../common-library/common-consts/const';
 import { MasterHeader } from '../../common-library/common-components/master-header';
-import { MasterEntityDetailDialog } from '../../common-library/common-components/master-entity-detail-dialog';
 import { MasterBody } from '../../common-library/common-components/master-body';
-import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-import IndeterminateCheckBoxIcon from '@material-ui/icons/IndeterminateCheckBox';
 import { ActionsColumnFormatter } from '../../common-library/common-components/actions-column-formatter';
 import { DeleteEntityDialog } from '../../common-library/common-components/delete-entity-dialog';
 import DeleteManyEntitiesDialog from '../../common-library/common-components/delete-many-dialog';
-import ModifyEntityDialog from '../../common-library/common-components/modify-entity-dialog';
 import { ModifyModel, SearchModel } from '../../common-library/common-types/common-type';
 import {
-  ConvertToTreeNode,
   GenerateAllFormField,
   InitMasterProps,
 } from '../../common-library/helpers/common-function';
-import { Switch, Route, Redirect, useHistory } from 'react-router-dom';
-import ModifyEntityPage from '../../common-library/common-components/modify-entity-page';
-import ImageUploading from 'react-images-uploading';
+import { Switch, Route, useHistory } from 'react-router-dom';
 import EntityCrudPage from '../../common-library/common-components/entity-crud-page';
 import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
-import { isArray, isNull } from 'lodash';
-import MasterGoogleMap from '../../common-library/common-components/master-google-map';
-import MasterMap from '../../common-library/common-components/master-google-map-other';
 import * as Yup from 'yup';
 import { ProductTypeModel } from './product-type.model';
 import * as ProductTypeService from './product-type.service';

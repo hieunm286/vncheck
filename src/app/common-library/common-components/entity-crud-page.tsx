@@ -129,7 +129,7 @@ function EntityCrudPage({
                     />
                   </CardBody>
                   {key === Object.keys(formPart)[Object.keys(formPart).length - 1] && (
-                    <div className="text-right" key={key}>
+                    <div className="text-right mb-5 mr-5" key={key}>
                       {Object.keys(allFormButton).map(keyss => {
                         switch (allFormButton[keyss].role) {
                           case 'submit':

@@ -6,21 +6,13 @@ import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import * as Yup from 'yup';
 import { MainInput } from '../forms/main-input';
-import { iconStyle } from '../common-consts/const';
+import { DefaultPagination, iconStyle } from '../common-consts/const';
 import { ModifyModel } from '../common-types/common-type';
 import CustomImageUpload from '../forms/custom-image-upload';
 import { getNewImage, getOnlyFile } from '../helpers/common-function';
 import { Card, CardBody, CardHeader } from '../card';
 import { uploadImage } from '../../pages/purchase-order/purchase-order.service';
 import ModifyEntityPage from './modify-entity-page';
-
-const PurchaseOrderSchema = Yup.object().shape({
-  code: Yup.string().required('VALIDATE_TEST_01'),
-  agencyAddress: Yup.string().required('VALIDATE_TEST_01'),
-  phoneNumber: Yup.string().required('VALIDATE_TEST_01'),
-});
-
-// type PurchaseOrderValidation = Yup.InferType<typeof PurchaseOrderSchema>
 
 function ModifyEntityDialogForm<T>({
   entity,
@@ -41,6 +33,45 @@ function ModifyEntityDialogForm<T>({
   const modifyM = { ...modifyModel } as any;
   const [images, setImages] = useState(entity);
   const [imageRootArr, setImageRootArr] = useState<any>([]);
+
+  const [search, setSearch] = useState<any>(entity);
+
+  const loadOptions = async (
+    search: string,
+    prevOptions: any,
+    { page }: any,
+    service: any,
+    keyField: string,
+    key: string,
+  ) => {
+    const queryProps: any = {};
+    queryProps[keyField] = search;
+
+    const paginationProps = {
+      ...DefaultPagination,
+      page: page,
+    };
+
+    const entities = await service.GetAll({ queryProps, paginationProps });
+    const count = await service.Count({ queryProps });
+
+    const hasMore = prevOptions.length < count.data - (DefaultPagination.limit ?? 0);
+
+    // setSearchTerm({ ...searchTerm, [key]: search });
+
+    const data = [...new Set(entities.data)];
+
+    return {
+      options: data.map((e: any) => {
+        return { label: e[keyField], value: e._id };
+      }),
+      hasMore: hasMore,
+      additional: {
+        page: page + 1,
+      },
+    };
+  };
+
 
   const onChange = (imageList: any, addUpdateIndex: any, key: any) => {
     const imageArray = getOnlyFile(imageList);
@@ -65,8 +96,10 @@ function ModifyEntityDialogForm<T>({
     <Formik
       enableReinitialize={true}
       initialValues={entity}
-      validationSchema={PurchaseOrderSchema}
+      validationSchema={validation}
       onSubmit={values => {
+        console.log(values)
+        onHide()
         onModify(values);
       }}>
       {({ handleSubmit }) => (
@@ -79,7 +112,7 @@ function ModifyEntityDialogForm<T>({
                     )} */}
              <Form className="form form-label-right">
               {Object.keys(formPart).map(key => (
-                <>
+                <React.Fragment key={key}>
                   {/* {formPart[key].header && (
                       title={
                         <>
@@ -101,8 +134,10 @@ function ModifyEntityDialogForm<T>({
                       modifyModel={formPart[key].modifyModel as any}
                       column={formPart[key].modifyModel.length}
                       title={formPart[key].title}
+                      search={search}
+                      setSearch={setSearch}
                     />
-                </>
+                </React.Fragment>
               ))}
             </Form>
             {/* <Form className="form form-label-right">
