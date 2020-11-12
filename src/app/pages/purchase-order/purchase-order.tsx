@@ -388,22 +388,25 @@ function PurchaseOrder() {
 
   const modifyModel_3 = [
     {
-      time: {
-        type: 'Datetime',
-        placeholder: 'Thời gian thu hoạch',
-        label: 'Thời gian thu hoạch',
-        required: true,
-      },
-      time2: {
-        type: 'Datetime',
-        placeholder: 'Thời gian thu hoạch2',
-        label: 'Thời gian thu hoạch2',
-      },
-      quantity: {
-        type: 'number',
-        label: 'Sản lượng thu hoạch (kg)',
-        placeholder: 'Sản lượng',
-        required: true,
+      title: '',
+      data: {
+        time: {
+          type: 'Datetime',
+          placeholder: 'Thời gian thu hoạch',
+          label: 'Thời gian thu hoạch',
+          required: true,
+        },
+        time2: {
+          type: 'Datetime',
+          placeholder: 'Thời gian thu hoạch2',
+          label: 'Thời gian thu hoạch2',
+        },
+        quantity: {
+          type: 'number',
+          label: 'Sản lượng thu hoạch (kg)',
+          placeholder: 'Sản lượng',
+          required: true,
+        },
       },
     },
   ];
@@ -465,10 +468,10 @@ function PurchaseOrder() {
     //   title: 'Thông tin quản trị',
     //   modifyModel: modifyModel_2,
     // },
-    // form_3: {
-    //   title: 'Thông tin thu hoạch',
-    //   modifyModel: modifyModel_3,
-    // },
+    form_3: {
+      title: 'Thông tin thu hoạch',
+      modifyModel: modifyModel_3,
+    },
     // form_4: {
     //   title: 'Thông tin test',
     //   modifyModel: modifyModel_4,
@@ -482,7 +485,7 @@ function PurchaseOrder() {
   const allFormField: any = {
     ...GenerateAllFormField(
       modifyModel,
-      // modifyModel_3,
+      modifyModel_3,
       // , modifyModel_2, modifyModel_3, modifyModel_4
     ),
   };
