@@ -220,7 +220,12 @@ function LandLot() {
     {
       header: '',
       data: {
-        // code: { title: 'PURCHASE_ORDER.MASTER.TABLE.CODE_COLUMN' },
+        code: { title: 'PURCHASE_ORDER.MASTER.TABLE.CODE_COLUMN',
+        formatter: (data: any, fields = ['lot', 'subLot']) => {
+          return fields.map(field => {
+            return data[field];
+          }).join("");
+        }},
         lot: { title: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS_COLUMN' },
         subLot: { title: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' },
       },
@@ -241,7 +246,7 @@ function LandLot() {
       placeholder: 'LAND_LOT.MASTER.PLACEHOLDER.CODE',
       label: 'LAND_LOT.MASTER.HEADER.CODE',
       service: LandLotService,
-      keyField: 'lotSubLotCOde',
+      keyField: 'lotSubLotCode',
     },
     lot: {
       type: 'SearchSelect',

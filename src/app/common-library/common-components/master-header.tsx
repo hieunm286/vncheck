@@ -194,9 +194,7 @@ export function MasterHeader<T>({
                               isHorizontal={false}
                               value={search[key]}
                               onChange={(value: any) => {
-                                
-                                console.log('run')
-                                // onChange({ ...search, [key]: value });
+                                onChange({ ...search, [key]: value });
                                 // setSearchTerm({
                                 //   ...searchTerm,
                                 //   [key]: searchM[key].ref ? value.value : value.label,

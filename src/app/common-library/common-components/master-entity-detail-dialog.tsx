@@ -71,7 +71,12 @@ export function MasterEntityDetail({
                   {intl.formatMessage({ id: value.data[dataKey].title })}:
                 </div>
                 <div className="col-6">
-                  <strong>{data[dataKey]}</strong>
+                  {
+                    value.data[dataKey].formatter ?
+                      <strong>{value.data[dataKey].formatter(data)}</strong>
+                    :
+                    <strong>{data[dataKey]}</strong>
+                  }
                 </div>
               </div>
             </div>
