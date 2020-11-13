@@ -458,6 +458,7 @@ function LandLot() {
         }}
       />
       <ModifyEntityDialog
+        autoFill=''
         formPart={formPart}
         allFormField={allFormField}
         isShow={showCreate}
@@ -470,6 +471,7 @@ function LandLot() {
         }}
       />
       <ModifyEntityDialog
+        autoFill=''
         formPart={formPart}
         allFormField={allFormField}
         isShow={showEdit}
