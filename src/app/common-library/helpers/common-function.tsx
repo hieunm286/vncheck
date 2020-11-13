@@ -107,6 +107,7 @@ export const GenerateAllFormField = (...params: any) => {
     if (isArray(value)) {
       // fieldForm = {...fieldForm, ...Object.assign({}, ...value)}
       value.forEach((item: any) => {
+        console.log(item)
         fieldForm = {...fieldForm, ...item.data}
       })
     }
@@ -116,6 +117,7 @@ export const GenerateAllFormField = (...params: any) => {
 }
 
 export const GetHomePage = (url: string) => {
+
   const index = url.lastIndexOf('/')
 
   if (index === -1) return window.location.pathname;
@@ -124,6 +126,35 @@ export const GetHomePage = (url: string) => {
 
   return homeURL;
 }
+
+export const ConvertSelectSearch = (entity: any, keyField?: string[]) => {
+
+  if (!entity) return;
+
+  const convertEntity = {...entity};
+
+  if (keyField && keyField.length > 0) {
+
+    keyField.forEach((field: string) => {
+      convertEntity[field] = { label: convertEntity[field], value: entity._id }
+    })
+
+    return convertEntity;
+  }
+
+  return convertEntity;
+}
+
+// export const ExportFieldOfSelectSearch = (formPart: any) => {
+//   const fieldArr = [];
+
+//   Object.keys(formPart).forEach(key => {
+//     formPart[key].modifyModel.forEach(item => {
+//       if ()
+//     })
+//   })
+
+// }
 
 export function InitMasterProps<T>({
   getAllServer,

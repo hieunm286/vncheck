@@ -322,6 +322,7 @@ function ProductPackaging() {
         autoFill={{
           field: 'code',
           data: GenerateCode(data),
+          searchSelectField: ['name']
         }}
         homePage={homeURL}
       />

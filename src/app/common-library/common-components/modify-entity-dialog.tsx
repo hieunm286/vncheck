@@ -3,7 +3,7 @@ import { Modal } from 'react-bootstrap';
 import ModifyEntityDialogForm from './modify-entity-dialog-form';
 import { useIntl } from 'react-intl';
 import { ModifyModel } from '../common-types/common-type';
-import { generateInitForm } from '../helpers/common-function';
+import { ConvertSelectSearch, generateInitForm } from '../helpers/common-function';
 import { DefaultPagination } from '../common-consts/const';
 
 function ModifyEntityDialog<T>({
@@ -91,7 +91,7 @@ function ModifyEntityDialog<T>({
         modifyModel={modifyModel}
         formPart={formPart}
         validation={validation}
-        entity={entity || initForm}
+        entity={ConvertSelectSearch(entity, autoFill.searchSelectField) || initForm}
         onHide={onHide}
         onModify={onModify}
       />
