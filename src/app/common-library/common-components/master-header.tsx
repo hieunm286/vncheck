@@ -38,7 +38,7 @@ export function MasterHeader<T>({
 
   const searchM: any = { ...searchModel };
 
-  const [search, onChange] = useState<any>(initValue);
+  const [search, setSearch] = useState<any>(initValue);
 
   const [searchTerm, setSearchTerm] = useState({
     code: '',
@@ -51,7 +51,7 @@ export function MasterHeader<T>({
   const handleResetForm = (resetForm: any) => {
     resetForm();
     // onSearch(initValue);
-    onChange(initValue);
+    setSearch(initValue);
   };
   // const loadOptions = async (search: string, prevOptions: any, service: any, keyField: string) => {
   //   return new Promise<{ options: { label: string; value: string }[]; hasMore: boolean }>(
@@ -153,6 +153,15 @@ export function MasterHeader<T>({
                               placeholder={intl.formatMessage({ id: searchM[key].placeholder })}
                               label={intl.formatMessage({ id: searchM[key].label })}
                               withFeedbackLabel={true}
+                              onChange={(e: any) => {
+                                handleChange(e);
+                                let someValue = e.currentTarget.value;
+
+                                setSearch({
+                                  ...search,
+                                  name: { label: someValue, value: someValue },
+                                });
+                              }}
                             />
                           </div>
                         );
@@ -191,7 +200,7 @@ export function MasterHeader<T>({
                               isHorizontal={false}
                               value={search[key]}
                               onChange={(value: any) => {
-                                onChange({ ...search, [key]: value });
+                                setSearch({ ...search, [key]: value });
                                 // setSearchTerm({
                                 //   ...searchTerm,
                                 //   [key]: searchM[key].ref ? value.value : value.label,
@@ -224,7 +233,7 @@ export function MasterHeader<T>({
                               label="Tree Select"
                               data={searchM[key].data}
                               value={search[key]}
-                              onChange={(value: any) => onChange({ ...search, [key]: value })}
+                              onChange={(value: any) => setSearch({ ...search, [key]: value })}
                               name={key}
                             />
                           </div>
