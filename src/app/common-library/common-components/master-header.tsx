@@ -32,7 +32,7 @@ export function MasterHeader<T>({
   title: string;
   initValue: any;
   onSearch: (data: any) => void;
-  stringOnChange?: (e: ChangeEvent<HTMLInputElement>, searchM: any, search: any, onChange: any, key: string) => void;
+  stringOnChange?: (e: ChangeEvent<HTMLInputElement>, searchM: any, search: any, onChange: any, key: string, handleChange: any, setFieldValue: any) => void;
 }) {
   const intl = useIntl();
 
@@ -141,27 +141,27 @@ export function MasterHeader<T>({
                             key={'master_header' + key}>
                             <Field
                               name={key}
-                              value={search[key]}
+                              // value={search[key]}
                               onChange={(e: ChangeEvent<HTMLInputElement>) => {
                                 if(stringOnChange) {
-                                  stringOnChange(e, searchM, search, onChange, key);
+                                  stringOnChange(e, searchM, search, setSearch, key, handleChange, setFieldValue);
                                 } else {
-                                  onChange({ ...search, [key]: e.target.value });
+                                  handleChange(e);
                                 }
                               }}
                               component={Input}
                               placeholder={intl.formatMessage({ id: searchM[key].placeholder })}
                               label={intl.formatMessage({ id: searchM[key].label })}
                               withFeedbackLabel={true}
-                              onChange={(e: any) => {
-                                handleChange(e);
-                                let someValue = e.currentTarget.value;
+                              // onChange={(e: any) => {
+                              //   handleChange(e);
+                              //   let someValue = e.currentTarget.value;
 
-                                setSearch({
-                                  ...search,
-                                  name: { label: someValue, value: someValue },
-                                });
-                              }}
+                              //   setSearch({
+                              //     ...search,
+                              //     name: { label: someValue, value: someValue },
+                              //   });
+                              // }}
                             />
                           </div>
                         );

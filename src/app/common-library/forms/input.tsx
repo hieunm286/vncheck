@@ -21,9 +21,6 @@ export function Input({
   customFeedbackLabel,
   isHorizontal,
   type = 'text',
-  name,
-  value,
-  onChange,
   ...props
 }: any) {
   const { setFieldValue } = useFormikContext<any>();
@@ -43,11 +40,6 @@ export function Input({
               ? getFieldCSSClasses(touched[field.name], errors[field.name])
               : 'form-control'
           }
-          onChange={(e) => {
-            onChange(e)
-            setFieldValue(name, value );
-
-          }}
           {...field}
           {...props}
         />
