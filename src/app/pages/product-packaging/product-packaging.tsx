@@ -58,10 +58,7 @@ const updateTitle = 'PRODUCT_PACKAGING.UPDATE.TITLE';
 const homeURL = `${window.location.pathname}`;
 
 const ProductPackagingSchema = Yup.object().shape({
-  name: Yup.object().shape({
-    label: Yup.string().required('Name ko đc để trống'),
-    value: Yup.string().required('value ko đc để trống'),
-  }),
+  name: Yup.string().required('Name ko đc để trống'),
   gram: Yup.number()
     .required('Số gram không được để trống')
     .typeError('Vui lòng nhập số'),
