@@ -16,12 +16,23 @@ import AxiosResponse from "axios";
 import LandLot from './land-lot';
 import { entities } from './helpers/mock';
 
-export const API_URL = API_BASE_URL + '/purchase-order';
+// export const API_URL = API_BASE_URL + '/land-lot';
 
-export const API_FILE_URL = API_BASE_URL + '/file';
+// export const API_FILE_URL = API_BASE_URL + '/file';
 
 export const Create: CreateProps<LandLotModel> = (data: LandLotModel) => {
-  return axios.post(API_URL, data);
+  // return axios.post(API_URL, data);
+  return new Promise((resolve, reject) => {
+    // : AxiosResponse<LandLotModel[]> 
+    const response = {
+      data: {},
+      status: 200,
+      statusText: 'OK',
+      headers: 'Server has not been implemented',
+      config: {},
+    }
+    resolve(response);
+  });
 };
 
 export const GetAll: GetAllProps<LandLotModel> = ({
@@ -149,13 +160,24 @@ export const DeleteMany: DeleteManyProps<LandLotModel> = (entities: LandLotModel
 };
 
 export const uploadImage = (image: any) => {
-  console.log('run updload');
-  console.log(image);
-  let formData = new FormData();
-  formData.append('image', image);
-  return axios({
-    method: 'POST',
-    url: API_FILE_URL,
-    data: formData,
+  // console.log('run updload');
+  // console.log(image);
+  // let formData = new FormData();
+  // formData.append('image', image);
+  // return axios({
+  //   method: 'POST',
+  //   url: API_FILE_URL,
+  //   data: formData,
+  // });
+  return new Promise((resolve, reject) => {
+    // : AxiosResponse<LandLotModel[]> 
+    const response = {
+      data: {},
+      status: 200,
+      statusText: 'OK',
+      headers: 'Server has not been implemented',
+      config: {},
+    }
+    resolve(response);
   });
 };
