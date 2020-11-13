@@ -188,7 +188,7 @@ export function InitMasterProps<T>({
   const [paginationProps, setPaginationProps] = useState(DefaultPagination);
   const [filterProps, setFilterProps] = useState({ name: '', code: '' });
   const [total, setTotal] = useState(0);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -205,6 +205,7 @@ export function InitMasterProps<T>({
         })
         .catch(error => {
           console.log(error);
+          setLoading(false);
         });
     },
     [paginationProps],
@@ -222,7 +223,10 @@ export function InitMasterProps<T>({
     setLoading(false);
   };
   const deleteFn = (entity: T) => {
-    deleteServer(entity).then(refreshData);
+    deleteServer(entity).then(refreshData).catch(error => {
+      console.log(error)
+      setLoading(false);
+    });
   };
 
   const deleteMany = () => {
@@ -231,6 +235,7 @@ export function InitMasterProps<T>({
       .then(refreshData)
       .catch(error => {
         console.log(error);
+        setLoading(false);
       });
   };
 

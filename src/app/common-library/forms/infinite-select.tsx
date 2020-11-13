@@ -16,7 +16,10 @@ export function InfiniteSelect({
 }: any) {
   const { setFieldValue, errors, touched } = useFormikContext<any>();
   const [values, setValue] = React.useState(null);
-  // const [field] = useField(props);
+  const [field] = useField(props);
+
+  console.log(errors)
+
   return (
     <>
       <div className={isHorizontal ? 'row' : ''}>
@@ -36,6 +39,19 @@ export function InfiniteSelect({
             name={name}
             additional={additional}
           />
+          {errors[name] && touched[name] ? (
+            <div className="invalid-datepicker-feedback text-danger" style={{ fontSize: '0.9rem' }}>
+              Vui lòng nhập 
+              {
+                // errors[field.name]?.toString()
+                 props.label
+              }
+            </div>
+          ) : (
+            <div className="feedback">
+              {/* Please enter <b>{props.label}</b> in 'mm/dd/yyyy' format */}
+            </div>
+          )}
         </div>
       </div>
     </>
