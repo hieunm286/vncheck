@@ -2,6 +2,10 @@ import React from 'react';
 import { AsyncPaginate } from 'react-select-async-paginate';
 import { useField, useFormikContext } from 'formik';
 
+const style = {
+  borderRadius: 5
+}
+
 export function InfiniteSelect({
   label,
   loadOptions,
@@ -16,9 +20,6 @@ export function InfiniteSelect({
 }: any) {
   const { setFieldValue, errors, touched } = useFormikContext<any>();
   const [values, setValue] = React.useState(null);
-  const [field] = useField(props);
-
-  console.log(errors)
 
   return (
     <>
@@ -26,7 +27,7 @@ export function InfiniteSelect({
         <div className={isHorizontal ? 'col-4' : ''}>
           <label>{label}</label>
         </div>
-        <div className={isHorizontal ? 'col-7' : ''}>
+        <div className={isHorizontal ? `col-7` : ''}>
           <AsyncPaginate
             value={value}
             loadOptions={loadOptions}
@@ -38,13 +39,15 @@ export function InfiniteSelect({
             placeholder={placeholder}
             name={name}
             additional={additional}
+            className={`${errors[name] ? 'border border-danger rounded' : ''}`}
+
           />
           {errors[name] && touched[name] ? (
             <div className="invalid-datepicker-feedback text-danger" style={{ fontSize: '0.9rem' }}>
-              Vui lòng nhập 
+              Vui lòng chọn 
               {
                 // errors[field.name]?.toString()
-                 props.label
+                 label
               }
             </div>
           ) : (
