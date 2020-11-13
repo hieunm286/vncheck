@@ -242,12 +242,12 @@ function LandLot() {
   ];
 
   const purchaseOrderSearchModel: SearchModel = {
-    lotSubLotCode: {
+    code: {
       type: 'string',
       placeholder: 'LAND_LOT.MASTER.PLACEHOLDER.CODE',
       label: 'LAND_LOT.MASTER.HEADER.CODE',
       service: LandLotService,
-      keyField: 'lotSubLotCode',
+      keyField: 'code',
     },
     lot: {
       type: 'SearchSelect',
@@ -490,7 +490,7 @@ function LandLot() {
             searchModel={purchaseOrderSearchModel}
             stringOnChange={stringOnChange}
             initValue={{
-              lotSubLotCode: '',
+              code: '',
               lot: '',
               subLot: '',
               // agencyAddress: '',

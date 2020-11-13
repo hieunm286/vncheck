@@ -1,5 +1,6 @@
 import React from 'react';
 import './custom.css';
+import { useField, useFormikContext } from 'formik';
 
 const getFieldCSSClasses = (touched: any, errors: any) => {
   const classes = ['form-control'];
@@ -20,8 +21,13 @@ export function Input({
   customFeedbackLabel,
   isHorizontal,
   type = 'text',
+  name,
+  value,
+  onChange,
   ...props
 }: any) {
+  const { setFieldValue } = useFormikContext<any>();
+  const [values, setValue] = React.useState(null);
   return (
     <>
       <div className={isHorizontal && 'd-flex mt-3'}>
@@ -37,6 +43,11 @@ export function Input({
               ? getFieldCSSClasses(touched[field.name], errors[field.name])
               : 'form-control'
           }
+          onChange={(e) => {
+            onChange(e)
+            setFieldValue(name, value );
+
+          }}
           {...field}
           {...props}
         />
