@@ -633,7 +633,7 @@ function PurchaseOrder() {
             onSearch={setFilterProps}
             searchModel={purchaseOrderSearchModel}
             initValue={{
-              code: null,
+              code: { label: 'ccc', value: 'cccc' },
               agencyAddress: null,
               agency: null,
               date: '',

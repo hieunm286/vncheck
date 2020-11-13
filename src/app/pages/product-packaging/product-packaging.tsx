@@ -58,9 +58,14 @@ const updateTitle = 'PRODUCT_PACKAGING.UPDATE.TITLE';
 const homeURL = `${window.location.pathname}`;
 
 const ProductPackagingSchema = Yup.object().shape({
-    name: Yup.string().required('Tên chủng loại không được để trống'),
-    gram: Yup.number().required('Số gram không được để trống').typeError('Vui lòng nhập số'),
-  });
+  name: Yup.object().shape({
+    label: Yup.string().required('Name ko đc để trống'),
+    value: Yup.string().required('value ko đc để trống'),
+  }),
+  gram: Yup.number()
+    .required('Số gram không được để trống')
+    .typeError('Vui lòng nhập số'),
+});
 
 function ProductPackaging() {
   const intl = useIntl();
@@ -322,6 +327,7 @@ function ProductPackaging() {
         autoFill={{
           field: 'code',
           data: GenerateCode(data),
+          searchSelectField: ['name'],
         }}
         homePage={homeURL}
       />

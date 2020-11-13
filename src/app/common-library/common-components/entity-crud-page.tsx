@@ -135,6 +135,7 @@ function EntityCrudPage({
                           case 'submit':
                             return (
                               <button
+                                formNoValidate 
                                 type={allFormButton[keyss].type}
                                 className={allFormButton[keyss].className}
                                 key={keyss}
