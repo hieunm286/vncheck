@@ -10,16 +10,17 @@ import {
   SearchModel,
   UpdateProps,
 } from '../../common-library/common-types/common-type';
+import { ProductPackagingModel } from './product-packaging.model';
 
 export const API_URL = API_BASE_URL + '/product-packaging';
 
 export const API_FILE_URL = API_BASE_URL + '/file';
 
-export const Create: CreateProps<any> = (data: any) => {
+export const Create: CreateProps<ProductPackagingModel> = (data: ProductPackagingModel) => {
   return axios.post(API_URL, data);
 };
 
-export const GetAll: GetAllProps<any> = ({
+export const GetAll: GetAllProps<ProductPackagingModel> = ({
   queryProps,
   sortList,
   paginationProps,
@@ -30,7 +31,7 @@ export const GetAll: GetAllProps<any> = ({
   });
 };
 
-export const Count: CountProps<any> = ({
+export const Count: CountProps<ProductPackagingModel> = ({
   queryProps,
   sortList,
   paginationProps,
@@ -40,23 +41,23 @@ export const Count: CountProps<any> = ({
   });
 };
 
-export const Get: GetProps<any> = entity => {
+export const Get: GetProps<ProductPackagingModel> = entity => {
   return axios.get(`${API_URL}/${entity._id}`);
 };
 
 export const GetById = (_id: string) => {
   return axios.get(`${API_URL}/${_id}`);
 };
-export const Update: UpdateProps<any> = (entity: any) => {
+export const Update: UpdateProps<ProductPackagingModel> = (entity: ProductPackagingModel) => {
   return axios.put(`${API_URL}/${entity._id}`, entity);
 };
 
-export const Delete: DeleteProps<any> = (entity: any) => {
+export const Delete: DeleteProps<ProductPackagingModel> = (entity: ProductPackagingModel) => {
     console.log(entity)
   return axios.delete(`${API_URL}/${entity._id}`);
 };
 
-export const DeleteMany: DeleteManyProps<any> = (entities: any[]) => {
+export const DeleteMany: DeleteManyProps<ProductPackagingModel> = (entities: ProductPackagingModel[]) => {
   return axios.delete(API_URL, {
     data: { arrayEntities: entities },
   });

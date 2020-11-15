@@ -10,3 +10,11 @@ export interface ProductTypeModel {
     expiryDate: number;
 }
 
+export interface ProductTypeModifyModelDetail {
+    title?: string;
+    data: any;
+}
+
+export interface ProductTypeFormPart {
+    
+}
