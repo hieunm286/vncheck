@@ -11,7 +11,7 @@ import IndeterminateCheckBoxIcon from '@material-ui/icons/IndeterminateCheckBox'
 import { ActionsColumnFormatter } from '../../common-library/common-components/actions-column-formatter';
 import { DeleteEntityDialog } from '../../common-library/common-components/delete-entity-dialog';
 import DeleteManyEntitiesDialog from '../../common-library/common-components/delete-many-dialog';
-import ModifyEntityDialog from '../../common-library/common-components/modify-entity-dialog';
+import ModifyEntityDialog from './helpers/modify-entity-dialog';
 import { ModifyModel, SearchModel } from '../../common-library/common-types/common-type';
 import {
   ConvertToTreeNode,
@@ -305,7 +305,7 @@ function LandLot() {
     {
       title: '',
       data: {
-        _id: {
+        code: {
           type: 'string',
           placeholder: intl.formatMessage({ id: 'LAND_LOT.MASTER.PLACEHOLDER.CODE' }),
           label: intl.formatMessage({ id: 'LAND_LOT.MASTER.HEADER.CODE' }),
