@@ -16,7 +16,7 @@ import EntityCrudPage from '../../common-library/common-components/entity-crud-p
 import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import * as Yup from 'yup';
-import { ProductTypeModel } from './product-type.model';
+import { ProductTypeModel, ProductTypeModifyModelDetail } from './product-type.model';
 import * as ProductTypeService from './product-type.service';
 import ProductTypeDetailDialog from './product-type-detail-dialog';
 
@@ -243,7 +243,7 @@ function ProductType() {
     },
   };
 
-  const modifyModel = [
+  const modifyModel: ProductTypeModifyModelDetail[] = [
     {
       title: 'THÔNG TIN CHUNG',
       data: {

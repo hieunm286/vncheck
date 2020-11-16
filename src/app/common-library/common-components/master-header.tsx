@@ -40,12 +40,6 @@ export function MasterHeader<T>({
 
   const [search, setSearch] = useState<any>(initValue);
 
-  const [searchTerm, setSearchTerm] = useState({
-    code: '',
-    agencyAddress: '',
-    agency: '',
-  });
-
   const [treeValue, setTreeValue] = useState();
 
   const handleResetForm = (resetForm: any) => {
@@ -83,9 +77,8 @@ export function MasterHeader<T>({
     search: string,
     prevOptions: any,
     { page }: any,
-    service: any,
-    keyField: string,
-    key: string,
+    { service, keyField, key } : { service: any, keyField: string, key: string },
+    { onFetch, onCount }: { onFetch?: (props: any) => any, onCount?: (props: any) => any }
   ) => {
     const queryProps: any = {};
     queryProps[keyField] = search;
@@ -95,12 +88,10 @@ export function MasterHeader<T>({
       page: page,
     };
 
-    const entities = await service.GetAll({ queryProps, paginationProps });
-    const count = await service.Count({ queryProps });
+    const entities = onFetch ? await onFetch({ queryProps, paginationProps }) : await service.GetAll({ queryProps, paginationProps });
+    const count = onCount ? await onCount({ queryProps }) : await service.Count({ queryProps });
 
     const hasMore = prevOptions.length < count.data - (DefaultPagination.limit ?? 0);
-
-    // setSearchTerm({ ...searchTerm, [key]: search });
 
     const data = [...new Set(entities.data)];
 
@@ -211,9 +202,13 @@ export function MasterHeader<T>({
                                   search,
                                   prevOptions,
                                   { page },
-                                  searchM[key].service,
-                                  searchM[key].keyField,
-                                  key,
+                                  {
+                                    service: searchM[key].service,
+                                    keyField: searchM[key].keyField,
+                                    key: key,
+                                  },
+                                  {}
+                                  
                                 )
                               }
                               refs={searchM[key].ref}

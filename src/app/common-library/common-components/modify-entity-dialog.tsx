@@ -91,7 +91,7 @@ function ModifyEntityDialog<T>({
         modifyModel={modifyModel}
         formPart={formPart}
         validation={validation}
-        entity={ConvertSelectSearch(entity, autoFill.searchSelectField) || initForm}
+        entity={(autoFill ? ConvertSelectSearch(entity, autoFill.searchSelectField) : ConvertSelectSearch(entity)) || initForm}
         onHide={onHide}
         onModify={onModify}
       />

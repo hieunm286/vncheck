@@ -107,7 +107,6 @@ export const GenerateAllFormField = (...params: any) => {
     if (isArray(value)) {
       // fieldForm = {...fieldForm, ...Object.assign({}, ...value)}
       value.forEach((item: any) => {
-        console.log(item)
         fieldForm = {...fieldForm, ...item.data}
       })
     }
