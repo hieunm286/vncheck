@@ -32,13 +32,21 @@ export function MasterHeader<T>({
   title: string;
   initValue: any;
   onSearch: (data: any) => void;
-  stringOnChange?: (e: ChangeEvent<HTMLInputElement>, searchM: any, search: any, onChange: any, key: string, handleChange: any, setFieldValue: any) => void;
+  stringOnChange?: (e: ChangeEvent<HTMLInputElement>, searchM: any, search: any, onChange: any, key: string, handleChange: any, setFieldValue: any, setIsDisabled: any, isDisabeld: any) => void;
 }) {
   const intl = useIntl();
 
   const searchM: any = { ...searchModel };
 
   const [search, setSearch] = useState<any>(initValue);
+
+  let _disabled = {}
+  Object.keys(initValue).forEach((field) => {
+    _disabled = {..._disabled, [field]: false};
+  });
+
+  const [isDisabled, setIsDisabled] = useState<any>(_disabled);
+
 
   const [treeValue, setTreeValue] = useState();
 
@@ -135,7 +143,7 @@ export function MasterHeader<T>({
                               // value={search[key]}
                               onChange={(e: ChangeEvent<HTMLInputElement>) => {
                                 if(stringOnChange) {
-                                  stringOnChange(e, searchM, search, setSearch, key, handleChange, setFieldValue);
+                                  stringOnChange(e, searchM, search, setSearch, key, handleChange, setFieldValue, setIsDisabled, isDisabled);
                                 } else {
                                   handleChange(e);
                                 }
@@ -187,6 +195,11 @@ export function MasterHeader<T>({
                         return (
                           <div className="col-xxl-3 col-md-3 mt-md-5 mt-5" key={key}>
                             <InfiniteSelect
+                              isDisabled={
+                                isDisabled ? 
+                                isDisabled[key]
+                                : false
+                              }
                               label={intl.formatMessage({ id: searchM[key].label })}
                               isHorizontal={false}
                               value={search[key]}
