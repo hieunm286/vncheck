@@ -8,7 +8,7 @@ export function SelectionCheckbox({isSelected, onChange, isFirstRow}: { isSelect
         <input type="checkbox" checked={isSelected} onChange={onChange}/>
         {
           isFirstRow ? (
-            <span style={{backgroundColor: "#B5B5C3"}} />
+            <span style={!isSelected ? {backgroundColor: "#B5B5C3"} : {}} />
           ) : (
             <span />
           )
