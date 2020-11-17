@@ -29,7 +29,7 @@ const data: any = [
     imageURL: 'https://product.hstatic.net/1000191320/product/rau-cai-chip_master.jpg',
     growingDays: 15,
     plantingDays: 30,
-    expiryDate: 30,
+    expiryDays: 30,
   },
   {
     _id: 'abcd',
@@ -39,7 +39,7 @@ const data: any = [
     imageURL: 'https://product.hstatic.net/1000191320/product/rau-cai-chip_master.jpg',
     growingDays: 15,
     plantingDays: 30,
-    expiryDate: 60,
+    expiryDays: 60,
   },
   {
     _id: 'abce',
@@ -49,7 +49,7 @@ const data: any = [
     imageURL: 'https://product.hstatic.net/1000191320/product/rau-cai-chip_master.jpg',
     growingDays: 15,
     plantingDays: 30,
-    expiryDate: 17,
+    expiryDays: 17,
   },
   {
     _id: 'abcf',
@@ -59,7 +59,7 @@ const data: any = [
     imageURL: 'https://product.hstatic.net/1000191320/product/rau-cai-chip_master.jpg',
     growingDays: 15,
     plantingDays: 30,
-    expiryDate: 19,
+    expiryDays: 19,
   },
   {
     _id: 'abdacf',
@@ -69,7 +69,7 @@ const data: any = [
     imageURL: 'https://product.hstatic.net/1000191320/product/rau-cai-chip_master.jpg',
     growingDays: 15,
     plantingDays: 30,
-    expiryDate: 19,
+    expiryDays: 19,
   },
 ];
 
@@ -107,7 +107,7 @@ const ProductTypeSchema = Yup.object().shape({
     barcode: Yup.string().required('Tên chủng loại không được để trống'),
     growingDays: Yup.number().required('Số ngày gieo giống không được để trống').typeError('Vui lòng nhập số'),
     plantingDays: Yup.number().required('Số ngày gieo trồng không được để trống').typeError('Vui lòng nhập số'),
-    expiryDate: Yup.number().required('Hạn sử dụng không được để trống').typeError('Vui lòng nhập số'),
+    expiryDays: Yup.number().required('Hạn sử dụng không được để trống').typeError('Vui lòng nhập số'),
   });
 
 function ProductType() {
@@ -164,6 +164,10 @@ function ProductType() {
     updateServer: ProductTypeService.Update,
   });
 
+  useEffect(() => {
+    getAll(filterProps);
+  }, [paginationProps, trigger, filterProps]);
+
   const columns = {
     code: {
       dataField: 'code',
@@ -204,7 +208,7 @@ function ProductType() {
           get(entity);
           // setShowEdit(true);
           setEditEntity(entity);
-          history.push(`${window.location.pathname}/${entity.code}`);
+          history.push(`${window.location.pathname}/${entity._id}`);
         },
       },
       ...NormalColumn,
@@ -221,7 +225,7 @@ function ProductType() {
         barcode: { title: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.BARCODE' },
         growingDays: { title: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW' },
         plantingDays: { title: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.PLANTING' },
-        expiryDate: { title: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.EXPIRY' },
+        expiryDays: { title: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.EXPIRY' },
       },
     },
   ];
@@ -249,7 +253,7 @@ function ProductType() {
       data: {
         code: {
           type: 'string',
-          placeholder: intl.formatMessage({ id: 'PRODUCT_TYPE.MASTER.TABLE.CODE_COLUMN' }),
+          placeholder: '',
           label: intl.formatMessage({ id: 'PRODUCT_TYPE.MASTER.TABLE.CODE_COLUMN' }),
           required: true,
           disabled: true,
@@ -279,17 +283,17 @@ function ProductType() {
       title: 'THÔNG TIN VÒNG ĐỜI',
       data: {
         growingDays: {
-          type: 'string',
+          type: 'number',
           placeholder: intl.formatMessage({ id: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW' }),
           label: intl.formatMessage({ id: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW' }),
         },
         plantingDays: {
-          type: 'string',
+          type: 'number',
           placeholder: intl.formatMessage({ id: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.PLANTING' }),
           label: intl.formatMessage({ id: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.PLANTING' }),
         },
-        expiryDate: {
-          type: 'string',
+        expiryDays: {
+          type: 'number',
           placeholder: intl.formatMessage({
             id: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.EXPIRY',
           }),
@@ -376,10 +380,10 @@ function ProductType() {
             allFormField={allFormField}
             allFormButton={allFormButton}
             validation={ProductTypeSchema}
-            autoFill={{
-                field: 'code',
-                data: GenerateCode(data)
-            }}
+            // autoFill={{
+            //     field: 'code',
+            //     data: GenerateCode(data)
+            // }}
             homePage={homeURL}
           />
         </Route>
@@ -432,8 +436,8 @@ function ProductType() {
             onDeleteMany={() => setShowDeleteMany(true)}
             selectedEntities={selectedEntities}
             onSelectMany={setSelectedEntities}
-            entities={data}
-            total={data.length}
+            entities={entities}
+            total={total}
             columns={columns as any}
             loading={loading}
             paginationParams={paginationProps}

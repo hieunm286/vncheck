@@ -12,7 +12,7 @@ import {
 } from '../../common-library/common-types/common-type';
 import { ProductTypeModel } from './product-type.model';
 
-export const API_URL = API_BASE_URL + '/product-type';
+export const API_URL = API_BASE_URL + '/species';
 
 export const API_FILE_URL = API_BASE_URL + '/file';
 
@@ -58,7 +58,7 @@ export const Delete: DeleteProps<any> = (entity: ProductTypeModel) => {
 
 export const DeleteMany: DeleteManyProps<ProductTypeModel> = (entities: ProductTypeModel[]) => {
   return axios.delete(API_URL, {
-    data: { arrayEntities: entities },
+    data: { listSpecies: entities },
   });
 };
 

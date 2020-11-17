@@ -7,7 +7,7 @@ export interface ProductTypeModel {
     imageURL: string;
     growingDays: number;
     plantingDays: number;
-    expiryDate: number;
+    expiryDays: number;
 }
 
 export interface ProductTypeModifyModelDetail {

@@ -9,13 +9,25 @@
         height: calc(1.5em + 1.3rem + 0.5px) !important;
     }
 
+    span.ant-select-selection-placeholder {
+        margin-top: 1%;
+    }
+    
+    span.ant-select-selection-item {
+        margin-top: 1%;
+    }
+
     
 }
 
-span.ant-select-selection-placeholder {
-    margin-top: 1.5%;
-}
+.ant-select-multiple {
 
-span.ant-select-selection-item {
-    margin-top: 1.5%;
+    .ant-select-selector {
+        border-radius: 0.42rem !important;
+    }
+
+    .ant-select-selector {
+        height: calc(1.5em + 1.3rem + 0.5px) !important;
+    }
+    
 }

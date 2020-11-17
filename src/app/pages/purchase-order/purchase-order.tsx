@@ -106,13 +106,14 @@ const PurchaseOrderSchema = Yup.object().shape({
     .matches(/[0-9]$/u, {
       message: 'Vui lòng nhập tên đúng định dạng',
     }),
-  // time: Yup.date().required('Vui lòng nhập date'),
-  // time2: Yup.date().required('Vui lòng nhập date'),
-  // quantity: Yup.number().required('Vui lòng nhập số lượng'),
+  time: Yup.date().required('Vui lòng nhập date'),
+  time2: Yup.date().required('Vui lòng nhập date'),
+  quantity: Yup.number().required('Vui lòng nhập số lượng'),
   agency: Yup.object().shape({
     name: Yup.string().required('Name ko đc để trống'),
     taxId: Yup.string().required('TaxId ko đc để trống'),
   }),
+  staff: Yup.array().min(1, 'Nhân viên ko đc để trống')
 });
 
 function PurchaseOrder() {
@@ -359,6 +360,11 @@ function PurchaseOrder() {
             placeholder: 'Tax',
           },
         },
+        staff: {
+          type: 'tag',
+          label: 'Nhân viên',
+          placeholder: 'Nhân viên',
+        }
       },
     },
     // {
