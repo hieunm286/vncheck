@@ -8,7 +8,7 @@ import SVG from 'react-inlinesvg';
 import { ToAbsoluteUrl } from '../helpers/assets-helpers';
 import { SearchModel } from '../common-types/common-type';
 // import InfiniteScroll from 'react-infinite-scroll-component';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import * as AgencyService from '../../pages/purchase-order/agency.service';
 import { AsyncPaginate } from 'react-select-async-paginate';
 import { DefaultPagination } from '../common-consts/const';
@@ -76,7 +76,7 @@ export function MasterHeader<T>({
     prevOptions: any,
     { page }: any,
     { service, keyField, key } : { service: any, keyField: string, key: string },
-    { onFetch, onCount }: { onFetch?: (props: any) => any, onCount?: (props: any) => any }
+    { onFetch, onCount }: { onFetch?: (props: any) => Promise<AxiosResponse<any>>, onCount?: (props: any) => Promise<AxiosResponse<any>> }
   ) => {
     const queryProps: any = {};
     queryProps[keyField] = search;
@@ -116,7 +116,7 @@ export function MasterHeader<T>({
             onSearch(values);
           }}
           onReset={data => {
-            onSearch(data);
+            // onSearch(data);
           }}>
           {({ values, handleSubmit, handleBlur, handleChange, setFieldValue, resetForm }) => (
             <form onSubmit={handleSubmit} className="form form-label-right">

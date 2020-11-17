@@ -15,6 +15,7 @@ import { uploadImage } from '../../pages/purchase-order/purchase-order.service';
 import { Card, CardBody } from '../card';
 import { DatePickerField } from '../forms/date-picker-field';
 import { InfiniteSelect } from '../forms/infinite-select';
+import TagInput from '../forms/tag-input';
 
 const dataT: any = [
   {
@@ -25,7 +26,7 @@ const dataT: any = [
     imageURL: 'https://product.hstatic.net/1000191320/product/rau-cai-chip_master.jpg',
     growingDays: 15,
     plantingDays: 30,
-    expiryDate: 30,
+    expiryDays: 30,
   },
   {
     _id: 'abcd',
@@ -35,7 +36,7 @@ const dataT: any = [
     imageURL: 'https://product.hstatic.net/1000191320/product/rau-cai-chip_master.jpg',
     growingDays: 15,
     plantingDays: 30,
-    expiryDate: 60,
+    expiryDays: 60,
   },
   {
     _id: 'abce',
@@ -45,7 +46,7 @@ const dataT: any = [
     imageURL: 'https://product.hstatic.net/1000191320/product/rau-cai-chip_master.jpg',
     growingDays: 15,
     plantingDays: 30,
-    expiryDate: 17,
+    expiryDays: 17,
   },
   {
     _id: 'abcf',
@@ -55,7 +56,7 @@ const dataT: any = [
     imageURL: 'https://product.hstatic.net/1000191320/product/rau-cai-chip_master.jpg',
     growingDays: 15,
     plantingDays: 30,
-    expiryDate: 19,
+    expiryDays: 19,
   },
   {
     _id: 'abdacf',
@@ -65,7 +66,7 @@ const dataT: any = [
     imageURL: 'https://product.hstatic.net/1000191320/product/rau-cai-chip_master.jpg',
     growingDays: 15,
     plantingDays: 30,
-    expiryDate: 19,
+    expiryDays: 19,
   },
 ];
 
@@ -83,6 +84,7 @@ function ModifyEntityPage<T>({
   column,
   search,
   setSearch,
+  handleChangeTag,
 }: {
   modifyModel: any;
   // title: string;
@@ -97,11 +99,12 @@ function ModifyEntityPage<T>({
   column?: number;
   search?: any;
   setSearch?: any;
+  handleChangeTag?: any;
 }) {
   const intl = useIntl();
   // const initForm = generateInitForm(modifyModel);
   const modifyM = { ...modifyModel } as any;
-  
+
   const loadOptions = async (
     search: string,
     prevOptions: any,
@@ -119,7 +122,7 @@ function ModifyEntityPage<T>({
     };
 
     console.log(keyField);
-    console.log(key)
+    console.log(key);
 
     // const entities = await service.GetAll({ queryProps, paginationProps });
     // const count = await service.Count({ queryProps });
@@ -132,7 +135,7 @@ function ModifyEntityPage<T>({
 
     return {
       options: data.map((e: any) => {
-        console.log(e)
+        console.log(e);
         return { label: e[keyField], value: e._id };
       }),
       hasMore: false,
@@ -151,7 +154,7 @@ function ModifyEntityPage<T>({
 
   // const loadOptions = async (search: any, prevOptions: any) => {
   //   await sleep(1000);
-  
+
   //   let filteredOptions;
   //   if (!search) {
   //     filteredOptions = data;
@@ -162,7 +165,7 @@ function ModifyEntityPage<T>({
   //       name.toLowerCase().includes(searchLower)
   //     );
   //   }
-  
+
   //   const hasMore = filteredOptions.length > prevOptions.length + 10;
   //   const slicedOptions = filteredOptions.slice(
   //     prevOptions.length,
@@ -260,7 +263,7 @@ function ModifyEntityPage<T>({
 
                   case 'object':
                     return (
-                      <>
+                      <div className="mt-3" key={key}>
                         {Object.keys(value.data[key]).map(childKey => {
                           switch (value.data[key][childKey].type) {
                             case 'string':
@@ -297,42 +300,56 @@ function ModifyEntityPage<T>({
                               );
                           }
                         })}
-                      </>
+                      </div>
                     );
 
-                    case 'SearchSelect':
-                        return (
-                          <div className="mt-3" key={key}>
-                            <InfiniteSelect
-                              label={value.data[key].label}
-                              isHorizontal={true}
-                              value={search[key]}
-                              onChange={(value: any) => {
-                                setSearch({ ...search, [key]: value });
-                                // setSearchTerm({
-                                //   ...searchTerm,
-                                //   [key]: searchM[key].ref ? value.value : value.label,
-                                // });
-                              }}
-                              loadOptions={(search: string, prevOptions: any, { page }: any) =>
-                                loadOptions(
-                                  search,
-                                  prevOptions,
-                                  { page },
-                                  value.data[key].service,
-                                  value.data[key].keyField,
-                                  key,
-                                )
-                              }
-                              refs={value.data[key].ref}
-                              additional={{
-                                page: DefaultPagination.page,
-                              }}
-                              name={key}
-                              placeholder={value.data[key].placeholder}
-                            />
-                          </div>
-                        );
+                  case 'SearchSelect':
+                    return (
+                      <div className="mt-3" key={key}>
+                        <InfiniteSelect
+                          label={value.data[key].label}
+                          isHorizontal={true}
+                          value={search[key]}
+                          onChange={(value: any) => {
+                            setSearch({ ...search, [key]: value });
+                            // setSearchTerm({
+                            //   ...searchTerm,
+                            //   [key]: searchM[key].ref ? value.value : value.label,
+                            // });
+                          }}
+                          loadOptions={(search: string, prevOptions: any, { page }: any) =>
+                            loadOptions(
+                              search,
+                              prevOptions,
+                              { page },
+                              value.data[key].service,
+                              value.data[key].keyField,
+                              key,
+                            )
+                          }
+                          refs={value.data[key].ref}
+                          additional={{
+                            page: DefaultPagination.page,
+                          }}
+                          name={key}
+                          placeholder={value.data[key].placeholder}
+                        />
+                      </div>
+                    );
+
+                  case 'tag':
+                    return (
+                      <div className="mt-3" key={key}>
+                        <TagInput
+                          label={value.data[key].label}
+                          isHorizontal={true}
+                          name={key}
+                          handleChange={handleChangeTag}
+                          isRequired
+                          labelWidth={4}
+                        />
+                      </div>
+                    );
                 }
                 return <></>;
               })}

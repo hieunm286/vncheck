@@ -24,7 +24,7 @@ export const generateInitForm = (modifyModel: any, initField?: string, initData?
     if (modifyModel[key].type === 'string') {
       initValue[key] = '';
     } else if (modifyModel[key].type === 'number') {
-      initValue[key] = undefined;
+      initValue[key] = 0;
     } else if (modifyModel[key].type === 'SearchSelect') {
       initValue[key] = null;
     } else if (modifyModel[key].type === 'Datetime') {
@@ -185,7 +185,7 @@ export function InitMasterProps<T>({
   const [showDeleteMany, setShowDeleteMany] = useState(false);
   const [trigger, setTrigger] = useState(false);
   const [paginationProps, setPaginationProps] = useState(DefaultPagination);
-  const [filterProps, setFilterProps] = useState({ name: '', code: '' });
+  const [filterProps, setFilterProps] = useState();
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);
 
@@ -196,11 +196,15 @@ export function InitMasterProps<T>({
       setLoading(true);
       getAllServer({ paginationProps, queryProps: filterProps })
         .then(getAllResponse => {
-          countServer(filterProps).then(countResponse => {
-            setEntities(getAllResponse.data);
+          // countServer(filterProps).then(countResponse => {
+          //   setEntities(getAllResponse.data);
+          //   setLoading(false);
+          //   setTotal(countResponse.data);
+          // });
+          const data: any = getAllResponse.data
+          setEntities(data.data);
             setLoading(false);
-            setTotal(countResponse.data);
-          });
+            setTotal(data.paging.total);
         })
         .catch(error => {
           console.log(error);
@@ -317,10 +321,10 @@ export function InitMasterProps<T>({
 //   console.log(111);
 //   const orderParams = Object.keys(params.sortList).reduce((pre, current, i) => {
 //     return {
-//       orderBy: pre.orderBy + (i == 0 ? '' : ',') + current,
-//       orderType: pre.orderType + (i == 0 ? '' : ',') + params.sortList[current]
+//       sortBy: pre.sortBy + (i == 0 ? '' : ',') + current,
+//       sortType: pre.sortType + (i == 0 ? '' : ',') + params.sortList[current]
 //     }
-//   }, {orderBy: '', orderType: ''});
+//   }, {sortBy: '', sortType: ''});
 //   const res = Object.entries({
 //     ...params,
 //     sortList: undefined, ...orderParams

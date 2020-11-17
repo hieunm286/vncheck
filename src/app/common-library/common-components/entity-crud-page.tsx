@@ -2,7 +2,12 @@ import React, { useEffect, useState } from 'react';
 import ModifyEntityPage from './modify-entity-page';
 import { ModifyModel } from '../common-types/common-type';
 import { useIntl } from 'react-intl';
-import { generateInitForm, GetHomePage, getNewImage, getOnlyFile } from '../helpers/common-function';
+import {
+  generateInitForm,
+  GetHomePage,
+  getNewImage,
+  getOnlyFile,
+} from '../helpers/common-function';
 import { Field, Form, Formik } from 'formik';
 import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
@@ -15,6 +20,7 @@ import CustomImageUpload from '../forms/custom-image-upload';
 import { uploadImage } from '../../pages/purchase-order/purchase-order.service';
 import { Card, CardBody, CardHeader } from '../card';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import { diff } from 'deep-object-diff';
 
 function EntityCrudPage({
   entity,
@@ -29,7 +35,7 @@ function EntityCrudPage({
   allFormButton,
   validation,
   autoFill,
-  homePage
+  homePage,
 }: {
   // modifyModel: ModifyModel;
   title: string;
@@ -43,7 +49,7 @@ function EntityCrudPage({
   allFormButton: any;
   validation?: any;
   autoFill?: any;
-  homePage?: string
+  homePage?: string;
 }) {
   const intl = useIntl();
   const initForm = autoFill
@@ -55,6 +61,8 @@ function EntityCrudPage({
 
   const [images, setImages] = useState(initForm);
   const [imageRootArr, setImageRootArr] = useState<any>([]);
+
+  const [tagArr, setTagArr] = useState(initForm);
 
   const onChange = (imageList: any, addUpdateIndex: any, key: any) => {
     const imageArray = getOnlyFile(imageList);
@@ -75,6 +83,12 @@ function EntityCrudPage({
     setImageRootArr(imageArray);
   };
 
+  function handleChangeTag(value: string, key?: string) {
+    // const newTag: string[] = [...tagArr];
+    // newTag.push(value);
+    // setTagArr({ ...tagArr, [key]: newTag });
+  }
+
   console.log(initForm);
 
   useEffect(() => {
@@ -93,10 +107,13 @@ function EntityCrudPage({
         // initialValues={initForm}
         validationSchema={validation}
         onSubmit={values => {
-          console.log(values);
-          onModify(values);
-          history.push(GetHomePage(window.location.pathname))
-          
+          if (entityForEdit) {
+            const updateValue = diff(entityForEdit, values);
+            onModify({_id: values._id, ...updateValue});
+          } else {
+            onModify(values)
+          }
+          history.push(GetHomePage(window.location.pathname));
         }}>
         {({ handleSubmit }) => (
           <>
@@ -126,6 +143,7 @@ function EntityCrudPage({
                       modifyModel={formPart[key].modifyModel as any}
                       column={formPart[key].modifyModel.length}
                       title={formPart[key].title}
+                      handleChangeTag={handleChangeTag}
                     />
                   </CardBody>
                   {key === Object.keys(formPart)[Object.keys(formPart).length - 1] && (
@@ -135,7 +153,7 @@ function EntityCrudPage({
                           case 'submit':
                             return (
                               <button
-                                formNoValidate 
+                                formNoValidate
                                 type={allFormButton[keyss].type}
                                 className={allFormButton[keyss].className}
                                 key={keyss}
