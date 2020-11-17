@@ -1,12 +1,19 @@
 import React from 'react';
 
-export function SelectionCheckbox({isSelected, onChange}: { isSelected: boolean, onChange: (e: any) => boolean | void }) {
+export function SelectionCheckbox({isSelected, onChange, isFirstRow}: { isSelected: boolean, onChange: (e: any) => boolean | void, isFirstRow?: boolean}) {
   return (
     <>
       <input type="checkbox" style={{display: 'none'}}/>
       <label className="checkbox checkbox-single">
         <input type="checkbox" checked={isSelected} onChange={onChange}/>
-        <span/>
+        {
+          isFirstRow ? (
+            <span style={{backgroundColor: "#B5B5C3"}} />
+          ) : (
+            <span />
+          )
+        }
+        
       </label>
     </>
   );

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { Field, Formik } from 'formik';
 import SearchIcon from '@material-ui/icons/Search';
@@ -26,11 +26,25 @@ export function MasterHeader<T>({
   onSearch,
   searchModel,
   initValue,
+  stringOnChange,
+  searchSelectOnChange,
 }: {
   searchModel: SearchModel;
   title: string;
   initValue: any;
   onSearch: (data: any) => void;
+  stringOnChange?: (e: ChangeEvent<HTMLInputElement>, searchM: any, search: any, onChange: any, key: string, handleChange: any, setFieldValue: any, setIsDisabled: any, isDisabeld: any) => void;
+  searchSelectOnChange?: (
+    value: any,
+    values: any,
+    searchM: any, 
+    search: any, 
+    setSearch: any, 
+    key: string, 
+    handleChange: any, 
+    setFieldValue: any, 
+    setIsDisabled: any, 
+    isDisabled: any) => void;
 }) {
   const intl = useIntl();
 
@@ -38,12 +52,27 @@ export function MasterHeader<T>({
 
   const [search, setSearch] = useState<any>(initValue);
 
+  let _disabled : any = {};
+  Object.keys(initValue).forEach((field) => {
+    _disabled = {..._disabled, [field]: false};
+  });
+  _disabled.subLot = true;
+
+  const [isDisabled, setIsDisabled] = useState<any>(_disabled);
+
+
   const [treeValue, setTreeValue] = useState();
 
   const handleResetForm = (resetForm: any) => {
     resetForm();
     // onSearch(initValue);
     setSearch(initValue);
+    // reset disable
+    let _disabled = {}
+    Object.keys(initValue).forEach((field) => {
+      _disabled = {..._disabled, [field]: false};
+    });
+    setIsDisabled(_disabled);
   };
   // const loadOptions = async (search: string, prevOptions: any, service: any, keyField: string) => {
   //   return new Promise<{ options: { label: string; value: string }[]; hasMore: boolean }>(
@@ -89,9 +118,9 @@ export function MasterHeader<T>({
     const entities = onFetch ? await onFetch({ queryProps, paginationProps }) : await service.GetAll({ queryProps, paginationProps });
     const count = onCount ? await onCount({ queryProps }) : await service.Count({ queryProps });
 
-    const hasMore = prevOptions.length < count.data - (DefaultPagination.limit ?? 0);
+    const hasMore = prevOptions.length < count.data.data - (DefaultPagination.limit ?? 0);
 
-    const data = [...new Set(entities.data)];
+    const data = [...new Set(entities.data.data)];
 
     return {
       options: data.map((e: any) => {
@@ -112,8 +141,8 @@ export function MasterHeader<T>({
         <Formik
           initialValues={initValue}
           onSubmit={values => {
-            console.log(values);
             onSearch(values);
+            console.log(values);
           }}
           onReset={data => {
             // onSearch(data);
@@ -131,19 +160,32 @@ export function MasterHeader<T>({
                             key={'master_header' + key}>
                             <Field
                               name={key}
+                              // value={search[key]}
+                              disabled={
+                                isDisabled ? 
+                                isDisabled[key]
+                                : false
+                              }
+                              onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                                if(stringOnChange) {
+                                  stringOnChange(e, searchM, search, setSearch, key, handleChange, setFieldValue, setIsDisabled, isDisabled);
+                                } else {
+                                  handleChange(e);
+                                }
+                              }}
                               component={Input}
                               placeholder={intl.formatMessage({ id: searchM[key].placeholder })}
                               label={intl.formatMessage({ id: searchM[key].label })}
                               withFeedbackLabel={true}
-                              onChange={(e: any) => {
-                                handleChange(e);
-                                let someValue = e.currentTarget.value;
+                              // onChange={(e: any) => {
+                              //   handleChange(e);
+                              //   let someValue = e.currentTarget.value;
 
-                                setSearch({
-                                  ...search,
-                                  name: { label: someValue, value: someValue },
-                                });
-                              }}
+                              //   setSearch({
+                              //     ...search,
+                              //     name: { label: someValue, value: someValue },
+                              //   });
+                              // }}
                             />
                           </div>
                         );
@@ -178,10 +220,21 @@ export function MasterHeader<T>({
                         return (
                           <div className="col-xxl-3 col-md-3 mt-md-5 mt-5" key={key}>
                             <InfiniteSelect
+                              isDisabled={
+                                isDisabled ? 
+                                isDisabled[key]
+                                : false
+                              }
                               label={intl.formatMessage({ id: searchM[key].label })}
                               isHorizontal={false}
                               value={search[key]}
                               onChange={(value: any) => {
+                                if(searchSelectOnChange) {
+                                  searchSelectOnChange(
+                                    value, values, searchM, search, setSearch, key, handleChange, setFieldValue, setIsDisabled, isDisabled
+                                  );
+
+                                }
                                 setSearch({ ...search, [key]: value });
                                 // setSearchTerm({
                                 //   ...searchTerm,

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { AsyncPaginate } from 'react-select-async-paginate';
 import { useField, useFormikContext } from 'formik';
 
@@ -16,12 +16,11 @@ export function InfiniteSelect({
   additional,
   refs,
   isHorizontal,
+  isDisabled,
   ...props
 }: any) {
   const { setFieldValue, errors, touched } = useFormikContext<any>();
   const [values, setValue] = React.useState(null);
-
-  console.log(errors)
 
   return (
     <>
@@ -32,6 +31,7 @@ export function InfiniteSelect({
         <div className={isHorizontal ? `col-7` : ''}>
           <AsyncPaginate
             value={value}
+            isDisabled={isDisabled}
             loadOptions={loadOptions}
             onChange={val => {
               setValue(val);

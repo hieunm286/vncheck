@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { Modal } from 'react-bootstrap';
 import ModifyEntityDialogForm from './modify-entity-dialog-form';
 import { useIntl } from 'react-intl';
-import { ModifyModel } from '../common-types/common-type';
-import { ConvertSelectSearch, generateInitForm } from '../helpers/common-function';
-import { DefaultPagination } from '../common-consts/const';
+import { ModifyModel } from '../../../common-library/common-types/common-type';
+import { ConvertSelectSearch, generateInitForm } from '../../../common-library/helpers/common-function';
+import { DefaultPagination } from '../../../common-library/common-consts/const';
 
 function ModifyEntityDialog<T>({
   isShow,
@@ -31,7 +31,7 @@ function ModifyEntityDialog<T>({
   code?: string | null;
   get?: (code: string) => any | null;
   formPart?: any;
-  allFormField: any;
+  allFormField?: any;
   allFormButton?: any;
   validation?: any;
   autoFill?: any;
@@ -81,12 +81,12 @@ function ModifyEntityDialog<T>({
 
   return (
     <Modal show={isShow} onHide={onHide} aria-labelledby="example-modal-sizes-title-lg">
-      <Modal.Header closeButton className="border-bottom-0">
+      <Modal.Header closeButton>
         <Modal.Title id="example-modal-sizes-title" className="text-primary">
-          <span>{intl.formatMessage({ id: title }).toUpperCase()}</span>
+          <span>{intl.formatMessage({ id: title })}</span>
         </Modal.Title>
       </Modal.Header>
-
+      
       <ModifyEntityDialogForm
         modifyModel={modifyModel}
         formPart={formPart}

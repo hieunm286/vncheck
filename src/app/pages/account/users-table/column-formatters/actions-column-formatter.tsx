@@ -18,7 +18,7 @@ export function ActionsColumnFormatter(
       <a
         title="View user"
         className="btn btn-icon btn-light btn-hover-danger btn-sm visibility"
-        onClick={() => openEditUserDialog(row.username)}>
+        onClick={() => openEditUserDialog(row._id)}>
         <span className="svg-icon svg-icon-md svg-icon-danger">
           {/* <SVG src={ToAbsoluteUrl('/media/svg/icons/Communication/Write.svg')} /> */}
           <Visibility className="text-danger eye"/>
@@ -27,7 +27,7 @@ export function ActionsColumnFormatter(
       <a
         title="Edit user"
         className="btn btn-icon btn-light btn-hover-danger btn-sm mx-1"
-        onClick={() => openEditUserDialog(row.username)}>
+        onClick={() => openEditUserDialog(row._id)}>
         <span className="svg-icon svg-icon-md svg-icon-danger">
           <SVG src={ToAbsoluteUrl('/media/svg/icons/Communication/Write.svg')}/>
         </span>
@@ -35,7 +35,7 @@ export function ActionsColumnFormatter(
       <a
         title="Delete user"
         className="btn btn-icon btn-light btn-hover-danger btn-sm"
-        onClick={() => openDeleteUserDialog(row.username)}>
+        onClick={() => openDeleteUserDialog(row._id)}>
         <span className="svg-icon svg-icon-md svg-icon-danger">
           <SVG src={ToAbsoluteUrl('/media/svg/icons/General/Trash.svg')}/>
         </span>
