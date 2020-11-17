@@ -36,6 +36,7 @@ export function GetSelectRow<T>({
         
       return (
         <SelectionCheckbox
+          isFirstRow={true}
           isSelected={isSelected}
           onChange={() => {
             if (!isSelected) {
@@ -98,6 +99,16 @@ export function MasterTable<T>({
       setPaginationParams({ ...paginationParams, page });
     },
   };
+
+  const GetSort = (order: string) => {
+    if (order === '1') {
+      return 'asc'
+    }
+    return 'desc'
+  }
+
+  const sort = [{...SortDefault[0], order: GetSort(SortDefault[0].order)}]
+
   return (
     <PaginationProvider pagination={paginationFactory(paginationOptions)}>
       {({ paginationProps, paginationTableProps }) => {

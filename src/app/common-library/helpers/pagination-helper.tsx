@@ -101,8 +101,8 @@ export function onTableChange(
       setPaginationParams({
         ...paginationParams,
         page: 1,
-        orderBy: data.sortField,
-        orderType: data.sortOrder,
+        sortBy: data.sortField,
+        sortType: data.sortOrder,
       });
     }
     // setPaginationParams(type === "sort"

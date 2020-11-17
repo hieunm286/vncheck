@@ -24,4 +24,20 @@ a.menu-link.active {
   border-radius: 10px;
 } */
 
+.menu-item {
+  margin: 5px 11px !important;
+}
 
+.menu-item-submenu {
+  margin: 5px 11px !important;
+}
+
+.menu-item a.menu-link {
+  border-radius: 11px !important;
+  /* display: block; */
+}
+
+.menu-subnav .menu-item {
+  margin: 5px 0px !important;
+
+}

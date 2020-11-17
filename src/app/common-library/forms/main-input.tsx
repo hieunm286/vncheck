@@ -40,6 +40,34 @@ const getClassName = (labelWidth: number | null | undefined, labelStart: boolean
   return classes.join(' ');
 };
 
+const getError = (error: any, fieldName: string) => {
+  if (fieldName.indexOf('.') === -1) {
+    return error[fieldName]
+  }
+
+  const arrName = fieldName.split('.')
+
+  if (arrName.length === 3) {
+    return error[arrName[0]] ? error[arrName[0]][arrName[1]][arrName[2]] : ''
+  }
+
+  return error[arrName[0]] ? error[arrName[0]][arrName[1]] : ''
+}
+
+const getTouched = (touched: any, fieldName: string) => {
+  if (fieldName.indexOf('.') === -1) {
+    return touched[fieldName]
+  }
+
+  const arrName = fieldName.split('.')
+
+  if (arrName.length === 3) {
+    return touched[arrName[0]] ? touched[arrName[0]][arrName[1]][arrName[2]] : ''
+  }
+
+  return touched[arrName[0]] ? touched[arrName[0]][arrName[1]] : ''
+}
+
 interface MainInputState {
   field: any; // { name, value, onChange, onBlur }
   form: { touched: any; errors: any }; // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
@@ -74,6 +102,9 @@ export function MainInput({
     marginRight: 0,
   };
 
+  // console.log(errors)
+  // console.log(touched)
+
   return (
     <>
       <div className={isHorizontal && 'row'}>
@@ -92,7 +123,7 @@ export function MainInput({
             className={
               ['text', 'email', 'file', 'image', 'number'].includes(type)
                 ? withFeedbackLabel
-                  ? getFieldCSSClasses(touched[field.name], errors[field.name])
+                  ? getFieldCSSClasses(getTouched(touched, field.name), getError(errors, field.name))
                   : 'form-control'
                 : ''
             }
@@ -102,8 +133,8 @@ export function MainInput({
 
           {withFeedbackLabel && (
             <FieldFeedbackLabel
-              error={errors[field.name]}
-              touched={touched[field.name]}
+              error={getError(errors, field.name)}
+              touched={getTouched(touched, field.name)}
               label={label}
               type={type}
               customFeedbackLabel={customFeedbackLabel}

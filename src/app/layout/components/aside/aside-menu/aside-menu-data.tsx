@@ -17,7 +17,8 @@ export const MenuItems: MenuItemModel[] = [
         url: '/account/user',
         icon: <SVG src={ToAbsoluteUrl('/media/svg/vncheck/account.svg')} style={{width: '17px'}}/>,
       },
-      {title: 'MENU.USER.ROLE', url: '/account/role', icon: 'role.svg',}
+      {title: 'MENU.USER.ROLE', url: '/account/role', icon: 'role.svg',},
+      {title: 'MENU.USER.ORGANIZATION', url: '/account/organization', icon: 'role.svg'}
     ]
   },
   {
@@ -25,15 +26,15 @@ export const MenuItems: MenuItemModel[] = [
     title: 'MENU.DATA',
     children: [
       {
+        title: 'MENU.DATA.CATEGORY.BATCH',
+        url: '/land-lot',
+        icon: (<ImageOutlinedIcon style={{width: '17px'}} htmlColor='#888C9F'/>)
+      },
+      {
         title: 'MENU.DATA.CATEGORY',
         url: '/category',
         icon: 'product.svg',
         children: [
-          {
-            title: 'MENU.DATA.CATEGORY.BATCH',
-            url: '/category/BATCH',
-            icon: (<ImageOutlinedIcon style={{width: '17px'}} htmlColor='#888C9F'/>)
-          },
           {
             title: 'MENU.DATA.CATEGORY.PRODUCT',
             url: '/category/PRODUCT',
@@ -61,6 +62,19 @@ export const MenuItems: MenuItemModel[] = [
           {title: 'MENU.DATA.AGENCY.AGENCY_TYPE', url: '/agency-type', icon: 'distributor-type.svg',},
         ],
       },
+      {
+        title: 'MENU.DATA.PRODUCT',
+        url: '/product',
+        icon: 'distributor-1.svg',
+        children: [
+          {
+            title: 'MENU.DATA.PRODUCT.PRODUCT_TYPE',
+            url: '/product-type',
+            icon: 'distributor-2.svg',
+          },
+          {title: 'MENU.DATA.PRODUCT.PACK', url: '/product-packaging', icon: 'distributor-type.svg',},
+        ],
+      }
     ]
   },
   {section: true, title: 'MENU.QRCODE',},

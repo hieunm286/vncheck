@@ -29,7 +29,7 @@ export function DeleteEntityDialog<T>({
       dialogClassName="modal-detail">
 
       <Modal.Header closeButton>
-        <Modal.Title id="example-modal-sizes-title-lg" className="text-danger">
+        <Modal.Title id="example-modal-sizes-title-lg" className="text-primary">
           {intl
             .formatMessage({ id: title }, { moduleName: intl.formatMessage({ id: moduleName }) })
             .toUpperCase()}
@@ -55,12 +55,12 @@ export function DeleteEntityDialog<T>({
       </Modal.Body>
 
       <Modal.Footer>
-        <button type="button" className="btn btn-danger" onClick={e => onDelete(entity)}>
+        <button type="button" className="btn btn-primary" onClick={e => onDelete(entity)}>
           <DeleteIcon style={iconStyle} />
           {intl.formatMessage({ id: deleteBtn })}
         </button>
 
-        <button type="button" onClick={onHide} className="btn btn-outline-danger">
+        <button type="button" onClick={onHide} className="btn btn-outline-primary">
           <CancelOutlinedIcon style={iconStyle} />
           {intl.formatMessage({ id: cancelBtn })}
         </button>

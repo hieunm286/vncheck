@@ -3,9 +3,31 @@ import {actionTypes} from '../app/pages/auth/_redux/auth-redux';
 import {AxiosStatic} from "axios";
 import {EnhancedStore} from "@reduxjs/toolkit";
 
+const GetURLEndPoint = (url: string) => {
+  const index = url.indexOf('/api/');
+  const lastIndex = url.lastIndexOf('/')
+
+  if (index ===-1 && lastIndex === -1) return url;
+
+  let endPoint: string = '';
+
+  if (lastIndex - index === 4) {
+    endPoint = url.substring(lastIndex + 1)
+  } else {
+    endPoint = url.substring(index + 5, lastIndex)
+  }
+
+  const re = /-/gi
+  let finalEndPoint= endPoint.replace(re, '_');
+
+  return finalEndPoint;
+}
+
+
 export default function setupAxios(axios: AxiosStatic, store: EnhancedStore) {
   axios.interceptors.request.use(
     (config) => {
+      console.log(config);
       const {auth} = store.getState();
       if (auth) {
         config.headers.Authorization = `${JSON.stringify(auth._certificate)}`;
@@ -24,10 +46,21 @@ export default function setupAxios(axios: AxiosStatic, store: EnhancedStore) {
               // const or: any = {...config.data};
               config.data = {
                 ...config.data,
+                actionType: ('' + config.method + ':' + GetURLEndPoint(config.url ? config.url : '')).toUpperCase(),
                 _signature: signature,
               };
             }
           }
+        } else {
+          config.data = {
+            actionType: ('' + config.method + ':' + GetURLEndPoint(config.url ? config.url : '')).toUpperCase(),
+          };
+
+          const signature = SignMessage(auth._privateKey, config.data);
+          config.data = {
+            ...config.data,
+            _signature: signature,
+          };
         }
       }
       return config;

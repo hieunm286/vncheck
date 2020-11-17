@@ -5,15 +5,14 @@ import { useIntl } from 'react-intl';
 import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import * as Yup from 'yup';
-import { MainInput } from '../forms/main-input';
-import { DefaultPagination, iconStyle } from '../common-consts/const';
-import { ModifyModel } from '../common-types/common-type';
-import CustomImageUpload from '../forms/custom-image-upload';
-import { getNewImage, getOnlyFile } from '../helpers/common-function';
-import { Card, CardBody, CardHeader } from '../card';
-import { uploadImage } from '../../pages/purchase-order/purchase-order.service';
-import ModifyEntityPage from './modify-entity-page';
-import { diff } from 'deep-object-diff';
+import { MainInput } from '../../../common-library/forms/main-input';
+import { DefaultPagination, iconStyle } from '../../../common-library/common-consts/const';
+import { ModifyModel } from '../../../common-library/common-types/common-type';
+import CustomImageUpload from '../../../common-library/forms/custom-image-upload';
+import { getNewImage, getOnlyFile } from '../../../common-library/helpers/common-function';
+import { Card, CardBody, CardHeader } from '../../../common-library/card';
+import { uploadImage } from '../../../pages/purchase-order/purchase-order.service';
+import ModifyEntityPageLandLot from './modify-entity-page-land-lot';
 
 function ModifyEntityDialogForm<T>({
   entity,
@@ -21,9 +20,9 @@ function ModifyEntityDialogForm<T>({
   onModify,
   modifyModel,
   formPart,
-  validation,
+  validation
 }: {
-  entity: any;
+  entity: T;
   onHide: () => void;
   onModify: (values: any) => void;
   modifyModel: ModifyModel;
@@ -73,6 +72,7 @@ function ModifyEntityDialogForm<T>({
     };
   };
 
+
   const onChange = (imageList: any, addUpdateIndex: any, key: any) => {
     const imageArray = getOnlyFile(imageList);
 
@@ -91,23 +91,18 @@ function ModifyEntityDialogForm<T>({
     setImages({ ...images, [key]: imageList });
     setImageRootArr(imageArray);
   };
-
+  
   return (
     <Formik
       enableReinitialize={true}
       initialValues={entity}
       validationSchema={validation}
       onSubmit={values => {
-        if (entity._id) {
-          const updateValue = diff(entity, values);
-          onModify({ _id: values._id, ...updateValue });
-        } else {
-          onModify(values)
-        } 
-
-        onHide();
+        console.log(values)
+        onHide()
+        onModify(values);
       }}>
-      {({ handleSubmit }) => (
+      {({ values, handleSubmit, handleBlur, handleChange, setFieldValue, resetForm }) => (
         <>
           <Modal.Body className="overlay overlay-block cursor-default">
             {/* {actionsLoading && (
@@ -115,7 +110,7 @@ function ModifyEntityDialogForm<T>({
                             <div className="spinner spinner-lg spinner-success"/>
                         </div>
                     )} */}
-            <Form className="form form-label-right">
+             <Form className="form form-label-right">
               {Object.keys(formPart).map(key => (
                 <React.Fragment key={key}>
                   {/* {formPart[key].header && (
@@ -131,17 +126,20 @@ function ModifyEntityDialogForm<T>({
                       }
                     
                   )} */}
-                  <ModifyEntityPage
-                    images={images}
-                    onChange={(imageList: any, addUpdateIndex: any, key: any) => {
-                      onChange(imageList, addUpdateIndex, key);
-                    }}
-                    modifyModel={formPart[key].modifyModel as any}
-                    column={formPart[key].modifyModel.length}
-                    title={formPart[key].title}
-                    search={search}
-                    setSearch={setSearch}
-                  />
+                    <ModifyEntityPageLandLot
+                      images={images}
+                      onChange={(imageList: any, addUpdateIndex: any, key: any) => {
+                        onChange(imageList, addUpdateIndex, key);
+                      }}
+                      values={values}
+                      handleChange={handleChange}
+                      setFieldValue={setFieldValue}
+                      modifyModel={formPart[key].modifyModel as any}
+                      column={formPart[key].modifyModel.length}
+                      title={formPart[key].title}
+                      search={search}
+                      setSearch={setSearch}
+                    />
                 </React.Fragment>
               ))}
             </Form>

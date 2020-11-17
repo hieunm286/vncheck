@@ -1,5 +1,6 @@
 import React from 'react';
 import './custom.css';
+import { useField, useFormikContext } from 'formik';
 
 const getFieldCSSClasses = (touched: any, errors: any) => {
   const classes = ['form-control'];
@@ -22,6 +23,8 @@ export function Input({
   type = 'text',
   ...props
 }: any) {
+  const { setFieldValue } = useFormikContext<any>();
+  const [values, setValue] = React.useState(null);
   return (
     <>
       <div className={isHorizontal && 'd-flex mt-3'}>
