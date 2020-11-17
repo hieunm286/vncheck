@@ -22,8 +22,6 @@ export function InfiniteSelect({
   const { setFieldValue, errors, touched } = useFormikContext<any>();
   const [values, setValue] = React.useState(null);
 
-  console.log(errors)
-
   return (
     <>
       <div className={isHorizontal ? 'row' : ''}>

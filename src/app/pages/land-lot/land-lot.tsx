@@ -30,7 +30,7 @@ import { isArray, isNull } from 'lodash';
 import MasterGoogleMap from '../../common-library/common-components/master-google-map';
 import MasterMap from '../../common-library/common-components/master-google-map-other';
 import * as Yup from 'yup';
-import { stringOnChange } from './helpers/autofill';
+import { stringOnChange, searchSelectOnChange } from './helpers/autofill';
 
 const DataExample: any = [
   {
@@ -491,6 +491,7 @@ function LandLot() {
             onSearch={setFilterProps}
             searchModel={purchaseOrderSearchModel}
             stringOnChange={stringOnChange}
+            searchSelectOnChange={searchSelectOnChange}
             initValue={{
               code: '',
               lot: '',
