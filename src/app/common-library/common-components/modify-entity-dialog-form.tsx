@@ -13,6 +13,7 @@ import { getNewImage, getOnlyFile } from '../helpers/common-function';
 import { Card, CardBody, CardHeader } from '../card';
 import { uploadImage } from '../../pages/purchase-order/purchase-order.service';
 import ModifyEntityPage from './modify-entity-page';
+import { diff } from 'deep-object-diff';
 
 function ModifyEntityDialogForm<T>({
   entity,
@@ -20,9 +21,9 @@ function ModifyEntityDialogForm<T>({
   onModify,
   modifyModel,
   formPart,
-  validation
+  validation,
 }: {
-  entity: T;
+  entity: any;
   onHide: () => void;
   onModify: (values: any) => void;
   modifyModel: ModifyModel;
@@ -72,7 +73,6 @@ function ModifyEntityDialogForm<T>({
     };
   };
 
-
   const onChange = (imageList: any, addUpdateIndex: any, key: any) => {
     const imageArray = getOnlyFile(imageList);
 
@@ -91,16 +91,21 @@ function ModifyEntityDialogForm<T>({
     setImages({ ...images, [key]: imageList });
     setImageRootArr(imageArray);
   };
-  
+
   return (
     <Formik
       enableReinitialize={true}
       initialValues={entity}
       validationSchema={validation}
       onSubmit={values => {
-        console.log(values)
-        onHide()
-        onModify(values);
+        if (entity._id) {
+          const updateValue = diff(entity, values);
+          onModify({ _id: values._id, ...updateValue });
+        } else {
+          onModify(values)
+        } 
+
+        onHide();
       }}>
       {({ handleSubmit }) => (
         <>
@@ -110,7 +115,7 @@ function ModifyEntityDialogForm<T>({
                             <div className="spinner spinner-lg spinner-success"/>
                         </div>
                     )} */}
-             <Form className="form form-label-right">
+            <Form className="form form-label-right">
               {Object.keys(formPart).map(key => (
                 <React.Fragment key={key}>
                   {/* {formPart[key].header && (
@@ -126,17 +131,17 @@ function ModifyEntityDialogForm<T>({
                       }
                     
                   )} */}
-                    <ModifyEntityPage
-                      images={images}
-                      onChange={(imageList: any, addUpdateIndex: any, key: any) => {
-                        onChange(imageList, addUpdateIndex, key);
-                      }}
-                      modifyModel={formPart[key].modifyModel as any}
-                      column={formPart[key].modifyModel.length}
-                      title={formPart[key].title}
-                      search={search}
-                      setSearch={setSearch}
-                    />
+                  <ModifyEntityPage
+                    images={images}
+                    onChange={(imageList: any, addUpdateIndex: any, key: any) => {
+                      onChange(imageList, addUpdateIndex, key);
+                    }}
+                    modifyModel={formPart[key].modifyModel as any}
+                    column={formPart[key].modifyModel.length}
+                    title={formPart[key].title}
+                    search={search}
+                    setSearch={setSearch}
+                  />
                 </React.Fragment>
               ))}
             </Form>
