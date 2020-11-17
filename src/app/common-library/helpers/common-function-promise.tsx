@@ -53,12 +53,16 @@ export function InitMasterProps<T>({
       setLoading(true);
       getAllServer({ paginationProps, queryProps: filterProps })
         .then(getAllResponse => {
-          countServer(filterProps).then(countResponse => {
-            console.log(getAllResponse);
-            setEntities(getAllResponse.data);
+          // countServer(filterProps).then(countResponse => {
+          //   setEntities(getAllResponse.data);
+          //   setLoading(false);
+          //   setTotal(countResponse.data);
+          // });
+          const data: any = getAllResponse.data
+          console.log(data.data)
+          setEntities(data.data);
             setLoading(false);
-            setTotal(countResponse.data);
-          });
+            setTotal(data.paging.total);
         })
         .catch(error => {
           console.log(error);
