@@ -27,12 +27,24 @@ export function MasterHeader<T>({
   searchModel,
   initValue,
   stringOnChange,
+  searchSelectOnChange,
 }: {
   searchModel: SearchModel;
   title: string;
   initValue: any;
   onSearch: (data: any) => void;
   stringOnChange?: (e: ChangeEvent<HTMLInputElement>, searchM: any, search: any, onChange: any, key: string, handleChange: any, setFieldValue: any, setIsDisabled: any, isDisabeld: any) => void;
+  searchSelectOnChange?: (
+    value: any,
+    values: any,
+    searchM: any, 
+    search: any, 
+    setSearch: any, 
+    key: string, 
+    handleChange: any, 
+    setFieldValue: any, 
+    setIsDisabled: any, 
+    isDisabled: any) => void;
 }) {
   const intl = useIntl();
 
@@ -40,10 +52,11 @@ export function MasterHeader<T>({
 
   const [search, setSearch] = useState<any>(initValue);
 
-  let _disabled = {}
+  let _disabled : any = {};
   Object.keys(initValue).forEach((field) => {
     _disabled = {..._disabled, [field]: false};
   });
+  _disabled.subLot = true;
 
   const [isDisabled, setIsDisabled] = useState<any>(_disabled);
 
@@ -54,6 +67,12 @@ export function MasterHeader<T>({
     resetForm();
     // onSearch(initValue);
     setSearch(initValue);
+    // reset disable
+    let _disabled = {}
+    Object.keys(initValue).forEach((field) => {
+      _disabled = {..._disabled, [field]: false};
+    });
+    setIsDisabled(_disabled);
   };
   // const loadOptions = async (search: string, prevOptions: any, service: any, keyField: string) => {
   //   return new Promise<{ options: { label: string; value: string }[]; hasMore: boolean }>(
@@ -123,6 +142,7 @@ export function MasterHeader<T>({
           initialValues={initValue}
           onSubmit={values => {
             onSearch(values);
+            console.log(values);
           }}
           onReset={data => {
             onSearch(data);
@@ -141,6 +161,11 @@ export function MasterHeader<T>({
                             <Field
                               name={key}
                               // value={search[key]}
+                              disabled={
+                                isDisabled ? 
+                                isDisabled[key]
+                                : false
+                              }
                               onChange={(e: ChangeEvent<HTMLInputElement>) => {
                                 if(stringOnChange) {
                                   stringOnChange(e, searchM, search, setSearch, key, handleChange, setFieldValue, setIsDisabled, isDisabled);
@@ -204,6 +229,12 @@ export function MasterHeader<T>({
                               isHorizontal={false}
                               value={search[key]}
                               onChange={(value: any) => {
+                                if(searchSelectOnChange) {
+                                  searchSelectOnChange(
+                                    value, values, searchM, search, setSearch, key, handleChange, setFieldValue, setIsDisabled, isDisabled
+                                  );
+
+                                }
                                 setSearch({ ...search, [key]: value });
                                 // setSearchTerm({
                                 //   ...searchTerm,

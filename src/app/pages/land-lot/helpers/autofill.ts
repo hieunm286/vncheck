@@ -22,6 +22,10 @@ export const stringOnChange = (
             newStateWithTheseDisabled(isDisabled, ['lot', 'subLot'])
           );
           handleChange(e);
+
+          setFieldValue(key, value);
+          setFieldValue('subLot', value.substring(1, value.length));  
+
           setSearch({
             ...search, 
             [key]: value,
@@ -35,7 +39,11 @@ export const stringOnChange = (
             newStateWithTheseDisabled(isDisabled, ['lot', 'subLot'])
           );
           handleChange(e);
+
           setFieldValue('code', value.toUpperCase());
+          setFieldValue('lot', value);
+          setFieldValue('subLot', '');
+
           setSearch({
             ...search, 
             [key]: value,
@@ -49,6 +57,10 @@ export const stringOnChange = (
           newStateWithTheseEnabled(isDisabled, Object.keys(isDisabled))
         );
         handleChange(e);
+
+        setFieldValue('lot', value);
+        setFieldValue('subLot', '');
+
         setSearch({
           ...search, 
           [key]: value,
@@ -66,8 +78,9 @@ export const stringOnChange = (
   };
 
   
-export const searchSelecteOnChange = (
-  e: ChangeEvent<HTMLInputElement>, 
+export const searchSelectOnChange = (
+  value: any, 
+  values: any,
   searchM: any, 
   search: any, 
   setSearch: any, 
@@ -76,7 +89,33 @@ export const searchSelecteOnChange = (
   setFieldValue: any, 
   setIsDisabled: any, 
   isDisabled: any) => {
-    const value = e.target.value.toUpperCase();
+    if(searchM[key].keyField === "lot") {
+      if(value) {
+        setIsDisabled({...isDisabled, code: true, subLot: false});
+        // setIsDisabled(
+        //   newStateWithTheseDisabled(isDisabled, ['code'])
+        // );
+        // setIsDisabled(
+        //   newStateWithTheseEnabled(isDisabled, ['subLot'])
+        // );
+        setFieldValue('code', value.label + values.subLot);
+        setFieldValue('subLot', '')
+        setSearch({...search, code: value.label, subLot: {value: value.value, label: value.label}});
+      }
+    }
+
+    if(searchM[key].keyField === "subLot") {
+      if(value) {
+        setIsDisabled(
+          newStateWithTheseDisabled(isDisabled, ['code'])
+        );
+        setFieldValue('code', values.code + value.label);
+        // const newSearch = {...search, code: values.code + value.label, subLot: {value: value.value, label: value.label}};
+        // console.log(newSearch)
+        setSearch({...search, code: values.code + value.label, subLot: {value: value.value, label: value.label}});
+      }
+    }
+    
 
 }
 
