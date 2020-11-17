@@ -49,7 +49,13 @@ export const GetAll: GetAllProps<LandLotModel> = ({
   return new Promise((resolve, reject) => {
     // : AxiosResponse<LandLotModel[]> 
     const response = {
-      data: entities,
+      data: {
+        data: entities,
+        paging: {
+          page: 1,
+          total: entities.length,
+        }
+      } as any,
       status: 200,
       statusText: 'OK',
       headers: 'Header oc cho',
@@ -67,7 +73,7 @@ export const Count: CountProps<LandLotModel> = ({
   return new Promise((resolve, reject) => {
     // : AxiosResponse<LandLotModel[]> 
     const response = {
-      data: entities.length,
+      data: { data: entities.length },
       status: 200,
       statusText: 'OK',
       headers: 'Header oc cho',

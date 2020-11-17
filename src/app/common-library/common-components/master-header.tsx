@@ -118,9 +118,9 @@ export function MasterHeader<T>({
     const entities = onFetch ? await onFetch({ queryProps, paginationProps }) : await service.GetAll({ queryProps, paginationProps });
     const count = onCount ? await onCount({ queryProps }) : await service.Count({ queryProps });
 
-    const hasMore = prevOptions.length < count.data - (DefaultPagination.limit ?? 0);
+    const hasMore = prevOptions.length < count.data.data - (DefaultPagination.limit ?? 0);
 
-    const data = [...new Set(entities.data)];
+    const data = [...new Set(entities.data.data)];
 
     return {
       options: data.map((e: any) => {
