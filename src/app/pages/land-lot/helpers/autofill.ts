@@ -100,7 +100,7 @@ export const searchSelectOnChange = (
         // );
         setFieldValue('code', value.label + values.subLot);
         setFieldValue('subLot', '')
-        setSearch({...search, code: value.label, subLot: {value: value.value, label: value.label}});
+        setSearch({...search, code: value.label, subLot: {value: '', label: ''}});
       }
     }
 
@@ -109,10 +109,10 @@ export const searchSelectOnChange = (
         setIsDisabled(
           newStateWithTheseDisabled(isDisabled, ['code'])
         );
-        setFieldValue('code', values.code + value.label);
+        setFieldValue('code', values.lot + value.label);
         // const newSearch = {...search, code: values.code + value.label, subLot: {value: value.value, label: value.label}};
         // console.log(newSearch)
-        setSearch({...search, code: values.code + value.label, subLot: {value: value.value, label: value.label}});
+        setSearch({...search, code: values.lot + value.label, subLot: {value: value.value, label: value.label}});
       }
     }
     
