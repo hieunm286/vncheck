@@ -48,11 +48,16 @@ export const GetAll: GetAllProps<LandLotModel> = ({
   // return response;
   return new Promise((resolve, reject) => {
     // : AxiosResponse<LandLotModel[]> 
+    const page = (paginationProps && paginationProps.page) ? paginationProps.page : 1;
+    const limit = (paginationProps && paginationProps.limit) ? paginationProps.limit : 5;
+    const data = entities.slice(page * limit - limit, page * limit);
+
     const response = {
       data: {
-        data: entities,
+        data: data,
         paging: {
-          page: 1,
+          page: page,
+          limit: limit,
           total: entities.length,
         }
       } as any,
@@ -72,8 +77,17 @@ export const Count: CountProps<LandLotModel> = ({
 }) => {
   return new Promise((resolve, reject) => {
     // : AxiosResponse<LandLotModel[]> 
+    const page = (paginationProps && paginationProps.page) ? paginationProps.page : 1;
+    const limit = (paginationProps && paginationProps.limit) ? paginationProps.limit : 5;
     const response = {
-      data: { data: entities.length },
+      data: {
+        data: entities.length,
+        paging: {
+          page: page,
+          limit: limit,
+          total: entities.length,
+        }
+      },
       status: 200,
       statusText: 'OK',
       headers: 'Header oc cho',
