@@ -9,7 +9,7 @@
 }
 
 .menu-icon svg {
-  fill: green
+  fill: #0B9446
 }
 
 .menu-link:hover svg path {
@@ -40,11 +40,11 @@
 
 .menu-item-open a.menu-toggle {
   background-color: white !important;
-  color: green !important
+  color: #0B9446 !important
 }
 
 .menu-item-open a.menu-toggle:hover {
-  background-color: green !important;
+  background-color: #0B9446 !important;
 }
 
 .menu-item-open a.menu-toggle:hover span {
@@ -52,5 +52,5 @@
 }
 
 .menu-item-open a.menu-toggle span {
-  color: green !important
+  color: #0B9446 !important
 }
