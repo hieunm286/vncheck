@@ -12,7 +12,7 @@ export const createBasicUnit = (data: any) => {
 export const getAllBasicUnit = (queryParams: queryParamsProps) => {
   const { limit, pageNumber, sortOrder, sortField } = queryParams;
   return axios.get(
-    `${BASIC_UNIT_API_URL}?page=${pageNumber}&limit=${limit}&sortBy=${sortField}&orderBy=${sortOrder}`,
+    `${BASIC_UNIT_API_URL}?page=${pageNumber}&limit=${limit}&sortBy=${sortField}&sortBy=${sortOrder}`,
   );
 };
 

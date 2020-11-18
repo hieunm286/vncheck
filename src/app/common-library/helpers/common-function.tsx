@@ -17,14 +17,14 @@ export const CapitalizeFirstLetter = (string: string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
 };
 
-export const generateInitForm = (modifyModel: any) => {
+export const generateInitForm = (modifyModel: any, initField?: string, initData?: string) => {
   const initValue = {} as any;
 
   Object.keys(modifyModel).map(key => {
     if (modifyModel[key].type === 'string') {
       initValue[key] = '';
     } else if (modifyModel[key].type === 'number') {
-      initValue[key] = undefined;
+      initValue[key] = 0;
     } else if (modifyModel[key].type === 'SearchSelect') {
       initValue[key] = null;
     } else if (modifyModel[key].type === 'Datetime') {
@@ -44,6 +44,10 @@ export const generateInitForm = (modifyModel: any) => {
     }
   });
 
+  if (initField && initData) {
+    initValue[initField] = initData;
+  }
+  
   return initValue;
 };
 
@@ -108,10 +112,48 @@ export const GenerateAllFormField = (...params: any) => {
     }
   })
 
-  console.log(fieldForm)
-
   return fieldForm;
 }
+
+export const GetHomePage = (url: string) => {
+
+  const index = url.lastIndexOf('/')
+
+  if (index === -1) return window.location.pathname;
+
+  const homeURL: string = url.slice(0, index)
+
+  return homeURL;
+}
+
+export const ConvertSelectSearch = (entity: any, keyField?: string[]) => {
+
+  if (!entity) return;
+
+  const convertEntity = {...entity};
+
+  if (keyField && keyField.length > 0) {
+
+    keyField.forEach((field: string) => {
+      convertEntity[field] = { label: convertEntity[field], value: entity._id }
+    })
+
+    return convertEntity;
+  }
+
+  return convertEntity;
+}
+
+// export const ExportFieldOfSelectSearch = (formPart: any) => {
+//   const fieldArr = [];
+
+//   Object.keys(formPart).forEach(key => {
+//     formPart[key].modifyModel.forEach(item => {
+//       if ()
+//     })
+//   })
+
+// }
 
 export function InitMasterProps<T>({
   getAllServer,
@@ -143,9 +185,9 @@ export function InitMasterProps<T>({
   const [showDeleteMany, setShowDeleteMany] = useState(false);
   const [trigger, setTrigger] = useState(false);
   const [paginationProps, setPaginationProps] = useState(DefaultPagination);
-  const [filterProps, setFilterProps] = useState({ name: '', code: '' });
+  const [filterProps, setFilterProps] = useState();
   const [total, setTotal] = useState(0);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -154,14 +196,19 @@ export function InitMasterProps<T>({
       setLoading(true);
       getAllServer({ paginationProps, queryProps: filterProps })
         .then(getAllResponse => {
-          countServer(filterProps).then(countResponse => {
-            setEntities(getAllResponse.data);
+          // countServer(filterProps).then(countResponse => {
+          //   setEntities(getAllResponse.data);
+          //   setLoading(false);
+          //   setTotal(countResponse.data);
+          // });
+          const data: any = getAllResponse.data
+          setEntities(data.data);
             setLoading(false);
-            setTotal(countResponse.data);
-          });
+            setTotal(data.paging.total);
         })
         .catch(error => {
           console.log(error);
+          setLoading(false);
         });
     },
     [paginationProps],
@@ -179,7 +226,10 @@ export function InitMasterProps<T>({
     setLoading(false);
   };
   const deleteFn = (entity: T) => {
-    deleteServer(entity).then(refreshData);
+    deleteServer(entity).then(refreshData).catch(error => {
+      console.log(error)
+      setLoading(false);
+    });
   };
 
   const deleteMany = () => {
@@ -188,6 +238,7 @@ export function InitMasterProps<T>({
       .then(refreshData)
       .catch(error => {
         console.log(error);
+        setLoading(false);
       });
   };
 
@@ -270,10 +321,10 @@ export function InitMasterProps<T>({
 //   console.log(111);
 //   const orderParams = Object.keys(params.sortList).reduce((pre, current, i) => {
 //     return {
-//       orderBy: pre.orderBy + (i == 0 ? '' : ',') + current,
-//       orderType: pre.orderType + (i == 0 ? '' : ',') + params.sortList[current]
+//       sortBy: pre.sortBy + (i == 0 ? '' : ',') + current,
+//       sortType: pre.sortType + (i == 0 ? '' : ',') + params.sortList[current]
 //     }
-//   }, {orderBy: '', orderType: ''});
+//   }, {sortBy: '', sortType: ''});
 //   const res = Object.entries({
 //     ...params,
 //     sortList: undefined, ...orderParams

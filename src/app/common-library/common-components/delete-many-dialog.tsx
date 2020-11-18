@@ -30,7 +30,7 @@ function DeleteManyDialog<T>({
       {/*end::Loading*/}
 
       <Modal.Header closeButton>
-        <Modal.Title id="example-modal-sizes-title-lg" className="text-danger">
+        <Modal.Title id="example-modal-sizes-title-lg" className="text-primary">
           {intl
             .formatMessage({ id: title }, { moduleName: intl.formatMessage({ id: moduleName }) })
             .toUpperCase()}
@@ -72,12 +72,12 @@ function DeleteManyDialog<T>({
       <Modal.Footer>
         <div>
           {selectedEntities && selectedEntities.length > 0 && (
-            <button type="button" onClick={() => onDelete()} className="btn btn-danger mr-3">
+            <button type="button" onClick={() => onDelete()} className="btn btn-primary mr-3">
               <DeleteIcon /> {intl.formatMessage({ id: deleteBtn })}
             </button>
           )}
           
-          <button type="button" onClick={() => onHide()} className="btn btn-outline-danger">
+          <button type="button" onClick={() => onHide()} className="btn btn-outline-primary">
             <CancelOutlinedIcon />
             {intl.formatMessage({ id: cancelBtn })}
           </button>

@@ -2,7 +2,7 @@ import React, { Fragment, useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import { Count, Create, Delete, DeleteMany, Get, GetAll, Update } from './purchase-order.service';
 import { PurchaseOrderModel } from './purchase-order.model';
-import { NormalColumn, SortColumn, StatusValue } from '../../common-library/common-consts/const';
+import { DefaultPagination, NormalColumn, SortColumn, StatusValue } from '../../common-library/common-consts/const';
 import { MasterHeader } from '../../common-library/common-components/master-header';
 import { MasterEntityDetailDialog } from '../../common-library/common-components/master-entity-detail-dialog';
 import { MasterBody } from '../../common-library/common-components/master-body';
@@ -106,13 +106,14 @@ const PurchaseOrderSchema = Yup.object().shape({
     .matches(/[0-9]$/u, {
       message: 'Vui lòng nhập tên đúng định dạng',
     }),
-  // time: Yup.date().required('Vui lòng nhập date'),
-  // time2: Yup.date().required('Vui lòng nhập date'),
-  // quantity: Yup.number().required('Vui lòng nhập số lượng'),
+  time: Yup.date().required('Vui lòng nhập date'),
+  time2: Yup.date().required('Vui lòng nhập date'),
+  quantity: Yup.number().required('Vui lòng nhập số lượng'),
   agency: Yup.object().shape({
     name: Yup.string().required('Name ko đc để trống'),
     taxId: Yup.string().required('TaxId ko đc để trống'),
   }),
+  staff: Yup.array().min(1, 'Nhân viên ko đc để trống')
 });
 
 function PurchaseOrder() {
@@ -359,6 +360,11 @@ function PurchaseOrder() {
             placeholder: 'Tax',
           },
         },
+        staff: {
+          type: 'tag',
+          label: 'Nhân viên',
+          placeholder: 'Nhân viên',
+        }
       },
     },
     // {
@@ -388,22 +394,25 @@ function PurchaseOrder() {
 
   const modifyModel_3 = [
     {
-      time: {
-        type: 'Datetime',
-        placeholder: 'Thời gian thu hoạch',
-        label: 'Thời gian thu hoạch',
-        required: true,
-      },
-      time2: {
-        type: 'Datetime',
-        placeholder: 'Thời gian thu hoạch2',
-        label: 'Thời gian thu hoạch2',
-      },
-      quantity: {
-        type: 'number',
-        label: 'Sản lượng thu hoạch (kg)',
-        placeholder: 'Sản lượng',
-        required: true,
+      title: '',
+      data: {
+        time: {
+          type: 'Datetime',
+          placeholder: 'Thời gian thu hoạch',
+          label: 'Thời gian thu hoạch',
+          required: true,
+        },
+        time2: {
+          type: 'Datetime',
+          placeholder: 'Thời gian thu hoạch2',
+          label: 'Thời gian thu hoạch2',
+        },
+        quantity: {
+          type: 'number',
+          label: 'Sản lượng thu hoạch (kg)',
+          placeholder: 'Sản lượng',
+          required: true,
+        },
       },
     },
   ];
@@ -465,10 +474,10 @@ function PurchaseOrder() {
     //   title: 'Thông tin quản trị',
     //   modifyModel: modifyModel_2,
     // },
-    // form_3: {
-    //   title: 'Thông tin thu hoạch',
-    //   modifyModel: modifyModel_3,
-    // },
+    form_3: {
+      title: 'Thông tin thu hoạch',
+      modifyModel: modifyModel_3,
+    },
     // form_4: {
     //   title: 'Thông tin test',
     //   modifyModel: modifyModel_4,
@@ -482,7 +491,7 @@ function PurchaseOrder() {
   const allFormField: any = {
     ...GenerateAllFormField(
       modifyModel,
-      // modifyModel_3,
+      modifyModel_3,
       // , modifyModel_2, modifyModel_3, modifyModel_4
     ),
   };
@@ -627,10 +636,14 @@ function PurchaseOrder() {
         <Route path="/purchase-order">
           <MasterHeader
             title={headerTitle}
-            onSearch={setFilterProps}
+            onSearch={(value) => {
+              setPaginationProps({ ...DefaultPagination, page: 1 })
+              console.log(paginationProps)
+              setFilterProps(value)
+            }}
             searchModel={purchaseOrderSearchModel}
             initValue={{
-              code: null,
+              code: { label: 'ccc', value: 'cccc' },
               agencyAddress: null,
               agency: null,
               date: '',

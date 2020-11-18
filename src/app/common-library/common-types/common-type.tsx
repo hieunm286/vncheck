@@ -3,8 +3,15 @@ import { AxiosResponse } from 'axios';
 export interface PaginationProps {
   limit: number | undefined;
   page: number | undefined;
-  orderType: string;
-  orderBy: string;
+  sortType: string;
+  sortBy: string;
+}
+
+export interface PaginationPropsV2 {
+  limit: number | undefined;
+  page: number | undefined;
+  sortType: string;
+  sortBy: string;
 }
 
 export interface SortProps {
@@ -105,7 +112,7 @@ export type GetAllProps<T> = ({
 }: {
   queryProps: any;
   sortList?: SortProps[];
-  paginationProps?: PaginationProps;
+  paginationProps?: PaginationProps | PaginationPropsV2;
 }) => Promise<AxiosResponse<T[]>>;
 
 export type CountProps<T> = ({

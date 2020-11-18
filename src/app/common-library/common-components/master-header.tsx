@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { Field, Formik } from 'formik';
 import SearchIcon from '@material-ui/icons/Search';
@@ -8,7 +8,7 @@ import SVG from 'react-inlinesvg';
 import { ToAbsoluteUrl } from '../helpers/assets-helpers';
 import { SearchModel } from '../common-types/common-type';
 // import InfiniteScroll from 'react-infinite-scroll-component';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import * as AgencyService from '../../pages/purchase-order/agency.service';
 import { AsyncPaginate } from 'react-select-async-paginate';
 import { DefaultPagination } from '../common-consts/const';
@@ -26,30 +26,53 @@ export function MasterHeader<T>({
   onSearch,
   searchModel,
   initValue,
+  stringOnChange,
+  searchSelectOnChange,
 }: {
   searchModel: SearchModel;
   title: string;
   initValue: any;
   onSearch: (data: any) => void;
+  stringOnChange?: (e: ChangeEvent<HTMLInputElement>, searchM: any, search: any, onChange: any, key: string, handleChange: any, setFieldValue: any, setIsDisabled: any, isDisabeld: any) => void;
+  searchSelectOnChange?: (
+    value: any,
+    values: any,
+    searchM: any, 
+    search: any, 
+    setSearch: any, 
+    key: string, 
+    handleChange: any, 
+    setFieldValue: any, 
+    setIsDisabled: any, 
+    isDisabled: any) => void;
 }) {
   const intl = useIntl();
 
   const searchM: any = { ...searchModel };
 
-  const [search, onChange] = useState<any>(initValue);
+  const [search, setSearch] = useState<any>(initValue);
 
-  const [searchTerm, setSearchTerm] = useState({
-    code: '',
-    agencyAddress: '',
-    agency: '',
+  let _disabled : any = {};
+  Object.keys(initValue).forEach((field) => {
+    _disabled = {..._disabled, [field]: false};
   });
+  _disabled.subLot = true;
+
+  const [isDisabled, setIsDisabled] = useState<any>(_disabled);
+
 
   const [treeValue, setTreeValue] = useState();
 
   const handleResetForm = (resetForm: any) => {
     resetForm();
     // onSearch(initValue);
-    onChange(initValue);
+    setSearch(initValue);
+    // reset disable
+    let _disabled = {}
+    Object.keys(initValue).forEach((field) => {
+      _disabled = {..._disabled, [field]: false};
+    });
+    setIsDisabled(_disabled);
   };
   // const loadOptions = async (search: string, prevOptions: any, service: any, keyField: string) => {
   //   return new Promise<{ options: { label: string; value: string }[]; hasMore: boolean }>(
@@ -81,9 +104,8 @@ export function MasterHeader<T>({
     search: string,
     prevOptions: any,
     { page }: any,
-    service: any,
-    keyField: string,
-    key: string,
+    { service, keyField, key } : { service: any, keyField: string, key: string },
+    { onFetch, onCount }: { onFetch?: (props: any) => Promise<AxiosResponse<any>>, onCount?: (props: any) => Promise<AxiosResponse<any>> }
   ) => {
     const queryProps: any = {};
     queryProps[keyField] = search;
@@ -93,14 +115,12 @@ export function MasterHeader<T>({
       page: page,
     };
 
-    const entities = await service.GetAll({ queryProps, paginationProps });
-    const count = await service.Count({ queryProps });
+    const entities = onFetch ? await onFetch({ queryProps, paginationProps }) : await service.GetAll({ queryProps, paginationProps });
+    const count = onCount ? await onCount({ queryProps }) : await service.Count({ queryProps });
 
-    const hasMore = prevOptions.length < count.data - (DefaultPagination.limit ?? 0);
+    const hasMore = prevOptions.length < count.data.data - (DefaultPagination.limit ?? 0);
 
-    // setSearchTerm({ ...searchTerm, [key]: search });
-
-    const data = [...new Set(entities.data)];
+    const data = [...new Set(entities.data.data)];
 
     return {
       options: data.map((e: any) => {
@@ -115,24 +135,17 @@ export function MasterHeader<T>({
 
   return (
     <Card>
-      <CardHeader
-        title={
-          <>
-            <ArrowBackIosIcon />
-            {intl.formatMessage({ id: title }).toUpperCase()}
-          </>
-        }
-      />
+      <CardHeader title={intl.formatMessage({ id: title }).toUpperCase()} />
 
       <CardBody>
         <Formik
           initialValues={initValue}
           onSubmit={values => {
-            console.log(values);
             onSearch(values);
+            console.log(values);
           }}
           onReset={data => {
-            onSearch(data);
+            // onSearch(data);
           }}>
           {({ values, handleSubmit, handleBlur, handleChange, setFieldValue, resetForm }) => (
             <form onSubmit={handleSubmit} className="form form-label-right">
@@ -147,10 +160,32 @@ export function MasterHeader<T>({
                             key={'master_header' + key}>
                             <Field
                               name={key}
+                              // value={search[key]}
+                              disabled={
+                                isDisabled ? 
+                                isDisabled[key]
+                                : false
+                              }
+                              onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                                if(stringOnChange) {
+                                  stringOnChange(e, searchM, search, setSearch, key, handleChange, setFieldValue, setIsDisabled, isDisabled);
+                                } else {
+                                  handleChange(e);
+                                }
+                              }}
                               component={Input}
                               placeholder={intl.formatMessage({ id: searchM[key].placeholder })}
                               label={intl.formatMessage({ id: searchM[key].label })}
                               withFeedbackLabel={true}
+                              // onChange={(e: any) => {
+                              //   handleChange(e);
+                              //   let someValue = e.currentTarget.value;
+
+                              //   setSearch({
+                              //     ...search,
+                              //     name: { label: someValue, value: someValue },
+                              //   });
+                              // }}
                             />
                           </div>
                         );
@@ -185,11 +220,22 @@ export function MasterHeader<T>({
                         return (
                           <div className="col-xxl-3 col-md-3 mt-md-5 mt-5" key={key}>
                             <InfiniteSelect
+                              isDisabled={
+                                isDisabled ? 
+                                isDisabled[key]
+                                : false
+                              }
                               label={intl.formatMessage({ id: searchM[key].label })}
                               isHorizontal={false}
                               value={search[key]}
                               onChange={(value: any) => {
-                                onChange({ ...search, [key]: value });
+                                if(searchSelectOnChange) {
+                                  searchSelectOnChange(
+                                    value, values, searchM, search, setSearch, key, handleChange, setFieldValue, setIsDisabled, isDisabled
+                                  );
+
+                                }
+                                setSearch({ ...search, [key]: value });
                                 // setSearchTerm({
                                 //   ...searchTerm,
                                 //   [key]: searchM[key].ref ? value.value : value.label,
@@ -200,9 +246,13 @@ export function MasterHeader<T>({
                                   search,
                                   prevOptions,
                                   { page },
-                                  searchM[key].service,
-                                  searchM[key].keyField,
-                                  key,
+                                  {
+                                    service: searchM[key].service,
+                                    keyField: searchM[key].keyField,
+                                    key: key,
+                                  },
+                                  {}
+                                  
                                 )
                               }
                               refs={searchM[key].ref}
@@ -222,7 +272,7 @@ export function MasterHeader<T>({
                               label="Tree Select"
                               data={searchM[key].data}
                               value={search[key]}
-                              onChange={(value: any) => onChange({ ...search, [key]: value })}
+                              onChange={(value: any) => setSearch({ ...search, [key]: value })}
                               name={key}
                             />
                           </div>

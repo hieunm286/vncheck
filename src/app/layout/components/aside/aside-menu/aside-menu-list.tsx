@@ -70,7 +70,13 @@ export function AsideMenuList({ layoutProps }: any) {
         <li
           key={'menuitem_' + index}
           className={`menu-item ${getMenuItemActive(url, hasSubmenu)}`}
-          aria-haspopup="true">
+          aria-haspopup="true"
+          onClick={(e: any) => {
+            const parent = e.target.parentElement.parentElement.parentElement.parentElement.parentElement
+            console.log(parent)
+            parent.style.backgroundColor = "none"
+          }}
+          >
           <NavLink className="menu-link" to={url}>
             {item.icon ? (
               <span className="svg-icon menu-icon">
