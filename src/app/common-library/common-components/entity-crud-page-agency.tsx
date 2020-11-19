@@ -74,11 +74,11 @@ function EntityCrudPageAgency({
     if (code) {
       get(code).then((res: { data: any }) => {
         const entity = {...res.data, 
-          type: res.data.type.name,
+          agencyType: res.data.type.name,
           state: res.data.address.state,
           city: res.data.address.city,
           district: res.data.address.district,
-          address: res.data.address.address,
+          detailAddress: res.data.address.address,
           phoneNumber: res.data.phone,
           username: res.data.owner.username,
           name: res.data.owner.firstName + ' ' + res.data.owner.lastName,
