@@ -18,6 +18,7 @@ import { Switch } from '@material-ui/core';
 import CheckCircleOutlinedIcon from '@material-ui/icons/CheckCircleOutlined';
 import { InfiniteSelect } from '../forms/infinite-select';
 import TagInput from '../forms/tag-input';
+import ImgGallery from '../forms/image-gallery';
 
 const dataT: any = [
   {
@@ -360,6 +361,37 @@ function ModifyEntityPage<T>({
                           handleChange={handleChangeTag}
                           isRequired
                           labelWidth={4}
+                        />
+                      </div>
+                    );
+
+                    case 'gallery':
+                    return (
+                      <div className="mt-3" key={key}>
+                        <ImgGallery 
+                          label='Image Gallery'
+                          labelWidth={4}
+                          name={key}
+                          isHorizontal
+                          photos={[{
+                            src: "https://source.unsplash.com/aZjw7xI3QAA/1144x763",
+                            author: "Nguyễn Minh Hiếu",
+                            time: "26/09/2020 9:00",
+                            location: `21°01'10.1"N 105°47'28.6"E`,
+                            thumbnail: "https://source.unsplash.com/aZjw7xI3QAA/100x67",
+                          }, {
+                            src: "https://source.unsplash.com/c77MgFOt7e0/1144x763",
+                            author: "Nguyễn Minh Hiếu",
+                            time: "26/09/2020 9:00",
+                            location: `21°01'10.1"N 105°47'28.6"E`,
+                            thumbnail: "https://source.unsplash.com/c77MgFOt7e0/100x67",
+                          }, {
+                            src: "https://source.unsplash.com/QdBHnkBdu4g/1144x763",
+                            author: "Nguyễn Minh Hiếu",
+                            time: "26/09/2020 9:00",
+                            location: `21°01'10.1"N 105°47'28.6"E`,
+                            thumbnail: "https://source.unsplash.com/QdBHnkBdu4g/100x67",
+                          }]}
                         />
                       </div>
                     );

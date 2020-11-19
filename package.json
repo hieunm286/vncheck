@@ -76,6 +76,7 @@
     "perfect-scrollbar": "1.5.0",
     "prop-types": "15.7.2",
     "react": "16.12.0",
+    "react-bnb-gallery": "^1.4.4",
     "react-bootstrap": "^1.4.0",
     "react-bootstrap-table-next": "^4.0.3",
     "react-bootstrap-table2-paginator": "^2.1.2",

@@ -31,6 +31,7 @@ import { isArray, isNull } from 'lodash';
 import MasterGoogleMap from '../../common-library/common-components/master-google-map';
 import MasterMap from '../../common-library/common-components/master-google-map-other';
 import * as Yup from 'yup';
+import GalleryImage from '../../common-library/forms/gallery-image';
 
 const DataExample: any = [
   {
@@ -413,6 +414,10 @@ function PurchaseOrder() {
           placeholder: 'Sản lượng',
           required: true,
         },
+        imageDetail: {
+          type: 'gallery',
+          label: 'Image Gallery',
+        }
       },
     },
   ];
@@ -671,9 +676,10 @@ function PurchaseOrder() {
             isShowId={true}
           />
 
-          <MasterGoogleMap location={location} />
+          {/* <MasterGoogleMap location={location} /> */}
 
           {/* <MasterMap /> */}
+          <GalleryImage />
         </Route>
       </Switch>
     </Fragment>
