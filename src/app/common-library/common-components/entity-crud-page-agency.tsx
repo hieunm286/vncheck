@@ -44,6 +44,7 @@ function EntityCrudPageAgency({
   //   const modifyM = { ...modifyModel } as any;
   const history = useHistory();
   const [entityForEdit, setEntityForEdit] = useState(entity);
+  console.log(entityForEdit)
 
   const [images, setImages] = useState(initForm);
   const [imageRootArr, setImageRootArr] = useState<any>([]);
@@ -73,11 +74,20 @@ function EntityCrudPageAgency({
     if (code) {
       get(code).then((res: { data: any }) => {
         const entity = {...res.data, 
+          type: res.data.type.name,
           state: res.data.address.state,
           city: res.data.address.city,
           district: res.data.address.district,
           address: res.data.address.address,
           phoneNumber: res.data.phone,
+          username: res.data.owner.username,
+          name: res.data.owner.firstName + ' ' + res.data.owner.lastName,
+          ownerPhoneNumber: res.data.owner.phone,
+          email: res.data.owner.email,
+          // gender: ,
+          birthDay: res.data.owner.birthDay,
+          roleName: res.data.owner.role.roleType,
+          // avatar: , 
         };
         console.log(entity);
         setEntityForEdit(entity);
@@ -96,7 +106,7 @@ function EntityCrudPageAgency({
           onModify(values);
           history.goBack()
         }}>
-        {({ handleSubmit }) => (
+        {({ values, handleSubmit }) => (
           <>
             <Form className="form form-label-right">
               {Object.keys(formParts).map(key => (
@@ -118,6 +128,7 @@ function EntityCrudPageAgency({
                       console.log(formParts[key])
                     }
                     <ModifyEntityPage
+                      values={values}
                       images={images}
                       onChange={(imageList: any, addUpdateIndex: any, key: any) => {
                         onChange(imageList, addUpdateIndex, key);
@@ -128,6 +139,46 @@ function EntityCrudPageAgency({
                       // title={intl.formatMessage({id: formParts[key].title}).toUpperCase()}
                     />
                   </CardBody>
+                  {key === Object.keys(formParts)[Object.keys(formParts).length - 1] && (
+                    <div className="text-right mb-5 mr-5" key={key}>
+                    {Object.keys(allFormButton).map(key => {
+                      switch (allFormButton[key].role) {
+                        case 'submit':
+                          return (
+                            <button
+                              type={allFormButton[key].type}
+                              className={allFormButton[key].className}
+                              key={key}
+                              onClick={() => handleSubmit()}>
+                              {allFormButton[key].icon} {allFormButton[key].label}
+                            </button>
+                          );
+
+                        case 'button':
+                          return (
+                            <button
+                              type={allFormButton[key].type}
+                              className={allFormButton[key].className}
+                              key={key}>
+                              {allFormButton[key].icon} {allFormButton[key].label}
+                            </button>
+                          );
+                        case 'link-button':
+                          return (
+                            <Link to={allFormButton[key].linkto} key={key}>
+                              <button
+                                type={allFormButton[key].type}
+                                className={allFormButton[key].className}>
+                                {allFormButton[key].icon} {allFormButton[key].label}
+                              </button>
+                            </Link>
+                          );
+                        }
+                      })
+                    }
+                    </div>
+                  )}
+                   
                 </Card>
               ))}
             
@@ -142,40 +193,8 @@ function EntityCrudPageAgency({
                 <CancelOutlinedIcon style={iconStyle} /> Hủy
               </button>
             </Link> */}
-            {/* {Object.keys(allFormButton).map(key => {
-              switch (allFormButton[key].role) {
-                case 'submit':
-                  return (
-                    <button
-                      type={allFormButton[key].type}
-                      className={allFormButton[key].className}
-                      key={key}
-                      onClick={() => handleSubmit()}>
-                      {allFormButton[key].icon} {allFormButton[key].label}
-                    </button>
-                  );
 
-                case 'button':
-                  return (
-                    <button
-                      type={allFormButton[key].type}
-                      className={allFormButton[key].className}
-                      key={key}>
-                      {allFormButton[key].icon} {allFormButton[key].label}
-                    </button>
-                  );
-                case 'link-button':
-                  return (
-                    <Link to={allFormButton[key].linkto} key={key}>
-                      <button
-                        type={allFormButton[key].type}
-                        className={allFormButton[key].className}>
-                        {allFormButton[key].icon} {allFormButton[key].label}
-                      </button>
-                    </Link>
-                  );
-              }
-            })} */}
+           
           </>
         )}
       </Formik>
