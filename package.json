@@ -66,6 +66,8 @@
     "deep-object-diff": "^1.1.0",
     "downshift": "3.4.2",
     "env-cmd": "^10.1.0",
+    "exif-js": "^2.3.0",
+    "exifr": "^6.0.0",
     "fg-loadcss": "2.1.0",
     "formik": "2.1.4",
     "json2mq": "0.2.0",

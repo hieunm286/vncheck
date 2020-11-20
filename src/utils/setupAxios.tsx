@@ -27,7 +27,6 @@ const GetURLEndPoint = (url: string) => {
 export default function setupAxios(axios: AxiosStatic, store: EnhancedStore) {
   axios.interceptors.request.use(
     (config) => {
-      console.log(config);
       const {auth} = store.getState();
       if (auth) {
         config.headers.Authorization = `${JSON.stringify(auth._certificate)}`;

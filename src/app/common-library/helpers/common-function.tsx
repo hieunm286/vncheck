@@ -12,6 +12,9 @@ import {
   ModifyModel,
   UpdateProps,
 } from '../common-types/common-type';
+import EXIF from 'exif-js';
+import { isEmpty } from 'lodash';
+import { diff } from 'deep-object-diff';
 
 export const CapitalizeFirstLetter = (string: string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
@@ -61,6 +64,16 @@ export const getOnlyFile = (arr: any[]) => {
   return fileArray;
 };
 
+export const getOnlyBase64 = (arr: any[]) => {
+  const base64Array: any[] = [];
+
+  arr.forEach(values => {
+    base64Array.push(values.data_url);
+  });
+
+  return base64Array;
+};
+
 export const getNewImage = (prevArr: any[], currentArr: any[]) => {
   const newArr: any[] = [];
 
@@ -68,8 +81,8 @@ export const getNewImage = (prevArr: any[], currentArr: any[]) => {
     return currentArr;
   }
 
-  currentArr.forEach(curEl => {
-    const index = prevArr.findIndex(prevEl => curEl === prevEl);
+  currentArr.forEach((curEl: any) => {
+    const index = prevArr.findIndex(prevEl => isEmpty(diff(curEl, prevEl)) === true);
 
     if (index === -1) {
       newArr.push(curEl);
@@ -126,7 +139,12 @@ export const GetHomePage = (url: string) => {
   return homeURL;
 }
 
-export const ConvertSelectSearch = (entity: any, keyField?: string[]) => {
+interface FieldProp {
+  field: string;
+  ref?: { prop: string, key: string }
+}
+
+export const ConvertSelectSearch = (entity: any, keyField?: FieldProp[]) => {
 
   if (!entity) return;
 
@@ -134,8 +152,12 @@ export const ConvertSelectSearch = (entity: any, keyField?: string[]) => {
 
   if (keyField && keyField.length > 0) {
 
-    keyField.forEach((field: string) => {
+    keyField.forEach(({ field, ref }: FieldProp) => {
+      if (ref) {
+        convertEntity[field] = { label: convertEntity[ref.prop][ref.key], value: entity._id }
+      } else {
       convertEntity[field] = { label: convertEntity[field], value: entity._id }
+      }
     })
 
     return convertEntity;

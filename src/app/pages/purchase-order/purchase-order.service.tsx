@@ -66,11 +66,6 @@ export const DeleteMany: DeleteManyProps<PurchaseOrderModel> = (entities: Purcha
 export const uploadImage = (image: any) => {
   console.log('run updload');
   console.log(image);
-  let formData = new FormData();
-  formData.append('image', image);
-  return axios({
-    method: 'POST',
-    url: API_FILE_URL,
-    data: formData,
-  });
+  return axios.post(API_URL, image);
+
 };

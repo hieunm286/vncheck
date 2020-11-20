@@ -124,24 +124,18 @@ function ModifyEntityPage<T>({
       page: page,
     };
 
-    console.log(keyField);
-    console.log(key);
+    const entities = await service.GetAll({ queryProps, paginationProps });
+    // const count = onCount ? await onCount({ queryProps }) : await service.Count({ queryProps });
+    const count = entities.data.paging.total
+    const hasMore = prevOptions.length < count - (DefaultPagination.limit ?? 0);
 
-    // const entities = await service.GetAll({ queryProps, paginationProps });
-    // const count = await service.Count({ queryProps });
-
-    // const hasMore = prevOptions.length < count.data - (DefaultPagination.limit ?? 0);
-
-    // // setSearchTerm({ ...searchTerm, [key]: search });
-
-    const data = [...new Set(dataT)];
+    const data = [...new Set(entities.data.data)];
 
     return {
       options: data.map((e: any) => {
-        console.log(e);
         return { label: e[keyField], value: e._id };
       }),
-      hasMore: false,
+      hasMore: hasMore,
       additional: {
         page: page + 1,
       },
