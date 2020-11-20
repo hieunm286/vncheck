@@ -145,7 +145,7 @@ export function MasterHeader<T>({
             console.log(values);
           }}
           onReset={data => {
-            // onSearch(data);
+            onSearch(data);
           }}>
           {({ values, handleSubmit, handleBlur, handleChange, setFieldValue, resetForm }) => (
             <form onSubmit={handleSubmit} className="form form-label-right">

@@ -221,14 +221,14 @@ function LandLot() {
     {
       header: '',
       data: {
-        code: { title: 'PURCHASE_ORDER.MASTER.TABLE.CODE_COLUMN',
+        code: { title: 'LAND_LOT.MASTER.HEADER.CODE',
         formatter: (data: any, fields = ['lot', 'subLot']) => {
           return fields.map(field => {
             return data[field];
           }).join("");
         }},
-        lot: { title: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS_COLUMN' },
-        subLot: { title: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' },
+        lot: { title: 'LAND_LOT.MASTER.HEADER.LOT_CODE' },
+        subLot: { title: 'LAND_LOT.MASTER.HEADER.SUB_LOT_CODE' },
       },
     },
     // {
