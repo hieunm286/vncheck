@@ -3,6 +3,10 @@
   padding-left: 50px !important;
 }
 
+.menu-item.menu-item-active.menu-item-open svg {
+  fill: white !important;
+}
+
 .menu-text.title {
   font-size: 13px !important;
   font-weight: bold !important;

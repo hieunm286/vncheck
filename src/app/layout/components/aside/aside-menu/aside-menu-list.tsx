@@ -73,7 +73,6 @@ export function AsideMenuList({ layoutProps }: any) {
           aria-haspopup="true"
           onClick={(e: any) => {
             const parent = e.target.parentElement.parentElement.parentElement.parentElement.parentElement
-            console.log(parent)
             parent.style.backgroundColor = "none"
           }}
           >

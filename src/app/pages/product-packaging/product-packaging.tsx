@@ -27,6 +27,8 @@ import { ProductPackagingModel } from './product-packaging.model';
 import * as ProductPackagingService from './product-packaging.service';
 import ProductPackagingDetailDialog from './product-packaging-detail-dialog';
 import { GenerateCode } from '../product-type/product-type';
+import * as ProductTypeService from '../product-type/product-type.service';
+
 
 const data: any = [
   {
@@ -118,6 +120,10 @@ function ProductPackaging() {
     updateServer: ProductPackagingService.Update,
   });
 
+  useEffect(() => {
+    getAll(filterProps);
+  }, [paginationProps, trigger, filterProps]);
+
   const columns = {
     code: {
       dataField: 'code',
@@ -181,14 +187,14 @@ function ProductPackaging() {
       type: 'string',
       placeholder: 'COMMON_COMPONENT.INPUT.PLACEHOLDER',
       label: 'PRODUCT_PACKAGING.MASTER.TABLE.CODE_COLUMN',
-      service: ProductPackagingService,
+      service: ProductTypeService,
       keyField: 'code',
     },
     name: {
       type: 'SearchSelect',
       placeholder: 'COMMON_COMPONENT.SELECT.PLACEHOLDER',
       label: 'PRODUCT_PACKAGING.MASTER.TABLE.NAME_COLUMN',
-      service: ProductPackagingService,
+      service: ProductTypeService,
       keyField: 'name',
     },
   };
@@ -209,8 +215,9 @@ function ProductPackaging() {
           placeholder: intl.formatMessage({ id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER' }),
           required: true,
           label: intl.formatMessage({ id: 'PRODUCT_PACKAGING.MASTER.TABLE.NAME_COLUMN' }),
-          service: ProductPackagingService,
+          service: ProductTypeService,
           keyField: 'name',
+          ref: true
         },
         gram: {
           type: 'string',
@@ -324,7 +331,7 @@ function ProductPackaging() {
         autoFill={{
           field: 'code',
           data: GenerateCode(data),
-          searchSelectField: ['name'],
+          searchSelectField: [{ field: 'name', ref: { prop: 'species', key: 'name' } }],
         }}
         homePage={homeURL}
       />
@@ -350,8 +357,8 @@ function ProductPackaging() {
             onDeleteMany={() => setShowDeleteMany(true)}
             selectedEntities={selectedEntities}
             onSelectMany={setSelectedEntities}
-            entities={data}
-            total={data.length}
+            entities={entities}
+            total={total}
             columns={columns as any}
             loading={loading}
             paginationParams={paginationProps}

@@ -7,6 +7,7 @@ import {
   GetHomePage,
   getNewImage,
   getOnlyFile,
+  getOnlyBase64
 } from '../helpers/common-function';
 import { Field, Form, Formik } from 'formik';
 import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
@@ -21,6 +22,21 @@ import { uploadImage } from '../../pages/purchase-order/purchase-order.service';
 import { Card, CardBody, CardHeader } from '../card';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import { diff } from 'deep-object-diff';
+import EXIF from 'exif-js';
+import { isEmpty } from 'lodash';
+import exifr from 'exifr'
+
+
+const DeepObject = (obj1: any, obj2: any) => {
+  const updateValue = diff(obj1, obj2);
+  console.log(updateValue)
+  const a = isEmpty(updateValue)
+  console.log(a);
+}
+
+
+
+
 
 function EntityCrudPage({
   entity,
@@ -64,23 +80,45 @@ function EntityCrudPage({
 
   const [tagArr, setTagArr] = useState(initForm);
 
+  const [imageData, setImageData] = useState<{ data_url: any; exif: any }[]>([])
+
+  console.log(imageData)
+
+  const ImageMeta = (file: any) => {
+    if (!file) return '';
+
+    file.forEach((item: any) => {
+      exifr.parse(item.file).then(res => {
+        const image = {
+          data_url: item.data_url,
+          exif: res
+        }
+
+        const data: any[] = []
+        data.push(image)
+        console.log(image)
+        setImageData(prevMovies => ([...prevMovies, ...data]))
+
+      })
+    })
+  };
+  
+ 
   const onChange = (imageList: any, addUpdateIndex: any, key: any) => {
     const imageArray = getOnlyFile(imageList);
-
-    const newArr = getNewImage(imageRootArr, imageArray);
-    console.log(key);
-    newArr.forEach((file, index) => {
-      uploadImage(file)
-        .then(res => {
-          // console.log('update: ' + index);
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    });
+    const base64Array = getOnlyBase64(imageList);
+    const ImagesData = []
+    const newArr = getNewImage(images[key], imageList);
+    // console.log(newArr)
+    // newArr.forEach((file, index) => {
+    //   ImageMeta(file.file) 
+    // });
+    ImageMeta(newArr)
+    
     // data for submit
     setImages({ ...images, [key]: imageList });
-    setImageRootArr(imageArray);
+    setImageRootArr(base64Array);
+
   };
 
   function handleChangeTag(value: string, key?: string) {
@@ -89,7 +127,7 @@ function EntityCrudPage({
     // setTagArr({ ...tagArr, [key]: newTag });
   }
 
-  console.log(initForm);
+  // console.log(DeepObject({abc: '2'}, {abc: '1'}));
 
   useEffect(() => {
     if (code) {
@@ -107,11 +145,12 @@ function EntityCrudPage({
         // initialValues={initForm}
         validationSchema={validation}
         onSubmit={values => {
+          console.log(values);
           if (entityForEdit) {
             const updateValue = diff(entityForEdit, values);
-            onModify({_id: values._id, ...updateValue});
+            onModify({ _id: values._id, ...updateValue });
           } else {
-            onModify(values)
+            onModify({...values, imageData});
           }
           history.push(GetHomePage(window.location.pathname));
         }}>
