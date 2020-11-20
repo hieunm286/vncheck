@@ -118,6 +118,10 @@ function ProductPackaging() {
     updateServer: ProductPackagingService.Update,
   });
 
+  useEffect(() => {
+    getAll(filterProps);
+  }, [paginationProps, trigger, filterProps]);
+
   const columns = {
     code: {
       dataField: 'code',
@@ -350,8 +354,8 @@ function ProductPackaging() {
             onDeleteMany={() => setShowDeleteMany(true)}
             selectedEntities={selectedEntities}
             onSelectMany={setSelectedEntities}
-            entities={data}
-            total={data.length}
+            entities={entities}
+            total={total}
             columns={columns as any}
             loading={loading}
             paginationParams={paginationProps}

@@ -107,6 +107,7 @@ function EntityCrudPage({
         // initialValues={initForm}
         validationSchema={validation}
         onSubmit={values => {
+          console.log(values)
           if (entityForEdit) {
             const updateValue = diff(entityForEdit, values);
             onModify({_id: values._id, ...updateValue});

@@ -12,7 +12,7 @@ import {
 } from '../../common-library/common-types/common-type';
 import { ProductPackagingModel } from './product-packaging.model';
 
-export const API_URL = API_BASE_URL + '/product-packaging';
+export const API_URL = API_BASE_URL + '/packing';
 
 export const API_FILE_URL = API_BASE_URL + '/file';
 

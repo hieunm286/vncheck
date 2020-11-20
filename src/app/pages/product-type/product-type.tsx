@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect } from 'react';
 import { useIntl } from 'react-intl';
-import { NormalColumn, SortColumn, StatusValue } from '../../common-library/common-consts/const';
+import { DefaultPagination, NormalColumn, SortColumn, StatusValue } from '../../common-library/common-consts/const';
 import { MasterHeader } from '../../common-library/common-components/master-header';
 import { MasterBody } from '../../common-library/common-components/master-body';
 import { ActionsColumnFormatter } from '../../common-library/common-components/actions-column-formatter';
@@ -418,7 +418,10 @@ function ProductType() {
         <Route path="/product-type">
           <MasterHeader
             title={headerTitle}
-            onSearch={setFilterProps}
+            onSearch={(value) => {
+              setPaginationProps(DefaultPagination)
+              setFilterProps(value)
+            }}
             searchModel={productTypeSearchModel}
             initValue={{
               code: '',

@@ -2,7 +2,7 @@ import React, { Fragment, useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import { Count, Create, Delete, DeleteMany, Get, GetAll, Update } from './purchase-order.service';
 import { PurchaseOrderModel } from './purchase-order.model';
-import { NormalColumn, SortColumn, StatusValue } from '../../common-library/common-consts/const';
+import { DefaultPagination, NormalColumn, SortColumn, StatusValue } from '../../common-library/common-consts/const';
 import { MasterHeader } from '../../common-library/common-components/master-header';
 import { MasterEntityDetailDialog } from '../../common-library/common-components/master-entity-detail-dialog';
 import { MasterBody } from '../../common-library/common-components/master-body';
@@ -31,6 +31,7 @@ import { isArray, isNull } from 'lodash';
 import MasterGoogleMap from '../../common-library/common-components/master-google-map';
 import MasterMap from '../../common-library/common-components/master-google-map-other';
 import * as Yup from 'yup';
+import GalleryImage from '../../common-library/forms/gallery-image';
 
 const DataExample: any = [
   {
@@ -413,6 +414,10 @@ function PurchaseOrder() {
           placeholder: 'Sản lượng',
           required: true,
         },
+        imageDetail: {
+          type: 'gallery',
+          label: 'Image Gallery',
+        }
       },
     },
   ];
@@ -636,7 +641,11 @@ function PurchaseOrder() {
         <Route path="/purchase-order">
           <MasterHeader
             title={headerTitle}
-            onSearch={setFilterProps}
+            onSearch={(value) => {
+              setPaginationProps({ ...DefaultPagination, page: 1 })
+              console.log(paginationProps)
+              setFilterProps(value)
+            }}
             searchModel={purchaseOrderSearchModel}
             initValue={{
               code: { label: 'ccc', value: 'cccc' },
@@ -667,9 +676,10 @@ function PurchaseOrder() {
             isShowId={true}
           />
 
-          <MasterGoogleMap location={location} />
+          {/* <MasterGoogleMap location={location} /> */}
 
           {/* <MasterMap /> */}
+          <GalleryImage />
         </Route>
       </Switch>
     </Fragment>
