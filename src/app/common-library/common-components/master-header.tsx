@@ -116,9 +116,10 @@ export function MasterHeader<T>({
     };
 
     const entities = onFetch ? await onFetch({ queryProps, paginationProps }) : await service.GetAll({ queryProps, paginationProps });
-    const count = onCount ? await onCount({ queryProps }) : await service.Count({ queryProps });
+    // const count = onCount ? await onCount({ queryProps }) : await service.Count({ queryProps });
+    const count = entities.data.paging.total;
 
-    const hasMore = prevOptions.length < count.data.data - (DefaultPagination.limit ?? 0);
+    const hasMore = prevOptions.length < count - (DefaultPagination.limit ?? 0);
 
     const data = [...new Set(entities.data.data)];
 
@@ -145,7 +146,7 @@ export function MasterHeader<T>({
             console.log(values);
           }}
           onReset={data => {
-            // onSearch(data);
+            onSearch(data);
           }}>
           {({ values, handleSubmit, handleBlur, handleChange, setFieldValue, resetForm }) => (
             <form onSubmit={handleSubmit} className="form form-label-right">
