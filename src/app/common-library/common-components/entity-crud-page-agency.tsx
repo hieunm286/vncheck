@@ -85,7 +85,7 @@ function EntityCrudPageAgency({
           ownerPhoneNumber: res.data.owner.phone,
           email: res.data.owner.email,
           // gender: ,
-          birthDay: res.data.owner.birthDay,
+          birthDay: Date.parse(res.data.owner.birthDay),
           roleName: res.data.owner.role.roleType,
           // avatar: , 
         };
