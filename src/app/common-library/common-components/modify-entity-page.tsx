@@ -19,6 +19,7 @@ import CheckCircleOutlinedIcon from '@material-ui/icons/CheckCircleOutlined';
 import { InfiniteSelect } from '../forms/infinite-select';
 import TagInput from '../forms/tag-input';
 import ImgGallery from '../forms/image-gallery';
+import { FormikRadioGroup } from '../forms/radio-group-field';
 
 const dataT: any = [
   {
@@ -278,6 +279,16 @@ function ModifyEntityPage<T>({
                         />
                       </div>
                     );
+                  case 'radio':
+                    const _shippingAddresses = values['shippingAddress'];
+                    return _shippingAddresses ? 
+                    (
+                      <FormikRadioGroup
+                        ariaLabel='defaultShippingAddress'
+                        name='defaultShippingAddress'
+                        addresses={_shippingAddresses}
+                      />
+                    ) : <></>
                   case 'image':
                     return (
                       <div className="mt-3" key={key}>

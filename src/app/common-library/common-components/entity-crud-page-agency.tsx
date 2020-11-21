@@ -15,6 +15,7 @@ import CustomImageUpload from '../forms/custom-image-upload';
 import { uploadImage } from '../../pages/purchase-order/purchase-order.service';
 import { Card, CardBody, CardHeader } from '../card';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from '@material-ui/core';
 
 function EntityCrudPageAgency({
   entity,
@@ -48,6 +49,12 @@ function EntityCrudPageAgency({
 
   const [images, setImages] = useState(initForm);
   const [imageRootArr, setImageRootArr] = useState<any>([]);
+
+  const [defaultShippingAddress, setDefaultShippingAddress] = useState(0);
+  const handleShippingAddressChange = (e: any) => {
+    console.log(e.target.value)
+    setDefaultShippingAddress(e.target.value);
+  }
 
   const onChange = (imageList: any, addUpdateIndex: any, key: any) => {
     const imageArray = getOnlyFile(imageList);
@@ -124,9 +131,15 @@ function EntityCrudPageAgency({
                     />
                   )}
                   <CardBody>
-                    {
-                      console.log(formParts[key])
-                    }
+                  {/* <FormControl component="fieldset">
+                    <FormLabel component="legend">Gender</FormLabel>
+                    <RadioGroup aria-label="gender" name="gender1" value={defaultShippingAddress} onChange={handleShippingAddressChange}>
+                      <FormControlLabel value={0} control={<Radio />} label="Female" />
+                      <FormControlLabel value={1} control={<Radio />} label="Male" />
+                      <FormControlLabel value={2} control={<Radio />} label="Other" />
+                      <FormControlLabel value={3} disabled control={<Radio />} label="(Disabled option)" />
+                    </RadioGroup>
+                  </FormControl> */}
                     <ModifyEntityPage
                       values={values}
                       images={images}
