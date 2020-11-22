@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import ModifyEntityPage from './modify-entity-page';
-import { ModifyModel } from '../common-types/common-type';
+import ModifyEntityPageAgency from './modify-entity-page-agency';
+import { ModifyModel } from '../../../common-library/common-types/common-type';
 import { useIntl } from 'react-intl';
-import { generateInitForm, getNewImage, getOnlyFile } from '../helpers/common-function';
+import { generateInitForm, getNewImage, getOnlyFile } from '../../../common-library/helpers/common-function';
 import { Field, Form, Formik } from 'formik';
 import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import * as Yup from 'yup';
-import { MainInput } from '../forms/main-input';
-import { iconStyle } from '../common-consts/const';
+import { MainInput } from '../../../common-library/forms/main-input';
+import { iconStyle } from '../../../common-library/common-consts/const';
 import { Link, useHistory } from 'react-router-dom';
 import ImageUploading from 'react-images-uploading';
-import CustomImageUpload from '../forms/custom-image-upload';
-import { uploadImage } from '../../pages/purchase-order/purchase-order.service';
-import { Card, CardBody, CardHeader } from '../card';
+import CustomImageUpload from '../../../common-library/forms/custom-image-upload';
+import { uploadImage } from '../../purchase-order/purchase-order.service';
+import { Card, CardBody, CardHeader } from '../../../common-library/card';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from '@material-ui/core';
 
@@ -140,7 +140,7 @@ function EntityCrudPageAgency({
                       <FormControlLabel value={3} disabled control={<Radio />} label="(Disabled option)" />
                     </RadioGroup>
                   </FormControl> */}
-                    <ModifyEntityPage
+                    <ModifyEntityPageAgency
                       values={values}
                       images={images}
                       onChange={(imageList: any, addUpdateIndex: any, key: any) => {
