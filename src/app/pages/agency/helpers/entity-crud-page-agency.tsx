@@ -148,7 +148,7 @@ function EntityCrudPageAgency({
 
                       }}
                       modifyModel={formParts[key].modifyModel as any}
-                      column={formParts[key].modifyModel.length}
+                      column={2} // column={formParts[key].modifyModel.length}
                       // title={intl.formatMessage({id: formParts[key].title}).toUpperCase()}
                     />
                   </CardBody>

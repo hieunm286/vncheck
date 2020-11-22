@@ -201,7 +201,7 @@ function ModifyEntityPageAgency<T>({
       {/* <Form className="form form-label-right"> */}
       {title && <h6 className="text-primary">{title.toUpperCase()}</h6>}
       <div className={(column ? column : 1) > 1 ? 'row' : ''}>
-        {modifyModel &&
+        {/* {modifyModel &&
           modifyModel.map((value: any, key: any) => (
             <div className={`col-md-${12 / (column ? column : 1)} col-12`} key={key}>
                 <FormTemplate 
@@ -216,7 +216,50 @@ function ModifyEntityPageAgency<T>({
                   value={value}
                 />
             </div>
-          ))}
+          ))} */}
+        {
+          modifyModel && (
+            <>
+              <div className={`col-md-${12 / (column ? column : 1)} col-12`} key={0}>
+                <FormTemplate 
+                  values={values}
+                  images={images}
+                  onChange={(imageList: any, addUpdateIndex: any, key: any) => {
+                    onChange(imageList, addUpdateIndex, key);
+
+                  }}
+                  modifyModel={modifyModel}
+                  column={column}
+                  value={modifyModel[0]}
+                />
+              </div>
+              <div className={`col-md-${12 / (column ? column : 1)} col-12`} key={1}>
+                <FormTemplate 
+                  values={values}
+                  images={images}
+                  onChange={(imageList: any, addUpdateIndex: any, key: any) => {
+                    onChange(imageList, addUpdateIndex, key);
+
+                  }}
+                  modifyModel={modifyModel}
+                  column={column}
+                  value={modifyModel[1]}
+                />
+                <FormTemplate 
+                  values={values}
+                  images={images}
+                  onChange={(imageList: any, addUpdateIndex: any, key: any) => {
+                    onChange(imageList, addUpdateIndex, key);
+
+                  }}
+                  modifyModel={modifyModel}
+                  column={column}
+                  value={modifyModel[2]}
+                />
+              </div>
+            </>
+          )
+        }
       </div>
     </>
   );
