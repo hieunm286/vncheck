@@ -152,6 +152,8 @@ function PurchaseOrder() {
     setTotal,
     loading,
     setLoading,
+    error,
+    setError,
     add,
     update,
     get,
@@ -338,11 +340,11 @@ function PurchaseOrder() {
           required: true,
           label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
         },
-        // image: {
-        //   type: 'image',
-        //   placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL' }),
-        //   label: 'Album 1',
-        // },
+        image: {
+          type: 'image',
+          placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL' }),
+          label: 'Album 1',
+        },
         // image2: {
         //   type: 'image',
         //   placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL' }),
@@ -546,6 +548,7 @@ function PurchaseOrder() {
       <DeleteEntityDialog
         moduleName={moduleName}
         entity={deleteEntity}
+        loading={loading}
         onDelete={deleteFn}
         isShow={showDelete}
         onHide={() => {

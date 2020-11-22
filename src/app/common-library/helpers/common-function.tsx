@@ -153,7 +153,7 @@ export const ConvertSelectSearch = (entity: any, keyField?: FieldProp[]) => {
   if (keyField && keyField.length > 0) {
 
     keyField.forEach(({ field, ref }: FieldProp) => {
-      if (ref) {
+      if (ref && convertEntity[ref.prop]) {
         convertEntity[field] = { label: convertEntity[ref.prop][ref.key], value: entity._id }
       } else {
       convertEntity[field] = { label: convertEntity[field], value: entity._id }
@@ -210,6 +210,7 @@ export function InitMasterProps<T>({
   const [filterProps, setFilterProps] = useState();
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('')
 
   const dispatch = useDispatch();
 
@@ -230,6 +231,7 @@ export function InitMasterProps<T>({
         })
         .catch(error => {
           console.log(error);
+          setError(error.message)
           setLoading(false);
         });
     },
@@ -237,7 +239,7 @@ export function InitMasterProps<T>({
   );
 
   const refreshData = () => {
-    setPaginationProps({ ...paginationProps, page: 1 });
+    // setPaginationProps({ ...paginationProps, page: 1 });
     setTrigger(!trigger);
     setShowDelete(false);
     setShowDetail(false);
@@ -246,10 +248,14 @@ export function InitMasterProps<T>({
     setShowCreate(false);
     setSelectedEntities([]);
     setLoading(false);
+    setError('')
   };
+  
   const deleteFn = (entity: T) => {
+    setLoading(true);
     deleteServer(entity).then(refreshData).catch(error => {
       console.log(error)
+      setError(error.message)
       setLoading(false);
     });
   };
@@ -259,7 +265,8 @@ export function InitMasterProps<T>({
     deleteManyServer(selectedEntities)
       .then(refreshData)
       .catch(error => {
-        console.log(error);
+        console.log(error.response);
+        setError(error.message)
         setLoading(false);
       });
   };
@@ -279,21 +286,26 @@ export function InitMasterProps<T>({
       })
       .catch(error => {
         console.log(error);
+        setError(error.message)
       });
   };
   const update = (entity: T) => {
+    setLoading(true);
     updateServer(entity)
       .then(refreshData)
       .catch(error => {
-        console.log(error);
+        setError(error.message)
+        setLoading(false);
       });
   };
 
   const add = (entity: T) => {
+    setLoading(true);
     createServer(entity)
       .then(refreshData)
       .catch(error => {
-        console.log(error);
+        setError(error.message)
+        setLoading(false);
       });
   };
   return {
@@ -329,6 +341,8 @@ export function InitMasterProps<T>({
     setTotal,
     loading,
     setLoading,
+    error,
+    setError,
     add,
     update,
     get,

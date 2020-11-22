@@ -37,6 +37,9 @@ export interface DeleteDialogProps<T> {
   confirmMessage?: string;
   deleteBtn?: string;
   cancelBtn?: string;
+  loading?: boolean;
+  deletingMessage?: string;
+  error?: string;
 }
 
 export interface DeleteManyDialogProps<T> {
@@ -55,6 +58,7 @@ export interface DeleteManyDialogProps<T> {
   deleteBtn?: string;
   cancelBtn?: string;
   loading?: boolean;
+  error?: string;
 }
 
 export interface ActionColumnProps<T> {

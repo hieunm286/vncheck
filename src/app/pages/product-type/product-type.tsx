@@ -147,6 +147,8 @@ function ProductType() {
     setTotal,
     loading,
     setLoading,
+    error,
+    setError,
     add,
     update,
     get,
@@ -351,6 +353,7 @@ function ProductType() {
         entity={deleteEntity}
         onDelete={deleteFn}
         isShow={showDelete}
+        loading={loading}
         onHide={() => {
           setShowDelete(false);
         }}
