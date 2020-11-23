@@ -74,6 +74,18 @@ export const MenuItems: MenuItemModel[] = [
           },
           {title: 'MENU.DATA.PRODUCT.PACK', url: '/product-packaging', icon: 'distributor-type.svg',},
         ],
+      },
+      {
+        title: 'MENU.DATA.DISTRIBUTION',
+        url: '/distribution',
+        icon: 'distributor-1.svg',
+        children: [
+          {
+            title: 'MENU.DATA.DISTRIBUTION.MULTILEVEL_SALE',
+            url: '/multilevel-sale',
+            icon: 'distributor-2.svg',
+          }
+        ]
       }
     ]
   },

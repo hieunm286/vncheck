@@ -60,6 +60,7 @@
   "MENU.DATA.AGENCY": "Đại lý",
   "MENU.DATA.AGENCY.AGENCY": "Đại lý",
   "MENU.DATA.AGENCY.AGENCY_TYPE": "Loại đại lý",
+  "MENU.DATA.DISTRIBUTION": "Phân phối",
   "MENU.QRCODE": "Quản lý in mã",
   "MENU.PURCHASE_ORDER": "Đơn hàng",
   "MENU.PURCHASE_ORDER.PURCHASE_ORDER": "Đơn hàng",
@@ -70,6 +71,7 @@
   "MENU.DATA.PRODUCT": "Danh mục chủng loại",
   "MENU.DATA.PRODUCT.PRODUCT_TYPE": "Chủng loại",
   "MENU.DATA.PRODUCT.PACK": "Quy cách đóng gói",
+  "MENU.DATA.DISTRIBUTION.MULTILEVEL_SALE": "Cấp bán hàng",
 
   "COMMON_COMPONENT.DELETE_DIALOG.MODULE_NAME": "Dữ liệu",
   "COMMON_COMPONENT.DELETE_DIALOG.TITLE": "XÓA {moduleName}",
