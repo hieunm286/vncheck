@@ -97,14 +97,14 @@ function EntityCrudPage({
         const data: any[] = []
         data.push(image)
         console.log(image)
-        setImageData(prevMovies => ([...prevMovies, ...data]))
+        setImageData(prevImages => ([...prevImages, ...data]))
 
       })
     })
   };
   
  
-  const onChange = (imageList: any, addUpdateIndex: any, key: any) => {
+  const onChange = (imageList: any, addUpdateIndex: any, key: any, setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => void) => {
     const imageArray = getOnlyFile(imageList);
     const base64Array = getOnlyBase64(imageList);
     const ImagesData = []
@@ -114,6 +114,8 @@ function EntityCrudPage({
     //   ImageMeta(file.file) 
     // });
     ImageMeta(newArr)
+
+    setFieldValue(key, imageData)
     
     // data for submit
     setImages({ ...images, [key]: imageList });
@@ -154,7 +156,7 @@ function EntityCrudPage({
           }
           history.push(GetHomePage(window.location.pathname));
         }}>
-        {({ handleSubmit }) => (
+        {({ handleSubmit, setFieldValue }) => (
           <>
             <Form className="form form-label-right">
               {Object.keys(formPart).map(key => (
@@ -177,7 +179,7 @@ function EntityCrudPage({
                     <ModifyEntityPage
                       images={images}
                       onChange={(imageList: any, addUpdateIndex: any, key: any) => {
-                        onChange(imageList, addUpdateIndex, key);
+                        onChange(imageList, addUpdateIndex, key, setFieldValue);
                       }}
                       modifyModel={formPart[key].modifyModel as any}
                       column={formPart[key].modifyModel.length}

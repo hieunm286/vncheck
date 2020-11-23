@@ -254,6 +254,7 @@ function ModifyEntityPage<T>({
                           labelWidth={4}
                           isHorizontal={true}
                           required={value.data[key].required}
+                          name={key}
                         />
                       </div>
                     );
