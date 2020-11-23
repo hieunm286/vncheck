@@ -134,9 +134,12 @@ function ProductPackaging() {
       classes: 'text-center',
     },
     name: {
-      dataField: 'name',
+      dataField: 'species.name',
       text: `${intl.formatMessage({ id: 'PRODUCT_PACKAGING.MASTER.TABLE.NAME_COLUMN' })}`,
       ...SortColumn,
+      formatter: (cell: any, row: any, rowIndex: any) => {
+        return (<p>{row.species ? row.species.name : 'Không có thông tin nha'}</p>);
+      },
       classes: 'text-center',
     },
 
