@@ -354,6 +354,7 @@ function ProductType() {
         onDelete={deleteFn}
         isShow={showDelete}
         loading={loading}
+        error={error}
         onHide={() => {
           setShowDelete(false);
         }}
@@ -365,6 +366,7 @@ function ProductType() {
         loading={loading}
         isShow={showDeleteMany}
         onDelete={deleteMany}
+        error={error}
         onHide={() => {
           setShowDeleteMany(false);
         }}
@@ -383,10 +385,10 @@ function ProductType() {
             allFormField={allFormField}
             allFormButton={allFormButton}
             validation={ProductTypeSchema}
-            // autoFill={{
-            //     field: 'code',
-            //     data: GenerateCode(data)
-            // }}
+            autoFill={{
+                field: 'code',
+                data: GenerateCode(data)
+            }}
             homePage={homeURL}
           />
         </Route>
