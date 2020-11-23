@@ -60,8 +60,8 @@ const updateTitle = 'PRODUCT_PACKAGING.UPDATE.TITLE';
 const homeURL = `${window.location.pathname}`;
 
 const ProductPackagingSchema = Yup.object().shape({
-  name: Yup.string().required('Name ko đc để trống'),
-  gram: Yup.number()
+  species: Yup.string().required('Name ko đc để trống'),
+  weight: Yup.number()
     .required('Số gram không được để trống')
     .typeError('Vui lòng nhập số'),
 });
@@ -103,6 +103,8 @@ function ProductPackaging() {
     setTotal,
     loading,
     setLoading,
+    error,
+    setError,
     add,
     update,
     get,
@@ -138,8 +140,8 @@ function ProductPackaging() {
       classes: 'text-center',
     },
 
-    gram: {
-      dataField: 'gram',
+    weight: {
+      dataField: 'weight',
       text: `${intl.formatMessage({ id: 'PRODUCT_PACKAGING.MASTER.TABLE.GRAM_COLUMN' })}`,
       ...SortColumn,
       classes: 'text-center',
@@ -177,7 +179,7 @@ function ProductPackaging() {
       data: {
         code: { title: 'PRODUCT_PACKAGING.MASTER.DETAIL_DIALOG.CODE' },
         name: { title: 'PRODUCT_PACKAGING.MASTER.DETAIL_DIALOG.NAME' },
-        gram: { title: 'PRODUCT_PACKAGING.MASTER.DETAIL_DIALOG.GRAM' },
+        weight: { title: 'PRODUCT_PACKAGING.MASTER.DETAIL_DIALOG.GRAM' },
       },
     },
   ];
@@ -190,7 +192,7 @@ function ProductPackaging() {
       service: ProductTypeService,
       keyField: 'code',
     },
-    name: {
+    species: {
       type: 'SearchSelect',
       placeholder: 'COMMON_COMPONENT.SELECT.PLACEHOLDER',
       label: 'PRODUCT_PACKAGING.MASTER.TABLE.NAME_COLUMN',
@@ -210,7 +212,7 @@ function ProductPackaging() {
           required: true,
           disabled: true,
         },
-        name: {
+        species: {
           type: 'SearchSelect',
           placeholder: intl.formatMessage({ id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER' }),
           required: true,
@@ -219,8 +221,8 @@ function ProductPackaging() {
           keyField: 'name',
           ref: true
         },
-        gram: {
-          type: 'string',
+        weight: {
+          type: 'number',
           placeholder: intl.formatMessage({
             id: 'COMMON_COMPONENT.INPUT.PLACEHOLDER',
           }),
@@ -277,6 +279,8 @@ function ProductPackaging() {
         entity={deleteEntity}
         onDelete={deleteFn}
         isShow={showDelete}
+        loading={loading}
+        error={error}
         onHide={() => {
           setShowDelete(false);
         }}
@@ -288,6 +292,7 @@ function ProductPackaging() {
         loading={loading}
         isShow={showDeleteMany}
         onDelete={deleteMany}
+        error={error}
         onHide={() => {
           setShowDeleteMany(false);
         }}
@@ -307,6 +312,7 @@ function ProductPackaging() {
         allFormField={allFormField}
         allFormButton={allFormButton}
         validation={ProductPackagingSchema}
+        error={error}
         autoFill={{
           field: 'code',
           data: GenerateCode(data),
@@ -328,10 +334,11 @@ function ProductPackaging() {
         allFormField={allFormField}
         allFormButton={allFormButton}
         validation={ProductPackagingSchema}
+        error={error}
         autoFill={{
           field: 'code',
           data: GenerateCode(data),
-          searchSelectField: [{ field: 'name', ref: { prop: 'species', key: 'name' } }],
+          searchSelectField: [{ field: 'species', ref: { prop: 'species', key: 'name' } }],
         }}
         homePage={homeURL}
       />

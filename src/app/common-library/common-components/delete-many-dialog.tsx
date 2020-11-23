@@ -5,6 +5,7 @@ import { Modal } from 'react-bootstrap';
 import { useIntl } from 'react-intl';
 import { ModalProgressBar } from '../modal-progress-bar';
 import { DeleteManyDialogProps } from '../common-types/common-type';
+import { CapitalizeFirstLetter } from '../helpers/common-function';
 
 function DeleteManyDialog<T>({
   selectedEntities,
@@ -20,6 +21,7 @@ function DeleteManyDialog<T>({
   cancelBtn = 'COMMON_COMPONENT.DELETE_MANY_DIALOG.CANCEL_BTN',
   moduleName = 'COMMON_COMPONENT.DELETE_MANY_DIALOG.MODULE_NAME',
   loading,
+  error
 }: DeleteManyDialogProps<T>) {
   const intl = useIntl();
 
@@ -39,7 +41,7 @@ function DeleteManyDialog<T>({
 
       <Modal.Body>
         {selectedEntities && selectedEntities.length > 0 ? (
-          !loading && (
+          !loading && error === '' && (
             <div>
               <p>
                 {intl.formatMessage(
@@ -67,6 +69,15 @@ function DeleteManyDialog<T>({
           </div>
         )}
         {loading && <span>{intl.formatMessage({ id: deletingMessage })}</span>}
+        {!loading && error !== '' && (
+          <>
+            <p>
+              {
+                error
+              }
+            </p>
+          </>
+        )}
       </Modal.Body>
 
       <Modal.Footer>
