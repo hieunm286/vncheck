@@ -27,6 +27,10 @@ const FormTemplate = ({
   search,
   setSearch,
   handleChangeTag,
+  handleAddButton,
+  handleEditButton,
+  handleDeleteButton,
+  setShippingAddressEntity,
   values,
   value,
 }: {
@@ -44,6 +48,10 @@ const FormTemplate = ({
   search?: any;
   setSearch?: any;
   handleChangeTag?: any;
+  handleAddButton?: any;
+  handleEditButton?: any;
+  handleDeleteButton?: any;
+  setShippingAddressEntity?: any;
   values?: any;
   value: any;
 }) => {
@@ -225,6 +233,10 @@ const FormTemplate = ({
             return _shippingAddresses ? 
             (
               <FormikRadioGroup
+                handleAddButton={handleAddButton}
+                handleEditButton={handleEditButton}
+                handleDeleteButton={handleDeleteButton}
+                setShippingAddressEntity={setShippingAddressEntity}
                 ariaLabel='defaultShippingAddress'
                 name='defaultShippingAddress'
                 addresses={_shippingAddresses}

@@ -109,7 +109,6 @@ function EntityCrudPageAgency({
         initialValues={entityForEdit || initForm}
         // validationSchema={PurchaseOrderSchema}
         onSubmit={values => {
-          console.log(values);
           onModify(values);
           history.goBack()
         }}>
