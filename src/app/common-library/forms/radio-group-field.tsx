@@ -7,6 +7,7 @@ import AddIcon from '@material-ui/icons/Add';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { Element } from 'react-scroll';
+import StyledRadio from "./StyledRadio";
 
 
 
@@ -57,7 +58,7 @@ export const FormikRadioGroup = ({
         {addresses.map((entity : any, key: any) => (
         <div className="mt-3 row" key={key}>
           <div className="col-md-10 col-12">
-            <FormControlLabel name="defaultShippingAddress" value={entity._id} control={<Radio />} label={getShippingAddress(entity)} />
+            <FormControlLabel name="defaultShippingAddress" value={entity._id} control={<StyledRadio />} label={getShippingAddress(entity)} />
           </div>
           <div className="col-md-1 col-12">
             <Button type="button" variant="primary" onClick={(e: any) => {
