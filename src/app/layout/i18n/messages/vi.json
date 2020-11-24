@@ -195,6 +195,12 @@
   "LAND_LOT.MODULE_NAME": "lô thửa",
   "LAND_LOT.VIEW.TITLE": "Chỉnh sửa",
   "LAND_LOT.MASTER.HEADER.TITLE": "Danh sách lô thửa",
+
+  "LAND_LOT.EDIT.VALIDATION.LOT_CODE_EMPTY": "Mã lô không được để trống",
+  "LAND_LOT.EDIT.VALIDATION.LOT_CODE_WRONG_FORMAT": "Mã lô không đúng định dạng",
+  "LAND_LOT.EDIT.VALIDATION.SUB_LOT_CODE_EMPTY": "Mã thửa không được để trống",
+  "LAND_LOT.EDIT.VALIDATION.SUB_LOT_CODE_WRONG_FORMAT": "Mã thửa không đúng định dạng",
+  "LAND_LOT.EDIT.VALIDATION.SUB_LOT_CODE_WRONG_FORMAT_LENGTH": "Mã thửa phải có đúng hai chữ số",
   
 
 

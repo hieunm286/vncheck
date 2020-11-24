@@ -17,7 +17,7 @@ import {
   ConvertToTreeNode,
   GenerateAllFormField,
   InitMasterProps,
-} from '../../common-library/helpers/common-function';
+} from './helpers/common-function-land-lot';
 import * as AgencyService from '../purchase-order/agency.service';
 import * as LandLotService from './land-lot.service';
 import { Switch, Route, Redirect, useHistory } from 'react-router-dom';
@@ -73,28 +73,6 @@ const DataExample: any = [
   },
 ];
 
-const PurchaseOrderSchema = Yup.object().shape({
-  // code: Yup.string()
-  //   .min(3, 'Minimum 3 symbols')
-  //   .max(50, 'Maximum 50 symbols')
-  //   .required('Code không được để trống'),
-  // // dateofbirth: Yup.mixed()
-  // //   .nullable(false)
-  // //   .required('Date of Birth is required'),
-  // agencyAddress: Yup.string().required('Vui lòng nhập Agency Address'),
-  phoneNumber: Yup.string()
-    .required('Last name không được để trống')
-    .matches(/[0-9]$/u, {
-      message: 'Vui lòng nhập tên đúng định dạng',
-    }),
-  // time: Yup.date().required('Vui lòng nhập date'),
-  // time2: Yup.date().required('Vui lòng nhập date'),
-  // quantity: Yup.number().required('Vui lòng nhập số lượng'),
-  agency: Yup.object().shape({
-    name: Yup.string().required('Name ko đc để trống'),
-    taxId: Yup.string().required('TaxId ko đc để trống'),
-  })
-});
 
 function LandLot() {
   const intl = useIntl();
@@ -154,6 +132,21 @@ function LandLot() {
   const updateTitle = 'LAND_LOT.EDIT.TITLE';
   const viewTitle = 'LAND_LOT.VIEW.TITLE';
   const history = useHistory();
+
+  const PurchaseOrderSchema = Yup.object().shape({
+  // code: Yup.string().required('abc'),
+  lot: Yup.string()
+    .required(intl.formatMessage({id:'LAND_LOT.EDIT.VALIDATION.LOT_CODE_EMPTY'}))
+    .matches(/[a-zA-Z]/u, {
+      message: intl.formatMessage({id: 'LAND_LOT.EDIT.VALIDATION.LOT_CODE_WRONG_FORMAT'})
+    }),
+  subLot: Yup.string()
+    .required(intl.formatMessage({id: 'LAND_LOT.EDIT.VALIDATION.SUB_LOT_CODE_EMPTY'}))
+    .matches(/[0-9]+/u, {
+      message: intl.formatMessage({id: 'LAND_LOT.EDIT.VALIDATION.SUB_LOT_CODE_WRONG_FORMAT'})
+    })
+    // .test('len', intl.formatMessage({id: 'LAND_LOT.EDIT.VALIDATION.SUB_LOT_CODE_WRONG_FORMAT_LENGTH'}), (val: any) => val.length === 2),
+});
 
   useEffect(() => {
     getAll(filterProps);
@@ -310,7 +303,7 @@ function LandLot() {
           placeholder: intl.formatMessage({ id: 'LAND_LOT.MASTER.PLACEHOLDER.CODE' }),
           label: intl.formatMessage({ id: 'LAND_LOT.MASTER.HEADER.CODE' }),
           required: true,
-          disabled: !!editEntity,
+          disabled: true,
         },
         lot: {
           type: 'string',
@@ -466,6 +459,7 @@ function LandLot() {
         onModify={add}
         title={createTitle}
         modifyModel={modifyModel}
+        validation={PurchaseOrderSchema}
         onHide={() => {
           setShowCreate(false);
         }}
@@ -479,6 +473,7 @@ function LandLot() {
         onModify={update}
         title={updateTitle}
         modifyModel={modifyModel}
+        validation={PurchaseOrderSchema}
         onHide={() => {
           setShowEdit(false);
         }}
