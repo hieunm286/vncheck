@@ -9,28 +9,26 @@ const data: TreeData[] = [
     child: [
       {
         _id: 'xxx-xxx',
-				title: 'Tổng đại lý',
-				child: [
-					{
-						_id: 'cccccc',
-						title: 'Đại lý',
-						child: [
-							{
-								_id: 'cccxzca',
-								title: "Cửa hàng bán lẻ",
-								child: []
-							}
-						]
-					}
-				],
+        title: 'Tổng đại lý',
+        child: [
+          {
+            _id: 'cccccc',
+            title: 'Đại lý',
+            child: [
+              {
+                _id: 'cccxzca',
+                title: 'Cửa hàng bán lẻ',
+                child: [],
+              },
+            ],
+          },
+        ],
         parentId: 'dlc1',
-	  },
-	  {
+      },
+      {
         _id: 'xxx-xczxxx',
-				title: 'Tổng đại lý 2',
-				child: [
-					
-				],
+        title: 'Tổng đại lý 2',
+        child: [],
         parentId: 'dlc1',
       },
     ],
@@ -47,41 +45,36 @@ const data: TreeData[] = [
       {
         _id: 'xxx-xxx4',
         title: 'Đại lý cấp 4',
-				parentId: 'bigC',
-				child: []
+        parentId: 'bigC',
+        child: [],
       },
       {
         _id: 'xxx-xxx5',
         title: 'Đại lý cấp 5',
-				parentId: 'bigC',
-				child: []
+        parentId: 'bigC',
+        child: [],
       },
     ],
   },
 ];
 
 function MultilevelSale() {
-
-	const TreeBody = [
-		{
-			title: 'Cấp',
-			type: 'Tree',
-			data: data
-		},
-		{
-			title: 'Test',
-			type: 'Table',
-			data: data
-		}
-	]
+  const TreeBody = [
+    {
+      title: 'Cấp',
+      type: 'Tree',
+      data: data,
+    },
+    {
+      title: 'Test',
+      type: 'Table',
+      data: data,
+    },
+  ];
 
   return (
     <React.Fragment>
-			<MultiLevelSaleBody 
-				title="Cấp bán hàng" 
-				data={data}
-				body={TreeBody}
-				/>
+      <MultiLevelSaleBody title="Cấp bán hàng" data={data} body={TreeBody} />
     </React.Fragment>
   );
 }
