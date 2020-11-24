@@ -218,8 +218,9 @@ function ModifyEntityPageLandLot<T>({
                               && enteredValue <= 'Z'
                             ) {
                               setSearch({...search, [key]: enteredValue});
-                              setFieldValue('code', enteredValue + values.subLot);
                               handleChange(e);
+                              setFieldValue('lot', enteredValue.toUpperCase());
+                              setFieldValue('code', enteredValue + values.subLot);
                             }
                             if(key === 'subLot'
                               &&  (enteredValue.length <=2
