@@ -1,7 +1,7 @@
-.aside-menu .menu-nav > .menu-item .menu-submenu .menu-item.menu-item-active > .menu-link,
+/* .aside-menu .menu-nav > .menu-item .menu-submenu .menu-item.menu-item-active > .menu-link,
 .aside-menu .menu-nav > .menu-item > .menu-submenu .menu-subnav > .menu-item > .menu-link {
   padding-left: 50px !important;
-}
+} */
 
 .menu-item.menu-item-active.menu-item-open svg {
   fill: white !important;
@@ -20,9 +20,9 @@
   fill: white;
 }
 
-.menu-subnav a.menu-link.active svg {
+/* .menu-subnav a.menu-link.active svg {
   fill: white !important
-}
+} */
 
 .menu-item {
   margin: 5px 11px !important;
@@ -57,4 +57,20 @@
 
 .menu-item-open a.menu-toggle span {
   color: #0B9446 !important
+}
+
+.menu-text {
+  font-size: 11.75px !important;
+}
+
+.menu-link:hover .aside-menu .menu-nav > .menu-item .menu-submenu .menu-item.menu-item-open > .menu-link .menu-arrow {
+  color: white !important;
+}
+
+.menu-item.menu-item-open > .menu-link .menu-arrow {
+  color: #0B9446 !important;
+} 
+
+.menu-item-open a.menu-toggle:hover .menu-arrow {
+  color: white !important
 }

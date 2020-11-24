@@ -42,13 +42,13 @@ export function AsideMenuList({ layoutProps }: any) {
           aria-haspopup="true"
           data-menu-toggle="hover">
           <NavLink className="menu-link menu-toggle" to={url}>
-            {item.icon ? (
+            {item.icon && !item.parent ? (
               <span className="svg-icon menu-icon">
                 {typeof item.icon == 'string' ? (
-                    <SVG
-                      style={{ width: '17px' }}
-                      src={ToAbsoluteUrl('/media/svg/vncheck/' + item.icon)}
-                    />
+                  <SVG
+                    style={{ width: '15px' }}
+                    src={ToAbsoluteUrl('/media/svg/vncheck/' + item.icon)}
+                  />
                 ) : (
                   item.icon
                 )}
@@ -56,12 +56,25 @@ export function AsideMenuList({ layoutProps }: any) {
             ) : (
               <></>
             )}
-            <span className="menu-text">{intl.formatMessage({ id: item.title })}</span>
+            <span className={item.parent ? 'menu-text title' : 'menu-text'}>
+              {intl.formatMessage({ id: item.title })}
+            </span>
             <i className="menu-arrow" />
           </NavLink>
           <div className="menu-submenu ">
             <i className="menu-arrow" />
-            <ul className="menu-subnav">{item.children?.map(MenuItem)}</ul>
+            <ul className="menu-subnav">
+              {item.parent && (
+                <li className="menu-item  menu-item-parent" aria-haspopup="true">
+                  <span className="menu-link">
+                    <span className="menu-text title">
+                      {intl.formatMessage({ id: item.title })}
+                    </span>
+                  </span>
+                </li>
+              )}
+              {item.children?.map(MenuItem)}
+            </ul>
           </div>
         </li>
       );
@@ -70,20 +83,15 @@ export function AsideMenuList({ layoutProps }: any) {
         <li
           key={'menuitem_' + index}
           className={`menu-item ${getMenuItemActive(url, hasSubmenu)}`}
-          aria-haspopup="true"
-          onClick={(e: any) => {
-            const parent = e.target.parentElement.parentElement.parentElement.parentElement.parentElement
-            parent.style.backgroundColor = "none"
-          }}
-          >
+          aria-haspopup="true">
           <NavLink className="menu-link" to={url}>
             {item.icon ? (
               <span className="svg-icon menu-icon">
                 {typeof item.icon == 'string' ? (
-                    <SVG
-                      style={{ width: '17px' }}
-                      src={ToAbsoluteUrl('/media/svg/vncheck/' + item.icon)}
-                    />
+                  <SVG
+                    style={{ width: '15px' }}
+                    src={ToAbsoluteUrl('/media/svg/vncheck/' + item.icon)}
+                  />
                 ) : (
                   item.icon
                 )}
@@ -91,7 +99,7 @@ export function AsideMenuList({ layoutProps }: any) {
             ) : (
               <></>
             )}
-            <span className="menu-text">{intl.formatMessage({ id: item.title })}</span>
+            <span className={item.parent ? 'menu-text title' : 'menu-text'}>{intl.formatMessage({ id: item.title })}</span>
           </NavLink>
         </li>
       );

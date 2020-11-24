@@ -2,191 +2,132 @@ import React from 'react';
 import { Table } from 'react-bootstrap';
 import AddIcon from '@material-ui/icons/Add';
 import EditIcon from '@material-ui/icons/Edit';
+import { TreeData } from '../../pages/multilevel-sale/multilevel-sale.model';
 
-const data: any = {
-  dlc: {
-    _id: 'dlc1',
-    title: 'Đại lý cấp 1',
-    child: [
-      {
-        _id: 'xxx-xxx',
-        title: 'Đại lý cấp 2',
-        parentId: 'dlc1',
-      },
-    ],
-  },
-  sieuthi: {
-    _id: 'sieuthi',
-    title: 'Siêu thị',
-    child: [],
-  },
-  bigC: {
-    _id: 'bigC',
-    title: 'Big C',
-    child: [
-      {
-        _id: 'xxx-xxx4',
-        title: 'Đại lý cấp 4',
-        parentId: 'bigC',
-      },
-      {
-        _id: 'xxx-xxx5',
-        title: 'Đại lý cấp 5',
-        parentId: 'bigC',
-      },
-    ],
-  },
-};
+const showArray_v2 = (fileds: any, data: any): any => {
+  const AllField: any = fileds;
 
-const data2: any = [
-  {
-    _id: 'dlc1',
-    title: 'Đại lý cấp 1',
-    child: [
-      {
-        _id: 'xxx-xxx',
-        title: 'Đại lý cấp 2',
-        parentId: 'dlc1',
-      },
-    ],
-  },
-  {
-    _id: 'sieuthi',
-    title: 'Siêu thị',
-    child: [],
-  },
-  {
-    _id: 'bigC',
-    title: 'Big C',
-    child: [
-      {
-        _id: 'xxx-xxx4',
-        title: 'Đại lý cấp 4',
-        parentId: 'bigC',
-      },
-      {
-        _id: 'xxx-xxx5',
-        title: 'Đại lý cấp 5',
-        parentId: 'bigC',
-      },
-    ],
-  },
-];
+  data.forEach((el: any, key: number) => {
+    if (el.child && el.child.length > 0) {
+      AllField[el._id] = false;
 
-const showArray = (data: any): any => {
-  const showArr: any = {};
-  Object.keys(data).forEach(key => {
-    showArr[key] = false;
+      showArray_v2(AllField, el.child);
+    }
   });
 
-  return showArray;
+  return AllField;
 };
 
-const showArray_v2 = (data: any): any => {
-  const boolArray: any[] = new Array(data.length);
-  // Make all array's element is 0
-  boolArray.fill(false);
-  return boolArray;
-};
-
-const ConvertToTreeNode = () => {
-  const treeData :any[] = [];
-  data2.forEach((value: any, key: any) => {
-    const treeNode = {
-      title: value.title,
-      value: Math.trunc(key / 10) + '-' + key,
-      key: Math.trunc(key / 10) + '-' + key,
-      children: value.child.map((childValue: any, childKey: any)=> ({
-        title: childValue.title,
-        value: Math.trunc(key / 10) + '-' + Math.trunc(childKey / 10) + '-' + childKey,
-        key: Math.trunc(key / 10) + '-' + Math.trunc(childKey / 10) + '-' + childKey,
-      }))
-    }
-
-    treeData.push(treeNode)
-  })
-
-  return treeData;
+interface TreeDataProp {
+  data: TreeData[];
 }
 
-function MasterTreeStructure() {
-  const [showChildren, setShowChildren] = React.useState<any>({
-    ...showArray(data),
-  });
+const MasterTreeStructure: React.FC<TreeDataProp> = ({ data }) => {
+  const [showChildrenV2, setShowChildrenV2] = React.useState<any>({ ...showArray_v2({}, data) });
 
-  const [showChildrenV2, setShowChildrenV2] = React.useState<any>([...showArray_v2(data2)]);
-
-  const onEdit = (data: any) => {
+  const onEdit = (data: TreeData): void => {
     console.log(data);
+  };
+
+  const onShowChildren = (key: string): void => {
+    const clone = { ...showChildrenV2 };
+
+    clone[key] = !clone[key];
+    setShowChildrenV2(clone);
+  };
+
+  const renderChild = (data: TreeData[], size: number, skipDistance: number) => {
+    return (
+      <>
+        {data.map((childItem: TreeData, keyItem: number) => (
+          <React.Fragment key={'children' + keyItem}>
+            <tr>
+              <td>
+                <div style={{ marginLeft: `${size}rem` }}>
+                  {childItem.child && childItem.child.length > 0 ? (
+                    <button
+                      onClick={() => onShowChildren(childItem._id)}
+                      style={{ backgroundColor: 'white', border: 'none' }}>
+                      {'>'}
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => onShowChildren(childItem._id)}
+                      style={{ backgroundColor: 'white', border: 'none' }}>
+                      {'\u00A0'}
+                    </button>
+                  )}
+                  <span onClick={() => onShowChildren(childItem._id)}>{childItem.title}</span>
+                </div>
+              </td>
+              <td>
+                <button
+                  style={{ backgroundColor: 'white', border: 'none' }}
+                  onClick={() => onEdit(childItem)}
+                  className="text-primary">
+                  <AddIcon />
+                </button>
+                <button
+                  style={{ backgroundColor: 'white', border: 'none' }}
+                  className="text-primary">
+                  <EditIcon />
+                </button>
+              </td>
+            </tr>
+            {showChildrenV2[childItem._id] &&
+              childItem.child &&
+              childItem.child.length > 0 &&
+              renderChild(childItem.child, size + skipDistance, skipDistance)}
+          </React.Fragment>
+        ))}
+      </>
+    );
   };
 
   return (
     <>
-      {data2.map((value: any, key: any) => {
-        return (
-          <div key={'parent ' + key} className="row">
-            <div className="col-6">
-              <Table borderless>
-                <tbody>
-                  <tr>
-                    <td className="w-50">
-                      <div className="mb-5">
-                        <button
-                          onClick={() => {
-                            const clone = [...showChildrenV2];
-                            
-                            clone[key] = !clone[key];
-                            setShowChildrenV2(clone);
-                          }}
-                          style={{ backgroundColor: 'white', border: 'none' }}>
-                          {'>'}
-                        </button>
-                        {value.title}
-                      </div>
-                    </td>
-                    <td>
-                      <button
-                        style={{ backgroundColor: 'white', border: 'none' }}
-                        className="text-primary"
-                        onClick={() => onEdit(value)}>
-                        <AddIcon />
-                      </button>
-                      <button
-                        style={{ backgroundColor: 'white', border: 'none' }}
-                        className="text-primary"
-                        onClick={() => onEdit(value)}>
-                        <EditIcon />
-                      </button>
-                    </td>
-                  </tr>
-                  {showChildrenV2[key] &&
-                    value.child.map((childItem: { title: React.ReactNode }, keyItem: any) => (
-                      <tr key={'children' + keyItem}>
-                        <td className="w-120px">
-                          <p className="ml-15">{childItem.title}</p>
-                        </td>
-                        <td>
-                          <button
-                            style={{ backgroundColor: 'white', border: 'none' }}
-                            className="text-primary">
-                            <AddIcon />
-                          </button>
-                          <button
-                            style={{ backgroundColor: 'white', border: 'none' }}
-                            className="text-primary">
-                            <EditIcon />
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
-                </tbody>
-              </Table>
-            </div>
-          </div>
-        );
-      })}
+      {/* {data.map((value: TreeData, key: number) => { */}
+      <Table borderless>
+        <tbody>
+          {renderChild(data, 0, 3.75)}
+
+          {/* {data.map((value: TreeData, key: number) => {
+              return (
+
+              // <tr>
+              //   <td className="w-50">
+              //     <div className="mb-5">
+              //       <button
+              //         onClick={() => onShowChildren(value._id)}
+              //         style={{ backgroundColor: 'white', border: 'none' }}>
+              //         {'>'}
+              //       </button>
+              //       <span onClick={() => onShowChildren(value._id)}>{value.title}</span>
+              //     </div>
+              //   </td>
+              //   <td>
+              //     <button
+              //       style={{ backgroundColor: 'white', border: 'none' }}
+              //       className="text-primary"
+              //       onClick={() => onEdit(value)}>
+              //       <AddIcon />
+              //     </button>
+              //     <button
+              //       style={{ backgroundColor: 'white', border: 'none' }}
+              //       className="text-primary"
+              //       onClick={() => onEdit(value)}>
+              //       <EditIcon />
+              //     </button>
+              //   </td>
+              // </tr>
+              showChildrenV2[value._id] && renderChild(value.child, 3.75, 3.75)
+            )})} */}
+        </tbody>
+      </Table>
+
+      {/* })} */}
     </>
   );
-}
+};
 
 export default MasterTreeStructure;
