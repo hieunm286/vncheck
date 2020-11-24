@@ -3,7 +3,8 @@ import { useField, useFormikContext } from 'formik';
 import DatePicker from 'react-datepicker';
 import { registerLocale, setDefaultLocale } from 'react-datepicker';
 import vi from 'date-fns/locale/vi';
-
+import 'react-datepicker/dist/react-datepicker.css'
+import "react-datepicker/dist/react-datepicker-cssmodules.css";
 registerLocale('vi', vi);
 
 const getFieldCSSClasses = (touched: any, errors: any) => {
@@ -47,6 +48,9 @@ const getClassName = (labelWidth: number | null | undefined, labelStart: boolean
 export function DatePickerField({ ...props }: any) {
   const { setFieldValue, errors, touched } = useFormikContext<any>();
   const [field] = useField(props);
+  // const [startDate, setStartDate] = React.useState(
+  //   setHours(setMinutes(new Date(), 30), 16)
+  // );
 
   return (
     <>
@@ -58,7 +62,7 @@ export function DatePickerField({ ...props }: any) {
           <DatePicker
             className={getFieldCSSClasses(touched[field.name], errors[field.name])}
             style={{ width: '100%' }}
-            dateFormat="dd/MM/yyyy"
+            dateFormat="dd/MM/yyyy h:mm aa"
             selected={(field.value && new Date(field.value)) || null}
             {...field}
             {...props}
@@ -69,6 +73,9 @@ export function DatePickerField({ ...props }: any) {
             wrapperClassName="d-block"
             locale="vi"
             placeholderText="Ngày tháng"
+            // showTimeSelect
+            showTimeInput
+            timeInputLabel="Thời gian:"
           />
           {errors[field.name] && touched[field.name] ? (
             <div className="invalid-datepicker-feedback text-danger" style={{ fontSize: '0.9rem' }}>

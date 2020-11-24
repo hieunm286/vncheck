@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect } from 'react';
 import { useIntl } from 'react-intl';
-import { NormalColumn, SortColumn, StatusValue } from '../../common-library/common-consts/const';
+import { DefaultPagination, NormalColumn, SortColumn, StatusValue } from '../../common-library/common-consts/const';
 import { MasterHeader } from '../../common-library/common-components/master-header';
 import { MasterBody } from '../../common-library/common-components/master-body';
 import { ActionsColumnFormatter } from '../../common-library/common-components/actions-column-formatter';
@@ -147,6 +147,8 @@ function ProductType() {
     setTotal,
     loading,
     setLoading,
+    error,
+    setError,
     add,
     update,
     get,
@@ -351,6 +353,8 @@ function ProductType() {
         entity={deleteEntity}
         onDelete={deleteFn}
         isShow={showDelete}
+        loading={loading}
+        error={error}
         onHide={() => {
           setShowDelete(false);
         }}
@@ -362,6 +366,7 @@ function ProductType() {
         loading={loading}
         isShow={showDeleteMany}
         onDelete={deleteMany}
+        error={error}
         onHide={() => {
           setShowDeleteMany(false);
         }}
@@ -380,10 +385,10 @@ function ProductType() {
             allFormField={allFormField}
             allFormButton={allFormButton}
             validation={ProductTypeSchema}
-            // autoFill={{
-            //     field: 'code',
-            //     data: GenerateCode(data)
-            // }}
+            autoFill={{
+                field: 'code',
+                data: GenerateCode(data)
+            }}
             homePage={homeURL}
           />
         </Route>
@@ -418,7 +423,10 @@ function ProductType() {
         <Route path="/product-type">
           <MasterHeader
             title={headerTitle}
-            onSearch={setFilterProps}
+            onSearch={(value) => {
+              setPaginationProps(DefaultPagination)
+              setFilterProps(value)
+            }}
             searchModel={productTypeSearchModel}
             initValue={{
               code: '',

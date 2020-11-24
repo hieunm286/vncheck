@@ -14,6 +14,8 @@ import { ProductTypeModel } from './product-type.model';
 
 export const API_URL = API_BASE_URL + '/species';
 
+export const BULK_API_URL = API_URL + '/bulk'
+
 export const API_FILE_URL = API_BASE_URL + '/file';
 
 export const Create: CreateProps<ProductTypeModel> = (data: ProductTypeModel) => {
@@ -57,7 +59,7 @@ export const Delete: DeleteProps<any> = (entity: ProductTypeModel) => {
 };
 
 export const DeleteMany: DeleteManyProps<ProductTypeModel> = (entities: ProductTypeModel[]) => {
-  return axios.delete(API_URL, {
+  return axios.delete(BULK_API_URL, {
     data: { listSpecies: entities },
   });
 };

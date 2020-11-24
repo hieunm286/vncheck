@@ -1,6 +1,10 @@
-.aside-menu .menu-nav > .menu-item .menu-submenu .menu-item.menu-item-active > .menu-link,
+/* .aside-menu .menu-nav > .menu-item .menu-submenu .menu-item.menu-item-active > .menu-link,
 .aside-menu .menu-nav > .menu-item > .menu-submenu .menu-subnav > .menu-item > .menu-link {
   padding-left: 50px !important;
+} */
+
+.menu-item.menu-item-active.menu-item-open svg {
+  fill: white !important;
 }
 
 .menu-text.title {
@@ -9,19 +13,15 @@
 }
 
 .menu-icon svg {
-  fill: green
+  fill: #0B9446
 }
 
 .menu-link:hover svg path {
   fill: white;
 }
 
-.active svg {
-  fill: white
-}
-/* 
-a.menu-link.active {
-  border-radius: 10px;
+/* .menu-subnav a.menu-link.active svg {
+  fill: white !important
 } */
 
 .menu-item {
@@ -32,12 +32,45 @@ a.menu-link.active {
   margin: 5px 11px !important;
 }
 
+
 .menu-item a.menu-link {
   border-radius: 11px !important;
-  /* display: block; */
 }
 
 .menu-subnav .menu-item {
   margin: 5px 0px !important;
 
+}
+
+.menu-item-open a.menu-toggle {
+  background-color: white !important;
+  color: #0B9446 !important
+}
+
+.menu-item-open a.menu-toggle:hover {
+  background-color: #0B9446 !important;
+}
+
+.menu-item-open a.menu-toggle:hover span {
+  color: white !important
+}
+
+.menu-item-open a.menu-toggle span {
+  color: #0B9446 !important
+}
+
+.menu-text {
+  font-size: 11.75px !important;
+}
+
+.menu-link:hover .aside-menu .menu-nav > .menu-item .menu-submenu .menu-item.menu-item-open > .menu-link .menu-arrow {
+  color: white !important;
+}
+
+.menu-item.menu-item-open > .menu-link .menu-arrow {
+  color: #0B9446 !important;
+} 
+
+.menu-item-open a.menu-toggle:hover .menu-arrow {
+  color: white !important
 }

@@ -31,47 +31,13 @@ function ModifyEntityDialogForm<T>({
   validation: any;
 }) {
   const intl = useIntl();
-  const modifyM = { ...modifyModel } as any;
+  
   const [images, setImages] = useState(entity);
   const [imageRootArr, setImageRootArr] = useState<any>([]);
 
   const [search, setSearch] = useState<any>(entity);
 
-  const loadOptions = async (
-    search: string,
-    prevOptions: any,
-    { page }: any,
-    service: any,
-    keyField: string,
-    key: string,
-  ) => {
-    const queryProps: any = {};
-    queryProps[keyField] = search;
-
-    const paginationProps = {
-      ...DefaultPagination,
-      page: page,
-    };
-
-    const entities = await service.GetAll({ queryProps, paginationProps });
-    const count = await service.Count({ queryProps });
-
-    const hasMore = prevOptions.length < count.data - (DefaultPagination.limit ?? 0);
-
-    // setSearchTerm({ ...searchTerm, [key]: search });
-
-    const data = [...new Set(entities.data)];
-
-    return {
-      options: data.map((e: any) => {
-        return { label: e[keyField], value: e._id };
-      }),
-      hasMore: hasMore,
-      additional: {
-        page: page + 1,
-      },
-    };
-  };
+  console.log(search)
 
   const onChange = (imageList: any, addUpdateIndex: any, key: any) => {
     const imageArray = getOnlyFile(imageList);
@@ -98,7 +64,10 @@ function ModifyEntityDialogForm<T>({
       initialValues={entity}
       validationSchema={validation}
       onSubmit={values => {
+        console.log(entity)
         if (entity._id) {
+          console.log(entity)
+          console.log(values)
           const updateValue = diff(entity, values);
           onModify({ _id: values._id, ...updateValue });
         } else {
