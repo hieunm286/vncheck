@@ -6,6 +6,7 @@ import { useIntl } from "react-intl";
 import AddIcon from '@material-ui/icons/Add';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
+import { Element } from 'react-scroll';
 
 
 
@@ -45,6 +46,14 @@ export const FormikRadioGroup = ({
   return (
     <React.Fragment>
       <RadioGroup aria-label={ariaLabel} name={name} value={addressesState} onChange={(e: any) => handleAddressChange(e)}>
+      <Element name="test7" className="element" id="containerElement" style={{
+            position: 'relative',
+            height: '200px',
+            overflowY: 'scroll',
+            overflowX: 'hidden',
+            width: '100%',
+            marginBottom: 0,
+          }}>
         {addresses.map((entity : any, key: any) => (
         <div className="mt-3 row" key={key}>
           <div className="col-md-10 col-12">
@@ -65,6 +74,7 @@ export const FormikRadioGroup = ({
           </div>
         </div>
         ))}
+        </Element>
       </RadioGroup>
       <Button type="button" variant="primary"
         onClick={ (e: any) => {

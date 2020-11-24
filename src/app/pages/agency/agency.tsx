@@ -328,7 +328,7 @@ function AgencyPage() {
           placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.AGENCY_NAME' }),
           label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.AGENCY_NAME' }),
         },
-        agencyType: {
+        storeLevel: {
           type: 'string',
           placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.SELL_GOOD_LEVEL' }),
           label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.SELL_GOOD_LEVEL' }), 
@@ -389,7 +389,7 @@ function AgencyPage() {
           label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.USERNAME' }),
           disabled: !!editEntity,
         },
-        name: {
+        ownerName: {
           type: 'string',
           placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.NAME' }),
           label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.NAME' }),

@@ -366,17 +366,17 @@ function ModifyEntityPageAgency<T>({
     });
   }
 
-  // const create = (entity: any) => {
-  //   console.log(entity)
-  //   getShippingAddressesSync()
-  //   .then((shippingAddresses: any) => {
-  //     setFieldValue('shippingAddress', shippingAddresses.push(entity));
-  //     // values.shippingAddress = values.shippingAddress.map((addr: any) => {
-  //     //   return entity._id === addr._id ? entity : addr;
-  //     // })
-  //     setCreateEntity(entity)
-  //   });
-  // }
+  const create = (entity: any) => {
+    getShippingAddressesSync()
+    .then((shippingAddresses: any) => {
+        // setEntityNumber(shippingAddresses.length + 1);
+        const _entity = {...entity, _id: (shippingAddresses.length + 1).toString()};
+        shippingAddresses.push(_entity);
+        setFieldValue('shippingAddress', shippingAddresses);
+        // values.shippingAddress.push(_entity);
+        setCreateEntity(_entity)
+    });
+  }
 
   useEffect(() => {
     getShippingAddressesSync()
@@ -565,7 +565,7 @@ function ModifyEntityPageAgency<T>({
       <ModifyEntityDialogAgency
         isShow={showCreate}
         entity={createEntity}
-        onModify={setCreateEntity}
+        onModify={create}
         title={createTitle}
         formPart={formPart}
         allFormField={allFormField}

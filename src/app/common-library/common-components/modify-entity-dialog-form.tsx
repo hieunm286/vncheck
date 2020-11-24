@@ -66,8 +66,6 @@ function ModifyEntityDialogForm<T>({
       onSubmit={values => {
         console.log(entity)
         if (entity._id) {
-          console.log(entity)
-          console.log(values)
           const updateValue = diff(entity, values);
           onModify({ _id: values._id, ...updateValue });
         } else {
