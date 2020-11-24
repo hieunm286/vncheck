@@ -27,7 +27,6 @@ const GetURLEndPoint = (url: string) => {
 export default function setupAxios(axios: AxiosStatic, store: EnhancedStore) {
   axios.interceptors.request.use(
     (config) => {
-      console.log(config);
       const {auth} = store.getState();
       if (auth) {
         config.headers.Authorization = `${JSON.stringify(auth._certificate)}`;
@@ -46,14 +45,17 @@ export default function setupAxios(axios: AxiosStatic, store: EnhancedStore) {
               // const or: any = {...config.data};
               config.data = {
                 ...config.data,
-                actionType: ('' + config.method + ':' + GetURLEndPoint(config.url ? config.url : '')).toUpperCase(),
+                // actionType: ('' + config.method + ':' + GetURLEndPoint(config.url ? config.url : '')).toUpperCase(),
+                actionType: config.method,
                 _signature: signature,
               };
             }
           }
         } else {
           config.data = {
-            actionType: ('' + config.method + ':' + GetURLEndPoint(config.url ? config.url : '')).toUpperCase(),
+            // actionType: ('' + config.method + ':' + GetURLEndPoint(config.url ? config.url : '')).toUpperCase(),
+            actionType: config.method,
+
           };
 
           const signature = SignMessage(auth._privateKey, config.data);

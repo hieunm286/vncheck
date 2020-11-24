@@ -22,6 +22,8 @@ const ProductType = lazy(() => import('./pages/product-type/product-type'));
 
 const ProductPackaging = lazy(() => import('./pages/product-packaging/product-packaging'));
 
+const MultilevelSale = lazy(() => import('./pages/multilevel-sale/multilevel-sale'))
+
 
 export default function BasePage() {
   // useEffect(() => {
@@ -47,6 +49,7 @@ export default function BasePage() {
         <Route path="/land-lot" component={LandLotPage} />
         <Route path="/product-type" component={ProductType} />
         <Route path="/product-packaging" component={ProductPackaging} />
+        <Route path="/multilevel-sale" component={MultilevelSale} />
 
 
         {/* <Redirect to="/error/error-v1" /> */}

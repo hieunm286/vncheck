@@ -7,4 +7,5 @@ export interface MenuItemModel {
   url?: string;
   icon?: ReactElement|string;
   children?: MenuItemModel[];
+  parent?: boolean;
 }

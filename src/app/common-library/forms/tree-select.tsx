@@ -3,7 +3,7 @@ import { TreeSelect } from 'antd';
 import { useField, useFormikContext } from 'formik';
 import './tree-select.scss'
 
-function CustomeTreeSelect({ label, data, onChange, value, name, ...props }: any) {
+function CustomeTreeSelect({ label, data, onChange, value, name, placeholder, ...props }: any) {
   const { setFieldValue, errors, touched } = useFormikContext<any>();
 
   return (
@@ -14,7 +14,7 @@ function CustomeTreeSelect({ label, data, onChange, value, name, ...props }: any
           value={value}
           dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
           treeData={data}
-          placeholder="Cấp đại lý"
+          placeholder={placeholder}
           treeDefaultExpandAll
           onChange={(val) => {
             onChange(val);

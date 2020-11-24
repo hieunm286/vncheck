@@ -9,6 +9,7 @@ interface ImageUploadPros {
   labelWidth: number;
   isHorizontal: boolean;
   required?: boolean;
+  name?: string
 }
 
 const getClassName = (labelWidth: number | null | undefined, labelStart: boolean) => {
@@ -46,6 +47,7 @@ function CustomImageUpload({
   onChange,
   isHorizontal,
   required,
+  name
 }: ImageUploadPros) {
   return (
     <div className={isHorizontal ? 'row' : ''}>

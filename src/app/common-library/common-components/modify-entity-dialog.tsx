@@ -21,6 +21,7 @@ function ModifyEntityDialog<T>({
   validation,
   autoFill,
   homePage,
+  error
 }: {
   modifyModel?: any;
   title: string;
@@ -36,6 +37,7 @@ function ModifyEntityDialog<T>({
   validation?: any;
   autoFill?: any;
   homePage?: string;
+  error?: string;
 }) {
   const intl = useIntl();
   const initForm = autoFill

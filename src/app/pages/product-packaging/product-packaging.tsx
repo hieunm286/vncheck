@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect } from 'react';
 import { useIntl } from 'react-intl';
-import { NormalColumn, SortColumn, StatusValue } from '../../common-library/common-consts/const';
+import { DefaultPagination, NormalColumn, SortColumn, StatusValue } from '../../common-library/common-consts/const';
 import { MasterHeader } from '../../common-library/common-components/master-header';
 import { MasterBody } from '../../common-library/common-components/master-body';
 import { ActionsColumnFormatter } from '../../common-library/common-components/actions-column-formatter';
@@ -27,6 +27,8 @@ import { ProductPackagingModel } from './product-packaging.model';
 import * as ProductPackagingService from './product-packaging.service';
 import ProductPackagingDetailDialog from './product-packaging-detail-dialog';
 import { GenerateCode } from '../product-type/product-type';
+import * as ProductTypeService from '../product-type/product-type.service';
+
 
 const data: any = [
   {
@@ -58,8 +60,8 @@ const updateTitle = 'PRODUCT_PACKAGING.UPDATE.TITLE';
 const homeURL = `${window.location.pathname}`;
 
 const ProductPackagingSchema = Yup.object().shape({
-  name: Yup.string().required('Name ko đc để trống'),
-  gram: Yup.number()
+  species: Yup.string().required('Name ko đc để trống'),
+  weight: Yup.number()
     .required('Số gram không được để trống')
     .typeError('Vui lòng nhập số'),
 });
@@ -101,6 +103,8 @@ function ProductPackaging() {
     setTotal,
     loading,
     setLoading,
+    error,
+    setError,
     add,
     update,
     get,
@@ -130,14 +134,17 @@ function ProductPackaging() {
       classes: 'text-center',
     },
     name: {
-      dataField: 'name',
+      dataField: 'species.name',
       text: `${intl.formatMessage({ id: 'PRODUCT_PACKAGING.MASTER.TABLE.NAME_COLUMN' })}`,
       ...SortColumn,
+      formatter: (cell: any, row: any, rowIndex: any) => {
+        return (<p>{row.species ?  row.species.name : 'Không có thông tin nha'}</p>);
+      }, 
       classes: 'text-center',
     },
 
-    gram: {
-      dataField: 'gram',
+    weight: {
+      dataField: 'weight',
       text: `${intl.formatMessage({ id: 'PRODUCT_PACKAGING.MASTER.TABLE.GRAM_COLUMN' })}`,
       ...SortColumn,
       classes: 'text-center',
@@ -175,7 +182,7 @@ function ProductPackaging() {
       data: {
         code: { title: 'PRODUCT_PACKAGING.MASTER.DETAIL_DIALOG.CODE' },
         name: { title: 'PRODUCT_PACKAGING.MASTER.DETAIL_DIALOG.NAME' },
-        gram: { title: 'PRODUCT_PACKAGING.MASTER.DETAIL_DIALOG.GRAM' },
+        weight: { title: 'PRODUCT_PACKAGING.MASTER.DETAIL_DIALOG.GRAM' },
       },
     },
   ];
@@ -185,14 +192,14 @@ function ProductPackaging() {
       type: 'string',
       placeholder: 'COMMON_COMPONENT.INPUT.PLACEHOLDER',
       label: 'PRODUCT_PACKAGING.MASTER.TABLE.CODE_COLUMN',
-      service: ProductPackagingService,
+      service: ProductTypeService,
       keyField: 'code',
     },
-    name: {
+    species: {
       type: 'SearchSelect',
       placeholder: 'COMMON_COMPONENT.SELECT.PLACEHOLDER',
       label: 'PRODUCT_PACKAGING.MASTER.TABLE.NAME_COLUMN',
-      service: ProductPackagingService,
+      service: ProductTypeService,
       keyField: 'name',
     },
   };
@@ -208,16 +215,17 @@ function ProductPackaging() {
           required: true,
           disabled: true,
         },
-        name: {
+        species: {
           type: 'SearchSelect',
           placeholder: intl.formatMessage({ id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER' }),
           required: true,
           label: intl.formatMessage({ id: 'PRODUCT_PACKAGING.MASTER.TABLE.NAME_COLUMN' }),
-          service: ProductPackagingService,
+          service: ProductTypeService,
           keyField: 'name',
+          ref: true
         },
-        gram: {
-          type: 'string',
+        weight: {
+          type: 'number',
           placeholder: intl.formatMessage({
             id: 'COMMON_COMPONENT.INPUT.PLACEHOLDER',
           }),
@@ -274,6 +282,8 @@ function ProductPackaging() {
         entity={deleteEntity}
         onDelete={deleteFn}
         isShow={showDelete}
+        loading={loading}
+        error={error}
         onHide={() => {
           setShowDelete(false);
         }}
@@ -285,6 +295,7 @@ function ProductPackaging() {
         loading={loading}
         isShow={showDeleteMany}
         onDelete={deleteMany}
+        error={error}
         onHide={() => {
           setShowDeleteMany(false);
         }}
@@ -304,6 +315,7 @@ function ProductPackaging() {
         allFormField={allFormField}
         allFormButton={allFormButton}
         validation={ProductPackagingSchema}
+        error={error}
         autoFill={{
           field: 'code',
           data: GenerateCode(data),
@@ -325,10 +337,11 @@ function ProductPackaging() {
         allFormField={allFormField}
         allFormButton={allFormButton}
         validation={ProductPackagingSchema}
+        error={error}
         autoFill={{
           field: 'code',
           data: GenerateCode(data),
-          searchSelectField: ['name'],
+          searchSelectField: [{ field: 'species', ref: { prop: 'species', key: 'name' } }],
         }}
         homePage={homeURL}
       />
@@ -336,7 +349,10 @@ function ProductPackaging() {
         <Route path="/product-packaging">
           <MasterHeader
             title={headerTitle}
-            onSearch={setFilterProps}
+            onSearch={(value) => {
+              setPaginationProps(DefaultPagination)
+              setFilterProps(value)
+            }}
             searchModel={productTypeSearchModel}
             initValue={{
               code: '',
