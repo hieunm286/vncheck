@@ -2,7 +2,7 @@
   "name": "demo1",
   "version": "7.0.8",
   "private": true,
-  "homepage": "http://localhost:4444",
+  "homepage": "http://localhost:2999",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
@@ -12,7 +12,7 @@
     "format": "prettier --write \"src/**/*.{js,css,scss,html}\"",
     "rtl": "webpack"
   },
-  "proxy": "http://server:3000",
+  "proxy": "http://localhost:2999",
   "eslintConfig": {
     "extends": "react-app"
   },
