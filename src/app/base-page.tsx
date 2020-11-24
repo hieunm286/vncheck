@@ -26,7 +26,7 @@ const MultilevelSale = lazy(() => import('./pages/multilevel-sale/multilevel-sal
 
 const ShippingAgency = lazy(() => import('./pages/shipping-agency/shipping-agency'))
 
-const ProductionPlan = lazy(() => import('./pages/production-plan/productuon-plan'))
+const ProductionPlan = lazy(() => import('./pages/production-plan/production-plan'))
 
 
 export default function BasePage() {

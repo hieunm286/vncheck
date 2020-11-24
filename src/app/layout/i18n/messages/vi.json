@@ -237,6 +237,15 @@
   "PRODUCT_PACKAGING.DELETE_DIALOG.TITLE": "Xóa",
   "PRODUCT_PACKAGING.MODULE_NAME": "Quy cách đóng gói",
   "PRODUCT_PACKAGING.CREATE.TITLE": "Tạo quy cách mới",
-  "PRODUCT_PACKAGING.UPDATE.TITLE": "Chỉnh sửa quy cách đóng gói"
+  "PRODUCT_PACKAGING.UPDATE.TITLE": "Chỉnh sửa quy cách đóng gói",
+
+  "PRODUCTION_PLAN.CODE": "Mã kế hoạch",
+  "PRODUCTION_PLAN.PLANT_CODE": "Mã gieo giống",
+  "PRODUCTION_PLAN.GROW_CODE": "Mã gieo trồng",
+  "PRODUCTION_PLAN.SPECIES_NAME": "Tên chủng loại",
+  "PRODUCTION_PLAN.HARVEST_DATE": "Thời gian thu hoạch dự kiến",
+  "PRODUCTION_PLAN.CREATE_DATE": "Ngày tạo",
+  "PRODUCTION_PLAN.STATUS": "Trạng thái",
+  "PRODUCTION_PLAN.APPROVE_STATUS": "Trạng thái duyệt"
   
 }
