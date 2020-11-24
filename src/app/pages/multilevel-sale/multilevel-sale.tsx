@@ -24,6 +24,14 @@ const data: TreeData[] = [
 					}
 				],
         parentId: 'dlc1',
+	  },
+	  {
+        _id: 'xxx-xczxxx',
+				title: 'Tổng đại lý 2',
+				child: [
+					
+				],
+        parentId: 'dlc1',
       },
     ],
   },
@@ -56,10 +64,12 @@ function MultilevelSale() {
 
 	const TreeBody = [
 		{
+			title: 'Cấp',
 			type: 'Tree',
 			data: data
 		},
 		{
+			title: 'Test',
 			type: 'Table',
 			data: data
 		}
@@ -70,6 +80,7 @@ function MultilevelSale() {
 			<MultiLevelSaleBody 
 				title="Cấp bán hàng" 
 				data={data}
+				body={TreeBody}
 				/>
     </React.Fragment>
   );
