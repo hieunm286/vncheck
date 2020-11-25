@@ -65,13 +65,17 @@ export const FormikRadioGroup = ({
                 if(handleEditButton && setShippingAddressEntity) {
                   handleEditButton(true);
                   setShippingAddressEntity(key);
-                  console.log(key)
                 }
               }
               }><EditIcon /></Button>
           </div>
           <div className="col-md-1 col-12">
-            <Button type="button" variant="primary" onClick={(e: any) => {if(handleDeleteButton) handleDeleteButton(true)}}><DeleteIcon /></Button>
+            <Button type="button" variant="primary" onClick={(e: any) => {
+              if(handleDeleteButton && setShippingAddressEntity) 
+                handleDeleteButton(true);
+                setShippingAddressEntity(key)
+              }
+              }><DeleteIcon /></Button>
           </div>
         </div>
         ))}

@@ -296,6 +296,7 @@ function ModifyEntityPageAgency<T>({
   const createTitle = 'AGENCY.EDIT.HEADER.ADD_NEW_SHIPPING_ADDRESS';
   const updateTitle = 'AGENCY.EDIT.HEADER.EDIT_SHIPPING_ADDRESS';
   const deleteTitle = 'AGENCY.EDIT.HEADER.DELETE_SHIPPING_ADDRESS';
+  const moduleName = 'AGENCY.EDIT.HEADER.SHIPPING_ADDRESS';
   const formPart: any = {
     form_1: {
       title: '',
@@ -338,8 +339,20 @@ function ModifyEntityPageAgency<T>({
     },
   };
 
-  const deleteFn = (entity: T) => {
-    
+  const deleteFn = (entity: any) => {
+    console.log(entity)
+    getShippingAddressesSync()
+    .then((shippingAddresses: any) => {
+      setFieldValue('shippingAddress', shippingAddresses.filter((addr: any) => {
+          return entity._id !== addr._id;
+        })
+      );
+      values.shippingAddress = values.shippingAddress.filter((addr: any) => {
+        return entity._id !== addr._id;
+      });
+      setDeleteEntity(entity);
+      setShowDelete(false);
+    });
   };
 
   const getShippingAddressSync = async (entityNumber: number) => {
@@ -388,7 +401,8 @@ function ModifyEntityPageAgency<T>({
   useEffect(() => {
     getShippingAddressSync(entityNumber)
     .then((res: any) => {
-      setEditEntity(res)
+      setEditEntity(res);
+      setDeleteEntity(res);
     });
   }, [entityNumber]);
 
@@ -577,7 +591,7 @@ function ModifyEntityPageAgency<T>({
       />
 
       <DeleteEntityDialog
-        // moduleName={moduleName}
+        moduleName={moduleName}
         title={deleteTitle}
         entity={deleteEntity}
         onDelete={deleteFn}
