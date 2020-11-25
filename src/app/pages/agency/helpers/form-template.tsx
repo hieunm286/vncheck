@@ -279,13 +279,11 @@ const FormTemplate = ({
             );  
           
           case 'option':
-            console.log(values.gender)
-            return (
-              <div className="mt-3 row" key={`${key}`}>
+            return values.gender ? (
+              <div className="mt-3" key={`${key}`}>
                 <Field
                   name={key}
                   component={RadioField}
-                  defaultValue={values.gender}
                   isHorizontal
                   withFeedbackLabel
                   labelWidth={4}
@@ -297,7 +295,7 @@ const FormTemplate = ({
                   defaultValue={values.gender}
                 /> */}
             </div>
-            )
+            ) : (<></>)
 
           case 'object':
             return (

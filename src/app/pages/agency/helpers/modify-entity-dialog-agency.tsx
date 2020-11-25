@@ -79,7 +79,7 @@ function ModifyEntityDialogAgency<T>({
     };
   };
 
-  console.log(entity)
+
   return (
     <Modal show={isShow} onHide={onHide} aria-labelledby="example-modal-sizes-title-lg">
       <Modal.Header closeButton className="border-bottom-0">
