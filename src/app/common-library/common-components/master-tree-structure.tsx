@@ -36,13 +36,17 @@ const MasterTreeStructure: React.FC<TreeDataProp> = ({ data }) => {
     setShowChildrenV2(clone);
   };
 
+  const handleClick = (data: TreeData): void => {
+    console.log(data);
+  }
+
   const renderChild = (data: TreeData[], size: number, skipDistance: number) => {
     return (
       <>
         {data.map((childrenItem: TreeData, keyItem: number) => (
           <React.Fragment key={'childrenren' + keyItem}>
             <tr>
-              <td>
+              <td onClick={() => handleClick(childrenItem)}>
                 <div style={{ marginLeft: `${size}rem` }}>
                   {childrenItem.children && childrenItem.children.length > 0 ? (
                     <button

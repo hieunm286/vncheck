@@ -225,7 +225,7 @@ export function InitMasterProps<T>({
           //   setTotal(countResponse.data);
           // });
           const data: any = getAllResponse.data
-          setEntities(data.data);
+          setEntities(data.data ? data.data : data);
             setLoading(false);
             setTotal(data.paging.total);
         })

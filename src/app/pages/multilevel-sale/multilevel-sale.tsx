@@ -1,6 +1,11 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { InitMasterProps } from '../../common-library/helpers/common-function';
 import MultiLevelSaleBody from './multi-sale-body';
 import { TreeData } from './multilevel-sale.model';
+import * as MultilevelSaleService from './multilevel-sale.service';
+import { useIntl } from 'react-intl';
+import { NormalColumn, SortColumn } from '../../common-library/common-consts/const';
+import { MultilevelSaleActionColumn } from './multilevel-action-column';
 
 const data: TreeData[] = [
   {
@@ -30,7 +35,6 @@ const data: TreeData[] = [
                 code: 'sàvasf1213',
                 level: 4,
                 status: '1',
-               
               },
             ],
           },
@@ -82,16 +86,128 @@ const data: TreeData[] = [
 ];
 
 function MultilevelSale() {
+  const intl = useIntl();
+
+  const {
+    entities,
+    setEntities,
+    deleteEntity,
+    setDeleteEntity,
+    editEntity,
+    setEditEntity,
+    createEntity,
+    setCreateEntity,
+    selectedEntities,
+    setSelectedEntities,
+    detailEntity,
+    setDetailEntity,
+    showDelete,
+    setShowDelete,
+    showEdit,
+    setShowEdit,
+    showCreate,
+    setShowCreate,
+    showDetail,
+    setShowDetail,
+    showDeleteMany,
+    setShowDeleteMany,
+    trigger,
+    setTrigger,
+    paginationProps,
+    setPaginationProps,
+    filterProps,
+    setFilterProps,
+    total,
+    setTotal,
+    loading,
+    setLoading,
+    error,
+    setError,
+    add,
+    update,
+    get,
+    deleteMany,
+    deleteFn,
+    getAll,
+    refreshData,
+  } = InitMasterProps<TreeData>({
+    getServer: MultilevelSaleService.Get,
+    countServer: MultilevelSaleService.Count,
+    createServer: MultilevelSaleService.Create,
+    deleteServer: MultilevelSaleService.Delete,
+    deleteManyServer: MultilevelSaleService.DeleteMany,
+    getAllServer: MultilevelSaleService.GetAll,
+    updateServer: MultilevelSaleService.Update,
+  });
+
+  const [agency, setAgency] = useState<any[]>([]);
+
+  useEffect(() => {
+    getAll(filterProps);
+  }, [paginationProps, trigger, filterProps]);
+
+  const columns = {
+    _id: {
+      dataField: '_id',
+      text: 'STT',
+      formatter: (cell: any, row: any, rowIndex: number) => (
+        <p>
+          {rowIndex + 1 + ((paginationProps.page ?? 0) - 1) * (paginationProps.limit ?? 0)}
+        </p>
+      ),
+      style: { paddingTop: 20 },
+    },
+    code: {
+      dataField: 'code',
+      text: `${intl.formatMessage({ id: 'PRODUCT_TYPE.MASTER.TABLE.CODE_COLUMN' })}`,
+      ...SortColumn,
+      classes: 'text-center',
+    },
+    name: {
+      dataField: 'name',
+      text: `${intl.formatMessage({ id: 'PRODUCT_TYPE.MASTER.TABLE.NAME_COLUMN' })}`,
+      ...SortColumn,
+      classes: 'text-center',
+    },
+
+    action: {
+      dataField: 'action',
+      text: `${intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.ACTION_COLUMN' })}`,
+      formatter: MultilevelSaleActionColumn,
+      formatExtraData: {
+        intl,
+
+        onDelete: (entity: any) => {
+          setDeleteEntity(entity);
+          setShowDelete(true);
+        },
+      },
+      ...NormalColumn,
+      style: { minWidth: '130px' },
+    },
+  };
+
   const TreeBody = [
     {
       name: 'Cấp',
+      title: 'Danh sách cấp phân phối',
       type: 'Tree',
-      data: data,
+      data: entities,
     },
     {
       name: 'Test',
+      title: 'Danh sách các đơn vị bán hàng',
       type: 'Table',
-      data: data,
+      data: entities,
+      prop: {
+        columns: columns,
+        total: total,
+        loading: loading,
+        paginationParams: paginationProps,
+        setPaginationParams: setPaginationProps,
+        onSelectMany: setSelectedEntities,
+        selectedEntities: selectedEntities,
+      },
     },
   ];
 
