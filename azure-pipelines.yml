@@ -1,0 +1,23 @@
+# Node.js with React
+# Build a Node.js project that uses React.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+
+trigger:
+- dev
+
+pool:
+  name: 'Default'
+
+steps:
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: |
+      docker-compose --env-file deploy/dev/.env.dev -f deploy/dev/docker-dev.yml up --build --force-recreate -V
+  displayName: 'Build Image'
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: 'build'
+    ArtifactName: 'react'
+    publishLocation: 'Container'
