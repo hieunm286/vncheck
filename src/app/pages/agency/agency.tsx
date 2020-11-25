@@ -430,7 +430,7 @@ function AgencyPage() {
       title: intl.formatMessage({id: 'AGENCY.EDIT.HEADER.SHIPPING_ADDRESS'}).toUpperCase(),
       data: {
         shippingAddress: {
-          type: 'radio', // type: 'array',
+          type: 'radioGroup', // type: 'array',
           placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
           label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
         },

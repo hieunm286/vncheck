@@ -91,9 +91,10 @@ function EntityCrudPageAgency({
           ownerName: res.data.owner.firstName + ' ' + res.data.owner.lastName,
           ownerPhoneNumber: res.data.owner.phone,
           email: res.data.owner.email,
-          // gender: ,
+          gender: res.data.owner.gender,
           birthDay: Date.parse(res.data.owner.birthDay),
           roleName: res.data.owner.role.roleType,
+          status: res.data.status
           // avatar: , 
         };
         console.log(entity);

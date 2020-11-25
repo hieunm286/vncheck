@@ -1,5 +1,5 @@
 import React from 'react';
-import { Field } from 'formik';
+import { Field, useFormikContext } from 'formik';
 import { MainInput } from '../../../common-library/forms/main-input';
 import { DatePickerField } from '../../../common-library/forms/date-picker-field';
 import { Switch } from '@material-ui/core';
@@ -10,6 +10,8 @@ import { DefaultPagination } from '../../../common-library/common-consts/const';
 import ImgGallery from '../../../common-library/forms/image-gallery';
 import CheckCircleOutlinedIcon from '@material-ui/icons/CheckCircleOutlined';
 import { FormikRadioGroup } from '../../../common-library/forms/radio-group-field';
+import { SwitchField } from '../../../common-library/forms/switch-field';
+import { RadioField } from '../../../common-library/forms/radio-field';
 
 
 const FormTemplate = ({
@@ -31,7 +33,7 @@ const FormTemplate = ({
   handleEditButton,
   handleDeleteButton,
   setShippingAddressEntity,
-  values,
+  formValues,
   value,
 }: {
   modifyModel: any;
@@ -52,9 +54,11 @@ const FormTemplate = ({
   handleEditButton?: any;
   handleDeleteButton?: any;
   setShippingAddressEntity?: any;
-  values?: any;
+  formValues?: any;
   value: any;
 }) => {
+
+  const { values } = useFormikContext<any>();
 
   const dataT: any = [
     {
@@ -189,7 +193,7 @@ const FormTemplate = ({
             );
           // handle shippingAddress
           case 'array':
-            const shippingAddresses = values[key];
+            const shippingAddresses = formValues[key];
             return shippingAddresses ? 
               shippingAddresses.map((el: any, innerkey: any) => {
                 return (
@@ -228,8 +232,8 @@ const FormTemplate = ({
                 />
               </div>
             );
-          case 'radio':
-            const _shippingAddresses = values['shippingAddress'];
+          case 'radioGroup':
+            const _shippingAddresses = formValues['shippingAddress'];
             return _shippingAddresses ? 
             (
               <FormikRadioGroup
@@ -263,7 +267,7 @@ const FormTemplate = ({
                           
                 <Field
                   name={key}
-                  component={Switch}
+                  component={SwitchField}
                   isHorizontal
                   withFeedbackLabel
                   labelWidth={4}
@@ -271,14 +275,29 @@ const FormTemplate = ({
                   label={value.data[key].label}
                   required={value.data[key].required}
                 />
-                <Switch 
-                  // style={{color: "#1DBE2D"}}
-                  color="primary"
-                  checkedIcon={<CheckCircleOutlinedIcon style={{backgroundColor: "#FFFFFF"}} />}
-                  // icon={<CheckCircleIcon />}
-                />
               </div>
             );  
+          
+          case 'option':
+            console.log(values.gender)
+            return (
+              <div className="mt-3 row" key={`${key}`}>
+                <Field
+                  name={key}
+                  component={RadioField}
+                  defaultValue={values.gender}
+                  isHorizontal
+                  withFeedbackLabel
+                  labelWidth={4}
+                  placeholder={value.data[key].placeholder}
+                  label={value.data[key].label}
+                  required={value.data[key].required}
+                />
+                {/* <RadioField 
+                  defaultValue={values.gender}
+                /> */}
+            </div>
+            )
 
           case 'object':
             return (

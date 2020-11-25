@@ -273,7 +273,7 @@ function ModifyEntityPage<T>({
                         />
                       </div>
                     );
-                  case 'radio':
+                  case 'radioGroup':
                     const _shippingAddresses = values['shippingAddress'];
                     return _shippingAddresses ? 
                     (

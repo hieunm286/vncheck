@@ -504,7 +504,7 @@ function ModifyEntityPageAgency<T>({
             <>
               <div className={`col-md-${12 / (column ? column : 1)} col-12`} key={0}>
                 <FormTemplate 
-                  values={values}
+                  formValues={values}
                   images={images}
                   onChange={(imageList: any, addUpdateIndex: any, key: any) => {
                     onChange(imageList, addUpdateIndex, key);
@@ -517,7 +517,7 @@ function ModifyEntityPageAgency<T>({
               </div>
               <div className={`col-md-${12 / (column ? column : 1)} col-12`} key={1}>
                 <FormTemplate 
-                  values={values}
+                  formValues={values}
                   images={images}
                   onChange={(imageList: any, addUpdateIndex: any, key: any) => {
                     onChange(imageList, addUpdateIndex, key);
@@ -528,7 +528,7 @@ function ModifyEntityPageAgency<T>({
                   value={modifyModel[1]}
                 />
                 <FormTemplate 
-                  values={values}
+                  formValues={values}
                   images={images}
                   onChange={(imageList: any, addUpdateIndex: any, key: any) => {
                     onChange(imageList, addUpdateIndex, key);
