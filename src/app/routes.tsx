@@ -12,6 +12,7 @@ import BasePage from './base-page';
 import {Layout} from "./layout/components/layout";
 import ErrorsPage from "./layout/errors/errors-page";
 import {AuthPage, Logout} from "./pages/auth";
+import store from '../redux/store';
 
 export function Routes() {
   const userInfo = useSelector(({auth}: any) => auth);
@@ -38,6 +39,8 @@ export function Routes() {
   const errorMessage = (userInfo._error && userInfo._error !== 'AUTH.ERROR.NEED_TO_CHANGE_PASSWORD') ? userInfo._error :
     new URLSearchParams(search).get('errorMessage');
   const CheckAuth = () => {
+    const state: any = store.getState();
+    const username = state.auth.username;
     if (isNeedChangePassword) {
       return (<Route>
         <AuthPage/>
@@ -50,11 +53,14 @@ export function Routes() {
     } else
       return (<Route>
         <AuthPage/>
-        username ?
-        (<Route><Redirect to={`/auth/login/challenge?callbackUrl=${callbackUrl}`}/></Route>)
-        :
-        (<Route><Redirect
-        to={`/auth/login/identifier?callbackUrl=${callbackUrl}&errorMessage=${errorMessage}`}/></Route>)
+        {
+          username ?
+          (<Route><Redirect to={`/auth/login/challenge?callbackUrl=${callbackUrl}`}/></Route>)
+          :
+          (<Route><Redirect
+          to={`/auth/login/identifier?callbackUrl=${callbackUrl}&errorMessage=${errorMessage}`}/></Route>)
+        }
+        
       </Route>);
   };
   return (
