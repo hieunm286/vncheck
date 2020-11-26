@@ -7,7 +7,7 @@ import {
   GetHomePage,
   getNewImage,
   getOnlyFile,
-  getOnlyBase64
+  getOnlyBase64,
 } from '../helpers/common-function';
 import { Field, Form, Formik } from 'formik';
 import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
@@ -24,19 +24,13 @@ import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import { diff } from 'deep-object-diff';
 import EXIF from 'exif-js';
 import { isEmpty } from 'lodash';
-import exifr from 'exifr'
+import exifr from 'exifr';
+import { AxiosResponse } from 'axios';
+import ReactNotification from 'react-notifications-component'
 import { store } from 'react-notifications-component';
-import 'react-notifications-component/dist/theme.css';
+import 'react-notifications-component/dist/theme.css'
 
-
-const DeepObject = (obj1: any, obj2: any) => {
-  const updateValue = diff(obj1, obj2);
-  console.log(updateValue)
-  const a = isEmpty(updateValue)
-  console.log(a);
-}
-
-function EntityCrudPage({
+function EntityCrudPagePromise({
   entity,
   onModify,
   title,
@@ -49,13 +43,14 @@ function EntityCrudPage({
   allFormButton,
   validation,
   autoFill,
-  asyncError,
   homePage,
+  asyncError,
+  refreshData,
 }: {
   // modifyModel: ModifyModel;
   title: string;
   entity: any;
-  onModify: (values: any) => void;
+  onModify: (values: any) => Promise<AxiosResponse<any>>;
   reduxModel?: string;
   code: string | null;
   get: (code: string) => any | null;
@@ -64,8 +59,9 @@ function EntityCrudPage({
   allFormButton: any;
   validation?: any;
   autoFill?: any;
-  asyncError?: string;
   homePage?: string;
+  asyncError?: string;
+  refreshData: () => void;
 }) {
   const intl = useIntl();
   const initForm = autoFill
@@ -80,10 +76,10 @@ function EntityCrudPage({
 
   const [tagArr, setTagArr] = useState(initForm);
 
-  const [imageData, setImageData] = useState<{ data_url: any; exif: any }[]>([])
+  const [imageData, setImageData] = useState<{ data_url: any; exif: any }[]>([]);
 
-  console.log(imageData)
-
+  const [checkFormError, setCheckFormError] = useState<boolean>(false);
+  const [errorMsg, setErrorMsg] = useState<string | undefined>();
   const ImageMeta = (file: any) => {
     if (!file) return '';
 
@@ -91,36 +87,38 @@ function EntityCrudPage({
       exifr.parse(item.file).then(res => {
         const image = {
           data_url: item.data_url,
-          exif: res
-        }
+          exif: res,
+        };
 
-        const data: any[] = []
-        data.push(image)
-        console.log(image)
-        setImageData(prevImages => ([...prevImages, ...data]))
-
-      })
-    })
+        const data: any[] = [];
+        data.push(image);
+        console.log(image);
+        setImageData(prevImages => [...prevImages, ...data]);
+      });
+    });
   };
-  
- 
-  const onChange = (imageList: any, addUpdateIndex: any, key: any, setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => void) => {
+
+  const onChange = (
+    imageList: any,
+    addUpdateIndex: any,
+    key: any,
+    setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => void,
+  ) => {
     const imageArray = getOnlyFile(imageList);
     const base64Array = getOnlyBase64(imageList);
-    const ImagesData = []
+    const ImagesData = [];
     const newArr = getNewImage(images[key], imageList);
     // console.log(newArr)
     // newArr.forEach((file, index) => {
-    //   ImageMeta(file.file) 
+    //   ImageMeta(file.file)
     // });
-    ImageMeta(newArr)
+    ImageMeta(newArr);
 
-    setFieldValue(key, imageData)
-    
+    setFieldValue(key, imageData);
+
     // data for submit
     setImages({ ...images, [key]: imageList });
     setImageRootArr(base64Array);
-
   };
 
   function handleChangeTag(value: string, key?: string) {
@@ -129,14 +127,44 @@ function EntityCrudPage({
     // setTagArr({ ...tagArr, [key]: newTag });
   }
 
- 
+
+  // useEffect(() => {
+  //   if (code) {
+  //     get(code).then((res: { data: any }) => {
+  //       setEntityForEdit(res.data);
+  //     });
+  //   }
+  // }, [code]);
+
   useEffect(() => {
-    if (code) {
-      get(code).then((res: { data: any }) => {
-        setEntityForEdit(res.data);
-      });
+    if (checkFormError) {
+      history.push(GetHomePage(window.location.pathname));
     }
-  }, [code]);
+  }, [checkFormError]);
+
+  const submitHandle = async (values: any, { setSubmitting, setFieldError }: any) => {
+    onModify(values)
+      .then((res: any) => {
+        setCheckFormError(true);
+        setErrorMsg(undefined);
+        refreshData();
+      })
+      .catch(error => {
+        setSubmitting(false);
+        setErrorMsg(JSON.stringify(error));
+        setCheckFormError(false);
+      });
+
+    // try {
+    //     const res = await onModify(values);
+    //     refreshData();
+    //     history.push(GetHomePage(window.location.pathname));
+    // } catch (err) {
+    //     setSubmitting(false);
+    //     setFieldError('barcode', JSON.stringify(err));
+    //     setCheckFormError(false);
+    // }
+  };
 
   return (
     <>
@@ -145,30 +173,16 @@ function EntityCrudPage({
         initialValues={entityForEdit || initForm}
         // initialValues={initForm}
         validationSchema={validation}
-        onSubmit={values => {
-          console.log(values);
+        onSubmit={(values, { setSubmitting, setFieldError }) => {
+          let updateValue;
+
           if (entityForEdit) {
-            const updateValue = diff(entityForEdit, values);
-            onModify({ _id: values._id, ...updateValue });
+            const diffValue = diff(entityForEdit, values);
+            updateValue = { _id: values._id, ...diffValue };
           } else {
-            onModify({...values, imageData});
+            updateValue = { ...values };
           }
-          // if (asyncError !== '') {
-          //   store.addNotification({
-          //     title: "Wonderful!",
-          //     message: "teodosii@react-notifications-component",
-          //     type: "success",
-          //     insert: "top",
-          //     container: "top-right",
-          //     animationIn: ["animate__animated", "animate__fadeIn"],
-          //     animationOut: ["animate__animated", "animate__fadeOut"],
-          //     dismiss: {
-          //       duration: 5000,
-          //       onScreen: true
-          //     }
-          //   });
-          // }
-          history.push(GetHomePage(window.location.pathname));
+          submitHandle(updateValue, { setSubmitting, setFieldError });
         }}>
         {({ handleSubmit, setFieldValue }) => (
           <>
@@ -200,6 +214,11 @@ function EntityCrudPage({
                       title={formPart[key].title}
                       handleChangeTag={handleChangeTag}
                     />
+                    {errorMsg && (
+                      <div className="text-right mt-5">
+                        <span className="text-danger">{errorMsg}</span>
+                      </div>
+                    )}
                   </CardBody>
                   {key === Object.keys(formPart)[Object.keys(formPart).length - 1] && (
                     <div className="text-right mb-5 mr-5" key={key}>
@@ -260,4 +279,4 @@ function EntityCrudPage({
   );
 }
 
-export default EntityCrudPage;
+export default EntityCrudPagePromise;

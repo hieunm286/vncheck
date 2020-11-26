@@ -96,9 +96,11 @@ export function MasterTable<T>({
     page: paginationParams.page,
     onSizePerPageChange: (page: number, sizePerPage: number) => {
       setPaginationParams({ ...paginationParams, page: 1, limit: sizePerPage });
+      onSelectMany([])
     },
     onPageChange: (page: number) => {
       setPaginationParams({ ...paginationParams, page });
+      onSelectMany([])
     },
   };
 
