@@ -15,5 +15,6 @@ export interface TreeData {
 export interface MultilevelSaleBodyProp {
     title: string;
     data: TreeData[]
-    body: {title?: string; type: string; data: any}[]
+    body: {title?: string; type: string; data: any}[];
+    onCreate?: () => void;
 }

@@ -2,6 +2,7 @@ import React from 'react';
 import { Table } from 'react-bootstrap';
 import AddIcon from '@material-ui/icons/Add';
 import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
 import { TreeData } from '../../pages/multilevel-sale/multilevel-sale.model';
 
 const showArray_v2 = (fileds: any, data: any): any => {
@@ -75,6 +76,11 @@ const MasterTreeStructure: React.FC<TreeDataProp> = ({ data }) => {
                   style={{ backgroundColor: 'white', border: 'none' }}
                   className="text-primary">
                   <EditIcon />
+                </button>
+                <button
+                  style={{ backgroundColor: 'white', border: 'none' }}
+                  className="text-primary">
+                  <DeleteIcon />
                 </button>
               </td>
             </tr>

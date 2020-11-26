@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { InitMasterProps } from '../../common-library/helpers/common-function';
+import {
+  GenerateAllFormField,
+  InitMasterProps,
+} from '../../common-library/helpers/common-function';
 import MultiLevelSaleBody from './multi-sale-body';
 import { TreeData } from './multilevel-sale.model';
 import * as MultilevelSaleService from './multilevel-sale.service';
 import { useIntl } from 'react-intl';
 import { NormalColumn, SortColumn } from '../../common-library/common-consts/const';
 import { MultilevelSaleActionColumn } from './multilevel-action-column';
+import ModifyEntityDialog from '../../common-library/common-components/modify-entity-dialog';
+import { GenerateCode } from '../product-type/product-type';
 
 const data: TreeData[] = [
   {
@@ -85,6 +90,14 @@ const data: TreeData[] = [
   },
 ];
 
+const headerTitle = 'PRODUCT_PACKAGING.MASTER.HEADER.TITLE';
+const bodyTitle = 'PRODUCT_PACKAGING.MASTER.BODY.TITLE';
+const moduleName = 'PRODUCT_PACKAGING.MODULE_NAME';
+const deleteDialogTitle = 'PRODUCT_PACKAGING.DELETE_DIALOG.TITLE';
+const createTitle = 'PRODUCT_PACKAGING.CREATE.TITLE';
+const updateTitle = 'PRODUCT_PACKAGING.UPDATE.TITLE';
+const homeURL = `${window.location.pathname}`;
+
 function MultilevelSale() {
   const intl = useIntl();
 
@@ -151,9 +164,7 @@ function MultilevelSale() {
       dataField: '_id',
       text: 'STT',
       formatter: (cell: any, row: any, rowIndex: number) => (
-        <p>
-          {rowIndex + 1 + ((paginationProps.page ?? 0) - 1) * (paginationProps.limit ?? 0)}
-        </p>
+        <p>{rowIndex + 1 + ((paginationProps.page ?? 0) - 1) * (paginationProps.limit ?? 0)}</p>
       ),
       style: { paddingTop: 20 },
     },
@@ -211,9 +222,97 @@ function MultilevelSale() {
     },
   ];
 
+  const modifyModel = [
+    {
+      title: '',
+      data: {
+        code: {
+          type: 'string',
+          placeholder: intl.formatMessage({ id: 'COMMON_COMPONENT.INPUT.PLACEHOLDER' }),
+          label: intl.formatMessage({ id: 'PRODUCT_PACKAGING.MASTER.TABLE.CODE_COLUMN' }),
+          required: true,
+          disabled: true,
+        },
+        name: {
+          type: 'string',
+          placeholder: intl.formatMessage({
+            id: 'COMMON_COMPONENT.INPUT.PLACEHOLDER',
+          }),
+          required: true,
+          label: intl.formatMessage({ id: 'PRODUCT_PACKAGING.MASTER.TABLE.GRAM_COLUMN' }),
+        },
+      },
+    },
+  ];
+
+  const formPart: any = {
+    form_1: {
+      title: '',
+      modifyModel: modifyModel,
+      header: 'ĐƠN HÀNG',
+    },
+  };
+
+  const allFormField: any = {
+    ...GenerateAllFormField(modifyModel),
+  };
+
   return (
     <React.Fragment>
-      <MultiLevelSaleBody title="Cấp bán hàng" data={data} body={TreeBody} />
+      <ModifyEntityDialog
+        isShow={showCreate}
+        entity={createEntity}
+        onModify={add}
+        title={createTitle}
+        modifyModel={modifyModel}
+        onHide={() => {
+          setShowCreate(false);
+        }}
+        autoFill={{
+          field: 'code',
+          data: GenerateCode(data),
+        }}
+        code={null}
+        get={() => null}
+        formPart={formPart}
+        allFormField={allFormField}
+        // validation={ProductPackagingSchema}
+        error={error}
+        homePage={homeURL}
+      />
+      <ModifyEntityDialog
+        isShow={showEdit}
+        entity={editEntity}
+        onModify={update}
+        title={updateTitle}
+        modifyModel={modifyModel}
+        onHide={() => {
+          setShowEdit(false);
+        }}
+        code={null}
+        get={() => null}
+        formPart={formPart}
+        allFormField={allFormField}
+        // allFormButton={allFormButton}
+        // validation={ProductPackagingSchema}
+        error={error}
+        autoFill={{
+          field: 'code',
+          data: GenerateCode(data),
+        }}
+        homePage={homeURL}
+      />
+      <MultiLevelSaleBody
+        title="Cấp bán hàng"
+        data={data}
+        body={TreeBody}
+        onCreate={() => {
+          setCreateEntity(null);
+          setEditEntity(null);
+          setShowCreate(true);
+          //   history.push(`${window.location.pathname}/new`);
+        }}
+      />
     </React.Fragment>
   );
 }
