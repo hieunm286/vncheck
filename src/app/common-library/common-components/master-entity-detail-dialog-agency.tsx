@@ -106,7 +106,7 @@ export function FormGroup({
       <Table>
         <thead>
           <tr>
-            <td>
+            <td colSpan={2}>
               <h3 className="text-primary">{title.toUpperCase()}</h3>
             </td>
           </tr>
@@ -143,7 +143,7 @@ export function FormGroup({
                             {intl.formatMessage({id: formField.title})}:{'\u00A0'}
                           </td>
                           <td>
-                            {el.district}, {el.city}, {el.state}
+                            {el.address}, {el.district}, {el.city}, {el.state}
                           </td>
                         </tr>
                       )
@@ -154,7 +154,7 @@ export function FormGroup({
                             
                           </td>
                           <td>
-                            {el.district}, {el.city}, {el.state}
+                            {el.address}, {el.district}, {el.city}, {el.state}
                           </td>
                         </tr>
                       )

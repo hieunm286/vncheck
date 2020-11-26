@@ -25,11 +25,13 @@ import * as Yup from "yup";
 import {  MasterEntityDetailAgency } from "../../common-library/common-components/master-entity-detail-dialog-agency";
 import { getUserById } from "../account/_redux/user-crud";
 import * as agencyTypeService from "../agency-type-2/agency-type.service";
-import ModifyEntityPage from '../../common-library/common-components/modify-entity-page';
-import EntityCrudPageAgency from "../../common-library/common-components/entity-crud-page-agency";
+import ModifyEntityPageAgency from './helpers/modify-entity-page-agency';
+import EntityCrudPageAgency from "./helpers/entity-crud-page-agency";
 import * as AgencyService from './agency.service';
 import { ConvertToTreeNode, GenerateAllFormField } from '../../common-library/helpers/common-function';
 import { Switch, Route, Redirect, useHistory } from 'react-router-dom';
+import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
+import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 
 function AgencyPage() {
 
@@ -313,7 +315,7 @@ function AgencyPage() {
 
   const modifyModel = [
     {
-      title: 'THÔNG TIN ĐƠN VỊ BÁN HÀNG',
+      title: intl.formatMessage({id: 'AGENCY.EDIT.HEADER.AGENCY_INFO'}).toUpperCase(),
       data: {
         code: {
           type: 'string',
@@ -326,7 +328,7 @@ function AgencyPage() {
           placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.AGENCY_NAME' }),
           label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.AGENCY_NAME' }),
         },
-        type: {
+        storeLevel: {
           type: 'string',
           placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.SELL_GOOD_LEVEL' }),
           label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.SELL_GOOD_LEVEL' }), 
@@ -346,7 +348,7 @@ function AgencyPage() {
           placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.DISTRICT' }),
           label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.DISTRICT' }), 
         },
-        address: {
+        detailAddress: {
           type: 'string',
           placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.AGENCY_ADDRESS' }),
           label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.AGENCY_ADDRESS' }),
@@ -369,7 +371,7 @@ function AgencyPage() {
         image: {
           type: 'image',
           placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL' }),
-          label: 'Album 1',
+          label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.IMAGE' }),
         },
         // image2: {
         //   type: 'image',
@@ -379,55 +381,60 @@ function AgencyPage() {
       }
     },
     {
-      title: 'AGENCY.EDIT.HEADER.AGENCY_INFO',
+      title: intl.formatMessage({id: 'AGENCY.EDIT.HEADER.AGENCY_OWNER_INFO'}).toUpperCase(),
       data: {
         username: {
           type: 'string',
-          placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.PLACEHOLDER' }),
-          label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL' }),
+          placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.USERNAME' }),
+          label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.USERNAME' }),
           disabled: !!editEntity,
         },
-        name: {
+        ownerName: {
           type: 'string',
-          placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.NAME.PLACEHOLDER' }),
-          label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.NAME.LABEL' }),
+          placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.NAME' }),
+          label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.NAME' }),
         },
-        ownerPhone: {
+        ownerPhoneNumber: {
           type: 'string',
-          placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
-          label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
+          placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.OWNER_PHONE' }),
+          label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.OWNER_PHONE' }),
         },
         email: {
           type: 'string',
-          placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
-          label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
+          placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.EMAIL' }),
+          label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.EMAIL' }),
         },
         gender: {
           type: 'option',
-          placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
-          label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
+          placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.GENDER' }),
+          label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.GENDER' }),
         },
         birthDay: {
-          type: 'string',
-          placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
-          label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
+          type: 'Datetime',
+          placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.BIRTH_DAY' }),
+          label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.BIRTH_DAY' }),
         },
-        role: {
+        roleName: {
           type: 'string',
-          placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
-          label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
+          placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.ROLE_NAME' }),
+          label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.ROLE_NAME' }),
         },
         avatar: {
           type: 'image',
-          placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
-          label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
+          placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.AVATAR' }),
+          label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.AVATAR' }),
         },
       },
     },
     {
-      title: 'AGENCY.EDIT.HEADER.AGENCY_INFO',
+      title: intl.formatMessage({id: 'AGENCY.EDIT.HEADER.SHIPPING_ADDRESS'}).toUpperCase(),
       data: {
         shippingAddress: {
+          type: 'radioGroup', // type: 'array',
+          placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
+          label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
+        },
+        defaultShippingAddress: {
           type: 'string',
           placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
           label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
@@ -502,6 +509,25 @@ function AgencyPage() {
       }
     }
   ]
+
+  const allFormButton: any = {
+    save: {
+      role: 'submit',
+      type: 'submit',
+      linkto: undefined,
+      className: 'btn btn-primary mr-2',
+      label: intl.formatMessage({id: 'AGENCY.EDIT.BUTTON.SAVE'}),
+      icon: <SaveOutlinedIcon />,
+    },
+    cancel: {
+      role: 'link-button',
+      type: 'button',
+      linkto: '/agency',
+      className: 'btn btn-outline-primary mr-2',
+      label: intl.formatMessage({id: 'AGENCY.EDIT.BUTTON.CANCEL'}),
+      icon: <CancelOutlinedIcon />,
+    },
+  };
 
   const formPart: any = {
     form_1: {
@@ -610,7 +636,7 @@ function AgencyPage() {
               get={AgencyService.GetById}
               formPart={formPart}
               allFormField={allFormField}
-              // allFormButton={allFormButton}
+              allFormButton={allFormButton}
             />
           )}
         </Route>
