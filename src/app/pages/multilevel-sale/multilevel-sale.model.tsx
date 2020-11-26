@@ -4,9 +4,12 @@ export interface MultiLevelModel {
 
 export interface TreeData {
     _id: string;
-    title: string;
-    parentId?: string;
-    child: TreeData[]
+    code: string;
+    level: number;
+    name: string;
+    status: string;
+    parent?: string;
+    children?: TreeData[]
 }
 
 export interface MultilevelSaleBodyProp {

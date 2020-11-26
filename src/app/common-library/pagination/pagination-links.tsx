@@ -37,13 +37,13 @@ export function PaginationLinks({paginationProps}: any) {
                     <div className={`d-flex flex-wrap py-2 mr-3 ${disabledClass}`}>
                         <a
                             onClick={() => handleFirstPage(paginationProps)}
-                            className="btn btn-icon btn-sm btn-light btn-hover-primary mr-2 my-1"
+                            className={`btn btn-icon btn-sm btn-light btn-hover-primary mr-2 my-1 ${paginationProps.page < 2 ? "disabled" : ""}`}
                         >
                             <i className="ki ki-bold-double-arrow-back icon-xs"/>
                         </a>
                         <a
                             onClick={() => handlePrevPage(paginationProps)}
-                            className="btn btn-icon btn-sm btn-light btn-hover-primary mr-2 my-1"
+                            className={`btn btn-icon btn-sm btn-light btn-hover-primary mr-2 my-1 ${paginationProps.page < 2 ? "disabled" : ""}`}
                         >
                             <i className="ki ki-bold-arrow-back icon-xs"/>
                         </a>
@@ -71,13 +71,13 @@ export function PaginationLinks({paginationProps}: any) {
                         )}
                         <a
                             onClick={() => handleNextPage(paginationProps)}
-                            className="btn btn-icon btn-sm btn-light btn-hover-primary mr-2 my-1"
+                            className={`btn btn-icon btn-sm btn-light btn-hover-primary mr-2 my-1 ${paginationProps.page >= pagesCount ? "disabled" : ""}`}
                         >
                             <i className="ki ki-bold-arrow-next icon-xs"/>
                         </a>
                         <a
                             onClick={() => handleLastPage(paginationProps)}
-                            className="btn btn-icon btn-sm btn-light btn-hover-primary mr-2 my-1"
+                            className={`btn btn-icon btn-sm btn-light btn-hover-primary mr-2 my-1 ${paginationProps.page >= pagesCount ? "disabled" : ""}`}
                         >
                             <i className="ki ki-bold-double-arrow-next icon-xs"/>
                         </a>

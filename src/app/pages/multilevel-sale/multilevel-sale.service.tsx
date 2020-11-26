@@ -11,7 +11,9 @@ import {
   UpdateProps,
 } from '../../common-library/common-types/common-type';
 
-export const API_URL = API_BASE_URL + '/multilevel-sale';
+export const API_URL = API_BASE_URL + '/store-level';
+
+export const API_URL_TREE_FORMAT = API_URL + '/tree'
 
 export const BULK_API_URL = API_URL + '/bulk'
 
@@ -26,7 +28,7 @@ export const GetAll: GetAllProps<any> = ({
   sortList,
   paginationProps,
 }) => {
-  return axios.get(`${API_URL}`, {
+  return axios.get(`${API_URL_TREE_FORMAT}`, {
     params: { ...queryProps, ...paginationProps, sortList },
     // paramsSerializer: ParamsSerializer
   });

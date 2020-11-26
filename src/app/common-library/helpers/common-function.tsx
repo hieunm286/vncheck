@@ -225,7 +225,7 @@ export function InitMasterProps<T>({
           //   setTotal(countResponse.data);
           // });
           const data: any = getAllResponse.data
-          setEntities(data.data);
+          setEntities(data.data ? data.data : data);
             setLoading(false);
             setTotal(data.paging.total);
         })
@@ -294,7 +294,7 @@ export function InitMasterProps<T>({
     updateServer(entity)
       .then(refreshData)
       .catch(error => {
-        setError(error.message)
+        setError(error.message || JSON.stringify(error))
         setLoading(false);
       });
   };
@@ -304,10 +304,21 @@ export function InitMasterProps<T>({
     createServer(entity)
       .then(refreshData)
       .catch(error => {
-        setError(error.message)
+        setError(error.message || JSON.stringify(error))
         setLoading(false);
       });
   };
+
+  const updatePromise = (entity: T) => {
+    return updateServer(entity)
+      
+  };
+
+  const addPromise = (entity: T) => {
+    return createServer(entity)
+      
+  };
+
   return {
     entities,
     setEntities,
@@ -345,6 +356,8 @@ export function InitMasterProps<T>({
     setError,
     add,
     update,
+    addPromise,
+    updatePromise,
     get,
     deleteMany,
     deleteFn,

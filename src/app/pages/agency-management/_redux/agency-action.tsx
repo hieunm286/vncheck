@@ -145,7 +145,7 @@ export const createAgency = (transactionWithSign: any, imageArray: any) => (
   );
   // const dataSign = { publicKey, sign };
   // dispatch(actions.transactionCreated({ dataSign }));
-  const shippingAdress = [];
+  const shippingAdress: any[] = [];
   const defaultShipping = {
     id: '0',
     state: transactionWithSign.state,
