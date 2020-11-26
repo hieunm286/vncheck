@@ -18,6 +18,7 @@ import { FormikRadioGroup } from '../../../common-library/forms/radio-group-fiel
 import { SwitchField } from '../../../common-library/forms/switch-field';
 import { RadioField } from '../../../common-library/forms/radio-field';
 import { useIntl } from 'react-intl';
+import { SelectField } from '../../../common-library/forms/select-field';
 
 
 function ModifyEntityPageLandLot<T>({
@@ -220,6 +221,28 @@ const dataT: any = [
                         />
                       </div>
                     );
+                  case 'select':
+                    console.log(key)
+                    console.log(values[key])
+                    return values[key] ?
+                    (
+                      <div className="mt-3" key={`${key}`}>
+                        <Field
+                          name={key}
+                          type="number"
+                          children={["a", "b"]}
+                          component={SelectField}
+                          isHorizontal
+                          withFeedbackLabel
+                          labelWidth={4}
+                          placeholder={value.data[key].placeholder}
+                          label={value.data[key].label}
+                          required={value.data[key].required}
+                        />
+                      </div>
+                    ) : (
+                      <></>
+                    )
                   case 'Datetime':
                     return (
                       <div className="mt-3" key={key}>

@@ -306,13 +306,13 @@ function LandLot() {
           disabled: true,
         },
         lot: {
-          type: 'string',
+          type: 'select',
           placeholder: intl.formatMessage({ id: 'LAND_LOT.MASTER.PLACEHOLDER.LOT_CODE' }),
           required: true,
           label: intl.formatMessage({ id: 'LAND_LOT.MASTER.HEADER.LOT_CODE' }),
         },
         subLot: {
-          type: 'string',
+          type: 'select',
           placeholder: intl.formatMessage({
             id: 'LAND_LOT.MASTER.PLACEHOLDER.SUB_LOT_CODE',
           }),
