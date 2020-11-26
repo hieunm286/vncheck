@@ -201,7 +201,13 @@ function LandLot() {
         onEdit: (entity: LandLotModel) => {
           get(entity);
           setShowEdit(true);
-          setEditEntity(entity);
+          const _entity = {
+            ...entity,
+            code: entity.lot + entity.subLot,
+            lot: {value: entity.lot, label: entity.lot},
+            subLot: {value: entity.subLot, label: entity.subLot}
+          }
+          setEditEntity(_entity);
           // history.push(`${window.location.pathname}/${entity.code}`);
         },
       },
@@ -306,13 +312,13 @@ function LandLot() {
           disabled: true,
         },
         lot: {
-          type: 'select',
+          type: 'SearchSelect',
           placeholder: intl.formatMessage({ id: 'LAND_LOT.MASTER.PLACEHOLDER.LOT_CODE' }),
           required: true,
           label: intl.formatMessage({ id: 'LAND_LOT.MASTER.HEADER.LOT_CODE' }),
         },
         subLot: {
-          type: 'select',
+          type: 'SearchSelect',
           placeholder: intl.formatMessage({
             id: 'LAND_LOT.MASTER.PLACEHOLDER.SUB_LOT_CODE',
           }),

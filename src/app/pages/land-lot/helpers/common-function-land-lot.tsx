@@ -174,7 +174,7 @@ export function InitMasterProps<T>({
 }) {
   const [entities, setEntities] = useState<T[]>([]);
   const [deleteEntity, setDeleteEntity] = useState<T>(null as any);
-  const [editEntity, setEditEntity] = useState<T | null>(null as any);
+  const [editEntity, setEditEntity] = useState<any>(null as any);
   const [createEntity, setCreateEntity] = useState<T | null>(null as any);
   const [selectedEntities, setSelectedEntities] = useState<T[]>([]);
   const [detailEntity, setDetailEntity] = useState<T>(null as any);

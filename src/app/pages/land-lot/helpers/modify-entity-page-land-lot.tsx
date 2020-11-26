@@ -114,6 +114,23 @@ const dataT: any = [
   },
 ];  
 
+  function genCharArray(charA: any, charZ: any) {
+    let a = [], i = charA.charCodeAt(0), j = charZ.charCodeAt(0);
+    for (; i <= j; ++i) {
+        a.push(String.fromCharCode(i));
+    }
+    return a;
+  }
+
+  function genNumberArray(start: number, end: number) {
+    let numberArray: any[] = [];
+    for(let i = start; i <= end; i++) {
+      let formattedNumber = ("0" + i).slice(-2);
+      numberArray.push(formattedNumber)
+    }
+    return numberArray;
+  }
+
   const loadOptions = async (
     search: string,
     prevOptions: any,
@@ -130,30 +147,38 @@ const dataT: any = [
       page: page,
     };
 
-    console.log(keyField);
-    console.log(key);
 
     // const entities = await service.GetAll({ queryProps, paginationProps });
     // const count = await service.Count({ queryProps });
 
     // const hasMore = prevOptions.length < count.data - (DefaultPagination.limit ?? 0);
 
-    // // setSearchTerm({ ...searchTerm, [key]: search });
+    // setSearchTerm({ ...searchTerm, [key]: search });
 
-    const data = [...new Set(dataT)];
+    // const data = [...new Set(dataT)];
+    let data = [];
 
+    if(key === "lot") {
+      data = genCharArray('A', 'Z'); // ["a", ..., "z"]
+    } else if(key === "subLot") {
+      data = genNumberArray(0, 99);
+    } else {
+      data = [];
+    }
     return {
-      options: data.map((e: any) => {
-        console.log(e);
-        return { label: e[keyField], value: e._id };
-      }),
+      options: data
+        .filter((value: string)  => {
+          return value.startsWith(search.toString().toUpperCase());
+        })
+        .map((value: any) => {
+          return { label: value, value: value };
+        }),
       hasMore: false,
       additional: {
         page: page + 1,
       },
     };
   };
-
 
   return (
     <>
@@ -222,8 +247,6 @@ const dataT: any = [
                       </div>
                     );
                   case 'select':
-                    console.log(key)
-                    console.log(values[key])
                     return values[key] ?
                     (
                       <div className="mt-3" key={`${key}`}>
@@ -338,7 +361,31 @@ const dataT: any = [
                               isHorizontal={true}
                               value={search[key]}
                               onChange={(value: any) => {
-                                setSearch({ ...search, [key]: value });
+                                const enteredValue = value.value;
+                                if(key === 'lot' 
+                                  && enteredValue.length <= 1
+                                  && 'A' <= enteredValue
+                                  && enteredValue <= 'Z'
+                                ) {
+                                  setSearch({...search, [key]: {label: enteredValue, name: enteredValue}});
+                                  // handleChange(e);
+                                  setFieldValue('lot', {label: enteredValue, name: enteredValue});
+                                  setFieldValue('code', enteredValue + values.subLot);
+                                }
+                                else if(key === 'subLot'
+                                  &&  (enteredValue.length <=2
+                                        && '00' <= enteredValue
+                                        && enteredValue <= '99')
+                                  || enteredValue === ''
+                                ) {
+                                  setSearch({...search, [key]: {label: enteredValue, name: enteredValue}});
+                                  setFieldValue('code', values.lot + enteredValue);
+                                  // handleChange(e);
+                                }
+                                else {
+                                  setSearch({ ...search, [key]: value });
+                                }
+                            
                                 // setSearchTerm({
                                 //   ...searchTerm,
                                 //   [key]: searchM[key].ref ? value.value : value.label,
