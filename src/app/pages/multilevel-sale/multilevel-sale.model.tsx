@@ -16,5 +16,7 @@ export interface MultilevelSaleBodyProp {
     title: string;
     data: TreeData[]
     body: {title?: string; type: string; data: any}[];
-    onCreate?: () => void;
+    onCreate?: (entity: any) => void;
+    onEdit?: (entity: any) => void;
+    onDelete?: (entity: any) => void; 
 }

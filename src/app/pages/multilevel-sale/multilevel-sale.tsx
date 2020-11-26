@@ -11,6 +11,7 @@ import { NormalColumn, SortColumn } from '../../common-library/common-consts/con
 import { MultilevelSaleActionColumn } from './multilevel-action-column';
 import ModifyEntityDialog from '../../common-library/common-components/modify-entity-dialog';
 import { GenerateCode } from '../product-type/product-type';
+import { DeleteEntityDialog } from '../../common-library/common-components/delete-entity-dialog';
 
 const data: TreeData[] = [
   {
@@ -212,7 +213,7 @@ function MultilevelSale() {
       data: entities,
       prop: {
         columns: columns,
-        total: total,
+        total: 2,
         loading: loading,
         paginationParams: paginationProps,
         setPaginationParams: setPaginationProps,
@@ -241,6 +242,11 @@ function MultilevelSale() {
           required: true,
           label: intl.formatMessage({ id: 'PRODUCT_PACKAGING.MASTER.TABLE.GRAM_COLUMN' }),
         },
+        status: {
+          type: 'boolean',
+          placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.STATUS' }),
+          label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.STATUS' }),
+        },
       },
     },
   ];
@@ -257,12 +263,34 @@ function MultilevelSale() {
     ...GenerateAllFormField(modifyModel),
   };
 
+  console.log(showEdit)
+
   return (
     <React.Fragment>
+      <DeleteEntityDialog
+        moduleName={moduleName}
+        entity={deleteEntity}
+        onDelete={deleteFn}
+        isShow={showDelete}
+        loading={loading}
+        error={error}
+        onHide={() => {
+          setShowDelete(false);
+        }}
+        title={deleteDialogTitle}
+      />
       <ModifyEntityDialog
         isShow={showCreate}
         entity={createEntity}
-        onModify={add}
+        onModify={(values) => {
+          console.log(values)
+          console.log(editEntity)
+          if (editEntity) {
+            add({parentId: editEntity._id, ...values})
+          } else {
+            add(values)
+          }
+        }}
         title={createTitle}
         modifyModel={modifyModel}
         onHide={() => {
@@ -306,11 +334,20 @@ function MultilevelSale() {
         title="Cấp bán hàng"
         data={data}
         body={TreeBody}
-        onCreate={() => {
+        onCreate={(entity: any) => {
           setCreateEntity(null);
-          setEditEntity(null);
+          setEditEntity(entity);
           setShowCreate(true);
           //   history.push(`${window.location.pathname}/new`);
+        }}
+        onEdit={(entity: any) => {
+          get(entity);
+          setEditEntity(entity);
+          setShowEdit(true);
+        }}
+        onDelete={(entity: any) => {
+          setDeleteEntity(entity);
+          setShowDelete(true);
         }}
       />
     </React.Fragment>

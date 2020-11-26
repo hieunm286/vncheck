@@ -5,7 +5,7 @@ import { MasterTable } from '../../common-library/common-components/master-table
 import MasterTreeStructure from '../../common-library/common-components/master-tree-structure';
 import { MultilevelSaleBodyProp } from './multilevel-sale.model';
 import AddIcon from '@material-ui/icons/Add';
-const MultiLevelSaleBody: React.FC<MultilevelSaleBodyProp> = ({ title, data, body, onCreate }) => {
+const MultiLevelSaleBody: React.FC<MultilevelSaleBodyProp> = ({ title, data, body, onCreate, onEdit, onDelete }) => {
   const intl = useIntl();
 
   return (
@@ -25,7 +25,7 @@ const MultiLevelSaleBody: React.FC<MultilevelSaleBodyProp> = ({ title, data, bod
                   <Fragment key={key}>
                     <div className={`col-md-${(12 / body.length - 1)} col-12 border border-primary p-5 mr-md-5`}>
                       <p>{item.title} <span className="text-primary" style={{ cursor: 'pointer' }} onClick={onCreate}><AddIcon /></span></p>
-                      <MasterTreeStructure data={item.data} />
+                      <MasterTreeStructure data={item.data} onCreate={onCreate} onEdit={onEdit} onDelete={onDelete} />
                     </div>
                   </Fragment>
                 );
