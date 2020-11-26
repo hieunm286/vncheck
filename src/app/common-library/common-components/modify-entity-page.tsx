@@ -20,6 +20,7 @@ import { InfiniteSelect } from '../forms/infinite-select';
 import TagInput from '../forms/tag-input';
 import ImgGallery from '../forms/image-gallery';
 import { FormikRadioGroup } from '../forms/radio-group-field';
+import { SwitchField } from '../forms/switch-field';
 
 const dataT: any = [
   {
@@ -302,22 +303,16 @@ function ModifyEntityPage<T>({
                   case 'boolean':
                     return (
                       <div className="mt-3" key={`${key}`}>
-                                 
+                                  
                         <Field
                           name={key}
-                          component={Switch}
+                          component={SwitchField}
                           isHorizontal
                           withFeedbackLabel
                           labelWidth={4}
                           placeholder={value.data[key].placeholder}
                           label={value.data[key].label}
                           required={value.data[key].required}
-                        />
-                        <Switch 
-                          // style={{color: "#1DBE2D"}}
-                          color="primary"
-                          checkedIcon={<CheckCircleOutlinedIcon style={{backgroundColor: "#FFFFFF"}} />}
-                          // icon={<CheckCircleIcon />}
                         />
                       </div>
                     );  
