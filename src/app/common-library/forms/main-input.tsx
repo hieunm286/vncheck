@@ -127,7 +127,6 @@ export function MainInput({
                   : 'form-control'
                 : ''
             }
-            min={type === 'number' ? 0 : undefined}
             {...field}
             {...props}
           />

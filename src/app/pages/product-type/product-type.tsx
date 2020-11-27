@@ -116,12 +116,15 @@ const ProductTypeSchema = Yup.object().shape({
   barcode: Yup.string().required('Tên chủng loại không được để trống'),
   growingDays: Yup.number()
     .required('Số ngày gieo giống không được để trống')
+    .min(1, 'Số ngày không được ít hơn 1 nha')
     .typeError('Vui lòng nhập số'),
   plantingDays: Yup.number()
     .required('Số ngày gieo trồng không được để trống')
+    .min(1, 'KSố ngày không được ít hơn 1 nha')
     .typeError('Vui lòng nhập số'),
   expiryDays: Yup.number()
     .required('Hạn sử dụng không được để trống')
+    .min(1, 'Số ngày không được ít hơn 1 nha')
     .typeError('Vui lòng nhập số'),
 });
 
