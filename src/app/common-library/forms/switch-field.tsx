@@ -109,6 +109,7 @@ export function SwitchField({
   // console.log(touched)
 
   const { values, setFieldValue } = useFormikContext<any>();
+  console.log(values)
   return (
     <>
       <div className={isHorizontal && 'row'}>

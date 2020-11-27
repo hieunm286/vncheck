@@ -5,6 +5,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { TreeData } from '../../pages/multilevel-sale/multilevel-sale.model';
 import { ChildFriendly } from '@material-ui/icons';
+import { ConvertStatusToBoolean } from '../helpers/common-function';
 
 const showArray_v2 = (fileds: any, data: any): any => {
   const AllField: any = fileds;
@@ -36,7 +37,6 @@ const MasterTreeStructure: React.FC<TreeDataProp> = ({ data, onCreate, onEdit, o
     }
   }
   const handleEdit = (data: TreeData): void => {
-    console.log(data);
     if (onEdit) {
       onEdit(data)
     }

@@ -24,7 +24,7 @@ const MultiLevelSaleBody: React.FC<MultilevelSaleBodyProp> = ({ title, data, bod
                 return (
                   <Fragment key={key}>
                     <div className={`col-md-${(12 / body.length - 1)} col-12 border border-primary p-5 mr-md-5`}>
-                      <p>{item.title} <span className="text-primary" style={{ cursor: 'pointer' }} onClick={onCreate}><AddIcon /></span></p>
+                      <p>{item.title} <span className="text-primary" style={{ cursor: 'pointer' }} onClick={() => {if (onCreate) {onCreate(null)}}}><AddIcon /></span></p>
                       <MasterTreeStructure data={item.data} onCreate={onCreate} onEdit={onEdit} onDelete={onDelete} />
                     </div>
                   </Fragment>

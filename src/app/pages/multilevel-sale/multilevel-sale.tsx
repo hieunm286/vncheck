@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {
+  ConvertStatusToBoolean,
+  ConvertStatusToString,
   GenerateAllFormField,
   InitMasterProps,
 } from '../../common-library/helpers/common-function';
@@ -286,9 +288,9 @@ function MultilevelSale() {
           console.log(values)
           console.log(editEntity)
           if (editEntity) {
-            add({parentId: editEntity._id, ...values})
+            add({parentId: editEntity._id, ...ConvertStatusToString(values)})
           } else {
-            add(values)
+            add(ConvertStatusToString(values))
           }
         }}
         title={createTitle}
@@ -311,7 +313,14 @@ function MultilevelSale() {
       <ModifyEntityDialog
         isShow={showEdit}
         entity={editEntity}
-        onModify={update}
+        onModify={(values) => {
+          console.log(values)
+          if (editEntity) {
+            update({parentId: editEntity._id, ...ConvertStatusToString(values)})
+          } else {
+            update(ConvertStatusToString(values))
+          }
+        }}
         title={updateTitle}
         modifyModel={modifyModel}
         onHide={() => {
@@ -341,8 +350,8 @@ function MultilevelSale() {
           //   history.push(`${window.location.pathname}/new`);
         }}
         onEdit={(entity: any) => {
-          get(entity);
-          setEditEntity(entity);
+          // get(entity);
+          setEditEntity(ConvertStatusToBoolean(entity));
           setShowEdit(true);
         }}
         onDelete={(entity: any) => {

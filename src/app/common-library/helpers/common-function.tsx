@@ -35,6 +35,9 @@ export const generateInitForm = (modifyModel: any, initField?: string, initData?
     } else if (modifyModel[key].type === 'image') {
       initValue[key] = []
     } 
+    else if (modifyModel[key].type === 'boolean') {
+      initValue[key] = true
+    } 
     else if (modifyModel[key].type === 'object') {
       initValue[key] = {}
       Object.keys(modifyModel[key]).map(childKey => {
@@ -176,6 +179,14 @@ export const ConvertSelectSearch = (entity: any, keyField?: FieldProp[]) => {
 //   })
 
 // }
+
+export const ConvertStatusToBoolean = (data: any) => {
+  return data.status && typeof data.status === 'string' ? {...data, status: data.status === "1" ? true : false} : data;
+}
+
+export const ConvertStatusToString = (data: any) => {
+  return typeof data.status === 'boolean' ? {...data, status: data.status ? "1" : "0"} : data;
+}
 
 export function InitMasterProps<T>({
   getAllServer,
