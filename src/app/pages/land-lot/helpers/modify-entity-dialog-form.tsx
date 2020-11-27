@@ -13,6 +13,7 @@ import { getNewImage, getOnlyFile } from '../../../common-library/helpers/common
 import { Card, CardBody, CardHeader } from '../../../common-library/card';
 import { uploadImage } from '../../../pages/purchase-order/purchase-order.service';
 import ModifyEntityPageLandLot from './modify-entity-page-land-lot';
+import { diff } from 'deep-object-diff';
 
 function ModifyEntityDialogForm<T>({
   entity,
@@ -22,7 +23,7 @@ function ModifyEntityDialogForm<T>({
   formPart,
   validation
 }: {
-  entity: T;
+  entity: any;
   onHide: () => void;
   onModify: (values: any) => void;
   modifyModel: ModifyModel;
@@ -98,9 +99,14 @@ function ModifyEntityDialogForm<T>({
       initialValues={entity}
       validationSchema={validation}
       onSubmit={values => {
-        console.log(values)
-        onHide()
-        onModify(values);
+        if (entity._id) {
+          const updateValue = diff(entity, values);
+          onModify({ _id: values._id, ...updateValue });
+        } else {
+          onModify(values)
+        } 
+
+        onHide();
       }}>
       {({ values, handleSubmit, handleBlur, handleChange, setFieldValue, resetForm }) => (
         <>

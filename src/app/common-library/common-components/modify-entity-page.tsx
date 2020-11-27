@@ -19,6 +19,7 @@ import CheckCircleOutlinedIcon from '@material-ui/icons/CheckCircleOutlined';
 import { InfiniteSelect } from '../forms/infinite-select';
 import TagInput from '../forms/tag-input';
 import ImgGallery from '../forms/image-gallery';
+import { FormikRadioGroup } from '../forms/radio-group-field';
 
 const dataT: any = [
   {
@@ -88,6 +89,7 @@ function ModifyEntityPage<T>({
   search,
   setSearch,
   handleChangeTag,
+  values,
 }: {
   modifyModel: any;
   // title: string;
@@ -103,6 +105,7 @@ function ModifyEntityPage<T>({
   search?: any;
   setSearch?: any;
   handleChangeTag?: any;
+  values?: any;
 }) {
   const intl = useIntl();
   // const initForm = generateInitForm(modifyModel);
@@ -229,6 +232,34 @@ function ModifyEntityPage<T>({
                         />
                       </div>
                     );
+                  // handle shippingAddress
+                  case 'array':
+                    const shippingAddresses = values[key];
+                    return shippingAddresses ? 
+                      shippingAddresses.map((el: any, innerkey: any) => {
+                        return (
+                          <div className="mt-3" key={`${innerkey}`}>
+                          <Field
+                            name={key}
+                            value={
+                              shippingAddresses[innerkey].address + ', ' +
+                              shippingAddresses[innerkey].district + ', ' +
+                              shippingAddresses[innerkey].city + ', ' +
+                              shippingAddresses[innerkey].state
+                            }
+                            component={MainInput}
+                            isHorizontal
+                            withFeedbackLabel
+                            labelWidth={4}
+                            placeholder={value.data[key].placeholder}
+                            label={value.data[key].label}
+                            required={value.data[key].required}
+                          />
+                        </div>
+                        )
+                      })
+                      : console.log(shippingAddresses);
+                    break;
                   case 'Datetime':
                     return (
                       <div className="mt-3" key={key}>
@@ -242,6 +273,16 @@ function ModifyEntityPage<T>({
                         />
                       </div>
                     );
+                  case 'radioGroup':
+                    const _shippingAddresses = values['shippingAddress'];
+                    return _shippingAddresses ? 
+                    (
+                      <FormikRadioGroup
+                        ariaLabel='defaultShippingAddress'
+                        name='defaultShippingAddress'
+                        addresses={_shippingAddresses}
+                      />
+                    ) : <></>
                   case 'image':
                     return (
                       <div className="mt-3" key={key}>
@@ -261,6 +302,17 @@ function ModifyEntityPage<T>({
                   case 'boolean':
                     return (
                       <div className="mt-3" key={`${key}`}>
+                                 
+                        <Field
+                          name={key}
+                          component={Switch}
+                          isHorizontal
+                          withFeedbackLabel
+                          labelWidth={4}
+                          placeholder={value.data[key].placeholder}
+                          label={value.data[key].label}
+                          required={value.data[key].required}
+                        />
                         <Switch 
                           // style={{color: "#1DBE2D"}}
                           color="primary"
