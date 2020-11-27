@@ -424,8 +424,6 @@ function ModifyEntityPageAgency<T>({
       page: page,
     };
 
-    console.log(keyField);
-    console.log(key);
 
     // const entities = await service.GetAll({ queryProps, paginationProps });
     // const count = await service.Count({ queryProps });
@@ -438,7 +436,6 @@ function ModifyEntityPageAgency<T>({
 
     return {
       options: data.map((e: any) => {
-        console.log(e);
         return { label: e[keyField], value: e._id };
       }),
       hasMore: false,

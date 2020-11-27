@@ -103,7 +103,6 @@ function AgencyPage() {
     getAll(filterProps);
     // setEntities(mock_entities);
     // setEntities([{}]);
-    console.log(entities);
   }, [paginationProps, trigger, filterProps]);
 
   const moduleName = 'PURCHASE_ORDER.CUSTOM.MODULE_NAME';
@@ -112,7 +111,6 @@ function AgencyPage() {
   const createTitle = 'PURCHASE_ORDER.CREATE.TITLE';
   const updateTitle = 'PURCHASE_ORDER.UPDATE.TITLE';
   const history = useHistory();
-  console.log(entities);
   const columns = [
     {
       dataField: 'ordinal',
@@ -135,7 +133,6 @@ function AgencyPage() {
       dataField: 'address',
       text: `${intl.formatMessage({id: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS_COLUMN'})}`,
       formatter: (cell: any, row: any, rowIndex: number) => {
-        console.log(row)
         return (
         <p>{row.address.district + ',' + row.address.city + ',' + row.address.state}</p> )
       },

@@ -34,7 +34,6 @@ export const convertToServer = (entity: any) => {
       return addr;
     }
   });
-  console.log(shippingAddress)
   
   let _entity = {...entity,
     storeLevel: {

@@ -115,13 +115,11 @@ export function RadioField({
   const intl = useIntl();
 
   const handleGenderChange = (e : any) => {
-    console.log(e.target.value)
     // setFieldValue('defaultShippingAddress', e.target.value)
     setFieldValue('gender', e.target.value)
   }
   
   // const name = "gender";
-  console.log(values)
   return (
     <>
       <div className={isHorizontal && 'row'}>

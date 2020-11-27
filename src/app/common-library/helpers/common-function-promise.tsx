@@ -59,7 +59,6 @@ export function InitMasterProps<T>({
           //   setTotal(countResponse.data);
           // });
           const data: any = getAllResponse.data
-          console.log(data.data)
           setEntities(data.data);
             setLoading(false);
             setTotal(data.paging.total);

@@ -46,14 +46,12 @@ function EntityCrudPageAgency({
   //   const modifyM = { ...modifyModel } as any;
   const history = useHistory();
   const [entityForEdit, setEntityForEdit] = useState(entity);
-  console.log(entityForEdit)
 
   const [images, setImages] = useState(initForm);
   const [imageRootArr, setImageRootArr] = useState<any>([]);
 
   const [defaultShippingAddress, setDefaultShippingAddress] = useState(0);
   const handleShippingAddressChange = (e: any) => {
-    console.log(e.target.value)
     setDefaultShippingAddress(e.target.value);
   }
 
@@ -61,7 +59,6 @@ function EntityCrudPageAgency({
     const imageArray = getOnlyFile(imageList);
 
     const newArr = getNewImage(imageRootArr, imageArray);
-    console.log(key)
     newArr.forEach((file, index) => {
       uploadImage(file)
         .then(res => {
@@ -75,8 +72,6 @@ function EntityCrudPageAgency({
     setImages({...images, [key]: imageList});
     setImageRootArr(imageArray);
   };
-
-  console.log(initForm);
 
   useEffect(() => {
     if (code) {
