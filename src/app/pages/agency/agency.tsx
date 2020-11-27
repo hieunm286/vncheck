@@ -32,6 +32,7 @@ import { ConvertStatusToBoolean, ConvertStatusToString, ConvertToTreeNode, Gener
 import { Switch, Route, Redirect, useHistory } from 'react-router-dom';
 import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
+import { convertToServer } from "./helpers/convert-data-model";
 
 function AgencyPage() {
 
@@ -629,7 +630,7 @@ function AgencyPage() {
             <EntityCrudPageAgency
               entity={editEntity}
               onModify={(values) => {
-                update(ConvertStatusToString(values))
+                update(ConvertStatusToString(convertToServer(values)))
               }}
               // title={updateTitle}
               //  modifyModel={modifyModel}

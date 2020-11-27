@@ -383,7 +383,7 @@ function ModifyEntityPageAgency<T>({
     getShippingAddressesSync()
     .then((shippingAddresses: any) => {
         // setEntityNumber(shippingAddresses.length + 1);
-        const _entity = {...entity, _id: (shippingAddresses.length + 1).toString()};
+        const _entity = {...entity, _id: (shippingAddresses.length + 1).toString(), isDefault: false};
         shippingAddresses.push(_entity);
         setFieldValue('shippingAddress', shippingAddresses);
         // values.shippingAddress.push(_entity);

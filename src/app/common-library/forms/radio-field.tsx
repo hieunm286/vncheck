@@ -121,7 +121,7 @@ export function RadioField({
   }
   
   // const name = "gender";
-
+  console.log(values)
   return (
     <>
       <div className={isHorizontal && 'row'}>

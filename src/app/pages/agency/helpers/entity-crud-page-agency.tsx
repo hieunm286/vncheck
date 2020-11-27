@@ -16,6 +16,7 @@ import { uploadImage } from '../../purchase-order/purchase-order.service';
 import { Card, CardBody, CardHeader } from '../../../common-library/card';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from '@material-ui/core';
+import { convertToForm } from './convert-data-model';
 
 function EntityCrudPageAgency({
   entity,
@@ -80,24 +81,7 @@ function EntityCrudPageAgency({
   useEffect(() => {
     if (code) {
       get(code).then((res: { data: any }) => {
-        const entity = {...res.data, 
-          storeLevel: res.data.storeLevel.name,
-          state: res.data.address.state,
-          city: res.data.address.city,
-          district: res.data.address.district,
-          detailAddress: res.data.address.address,
-          phoneNumber: res.data.phone,
-          username: res.data.owner.username,
-          ownerName: res.data.owner.firstName + ' ' + res.data.owner.lastName,
-          ownerPhoneNumber: res.data.owner.phone,
-          email: res.data.owner.email,
-          gender: res.data.owner.gender,
-          birthDay: Date.parse(res.data.owner.birthDay),
-          roleName: res.data.owner.role.roleType,
-          status: res.data.status
-          // avatar: , 
-        };
-        console.log(entity);
+        const entity = convertToForm(res.data);
         setEntityForEdit(ConvertStatusToBoolean(entity));
       });
     }

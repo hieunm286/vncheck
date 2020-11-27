@@ -32,15 +32,17 @@ export const FormikRadioGroup = ({
   }
   
   ) => {
-  const { setFieldValue, errors, touched } = useFormikContext<any>();
+  const { values, setFieldValue, errors, touched } = useFormikContext<any>();
   // const [field] = useField(props);
 
   const intl = useIntl();
 
-  const [addressesState, setAddressesState] = useState<any>(addresses[0]._id);
+  const [addressesState, setAddressesState] = useState<any>(addresses.find((addr: any) => addr.isDefault === true)._id);
   const handleAddressChange = (e : any) => {
-    console.log(e.target.value)
     setAddressesState(e.target.value);
+    values.shippingAddress = values.shippingAddress.map((addr: any) => {
+      return addr._id === e.target.value ? {...addr, isDefault: true} : {...addr, isDefault:false};
+    })
     setFieldValue('defaultShippingAddress', e.target.value)
   }
   
