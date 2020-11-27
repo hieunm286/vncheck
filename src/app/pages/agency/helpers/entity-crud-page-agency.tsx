@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import ModifyEntityPageAgency from './modify-entity-page-agency';
 import { ModifyModel } from '../../../common-library/common-types/common-type';
 import { useIntl } from 'react-intl';
-import { generateInitForm, getNewImage, getOnlyFile } from '../../../common-library/helpers/common-function';
+import { ConvertStatusToBoolean, generateInitForm, getNewImage, getOnlyFile } from '../../../common-library/helpers/common-function';
 import { Field, Form, Formik } from 'formik';
 import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
@@ -98,7 +98,7 @@ function EntityCrudPageAgency({
           // avatar: , 
         };
         console.log(entity);
-        setEntityForEdit(entity);
+        setEntityForEdit(ConvertStatusToBoolean(entity));
       });
     }
   }, [code]);

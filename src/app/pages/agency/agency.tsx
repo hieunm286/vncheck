@@ -28,7 +28,7 @@ import * as agencyTypeService from "../agency-type-2/agency-type.service";
 import ModifyEntityPageAgency from './helpers/modify-entity-page-agency';
 import EntityCrudPageAgency from "./helpers/entity-crud-page-agency";
 import * as AgencyService from './agency.service';
-import { ConvertToTreeNode, GenerateAllFormField } from '../../common-library/helpers/common-function';
+import { ConvertStatusToBoolean, ConvertStatusToString, ConvertToTreeNode, GenerateAllFormField } from '../../common-library/helpers/common-function';
 import { Switch, Route, Redirect, useHistory } from 'react-router-dom';
 import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
@@ -163,7 +163,7 @@ function AgencyPage() {
           get(entity)
             .then(res => {
               setDetailEntity(res.data);
-              setEditEntity(res.data);
+              // setEditEntity(ConvertStatusToBoolean(res.data));
               // Promise.all(
               //   [getUserById(res.data.owner),
               //     agencyTypeService.Get(
@@ -193,8 +193,8 @@ function AgencyPage() {
         },
         onEdit: (entity: AgencyModel) => {
           // setEditEntity(entity);
-          get(entity);
-          setEditEntity(entity);
+          // get(entity);
+          setEditEntity(ConvertStatusToBoolean(entity));
           history.push(`agency/${entity._id}`) // setShowEdit(true);
         }
       },
@@ -628,7 +628,9 @@ function AgencyPage() {
           {({ history, match }) => (
             <EntityCrudPageAgency
               entity={editEntity}
-              onModify={update}
+              onModify={(values) => {
+                update(ConvertStatusToString(values))
+              }}
               // title={updateTitle}
               //  modifyModel={modifyModel}
               // reduxModel="purchaseOrder"
