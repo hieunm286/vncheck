@@ -59,6 +59,7 @@ export const FormikRadioGroup = ({
           }}>
         {addresses.map((entity : any, key: any) => (
         <div className="mt-3 row" key={key}>
+          <React.Fragment>
           <div className="col-md-10 col-12">
             <FormControlLabel name="defaultShippingAddress" value={entity._id} control={<StyledRadio />} label={getShippingAddress(entity)} />
           </div>
@@ -79,6 +80,7 @@ export const FormikRadioGroup = ({
               }
               }><DeleteIcon /></Button>
           </div>
+          </React.Fragment>
         </div>
         ))}
         </Element>
