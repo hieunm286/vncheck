@@ -150,7 +150,7 @@ function AgencyPage() {
       dataField: 'status',
       text: `${intl.formatMessage({id: 'PURCHASE_ORDER.MASTER.TABLE.STATUS_COLUMN'})}`,
       ...SortColumn,
-      formatter: (cell: any, row: any) => row.status === "true" ?
+      formatter: (cell: any, row: any) => row.status === "1" ?
         (<CheckCircleIcon style={{color: '#1DBE2D'}}/>) : (<CheckCircleIcon style={{color: '#C4C4C4'}}/>),
     },
     {

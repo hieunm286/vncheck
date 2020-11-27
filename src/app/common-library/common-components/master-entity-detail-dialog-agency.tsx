@@ -171,7 +171,7 @@ export function FormGroup({
                         formField.keyField !== "status" ?   
                         getPropByString(data, formField.keyField)
                           : 
-                          getPropByString(data, formField.keyField) === "true" ?
+                          getPropByString(data, formField.keyField) === "1" ?
                           <CheckCircleIcon style={{ color: '#27AE60' }} />
                             : <CheckCircleIcon style={{ color: '#C4C4C4' }} />
                       }
