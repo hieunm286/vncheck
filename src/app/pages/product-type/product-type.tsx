@@ -25,9 +25,7 @@ import { ProductTypeModel, ProductTypeModifyModelDetail } from './product-type.m
 import * as ProductTypeService from './product-type.service';
 import ProductTypeDetailDialog from './product-type-detail-dialog';
 import EntityCrudPagePromise from '../../common-library/common-components/entity-crud-page-promise';
-import ReactNotification from 'react-notifications-component';
-import { store } from 'react-notifications-component';
-import 'react-notifications-component/dist/theme.css';
+
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -355,25 +353,7 @@ function ProductType() {
     },
   };
 
-  const GetNotice = (error: string) => {
-    if (error !== '') {
-      store.addNotification({
-        title: 'Error!',
-        message: error,
-        type: 'danger',
-        container: 'top-center',
-        animationIn: ['animate__animated', 'animate__fadeIn'],
-        animationOut: ['animate__animated', 'animate__fadeOut'],
-        dismiss: {
-          duration: 5000,
-          onScreen: true,
-        },
-      });
-      return <ReactNotification />;
-    }
-
-    return <></>;
-  };
+  
 
   const notify = () => {
     toast.error(`😠 ${error}`, {
@@ -409,7 +389,7 @@ function ProductType() {
   return (
     <Fragment>
       {/* <ReactNotification /> */}
-      <ToastContainer />
+      {/* <ToastContainer /> */}
       <ProductTypeDetailDialog
         show={showDetail}
         entity={detailEntity}
@@ -444,12 +424,9 @@ function ProductType() {
 
       <Switch>
         <Route path="/product-type/new">
-          <EntityCrudPage
+          <EntityCrudPagePromise
             entity={createEntity}
-            onModify={(entity: any) => {
-              add(entity);
-              setError('');
-            }}
+            onModify={addPromise}
             title={createTitle}
             // reduxModel="purchaseOrder"
             code={null}
@@ -462,7 +439,7 @@ function ProductType() {
               field: 'code',
               data: GenerateCode(data),
             }}
-            // refreshData={refreshData}
+            refreshData={refreshData}
             homePage={homeURL}
           />
         </Route>
@@ -477,12 +454,9 @@ function ProductType() {
             //   code={match && match.params.code}
             //   get={PurchaseOrderService.GetById}
             // />
-            <EntityCrudPage
+            <EntityCrudPagePromise
               entity={editEntity}
-              onModify={(entity: any) => {
-                update(entity);
-                setError('');
-              }}
+              onModify={updatePromise}
               title={updateTitle}
               //  modifyModel={modifyModel}
               reduxModel="purchaseOrder"
@@ -494,7 +468,7 @@ function ProductType() {
               validation={ProductTypeSchema}
               homePage={homeURL}
               asyncError={error}
-              // refreshData={refreshData}
+              refreshData={refreshData}
             />
           )}
         </Route>

@@ -26,9 +26,9 @@ import EXIF from 'exif-js';
 import { isEmpty } from 'lodash';
 import exifr from 'exifr';
 import { AxiosResponse } from 'axios';
-import ReactNotification from 'react-notifications-component'
-import { store } from 'react-notifications-component';
-import 'react-notifications-component/dist/theme.css'
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function EntityCrudPagePromise({
   entity,
@@ -127,47 +127,63 @@ function EntityCrudPagePromise({
     // setTagArr({ ...tagArr, [key]: newTag });
   }
 
+  useEffect(() => {
+    if (code) {
+      get(code).then((res: { data: any }) => {
+        setEntityForEdit(res.data);
+      });
+    }
+  }, [code]);
 
-  // useEffect(() => {
-  //   if (code) {
-  //     get(code).then((res: { data: any }) => {
-  //       setEntityForEdit(res.data);
-  //     });
-  //   }
-  // }, [code]);
+
+
+  const notify = () => {
+    toast.error(`😠 ${errorMsg}`, {
+      position: 'top-right',
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+  };
 
   useEffect(() => {
-    if (checkFormError) {
-      history.push(GetHomePage(window.location.pathname));
+    if (errorMsg) {
+      // store.addNotification({
+      //   title: 'Error!',
+      //   message: error,
+      //   type: 'danger',
+      //   insert: 'top',
+      //   container: 'top-center',
+      //   animationIn: ['animate__animated', 'animate__fadeIn'],
+      //   animationOut: ['animate__animated', 'animate__fadeOut'],
+      //   dismiss: {
+      //     duration: 5000,
+      //     onScreen: true,
+      //   },
+      // });
+      notify();
     }
-  }, [checkFormError]);
+  }, [errorMsg]);
 
-  const submitHandle = async (values: any, { setSubmitting, setFieldError }: any) => {
+  const submitHandle = (values: any, { setSubmitting, setFieldError }: any) => {
     onModify(values)
       .then((res: any) => {
-        setCheckFormError(true);
+        history.push(GetHomePage(window.location.pathname));
         setErrorMsg(undefined);
         refreshData();
       })
       .catch(error => {
         setSubmitting(false);
         setErrorMsg(JSON.stringify(error));
-        setCheckFormError(false);
       });
-
-    // try {
-    //     const res = await onModify(values);
-    //     refreshData();
-    //     history.push(GetHomePage(window.location.pathname));
-    // } catch (err) {
-    //     setSubmitting(false);
-    //     setFieldError('barcode', JSON.stringify(err));
-    //     setCheckFormError(false);
-    // }
   };
 
   return (
     <>
+      <ToastContainer />
       <Formik
         enableReinitialize={true}
         initialValues={entityForEdit || initForm}
@@ -175,6 +191,7 @@ function EntityCrudPagePromise({
         validationSchema={validation}
         onSubmit={(values, { setSubmitting, setFieldError }) => {
           let updateValue;
+          setErrorMsg(undefined);
 
           if (entityForEdit) {
             const diffValue = diff(entityForEdit, values);
@@ -214,11 +231,11 @@ function EntityCrudPagePromise({
                       title={formPart[key].title}
                       handleChangeTag={handleChangeTag}
                     />
-                    {errorMsg && (
+                    {/* {errorMsg && (
                       <div className="text-right mt-5">
                         <span className="text-danger">{errorMsg}</span>
                       </div>
-                    )}
+                    )} */}
                   </CardBody>
                   {key === Object.keys(formPart)[Object.keys(formPart).length - 1] && (
                     <div className="text-right mb-5 mr-5" key={key}>
@@ -230,8 +247,7 @@ function EntityCrudPagePromise({
                                 formNoValidate
                                 type={allFormButton[keyss].type}
                                 className={allFormButton[keyss].className}
-                                key={keyss}
-                                onClick={() => handleSubmit()}>
+                                key={keyss}>
                                 {allFormButton[keyss].icon} {allFormButton[keyss].label}
                               </button>
                             );

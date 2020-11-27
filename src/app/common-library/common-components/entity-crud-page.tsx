@@ -25,8 +25,6 @@ import { diff } from 'deep-object-diff';
 import EXIF from 'exif-js';
 import { isEmpty } from 'lodash';
 import exifr from 'exifr'
-import { store } from 'react-notifications-component';
-import 'react-notifications-component/dist/theme.css';
 
 
 const DeepObject = (obj1: any, obj2: any) => {
