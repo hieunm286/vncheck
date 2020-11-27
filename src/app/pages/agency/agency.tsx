@@ -433,9 +433,9 @@ function AgencyPage() {
           label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
         },
         defaultShippingAddress: {
-          type: 'string',
-          placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
-          label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
+          type: 'display',
+          placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.DEFAULT_SHIPPING_ADDRESS' }),
+          label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.DEFAULT_SHIPPING_ADDRESS' }),
         }
       }
     }

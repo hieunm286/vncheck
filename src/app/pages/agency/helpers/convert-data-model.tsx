@@ -1,3 +1,5 @@
+import { getShippingAddress } from '../../../common-library/forms/radio-group-field';
+
 export const convertToForm = (entity: any) => {
   return {...entity, 
     storeLevel: entity.storeLevel.name,
@@ -13,7 +15,8 @@ export const convertToForm = (entity: any) => {
     gender: entity.owner.gender,
     birthDay: Date.parse(entity.owner.birthDay),
     roleName: entity.owner.role.roleType,
-    status: entity.status
+    status: entity.status,
+    defaultShippingAddress: getShippingAddress(entity.shippingAddress.find((addr: any) => {return addr.isDefault === true}))
     // avatar: , 
   };
 }

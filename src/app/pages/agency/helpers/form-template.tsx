@@ -12,6 +12,7 @@ import CheckCircleOutlinedIcon from '@material-ui/icons/CheckCircleOutlined';
 import { FormikRadioGroup } from '../../../common-library/forms/radio-group-field';
 import { SwitchField } from '../../../common-library/forms/switch-field';
 import { RadioField } from '../../../common-library/forms/radio-field';
+import { DisplayField } from '../../../common-library/forms/display-field';
 
 
 const FormTemplate = ({
@@ -277,6 +278,26 @@ const FormTemplate = ({
                 />
               </div>
             );  
+          
+          case 'display':
+            return values && values[key] ?
+            (
+              <div className="mt-3" key={`${key}`}>
+                          
+                <Field
+                  name={key}
+                  displayValue={values[key]}
+                  component={DisplayField}
+                  isHorizontal
+                  withFeedbackLabel
+                  labelWidth={4}
+                  placeholder={value.data[key].placeholder}
+                  label={value.data[key].label}
+                  required={value.data[key].required}
+                />
+              </div>
+            ) :
+            (<></>);
           
           case 'option':
             return values.gender ? (

@@ -40,10 +40,11 @@ export const FormikRadioGroup = ({
   const [addressesState, setAddressesState] = useState<any>(addresses.find((addr: any) => addr.isDefault === true)._id);
   const handleAddressChange = (e : any) => {
     setAddressesState(e.target.value);
+    let defaultAddress = values.shippingAddress.find((addr: any) => { return addr._id === e.target.value});
     values.shippingAddress = values.shippingAddress.map((addr: any) => {
       return addr._id === e.target.value ? {...addr, isDefault: true} : {...addr, isDefault:false};
     })
-    setFieldValue('defaultShippingAddress', e.target.value)
+    setFieldValue('defaultShippingAddress', getShippingAddress(defaultAddress));
   }
   
   return (
@@ -100,6 +101,6 @@ export const FormikRadioGroup = ({
   );
 };
 
-const getShippingAddress = (entity: any) => {
+export const getShippingAddress = (entity: any) => {
   return entity.address + ', ' + entity.district + ', ' + entity.city + ', ' + entity.state;
 }
