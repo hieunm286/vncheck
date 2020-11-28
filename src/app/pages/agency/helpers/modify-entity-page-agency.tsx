@@ -119,7 +119,7 @@ function ModifyEntityPageAgency<T>({
 
   const [entities, setEntities] = useState<T[]>([]);
   const [deleteEntity, setDeleteEntity] = useState<T>(null as any);
-  const [editEntity, setEditEntity] = useState(values.shippingAddress);
+  const [editEntity, setEditEntity] = useState(values && values.shippingAddress);
   const [createEntity, setCreateEntity] = useState<T | null>(null as any);
   const [selectedEntities, setSelectedEntities] = useState<T[]>([]);
   const [detailEntity, setDetailEntity] = useState<T>(null as any);
@@ -132,7 +132,7 @@ function ModifyEntityPageAgency<T>({
 
   const getShippingAddress = (entityNumber: number) => {
     return new Promise((resolve, reject) => {
-      if(values.shippingAddress) {
+      if(values && values.shippingAddress) {
         resolve(values.shippingAddress[entityNumber]);
       } else {
         reject((err: any) => {
@@ -144,7 +144,7 @@ function ModifyEntityPageAgency<T>({
 
   const getShippingAddresses = () => {
     return new Promise((resolve, reject) => {
-      if(values.shippingAddress) {
+      if(values && values.shippingAddress) {
         resolve(values.shippingAddress);
       } else {
         reject((err: any) => {
@@ -199,7 +199,7 @@ function ModifyEntityPageAgency<T>({
         //   label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.NAME.LABEL' }),
         // },
         state: {
-          type: 'string',
+          type: 'stateSelect',
           placeholder: intl.formatMessage({
             id: 'AGENCY.EDIT.PLACEHOLDER.SHIPPING_ADDRESS_STATE',
           }),
@@ -207,7 +207,7 @@ function ModifyEntityPageAgency<T>({
           label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.SHIPPING_ADDRESS_STATE' }),
         },
         city: {
-          type: 'string',
+          type: 'citySelect',
           placeholder: intl.formatMessage({
             id: 'AGENCY.EDIT.PLACEHOLDER.SHIPPING_ADDRESS_CITY',
           }),
@@ -215,7 +215,7 @@ function ModifyEntityPageAgency<T>({
           label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.SHIPPING_ADDRESS_CITY' }),
         },
         district: {
-          type: 'string',
+          type: 'districtSelect',
           placeholder: intl.formatMessage({
             id: 'AGENCY.EDIT.PLACEHOLDER.SHIPPING_ADDRESS_DISTRICT',
           }),
@@ -521,9 +521,9 @@ function ModifyEntityPageAgency<T>({
                     onChange(imageList, addUpdateIndex, key);
 
                   }}
-                  modifyModel={modifyModel}
+                  modifyModel={modifyModel[0]}
                   column={column}
-                  value={modifyModel[0]}
+                  // value={modifyModel[0]}
                 />
               </div>
               <div className={`col-md-${12 / (column ? column : 1)} col-12`} key={1}>
@@ -534,9 +534,9 @@ function ModifyEntityPageAgency<T>({
                     onChange(imageList, addUpdateIndex, key);
 
                   }}
-                  modifyModel={modifyModel}
+                  modifyModel={modifyModel[1]}
                   column={column}
-                  value={modifyModel[1]}
+                  // value={modifyModel[1]}
                 />
                 <FormTemplate 
                   formValues={values}
@@ -545,9 +545,9 @@ function ModifyEntityPageAgency<T>({
                     onChange(imageList, addUpdateIndex, key);
 
                   }}
-                  modifyModel={modifyModel}
+                  modifyModel={modifyModel[2]}
                   column={column}
-                  value={modifyModel[2]}
+                  // value={modifyModel[2]}
                   handleEditButton={setShowEdit}
                   handleDeleteButton={setShowDelete}
                   handleAddButton={setShowCreate}
@@ -560,6 +560,7 @@ function ModifyEntityPageAgency<T>({
       </div>
 
       <ModifyEntityDialogAgency
+        modifyModel={modifyModelAddress}
         isShow={showEdit}
         entity={editEntity}
         onModify={update}
@@ -574,6 +575,7 @@ function ModifyEntityPageAgency<T>({
       />
 
       <ModifyEntityDialogAgency
+        modifyModel={modifyModelAddress}
         isShow={showCreate}
         entity={createEntity}
         onModify={create}

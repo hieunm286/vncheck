@@ -332,17 +332,17 @@ function AgencyPage() {
           label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.SELL_GOOD_LEVEL' }), 
         },
         state: {
-          type: 'string',
+          type: 'stateSelect',
           placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.STATE' }),
           label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.STATE' }), 
         },
         city: {
-          type: 'string',
+          type: 'citySelect',
           placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.CITY' }),
           label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.CITY' }), 
         },
         district: {
-          type: 'string',
+          type: 'districtSelect',
           placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.DISTRICT' }),
           label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.DISTRICT' }), 
         },

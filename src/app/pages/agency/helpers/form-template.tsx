@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Field, useFormikContext } from 'formik';
 import { MainInput } from '../../../common-library/forms/main-input';
 import { DatePickerField } from '../../../common-library/forms/date-picker-field';
@@ -13,6 +13,11 @@ import { FormikRadioGroup } from '../../../common-library/forms/radio-group-fiel
 import { SwitchField } from '../../../common-library/forms/switch-field';
 import { RadioField } from '../../../common-library/forms/radio-field';
 import { DisplayField } from '../../../common-library/forms/display-field';
+import { SelectField } from '../../../common-library/forms/select-field';
+import STATE_LIST from '../../../../_metronic/AdministrativeDivision/state.json';
+import CITY_LIST from '../../../../_metronic/AdministrativeDivision/city.json';
+import DISTRICT_LIST from '../../../../_metronic/AdministrativeDivision/district.json';
+import { useIntl } from 'react-intl';
 
 
 const FormTemplate = ({
@@ -35,7 +40,6 @@ const FormTemplate = ({
   handleDeleteButton,
   setShippingAddressEntity,
   formValues,
-  value,
 }: {
   modifyModel: any;
   // title: string;
@@ -56,10 +60,55 @@ const FormTemplate = ({
   handleDeleteButton?: any;
   setShippingAddressEntity?: any;
   formValues?: any;
-  value: any;
 }) => {
 
-  const { values } = useFormikContext<any>();
+  const { values, setFieldValue } = useFormikContext<any>();
+
+  
+
+  const [ address, setAddress ] = useState<any>({
+    state: {key: '', value: ''},
+    city: {key: '', value: ''},
+    district: {key: '', value: ''},
+  });
+
+  const [ selectedState, setSelectedState ] = useState<any>({key: '', value: ''});
+  const [ selectedCity, setSelectedCity ] = useState<any>({key: '', value: ''});
+  const [ selectedDistrict, setSelectedDistrict ] = useState<any>({key: '', value: ''});
+
+  
+  const [ stateValues, setStateValues ] = useState<any>();
+  const [ cityValues, setCityValues ] = useState<any>();
+  const [ districtValues, setDistrictValues ] = useState<any>( );
+
+  const intl = useIntl();
+
+  
+
+  
+
+  // useEffect(() => {
+  //   const stateValues = Object.values(STATE_LIST).map((state: any) => {return {value: state.name, key: state.code}});
+  //   setStateValues(stateValues);
+  // },[]);
+
+  // useEffect(() => {
+  //   const cityValues = selectedState ? Object.values(CITY_LIST).
+  //   filter((city: any) => {return city.parent_code === selectedState.key})
+  //   .map((city: any) => {return {value: city.name, key: city.code}})
+  //  : [];
+  //  setCityValues(cityValues);
+  // },[selectedState]);
+
+  // useEffect(() => {
+  //   const cityValues = selectedState ? Object.values(CITY_LIST).
+  //   filter((city: any) => {return city.parent_code === selectedState.key})
+  //   .map((city: any) => {return {value: city.name, key: city.code}})
+  //  : [];
+  //  setCityValues(cityValues);
+  // },[selectedState]);
+
+
 
   const dataT: any = [
     {
@@ -150,25 +199,24 @@ const FormTemplate = ({
     };
   };
 
-  
   return (
     <>
-    {value.title && <h6 className="text-primary">{value.title.toUpperCase()}</h6>}
-      {Object.keys(value.data).map(key => {
-        switch (value.data[key].type) {
+    {modifyModel && modifyModel.title && <h6 className="text-primary">{modifyModel.title.toUpperCase()}</h6>}
+      {modifyModel && modifyModel.data && Object.keys(modifyModel.data).map(key => {
+        switch (modifyModel.data[key].type) {
           case 'string':
             return (
               <div className="mt-3" key={key}>
                 <Field
                   name={key}
                   component={MainInput}
-                  placeholder={value.data[key].placeholder}
+                  placeholder={modifyModel.data[key].placeholder}
                   withFeedbackLabel
                   labelWidth={4}
                   isHorizontal
-                  label={value.data[key].label}
-                  disabled={value.data[key].disabled}
-                  required={value.data[key].required}
+                  label={modifyModel.data[key].label}
+                  disabled={modifyModel.data[key].disabled}
+                  required={modifyModel.data[key].required}
                 />
               </div>
             );
@@ -182,12 +230,194 @@ const FormTemplate = ({
                   isHorizontal
                   withFeedbackLabel
                   labelWidth={4}
-                  placeholder={value.data[key].placeholder}
-                  label={value.data[key].label}
-                  required={value.data[key].required}
+                  placeholder={modifyModel.data[key].placeholder}
+                  label={modifyModel.data[key].label}
+                  required={modifyModel.data[key].required}
                 />
               </div>
             );
+
+
+          case 'stateSelect':
+            // const stateValues = Object.values(STATE_LIST).map((state: any) => {return {value: state.name, key: state.code}});
+            const labelWidth = 4;
+            const isHorizontal = true;
+            const label = modifyModel.data[key].label;
+            const withFeedbackLabel = true;
+            const placeholder = modifyModel.data[key].placeholder
+            const required = modifyModel.data[key].required;
+            return (
+              <div className="mt-3" key={`${key}`}>
+                <div className="row">
+                <div className={'col-md-4 col-xl-4 col-12'}>
+                  {label && (
+                    <label  className={isHorizontal && 'mb-0 input-label mt-2'}>
+                      {label} {withFeedbackLabel && <span className="text-danger">*</span>}
+                    </label>
+                  )}
+                </div>
+                <select
+                  onChange={(e: any) => {
+                      const selectedIndex = e.target.options.selectedIndex;
+                      const key = e.target.options[selectedIndex].getAttribute('data-code')
+                      setSelectedState({value: e.target.value, key: key})
+                      setSelectedCity({value: '', key: ''})
+                      setSelectedDistrict({value: '', key: ''})
+                      setFieldValue('state', e.target.value);
+                    }
+                  }
+                  className={'col-md-8 col-xl-7 col-12 form-control'}
+                  >
+                  <option hidden>{intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'})}</option>
+                  {1 ?
+                    Object.values(STATE_LIST).map((state: any) => {
+                      return (
+                        <option key={state.code} data-code={state.code} value={state.name}>{state.name}</option>
+                      )
+                    })
+                    :
+                    (<></>)
+                  }
+                </select>
+                </div>
+                {/* <Field
+                  name={key}
+                  type="number"
+                  value={selectedState.value}
+                  children={stateValues}
+                  onChange={(e: any) => {
+                      const selectedIndex = e.target.options.selectedIndex;
+                      const key = e.target.options[selectedIndex].getAttribute('data-code')
+                      setSelectedState({value: e.target.value, key: key}
+                      )
+                    }
+                  }
+                  component={SelectField}
+                  isHorizontal
+                  withFeedbackLabel
+                  labelWidth={4}
+                  placeholder={value.data[key].placeholder}
+                  label={value.data[key].label}
+                  required={value.data[key].required}
+                /> */}
+              </div>
+            );
+
+          case 'citySelect':
+
+            return (
+              <div className="mt-3" key={`${key}`}>
+                <div className="row">
+                <div className={'col-md-4 col-xl-4 col-12'}>
+                  {modifyModel.data[key].label && (
+                    <label  className={'mb-0 input-label mt-2'}>
+                      {modifyModel.data[key].label} {<span className="text-danger">*</span>}
+                    </label>
+                  )}
+                </div>
+                <select
+                    onChange={(e: any) => {
+                      const selectedIndex = e.target.options.selectedIndex;
+                      const key = e.target.options[selectedIndex].getAttribute('data-code')
+                      setSelectedCity({value: e.target.value, key: key})
+                      setSelectedDistrict({value: '', key: ''})
+                      setFieldValue('city', e.target.value);
+                    }
+                  }
+                  className={'col-md-8 col-xl-7 col-12 form-control'}
+                  >
+                  <option hidden>{intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'})}</option>
+                  {1 ?
+                    Object.values(CITY_LIST).filter((city: any) => {return city.parent_code === selectedState.key}).map((city: any) => {
+                      return (
+                        <option key={city.code} data-code={city.code} value={city.name}>{city.name}</option>
+                      )
+                    })
+                    :
+                    (<></>)
+                  }
+                </select>
+                </div>
+                {/* <Field
+                  name={key}
+                  type="number"
+                  value={selectedCity.value}
+                  children={cityValues}
+                  onChange={(e: any) => {
+                    const selectedIndex = e.target.options.selectedIndex;
+                    const key = e.target.options[selectedIndex].getAttribute('data-code')
+                    setSelectedCity({value: e.target.value, key: key}
+                      )
+                    }
+                  }
+                  component={SelectField}
+                  isHorizontal
+                  withFeedbackLabel
+                  labelWidth={4}
+                  placeholder={value.data[key].placeholder}
+                  label={value.data[key].label}
+                  required={value.data[key].required}
+                /> */}
+              </div>
+            );
+
+          case 'districtSelect':
+            const districtValues = Object.values(DISTRICT_LIST).map((district: any) => {return district.name});
+            return (
+              <div className="mt-3" key={`${key}`}>
+                <div className="row">
+                <div className={'col-md-4 col-xl-4 col-12 '}>
+                  {modifyModel.data[key].label && (
+                    <label  className={'mb-0 input-label mt-2'}>
+                      {modifyModel.data[key].label} {<span className="text-danger">*</span>}
+                    </label>
+                  )}
+                </div>
+                <select
+                    onChange={(e: any) => {
+                      const selectedIndex = e.target.options.selectedIndex;
+                      const key = e.target.options[selectedIndex].getAttribute('data-code')
+                      setSelectedDistrict({value: e.target.value, key: key})
+                      setFieldValue('district', e.target.value);
+                    }
+                  }
+                  className={'col-md-8 col-xl-7 col-12 form-control'}
+                  >
+                  <option hidden>{intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'})}</option>
+                  {1 ?
+                    Object.values(DISTRICT_LIST).filter((district: any) => {return district.parent_code === selectedCity.key}).map((district: any) => {
+                      return (
+                        <option key={district.code} data-code={district.code} value={district.name}>{district.name}</option>
+                      )
+                    })
+                    :
+                    (<></>)
+                  }
+                </select>
+                </div>
+                {/* <Field
+                  name={key}
+                  type="number"
+                  value={selectedDistrict.value}
+                  children={districtValues}
+                  onChange={(e: any) => {
+                    const selectedIndex = e.target.options.selectedIndex;
+                    const key = e.target.options[selectedIndex].getAttribute('data-code')
+                    setSelectedDistrict({value: e.target.value, key: key}
+                      )
+                    }
+                  }
+                  component={SelectField}
+                  isHorizontal
+                  withFeedbackLabel
+                  labelWidth={4}
+                  placeholder={value.data[key].placeholder}
+                  label={value.data[key].label}
+                  required={value.data[key].required}
+                /> */}
+              </div>
+            );
+
           // handle shippingAddress
           case 'array':
             const shippingAddresses = formValues[key];
@@ -207,9 +437,9 @@ const FormTemplate = ({
                     isHorizontal
                     withFeedbackLabel
                     labelWidth={4}
-                    placeholder={value.data[key].placeholder}
-                    label={value.data[key].label}
-                    required={value.data[key].required}
+                    placeholder={modifyModel.data[key].placeholder}
+                    label={modifyModel.data[key].label}
+                    required={modifyModel.data[key].required}
                   />
                 </div>
                 )
@@ -222,10 +452,10 @@ const FormTemplate = ({
                 <DatePickerField
                   name={key}
                   isHorizontal
-                  label={value.data[key].label}
+                  label={modifyModel.data[key].label}
                   labelWidth={4}
                   type="Datetime"
-                  required={value.data[key].required}
+                  required={modifyModel.data[key].required}
                 />
               </div>
             );
@@ -251,10 +481,10 @@ const FormTemplate = ({
                   onChange={(imageList: any, addUpdateIndex: any) => {
                     onChange(imageList, addUpdateIndex, key);
                   }}
-                  label={value.data[key].label}
+                  label={modifyModel.data[key].label}
                   labelWidth={4}
                   isHorizontal={true}
-                  required={value.data[key].required}
+                  required={modifyModel.data[key].required}
                 />
               </div>
             );
@@ -268,9 +498,9 @@ const FormTemplate = ({
                   isHorizontal
                   withFeedbackLabel
                   labelWidth={4}
-                  placeholder={value.data[key].placeholder}
-                  label={value.data[key].label}
-                  required={value.data[key].required}
+                  placeholder={modifyModel.data[key].placeholder}
+                  label={modifyModel.data[key].label}
+                  required={modifyModel.data[key].required}
                 />
               </div>
             );  
@@ -287,9 +517,9 @@ const FormTemplate = ({
                   isHorizontal
                   withFeedbackLabel
                   labelWidth={4}
-                  placeholder={value.data[key].placeholder}
-                  label={value.data[key].label}
-                  required={value.data[key].required}
+                  placeholder={modifyModel.data[key].placeholder}
+                  label={modifyModel.data[key].label}
+                  required={modifyModel.data[key].required}
                 />
               </div>
             ) :
@@ -304,9 +534,9 @@ const FormTemplate = ({
                   isHorizontal
                   withFeedbackLabel
                   labelWidth={4}
-                  placeholder={value.data[key].placeholder}
-                  label={value.data[key].label}
-                  required={value.data[key].required}
+                  placeholder={modifyModel.data[key].placeholder}
+                  label={modifyModel.data[key].label}
+                  required={modifyModel.data[key].required}
                 />
                 {/* <RadioField 
                   defaultValue={values.gender}
@@ -317,21 +547,21 @@ const FormTemplate = ({
           case 'object':
             return (
               <div className="mt-3" key={key}>
-                {Object.keys(value.data[key]).map(childKey => {
-                  switch (value.data[key][childKey].type) {
+                {Object.keys(modifyModel.data[key]).map(childKey => {
+                  switch (modifyModel.data[key][childKey].type) {
                     case 'string':
                       return (
                         <div className="mt-3" key={childKey}>
                           <Field
                             name={`${key}.${childKey}`}
                             component={MainInput}
-                            placeholder={value.data[key][childKey].placeholder}
+                            placeholder={modifyModel.data[key][childKey].placeholder}
                             withFeedbackLabel
                             labelWidth={4}
                             isHorizontal
-                            label={value.data[key][childKey].label}
-                            disabled={value.data[key][childKey].disabled}
-                            required={value.data[key][childKey].required}
+                            label={modifyModel.data[key][childKey].label}
+                            disabled={modifyModel.data[key][childKey].disabled}
+                            required={modifyModel.data[key][childKey].required}
                           />
                         </div>
                       );
@@ -345,9 +575,9 @@ const FormTemplate = ({
                             isHorizontal
                             withFeedbackLabel
                             labelWidth={4}
-                            placeholder={value.data[key][childKey].placeholder}
-                            label={value.data[key][childKey].label}
-                            required={value.data[key][childKey].required}
+                            placeholder={modifyModel.data[key][childKey].placeholder}
+                            label={modifyModel.data[key][childKey].label}
+                            required={modifyModel.data[key][childKey].required}
                           />
                         </div>
                       );
@@ -360,7 +590,7 @@ const FormTemplate = ({
             return (
               <div className="mt-3" key={key}>
                 <InfiniteSelect
-                  label={value.data[key].label}
+                  label={modifyModel.data[key].label}
                   isHorizontal={true}
                   value={search[key]}
                   onChange={(value: any) => {
@@ -375,17 +605,17 @@ const FormTemplate = ({
                       search,
                       prevOptions,
                       { page },
-                      value.data[key].service,
-                      value.data[key].keyField,
+                      modifyModel.data[key].service,
+                      modifyModel.data[key].keyField,
                       key,
                     )
                   }
-                  refs={value.data[key].ref}
+                  refs={modifyModel.data[key].ref}
                   additional={{
                     page: DefaultPagination.page,
                   }}
                   name={key}
-                  placeholder={value.data[key].placeholder}
+                  placeholder={modifyModel.data[key].placeholder}
                 />
               </div>
             );
@@ -394,7 +624,7 @@ const FormTemplate = ({
             return (
               <div className="mt-3" key={key}>
                 <TagInput
-                  label={value.data[key].label}
+                  label={modifyModel.data[key].label}
                   isHorizontal={true}
                   name={key}
                   handleChange={handleChangeTag}
@@ -441,3 +671,15 @@ const FormTemplate = ({
 }
 
 export default FormTemplate;
+
+export const getCodeFromName = (arr: any[], name: string): number => {
+  const index: number = arr.findIndex(el => el.name === name);
+  if (index === -1) return 10;
+  return arr[index].code;
+};
+
+export const getNameFromCode = (arr: any[], code: number | string) => {
+  const index: number = arr.findIndex(el => el.code === code);
+  if (index === -1) return '';
+  return arr[index].name;
+};

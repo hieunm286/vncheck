@@ -53,6 +53,7 @@ export const FormikRadioGroup = ({
       <Element name="test7" className="element" id="containerElement" style={{
             position: 'relative',
             height: '200px',
+            padding: '0px 40px 0px 2px',
             overflowY: 'scroll',
             overflowX: 'hidden',
             width: '100%',

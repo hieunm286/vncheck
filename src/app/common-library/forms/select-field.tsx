@@ -1,13 +1,14 @@
-import React from 'react';
+import React, { ChangeEvent } from 'react';
 import './custom.css';
 import { FieldFeedbackLabel } from './field-feedback-label';
+import { useIntl } from 'react-intl';
 
 const getFieldCSSClasses = (touched: any, errors: any) => {
   const classes = ['form-control'];
 
-  if (touched && errors) classes.push('is-invalid');
+  // if (touched && errors) classes.push('is-invalid');
 
-  if (touched && errors) classes.push('is-valid');
+  // if (touched && errors) classes.push('is-valid');
 
   return classes.join(' ');
 };
@@ -102,8 +103,7 @@ export function SelectField({
     marginRight: 0,
   };
 
-  // console.log(errors)
-  // console.log(touched)
+  const intl = useIntl();
 
   return (
     <>
@@ -121,11 +121,11 @@ export function SelectField({
           className={withFeedbackLabel ? getFieldCSSClasses(touched, errors) : 'form-control'}
           {...field}
           {...props}>
+          <option hidden>{intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'})}</option>
           {children ?
             children.map((opt: any, key: number) => {
-              console.log(opt)
               return (
-                <option key={key} value={opt}>{opt}</option>
+                <option key={opt.key} data-code={opt.key} value={opt.value}>{opt.value}</option>
               )
             })
             :
