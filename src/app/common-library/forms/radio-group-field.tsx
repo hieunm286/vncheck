@@ -37,7 +37,7 @@ export const FormikRadioGroup = ({
 
   const intl = useIntl();
 
-  const [addressesState, setAddressesState] = useState<any>(addresses.find((addr: any) => addr.isDefault === true)._id);
+  const [addressesState, setAddressesState] = useState<any>((addresses && addresses.length) ? addresses.find((addr: any) => addr.isDefault === true)._id : '');
   const handleAddressChange = (e : any) => {
     setAddressesState(e.target.value);
     let defaultAddress = values.shippingAddress.find((addr: any) => { return addr._id === e.target.value});

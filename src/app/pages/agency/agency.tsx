@@ -552,7 +552,7 @@ function AgencyPage() {
   };
 
   const allFormField: any = {
-    ...GenerateAllFormField(modifyModel, modifyModel_2, modifyModel_3, modifyModel_4)
+    ...GenerateAllFormField(modifyModel)
   };
 
   return (
@@ -608,8 +608,9 @@ function AgencyPage() {
               {/* initValue={filterProps}/> */}
           <MasterBody
             onCreate={() => {
+              setEditEntity(null);
               setCreateEntity(null);
-              setShowCreate(true);
+              history.push('/agency/new');// setShowCreate(true);
             }}
             onDeleteMany={() => setShowDeleteMany(true)}
             selectedEntities={selectedEntities}
@@ -621,6 +622,24 @@ function AgencyPage() {
             paginationParams={paginationProps}
             setPaginationParams={setPaginationProps}
           />
+        </Route>
+        <Route path="/agency/new">
+          {({ history, match }) => (
+            <EntityCrudPageAgency
+              entity={createEntity}
+              onModify={(values) => {
+                add(ConvertStatusToString(convertToServer(values)))
+              }}
+              // title={updateTitle}
+              //  modifyModel={modifyModel}
+              // reduxModel="purchaseOrder"
+              code={match && match.params.id}
+              get={AgencyService.GetById}
+              formPart={formPart}
+              allFormField={allFormField}
+              allFormButton={allFormButton}
+            />
+          )}
         </Route>
         <Route path="/agency/:id">
           {({ history, match }) => (

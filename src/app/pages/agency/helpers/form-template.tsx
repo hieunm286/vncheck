@@ -460,9 +460,8 @@ const FormTemplate = ({
               </div>
             );
           case 'radioGroup':
-            const _shippingAddresses = formValues['shippingAddress'];
-            return _shippingAddresses ? 
-            (
+            const _shippingAddresses = formValues['shippingAddress'] ? formValues['shippingAddress'] : [];
+            return (
               <FormikRadioGroup
                 handleAddButton={handleAddButton}
                 handleEditButton={handleEditButton}
@@ -472,7 +471,7 @@ const FormTemplate = ({
                 name='defaultShippingAddress'
                 addresses={_shippingAddresses}
               />
-            ) : <></>
+            );
           case 'image':
             return (
               <div className="mt-3" key={key}>

@@ -340,7 +340,6 @@ function ModifyEntityPageAgency<T>({
   };
 
   const deleteFn = (entity: any) => {
-    console.log(entity)
     getShippingAddressesSync()
     .then((shippingAddresses: any) => {
       setFieldValue('shippingAddress', shippingAddresses.filter((addr: any) => {
@@ -383,7 +382,7 @@ function ModifyEntityPageAgency<T>({
     getShippingAddressesSync()
     .then((shippingAddresses: any) => {
         // setEntityNumber(shippingAddresses.length + 1);
-        const _entity = {...entity, _id: (shippingAddresses.length + 1).toString(), isDefault: false};
+        const _entity = {...entity, _id: (shippingAddresses.length + 1).toString(), isDefault: shippingAddresses.length === 0 ? true : false};
         shippingAddresses.push(_entity);
         setFieldValue('shippingAddress', shippingAddresses);
         // values.shippingAddress.push(_entity);

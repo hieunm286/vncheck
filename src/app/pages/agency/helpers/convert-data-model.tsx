@@ -13,7 +13,7 @@ export const convertToForm = (entity: any) => {
     ownerPhoneNumber: entity.owner.phone,
     email: entity.owner.email,
     gender: entity.owner.gender,
-    birthDay: Date.parse(entity.owner.birthDay),
+    birthDay: entity.owner.birthDay && Date.parse(entity.owner.birthDay),
     roleName: entity.owner.role.roleType,
     status: entity.status,
     defaultShippingAddress: getShippingAddress(entity.shippingAddress.find((addr: any) => {return addr.isDefault === true}))
@@ -23,9 +23,7 @@ export const convertToForm = (entity: any) => {
 
 export const convertToServer = (entity: any) => {
   const shippingAddress = entity.shippingAddress;
-  console.log(shippingAddress)
   shippingAddress.map((addr: any) => {
-    console.log(addr);
     if(addr._id) {
       if(addr._id.toString().match(/^[0-9a-fA-F]{24}$/)) {
         return addr;
@@ -56,7 +54,7 @@ export const convertToServer = (entity: any) => {
       phone: entity.ownerPhoneNumber,
       email: entity.email,
       gender: entity.gender,
-      birthDay: entity.birthDay.toString(),
+      birthDay: entity.birthDay && entity.birthDay.toString(),
       role: {
         roleType: entity.roleName,
       }

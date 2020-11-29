@@ -47,7 +47,22 @@ export const generateInitForm = (modifyModel: any, initField?: string, initData?
           initValue[key][childKey] = undefined
         }
       })
+    } else if (modifyModel[key].type === 'radioGroup') {
+      initValue[key] = [];
+    } else if (modifyModel[key].type === 'display') {
+      initValue[key] = '';
+    } else if (modifyModel[key].type === 'stateSelect') {
+      initValue[key] = '';
+    } else if (modifyModel[key].type === 'citySelect') {
+      initValue[key] = '';
+    } else if (modifyModel[key].type === 'districtSelect') {
+      initValue[key] = '';
+    }  else if (modifyModel[key].type === 'option') {
+      key === 'gender' ? initValue[key] = '1' : initValue[key] = '0' // male gender
+    } else {
+      initValue[key] = '';
     }
+    
   });
 
   if (initField && initData) {
