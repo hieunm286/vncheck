@@ -33,6 +33,7 @@ import { Switch, Route, Redirect, useHistory } from 'react-router-dom';
 import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import { convertToServer } from "./helpers/convert-data-model";
+import * as StoreLevelService from '../multilevel-sale/multilevel-sale.service';
 
 function AgencyPage() {
 
@@ -327,9 +328,11 @@ function AgencyPage() {
           label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.AGENCY_NAME' }),
         },
         storeLevel: {
-          type: 'string',
+          type: 'SearchSelect',
           placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.SELL_GOOD_LEVEL' }),
           label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.SELL_GOOD_LEVEL' }), 
+          service: StoreLevelService,
+          keyField: 'name'
         },
         state: {
           type: 'stateSelect',

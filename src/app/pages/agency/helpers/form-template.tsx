@@ -179,17 +179,27 @@ const FormTemplate = ({
       page: page,
     };
 
+    if(!service) console.error('search select with undefined service')
     const entities = await service.GetAll({ queryProps, paginationProps });
-    const count = await service.Count({ queryProps });
+    console.log(entities)
+    // const count = await service.Count({ queryProps });
+    const count = entities.data.length;
+    console.log(count)
 
-    const hasMore = prevOptions.length < count.data - (DefaultPagination.limit ?? 0);
+    const hasMore = prevOptions.length < count - (DefaultPagination.limit ?? 0);
+
+    // const entities = await service.GetAll({ queryProps, paginationProps });
+    // // const count = onCount ? await onCount({ queryProps }) : await service.Count({ queryProps });
+    // const count = entities.data.paging.total
+    // const hasMore = prevOptions.length < count - (DefaultPagination.limit ?? 0);
 
     // setSearchTerm({ ...searchTerm, [key]: search });
 
-    const data = [...new Set(dataT)];
+    // const data = [...new Set(entities.data)];
+    // console.log(data)
 
     return {
-      options: data.map((e: any) => {
+      options: entities.data.map((e: any) => {
         return { label: e[keyField], value: e._id };
       }),
       hasMore: false,
@@ -591,7 +601,7 @@ const FormTemplate = ({
                 <InfiniteSelect
                   label={modifyModel.data[key].label}
                   isHorizontal={true}
-                  value={search[key]}
+                  value={modifyModel.data[key]}
                   onChange={(value: any) => {
                     setSearch({ ...search, [key]: value });
                     // setSearchTerm({
