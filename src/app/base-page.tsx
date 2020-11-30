@@ -3,7 +3,8 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 import { ChangeUserPassword } from './pages/change-user-password';
 import { LayoutSplashScreen } from './layout/_core/metronic-splash-screen';
 import { ContentRoute } from './layout/components/content/content-route';
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const AccountPage = lazy(() => import('./pages/account'));
 
 const ProductPage = lazy(() => import('./pages/product'));
@@ -22,12 +23,11 @@ const ProductType = lazy(() => import('./pages/product-type/product-type'));
 
 const ProductPackaging = lazy(() => import('./pages/product-packaging/product-packaging'));
 
-const MultilevelSale = lazy(() => import('./pages/multilevel-sale/multilevel-sale'))
+const MultilevelSale = lazy(() => import('./pages/multilevel-sale/multilevel-sale'));
 
-const ShippingAgency = lazy(() => import('./pages/shipping-agency/shipping-agency'))
+const ShippingAgency = lazy(() => import('./pages/shipping-agency/shipping-agency'));
 
-const ProductionPlan = lazy(() => import('./pages/production-plan/production-plan'))
-
+const ProductionPlan = lazy(() => import('./pages/production-plan/production-plan'));
 
 export default function BasePage() {
   // useEffect(() => {
@@ -36,6 +36,8 @@ export default function BasePage() {
   // https://reactjs.org/docs/hooks-reference.html#useeffect
   return (
     <Suspense fallback={<LayoutSplashScreen />}>
+      <ToastContainer />
+
       <Switch>
         <Redirect exact from="/" to="/account/user" />
         <ContentRoute

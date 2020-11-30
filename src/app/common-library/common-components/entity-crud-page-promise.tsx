@@ -80,46 +80,7 @@ function EntityCrudPagePromise({
 
   const [checkFormError, setCheckFormError] = useState<boolean>(false);
   const [errorMsg, setErrorMsg] = useState<string | undefined>();
-  const ImageMeta = (file: any) => {
-    if (!file) return '';
-
-    file.forEach((item: any) => {
-      exifr.parse(item.file).then(res => {
-        const image = {
-          data_url: item.data_url,
-          exif: res,
-        };
-
-        const data: any[] = [];
-        data.push(image);
-        console.log(image);
-        setImageData(prevImages => [...prevImages, ...data]);
-      });
-    });
-  };
-
-  const onChange = (
-    imageList: any,
-    addUpdateIndex: any,
-    key: any,
-    setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => void,
-  ) => {
-    const imageArray = getOnlyFile(imageList);
-    const base64Array = getOnlyBase64(imageList);
-    const ImagesData = [];
-    const newArr = getNewImage(images[key], imageList);
-    // console.log(newArr)
-    // newArr.forEach((file, index) => {
-    //   ImageMeta(file.file)
-    // });
-    ImageMeta(newArr);
-
-    setFieldValue(key, imageData);
-
-    // data for submit
-    setImages({ ...images, [key]: imageList });
-    setImageRootArr(base64Array);
-  };
+  const [search, setSearch] = useState<any>(initForm);
 
   function handleChangeTag(value: string, key?: string) {
     // const newTag: string[] = [...tagArr];
@@ -137,10 +98,10 @@ function EntityCrudPagePromise({
 
 
 
-  const notify = () => {
-    toast.error(`😠 ${errorMsg}`, {
+  const notify = (error: string) => {
+    toast.error(`😠 ${error}`, {
       position: 'top-right',
-      autoClose: 5000,
+      autoClose: 3000,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,
@@ -149,41 +110,36 @@ function EntityCrudPagePromise({
     });
   };
 
-  useEffect(() => {
-    if (errorMsg) {
-      // store.addNotification({
-      //   title: 'Error!',
-      //   message: error,
-      //   type: 'danger',
-      //   insert: 'top',
-      //   container: 'top-center',
-      //   animationIn: ['animate__animated', 'animate__fadeIn'],
-      //   animationOut: ['animate__animated', 'animate__fadeOut'],
-      //   dismiss: {
-      //     duration: 5000,
-      //     onScreen: true,
-      //   },
-      // });
-      notify();
-    }
-  }, [errorMsg]);
+  const notifySuccess = () => {
+    toast.success(`😠 Thành công`, {
+      position: 'top-right',
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+  };
 
   const submitHandle = (values: any, { setSubmitting, setFieldError }: any) => {
     onModify(values)
       .then((res: any) => {
         history.push(GetHomePage(window.location.pathname));
+        notifySuccess()
         setErrorMsg(undefined);
         refreshData();
       })
       .catch(error => {
         setSubmitting(false);
         setErrorMsg(JSON.stringify(error));
+        notify(JSON.stringify(error));
       });
   };
 
   return (
     <>
-      <ToastContainer />
+      
       <Formik
         enableReinitialize={true}
         initialValues={entityForEdit || initForm}
@@ -201,7 +157,7 @@ function EntityCrudPagePromise({
           }
           submitHandle(updateValue, { setSubmitting, setFieldError });
         }}>
-        {({ handleSubmit, setFieldValue }) => (
+        {({ handleSubmit, setFieldValue, values }) => (
           <>
             <Form className="form form-label-right">
               {Object.keys(formPart).map(key => (
@@ -215,7 +171,7 @@ function EntityCrudPagePromise({
                           </a>
                           {entityForEdit
                             ? `CHỈNH SỬA ${formPart[key].header}`
-                            : `THÊM MỚI ${formPart[key].header}`}
+                            : `TẠO ${formPart[key].header} MỚI`}
                         </>
                       }
                     />
@@ -223,51 +179,50 @@ function EntityCrudPagePromise({
                   <CardBody>
                     <ModifyEntityPage
                       images={images}
-                      onChange={(imageList: any, addUpdateIndex: any, key: any) => {
-                        onChange(imageList, addUpdateIndex, key, setFieldValue);
-                      }}
                       modifyModel={formPart[key].modifyModel as any}
                       column={formPart[key].modifyModel.length}
                       title={formPart[key].title}
                       handleChangeTag={handleChangeTag}
+                      search={search}
+                      setSearch={setSearch}
                     />
-                    {/* {errorMsg && (
+                    {errorMsg && (
                       <div className="text-right mt-5">
                         <span className="text-danger">{errorMsg}</span>
                       </div>
-                    )} */}
+                    )}
                   </CardBody>
-                  {key === Object.keys(formPart)[Object.keys(formPart).length - 1] && (
-                    <div className="text-right mb-5 mr-5" key={key}>
-                      {Object.keys(allFormButton).map(keyss => {
-                        switch (allFormButton[keyss].role) {
+                  {allFormButton.type === 'inside' && key === Object.keys(formPart)[Object.keys(formPart).length - 1] && (
+                    <div className="text-right mb-5 mr-20" key={key}>
+                      {Object.keys(allFormButton.data).map(keyss => {
+                        switch (allFormButton['data'][keyss].role) {
                           case 'submit':
                             return (
                               <button
                                 formNoValidate
-                                type={allFormButton[keyss].type}
-                                className={allFormButton[keyss].className}
+                                type={allFormButton['data'][keyss].type}
+                                className={allFormButton['data'][keyss].className}
                                 key={keyss}>
-                                {allFormButton[keyss].icon} {allFormButton[keyss].label}
+                                {allFormButton['data'][keyss].icon} {allFormButton['data'][keyss].label}
                               </button>
                             );
 
                           case 'button':
                             return (
                               <button
-                                type={allFormButton[keyss].type}
-                                className={allFormButton[keyss].className}
+                                type={allFormButton['data'][keyss].type}
+                                className={allFormButton['data'][keyss].className}
                                 key={keyss}>
-                                {allFormButton[keyss].icon} {allFormButton[keyss].label}
+                                {allFormButton['data'][keyss].icon} {allFormButton['data'][keyss].label}
                               </button>
                             );
                           case 'link-button':
                             return (
-                              <Link to={allFormButton[keyss].linkto} key={keyss}>
+                              <Link to={allFormButton['data'][keyss].linkto} key={keyss}>
                                 <button
-                                  type={allFormButton[keyss].type}
-                                  className={allFormButton[keyss].className}>
-                                  {allFormButton[keyss].icon} {allFormButton[keyss].label}
+                                  type={allFormButton['data'][keyss].type}
+                                  className={allFormButton['data'][keyss].className}>
+                                  {allFormButton['data'][keyss].icon} {allFormButton['data'][keyss].label}
                                 </button>
                               </Link>
                             );
@@ -278,16 +233,44 @@ function EntityCrudPagePromise({
                 </Card>
               ))}
             </Form>
-            {/* 
-            <button type="submit" onClick={() => handleSubmit()} className="btn btn-primary mr-2">
-              <SaveOutlinedIcon style={iconStyle} /> Lưu
-            </button>
+            {allFormButton.type === 'outside' && (
+                    <div className="text-right mb-5 mr-20">
+                      {Object.keys(allFormButton.data).map(keyss => {
+                        switch (allFormButton['data'][keyss].role) {
+                          case 'submit':
+                            return (
+                              <button
+                                type={allFormButton['data'][keyss].type}
+                                onClick={() => handleSubmit()}
+                                className={allFormButton['data'][keyss].className}
+                                key={keyss}>
+                                {allFormButton['data'][keyss].icon} {allFormButton['data'][keyss].label}
+                              </button>
+                            );
 
-            <Link to="/purchase-order">
-              <button type="button" className="btn btn-outline-primary">
-                <CancelOutlinedIcon style={iconStyle} /> Hủy
-              </button>
-            </Link> */}
+                          case 'button':
+                            return (
+                              <button
+                                type={allFormButton['data'][keyss].type}
+                                className={allFormButton['data'][keyss].className}
+                                key={keyss}>
+                                {allFormButton['data'][keyss].icon} {allFormButton['data'][keyss].label}
+                              </button>
+                            );
+                          case 'link-button':
+                            return (
+                              <Link to={allFormButton['data'][keyss].linkto} key={keyss}>
+                                <button
+                                  type={allFormButton['data'][keyss].type}
+                                  className={allFormButton['data'][keyss].className}>
+                                  {allFormButton['data'][keyss].icon} {allFormButton['data'][keyss].label}
+                                </button>
+                              </Link>
+                            );
+                        }
+                      })}
+                    </div>
+                  )}
           </>
         )}
       </Formik>

@@ -87,7 +87,7 @@ const bodyTitle = 'PRODUCT_TYPE.MASTER.BODY.TITLE';
 const moduleName = 'PRODUCT_TYPE.MODULE_NAME';
 const deleteDialogTitle = 'PRODUCT_TYPE.DELETE_DIALOG.TITLE';
 const createTitle = 'PRODUCT_TYPE.CREATE.TITLE';
-const updateTitle = 'PURCHASE_ORDER.UPDATE.TITLE';
+const updateTitle = 'PRODUCT_TYPE.UPDATE.TITLE';
 const homeURL = `${window.location.pathname}`;
 
 export const GenerateCode = (data: any[]) => {
@@ -113,7 +113,12 @@ export const GenerateCode = (data: any[]) => {
 
 const ProductTypeSchema = Yup.object().shape({
   name: Yup.string().required('Tên chủng loại không được để trống'),
-  barcode: Yup.string().required('Tên chủng loại không được để trống'),
+  barcode: Yup.string()
+    .required('GTIN không được để trống')
+    .max(10, 'Vui lòng nhập tối đa 10 ký tự')
+    .matches(/^[0-9]+$/u, {
+      message: 'GTIN không hợp lệ. GTIN không chứa chữ cái và ký tự đặc biệt',
+    }),
   growingDays: Yup.number()
     .required('Số ngày gieo giống không được để trống')
     .min(1, 'Số ngày không được ít hơn 1 nha')
@@ -299,6 +304,11 @@ function ProductType() {
           placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL' }),
           label: 'Album 1',
         },
+        image2: {
+          type: 'image',
+          placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL' }),
+          label: 'Album 2',
+        },
       },
     },
     {
@@ -329,7 +339,7 @@ function ProductType() {
     form_1: {
       title: '',
       modifyModel: modifyModel,
-      header: 'ĐƠN HÀNG',
+      header: 'CHỦNG LOẠI',
     },
   };
 
@@ -338,25 +348,26 @@ function ProductType() {
   };
 
   const allFormButton: any = {
-    save: {
-      role: 'submit',
-      type: 'submit',
-      linkto: undefined,
-      className: 'btn btn-primary mr-2',
-      label: 'Lưu',
-      icon: <SaveOutlinedIcon />,
-    },
-    cancel: {
-      role: 'link-button',
-      type: 'button',
-      linkto: '/product-type',
-      className: 'btn btn-outline-primary mr-2',
-      label: 'Hủy',
-      icon: <CancelOutlinedIcon />,
+    type: 'inside',
+    data: {
+      save: {
+        role: 'submit',
+        type: 'submit',
+        linkto: undefined,
+        className: 'btn btn-primary mr-5 pl-8 pr-8',
+        label: 'Lưu',
+        icon: <SaveOutlinedIcon />,
+      },
+      cancel: {
+        role: 'link-button',
+        type: 'button',
+        linkto: '/product-type',
+        className: 'btn btn-outline-primary mr-2 pl-8 pr-8',
+        label: 'Hủy',
+        icon: <CancelOutlinedIcon />,
+      },
     },
   };
-
-  
 
   const notify = () => {
     toast.error(`😠 ${error}`, {

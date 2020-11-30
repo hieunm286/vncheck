@@ -2,7 +2,10 @@ import React from 'react';
 import { Table } from 'react-bootstrap';
 import AddIcon from '@material-ui/icons/Add';
 import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
 import { TreeData } from '../../pages/multilevel-sale/multilevel-sale.model';
+import { ChildFriendly } from '@material-ui/icons';
+import { ConvertStatusToBoolean } from '../helpers/common-function';
 
 const showArray_v2 = (fileds: any, data: any): any => {
   const AllField: any = fileds;
@@ -20,13 +23,23 @@ const showArray_v2 = (fileds: any, data: any): any => {
 
 interface TreeDataProp {
   data: TreeData[];
+  onCreate?: (entity: any) => void;
+    onEdit?: (entity: any) => void;
+    onDelete?: (entity: any) => void; 
 }
 
-const MasterTreeStructure: React.FC<TreeDataProp> = ({ data }) => {
+const MasterTreeStructure: React.FC<TreeDataProp> = ({ data, onCreate, onEdit, onDelete }) => {
   const [showChildrenV2, setShowChildrenV2] = React.useState<any>({ ...showArray_v2({}, data) });
 
-  const onEdit = (data: TreeData): void => {
-    console.log(data);
+  const handleAdd = (data: TreeData): void => {
+    if (onCreate) {
+      onCreate(data)
+    }
+  }
+  const handleEdit = (data: TreeData): void => {
+    if (onEdit) {
+      onEdit(data)
+    }
   };
 
   const onShowChildren = (key: string): void => {
@@ -38,7 +51,17 @@ const MasterTreeStructure: React.FC<TreeDataProp> = ({ data }) => {
 
   const handleClick = (data: TreeData): void => {
     console.log(data);
+    
   }
+
+  const handleDelete = (data: TreeData): void => {
+    console.log(data);
+    if (onDelete) {
+      onDelete(data)
+    }
+  }
+
+
 
   const renderChild = (data: TreeData[], size: number, skipDistance: number) => {
     return (
@@ -67,14 +90,21 @@ const MasterTreeStructure: React.FC<TreeDataProp> = ({ data }) => {
               <td>
                 <button
                   style={{ backgroundColor: 'white', border: 'none' }}
-                  onClick={() => onEdit(childrenItem)}
+                  onClick={() => handleAdd(childrenItem)}
                   className="text-primary">
                   <AddIcon />
                 </button>
                 <button
                   style={{ backgroundColor: 'white', border: 'none' }}
+                  onClick={() => handleEdit(childrenItem)}
                   className="text-primary">
                   <EditIcon />
+                </button>
+                <button
+                  style={{ backgroundColor: 'white', border: 'none' }}
+                  onClick={() => handleDelete(childrenItem)}
+                  className="text-primary">
+                  <DeleteIcon />
                 </button>
               </td>
             </tr>
