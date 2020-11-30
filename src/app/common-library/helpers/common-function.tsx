@@ -259,6 +259,7 @@ export function InitMasterProps<T>({
     setShowCreate(false);
     setSelectedEntities([]);
     setLoading(false);
+    setFilterProps(undefined);
     setError('')
   };
   

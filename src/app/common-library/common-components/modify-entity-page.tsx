@@ -289,9 +289,9 @@ function ModifyEntityPage<T>({
                       <div className="mt-3" key={key}>
                         <CustomImageUpload
                           images={images[key]}
-                          onChange={(imageList: any, addUpdateIndex: any) => {
-                            onChange(imageList, addUpdateIndex, key);
-                          }}
+                          // onChange={(imageList: any, addUpdateIndex: any) => {
+                          //   onChange(imageList, addUpdateIndex, key);
+                          // }}
                           label={value.data[key].label}
                           labelWidth={4}
                           isHorizontal={true}

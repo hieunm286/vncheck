@@ -4,11 +4,11 @@
 import React from 'react';
 import SVG from 'react-inlinesvg';
 import Visibility from '@material-ui/icons/Visibility';
-import './master-table.scss';
+import './style/production-plan.scss';
 import { IntlShape } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { ToAbsoluteUrl } from '../../common-library/helpers/assets-helpers';
-
+import FileCopyIcon from '@material-ui/icons/FileCopy';
 interface ActionColumnProps<T> {
     onEdit: (entity: T) => void;
     onShowDetail: (entity: any) => void;
@@ -27,7 +27,7 @@ export function ProductPlanActionsColumn<T>(
         className="btn btn-icon btn-light btn-hover-primary btn-sm visibility"
         onClick={() => onShowDetail(row)}>
         <span className="svg-icon svg-icon-md svg-icon-primary">
-          <Visibility className="text-primary eye" />
+          <FileCopyIcon className="text-primary eye" />
         </span>
       </a>
       <a

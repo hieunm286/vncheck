@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import { Tabs } from 'antd';
 import { Card, CardBody } from '../../common-library/card';
 import { MasterTable } from '../../common-library/common-components/master-table';
@@ -7,38 +7,28 @@ import './style/production-plan.scss'
 
 const { TabPane } = Tabs;
 
-function callback(key: string | number) {
-  console.log(key);
-}
+
 
 function ProductionPlanBody({
-  tabData
+  tabData,
+  setCurrentTab,
+  currentTab
 }: {
-  tabData: any[]
+  tabData: any[],
+  setCurrentTab: (tab: string | undefined) => void;
+  currentTab: string | undefined;
 }) {
-//   const masterColumn = isShowId
-//     ? {
-//         _id: {
-//           dataField: '_id',
-//           text: 'STT',
-//           formatter: (cell: any, row: any, rowIndex: number) => (
-//             <p>
-//               {rowIndex + 1 + ((paginationParams.page ?? 0) - 1) * (paginationParams.limit ?? 0)}
-//             </p>
-//           ),
-//           style: { paddingTop: 20 },
-//         },
-//         ...columns,
-//       }
-//     : columns;
 
+  function callback(key: string | undefined) {
+    setCurrentTab(key)
+  }
   
 
   return (
     <Card>
       {/* {title && <CardHeader title={intl.formatMessage({ id: title }).toUpperCase()} />} */}
       <CardBody>
-        <Tabs defaultActiveKey="0" onChange={callback} tabBarStyle={{ color: '#27AE60' }} className="production-plan-tab-active">
+        <Tabs defaultActiveKey={currentTab} onChange={callback} tabBarStyle={{ color: '#27AE60' }} className="production-plan-tab-active">
           {/* <TabPane tab="Tab 1" key="1">
             <MasterTable
               entities={entities}
