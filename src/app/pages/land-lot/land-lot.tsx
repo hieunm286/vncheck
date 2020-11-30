@@ -109,6 +109,8 @@ function LandLot() {
     setTotal,
     loading,
     setLoading,
+    error,
+    setError,
     add,
     update,
     get,
@@ -446,11 +448,14 @@ function LandLot() {
         onHide={() => {
           setShowDelete(false);
         }}
+        loading={loading}
+        error={error}
       />
       <DeleteManyEntitiesDialog
         moduleName={moduleName}
         selectedEntities={selectedEntities}
         loading={loading}
+        error={error}
         isShow={showDeleteMany}
         onDelete={deleteMany}
         onHide={() => {

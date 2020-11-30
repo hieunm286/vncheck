@@ -47,6 +47,7 @@ export function InitMasterProps<T>({
   const [filterProps, setFilterProps] = useState({ name: '', code: '' });
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('')
 
   const getAll = useCallback(
     (filterProps?) => {
@@ -146,6 +147,8 @@ export function InitMasterProps<T>({
     setTotal,
     loading,
     setLoading,
+    error,
+    setError,
     add,
     update,
     get,

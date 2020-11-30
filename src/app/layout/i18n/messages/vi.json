@@ -162,6 +162,7 @@
   "PURCHASE_ORDER.CREATE.TITLE": "Thêm mới đơn hàng",
   "PURCHASE_ORDER.UPDATE.TITLE": "Cập nhật đơn hàng",
 
+  "AGENCY.MODULE_NAME": "Đơn vị bán hàng",
   "AGENCY.MASTER.HEADER.AGENCY_INFO": "Thông tin đơn vị",
   "AGENCY.VIEW.LABEL.OWNER_NAME": "Tên chủ đơn vị",
   "AGENCY.VIEW.LABEL.OWNER_EMAIL": "Email",
