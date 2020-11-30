@@ -17,6 +17,9 @@ import { DatePickerField } from '../forms/date-picker-field';
 // import InfiniteSelect from '../forms/infinite-select';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import { Button } from 'antd';
+import STATE_LIST from '../../../_metronic/AdministrativeDivision/state.json';
+import CITY_LIST from '../../../_metronic/AdministrativeDivision/city.json';
+import DISTRICT_LIST from '../../../_metronic/AdministrativeDivision/district.json';
 
 import './master-header.css';
 import CustomeTreeSelect from '../forms/tree-select';
@@ -99,6 +102,25 @@ export function MasterHeader<T>({
   //     },
   //   );
   // };
+
+  // const [ search, setSearch ] = useState<any>(formValues);
+
+  
+
+  const [ address, setAddress ] = useState<any>({
+    state: {key: '', value: ''},
+    city: {key: '', value: ''},
+    district: {key: '', value: ''},
+  });
+
+  const [ selectedState, setSelectedState ] = useState<any>({key: '', value: ''});
+  const [ selectedCity, setSelectedCity ] = useState<any>({key: '', value: ''});
+  const [ selectedDistrict, setSelectedDistrict ] = useState<any>({key: '', value: ''});
+
+  
+  const [ stateValues, setStateValues ] = useState<any>();
+  const [ cityValues, setCityValues ] = useState<any>();
+  const [ districtValues, setDistrictValues ] = useState<any>( );
 
   const loadOptions = async (
     search: string,
@@ -277,6 +299,182 @@ export function MasterHeader<T>({
                             />
                           </div>
                         );
+
+                      case 'stateSelect':
+                        // const stateValues = Object.values(STATE_LIST).map((state: any) => {return {value: state.name, key: state.code}});
+                        const labelWidth = 4;
+                        const isHorizontal = false;
+                        const stateLabel = key;
+                        const withFeedbackLabelState = true;
+                        // const placeholder = modifyModel.data[key].placeholder
+                        // const required = modifyModel.data[key].required;
+                        return (
+                          <div className="mt-3" key={`${key}`}>
+                            <div className={'col-md-4 col-xl-4 col-12'}>
+                              {stateLabel && (
+                                <label  className={'mb-0 input-label mt-2'}>
+                                  {stateLabel} {withFeedbackLabelState && <span className="text-danger">*</span>}
+                                </label>
+                              )}
+                            </div>
+                            <select
+                              onChange={(e: any) => {
+                                  const selectedIndex = e.target.options.selectedIndex;
+                                  const key = e.target.options[selectedIndex].getAttribute('data-code')
+                                  setSelectedState({value: e.target.value, key: key})
+                                  setSelectedCity({value: '', key: ''})
+                                  setSelectedDistrict({value: '', key: ''})
+                                  setFieldValue('state', e.target.value);
+                                }
+                              }
+                              className={'col-md-8 col-xl-7 col-12 form-control'}
+                              >
+                              <option hidden>{intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'})}</option>
+                              {1 ?
+                                Object.values(STATE_LIST).map((state: any) => {
+                                  return (
+                                    <option key={state.code} data-code={state.code} value={state.name}>{state.name}</option>
+                                  )
+                                })
+                                :
+                                (<></>)
+                              }
+                            </select>
+                            {/* <Field
+                              name={key}
+                              type="number"
+                              value={selectedState.value}
+                              children={stateValues}
+                              onChange={(e: any) => {
+                                  const selectedIndex = e.target.options.selectedIndex;
+                                  const key = e.target.options[selectedIndex].getAttribute('data-code')
+                                  setSelectedState({value: e.target.value, key: key}
+                                  )
+                                }
+                              }
+                              component={SelectField}
+                              isHorizontal
+                              withFeedbackLabel
+                              labelWidth={4}
+                              placeholder={value.data[key].placeholder}
+                              label={value.data[key].label}
+                              required={value.data[key].required}
+                            /> */}
+                          </div>
+                          );
+              
+                        case 'citySelect':
+                          const cityLabel = key;
+                          const withFeedbackLabelCity = true;
+                          return (
+                            <div className="mt-3" key={`${key}`}>
+                              <div className={'col-md-4 col-xl-4 col-12'}>
+                                {cityLabel && (
+                                  <label  className={'mb-0 input-label mt-2'}>
+                                    {cityLabel} {<span className="text-danger">*</span>}
+                                  </label>
+                                )}
+                              </div>
+                              <select
+                                  onChange={(e: any) => {
+                                    const selectedIndex = e.target.options.selectedIndex;
+                                    const key = e.target.options[selectedIndex].getAttribute('data-code')
+                                    setSelectedCity({value: e.target.value, key: key})
+                                    setSelectedDistrict({value: '', key: ''})
+                                    setFieldValue('city', e.target.value);
+                                  }
+                                }
+                                className={'col-md-8 col-xl-7 col-12 form-control'}
+                                >
+                                <option hidden>{intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'})}</option>
+                                {1 ?
+                                  Object.values(CITY_LIST).filter((city: any) => {return city.parent_code === selectedState.key}).map((city: any) => {
+                                    return (
+                                      <option key={city.code} data-code={city.code} value={city.name}>{city.name}</option>
+                                    )
+                                  })
+                                  :
+                                  (<></>)
+                                }
+                              </select>
+                              {/* <Field
+                                name={key}
+                                type="number"
+                                value={selectedCity.value}
+                                children={cityValues}
+                                onChange={(e: any) => {
+                                  const selectedIndex = e.target.options.selectedIndex;
+                                  const key = e.target.options[selectedIndex].getAttribute('data-code')
+                                  setSelectedCity({value: e.target.value, key: key}
+                                    )
+                                  }
+                                }
+                                component={SelectField}
+                                isHorizontal
+                                withFeedbackLabel
+                                labelWidth={4}
+                                placeholder={value.data[key].placeholder}
+                                label={value.data[key].label}
+                                required={value.data[key].required}
+                              /> */}
+                            </div>
+                          );
+              
+                        case 'districtSelect':
+                          const districtLabel = key;
+                          const withFeedbackLabelDistrict = true;
+                          return (
+                            <div className="mt-3" key={`${key}`}>
+                              <div className={'col-md-4 col-xl-4 col-12 '}>
+                                {districtLabel && (
+                                  <label  className={'mb-0 input-label mt-2'}>
+                                    {districtLabel} {<span className="text-danger">*</span>}
+                                  </label>
+                                )}
+                              </div>
+                              <select
+                                  onChange={(e: any) => {
+                                    const selectedIndex = e.target.options.selectedIndex;
+                                    const key = e.target.options[selectedIndex].getAttribute('data-code')
+                                    setSelectedDistrict({value: e.target.value, key: key})
+                                    setFieldValue('district', e.target.value);
+                                  }
+                                }
+                                className={'col-md-8 col-xl-7 col-12 form-control'}
+                                >
+                                <option hidden>{intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'})}</option>
+                                {1 ?
+                                  Object.values(DISTRICT_LIST).filter((district: any) => {return district.parent_code === selectedCity.key}).map((district: any) => {
+                                    return (
+                                      <option key={district.code} data-code={district.code} value={district.name}>{district.name}</option>
+                                    )
+                                  })
+                                  :
+                                  (<></>)
+                                }
+                              </select>
+                              {/* <Field
+                                name={key}
+                                type="number"
+                                value={selectedDistrict.value}
+                                children={districtValues}
+                                onChange={(e: any) => {
+                                  const selectedIndex = e.target.options.selectedIndex;
+                                  const key = e.target.options[selectedIndex].getAttribute('data-code')
+                                  setSelectedDistrict({value: e.target.value, key: key}
+                                    )
+                                  }
+                                }
+                                component={SelectField}
+                                isHorizontal
+                                withFeedbackLabel
+                                labelWidth={4}
+                                placeholder={value.data[key].placeholder}
+                                label={value.data[key].label}
+                                required={value.data[key].required}
+                              /> */}
+                            </div>
+                          );
                     }
                     return <></>;
                   })

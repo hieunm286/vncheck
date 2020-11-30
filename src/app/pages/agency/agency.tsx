@@ -209,12 +209,37 @@ function AgencyPage() {
       placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.PLACEHOLDER',
       label: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
       keyField: 'code'
-    }, name: {
+    }, 
+    name: {
       type: 'string',
       placeholder: 'PURCHASE_ORDER.MASTER.HEADER.NAME.PLACEHOLDER',
       label: 'PURCHASE_ORDER.MASTER.HEADER.NAME.LABEL',
       keyField: 'name'
+    }, 
+    storeLevel: {
+      type: 'TreeSelect',
+      placeholder: 'PURCHASE_ORDER.MASTER.HEADER.NAME.PLACEHOLDER',
+      label: 'PURCHASE_ORDER.MASTER.HEADER.NAME.LABEL',
+      keyField: 'name'
+    }, 
+    state: {
+      type: 'stateSelect',
+      placeholder: 'PURCHASE_ORDER.MASTER.HEADER.NAME.PLACEHOLDER',
+      label: 'PURCHASE_ORDER.MASTER.HEADER.NAME.LABEL',
+      keyField: 'name'
+    }, 
+    city: {
+      type: 'citySelect',
+      placeholder: 'PURCHASE_ORDER.MASTER.HEADER.NAME.PLACEHOLDER',
+      label: 'PURCHASE_ORDER.MASTER.HEADER.NAME.LABEL',
+      keyField: 'name'
     },
+    district: {
+      type: 'districtSelect',
+      placeholder: 'PURCHASE_ORDER.MASTER.HEADER.NAME.PLACEHOLDER',
+      label: 'PURCHASE_ORDER.MASTER.HEADER.NAME.LABEL',
+      keyField: 'name'
+    }
   };
 
 
@@ -612,6 +637,22 @@ function AgencyPage() {
         <Route path="/agency" exact={true}>
           {/* <MasterHeader title={headerTitle} onSearch={setFilterProps} searchModel={purchaseOrderSearchModel} */}
               {/* initValue={filterProps}/> */}
+          <MasterHeader
+            title={headerTitle}
+            onSearch={setFilterProps}
+            searchModel={purchaseOrderSearchModel}
+            initValue={{
+              code: '',
+              lot: '',
+              subLot: '',
+              // agencyAddress: '',
+              // agency: null,
+              // date: '',
+              // count: 1,
+              // tree: undefined,
+              // tree2: undefined,
+            }}
+          />
           <MasterBody
             onCreate={() => {
               setEditEntity(null);
