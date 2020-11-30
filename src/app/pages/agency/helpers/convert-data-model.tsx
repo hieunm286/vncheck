@@ -56,7 +56,7 @@ export const convertToServer = (entity: any) => {
       gender: entity.gender,
       birthDay: entity.birthDay && entity.birthDay.toString(),
       role: {
-        roleType: entity.roleName,
+        name: entity.roleName,
       }
     },
     status: entity.status,

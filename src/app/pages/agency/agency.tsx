@@ -34,6 +34,7 @@ import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import { convertToServer } from "./helpers/convert-data-model";
 import * as StoreLevelService from '../multilevel-sale/multilevel-sale.service';
+import * as RoleService from './helpers/role.service';
 
 function AgencyPage() {
 
@@ -416,9 +417,11 @@ function AgencyPage() {
           label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.BIRTH_DAY' }),
         },
         roleName: {
-          type: 'string',
+          type: 'SearchSelect',
           placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.ROLE_NAME' }),
           label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.ROLE_NAME' }),
+          service: RoleService,
+          keyField: 'name'
         },
         avatar: {
           type: 'image',

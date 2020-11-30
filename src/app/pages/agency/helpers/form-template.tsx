@@ -32,8 +32,6 @@ const FormTemplate = ({
   onChange,
   title,
   column,
-  search,
-  setSearch,
   handleChangeTag,
   handleAddButton,
   handleEditButton,
@@ -52,8 +50,6 @@ const FormTemplate = ({
   onChange?: any;
   title?: string;
   column?: number;
-  search?: any;
-  setSearch?: any;
   handleChangeTag?: any;
   handleAddButton?: any;
   handleEditButton?: any;
@@ -63,6 +59,8 @@ const FormTemplate = ({
 }) => {
 
   const { values, setFieldValue } = useFormikContext<any>();
+
+  const [ search, setSearch ] = useState<any>(formValues);
 
   
 
@@ -181,10 +179,10 @@ const FormTemplate = ({
 
     if(!service) console.error('search select with undefined service')
     const entities = await service.GetAll({ queryProps, paginationProps });
-    console.log(entities)
+    // console.log(entities)
     // const count = await service.Count({ queryProps });
     const count = entities.data.length;
-    console.log(count)
+    // console.log(count)
 
     const hasMore = prevOptions.length < count - (DefaultPagination.limit ?? 0);
 
@@ -601,7 +599,7 @@ const FormTemplate = ({
                 <InfiniteSelect
                   label={modifyModel.data[key].label}
                   isHorizontal={true}
-                  value={modifyModel.data[key]}
+                  value={search[key]}
                   onChange={(value: any) => {
                     setSearch({ ...search, [key]: value });
                     // setSearchTerm({
