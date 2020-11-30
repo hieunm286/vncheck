@@ -370,7 +370,7 @@ const dataT: any = [
                                   setSearch({...search, [key]: {label: enteredValue, name: enteredValue}});
                                   // handleChange(e);
                                   setFieldValue('lot', {label: enteredValue, name: enteredValue});
-                                  setFieldValue('code', enteredValue + values.subLot);
+                                  setFieldValue('code', enteredValue);
                                 }
                                 else if(key === 'subLot'
                                   &&  (enteredValue.length <=2
