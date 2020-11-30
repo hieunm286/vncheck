@@ -306,7 +306,8 @@ function LandLot() {
       data: {
         code: {
           type: 'string',
-          placeholder: intl.formatMessage({ id: 'LAND_LOT.MASTER.PLACEHOLDER.CODE' }),
+          // placeholder: intl.formatMessage({ id: 'LAND_LOT.EDIT.PLACEHOLDER.CODE' }),
+          placeholder: '',
           label: intl.formatMessage({ id: 'LAND_LOT.MASTER.HEADER.CODE' }),
           required: true,
           disabled: true,
