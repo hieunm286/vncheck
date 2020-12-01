@@ -120,6 +120,10 @@ const FormTemplate = ({
   //  setCityValues(cityValues);
   // },[selectedState]);
 
+  // useEffect(() => {
+  //   setSelectedState(values.state);
+  // },[values.state]);
+
 
 
   const dataT: any = [
@@ -275,6 +279,7 @@ const FormTemplate = ({
 
 
           case 'stateSelect':
+            console.log(values)
             // const stateValues = Object.values(STATE_LIST).map((state: any) => {return {value: state.name, key: state.code}});
             const labelWidth = 4;
             const isHorizontal = true;
@@ -342,7 +347,6 @@ const FormTemplate = ({
             );
 
           case 'citySelect':
-
             return (
               <div className="mt-3" key={`${key}`}>
                 <div className="row">
@@ -402,7 +406,6 @@ const FormTemplate = ({
             );
 
           case 'districtSelect':
-            const districtValues = Object.values(DISTRICT_LIST).map((district: any) => {return district.name});
             return (
               <div className="mt-3" key={`${key}`}>
                 <div className="row">
