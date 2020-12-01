@@ -2,7 +2,12 @@ import React, { Fragment, useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import { Count, Create, Delete, DeleteMany, Get, GetAll, Update } from './purchase-order.service';
 import { PurchaseOrderModel } from './purchase-order.model';
-import { DefaultPagination, NormalColumn, SortColumn, StatusValue } from '../../common-library/common-consts/const';
+import {
+  DefaultPagination,
+  NormalColumn,
+  SortColumn,
+  StatusValue,
+} from '../../common-library/common-consts/const';
 import { MasterHeader } from '../../common-library/common-components/master-header';
 import { MasterEntityDetailDialog } from '../../common-library/common-components/master-entity-detail-dialog';
 import { MasterBody } from '../../common-library/common-components/master-body';
@@ -107,14 +112,18 @@ const PurchaseOrderSchema = Yup.object().shape({
     .matches(/[0-9]$/u, {
       message: 'Vui lòng nhập tên đúng định dạng',
     }),
-  time: Yup.date().required('Vui lòng nhập date'),
-  time2: Yup.date().required('Vui lòng nhập date'),
-  quantity: Yup.number().required('Vui lòng nhập số lượng'),
+  // time: Yup.date().required('Vui lòng nhập date'),
+  // time2: Yup.date().required('Vui lòng nhập date'),
+  // quantity: Yup.number().required('Vui lòng nhập số lượng'),
   agency: Yup.object().shape({
     name: Yup.string().required('Name ko đc để trống'),
-    taxId: Yup.string().required('TaxId ko đc để trống'),
+    name2: Yup.string().required('Name2 ko đc để trống'),
+    taxId: Yup.object().shape({
+      taxName: Yup.string().required('Tax name ko đc để trống'),
+      taxNumber: Yup.string().required('Tax number ko đc để trống'),
+    })
   }),
-  staff: Yup.array().min(1, 'Nhân viên ko đc để trống')
+  // staff: Yup.array().min(1, 'Nhân viên ko đc để trống'),
 });
 
 function PurchaseOrder() {
@@ -352,22 +361,39 @@ function PurchaseOrder() {
         // },
         agency: {
           type: 'object',
-          name: {
-            type: 'string',
-            label: 'Name',
-            placeholder: 'Name',
-          },
-          taxId: {
-            type: 'string',
-            label: 'Tax',
-            placeholder: 'Tax',
+          data: {
+            name: {
+              type: 'string',
+              label: 'Name',
+              placeholder: 'Name',
+            },
+            name2: {
+              type: 'string',
+              label: 'Name2',
+              placeholder: 'Name2',
+            },
+            taxId: {
+              type: 'object',
+              data: {
+                taxName: {
+                  type: 'string',
+                  label: 'Taxcc',
+                  placeholder: 'Taxcc',
+                },
+                taxNumber: {
+                  type: 'string',
+                  label: 'Taxfds',
+                  placeholder: 'Tafdsx',
+                },
+              },
+            },
           },
         },
         staff: {
           type: 'tag',
           label: 'Nhân viên',
           placeholder: 'Nhân viên',
-        }
+        },
       },
     },
     // {
@@ -419,7 +445,7 @@ function PurchaseOrder() {
         imageDetail: {
           type: 'gallery',
           label: 'Image Gallery',
-        }
+        },
       },
     },
   ];
@@ -502,6 +528,8 @@ function PurchaseOrder() {
       // , modifyModel_2, modifyModel_3, modifyModel_4
     ),
   };
+
+  console.log(allFormField);
 
   const allFormButton: any = {
     save: {
@@ -644,10 +672,10 @@ function PurchaseOrder() {
         <Route path="/purchase-order">
           <MasterHeader
             title={headerTitle}
-            onSearch={(value) => {
-              setPaginationProps({ ...DefaultPagination, page: 1 })
-              console.log(paginationProps)
-              setFilterProps(value)
+            onSearch={value => {
+              setPaginationProps({ ...DefaultPagination, page: 1 });
+              console.log(paginationProps);
+              setFilterProps(value);
             }}
             searchModel={purchaseOrderSearchModel}
             initValue={{

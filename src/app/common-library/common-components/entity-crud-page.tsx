@@ -80,8 +80,6 @@ function EntityCrudPage({
 
   const [imageData, setImageData] = useState<{ data_url: any; exif: any }[]>([])
 
-  console.log(imageData)
-
   const ImageMeta = (file: any) => {
     if (!file) return '';
 
@@ -126,7 +124,6 @@ function EntityCrudPage({
     // newTag.push(value);
     // setTagArr({ ...tagArr, [key]: newTag });
   }
-
  
   useEffect(() => {
     if (code) {

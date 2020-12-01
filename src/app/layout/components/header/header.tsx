@@ -23,7 +23,7 @@ export function Header() {
         <>
             {/*begin::Header*/}
             <div
-                className={`header ${layoutProps.headerClasses} ml-8 mr-8`}
+                className={`header ${layoutProps.headerClasses} ml-3 mr-3`}
                 id="kt_header"
                 {...layoutProps.headerAttributes}
             >

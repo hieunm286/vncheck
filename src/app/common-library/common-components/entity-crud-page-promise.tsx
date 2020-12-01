@@ -137,6 +137,8 @@ function EntityCrudPagePromise({
       });
   };
 
+  console.log(initForm)
+
   return (
     <>
       
