@@ -90,7 +90,7 @@ export const productPlanSearchModel1: SearchModel = {
       data: {
         planCode: {
           type: 'string',
-          placeholder: '',
+          placeholder: 'PRODUCT_TYPE.MASTER.TABLE.CODE_COLUMN',
           label: 'PRODUCT_TYPE.MASTER.TABLE.CODE_COLUMN',
           required: true,
           disabled: true,
@@ -215,7 +215,7 @@ export const productPlanSearchModel1: SearchModel = {
       data: {
         manager: {
           type: 'string',
-          placeholder: '',
+          placeholder: 'PRODUCT_TYPE.MASTER.TABLE.NAME_COLUMN',
           label: 'Thông tin Giám đốc/TGĐ',
           required: true,
           disabled: true,
@@ -289,7 +289,7 @@ export const productPlanSearchModel1: SearchModel = {
       data: {
         estimatedPTTime: {
           type: 'Datetime',
-          placeholder: '',
+          placeholder: 'PRODUCT_TYPE.MASTER.TABLE.NAME_COLUMN',
           label: 'Thời gian thu hoạch (dự kiến)',
           required: true,
           disabled: true,
@@ -325,7 +325,7 @@ export const productPlanSearchModel1: SearchModel = {
       data: {
         estimatedCleanTime: {
           type: 'Datetime',
-          placeholder: '',
+          placeholder: 'PRODUCT_TYPE.MASTER.TABLE.NAME_COLUMN',
           label: 'Thời gian làm sạch (dự kiến)',
           required: true,
           disabled: true,
@@ -361,14 +361,14 @@ export const productPlanSearchModel1: SearchModel = {
       data: {
         estimatedCleanTime: {
           type: 'Datetime',
-          placeholder: '',
+          placeholder: 'PRODUCT_TYPE.MASTER.TABLE.NAME_COLUMN',
           label: 'Thời gian làm sạch (dự kiến)',
           required: true,
           disabled: true,
         },
         expiryDate: {
           type: 'Datetime',
-          placeholder: '',
+          placeholder: 'PRODUCT_TYPE.MASTER.TABLE.NAME_COLUMN',
           label: 'Hạn sử dụng (dự kiến)',
           required: true,
           disabled: true,
@@ -409,7 +409,7 @@ export const productPlanSearchModel1: SearchModel = {
       data: {
         estimatedCleanTime: {
           type: 'Datetime',
-          placeholder: '',
+          placeholder: 'PRODUCT_TYPE.MASTER.TABLE.NAME_COLUMN',
           label: 'Thời gian làm sạch (dự kiến)',
           required: true,
           disabled: true,

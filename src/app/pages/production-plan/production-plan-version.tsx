@@ -60,7 +60,7 @@ function ProductionPlanVersion({ title, data, paginationParams, setPaginationPar
       dataField: 'createDate',
 			text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.VERSION_CREATEDATE' })}`,
 			formatter: (cell: any, row: any, rowIndex: number) => (
-        <p>{new Intl.DateTimeFormat('en-GB').format(row.createDate)}</p>
+        <span>{new Intl.DateTimeFormat('en-GB').format(row.createDate)}</span>
       ),
       ...SortColumn,
       classes: 'text-center',
