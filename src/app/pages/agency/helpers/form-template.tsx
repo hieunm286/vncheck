@@ -18,7 +18,9 @@ import STATE_LIST from '../../../../_metronic/AdministrativeDivision/state.json'
 import CITY_LIST from '../../../../_metronic/AdministrativeDivision/city.json';
 import DISTRICT_LIST from '../../../../_metronic/AdministrativeDivision/district.json';
 import { useIntl } from 'react-intl';
-
+import CustomeTreeSelect from '../../../common-library/forms/tree-select';
+import { ConvertToTreeNode } from '../../../common-library/helpers/common-function';
+import * as StoreLevelService from '../../multilevel-sale/multilevel-sale.service';
 
 const FormTemplate = ({
   // entity,
@@ -79,10 +81,22 @@ const FormTemplate = ({
   const [ cityValues, setCityValues ] = useState<any>();
   const [ districtValues, setDistrictValues ] = useState<any>( );
 
+  const [ treeSelectValue, setTreeSelectValue ] = useState<any>();
+  const [ treeData, setTreeData ] = useState<any>();
+
   const intl = useIntl();
 
   
-
+  useEffect(() => {
+    treeLoadOptions(StoreLevelService) // treeLoadOptions(modifyModel.data['storeLevel'].service)
+    .then((res: any) => {
+      // console.log(res);
+      // console.log(DataExample)
+      const treeData = ConvertToTreeNode(res);
+      setTreeData(treeData)
+    });
+    
+  },[]);
   
 
   // useEffect(() => {
@@ -207,6 +221,20 @@ const FormTemplate = ({
     };
   };
 
+  const treeLoadOptions = async (
+    service: any,
+  ) => {
+    const queryProps: any = {};
+    // queryProps[keyField] = search;
+    // queryProps = 
+
+    if(!service) console.error('search select with undefined service')
+    const entities = await service.GetAll(
+      {}
+    );
+    return entities.data;
+  };
+
   return (
     <>
     {modifyModel && modifyModel.title && <h6 className="text-primary">{modifyModel.title.toUpperCase()}</h6>}
@@ -257,36 +285,38 @@ const FormTemplate = ({
             return (
               <div className="mt-3" key={`${key}`}>
                 <div className="row">
-                <div className={'col-md-4 col-xl-4 col-12'}>
-                  {label && (
-                    <label  className={isHorizontal && 'mb-0 input-label mt-2'}>
-                      {label} {withFeedbackLabel && <span className="text-danger">*</span>}
-                    </label>
-                  )}
-                </div>
-                <select
-                  onChange={(e: any) => {
-                      const selectedIndex = e.target.options.selectedIndex;
-                      const key = e.target.options[selectedIndex].getAttribute('data-code')
-                      setSelectedState({value: e.target.value, key: key})
-                      setSelectedCity({value: '', key: ''})
-                      setSelectedDistrict({value: '', key: ''})
-                      setFieldValue('state', e.target.value);
-                    }
-                  }
-                  className={'col-md-8 col-xl-7 col-12 form-control'}
-                  >
-                  <option hidden>{intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'})}</option>
-                  {1 ?
-                    Object.values(STATE_LIST).map((state: any) => {
-                      return (
-                        <option key={state.code} data-code={state.code} value={state.name}>{state.name}</option>
-                      )
-                    })
-                    :
-                    (<></>)
-                  }
-                </select>
+                  <div className={'col-md-4 col-xl-4 col-12'}>
+                    {label && (
+                      <label  className={isHorizontal && 'mb-0 input-label mt-2'}>
+                        {label} {withFeedbackLabel && <span className="text-danger">*</span>}
+                      </label>
+                    )}
+                  </div>
+                  <div className={'col-md-8 col-xl-7 col-12'}>
+                    <select
+                      onChange={(e: any) => {
+                          const selectedIndex = e.target.options.selectedIndex;
+                          const key = e.target.options[selectedIndex].getAttribute('data-code')
+                          setSelectedState({value: e.target.value, key: key})
+                          setSelectedCity({value: '', key: ''})
+                          setSelectedDistrict({value: '', key: ''})
+                          setFieldValue('state', e.target.value);
+                        }
+                      }
+                      className={'form-control'}
+                      >
+                      <option hidden>{intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'})}</option>
+                      {1 ?
+                        Object.values(STATE_LIST).map((state: any) => {
+                          return (
+                            <option key={state.code} data-code={state.code} value={state.name}>{state.name}</option>
+                          )
+                        })
+                        :
+                        (<></>)
+                      }
+                    </select>
+                  </div>
                 </div>
                 {/* <Field
                   name={key}
@@ -316,35 +346,37 @@ const FormTemplate = ({
             return (
               <div className="mt-3" key={`${key}`}>
                 <div className="row">
-                <div className={'col-md-4 col-xl-4 col-12'}>
-                  {modifyModel.data[key].label && (
-                    <label  className={'mb-0 input-label mt-2'}>
-                      {modifyModel.data[key].label} {<span className="text-danger">*</span>}
-                    </label>
-                  )}
-                </div>
-                <select
-                    onChange={(e: any) => {
-                      const selectedIndex = e.target.options.selectedIndex;
-                      const key = e.target.options[selectedIndex].getAttribute('data-code')
-                      setSelectedCity({value: e.target.value, key: key})
-                      setSelectedDistrict({value: '', key: ''})
-                      setFieldValue('city', e.target.value);
-                    }
-                  }
-                  className={'col-md-8 col-xl-7 col-12 form-control'}
-                  >
-                  <option hidden>{intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'})}</option>
-                  {1 ?
-                    Object.values(CITY_LIST).filter((city: any) => {return city.parent_code === selectedState.key}).map((city: any) => {
-                      return (
-                        <option key={city.code} data-code={city.code} value={city.name}>{city.name}</option>
-                      )
-                    })
-                    :
-                    (<></>)
-                  }
-                </select>
+                  <div className={'col-md-4 col-xl-4 col-12'}>
+                    {modifyModel.data[key].label && (
+                      <label  className={'mb-0 input-label mt-2'}>
+                        {modifyModel.data[key].label} {<span className="text-danger">*</span>}
+                      </label>
+                    )}
+                  </div>
+                  <div className={'col-md-8 col-xl-7 col-12'}>
+                    <select
+                        onChange={(e: any) => {
+                          const selectedIndex = e.target.options.selectedIndex;
+                          const key = e.target.options[selectedIndex].getAttribute('data-code')
+                          setSelectedCity({value: e.target.value, key: key})
+                          setSelectedDistrict({value: '', key: ''})
+                          setFieldValue('city', e.target.value);
+                        }
+                      }
+                      className={'form-control'}
+                      >
+                      <option hidden>{intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'})}</option>
+                      {1 ?
+                        Object.values(CITY_LIST).filter((city: any) => {return city.parent_code === selectedState.key}).map((city: any) => {
+                          return (
+                            <option key={city.code} data-code={city.code} value={city.name}>{city.name}</option>
+                          )
+                        })
+                        :
+                        (<></>)
+                      }
+                    </select>
+                  </div>
                 </div>
                 {/* <Field
                   name={key}
@@ -374,35 +406,37 @@ const FormTemplate = ({
             return (
               <div className="mt-3" key={`${key}`}>
                 <div className="row">
-                <div className={'col-md-4 col-xl-4 col-12 '}>
-                  {modifyModel.data[key].label && (
-                    <label  className={'mb-0 input-label mt-2'}>
-                      {modifyModel.data[key].label} {<span className="text-danger">*</span>}
-                    </label>
-                  )}
-                </div>
-                <select
-                    onChange={(e: any) => {
-                      const selectedIndex = e.target.options.selectedIndex;
-                      const key = e.target.options[selectedIndex].getAttribute('data-code')
-                      setSelectedDistrict({value: e.target.value, key: key})
-                      setFieldValue('district', e.target.value);
-                    }
-                  }
-                  className={'col-md-8 col-xl-7 col-12 form-control'}
-                  >
-                  <option hidden>{intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'})}</option>
-                  {1 ?
-                    Object.values(DISTRICT_LIST).filter((district: any) => {return district.parent_code === selectedCity.key}).map((district: any) => {
-                      return (
-                        <option key={district.code} data-code={district.code} value={district.name}>{district.name}</option>
-                      )
-                    })
-                    :
-                    (<></>)
-                  }
-                </select>
-                </div>
+                  <div className={'col-md-4 col-xl-4 col-12 '}>
+                    {modifyModel.data[key].label && (
+                      <label  className={'mb-0 input-label mt-2'}>
+                        {modifyModel.data[key].label} {<span className="text-danger">*</span>}
+                      </label>
+                    )}
+                  </div>
+                    <div className={'col-md-8 col-xl-7 col-12'}>
+                      <select
+                          onChange={(e: any) => {
+                            const selectedIndex = e.target.options.selectedIndex;
+                            const key = e.target.options[selectedIndex].getAttribute('data-code')
+                            setSelectedDistrict({value: e.target.value, key: key})
+                            setFieldValue('district', e.target.value);
+                          }
+                        }
+                        className={'form-control'}
+                        >
+                        <option hidden>{intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'})}</option>
+                        {1 ?
+                          Object.values(DISTRICT_LIST).filter((district: any) => {return district.parent_code === selectedCity.key}).map((district: any) => {
+                            return (
+                              <option key={district.code} data-code={district.code} value={district.name}>{district.name}</option>
+                            )
+                          })
+                          :
+                          (<></>)
+                        }
+                      </select>
+                    </div>
+                  </div>
                 {/* <Field
                   name={key}
                   type="number"
@@ -626,6 +660,29 @@ const FormTemplate = ({
                 />
               </div>
             );
+          
+          case 'TreeSelect':
+            let data: any[] = [];
+
+            
+            return (
+              <div className="mt-3" key={key}>
+                <CustomeTreeSelect
+                  label={modifyModel.data[key].label}
+                  placeholder={modifyModel.data[key].placeholder}
+                  labelWidth={4}
+                  data={treeData}
+                  value={treeSelectValue}
+                  isHorizontal
+                  onChange={(value: any) => {
+                      setTreeSelectValue(value)
+                    }
+                  }
+                  name={key}
+                />
+              </div>
+            );
+
 
           case 'tag':
             return (
@@ -690,3 +747,46 @@ export const getNameFromCode = (arr: any[], code: number | string) => {
   if (index === -1) return '';
   return arr[index].name;
 };
+
+
+
+const DataExample: any = [
+  {
+    _id: 'dlc1',
+    code: 'zz_1',
+    title: 'Đại lý cấp 1',
+    child: [
+      {
+        _id: 'xxx-xxx',
+        code: 'cccc',
+        title: 'Đại lý cấp 2',
+        parentId: 'dlc1',
+      },
+    ],
+  },
+  {
+    _id: 'sieuthi',
+    code: 'abcxyz',
+    title: 'Siêu thị',
+    child: [],
+  },
+  {
+    _id: 'bigC',
+    code: 'dcvf',
+    title: 'Big C',
+    child: [
+      {
+        _id: 'xxx-xxx4',
+        code: 'cvfv',
+        title: 'Đại lý cấp 4',
+        parentId: 'bigC',
+      },
+      {
+        _id: 'xxx-xxx5',
+        code: 'dfs',
+        title: 'Đại lý cấp 5',
+        parentId: 'bigC',
+      },
+    ],
+  },
+];

@@ -208,38 +208,38 @@ function AgencyPage() {
   const purchaseOrderSearchModel: SearchModel = {
     code: {
       type: 'string',
-      placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.PLACEHOLDER',
-      label: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
+      placeholder: 'AGENCY.MASTER.HEADER.AGENCY_CODE.PLACEHOLDER',
+      label: 'AGENCY.MASTER.HEADER.AGENCY_CODE.LABEL',
       keyField: 'code'
     }, 
     name: {
       type: 'string',
-      placeholder: 'PURCHASE_ORDER.MASTER.HEADER.NAME.PLACEHOLDER',
-      label: 'PURCHASE_ORDER.MASTER.HEADER.NAME.LABEL',
+      placeholder: 'AGENCY.MASTER.HEADER.AGENCY_NAME.PLACEHOLDER',
+      label: 'AGENCY.MASTER.HEADER.AGENCY_NAME.LABEL',
       keyField: 'name'
     }, 
     storeLevel: {
       type: 'TreeSelect',
-      placeholder: 'PURCHASE_ORDER.MASTER.HEADER.NAME.PLACEHOLDER',
-      label: 'PURCHASE_ORDER.MASTER.HEADER.NAME.LABEL',
+      placeholder: 'AGENCY.EDIT.PLACEHOLDER.SELL_GOOD_LEVEL',
+      label: 'AGENCY.EDIT.LABEL.SELL_GOOD_LEVEL',
       keyField: 'name'
     }, 
     state: {
       type: 'stateSelect',
-      placeholder: 'PURCHASE_ORDER.MASTER.HEADER.NAME.PLACEHOLDER',
-      label: 'PURCHASE_ORDER.MASTER.HEADER.NAME.LABEL',
+      placeholder: 'AGENCY.EDIT.PLACEHOLDER.STATE',
+      label: 'AGENCY.EDIT.LABEL.STATE',
       keyField: 'name'
     }, 
     city: {
       type: 'citySelect',
-      placeholder: 'PURCHASE_ORDER.MASTER.HEADER.NAME.PLACEHOLDER',
-      label: 'PURCHASE_ORDER.MASTER.HEADER.NAME.LABEL',
+      placeholder: 'AGENCY.EDIT.PLACEHOLDER.CITY',
+      label: 'AGENCY.EDIT.LABEL.CITY',
       keyField: 'name'
     },
     district: {
       type: 'districtSelect',
-      placeholder: 'PURCHASE_ORDER.MASTER.HEADER.NAME.PLACEHOLDER',
-      label: 'PURCHASE_ORDER.MASTER.HEADER.NAME.LABEL',
+      placeholder: 'AGENCY.EDIT.PLACEHOLDER.DISTRICT',
+      label: 'AGENCY.EDIT.LABEL.DISTRICT',
       keyField: 'name'
     }
   };
@@ -355,12 +355,19 @@ function AgencyPage() {
           placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.AGENCY_NAME' }),
           label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.AGENCY_NAME' }),
         },
+        // storeLevel: {
+        //   type: 'SearchSelect',
+        //   placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.SELL_GOOD_LEVEL' }),
+        //   label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.SELL_GOOD_LEVEL' }), 
+        //   service: StoreLevelService,
+        //   keyField: 'name'
+        // },
         storeLevel: {
-          type: 'SearchSelect',
+          type: 'TreeSelect',
           placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.SELL_GOOD_LEVEL' }),
           label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.SELL_GOOD_LEVEL' }), 
           service: StoreLevelService,
-          keyField: 'name'
+          keyField: 'name',
         },
         state: {
           type: 'stateSelect',

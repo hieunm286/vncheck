@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { Field, Formik } from 'formik';
 import SearchIcon from '@material-ui/icons/Search';
@@ -23,6 +23,8 @@ import DISTRICT_LIST from '../../../_metronic/AdministrativeDivision/district.js
 
 import './master-header.css';
 import CustomeTreeSelect from '../forms/tree-select';
+import { ConvertToTreeNode } from '../helpers/common-function';
+import * as StoreLevelService from '../../pages/multilevel-sale/multilevel-sale.service';
 
 export function MasterHeader<T>({
   title,
@@ -122,6 +124,34 @@ export function MasterHeader<T>({
   const [ cityValues, setCityValues ] = useState<any>();
   const [ districtValues, setDistrictValues ] = useState<any>( );
 
+  const [ treeSelectValue, setTreeSelectValue ] = useState<any>();
+  const [ treeData, setTreeData ] = useState<any>();
+
+  const treeLoadOptions = async (
+    service: any,
+  ) => {
+    const queryProps: any = {};
+    // queryProps[keyField] = search;
+    // queryProps = 
+
+    if(!service) console.error('search select with undefined service')
+    const entities = await service.GetAll(
+      {}
+    );
+    return entities.data;
+  };
+
+  useEffect(() => {
+    treeLoadOptions(StoreLevelService) // treeLoadOptions(modifyModel.data['storeLevel'].service)
+    .then((res: any) => {
+      // console.log(res);
+      // console.log(DataExample)
+      const treeData = ConvertToTreeNode(res);
+      setTreeData(treeData)
+    });
+    
+  },[]);
+
   const loadOptions = async (
     search: string,
     prevOptions: any,
@@ -178,7 +208,7 @@ export function MasterHeader<T>({
                       case 'string':
                         return (
                           <div
-                            className="col-xxl-3 col-md-3 mt-md-5 mt-5"
+                            className="col-xxl-2 col-md-2 mt-md-5 mt-5"
                             key={'master_header' + key}>
                             <Field
                               name={key}
@@ -215,7 +245,7 @@ export function MasterHeader<T>({
                       case 'number':
                         return (
                           <div
-                            className="col-xxl-3 col-md-3 mt-md-5 mt-5"
+                            className="col-xxl-2 col-md-2 mt-md-5 mt-5"
                             key={`master_header${key}`}>
                             <Field
                               name={key}
@@ -230,7 +260,7 @@ export function MasterHeader<T>({
 
                       case 'Datetime':
                         return (
-                          <div className="col-xxl-3 col-md-3 mt-md-5 mt-5 " key={key}>
+                          <div className="col-xxl-2 col-md-2 mt-md-5 mt-5 " key={key}>
                             <DatePickerField
                               name="date"
                               label={intl.formatMessage({ id: searchM[key].label })}
@@ -240,7 +270,7 @@ export function MasterHeader<T>({
 
                       case 'SearchSelect':
                         return (
-                          <div className="col-xxl-3 col-md-3 mt-md-5 mt-5" key={key}>
+                          <div className="col-xxl-2 col-md-2 mt-md-5 mt-5" key={key}>
                             <InfiniteSelect
                               isDisabled={
                                 isDisabled ? 
@@ -289,11 +319,12 @@ export function MasterHeader<T>({
 
                       case 'TreeSelect':
                         return (
-                          <div className="col-xxl-3 col-md-3 mt-md-5 mt-5" key={key}>
+                          <div className="col-xxl-2 col-md-2 mt-md-5 mt-5" key={key}>
                             <CustomeTreeSelect
-                              label="Tree Select"
-                              data={searchM[key].data}
-                              value={search[key]}
+                              label={intl.formatMessage({ id: searchM[key].label })}
+                              placeholder={intl.formatMessage({ id: searchM[key].placeholder })}
+                              data={treeData}
+                              value={treeSelectValue}
                               onChange={(value: any) => setSearch({ ...search, [key]: value })}
                               name={key}
                             />
@@ -304,19 +335,19 @@ export function MasterHeader<T>({
                         // const stateValues = Object.values(STATE_LIST).map((state: any) => {return {value: state.name, key: state.code}});
                         const labelWidth = 4;
                         const isHorizontal = false;
-                        const stateLabel = key;
+                        const stateLabel = intl.formatMessage({ id: searchM[key].label });
                         const withFeedbackLabelState = true;
                         // const placeholder = modifyModel.data[key].placeholder
                         // const required = modifyModel.data[key].required;
                         return (
-                          <div className="mt-3" key={`${key}`}>
-                            <div className={'col-md-4 col-xl-4 col-12'}>
+                          <div className="col-xxl-2 col-md-2 mt-md-5 mt-5" key={`${key}`}>
                               {stateLabel && (
-                                <label  className={'mb-0 input-label mt-2'}>
+                                <label  
+                                // className={'mb-0 input-label mt-2'}
+                                >
                                   {stateLabel} {withFeedbackLabelState && <span className="text-danger">*</span>}
                                 </label>
                               )}
-                            </div>
                             <select
                               onChange={(e: any) => {
                                   const selectedIndex = e.target.options.selectedIndex;
@@ -327,7 +358,7 @@ export function MasterHeader<T>({
                                   setFieldValue('state', e.target.value);
                                 }
                               }
-                              className={'col-md-8 col-xl-7 col-12 form-control'}
+                              className={'form-control'}
                               >
                               <option hidden>{intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'})}</option>
                               {1 ?
@@ -364,17 +395,17 @@ export function MasterHeader<T>({
                           );
               
                         case 'citySelect':
-                          const cityLabel = key;
+                          const cityLabel = intl.formatMessage({ id: searchM[key].label });
                           const withFeedbackLabelCity = true;
                           return (
-                            <div className="mt-3" key={`${key}`}>
-                              <div className={'col-md-4 col-xl-4 col-12'}>
+                            <div className="col-xxl-2 col-md-2 mt-md-5 mt-5" key={`${key}`}>
                                 {cityLabel && (
-                                  <label  className={'mb-0 input-label mt-2'}>
+                                  <label  
+                                  // className={'mb-0 input-label mt-2'}
+                                  >
                                     {cityLabel} {<span className="text-danger">*</span>}
                                   </label>
                                 )}
-                              </div>
                               <select
                                   onChange={(e: any) => {
                                     const selectedIndex = e.target.options.selectedIndex;
@@ -384,7 +415,7 @@ export function MasterHeader<T>({
                                     setFieldValue('city', e.target.value);
                                   }
                                 }
-                                className={'col-md-8 col-xl-7 col-12 form-control'}
+                                className={'form-control'}
                                 >
                                 <option hidden>{intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'})}</option>
                                 {1 ?
@@ -421,17 +452,17 @@ export function MasterHeader<T>({
                           );
               
                         case 'districtSelect':
-                          const districtLabel = key;
+                          const districtLabel = intl.formatMessage({ id: searchM[key].label });
                           const withFeedbackLabelDistrict = true;
                           return (
-                            <div className="mt-3" key={`${key}`}>
-                              <div className={'col-md-4 col-xl-4 col-12 '}>
+                            <div className="col-xxl-2 col-md-2 mt-md-5 mt-5" key={`${key}`}>
                                 {districtLabel && (
-                                  <label  className={'mb-0 input-label mt-2'}>
+                                  <label  
+                                  // className={'mb-0 input-label mt-2'}
+                                  >
                                     {districtLabel} {<span className="text-danger">*</span>}
                                   </label>
                                 )}
-                              </div>
                               <select
                                   onChange={(e: any) => {
                                     const selectedIndex = e.target.options.selectedIndex;
@@ -440,7 +471,7 @@ export function MasterHeader<T>({
                                     setFieldValue('district', e.target.value);
                                   }
                                 }
-                                className={'col-md-8 col-xl-7 col-12 form-control'}
+                                className={'form-control'}
                                 >
                                 <option hidden>{intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'})}</option>
                                 {1 ?

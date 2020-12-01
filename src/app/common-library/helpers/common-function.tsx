@@ -114,13 +114,13 @@ export const ConvertToTreeNode = (data: any) => {
   const treeData: any[] = [];
   data.forEach((value: any, key: any) => {
     const treeNode = {
-      title: value.title,
-      value: value.code || value._id,
-      key: value.code || value._id,
-      children: value.child.map((childValue: any, childKey: any) => ({
-        title: childValue.title,
-        value: childValue.code || childValue._id,
-        key: childValue.code || childValue._id,
+      title: value.name,
+      value: value._id,
+      key: value._id,
+      children: value.children && value.children.map((childValue: any, childKey: any) => ({
+        title: childValue.name,
+        value: childValue._id,
+        key: childValue._id,
       })),
     };
 
