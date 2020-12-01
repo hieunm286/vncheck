@@ -2,16 +2,19 @@ import React from 'react';
 import { Table } from 'react-bootstrap';
 import AddIcon from '@material-ui/icons/Add';
 import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
 import { TreeData } from '../../pages/multilevel-sale/multilevel-sale.model';
+import { ChildFriendly } from '@material-ui/icons';
+import { ConvertStatusToBoolean } from '../helpers/common-function';
 
 const showArray_v2 = (fileds: any, data: any): any => {
   const AllField: any = fileds;
 
   data.forEach((el: any, key: number) => {
-    if (el.child && el.child.length > 0) {
+    if (el.children && el.children.length > 0) {
       AllField[el._id] = false;
 
-      showArray_v2(AllField, el.child);
+      showArray_v2(AllField, el.children);
     }
   });
 
@@ -20,13 +23,23 @@ const showArray_v2 = (fileds: any, data: any): any => {
 
 interface TreeDataProp {
   data: TreeData[];
+  onCreate?: (entity: any) => void;
+    onEdit?: (entity: any) => void;
+    onDelete?: (entity: any) => void; 
 }
 
-const MasterTreeStructure: React.FC<TreeDataProp> = ({ data }) => {
+const MasterTreeStructure: React.FC<TreeDataProp> = ({ data, onCreate, onEdit, onDelete }) => {
   const [showChildrenV2, setShowChildrenV2] = React.useState<any>({ ...showArray_v2({}, data) });
 
-  const onEdit = (data: TreeData): void => {
-    console.log(data);
+  const handleAdd = (data: TreeData): void => {
+    if (onCreate) {
+      onCreate(data)
+    }
+  }
+  const handleEdit = (data: TreeData): void => {
+    if (onEdit) {
+      onEdit(data)
+    }
   };
 
   const onShowChildren = (key: string): void => {
@@ -36,48 +49,69 @@ const MasterTreeStructure: React.FC<TreeDataProp> = ({ data }) => {
     setShowChildrenV2(clone);
   };
 
+  const handleClick = (data: TreeData): void => {
+    console.log(data);
+    
+  }
+
+  const handleDelete = (data: TreeData): void => {
+    console.log(data);
+    if (onDelete) {
+      onDelete(data)
+    }
+  }
+
+
+
   const renderChild = (data: TreeData[], size: number, skipDistance: number) => {
     return (
       <>
-        {data.map((childItem: TreeData, keyItem: number) => (
-          <React.Fragment key={'children' + keyItem}>
+        {data.map((childrenItem: TreeData, keyItem: number) => (
+          <React.Fragment key={'childrenren' + keyItem}>
             <tr>
-              <td>
+              <td onClick={() => handleClick(childrenItem)}>
                 <div style={{ marginLeft: `${size}rem` }}>
-                  {childItem.child && childItem.child.length > 0 ? (
+                  {childrenItem.children && childrenItem.children.length > 0 ? (
                     <button
-                      onClick={() => onShowChildren(childItem._id)}
+                      onClick={() => onShowChildren(childrenItem._id)}
                       style={{ backgroundColor: 'white', border: 'none' }}>
                       {'>'}
                     </button>
                   ) : (
                     <button
-                      onClick={() => onShowChildren(childItem._id)}
+                      onClick={() => onShowChildren(childrenItem._id)}
                       style={{ backgroundColor: 'white', border: 'none' }}>
                       {'\u00A0'}
                     </button>
                   )}
-                  <span onClick={() => onShowChildren(childItem._id)}>{childItem.title}</span>
+                  <span onClick={() => onShowChildren(childrenItem._id)}>{childrenItem.name}</span>
                 </div>
               </td>
               <td>
                 <button
                   style={{ backgroundColor: 'white', border: 'none' }}
-                  onClick={() => onEdit(childItem)}
+                  onClick={() => handleAdd(childrenItem)}
                   className="text-primary">
                   <AddIcon />
                 </button>
                 <button
                   style={{ backgroundColor: 'white', border: 'none' }}
+                  onClick={() => handleEdit(childrenItem)}
                   className="text-primary">
                   <EditIcon />
                 </button>
+                <button
+                  style={{ backgroundColor: 'white', border: 'none' }}
+                  onClick={() => handleDelete(childrenItem)}
+                  className="text-primary">
+                  <DeleteIcon />
+                </button>
               </td>
             </tr>
-            {showChildrenV2[childItem._id] &&
-              childItem.child &&
-              childItem.child.length > 0 &&
-              renderChild(childItem.child, size + skipDistance, skipDistance)}
+            {showChildrenV2[childrenItem._id] &&
+              childrenItem.children &&
+              childrenItem.children.length > 0 &&
+              renderChild(childrenItem.children, size + skipDistance, skipDistance)}
           </React.Fragment>
         ))}
       </>
@@ -102,7 +136,7 @@ const MasterTreeStructure: React.FC<TreeDataProp> = ({ data }) => {
               //         style={{ backgroundColor: 'white', border: 'none' }}>
               //         {'>'}
               //       </button>
-              //       <span onClick={() => onShowChildren(value._id)}>{value.title}</span>
+              //       <span onClick={() => onShowChildren(value._id)}>{value.name}</span>
               //     </div>
               //   </td>
               //   <td>
@@ -120,7 +154,7 @@ const MasterTreeStructure: React.FC<TreeDataProp> = ({ data }) => {
               //     </button>
               //   </td>
               // </tr>
-              showChildrenV2[value._id] && renderChild(value.child, 3.75, 3.75)
+              showChildrenV2[value._id] && renderChild(value.children, 3.75, 3.75)
             )})} */}
         </tbody>
       </Table>

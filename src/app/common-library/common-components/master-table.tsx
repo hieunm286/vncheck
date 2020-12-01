@@ -76,6 +76,7 @@ export function MasterTable<T>({
   setPaginationParams,
   onSelectMany,
   columns,
+  removeSelectRow
 }: {
   total: number;
   loading: boolean;
@@ -85,6 +86,7 @@ export function MasterTable<T>({
   entities: T[];
   paginationParams: PaginationProps;
   setPaginationParams: (data: PaginationProps) => void;
+  removeSelectRow?: boolean;
   // [T: string]: any;
 }) {
   const paginationOptions = {
@@ -94,9 +96,11 @@ export function MasterTable<T>({
     page: paginationParams.page,
     onSizePerPageChange: (page: number, sizePerPage: number) => {
       setPaginationParams({ ...paginationParams, page: 1, limit: sizePerPage });
+      onSelectMany([])
     },
     onPageChange: (page: number) => {
       setPaginationParams({ ...paginationParams, page });
+      onSelectMany([])
     },
   };
 
@@ -125,7 +129,7 @@ export function MasterTable<T>({
               data={entities}
               columns={Object.values(columns)}
               defaultSorted={SortDefault as any}
-              selectRow={GetSelectRow({
+              selectRow={removeSelectRow ? undefined : GetSelectRow({
                 entities: entities,
                 selectedEntities: selectedEntities,
                 onSelectMany: onSelectMany,

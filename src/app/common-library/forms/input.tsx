@@ -40,6 +40,7 @@ export function Input({
               ? getFieldCSSClasses(touched[field.name], errors[field.name])
               : 'form-control'
           }
+          min={type === 'number' ? 0 : undefined}
           {...field}
           {...props}
         />

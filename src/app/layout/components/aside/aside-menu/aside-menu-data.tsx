@@ -118,6 +118,11 @@ export const MenuItems: MenuItemModel[] = [
             url: '/multilevel-sale',
             icon: 'distributor-2.svg',
           },
+          {
+            title: 'MENU.DATA.DISTRIBUTION.SHIPPING_AGENCY',
+            url: '/shipping-agency',
+            icon: 'distributor-2.svg',
+          },
         ],
       },
     ],
@@ -136,6 +141,8 @@ export const MenuItems: MenuItemModel[] = [
       },
     ],
   },
+  { parent: true, title: 'MENU.PRODUCT_PLANT', url: '/production-plan' },
+
 
   { parent: true, title: 'MENU.REPORT' },
   { parent: true, title: 'MENU.PRODUCT_MANAGEMENT' },

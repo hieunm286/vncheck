@@ -81,6 +81,8 @@ function ModifyEntityDialog<T>({
     };
   };
 
+  console.log(initForm)
+
   return (
     <Modal show={isShow} onHide={onHide} aria-labelledby="example-modal-sizes-title-lg">
       <Modal.Header closeButton className="border-bottom-0">

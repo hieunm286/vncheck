@@ -35,6 +35,9 @@ export const generateInitForm = (modifyModel: any, initField?: string, initData?
     } else if (modifyModel[key].type === 'image') {
       initValue[key] = []
     } 
+    else if (modifyModel[key].type === 'boolean') {
+      initValue[key] = true
+    } 
     else if (modifyModel[key].type === 'object') {
       initValue[key] = {}
       Object.keys(modifyModel[key]).map(childKey => {
@@ -177,6 +180,14 @@ export const ConvertSelectSearch = (entity: any, keyField?: FieldProp[]) => {
 
 // }
 
+export const ConvertStatusToBoolean = (data: any) => {
+  return data.status && typeof data.status === 'string' ? {...data, status: data.status === "1" ? true : false} : data;
+}
+
+export const ConvertStatusToString = (data: any) => {
+  return typeof data.status === 'boolean' ? {...data, status: data.status ? "1" : "0"} : data;
+}
+
 export function InitMasterProps<T>({
   getAllServer,
   countServer,
@@ -225,7 +236,7 @@ export function InitMasterProps<T>({
           //   setTotal(countResponse.data);
           // });
           const data: any = getAllResponse.data
-          setEntities(data.data);
+          setEntities(data.data ? data.data : data);
             setLoading(false);
             setTotal(data.paging.total);
         })
@@ -248,6 +259,7 @@ export function InitMasterProps<T>({
     setShowCreate(false);
     setSelectedEntities([]);
     setLoading(false);
+    setFilterProps(undefined);
     setError('')
   };
   
@@ -294,7 +306,7 @@ export function InitMasterProps<T>({
     updateServer(entity)
       .then(refreshData)
       .catch(error => {
-        setError(error.message)
+        setError(error.message || JSON.stringify(error))
         setLoading(false);
       });
   };
@@ -304,10 +316,21 @@ export function InitMasterProps<T>({
     createServer(entity)
       .then(refreshData)
       .catch(error => {
-        setError(error.message)
+        setError(error.message || JSON.stringify(error))
         setLoading(false);
       });
   };
+
+  const updatePromise = (entity: T) => {
+    return updateServer(entity)
+      
+  };
+
+  const addPromise = (entity: T) => {
+    return createServer(entity)
+      
+  };
+
   return {
     entities,
     setEntities,
@@ -345,6 +368,8 @@ export function InitMasterProps<T>({
     setError,
     add,
     update,
+    addPromise,
+    updatePromise,
     get,
     deleteMany,
     deleteFn,
