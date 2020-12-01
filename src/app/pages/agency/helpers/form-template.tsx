@@ -77,9 +77,9 @@ const FormTemplate = ({
   const [ selectedDistrict, setSelectedDistrict ] = useState<any>({key: '', value: ''});
 
   
-  const [ stateValues, setStateValues ] = useState<any>();
-  const [ cityValues, setCityValues ] = useState<any>();
-  const [ districtValues, setDistrictValues ] = useState<any>( );
+  const [ stateValues, setStateValues ] = useState<any>([]);
+  const [ cityValues, setCityValues ] = useState<any>([]);
+  const [ districtValues, setDistrictValues ] = useState<any>([]);
 
   const [ treeSelectValue, setTreeSelectValue ] = useState<any>();
   const [ treeData, setTreeData ] = useState<any>();
@@ -120,9 +120,11 @@ const FormTemplate = ({
   //  setCityValues(cityValues);
   // },[selectedState]);
 
-  // useEffect(() => {
-  //   setSelectedState(values.state);
-  // },[values.state]);
+  useEffect(() => {
+    if(values.state) {
+      setSelectedState(values.state);
+    }
+  },[values.state]);
 
 
 
@@ -313,7 +315,9 @@ const FormTemplate = ({
                       <option hidden>{intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'})}</option>
                       {1 ?
                         Object.values(STATE_LIST).map((state: any) => {
-                          return (
+                          return (state.name === values.state) ? (
+                            <option selected key={state.code} data-code={state.code} value={state.name}>{state.name}</option>
+                          ) : (
                             <option key={state.code} data-code={state.code} value={state.name}>{state.name}</option>
                           )
                         })
@@ -370,7 +374,7 @@ const FormTemplate = ({
                       className={'form-control'}
                       >
                       <option hidden>{intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'})}</option>
-                      {1 ?
+                      {(selectedState && selectedState.key) ?
                         Object.values(CITY_LIST).filter((city: any) => {return city.parent_code === selectedState.key}).map((city: any) => {
                           return (
                             <option key={city.code} data-code={city.code} value={city.name}>{city.name}</option>
