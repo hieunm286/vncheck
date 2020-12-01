@@ -122,10 +122,32 @@ const FormTemplate = ({
 
   useEffect(() => {
     if(values.state) {
-      setSelectedState(values.state);
+      setSelectedState({
+        value: values.state, 
+        key: getCodeFromName(Object.values(STATE_LIST), values.state)
+      });
     }
   },[values.state]);
 
+  useEffect(() => {
+    if(values.city) {
+      setSelectedCity({
+        value: values.city, 
+        key: getCodeFromName(Object.values(CITY_LIST).filter((city: any) => { return city.parent_code = selectedState.key }), values.city)
+      });
+    }
+  },[selectedState]);
+
+  useEffect(() => {
+    if(values.district) {
+      setSelectedDistrict({
+        value: values.district, 
+        key: getCodeFromName(Object.values(DISTRICT_LIST).filter((district: any) => { return district.parent_code = selectedCity.key }), values.district)
+      });
+    }
+  },[selectedCity]);
+
+  console.log(selectedDistrict)
 
 
   const dataT: any = [
@@ -376,7 +398,9 @@ const FormTemplate = ({
                       <option hidden>{intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'})}</option>
                       {(selectedState && selectedState.key) ?
                         Object.values(CITY_LIST).filter((city: any) => {return city.parent_code === selectedState.key}).map((city: any) => {
-                          return (
+                          return (city.name === values.city) ? (
+                            <option selected key={city.code} data-code={city.code} value={city.name}>{city.name}</option>
+                          ) : (
                             <option key={city.code} data-code={city.code} value={city.name}>{city.name}</option>
                           )
                         })
@@ -432,9 +456,11 @@ const FormTemplate = ({
                         className={'form-control'}
                         >
                         <option hidden>{intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'})}</option>
-                        {1 ?
+                        {(selectedCity && selectedCity.key) ?
                           Object.values(DISTRICT_LIST).filter((district: any) => {return district.parent_code === selectedCity.key}).map((district: any) => {
-                            return (
+                            return (district.name === values.district) ? (
+                              <option selected key={district.code} data-code={district.code} value={district.name}>{district.name}</option>
+                            ) : (
                               <option key={district.code} data-code={district.code} value={district.name}>{district.name}</option>
                             )
                           })
