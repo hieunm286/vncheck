@@ -64,6 +64,11 @@ const FormTemplate = ({
 
   const [ search, setSearch ] = useState<any>(formValues);
 
+  useEffect(() => {
+    console.log('oc cho')
+    setSearch(formValues);
+  }, [formValues])
+
   
 
   const [ address, setAddress ] = useState<any>({
@@ -147,7 +152,6 @@ const FormTemplate = ({
     }
   },[selectedCity]);
 
-  console.log(selectedDistrict)
 
 
   const dataT: any = [
