@@ -28,6 +28,7 @@ import EntityCrudPagePromise from '../../common-library/common-components/entity
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { allFormField, formPart, masterEntityDetailDialog, productTypeSearchModel } from './defined/const';
 
 const data: any = [
   {
@@ -241,110 +242,6 @@ function ProductType() {
       ...NormalColumn,
       style: { minWidth: '130px' },
     },
-  };
-
-  const masterEntityDetailDialog = [
-    {
-      header: 'THÔNG TIN 1',
-      data: {
-        code: { title: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.CODE' },
-        name: { title: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.NAME' },
-        barcode: { title: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.BARCODE' },
-        growingDays: { title: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW' },
-        plantingDays: { title: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.PLANTING' },
-        expiryDays: { title: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.EXPIRY' },
-      },
-    },
-  ];
-
-  const productTypeSearchModel: SearchModel = {
-    code: {
-      type: 'string',
-      placeholder: 'PRODUCT_TYPE.MASTER.TABLE.CODE_COLUMN',
-      label: 'PRODUCT_TYPE.MASTER.TABLE.CODE_COLUMN',
-      service: ProductTypeService,
-      keyField: 'code',
-    },
-    name: {
-      type: 'string',
-      placeholder: 'PRODUCT_TYPE.MASTER.TABLE.NAME_COLUMN',
-      label: 'PRODUCT_TYPE.MASTER.TABLE.NAME_COLUMN',
-      service: ProductTypeService,
-      keyField: 'name',
-    },
-  };
-
-  const modifyModel: ProductTypeModifyModelDetail[] = [
-    {
-      title: 'THÔNG TIN CHUNG',
-      data: {
-        code: {
-          type: 'string',
-          placeholder: '',
-          label: intl.formatMessage({ id: 'PRODUCT_TYPE.MASTER.TABLE.CODE_COLUMN' }),
-          required: true,
-          disabled: true,
-        },
-        name: {
-          type: 'string',
-          placeholder: intl.formatMessage({ id: 'PRODUCT_TYPE.MASTER.TABLE.NAME_COLUMN' }),
-          required: true,
-          label: intl.formatMessage({ id: 'PRODUCT_TYPE.MASTER.TABLE.NAME_COLUMN' }),
-        },
-        barcode: {
-          type: 'string',
-          placeholder: intl.formatMessage({
-            id: 'PRODUCT_TYPE.MASTER.TABLE.BARCODE_COLUMN',
-          }),
-          required: true,
-          label: intl.formatMessage({ id: 'PRODUCT_TYPE.MASTER.TABLE.BARCODE_COLUMN' }),
-        },
-        image: {
-          type: 'image',
-          placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL' }),
-          label: 'Album 1',
-        },
-        image2: {
-          type: 'image',
-          placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL' }),
-          label: 'Album 2',
-        },
-      },
-    },
-    {
-      title: 'THÔNG TIN VÒNG ĐỜI',
-      data: {
-        growingDays: {
-          type: 'number',
-          placeholder: intl.formatMessage({ id: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW' }),
-          label: intl.formatMessage({ id: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW' }),
-        },
-        plantingDays: {
-          type: 'number',
-          placeholder: intl.formatMessage({ id: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.PLANTING' }),
-          label: intl.formatMessage({ id: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.PLANTING' }),
-        },
-        expiryDays: {
-          type: 'number',
-          placeholder: intl.formatMessage({
-            id: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.EXPIRY',
-          }),
-          label: intl.formatMessage({ id: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.EXPIRY' }),
-        },
-      },
-    },
-  ];
-
-  const formPart: any = {
-    form_1: {
-      title: '',
-      modifyModel: modifyModel,
-      header: 'CHỦNG LOẠI',
-    },
-  };
-
-  const allFormField: any = {
-    ...GenerateAllFormField(modifyModel),
   };
 
   const allFormButton: any = {

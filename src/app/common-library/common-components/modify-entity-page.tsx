@@ -207,11 +207,11 @@ function ModifyEntityPage<T>({
                         <Field
                           name={key}
                           component={MainInput}
-                          placeholder={value.data[key].placeholder}
+                          placeholder={intl.formatMessage({ id: value.data[key].placeholder })}
                           withFeedbackLabel
                           labelWidth={4}
                           isHorizontal
-                          label={value.data[key].label}
+                          label={intl.formatMessage({ id: value.data[key].label })}
                           disabled={value.data[key].disabled}
                           required={value.data[key].required}
                         />
@@ -227,8 +227,8 @@ function ModifyEntityPage<T>({
                           isHorizontal
                           withFeedbackLabel
                           labelWidth={4}
-                          placeholder={value.data[key].placeholder}
-                          label={value.data[key].label}
+                          placeholder={intl.formatMessage({ id: value.data[key].placeholder })}
+                          label={intl.formatMessage({ id: value.data[key].label })}
                           required={value.data[key].required}
                         />
                       </div>
@@ -252,8 +252,8 @@ function ModifyEntityPage<T>({
                             isHorizontal
                             withFeedbackLabel
                             labelWidth={4}
-                            placeholder={value.data[key].placeholder}
-                            label={value.data[key].label}
+                            placeholder={intl.formatMessage({ id: value.data[key].placeholder })}
+                            label={intl.formatMessage({ id: value.data[key].label })}
                             required={value.data[key].required}
                           />
                         </div>
@@ -267,7 +267,7 @@ function ModifyEntityPage<T>({
                         <DatePickerField
                           name={key}
                           isHorizontal
-                          label={value.data[key].label}
+                          label={intl.formatMessage({ id: value.data[key].label })}
                           labelWidth={4}
                           type="Datetime"
                           required={value.data[key].required}
@@ -292,7 +292,7 @@ function ModifyEntityPage<T>({
                           // onChange={(imageList: any, addUpdateIndex: any) => {
                           //   onChange(imageList, addUpdateIndex, key);
                           // }}
-                          label={value.data[key].label}
+                          label={intl.formatMessage({ id: value.data[key].label })}
                           labelWidth={4}
                           isHorizontal={true}
                           required={value.data[key].required}
@@ -310,8 +310,8 @@ function ModifyEntityPage<T>({
                           isHorizontal
                           withFeedbackLabel
                           labelWidth={4}
-                          placeholder={value.data[key].placeholder}
-                          label={value.data[key].label}
+                          placeholder={intl.formatMessage({ id: value.data[key].placeholder })}
+                          label={intl.formatMessage({ id: value.data[key].label })}
                           required={value.data[key].required}
                         />
                       </div>
@@ -328,11 +328,11 @@ function ModifyEntityPage<T>({
                                   <Field
                                     name={`${key}.${childKey}`}
                                     component={MainInput}
-                                    placeholder={value.data[key][childKey].placeholder}
+                                    placeholder={intl.formatMessage({ id: value.data[key][childKey].placeholder })}
                                     withFeedbackLabel
                                     labelWidth={4}
                                     isHorizontal
-                                    label={value.data[key][childKey].label}
+                                    label={intl.formatMessage({ id: value.data[key][childKey].placeholder })}
                                     disabled={value.data[key][childKey].disabled}
                                     required={value.data[key][childKey].required}
                                   />
@@ -348,8 +348,8 @@ function ModifyEntityPage<T>({
                                     isHorizontal
                                     withFeedbackLabel
                                     labelWidth={4}
-                                    placeholder={value.data[key][childKey].placeholder}
-                                    label={value.data[key][childKey].label}
+                                    placeholder={intl.formatMessage({ id: value.data[key][childKey].placeholder })}
+                                    label={intl.formatMessage({ id: value.data[key][childKey].placeholder })}
                                     required={value.data[key][childKey].required}
                                   />
                                 </div>
@@ -363,7 +363,7 @@ function ModifyEntityPage<T>({
                     return (
                       <div className="mt-3" key={key}>
                         <InfiniteSelect
-                          label={value.data[key].label}
+                          label={intl.formatMessage({ id: value.data[key].label })}
                           isHorizontal={true}
                           value={search[key]}
                           onChange={(value: any) => {
@@ -397,7 +397,7 @@ function ModifyEntityPage<T>({
                     return (
                       <div className="mt-3" key={key}>
                         <TagInput
-                          label={value.data[key].label}
+                          label={intl.formatMessage({ id: value.data[key].label })}
                           isHorizontal={true}
                           name={key}
                           handleChange={handleChangeTag}
@@ -411,7 +411,7 @@ function ModifyEntityPage<T>({
                     return (
                       <div className="mt-3" key={key}>
                         <ImgGallery 
-                          label='Image Gallery'
+                          label={intl.formatMessage({ id: value.data[key].label })}
                           labelWidth={4}
                           name={key}
                           isHorizontal
