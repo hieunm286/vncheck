@@ -29,11 +29,11 @@ export function MasterEntityDetail({
   return data ? (
     <Modal.Body>
       {renderInfo.map((value: any, key: any) => (
-        <div key={key} className="mt-5 d-flex justify-content-between">
+        <div key={key} className="mt-5">
           {Object.keys(value.data).map((dataKey: any) => (
-            <div key={dataKey} className="d-flex">
-              <div className="">{intl.formatMessage({ id: value.data[dataKey].title })}:</div>
-              <div className="ml-2">
+            <div key={dataKey} className="row mt-5">
+              <div className="col-3">{intl.formatMessage({ id: value.data[dataKey].title })}:</div>
+              <div className="col-9">
                 
                 {getValue(data, dataKey, value)}
                
@@ -66,7 +66,7 @@ function ProductPackagingDetailDialog({
   const intl = useIntl();
   return (
     <Modal
-      size="lg"
+      // size="lg"
       show={show}
       onHide={onClose}
       aria-labelledby="example-modal-sizes-title-lg"

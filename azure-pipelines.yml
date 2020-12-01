@@ -10,12 +10,11 @@ pool:
   name: 'Default'
 
 steps:
-- task: Bash@3
+- task: CmdLine@2
   inputs:
-    targetType: 'inline'
-    script: |
-      docker-compose --env-file deploy/dev/.env.dev -f deploy/dev/docker-dev.yml up --build --force-recreate -V
-  displayName: 'Build Image'
+    script: 'docker-compose --env-file .env.dev -f docker-dev.yml up --build --force-recreate -V'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/deploy/dev'
+
 - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: 'build'

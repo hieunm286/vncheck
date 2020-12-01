@@ -38,16 +38,7 @@ export const generateInitForm = (modifyModel: any, initField?: string, initData?
     else if (modifyModel[key].type === 'boolean') {
       initValue[key] = true
     } 
-    else if (modifyModel[key].type === 'object') {
-      initValue[key] = {}
-      Object.keys(modifyModel[key]).map(childKey => {
-        if (modifyModel[key][childKey].type === 'string') {
-          initValue[key][childKey] = ''
-        } else if (modifyModel[key][childKey].type === 'number') {
-          initValue[key][childKey] = undefined
-        }
-      })
-    } else if (modifyModel[key].type === 'radioGroup') {
+    else if (modifyModel[key].type === 'radioGroup') {
       initValue[key] = [];
     } else if (modifyModel[key].type === 'display') {
       initValue[key] = '';
@@ -59,8 +50,20 @@ export const generateInitForm = (modifyModel: any, initField?: string, initData?
       initValue[key] = '';
     }  else if (modifyModel[key].type === 'option') {
       key === 'gender' ? initValue[key] = '1' : initValue[key] = '0' // male gender
-    } else {
-      initValue[key] = '';
+    } 
+    // else {
+    //   initValue[key] = '';
+    else if (modifyModel[key].type === 'object') {
+      // initValue[key] = {}
+      initValue[key] = generateInitForm(modifyModel[key].data)
+      console.log(generateInitForm(modifyModel[key].data))
+      // Object.keys(modifyModel[key]).map(childKey => {
+      //   if (modifyModel[key][childKey].type === 'string') {
+      //     initValue[key][childKey] = ''
+      //   } else if (modifyModel[key][childKey].type === 'number') {
+      //     initValue[key][childKey] = undefined
+      //   }
+      // })
     }
     
   });

@@ -146,72 +146,25 @@ function ModifyEntityPage<T>({
     };
   };
 
-  // const sleep = (ms: any) =>
-  // new Promise(resolve => {
-  //   setTimeout(() => {
-  //     resolve();
-  //   }, ms);
-  // });
+  
+  const renderForm = (value: any, prevKey: string) => {
+    return (
+      <>
+      {Object.keys(value.data).map(key => {
+                          console.log(key)
 
-  // const loadOptions = async (search: any, prevOptions: any) => {
-  //   await sleep(1000);
-
-  //   let filteredOptions;
-  //   if (!search) {
-  //     filteredOptions = data;
-  //   } else {
-  //     const searchLower = search.toLowerCase();
-  //     console.log(data)
-  //     filteredOptions = data.filter(({ name }: any) =>
-  //       name.toLowerCase().includes(searchLower)
-  //     );
-  //   }
-
-  //   const hasMore = filteredOptions.length > prevOptions.length + 10;
-  //   const slicedOptions = filteredOptions.slice(
-  //     prevOptions.length,
-  //     prevOptions.length + 10
-  //   );
-
-  //   return {
-  //     options: slicedOptions,
-  //     hasMore
-  //   };
-  // };
-
-  return (
-    // <Card>
-    //   <CardBody>
-    //     <Formik
-    //       enableReinitialize={true}
-    //       initialValues={entityForEdit || initForm}
-    //       // validationSchema={PurchaseOrderSchema}
-    //       onSubmit={values => {
-    //         onModify(values);
-    //         history.push('/purchase-order');
-    //       }}>
-    //       {({ handleSubmit }) => (
-    <>
-      {/* <Form className="form form-label-right"> */}
-      {title && <h6 className="text-primary">{title.toUpperCase()}</h6>}
-      <div className={(column ? column : 1) > 1 ? 'row' : ''}>
-        {modifyModel &&
-          modifyModel.map((value: any, key: any) => (
-            <div className={`col-md-${12 / (column ? column : 1)} col-12`} key={key}>
-              {value.title && <h6 className="text-primary">{value.title.toUpperCase()}</h6>}
-              {Object.keys(value.data).map(key => {
                 switch (value.data[key].type) {
                   case 'string':
                     return (
                       <div className="mt-3" key={key}>
                         <Field
-                          name={key}
+                          name={prevKey !== '' ? `${prevKey}.${key}` : key}
                           component={MainInput}
-                          placeholder={value.data[key].placeholder}
+                          placeholder={intl.formatMessage({ id: value.data[key].placeholder })}
                           withFeedbackLabel
                           labelWidth={4}
                           isHorizontal
-                          label={value.data[key].label}
+                          label={intl.formatMessage({ id: value.data[key].label })}
                           disabled={value.data[key].disabled}
                           required={value.data[key].required}
                         />
@@ -221,14 +174,14 @@ function ModifyEntityPage<T>({
                     return (
                       <div className="mt-3" key={`${key}`}>
                         <Field
-                          name={key}
+                          name={prevKey !== '' ? `${prevKey}.${key}` : key}
                           type="number"
                           component={MainInput}
                           isHorizontal
                           withFeedbackLabel
                           labelWidth={4}
-                          placeholder={value.data[key].placeholder}
-                          label={value.data[key].label}
+                          placeholder={intl.formatMessage({ id: value.data[key].placeholder })}
+                          label={intl.formatMessage({ id: value.data[key].label })}
                           required={value.data[key].required}
                         />
                       </div>
@@ -252,8 +205,8 @@ function ModifyEntityPage<T>({
                             isHorizontal
                             withFeedbackLabel
                             labelWidth={4}
-                            placeholder={value.data[key].placeholder}
-                            label={value.data[key].label}
+                            placeholder={intl.formatMessage({ id: value.data[key].placeholder })}
+                            label={intl.formatMessage({ id: value.data[key].label })}
                             required={value.data[key].required}
                           />
                         </div>
@@ -265,9 +218,9 @@ function ModifyEntityPage<T>({
                     return (
                       <div className="mt-3" key={key}>
                         <DatePickerField
-                          name={key}
+                          name={prevKey !== '' ? `${prevKey}.${key}` : key}
                           isHorizontal
-                          label={value.data[key].label}
+                          label={intl.formatMessage({ id: value.data[key].label })}
                           labelWidth={4}
                           type="Datetime"
                           required={value.data[key].required}
@@ -292,11 +245,11 @@ function ModifyEntityPage<T>({
                           // onChange={(imageList: any, addUpdateIndex: any) => {
                           //   onChange(imageList, addUpdateIndex, key);
                           // }}
-                          label={value.data[key].label}
+                          label={intl.formatMessage({ id: value.data[key].label })}
                           labelWidth={4}
                           isHorizontal={true}
                           required={value.data[key].required}
-                          name={key}
+                          name={prevKey !== '' ? `${prevKey}.${key}` : key}
                         />
                       </div>
                     );
@@ -305,13 +258,13 @@ function ModifyEntityPage<T>({
                       <div className="mt-3" key={`${key}`}>
                                   
                         <Field
-                          name={key}
+                          name={prevKey !== '' ? `${prevKey}.${key}` : key}
                           component={SwitchField}
                           isHorizontal
                           withFeedbackLabel
                           labelWidth={4}
-                          placeholder={value.data[key].placeholder}
-                          label={value.data[key].label}
+                          placeholder={intl.formatMessage({ id: value.data[key].placeholder })}
+                          label={intl.formatMessage({ id: value.data[key].label })}
                           required={value.data[key].required}
                         />
                       </div>
@@ -320,21 +273,25 @@ function ModifyEntityPage<T>({
                   case 'object':
                     return (
                       <div className="mt-3" key={key}>
-                        {Object.keys(value.data[key]).map(childKey => {
-                          switch (value.data[key][childKey].type) {
+                        {
+                          renderForm(value.data[key], prevKey ? `${prevKey}.${key}` : key)
+                        }
+                        {/* {Object.keys(value.data[key].data).map(childKey => {
+                          console.log(value.data[key].data[childKey].type)
+                          switch (value.data[key].data[childKey].type) {
                             case 'string':
                               return (
                                 <div className="mt-3" key={childKey}>
                                   <Field
                                     name={`${key}.${childKey}`}
                                     component={MainInput}
-                                    placeholder={value.data[key][childKey].placeholder}
+                                    placeholder={intl.formatMessage({ id: value.data[key].data[childKey].placeholder })}
                                     withFeedbackLabel
                                     labelWidth={4}
                                     isHorizontal
-                                    label={value.data[key][childKey].label}
-                                    disabled={value.data[key][childKey].disabled}
-                                    required={value.data[key][childKey].required}
+                                    label={intl.formatMessage({ id: value.data[key].data[childKey].placeholder })}
+                                    disabled={value.data[key].data[childKey].disabled}
+                                    required={value.data[key].data[childKey].required}
                                   />
                                 </div>
                               );
@@ -348,14 +305,14 @@ function ModifyEntityPage<T>({
                                     isHorizontal
                                     withFeedbackLabel
                                     labelWidth={4}
-                                    placeholder={value.data[key][childKey].placeholder}
-                                    label={value.data[key][childKey].label}
-                                    required={value.data[key][childKey].required}
+                                    placeholder={intl.formatMessage({ id: value.data[key].data[childKey].placeholder })}
+                                    label={intl.formatMessage({ id: value.data[key].data[childKey].placeholder })}
+                                    required={value.data[key].data[childKey].required}
                                   />
                                 </div>
                               );
                           }
-                        })}
+                        })} */}
                       </div>
                     );
 
@@ -363,7 +320,7 @@ function ModifyEntityPage<T>({
                     return (
                       <div className="mt-3" key={key}>
                         <InfiniteSelect
-                          label={value.data[key].label}
+                          label={intl.formatMessage({ id: value.data[key].label })}
                           isHorizontal={true}
                           value={search[key]}
                           onChange={(value: any) => {
@@ -387,7 +344,7 @@ function ModifyEntityPage<T>({
                           additional={{
                             page: DefaultPagination.page,
                           }}
-                          name={key}
+                          name={prevKey !== '' ? `${prevKey}.${key}` : key}
                           placeholder={value.data[key].placeholder}
                         />
                       </div>
@@ -397,9 +354,9 @@ function ModifyEntityPage<T>({
                     return (
                       <div className="mt-3" key={key}>
                         <TagInput
-                          label={value.data[key].label}
+                          label={intl.formatMessage({ id: value.data[key].label })}
                           isHorizontal={true}
-                          name={key}
+                          name={prevKey !== '' ? `${prevKey}.${key}` : key}
                           handleChange={handleChangeTag}
                           isRequired
                           labelWidth={4}
@@ -411,9 +368,9 @@ function ModifyEntityPage<T>({
                     return (
                       <div className="mt-3" key={key}>
                         <ImgGallery 
-                          label='Image Gallery'
+                          label={intl.formatMessage({ id: value.data[key].label })}
                           labelWidth={4}
-                          name={key}
+                          name={prevKey !== '' ? `${prevKey}.${key}` : key}
                           isHorizontal
                           photos={[{
                             src: "https://source.unsplash.com/aZjw7xI3QAA/1144x763",
@@ -440,88 +397,36 @@ function ModifyEntityPage<T>({
                 }
                 return <></>;
               })}
+      </>
+    );
+  }
+
+  return (
+    // <Card>
+    //   <CardBody>
+    //     <Formik
+    //       enableReinitialize={true}
+    //       initialValues={entityForEdit || initForm}
+    //       // validationSchema={PurchaseOrderSchema}
+    //       onSubmit={values => {
+    //         onModify(values);
+    //         history.push('/purchase-order');
+    //       }}>
+    //       {({ handleSubmit }) => (
+    <>
+      {/* <Form className="form form-label-right"> */}
+      {title && <h6 className="text-primary">{title.toUpperCase()}</h6>}
+      <div className={(column ? column : 1) > 1 ? 'row' : ''}>
+        {modifyModel &&
+          modifyModel.map((value: any, key: any) => (
+            <div className={`col-md-${12 / (column ? column : 1)} col-12`} key={key}>
+              {value.title && <h6 className="text-primary">{value.title.toUpperCase()}</h6>}
+              {
+                renderForm(value, '')
+              }
             </div>
           ))}
       </div>
-      {/* {modifyModel ? (
-        Object.keys(modifyM).map(key => {
-          switch (modifyM[key].type) {
-            case 'string':
-              return (
-                <div className="mt-3" key={key}>
-                  <Field
-                    name={key}
-                    component={MainInput}
-                    placeholder={modifyM[key].placeholder}
-                    withFeedbackLabel
-                    labelWidth={4}
-                    isHorizontal
-                    label={modifyM[key].label}
-                    disabled={modifyM[key].disabled}
-                  />
-                </div>
-              );
-            case 'number':
-              return (
-                <div className="mt-3" key={`${key}`}>
-                  <Field
-                    name={key}
-                    type="number"
-                    component={MainInput}
-                    isHorizontal
-                    withFeedbackLabel
-                    labelWidth={4}
-                    placeholder={modifyM[key].placeholder}
-                    label={modifyM[key].label}
-                  />
-                </div>
-              );
-            case 'Datetime':
-              return (
-                <div className="mt-3" key={key}>
-                  <DatePickerField
-                    name="date"
-                    isHorizontal
-                    label={modifyM[key].label}
-                    labelWidth={4}
-                  />
-                </div>
-              );
-            case 'image':
-              return (
-                <div className="mt-3" key={key}>
-                  <CustomImageUpload
-                    images={images}
-                    onChange={onChange}
-                    label={modifyM[key].label}
-                    labelWidth={4}
-                    isHorizontal={true}
-                    isRequired
-                  />
-                </div>
-              );
-          }
-          return <></>;
-        })
-      ) : (
-        <></>
-      )} */}
-      {/* </Form> */}
-      {/* 
-              <button type="submit" onClick={() => handleSubmit()} className="btn btn-primary mr-2">
-                <SaveOutlinedIcon style={iconStyle} /> Lưu
-              </button>
-
-              <Link to="/purchase-order">
-                <button type="button" className="btn btn-outline-primary">
-                  <CancelOutlinedIcon style={iconStyle} /> Hủy
-                </button>
-              </Link>
-            </>
-          )}
-        </Formik>
-      </CardBody>
-    </Card> */}
     </>
   );
 }
