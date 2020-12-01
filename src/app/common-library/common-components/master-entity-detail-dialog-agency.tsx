@@ -139,7 +139,7 @@ export function FormGroup({
                     .map((el: any, key: any) => {
                     // only display title for the first shippingAddress
                       return (
-                        <tr key={key}>
+                        <tr key={key} className='row ml-0 mr-0 no-gutters'>
                           <td>
                             {(key === 0) ? intl.formatMessage({id: formField.title}) + ':\u00A0' : <></>}
                           </td>
