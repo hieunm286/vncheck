@@ -134,31 +134,25 @@ export function FormGroup({
               :
               // formField.keyField: "shippingAddress"
               Array.isArray(getPropByString(data, formField.keyField)) ?
-                  getPropByString(data, formField.keyField).map((el: any, key: any) => {
+                  getPropByString(data, formField.keyField)
+                    .filter((el: any) => { return el.isDefault === true })
+                    .map((el: any, key: any) => {
                     // only display title for the first shippingAddress
-                    if(key === 0) {
                       return (
                         <tr key={key}>
                           <td>
-                            {intl.formatMessage({id: formField.title})}:{'\u00A0'}
+                            {(key === 0) ? intl.formatMessage({id: formField.title}) + ':\u00A0' : <></>}
                           </td>
                           <td>
                             {el.address}, {el.district}, {el.city}, {el.state}
+                            {(el.isDefault === true) ? 
+                              <span style={{color: '#B5B5C3'}} className={'ml-5'}>
+                                [{intl.formatMessage({id: 'AGENCY.VIEW.LABEL.DEFAULT_SHIPPING_ADDRESS'})}]
+                              </span> : <></>
+                            }
                           </td>
                         </tr>
                       )
-                    } else {
-                      return (
-                        <tr key={key}>
-                          <td>
-                            
-                          </td>
-                          <td>
-                            {el.address}, {el.district}, {el.city}, {el.state}
-                          </td>
-                        </tr>
-                      )
-                    }
                     
                   })
                   :
