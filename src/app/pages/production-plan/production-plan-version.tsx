@@ -80,14 +80,15 @@ function ProductionPlanVersion({ title, data, paginationParams, setPaginationPar
       dataField: 'action',
       text: `${intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.ACTION_COLUMN' })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
-        <span
+        <Link
+        to={`/production-plan/plan-view/${title}`}
           className="btn btn-icon btn-light btn-hover-primary btn-sm visibility"
           // onClick={() => onShowDetail(row)}
         >
           <span className="svg-icon svg-icon-md svg-icon-primary">
             <Visibility className="text-primary eye" />
           </span>
-        </span>
+        </Link>
       ),
 
       ...NormalColumn,

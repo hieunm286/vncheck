@@ -212,7 +212,9 @@ function EntityCrudPagePromise({
                               <button
                                 type={allFormButton['data'][keyss].type}
                                 className={allFormButton['data'][keyss].className}
-                                key={keyss}>
+                                key={keyss}
+                                onClick={() => {allFormButton['data'][keyss].onClick()}}
+                                >
                                 {allFormButton['data'][keyss].icon} {allFormButton['data'][keyss].label}
                               </button>
                             );
@@ -253,7 +255,8 @@ function EntityCrudPagePromise({
                               <button
                                 type={allFormButton['data'][keyss].type}
                                 className={allFormButton['data'][keyss].className}
-                                key={keyss}>
+                                key={keyss}
+                                onClick={() => {allFormButton['data'][keyss].onClick()}}>
                                 {allFormButton['data'][keyss].icon} {allFormButton['data'][keyss].label}
                               </button>
                             );

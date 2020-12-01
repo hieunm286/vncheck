@@ -63,6 +63,7 @@ const ProductPackagingSchema = Yup.object().shape({
   species: Yup.string().required('Name ko đc để trống'),
   weight: Yup.number()
     .required('Số gram không được để trống')
+    .min(0, 'Số gram không được ít hơn 0 nha')
     .typeError('Vui lòng nhập số'),
 });
 
