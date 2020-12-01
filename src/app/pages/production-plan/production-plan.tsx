@@ -25,11 +25,11 @@ import { ProductionPlanModel } from './production-plant.model';
 import ProductionPlanBody from './production-plant-body';
 import './style/production-plan.scss';
 import { ProductPlanActionsColumn } from './production-plan-actions-column';
-import ProductPlanForm from './production-plan-form';
 import EntityCrudPagePromise from '../../common-library/common-components/entity-crud-page-promise';
 import ProductionPlanVersion from './production-plan-version';
 import Visibility from '@material-ui/icons/Visibility';
 import { MasterEntityDetailPage } from '../../common-library/common-components/master-detail-page';
+import ProductionPlanModal from './production-plan-modal';
 
 const headerTitle = 'PRODUCT_TYPE.MASTER.HEADER.TITLE';
 const bodyTitle = 'PRODUCT_TYPE.MASTER.BODY.TITLE';
@@ -41,11 +41,125 @@ const homeURL = `${window.location.pathname}`;
 
 const data = [
   {
-    _id: 'xxx',
-    plantCode: '000001',
-    growCode: '000001',
-    speciesName: 'Rau muống',
-    time: '20/11/2020',
+    step: 'string',
+    isFulfilled: true,
+    confirmationStatus: true,
+    _id: 'string',
+    code: 'string',
+    process: 1,
+    seeding: {
+        certificates: {
+            path: 'string',
+            hash: 'string',
+        },
+        buyInvoice: {
+            path: 'string',
+            hash: 'string',
+        },
+        farmLocation: {
+            coordinates: ['abc'],
+            type: 'string',
+        },
+        landLotImage: {
+            path: 'string',
+            hash: 'string',
+        },
+        leader: ['xyz'],
+        worker: ['zzz'],
+        _id: 'string',
+        code: 'string',
+        seedingTime: new Date(),
+        estimatedPlantingTime: new Date(),
+        landLot: 'string',
+        species: {
+            _id: 'string12',
+            name: 'string',
+            barcode: 'string',
+            seedingDays: 14,
+            plantingDays: 15,
+            expiryDays: 14,
+            code: 'string',
+        },
+        area: 1,
+        numberOfSeed: 2,
+        expectedQuantity: 3,
+        temperature: 4,
+        humidity: 5,
+        porosity: 6,
+        manager: 'string',
+    },
+    planting: {
+        farmLocation: {
+            coordinates: ['zxc'],
+            type: 'string',
+        },
+        imageAfter: {
+            path: 'string',
+            hash: 'string',
+        },
+        imageBefore: {
+            path: 'string',
+            hash: 'string',
+        },
+        leader: ['rrr'],
+        worker: ['ttt'],
+        _id: 'ghhgf',
+        estimatedPlantingTime: new Date(),
+        estimatedHarvestTime: new Date(),
+        code: 'string',
+        area: 1,
+        numberOfPlants: 5,
+        expectedQuantity: 7,
+        temperature: 4,
+        humidity: 5,
+        porosity: 6,
+        landLot: 'string',
+        species: {
+            _id: 'ghjgk',
+            name: 'string',
+            barcode: 'string',
+            seedingDays: 14,
+            plantingDays: 15,
+            expiryDays: 16,
+            code: 'string',
+        },
+        manager: 'string',
+    },
+    harvesting: {
+        _id: 'strinhfgg',
+        leader: [{ _id: 'strinfgkg', isRecieved: true, info: 'string' }],
+        technicalStaff: [{ _id: 'stghfgfhring', isRecieved: true, info: 'string' }],
+    },
+    preliminaryTreatment: {
+        _id: 'strigjfjng',
+        time: new Date(),
+        quantity: 14,
+        leader: [{ _id: 'string', isRecieved: true, info: 'string' }],
+        technicalStaff: [{ _id: 'striđâsg', isRecieved: true, info: 'string' }],
+    },
+    cleaning: {
+        _id: 'hgfhgfj',
+        time: Date,
+        quantity: 14,
+        leader: [{ _id: 'string', isRecieved: true, info: 'string' }],
+        technicalStaff: [{ _id: 'striđâsg', isRecieved: true, info: 'string' }],
+    },
+    packing: {
+        _id: 'sdhbdfhgfd',
+        quantity: 32,
+        leader: [{ _id: 'string', isRecieved: true, info: 'string' }],
+    },
+    preservation: {
+        _id: 'fdnbdh',
+        technicalStaff: [{ _id: 'striđâsg', isRecieved: true, info: 'string' }],
+    },
+    createdBy: {
+        _id: 'bdfbdf',
+        firstName: 'fdsb',
+        lastName: 'string',
+    },
+    createdAt: new Date(),
+    updateAt: new Date(),
   },
 ];
 
@@ -134,6 +248,8 @@ function ProductionPlan() {
 
   const [versionTitle, setVersionTitle] = useState<string>('');
 
+  const [noticeModal, setNoticeModal] = useState<boolean>(false)
+
   //   useEffect(() => {
   //     getAll(filterProps);
   //   }, [paginationProps, trigger, filterProps]);
@@ -147,31 +263,34 @@ function ProductionPlan() {
       ),
       style: { paddingTop: 20 },
     },
-    plantCode: {
-      dataField: 'plantCode',
+    seeding: {
+      dataField: 'seeding.code',
       text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.PLANT_CODE' })}`,
-      formatter: (cell: any, row: any, rowIndex: number) => <Link to="">{row.plantCode}</Link>,
+      formatter: (cell: any, row: any, rowIndex: number) => <Link to={`/production-plan/seeding/${row._id}`}>{row.seeding.code}</Link>,
       ...SortColumn,
       classes: 'text-center',
     },
-    growCode: {
-      dataField: 'growCode',
+    planting: {
+      dataField: 'planting.code',
       text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.GROW_CODE' })}`,
-      formatter: (cell: any, row: any, rowIndex: number) => <Link to="">{row.growCode}</Link>,
+      formatter: (cell: any, row: any, rowIndex: number) => <Link to={`/production-plan/planting/${row._id}`}>{row.planting.code}</Link>,
       ...SortColumn,
       classes: 'text-center',
     },
 
-    speciesName: {
-      dataField: 'speciesName',
+    species: {
+      dataField: 'seeding.species.name',
       text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.SPECIES_NAME' })}`,
       ...SortColumn,
       classes: 'text-center',
       headerClasses: 'text-center',
     },
-    time: {
-      dataField: 'time',
+    estimatedHarvestTime: {
+      dataField: 'planting.estimatedHarvestTime',
       text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.HARVEST_DATE' })}`,
+      formatter: (cell: any, row: any, rowIndex: number) => (
+        <td>{new Intl.DateTimeFormat('en-GB').format(row.estimatedHarvestTime)}</td>
+      ),
       ...SortColumn,
       classes: 'text-center',
       headerClasses: 'text-center',
@@ -199,51 +318,46 @@ function ProductionPlan() {
       ),
       style: { paddingTop: 20 },
     },
-    planCode: {
-      dataField: 'planCode',
-      text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.CODE' })}`,
-      ...SortColumn,
-      classes: 'text-center',
-    },
-    plantCode: {
-      dataField: 'plantCode',
+    seeding: {
+      dataField: 'seeding.code',
       text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.PLANT_CODE' })}`,
-      formatter: (cell: any, row: any, rowIndex: number) => (
-        <Link to={`/production-plan/planting/${row.plantCode}`}>{row.plantCode}</Link>
-      ),
+      formatter: (cell: any, row: any, rowIndex: number) => <Link to={`/production-plan/seeding/${row._id}`}>{row.seeding.code}</Link>,
       ...SortColumn,
       classes: 'text-center',
     },
-    growCode: {
-      dataField: 'growCode',
+    planting: {
+      dataField: 'planting.code',
       text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.GROW_CODE' })}`,
-      formatter: (cell: any, row: any, rowIndex: number) => <Link to="">{row.growCode}</Link>,
+      formatter: (cell: any, row: any, rowIndex: number) => <Link to={`/production-plan/planting/${row._id}`}>{row.planting.code}</Link>,
       ...SortColumn,
       classes: 'text-center',
     },
-    speciesName: {
-      dataField: 'speciesName',
+    species: {
+      dataField: 'seeding.species.name',
       text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.SPECIES_NAME' })}`,
       ...SortColumn,
       classes: 'text-center',
       headerClasses: 'text-center',
     },
-    createAt: {
+    createdAt: {
       dataField: 'createAt',
       text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.CREATE_DATE' })}`,
+      formatter: (cell: any, row: any, rowIndex: number) => (
+        <td>{new Intl.DateTimeFormat('en-GB').format(row.createdAt)}</td>
+      ),
       ...SortColumn,
       classes: 'text-center',
       headerClasses: 'text-center',
     },
-    status: {
-      dataField: 'status',
+    process: {
+      dataField: 'process',
       text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.STATUS' })}`,
       ...SortColumn,
       classes: 'text-center',
       headerClasses: 'text-center',
     },
-    approveStatus: {
-      dataField: 'approve',
+    confirmationStatus: {
+      dataField: 'confirmationStatus',
       text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.APPROVE_STATUS' })}`,
       ...SortColumn,
       classes: 'text-center',
@@ -360,9 +474,9 @@ function ProductionPlan() {
     },
     {
       tabTitle: 'Theo dõi',
-      entities: data2,
+      entities: data,
       columns: columns2,
-      total: data2.length,
+      total: data.length,
       loading: loading,
       paginationParams: paginationProps,
       setPaginationParams: setPaginationProps,
@@ -572,7 +686,7 @@ function ProductionPlan() {
       title: '\u00A0',
       data: {
         worker: {
-          type: 'SearchSelect',
+          type: 'tag',
           placeholder: intl.formatMessage({ id: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW' }),
           label: 'Nhân viên kỹ thuật thu hoạch',
         },
@@ -608,7 +722,7 @@ function ProductionPlan() {
       title: '\u00A0',
       data: {
         workerPT: {
-          type: 'SearchSelect',
+          type: 'tag',
           placeholder: intl.formatMessage({ id: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW' }),
           label: 'Nhân viên kỹ thuật sơ chế',
         },
@@ -644,7 +758,7 @@ function ProductionPlan() {
       title: '\u00A0',
       data: {
         workerClean: {
-          type: 'SearchSelect',
+          type: 'tag',
           placeholder: intl.formatMessage({ id: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW' }),
           label: 'Nhân viên kỹ thuật làm sạch',
         },
@@ -692,7 +806,7 @@ function ProductionPlan() {
           label: 'Số lượng đóng gói dự kiến ',
         },
         KCS: {
-          type: 'SearchSelect',
+          type: 'tag',
           placeholder: intl.formatMessage({ id: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.PLANTING' }),
           label: 'KCS',
         },
@@ -722,7 +836,7 @@ function ProductionPlan() {
       title: '\u00A0',
       data: {
         workerPreservation: {
-          type: 'SearchSelect',
+          type: 'tag',
           placeholder: intl.formatMessage({ id: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW' }),
           label: 'Nhân viên kỹ thuật bảo quản',
         },
@@ -778,12 +892,15 @@ function ProductionPlan() {
     type: 'outside',
     data: {
       sendRequest: {
-        role: 'link-button',
+        role: 'button',
         type: 'button',
         linkto: undefined,
         className: 'btn btn-primary mr-5 pl-8 pr-8',
         label: 'Gửi duyệt',
         icon: <SaveOutlinedIcon />,
+        onClick: () => {
+          setNoticeModal(true)
+        },
       },
       save: {
         role: 'submit',
@@ -803,6 +920,8 @@ function ProductionPlan() {
       },
     },
   };
+
+  console.log(noticeModal)
 
   const masterEntityDetailDialog = [
     {
@@ -881,15 +1000,114 @@ function ProductionPlan() {
           },
           
         },
+        {}
       ],
     },
-    
+    {
+      header: 'THÔNG TIN THU HOẠCH',
+      data: [
+        {
+          imagePrev: {
+            type: 'image',
+            title: 'Hình ảnh trước thu hoạch',
+          },  
+        },
+        {
+          imageAfter: {
+            type: 'image',
+            title: 'Hình ảnh sau thu hoạch',
+          },  
+        },
+      ],
+    },
+  ];
+
+  const masterEntityDetailDialog2 = [
+    {
+      header: 'THÔNG TIN CHUNG',
+      data: [
+        {
+         
+         
+          plantLand: {
+            type: 'string',
+            title: 'Mã kế hoạch',
+          },
+          growLand: {
+            type: 'string',
+            title: 'Mã kế hoạch',
+          },
+          image: {
+            type: 'image',
+            title: 'Hình ảnh',
+          },
+        },
+        {
+          planCode: {
+            type: 'string',
+            title: 'Mã kế hoạch',
+          },
+          
+          image: {
+            type: 'string',
+            title: 'Hình ảnh',
+          },
+        },
+      ],
+    },
+    {
+      header: 'THÔNG TIN 2',
+      data: [
+        {
+          planCode: {
+            type: 'string',
+            title: 'Mã kế hoạch',
+          },
+          plantCode: {
+            type: 'string',
+            title: 'Mã gieo giống',
+          },
+          growCode: {
+            type: 'string',
+            title: 'Mã kế hoạch',
+          },
+          
+        },
+        {}
+      ],
+    },
+    {
+      header: 'THÔNG TIN THU HOẠCH',
+      data: [
+        {
+          imagePrev: {
+            type: 'image',
+            title: 'Hình ảnh trước thu hoạch',
+          },  
+        },
+        {
+          imageAfter: {
+            type: 'image',
+            title: 'Hình ảnh sau thu hoạch',
+          },  
+        },
+      ],
+    },
   ];
 
   return (
     <React.Fragment>
       <Switch>
         <Route path="/production-plan/new">
+          <ProductionPlanModal 
+            show={noticeModal}
+            mode="notice"
+            title="abc"
+            body="xyz"
+            onClose={() => {
+              setNoticeModal(false)
+            }}
+          />
           <EntityCrudPagePromise
             entity={createEntity}
             onModify={addPromise}
@@ -923,7 +1141,7 @@ function ProductionPlan() {
             />
           )}
         </Route>
-        <Route exact path="/production-plan/planting/:plantCode">
+        <Route exact path="/production-plan/seeding/:code">
           {({ history, match }) => (
             <MasterEntityDetailPage
               entity={detailEntity}
@@ -931,7 +1149,34 @@ function ProductionPlan() {
               onClose={() => {
                 setShowDetail(false);
               }}
+              mode="line"
+              title="THÔNG TIN GIEO GIỐNG"
+            />
+          )}
+        </Route>
+        <Route exact path="/production-plan/planting/:code">
+          {({ history, match }) => (
+            <MasterEntityDetailPage
+              entity={detailEntity}
+              renderInfo={masterEntityDetailDialog}
+              onClose={() => {
+                setShowDetail(false);
+              }}
+              mode="line"
+              title="THÔNG TIN GIEO TRỒNG"
+            />
+          )}
+        </Route>
+        <Route exact path="/production-plan/plan-view/:code">
+        {({ history, match }) => (
+            <MasterEntityDetailPage
+              entity={detailEntity}
+              renderInfo={masterEntityDetailDialog2}
+              onClose={() => {
+                setShowDetail(false);
+              }}
               mode="split"
+              title={`${detailEntity ? detailEntity._id : 'nothing'}`}
             />
           )}
         </Route>

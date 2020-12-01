@@ -4,6 +4,7 @@ import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import { useIntl } from 'react-intl';
 import { Card, CardBody, CardHeader } from '../card';
 import ImgGallery from '../forms/image-gallery';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 
 export function MasterEntityDetailPage({
   title = 'COMMON_COMPONENT.DETAIL_DIALOG.HEADER_TITLE',
@@ -18,7 +19,7 @@ export function MasterEntityDetailPage({
   entity: any;
   renderInfo: any;
   onClose: () => void;
-  mode: string;
+  mode: 'line' | 'split';
 }) {
   const intl = useIntl();
   return (
@@ -50,11 +51,12 @@ const LineMode = ({ entity, renderInfo, intl, title, moduleName }: any) => (
   <Card>
     <CardHeader
       title={
-        <span>
+        <>
+          <span>
+            <ArrowBackIosIcon />
+          </span>
           {intl.formatMessage({ id: title }).toUpperCase()}
-          {'\u00A0'}
-          {intl.formatMessage({ id: moduleName }).toUpperCase()}
-        </span>
+        </>
       }
     />
     <CardBody>
@@ -82,7 +84,7 @@ const LineMode = ({ entity, renderInfo, intl, title, moduleName }: any) => (
                       return (
                         <div className="mt-3" key={childKey}>
                           <ImgGallery
-                            label="Image Gallery"
+                            label={el[childKey].title}
                             labelWidth={4}
                             name={key}
                             isHorizontal
@@ -136,11 +138,12 @@ const SplitMode = ({ entity, renderInfo, intl, title, moduleName }: any) => (
           {key === 0 && (
             <CardHeader
               title={
-                <span>
+                <>
+                  <span>
+                    <ArrowBackIosIcon />
+                  </span>
                   {intl.formatMessage({ id: title }).toUpperCase()}
-                  {'\u00A0'}
-                  {intl.formatMessage({ id: moduleName }).toUpperCase()}
-                </span>
+                </>
               }
             />
           )}
@@ -168,7 +171,7 @@ const SplitMode = ({ entity, renderInfo, intl, title, moduleName }: any) => (
                           return (
                             <div className="mt-3" key={childKey}>
                               <ImgGallery
-                                label="Image Gallery"
+                                label={el[childKey].title}
                                 labelWidth={4}
                                 name={key}
                                 isHorizontal
