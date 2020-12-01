@@ -1,6 +1,11 @@
 import React, { Fragment, useEffect } from 'react';
 import { useIntl } from 'react-intl';
-import { DefaultPagination, NormalColumn, SortColumn, StatusValue } from '../../common-library/common-consts/const';
+import {
+  DefaultPagination,
+  NormalColumn,
+  SortColumn,
+  StatusValue,
+} from '../../common-library/common-consts/const';
 import { MasterHeader } from '../../common-library/common-components/master-header';
 import { MasterBody } from '../../common-library/common-components/master-body';
 import { ActionsColumnFormatter } from '../../common-library/common-components/actions-column-formatter';
@@ -19,6 +24,10 @@ import * as Yup from 'yup';
 import { ProductTypeModel, ProductTypeModifyModelDetail } from './product-type.model';
 import * as ProductTypeService from './product-type.service';
 import ProductTypeDetailDialog from './product-type-detail-dialog';
+import EntityCrudPagePromise from '../../common-library/common-components/entity-crud-page-promise';
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const data: any = [
   {
@@ -78,37 +87,51 @@ const bodyTitle = 'PRODUCT_TYPE.MASTER.BODY.TITLE';
 const moduleName = 'PRODUCT_TYPE.MODULE_NAME';
 const deleteDialogTitle = 'PRODUCT_TYPE.DELETE_DIALOG.TITLE';
 const createTitle = 'PRODUCT_TYPE.CREATE.TITLE';
-const updateTitle = 'PURCHASE_ORDER.UPDATE.TITLE';
-const homeURL = `${window.location.pathname}`
+const updateTitle = 'PRODUCT_TYPE.UPDATE.TITLE';
+const homeURL = `${window.location.pathname}`;
 
 export const GenerateCode = (data: any[]) => {
-    const lastEntity = data[data.length - 1].code
-    let i;
-    for (i = 0; i < lastEntity.length; i++) {
-        if (lastEntity[i] !== '0') {
-            break;
-        }
+  const lastEntity = data[data.length - 1].code;
+  let i;
+  for (i = 0; i < lastEntity.length; i++) {
+    if (lastEntity[i] !== '0') {
+      break;
     }
+  }
 
-    const lastIndex = parseInt(lastEntity.slice(i));
+  const lastIndex = parseInt(lastEntity.slice(i));
 
-    if (lastIndex < 9) {
-        return `00000${lastIndex + 1}`
-    } else if (lastIndex < 99) {
-        return `0000${lastIndex + 1}`
-    } else if (lastIndex < 999) {
-        return `000${lastIndex + 1}`
-    }
-    return `00${lastIndex + 1}`
-}
+  if (lastIndex < 9) {
+    return `00000${lastIndex + 1}`;
+  } else if (lastIndex < 99) {
+    return `0000${lastIndex + 1}`;
+  } else if (lastIndex < 999) {
+    return `000${lastIndex + 1}`;
+  }
+  return `00${lastIndex + 1}`;
+};
 
 const ProductTypeSchema = Yup.object().shape({
-    name: Yup.string().required('Tên chủng loại không được để trống'),
-    barcode: Yup.string().required('Tên chủng loại không được để trống'),
-    growingDays: Yup.number().required('Số ngày gieo giống không được để trống').typeError('Vui lòng nhập số'),
-    plantingDays: Yup.number().required('Số ngày gieo trồng không được để trống').typeError('Vui lòng nhập số'),
-    expiryDays: Yup.number().required('Hạn sử dụng không được để trống').typeError('Vui lòng nhập số'),
-  });
+  name: Yup.string().required('Tên chủng loại không được để trống'),
+  barcode: Yup.string()
+    .required('GTIN không được để trống')
+    .max(10, 'Vui lòng nhập tối đa 10 ký tự')
+    .matches(/^[0-9]+$/u, {
+      message: 'GTIN không hợp lệ. GTIN không chứa chữ cái và ký tự đặc biệt',
+    }),
+  growingDays: Yup.number()
+    .required('Số ngày gieo giống không được để trống')
+    .min(1, 'Số ngày không được ít hơn 1 nha')
+    .typeError('Vui lòng nhập số'),
+  plantingDays: Yup.number()
+    .required('Số ngày gieo trồng không được để trống')
+    .min(1, 'KSố ngày không được ít hơn 1 nha')
+    .typeError('Vui lòng nhập số'),
+  expiryDays: Yup.number()
+    .required('Hạn sử dụng không được để trống')
+    .min(1, 'Số ngày không được ít hơn 1 nha')
+    .typeError('Vui lòng nhập số'),
+});
 
 function ProductType() {
   const intl = useIntl();
@@ -151,6 +174,8 @@ function ProductType() {
     setError,
     add,
     update,
+    addPromise,
+    updatePromise,
     get,
     deleteMany,
     deleteFn,
@@ -279,6 +304,11 @@ function ProductType() {
           placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL' }),
           label: 'Album 1',
         },
+        image2: {
+          type: 'image',
+          placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL' }),
+          label: 'Album 2',
+        },
       },
     },
     {
@@ -309,37 +339,71 @@ function ProductType() {
     form_1: {
       title: '',
       modifyModel: modifyModel,
-      header: 'ĐƠN HÀNG',
+      header: 'CHỦNG LOẠI',
     },
   };
 
   const allFormField: any = {
-    ...GenerateAllFormField(
-      modifyModel,
-    ),
+    ...GenerateAllFormField(modifyModel),
   };
 
   const allFormButton: any = {
-    save: {
-      role: 'submit',
-      type: 'submit',
-      linkto: undefined,
-      className: 'btn btn-primary mr-2',
-      label: 'Lưu',
-      icon: <SaveOutlinedIcon />,
-    },
-    cancel: {
-      role: 'link-button',
-      type: 'button',
-      linkto: '/product-type',
-      className: 'btn btn-outline-primary mr-2',
-      label: 'Hủy',
-      icon: <CancelOutlinedIcon />,
+    type: 'inside',
+    data: {
+      save: {
+        role: 'submit',
+        type: 'submit',
+        linkto: undefined,
+        className: 'btn btn-primary mr-5 pl-8 pr-8',
+        label: 'Lưu',
+        icon: <SaveOutlinedIcon />,
+      },
+      cancel: {
+        role: 'link-button',
+        type: 'button',
+        linkto: '/product-type',
+        className: 'btn btn-outline-primary mr-2 pl-8 pr-8',
+        label: 'Hủy',
+        icon: <CancelOutlinedIcon />,
+      },
     },
   };
 
+  const notify = () => {
+    toast.error(`😠 ${error}`, {
+      position: 'top-right',
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+  };
+
+  useEffect(() => {
+    if (error !== '') {
+      // store.addNotification({
+      //   title: 'Error!',
+      //   message: error,
+      //   type: 'danger',
+      //   insert: 'top',
+      //   container: 'top-center',
+      //   animationIn: ['animate__animated', 'animate__fadeIn'],
+      //   animationOut: ['animate__animated', 'animate__fadeOut'],
+      //   dismiss: {
+      //     duration: 5000,
+      //     onScreen: true,
+      //   },
+      // });
+      notify();
+    }
+  }, [error]);
+
   return (
     <Fragment>
+      {/* <ReactNotification /> */}
+      {/* <ToastContainer /> */}
       <ProductTypeDetailDialog
         show={showDetail}
         entity={detailEntity}
@@ -374,9 +438,9 @@ function ProductType() {
 
       <Switch>
         <Route path="/product-type/new">
-          <EntityCrudPage
+          <EntityCrudPagePromise
             entity={createEntity}
-            onModify={add}
+            onModify={addPromise}
             title={createTitle}
             // reduxModel="purchaseOrder"
             code={null}
@@ -386,9 +450,10 @@ function ProductType() {
             allFormButton={allFormButton}
             validation={ProductTypeSchema}
             autoFill={{
-                field: 'code',
-                data: GenerateCode(data)
+              field: 'code',
+              data: GenerateCode(data),
             }}
+            refreshData={refreshData}
             homePage={homeURL}
           />
         </Route>
@@ -403,9 +468,9 @@ function ProductType() {
             //   code={match && match.params.code}
             //   get={PurchaseOrderService.GetById}
             // />
-            <EntityCrudPage
+            <EntityCrudPagePromise
               entity={editEntity}
-              onModify={update}
+              onModify={updatePromise}
               title={updateTitle}
               //  modifyModel={modifyModel}
               reduxModel="purchaseOrder"
@@ -416,16 +481,17 @@ function ProductType() {
               allFormButton={allFormButton}
               validation={ProductTypeSchema}
               homePage={homeURL}
-
+              asyncError={error}
+              refreshData={refreshData}
             />
           )}
         </Route>
         <Route path="/product-type">
           <MasterHeader
             title={headerTitle}
-            onSearch={(value) => {
-              setPaginationProps(DefaultPagination)
-              setFilterProps(value)
+            onSearch={value => {
+              setPaginationProps(DefaultPagination);
+              setFilterProps(value);
             }}
             searchModel={productTypeSearchModel}
             initValue={{

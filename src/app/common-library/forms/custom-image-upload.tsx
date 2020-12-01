@@ -1,15 +1,18 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import ImageUploading from 'react-images-uploading';
+import { getNewImage, getOnlyBase64 } from '../helpers/common-function';
+import exifr from 'exifr';
 import './custom-image-upload.scss';
+import { useFormikContext } from 'formik';
 
 interface ImageUploadPros {
   images: any[];
-  onChange: (imageList: any[], addUpdateIndex: any) => void;
   label: string;
+  onChange?: any;
   labelWidth: number;
   isHorizontal: boolean;
   required?: boolean;
-  name?: string
+  name?: string;
 }
 
 const getClassName = (labelWidth: number | null | undefined, labelStart: boolean) => {
@@ -44,11 +47,59 @@ function CustomImageUpload({
   label,
   labelWidth,
   images,
-  onChange,
   isHorizontal,
   required,
-  name
+  name,
 }: ImageUploadPros) {
+  const { setFieldValue } = useFormikContext<any>();
+
+  const [imageData, setImageData] = useState<{ data_url: any; exif: any }[]>([]);
+  const [imagess, setImagess] = useState(images || []);
+
+  const ImageMeta = (file: any, key: string) => {
+    if (!file) return '';
+
+    file.forEach((item: any) => {
+      exifr.parse(item.file).then(res => {
+        const image = {
+          data_url: item.data_url,
+          exif: res,
+        };
+
+        const data: any[] = [];
+        data.push(image);
+
+        setImageData(prevImages => [...prevImages, ...data]);
+      });
+    });
+  };
+
+  const handleChange = (
+    imageList: any,
+    addUpdateIndex: any,
+    key: string,
+  ) => {
+    const newArr = getNewImage(imagess, imageList);
+
+    ImageMeta(newArr, key);
+
+    setImagess(imageList);
+  };
+
+  const getDeleteImage = (index: number) => {
+    let updateArr = [...imageData];
+
+    let arr = updateArr.filter((values: any, indexs: number) => indexs !== index)
+
+    setImageData(arr)
+  }
+
+  useEffect(() => {
+    if (name) {
+      setFieldValue(name, imageData)
+    }
+  }, [imageData])
+
   return (
     <div className={isHorizontal ? 'row' : ''}>
       <div className={getClassName(labelWidth, true)}>
@@ -62,8 +113,15 @@ function CustomImageUpload({
       <div className={getClassName(labelWidth, false)}>
         <ImageUploading
           multiple
-          value={images}
-          onChange={onChange}
+          value={imagess}
+          onChange={(imageList: any, addUpdateIndex: any) =>
+            {
+              if (name) {
+                handleChange(imageList, addUpdateIndex, name)
+              }
+              
+            }
+          }
           maxNumber={69}
           dataURLKey="data_url">
           {({
@@ -86,7 +144,7 @@ function CustomImageUpload({
                     className="close"
                     onClick={() => {
                       onImageRemove(index);
-                      // getDeleteImage(index);
+                      getDeleteImage(index);
                     }}>
                     x
                   </button>
@@ -100,7 +158,6 @@ function CustomImageUpload({
                 onClick={onImageUpload}
                 className="button-add-image"
                 {...dragProps}>
-                  
                 <svg
                   width="40"
                   height="40"

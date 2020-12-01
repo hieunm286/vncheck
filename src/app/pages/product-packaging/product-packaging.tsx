@@ -181,7 +181,7 @@ function ProductPackaging() {
       header: 'THÔNG TIN 1',
       data: {
         code: { title: 'PRODUCT_PACKAGING.MASTER.DETAIL_DIALOG.CODE' },
-        name: { title: 'PRODUCT_PACKAGING.MASTER.DETAIL_DIALOG.NAME' },
+        species: { title: 'PRODUCT_PACKAGING.MASTER.DETAIL_DIALOG.NAME', ref: true, refField: 'name' },
         weight: { title: 'PRODUCT_PACKAGING.MASTER.DETAIL_DIALOG.GRAM' },
       },
     },

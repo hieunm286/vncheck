@@ -34,10 +34,6 @@ const DeepObject = (obj1: any, obj2: any) => {
   console.log(a);
 }
 
-
-
-
-
 function EntityCrudPage({
   entity,
   onModify,
@@ -51,6 +47,7 @@ function EntityCrudPage({
   allFormButton,
   validation,
   autoFill,
+  asyncError,
   homePage,
 }: {
   // modifyModel: ModifyModel;
@@ -65,6 +62,7 @@ function EntityCrudPage({
   allFormButton: any;
   validation?: any;
   autoFill?: any;
+  asyncError?: string;
   homePage?: string;
 }) {
   const intl = useIntl();
@@ -129,8 +127,7 @@ function EntityCrudPage({
     // setTagArr({ ...tagArr, [key]: newTag });
   }
 
-  // console.log(DeepObject({abc: '2'}, {abc: '1'}));
-
+ 
   useEffect(() => {
     if (code) {
       get(code).then((res: { data: any }) => {
@@ -154,6 +151,21 @@ function EntityCrudPage({
           } else {
             onModify({...values, imageData});
           }
+          // if (asyncError !== '') {
+          //   store.addNotification({
+          //     title: "Wonderful!",
+          //     message: "teodosii@react-notifications-component",
+          //     type: "success",
+          //     insert: "top",
+          //     container: "top-right",
+          //     animationIn: ["animate__animated", "animate__fadeIn"],
+          //     animationOut: ["animate__animated", "animate__fadeOut"],
+          //     dismiss: {
+          //       duration: 5000,
+          //       onScreen: true
+          //     }
+          //   });
+          // }
           history.push(GetHomePage(window.location.pathname));
         }}>
         {({ handleSubmit, setFieldValue }) => (

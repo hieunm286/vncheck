@@ -13,6 +13,19 @@ export function MasterEntityDetail({
   convertFunctions?: { [V: string]: (input: any) => string };
 }) {
   const intl = useIntl();
+
+  const getValue = (data: any, dataKey: any, value: any) => {
+    if (value.data[dataKey].ref) {
+      if (data[dataKey] && data[dataKey][value.data[dataKey].refField]) {
+        return <strong>{data[dataKey][value.data[dataKey].refField]}</strong>;
+      } else {
+        return <strong>Không có thông tin nha</strong>;
+      }
+    }
+
+    return <strong>{data[dataKey]}</strong>;
+  };
+
   return data ? (
     <Modal.Body>
       {renderInfo.map((value: any, key: any) => (
@@ -21,7 +34,9 @@ export function MasterEntityDetail({
             <div key={dataKey} className="d-flex">
               <div className="">{intl.formatMessage({ id: value.data[dataKey].title })}:</div>
               <div className="ml-2">
-                <strong>{data[dataKey]}</strong>
+                
+                {getValue(data, dataKey, value)}
+               
               </div>
             </div>
           ))}
