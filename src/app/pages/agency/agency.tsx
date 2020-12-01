@@ -112,8 +112,9 @@ function AgencyPage() {
   const moduleName = 'AGENCY.MODULE_NAME';
   const headerTitle = 'AGENCY.MASTER.HEADER.TITLE';
   const detailTitle = 'COMMON_COMPONENT.DETAIL_DIALOG.HEADER_TITLE.2';
-  const createTitle = 'PURCHASE_ORDER.CREATE.TITLE';
-  const updateTitle = 'PURCHASE_ORDER.UPDATE.TITLE';
+  // const createTitle = 'PURCHASE_ORDER.CREATE.TITLE';
+  // const updateTitle = 'PURCHASE_ORDER.UPDATE.TITLE';
+  const bodyTitle = 'AGENCY.MASTER.BODY.TITLE';
   const history = useHistory();
   const columns = [
     {
@@ -666,6 +667,7 @@ function AgencyPage() {
             }}
           />
           <MasterBody
+            title={bodyTitle}
             onCreate={() => {
               setEditEntity(null);
               setCreateEntity(null);

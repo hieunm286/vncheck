@@ -166,6 +166,7 @@
 
   "AGENCY.MODULE_NAME": "Đơn vị bán hàng",
   "AGENCY.MASTER.HEADER.AGENCY_INFO": "Thông tin đơn vị",
+  "AGENCY.MASTER.BODY.TITLE": "Danh mục đơn vị bán hàng",
   "AGENCY.VIEW.LABEL.OWNER_NAME": "Tên chủ đơn vị",
   "AGENCY.VIEW.LABEL.OWNER_EMAIL": "Email",
   "AGENCY.VIEW.LABEL.OWNER_PHONE": "Điện thoại liên hệ",
