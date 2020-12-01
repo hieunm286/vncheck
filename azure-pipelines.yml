@@ -14,7 +14,8 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-      docker-compose --env-file deploy/dev/.env.dev -f deploy/dev/docker-dev.yml up --build --force-recreate -V
+      docker-compose --env-file .env.dev -f docker-dev.yml up --build --force-recreate -V
+    workingDirectory: '$(System.DefaultWorkingDirectory)/deploy/dev'
   displayName: 'Build Image'
 - task: PublishBuildArtifacts@1
   inputs:
