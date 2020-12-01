@@ -188,6 +188,7 @@ export function InitMasterProps<T>({
   const [filterProps, setFilterProps] = useState();
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('')
 
   const dispatch = useDispatch();
 
@@ -308,6 +309,8 @@ export function InitMasterProps<T>({
     setTotal,
     loading,
     setLoading,
+    error,
+    setError,
     add,
     update,
     get,

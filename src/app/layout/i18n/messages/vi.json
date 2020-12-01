@@ -164,6 +164,7 @@
   "PURCHASE_ORDER.CREATE.TITLE": "Thêm mới đơn hàng",
   "PURCHASE_ORDER.UPDATE.TITLE": "Cập nhật đơn hàng",
 
+  "AGENCY.MODULE_NAME": "Đơn vị bán hàng",
   "AGENCY.MASTER.HEADER.AGENCY_INFO": "Thông tin đơn vị",
   "AGENCY.VIEW.LABEL.OWNER_NAME": "Tên chủ đơn vị",
   "AGENCY.VIEW.LABEL.OWNER_EMAIL": "Email",
@@ -253,11 +254,13 @@
   "LAND_LOT.MASTER.PLACEHOLDER.LOT_CODE": "Chọn",
   "LAND_LOT.MASTER.PLACEHOLDER.SUB_LOT_CODE": "Chọn",
 
-  "LAND_LOT.CREATE.TITLE": "Tạo lô thửa",
-  "LAND_LOT.EDIT.TITLE": "Chỉnh sửa lô thửa",
+  "LAND_LOT.EDIT.PLACEHOLDER.CODE": "",
+
+  "LAND_LOT.CREATE.TITLE": "TẠO LÔ THỬA MỚI",
+  "LAND_LOT.EDIT.TITLE": "CHỈNH SỬA LÔ THỬA",
   "LAND_LOT.MODULE_NAME": "lô thửa",
-  "LAND_LOT.VIEW.TITLE": "Chỉnh sửa",
-  "LAND_LOT.MASTER.HEADER.TITLE": "Danh sách lô thửa",
+  "LAND_LOT.VIEW.TITLE": "CHI TIẾT",
+  "LAND_LOT.MASTER.HEADER.TITLE": "DANH SÁCH LÔ THỬA",
 
   "LAND_LOT.EDIT.VALIDATION.LOT_CODE_EMPTY": "Mã lô không được để trống",
   "LAND_LOT.EDIT.VALIDATION.LOT_CODE_WRONG_FORMAT": "Mã lô không đúng định dạng",

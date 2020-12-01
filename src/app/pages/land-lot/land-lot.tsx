@@ -109,6 +109,8 @@ function LandLot() {
     setTotal,
     loading,
     setLoading,
+    error,
+    setError,
     add,
     update,
     get,
@@ -306,7 +308,8 @@ function LandLot() {
       data: {
         code: {
           type: 'string',
-          placeholder: intl.formatMessage({ id: 'LAND_LOT.MASTER.PLACEHOLDER.CODE' }),
+          // placeholder: intl.formatMessage({ id: 'LAND_LOT.EDIT.PLACEHOLDER.CODE' }),
+          placeholder: '',
           label: intl.formatMessage({ id: 'LAND_LOT.MASTER.HEADER.CODE' }),
           required: true,
           disabled: true,
@@ -445,11 +448,14 @@ function LandLot() {
         onHide={() => {
           setShowDelete(false);
         }}
+        loading={loading}
+        error={error}
       />
       <DeleteManyEntitiesDialog
         moduleName={moduleName}
         selectedEntities={selectedEntities}
         loading={loading}
+        error={error}
         isShow={showDeleteMany}
         onDelete={deleteMany}
         onHide={() => {
