@@ -72,6 +72,8 @@ function AgencyPage() {
     setTotal,
     loading,
     setLoading,
+    error,
+    setError,
     add, update, get, deleteMany, deleteFn, getAll, refreshData
   } = InitMasterProps<AgencyModel>({
     getServer: Get,
@@ -107,7 +109,7 @@ function AgencyPage() {
     // setEntities([{}]);
   }, [paginationProps, trigger, filterProps]);
 
-  const moduleName = 'PURCHASE_ORDER.CUSTOM.MODULE_NAME';
+  const moduleName = 'AGENCY.MODULE_NAME';
   const headerTitle = 'AGENCY.MASTER.HEADER.TITLE';
   const detailTitle = 'COMMON_COMPONENT.DETAIL_DIALOG.HEADER_TITLE.2';
   const createTitle = 'PURCHASE_ORDER.CREATE.TITLE';
@@ -598,6 +600,8 @@ function AgencyPage() {
         onHide={() => {
           setShowDelete(false);
         }}
+        loading={loading}
+        error={error}
       />
       <DeleteManyEntitiesDialog
         moduleName={moduleName}
@@ -608,6 +612,7 @@ function AgencyPage() {
         onHide={() => {
           setShowDeleteMany(false);
         }}
+        error={error}
       />
       {/* <ModifyEntityDialog
         isShow={showCreate}
