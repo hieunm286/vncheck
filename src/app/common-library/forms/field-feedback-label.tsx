@@ -14,7 +14,7 @@ const inputLabel = ({ label, touched, error, customFeedbackLabel }: FeedBackProp
 //   console.log('err:' + error)
 
   if (touched && error) {
-    console.log('runnn')
+    console.log(touched)
     console.log(error)
     return (
       <div className="invalid-feedback">

@@ -39,14 +39,16 @@ export const generateInitForm = (modifyModel: any, initField?: string, initData?
       initValue[key] = true
     } 
     else if (modifyModel[key].type === 'object') {
-      initValue[key] = {}
-      Object.keys(modifyModel[key]).map(childKey => {
-        if (modifyModel[key][childKey].type === 'string') {
-          initValue[key][childKey] = ''
-        } else if (modifyModel[key][childKey].type === 'number') {
-          initValue[key][childKey] = undefined
-        }
-      })
+      // initValue[key] = {}
+      initValue[key] = generateInitForm(modifyModel[key].data)
+      console.log(generateInitForm(modifyModel[key].data))
+      // Object.keys(modifyModel[key]).map(childKey => {
+      //   if (modifyModel[key][childKey].type === 'string') {
+      //     initValue[key][childKey] = ''
+      //   } else if (modifyModel[key][childKey].type === 'number') {
+      //     initValue[key][childKey] = undefined
+      //   }
+      // })
     }
   });
 
