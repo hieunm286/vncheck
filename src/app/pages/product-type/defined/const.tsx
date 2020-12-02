@@ -43,7 +43,7 @@ export const masterEntityDetailDialog = [
       data: {
         code: {
           type: 'string',
-          placeholder: 'PRODUCT_TYPE.MASTER.TABLE.BARCODE_COLUMN',
+          placeholder: '',
           label: 'PRODUCT_TYPE.MASTER.TABLE.CODE_COLUMN',
           required: true,
           disabled: true,
