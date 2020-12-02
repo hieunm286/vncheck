@@ -37,9 +37,7 @@ export const convertToServer = (entity: any) => {
   });
   
   let _entity = {...entity,
-    storeLevel: {
-      name: entity.storeLevel
-    },
+    storeLevel: entity.storeLevel,
     address: {
       state: entity.state,
       city: entity.city,
@@ -53,12 +51,10 @@ export const convertToServer = (entity: any) => {
       fullName: entity.ownerName,
       //TODO: concencus with backend ownerName
       phone: entity.ownerPhoneNumber,
-      email: entity.email,
+      // email: entity.email,
       gender: entity.gender,
       birthDay: entity.birthDay && entity.birthDay.toString(),
-      role: {
-        name: entity.roleName,
-      }
+      roleId: entity.roleName.value,
     },
     status: entity.status,
   };
@@ -71,9 +67,14 @@ export const convertToServer = (entity: any) => {
 
   delete _entity.username;
   delete _entity.ownerPhoneNumber;
+  delete _entity.ownerName;
   delete _entity.email;
   delete _entity.gender;
   delete _entity.roleName;
+
+  delete _entity.birthDay;
+  delete _entity.defaultShippingAddress;
+
 
 
   return _entity;
