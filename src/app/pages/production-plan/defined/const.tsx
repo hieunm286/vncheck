@@ -86,123 +86,140 @@ export const modifyModel: any[] = [
   {
     title: 'THÔNG TIN CHUNG',
     data: {
-      planCode: {
+      code: {
         type: 'string',
         placeholder: 'Mã kế hoạch',
         label: 'Mã kế hoạch',
         required: true,
         disabled: true,
       },
-      seedingCode: {
+      seeding: {
         type: 'string',
         placeholder: 'Mã gieo giống',
         required: true,
         label: 'Mã gieo giống',
         disabled: true,
       },
-      plantingCode: {
-        type: 'string',
-        placeholder: 'PRODUCT_TYPE.MASTER.TABLE.BARCODE_COLUMN',
-        required: true,
-        label: 'Mã gieo trồng',
-        disabled: true,
+      planting: {
+        type: 'object',
+        data: {
+          code: {
+            type: 'string',
+            placeholder: 'PRODUCT_TYPE.MASTER.TABLE.BARCODE_COLUMN',
+            required: true,
+            label: 'Mã gieo trồng',
+            disabled: true,
+          },
+          estimatedPlantingTime: {
+            type: 'string',
+            placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
+            label: 'Thời gian trồng',
+            disabled: true,
+          },
+          landLot: {
+            type: 'string',
+            placeholder: 'PRODUCT_TYPE.MASTER.TABLE.BARCODE_COLUMN',
+            required: true,
+            label: 'Lô gieo trồng',
+            disabled: true,
+          },
+        },
       },
-      certificates: {
-        type: 'string',
-        placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
-        label: 'Giấy chứng nhận giống',
-        disabled: true,
-      },
-      bill: {
-        type: 'string',
-        placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
-        label: 'Hóa đơn mua hàng',
-        disabled: true,
-      },
-      plantTime: {
-        type: 'string',
-        placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
-        label: 'Thời gian gieo',
-        disabled: true,
-      },
-      growTime: {
-        type: 'string',
-        placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
-        label: 'Thời gian trồng',
-        disabled: true,
-      },
-      plantLand: {
-        type: 'string',
-        placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
-        label: 'Lô gieo ươm',
-        disabled: true,
-      },
-      growLand: {
-        type: 'string',
-        placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
-        label: 'Lô gieo trồng',
-        disabled: true,
-      },
+      // certificates: {
+      //   type: 'string',
+      //   placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
+      //   label: 'Giấy chứng nhận giống',
+      //   disabled: true,
+      // },
+      // bill: {
+      //   type: 'string',
+      //   placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
+      //   label: 'Hóa đơn mua hàng',
+      //   disabled: true,
+      // },
+      // plantTime: {
+      //   type: 'string',
+      //   placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
+      //   label: 'Thời gian gieo',
+      //   disabled: true,
+      // },
     },
   },
   {
     title: '\u00A0',
     data: {
-      farmLocation: {
-        type: 'string',
-        placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
-        label: 'Địa chỉ Farm',
-        disabled: true,
+      planting: {
+        type: 'object',
+        data: {
+          farmLocation: {
+            type: 'object',
+            data: {
+              coordinates: {
+                type: 'string',
+                placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
+                label: 'Địa chỉ farm',
+                disabled: true,
+              },
+            },
+          },
+          species: {
+            type: 'object',
+            data: {
+              name: {
+                type: 'string',
+                placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.PLANTING',
+                label: 'Tên chủng loại',
+                disabled: true,
+              },
+              barcode: {
+                type: 'string',
+                placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.PLANTING',
+                label: 'GTIN',
+                disabled: true,
+              },
+              
+            },
+          },
+          area: {
+            type: 'string',
+            placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.EXPIRY',
+            label: 'Diện tích gieo ươm',
+            disabled: true,
+          },
+          numberOfPlants: {
+            type: 'string',
+            placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.EXPIRY',
+            label: 'Số cây con giống',
+            disabled: true,
+          },
+        },
       },
-      speciesName: {
-        type: 'string',
-        placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.PLANTING',
-        label: 'Tên chủng loại',
-        disabled: true,
-      },
-      barcode: {
-        type: 'string',
-        placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.EXPIRY',
-
-        label: 'GTIN',
-        disabled: true,
-      },
-      plantArea: {
-        type: 'string',
-        placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.EXPIRY',
-        label: 'Diện tích gieo ươm',
-        disabled: true,
-      },
-      growArea: {
-        type: 'string',
-        placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.EXPIRY',
-        label: 'Diện tích gieo trồng',
-        disabled: true,
-      },
-      numberOfPlants: {
-        type: 'string',
-        placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.EXPIRY',
-        label: 'Số cây con giống',
-        disabled: true,
-      },
-      numberOfGrows: {
-        type: 'string',
-        placeholder: 'Số cây con trồng',
-        label: 'GTIN',
-        disabled: true,
-      },
-      plantLocation: {
-        type: 'string',
-        placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.EXPIRY',
-        label: 'Địa điểm Farm giống',
-        disabled: true,
-      },
-      growLocation: {
-        type: 'string',
-        placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.EXPIRY',
-        label: 'Địa điểm Farm trồng',
-        disabled: true,
-      },
+      
+      // growArea: {
+      //   type: 'string',
+      //   placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.EXPIRY',
+      //   label: 'Diện tích gieo trồng',
+      //   disabled: true,
+      // },
+      
+      // numberOfGrows: {
+      //   type: 'string',
+      //   placeholder: 'Số cây con trồng',
+      //   label: 'GTIN',
+      //   disabled: true,
+      // },
+      // plantLocation: {
+      //   type: 'string',
+      //   placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.EXPIRY',
+      //   label: 'Địa điểm Farm giống',
+      //   disabled: true,
+      // },
+      // growLocation: {
+      //   type: 'string',
+      //   placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.EXPIRY',
+      //   label: 'Địa điểm Farm trồng',
+      //   disabled: true,
+      // },
     },
   },
 ];
@@ -211,19 +228,25 @@ export const modifyModel2: any[] = [
   {
     title: 'THÔNG TIN QUẢN TRỊ',
     data: {
-      manager: {
-        type: 'string',
-        placeholder: 'Mã gieo giống',
-        label: 'Thông tin Giám đốc/TGĐ',
-        required: true,
-        disabled: true,
-      },
-      plantLeader: {
-        type: 'string',
-        placeholder: 'Mã gieo giống',
-        required: true,
-        label: 'Tổ trưởng gieo trồng',
-        disabled: true,
+      planting: {
+        type: 'object',
+        data: {
+          manager: {
+            type: 'string',
+            placeholder: 'Mã gieo giống',
+            label: 'Thông tin Giám đốc/TGĐ',
+            required: true,
+            disabled: true,
+          },
+          leader: {
+            type: 'string',
+            placeholder: 'Mã gieo giống',
+            required: true,
+            label: 'Tổ trưởng gieo trồng',
+            disabled: true,
+          },
+      
+        },
       },
     },
   },
@@ -591,7 +614,6 @@ export const masterEntityDetailDialog = [
           title: 'Hình ảnh trước nuôi trồng',
           keyField: 'imageBefore',
           nested: 'path',
-
         },
       ],
       [
@@ -600,7 +622,6 @@ export const masterEntityDetailDialog = [
           title: 'Hình ảnh sau nuôi trồng',
           keyField: 'imageAfter',
           nested: 'path',
-
         },
       ],
     ],

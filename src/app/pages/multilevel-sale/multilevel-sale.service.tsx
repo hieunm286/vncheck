@@ -13,6 +13,8 @@ import {
 
 export const API_URL = API_BASE_URL + '/store-level';
 
+export const API_AGENCY_URL = API_BASE_URL + '/agency';
+
 export const API_URL_TREE_FORMAT = API_URL + '/tree'
 
 export const BULK_API_URL = API_URL + '/bulk'
@@ -34,9 +36,9 @@ export const GetAll: GetAllProps<any> = ({
   });
 };
 
-export const GetAgency = (entity: any, { paginationProps }: any) => {
-  return axios.get(`${API_URL}/${entity._id}/agency`, {
-    params: { ...paginationProps }
+export const GetAgency = ({ agencyParams, paginationProps }: any) => {
+  return axios.get(`${API_AGENCY_URL}`, {
+    params: { ...agencyParams, ...paginationProps }
   })
 }
 

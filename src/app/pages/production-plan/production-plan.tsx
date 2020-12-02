@@ -258,11 +258,11 @@ function ProductionPlan() {
 
   const [noticeModal, setNoticeModal] = useState<boolean>(false);
 
-  const [params, setParams] = useState({ step: 0 })
+  const [params, setParams] = useState({ step: 0 });
 
-    useEffect(() => {
-      getAll(params);
-    }, [paginationProps, trigger, params]);
+  useEffect(() => {
+    getAll(params);
+  }, [paginationProps, trigger, params]);
 
   const columns = {
     _id: {
@@ -273,7 +273,7 @@ function ProductionPlan() {
       ),
       style: { paddingTop: 20 },
     },
-    
+
     seeding: {
       dataField: 'seeding.code',
       text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.PLANT_CODE' })}`,
@@ -287,7 +287,13 @@ function ProductionPlan() {
       dataField: 'planting.code',
       text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.GROW_CODE' })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
-        <Link to={{ pathname: `/production-plan/planting/${row._id}`, state: {seedingCode: row.seeding, ...row.planting} }}>{row.planting.code}</Link>
+        <Link
+          to={{
+            pathname: `/production-plan/planting/${row._id}`,
+            state: { seedingCode: row.seeding, ...row.planting },
+          }}>
+          {row.planting.code}
+        </Link>
       ),
       ...SortColumn,
       classes: 'text-center',
@@ -304,7 +310,9 @@ function ProductionPlan() {
       dataField: 'planting.estimatedHarvestTime',
       text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.HARVEST_DATE' })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
-        <span>{new Intl.DateTimeFormat('en-GB').format(new Date(row.planting.estimatedHarvestTime))}</span>
+        <span>
+          {new Intl.DateTimeFormat('en-GB').format(new Date(row.planting.estimatedHarvestTime))}
+        </span>
       ),
       ...SortColumn,
       classes: 'text-center',
@@ -314,8 +322,14 @@ function ProductionPlan() {
       dataField: 'action',
       text: `${intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.ACTION_COLUMN' })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
-        <Link to="/production-plan/new">
-          <button className="btn btn-primary">+ Tạo mới</button>
+        <Link to={{ pathname: '/production-plan/new', state: row }}>
+          <button
+            className="btn btn-primary"
+            onClick={() => {
+              setEditEntity(row);
+            }}>
+            + Tạo mới
+          </button>
         </Link>
       ),
 
@@ -352,7 +366,9 @@ function ProductionPlan() {
       dataField: 'planting.code',
       text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.GROW_CODE' })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
-        <Link to={{ pathname: `/production-plan/planting/${row._id}`, state: row.planting }}>{row.planting.code}</Link>
+        <Link to={{ pathname: `/production-plan/planting/${row._id}`, state: row.planting }}>
+          {row.planting.code}
+        </Link>
       ),
       ...SortColumn,
       classes: 'text-center',
@@ -378,7 +394,7 @@ function ProductionPlan() {
       dataField: 'process',
       text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.STATUS' })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
-        <span>{row.process === "1" ? "Hoàn thành" : "Chưa hoàn thành"}</span>
+        <span>{row.process === '1' ? 'Hoàn thành' : 'Chưa hoàn thành'}</span>
       ),
       ...SortColumn,
       classes: 'text-center',
@@ -389,9 +405,9 @@ function ProductionPlan() {
       text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.APPROVE_STATUS' })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
         <span>
-          {row.confirmationStatus === "1" && "Đã duyệt"}
-          {row.confirmationStatus === "0" && "Chờ duyệt"}
-          {row.confirmationStatus === "2" && "Từ chối"}
+          {row.confirmationStatus === '1' && 'Đã duyệt'}
+          {row.confirmationStatus === '0' && 'Chờ duyệt'}
+          {row.confirmationStatus === '2' && 'Từ chối'}
         </span>
       ),
       ...SortColumn,
@@ -484,33 +500,37 @@ function ProductionPlan() {
     <React.Fragment>
       <Switch>
         <Route path="/production-plan/new">
-          <ProductionPlanModal
-            show={noticeModal}
-            mode="notice"
-            title="abc"
-            body="xyz"
-            onClose={() => {
-              setNoticeModal(false);
-            }}
-          />
-          <EntityCrudPagePromise
-            entity={createEntity}
-            onModify={addPromise}
-            title={createTitle}
-            // reduxModel="purchaseOrder"
-            code={null}
-            get={() => null}
-            formPart={formPart}
-            allFormField={allFormField}
-            allFormButton={allFormButton}
-            // validation={ProductTypeSchema}
-            // autoFill={{
-            //   field: 'code',
-            //   data: GenerateCode(data),
-            // }}
-            refreshData={refreshData}
-            homePage={homeURL}
-          />
+          {({ history }) => (
+            <>
+              <ProductionPlanModal
+                show={noticeModal}
+                mode="notice"
+                title="abc"
+                body="xyz"
+                onClose={() => {
+                  setNoticeModal(false);
+                }}
+              />
+              <EntityCrudPagePromise
+                entity={history.location.state}
+                onModify={addPromise}
+                title={createTitle}
+                // reduxModel="purchaseOrder"
+                code={null}
+                get={() => null}
+                formPart={formPart}
+                allFormField={allFormField}
+                allFormButton={allFormButton}
+                // validation={ProductTypeSchema}
+                // autoFill={{
+                //   field: 'code',
+                //   data: GenerateCode(data),
+                // }}
+                refreshData={refreshData}
+                homePage={homeURL}
+              />
+            </>
+          )}
         </Route>
         <Route exact path={`/production-plan/:code`}>
           {({ history, match }) => (
