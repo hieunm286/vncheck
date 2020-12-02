@@ -64,10 +64,10 @@ const FormTemplate = ({
 
   const [ search, setSearch ] = useState<any>(formValues);
 
-  useEffect(() => {
-    console.log('oc cho')
-    setSearch(formValues);
-  }, [formValues])
+  // test autofill address
+  // useEffect(() => {
+  //   setSearch(formValues);
+  // }, [formValues])
 
   
 
@@ -138,7 +138,7 @@ const FormTemplate = ({
     if(values.city) {
       setSelectedCity({
         value: values.city, 
-        key: getCodeFromName(Object.values(CITY_LIST).filter((city: any) => { return city.parent_code = selectedState.key }), values.city)
+        key: getCodeFromName(Object.values(CITY_LIST).filter((city: any) => { return city.parent_code === selectedState.key }), values.city)
       });
     }
   },[selectedState]);
@@ -147,7 +147,7 @@ const FormTemplate = ({
     if(values.district) {
       setSelectedDistrict({
         value: values.district, 
-        key: getCodeFromName(Object.values(DISTRICT_LIST).filter((district: any) => { return district.parent_code = selectedCity.key }), values.district)
+        key: getCodeFromName(Object.values(DISTRICT_LIST).filter((district: any) => { return district.parent_code === selectedCity.key }), values.district)
       });
     }
   },[selectedCity]);
@@ -307,7 +307,6 @@ const FormTemplate = ({
 
 
           case 'stateSelect':
-            console.log(values)
             // const stateValues = Object.values(STATE_LIST).map((state: any) => {return {value: state.name, key: state.code}});
             const labelWidth = 4;
             const isHorizontal = true;
