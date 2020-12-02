@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { Modal } from 'react-bootstrap';
-import ModifyEntityDialogForm from '../../../common-library/common-components/modify-entity-dialog-form';
+import ModifyEntityDialogForm from './modify-entity-dialog-form';
 import { useIntl } from 'react-intl';
 import { ModifyModel } from '../../../common-library/common-types/common-type';
 import { ConvertSelectSearch, generateInitForm } from '../../../common-library/helpers/common-function';
 import { DefaultPagination } from '../../../common-library/common-consts/const';
+import ModifyEntityDialogFormAgency from './modify-entity-dialog-form';
 
 function ModifyEntityDialogAgency<T>({
   isShow,
@@ -22,7 +23,7 @@ function ModifyEntityDialogAgency<T>({
   autoFill,
   homePage,
 }: {
-  modifyModel?: any;
+  modifyModel: any;
   title: string;
   isShow: boolean;
   onHide: () => void;
@@ -88,7 +89,8 @@ function ModifyEntityDialogAgency<T>({
         </Modal.Title>
       </Modal.Header>
 
-      <ModifyEntityDialogForm
+      <ModifyEntityDialogFormAgency
+
         modifyModel={modifyModel}
         formPart={formPart}
         validation={validation}

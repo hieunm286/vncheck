@@ -1,14 +1,13 @@
-import React, { ChangeEvent } from 'react';
+import React from 'react';
 import './custom.css';
 import { FieldFeedbackLabel } from './field-feedback-label';
-import { useIntl } from 'react-intl';
 
 const getFieldCSSClasses = (touched: any, errors: any) => {
   const classes = ['form-control'];
 
-  // if (touched && errors) classes.push('is-invalid');
+  if (touched && errors) classes.push('is-invalid');
 
-  // if (touched && errors) classes.push('is-valid');
+  if (touched && errors) classes.push('is-valid');
 
   return classes.join(' ');
 };
@@ -69,7 +68,20 @@ const getTouched = (touched: any, fieldName: string) => {
   return touched[arrName[0]] ? touched[arrName[0]][arrName[1]] : ''
 }
 
-export function SelectField({
+interface MainInputState {
+  field: any; // { name, value, onChange, onBlur }
+  form: { touched: any; errors: any }; // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
+  label: string | any;
+  withFeedbackLabel: any;
+  withValidation: any;
+  customFeedbackLabel: any;
+  isHorizontal: any;
+  labelWidth: any;
+  width: any;
+  type: any;
+}
+
+export function DisplayField({
   field, // { name, value, onChange, onBlur }
   form: { touched, errors }, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
   label,
@@ -79,22 +91,10 @@ export function SelectField({
   isHorizontal,
   labelWidth,
   width,
-  children,
   type = 'text',
+  displayValue,
   ...props
-}: {
-  field : any; // { name, value, onChange, onBlur }
-  form: { touched: any, errors: any }; // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
-  label: any;
-  withFeedbackLabel: any;
-  withValidation: any;
-  customFeedbackLabel: any;
-  isHorizontal: any;
-  labelWidth: any;
-  width: any,
-  children: any,
-  type: any,
-}) {
+}: any) {
   const styleLabe = {
     width: width,
   };
@@ -103,7 +103,8 @@ export function SelectField({
     marginRight: 0,
   };
 
-  const intl = useIntl();
+  // console.log(errors)
+  // console.log(touched)
 
   return (
     <>
@@ -117,21 +118,19 @@ export function SelectField({
         </div>
 
         <div className={isHorizontal && getClassName(labelWidth, false)}>
-        <select
-          className={withFeedbackLabel ? getFieldCSSClasses(touched, errors) : 'form-control'}
-          {...field}
-          {...props}>
-          <option hidden>{intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'})}</option>
-          {children ?
-            children.map((opt: any, key: number) => {
-              return (
-                <option key={opt.key} data-code={opt.key} value={opt.value}>{opt.value}</option>
-              )
-            })
-            :
-            (<></>)
-          }
-        </select>
+          <div
+            // type={type}
+            // style={width && styleInput}
+            // className={
+            //   ['text', 'email', 'file', 'image', 'number'].includes(type)
+            //     ? withFeedbackLabel
+            //       ? getFieldCSSClasses(getTouched(touched, field.name), getError(errors, field.name))
+            //       : 'form-control'
+            //     : ''
+            // }
+            {...field}
+            {...props}
+          >{displayValue}</div>
 
           {withFeedbackLabel && (
             <FieldFeedbackLabel

@@ -32,16 +32,19 @@ export const FormikRadioGroup = ({
   }
   
   ) => {
-  const { setFieldValue, errors, touched } = useFormikContext<any>();
+  const { values, setFieldValue, errors, touched } = useFormikContext<any>();
   // const [field] = useField(props);
 
   const intl = useIntl();
 
-  const [addressesState, setAddressesState] = useState<any>(addresses[0]._id);
+  const [addressesState, setAddressesState] = useState<any>((addresses && addresses.length) ? addresses.find((addr: any) => addr.isDefault === true)._id : '');
   const handleAddressChange = (e : any) => {
-    console.log(e.target.value)
     setAddressesState(e.target.value);
-    setFieldValue('defaultShippingAddress', e.target.value)
+    let defaultAddress = values.shippingAddress.find((addr: any) => { return addr._id === e.target.value});
+    values.shippingAddress = values.shippingAddress.map((addr: any) => {
+      return addr._id === e.target.value ? {...addr, isDefault: true} : {...addr, isDefault:false};
+    })
+    setFieldValue('defaultShippingAddress', getShippingAddress(defaultAddress));
   }
   
   return (
@@ -50,6 +53,7 @@ export const FormikRadioGroup = ({
       <Element name="test7" className="element" id="containerElement" style={{
             position: 'relative',
             height: '200px',
+            padding: '0px 40px 0px 2px',
             overflowY: 'scroll',
             overflowX: 'hidden',
             width: '100%',
@@ -57,6 +61,7 @@ export const FormikRadioGroup = ({
           }}>
         {addresses.map((entity : any, key: any) => (
         <div className="mt-3 row" key={key}>
+          <React.Fragment>
           <div className="col-md-10 col-12">
             <FormControlLabel name="defaultShippingAddress" value={entity._id} control={<StyledRadio />} label={getShippingAddress(entity)} />
           </div>
@@ -77,6 +82,7 @@ export const FormikRadioGroup = ({
               }
               }><DeleteIcon /></Button>
           </div>
+          </React.Fragment>
         </div>
         ))}
         </Element>
@@ -96,6 +102,6 @@ export const FormikRadioGroup = ({
   );
 };
 
-const getShippingAddress = (entity: any) => {
+export const getShippingAddress = (entity: any) => {
   return entity.address + ', ' + entity.district + ', ' + entity.city + ', ' + entity.state;
 }

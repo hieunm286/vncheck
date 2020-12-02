@@ -28,10 +28,13 @@ import * as agencyTypeService from "../agency-type-2/agency-type.service";
 import ModifyEntityPageAgency from './helpers/modify-entity-page-agency';
 import EntityCrudPageAgency from "./helpers/entity-crud-page-agency";
 import * as AgencyService from './agency.service';
-import { ConvertToTreeNode, GenerateAllFormField } from '../../common-library/helpers/common-function';
+import { ConvertStatusToBoolean, ConvertStatusToString, ConvertToTreeNode, GenerateAllFormField } from '../../common-library/helpers/common-function';
 import { Switch, Route, Redirect, useHistory } from 'react-router-dom';
 import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
+import { convertToServer } from "./helpers/convert-data-model";
+import * as StoreLevelService from '../multilevel-sale/multilevel-sale.service';
+import * as RoleService from './helpers/role.service';
 
 function AgencyPage() {
 
@@ -104,16 +107,15 @@ function AgencyPage() {
     getAll(filterProps);
     // setEntities(mock_entities);
     // setEntities([{}]);
-    console.log(entities);
   }, [paginationProps, trigger, filterProps]);
 
   const moduleName = 'AGENCY.MODULE_NAME';
   const headerTitle = 'AGENCY.MASTER.HEADER.TITLE';
   const detailTitle = 'COMMON_COMPONENT.DETAIL_DIALOG.HEADER_TITLE.2';
-  const createTitle = 'PURCHASE_ORDER.CREATE.TITLE';
-  const updateTitle = 'PURCHASE_ORDER.UPDATE.TITLE';
+  // const createTitle = 'PURCHASE_ORDER.CREATE.TITLE';
+  // const updateTitle = 'PURCHASE_ORDER.UPDATE.TITLE';
+  const bodyTitle = 'AGENCY.MASTER.BODY.TITLE';
   const history = useHistory();
-  console.log(entities);
   const columns = [
     {
       dataField: 'ordinal',
@@ -136,7 +138,6 @@ function AgencyPage() {
       dataField: 'address',
       text: `${intl.formatMessage({id: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS_COLUMN'})}`,
       formatter: (cell: any, row: any, rowIndex: number) => {
-        console.log(row)
         return (
         <p>{row.address.district + ',' + row.address.city + ',' + row.address.state}</p> )
       },
@@ -152,7 +153,7 @@ function AgencyPage() {
       dataField: 'status',
       text: `${intl.formatMessage({id: 'PURCHASE_ORDER.MASTER.TABLE.STATUS_COLUMN'})}`,
       ...SortColumn,
-      formatter: (cell: any, row: any) => row.status === "true" ?
+      formatter: (cell: any, row: any) => row.status === "1" ?
         (<CheckCircleIcon style={{color: '#1DBE2D'}}/>) : (<CheckCircleIcon style={{color: '#C4C4C4'}}/>),
     },
     {
@@ -165,7 +166,7 @@ function AgencyPage() {
           get(entity)
             .then(res => {
               setDetailEntity(res.data);
-              setEditEntity(res.data);
+              // setEditEntity(ConvertStatusToBoolean(res.data));
               // Promise.all(
               //   [getUserById(res.data.owner),
               //     agencyTypeService.Get(
@@ -195,8 +196,8 @@ function AgencyPage() {
         },
         onEdit: (entity: AgencyModel) => {
           // setEditEntity(entity);
-          get(entity);
-          setEditEntity(entity);
+          // get(entity);
+          setEditEntity(ConvertStatusToBoolean(entity));
           history.push(`agency/${entity._id}`) // setShowEdit(true);
         }
       },
@@ -208,15 +209,40 @@ function AgencyPage() {
   const purchaseOrderSearchModel: SearchModel = {
     code: {
       type: 'string',
-      placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.PLACEHOLDER',
-      label: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
+      placeholder: 'AGENCY.MASTER.HEADER.AGENCY_CODE.PLACEHOLDER',
+      label: 'AGENCY.MASTER.HEADER.AGENCY_CODE.LABEL',
       keyField: 'code'
-    }, name: {
+    }, 
+    name: {
       type: 'string',
-      placeholder: 'PURCHASE_ORDER.MASTER.HEADER.NAME.PLACEHOLDER',
-      label: 'PURCHASE_ORDER.MASTER.HEADER.NAME.LABEL',
+      placeholder: 'AGENCY.MASTER.HEADER.AGENCY_NAME.PLACEHOLDER',
+      label: 'AGENCY.MASTER.HEADER.AGENCY_NAME.LABEL',
+      keyField: 'name'
+    }, 
+    storeLevel: {
+      type: 'TreeSelect',
+      placeholder: 'AGENCY.EDIT.PLACEHOLDER.SELL_GOOD_LEVEL',
+      label: 'AGENCY.EDIT.LABEL.SELL_GOOD_LEVEL',
+      keyField: 'name'
+    }, 
+    state: {
+      type: 'stateSelect',
+      placeholder: 'AGENCY.EDIT.PLACEHOLDER.STATE',
+      label: 'AGENCY.EDIT.LABEL.STATE',
+      keyField: 'name'
+    }, 
+    city: {
+      type: 'citySelect',
+      placeholder: 'AGENCY.EDIT.PLACEHOLDER.CITY',
+      label: 'AGENCY.EDIT.LABEL.CITY',
       keyField: 'name'
     },
+    district: {
+      type: 'districtSelect',
+      placeholder: 'AGENCY.EDIT.PLACEHOLDER.DISTRICT',
+      label: 'AGENCY.EDIT.LABEL.DISTRICT',
+      keyField: 'name'
+    }
   };
 
 
@@ -330,23 +356,32 @@ function AgencyPage() {
           placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.AGENCY_NAME' }),
           label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.AGENCY_NAME' }),
         },
+        // storeLevel: {
+        //   type: 'SearchSelect',
+        //   placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.SELL_GOOD_LEVEL' }),
+        //   label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.SELL_GOOD_LEVEL' }), 
+        //   service: StoreLevelService,
+        //   keyField: 'name'
+        // },
         storeLevel: {
-          type: 'string',
+          type: 'TreeSelect',
           placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.SELL_GOOD_LEVEL' }),
           label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.SELL_GOOD_LEVEL' }), 
+          service: StoreLevelService,
+          keyField: 'name',
         },
         state: {
-          type: 'string',
+          type: 'stateSelect',
           placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.STATE' }),
           label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.STATE' }), 
         },
         city: {
-          type: 'string',
+          type: 'citySelect',
           placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.CITY' }),
           label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.CITY' }), 
         },
         district: {
-          type: 'string',
+          type: 'districtSelect',
           placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.DISTRICT' }),
           label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.DISTRICT' }), 
         },
@@ -417,9 +452,11 @@ function AgencyPage() {
           label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.BIRTH_DAY' }),
         },
         roleName: {
-          type: 'string',
+          type: 'SearchSelect',
           placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.ROLE_NAME' }),
           label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.ROLE_NAME' }),
+          service: RoleService,
+          keyField: 'name'
         },
         avatar: {
           type: 'image',
@@ -437,9 +474,9 @@ function AgencyPage() {
           label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
         },
         defaultShippingAddress: {
-          type: 'string',
-          placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
-          label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
+          type: 'display',
+          placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.DEFAULT_SHIPPING_ADDRESS' }),
+          label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.DEFAULT_SHIPPING_ADDRESS' }),
         }
       }
     }
@@ -556,7 +593,7 @@ function AgencyPage() {
   };
 
   const allFormField: any = {
-    ...GenerateAllFormField(modifyModel, modifyModel_2, modifyModel_3, modifyModel_4)
+    ...GenerateAllFormField(modifyModel)
   };
 
   return (
@@ -613,10 +650,28 @@ function AgencyPage() {
         <Route path="/agency" exact={true}>
           {/* <MasterHeader title={headerTitle} onSearch={setFilterProps} searchModel={purchaseOrderSearchModel} */}
               {/* initValue={filterProps}/> */}
+          <MasterHeader
+            title={headerTitle}
+            onSearch={setFilterProps}
+            searchModel={purchaseOrderSearchModel}
+            initValue={{
+              code: '',
+              lot: '',
+              subLot: '',
+              // agencyAddress: '',
+              // agency: null,
+              // date: '',
+              // count: 1,
+              // tree: undefined,
+              // tree2: undefined,
+            }}
+          />
           <MasterBody
+            title={bodyTitle}
             onCreate={() => {
+              setEditEntity(null);
               setCreateEntity(null);
-              setShowCreate(true);
+              history.push('/agency/new');// setShowCreate(true);
             }}
             onDeleteMany={() => setShowDeleteMany(true)}
             selectedEntities={selectedEntities}
@@ -629,11 +684,31 @@ function AgencyPage() {
             setPaginationParams={setPaginationProps}
           />
         </Route>
+        <Route path="/agency/new">
+          {({ history, match }) => (
+            <EntityCrudPageAgency
+              entity={createEntity}
+              onModify={(values) => {
+                add(ConvertStatusToString(convertToServer(values)))
+              }}
+              // title={updateTitle}
+              //  modifyModel={modifyModel}
+              // reduxModel="purchaseOrder"
+              code={match && match.params.id}
+              get={AgencyService.GetById}
+              formPart={formPart}
+              allFormField={allFormField}
+              allFormButton={allFormButton}
+            />
+          )}
+        </Route>
         <Route path="/agency/:id">
           {({ history, match }) => (
             <EntityCrudPageAgency
               entity={editEntity}
-              onModify={update}
+              onModify={(values) => {
+                update(ConvertStatusToString(convertToServer(values)))
+              }}
               // title={updateTitle}
               //  modifyModel={modifyModel}
               // reduxModel="purchaseOrder"

@@ -38,6 +38,21 @@ export const generateInitForm = (modifyModel: any, initField?: string, initData?
     else if (modifyModel[key].type === 'boolean') {
       initValue[key] = true
     } 
+    else if (modifyModel[key].type === 'radioGroup') {
+      initValue[key] = [];
+    } else if (modifyModel[key].type === 'display') {
+      initValue[key] = '';
+    } else if (modifyModel[key].type === 'stateSelect') {
+      initValue[key] = '';
+    } else if (modifyModel[key].type === 'citySelect') {
+      initValue[key] = '';
+    } else if (modifyModel[key].type === 'districtSelect') {
+      initValue[key] = '';
+    }  else if (modifyModel[key].type === 'option') {
+      key === 'gender' ? initValue[key] = '1' : initValue[key] = '0' // male gender
+    } 
+    // else {
+    //   initValue[key] = '';
     else if (modifyModel[key].type === 'object') {
       // initValue[key] = {}
       initValue[key] = generateInitForm(modifyModel[key].data)
@@ -50,6 +65,7 @@ export const generateInitForm = (modifyModel: any, initField?: string, initData?
       //   }
       // })
     }
+    
   });
 
   if (initField && initData) {
@@ -101,13 +117,13 @@ export const ConvertToTreeNode = (data: any) => {
   const treeData: any[] = [];
   data.forEach((value: any, key: any) => {
     const treeNode = {
-      title: value.title,
-      value: value.code || value._id,
-      key: value.code || value._id,
-      children: value.child.map((childValue: any, childKey: any) => ({
-        title: childValue.title,
-        value: childValue.code || childValue._id,
-        key: childValue.code || childValue._id,
+      title: value.name,
+      value: value._id,
+      key: value._id,
+      children: value.children && value.children.map((childValue: any, childKey: any) => ({
+        title: childValue.name,
+        value: childValue._id,
+        key: childValue._id,
       })),
     };
 

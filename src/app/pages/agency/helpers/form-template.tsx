@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Field, useFormikContext } from 'formik';
 import { MainInput } from '../../../common-library/forms/main-input';
 import { DatePickerField } from '../../../common-library/forms/date-picker-field';
@@ -12,7 +12,15 @@ import CheckCircleOutlinedIcon from '@material-ui/icons/CheckCircleOutlined';
 import { FormikRadioGroup } from '../../../common-library/forms/radio-group-field';
 import { SwitchField } from '../../../common-library/forms/switch-field';
 import { RadioField } from '../../../common-library/forms/radio-field';
-
+import { DisplayField } from '../../../common-library/forms/display-field';
+import { SelectField } from '../../../common-library/forms/select-field';
+import STATE_LIST from '../../../../_metronic/AdministrativeDivision/state.json';
+import CITY_LIST from '../../../../_metronic/AdministrativeDivision/city.json';
+import DISTRICT_LIST from '../../../../_metronic/AdministrativeDivision/district.json';
+import { useIntl } from 'react-intl';
+import CustomeTreeSelect from '../../../common-library/forms/tree-select';
+import { ConvertToTreeNode } from '../../../common-library/helpers/common-function';
+import * as StoreLevelService from '../../multilevel-sale/multilevel-sale.service';
 
 const FormTemplate = ({
   // entity,
@@ -26,15 +34,12 @@ const FormTemplate = ({
   onChange,
   title,
   column,
-  search,
-  setSearch,
   handleChangeTag,
   handleAddButton,
   handleEditButton,
   handleDeleteButton,
   setShippingAddressEntity,
   formValues,
-  value,
 }: {
   modifyModel: any;
   // title: string;
@@ -47,18 +52,112 @@ const FormTemplate = ({
   onChange?: any;
   title?: string;
   column?: number;
-  search?: any;
-  setSearch?: any;
   handleChangeTag?: any;
   handleAddButton?: any;
   handleEditButton?: any;
   handleDeleteButton?: any;
   setShippingAddressEntity?: any;
   formValues?: any;
-  value: any;
 }) => {
 
-  const { values } = useFormikContext<any>();
+  const { values, setFieldValue } = useFormikContext<any>();
+
+  const [ search, setSearch ] = useState<any>(formValues);
+
+  // prevent role from being null
+  useEffect(() => {
+    setSearch(formValues);
+  }, [formValues])
+
+  
+
+  const [ address, setAddress ] = useState<any>({
+    state: {key: '', value: ''},
+    city: {key: '', value: ''},
+    district: {key: '', value: ''},
+  });
+
+  const [ selectedState, setSelectedState ] = useState<any>({key: '', value: ''});
+  const [ selectedCity, setSelectedCity ] = useState<any>({key: '', value: ''});
+  const [ selectedDistrict, setSelectedDistrict ] = useState<any>({key: '', value: ''});
+
+  
+  const [ stateValues, setStateValues ] = useState<any>([]);
+  const [ cityValues, setCityValues ] = useState<any>([]);
+  const [ districtValues, setDistrictValues ] = useState<any>([]);
+
+  const [ treeSelectValue, setTreeSelectValue ] = useState<any>('');
+  const [ treeData, setTreeData ] = useState<any>([]);
+
+  const intl = useIntl();
+
+  
+  useEffect(() => {
+    treeLoadOptions(StoreLevelService) // treeLoadOptions(modifyModel.data['storeLevel'].service)
+    .then((res: any) => {
+      // console.log(res);
+      // console.log(DataExample)
+      const treeData = ConvertToTreeNode(res);
+      setTreeData(treeData)
+    });
+    
+  },[]);
+
+  useEffect(() => {
+    if(values.storeLevel && values.storeLevel._id) {
+      setTreeSelectValue(values.storeLevel._id)
+    }
+  }, [values.storeLevel])
+
+  // useEffect(() => {
+  //   const stateValues = Object.values(STATE_LIST).map((state: any) => {return {value: state.name, key: state.code}});
+  //   setStateValues(stateValues);
+  // },[]);
+
+  // useEffect(() => {
+  //   const cityValues = selectedState ? Object.values(CITY_LIST).
+  //   filter((city: any) => {return city.parent_code === selectedState.key})
+  //   .map((city: any) => {return {value: city.name, key: city.code}})
+  //  : [];
+  //  setCityValues(cityValues);
+  // },[selectedState]);
+
+  // useEffect(() => {
+  //   const cityValues = selectedState ? Object.values(CITY_LIST).
+  //   filter((city: any) => {return city.parent_code === selectedState.key})
+  //   .map((city: any) => {return {value: city.name, key: city.code}})
+  //  : [];
+  //  setCityValues(cityValues);
+  // },[selectedState]);
+
+  useEffect(() => {
+    if(values.state) {
+      setSelectedState({
+        value: values.state, 
+        key: getCodeFromName(Object.values(STATE_LIST), values.state)
+      });
+    }
+  },[values.state]);
+
+  useEffect(() => {
+    if(values.city) {
+      setSelectedCity({
+        value: values.city, 
+        key: getCodeFromName(Object.values(CITY_LIST).filter((city: any) => { return city.parent_code === selectedState.key }), values.city)
+      });
+    }
+  },[selectedState]);
+
+  useEffect(() => {
+    if(values.district) {
+      setSelectedDistrict({
+        value: values.district, 
+        key: getCodeFromName(Object.values(DISTRICT_LIST).filter((district: any) => { return district.parent_code === selectedCity.key }), values.district)
+      });
+    }
+  },[selectedCity]);
+
+
 
   const dataT: any = [
     {
@@ -129,17 +228,27 @@ const FormTemplate = ({
       page: page,
     };
 
+    if(!service) console.error('search select with undefined service')
     const entities = await service.GetAll({ queryProps, paginationProps });
-    const count = await service.Count({ queryProps });
+    // console.log(entities)
+    // const count = await service.Count({ queryProps });
+    const count = entities.data.length;
+    // console.log(count)
 
-    const hasMore = prevOptions.length < count.data - (DefaultPagination.limit ?? 0);
+    const hasMore = prevOptions.length < count - (DefaultPagination.limit ?? 0);
+
+    // const entities = await service.GetAll({ queryProps, paginationProps });
+    // // const count = onCount ? await onCount({ queryProps }) : await service.Count({ queryProps });
+    // const count = entities.data.paging.total
+    // const hasMore = prevOptions.length < count - (DefaultPagination.limit ?? 0);
 
     // setSearchTerm({ ...searchTerm, [key]: search });
 
-    const data = [...new Set(dataT)];
+    // const data = [...new Set(entities.data)];
+    // console.log(data)
 
     return {
-      options: data.map((e: any) => {
+      options: entities.data.map((e: any) => {
         return { label: e[keyField], value: e._id };
       }),
       hasMore: false,
@@ -149,25 +258,38 @@ const FormTemplate = ({
     };
   };
 
-  
+  const treeLoadOptions = async (
+    service: any,
+  ) => {
+    const queryProps: any = {};
+    // queryProps[keyField] = search;
+    // queryProps = 
+
+    if(!service) console.error('search select with undefined service')
+    const entities = await service.GetAll(
+      {}
+    );
+    return entities.data;
+  };
+
   return (
     <>
-    {value.title && <h6 className="text-primary">{value.title.toUpperCase()}</h6>}
-      {Object.keys(value.data).map(key => {
-        switch (value.data[key].type) {
+    {modifyModel && modifyModel.title && <h6 className="text-primary">{modifyModel.title.toUpperCase()}</h6>}
+      {modifyModel && modifyModel.data && Object.keys(modifyModel.data).map(key => {
+        switch (modifyModel.data[key].type) {
           case 'string':
             return (
               <div className="mt-3" key={key}>
                 <Field
                   name={key}
                   component={MainInput}
-                  placeholder={value.data[key].placeholder}
+                  placeholder={modifyModel.data[key].placeholder}
                   withFeedbackLabel
                   labelWidth={4}
                   isHorizontal
-                  label={value.data[key].label}
-                  disabled={value.data[key].disabled}
-                  required={value.data[key].required}
+                  label={modifyModel.data[key].label}
+                  disabled={modifyModel.data[key].disabled}
+                  required={modifyModel.data[key].required}
                 />
               </div>
             );
@@ -181,12 +303,204 @@ const FormTemplate = ({
                   isHorizontal
                   withFeedbackLabel
                   labelWidth={4}
-                  placeholder={value.data[key].placeholder}
-                  label={value.data[key].label}
-                  required={value.data[key].required}
+                  placeholder={modifyModel.data[key].placeholder}
+                  label={modifyModel.data[key].label}
+                  required={modifyModel.data[key].required}
                 />
               </div>
             );
+
+
+          case 'stateSelect':
+            // const stateValues = Object.values(STATE_LIST).map((state: any) => {return {value: state.name, key: state.code}});
+            const labelWidth = 4;
+            const isHorizontal = true;
+            const label = modifyModel.data[key].label;
+            const withFeedbackLabel = true;
+            const placeholder = modifyModel.data[key].placeholder
+            const required = modifyModel.data[key].required;
+            return (
+              <div className="mt-3" key={`${key}`}>
+                <div className="row">
+                  <div className={'col-md-4 col-xl-4 col-12'}>
+                    {label && (
+                      <label  className={isHorizontal && 'mb-0 input-label mt-2'}>
+                        {label} {withFeedbackLabel && <span className="text-danger">*</span>}
+                      </label>
+                    )}
+                  </div>
+                  <div className={'col-md-8 col-xl-7 col-12'}>
+                    <select
+                      onChange={(e: any) => {
+                          const selectedIndex = e.target.options.selectedIndex;
+                          const key = e.target.options[selectedIndex].getAttribute('data-code')
+                          setSelectedState({value: e.target.value, key: key})
+                          setSelectedCity({value: '', key: ''})
+                          setSelectedDistrict({value: '', key: ''})
+                          setFieldValue('state', e.target.value);
+                        }
+                      }
+                      className={'form-control'}
+                      >
+                      <option hidden>{intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'})}</option>
+                      {1 ?
+                        Object.values(STATE_LIST).map((state: any) => {
+                          return (state.name === values.state) ? (
+                            <option selected key={state.code} data-code={state.code} value={state.name}>{state.name}</option>
+                          ) : (
+                            <option key={state.code} data-code={state.code} value={state.name}>{state.name}</option>
+                          )
+                        })
+                        :
+                        (<></>)
+                      }
+                    </select>
+                  </div>
+                </div>
+                {/* <Field
+                  name={key}
+                  type="number"
+                  value={selectedState.value}
+                  children={stateValues}
+                  onChange={(e: any) => {
+                      const selectedIndex = e.target.options.selectedIndex;
+                      const key = e.target.options[selectedIndex].getAttribute('data-code')
+                      setSelectedState({value: e.target.value, key: key}
+                      )
+                    }
+                  }
+                  component={SelectField}
+                  isHorizontal
+                  withFeedbackLabel
+                  labelWidth={4}
+                  placeholder={value.data[key].placeholder}
+                  label={value.data[key].label}
+                  required={value.data[key].required}
+                /> */}
+              </div>
+            );
+
+          case 'citySelect':
+            return (
+              <div className="mt-3" key={`${key}`}>
+                <div className="row">
+                  <div className={'col-md-4 col-xl-4 col-12'}>
+                    {modifyModel.data[key].label && (
+                      <label  className={'mb-0 input-label mt-2'}>
+                        {modifyModel.data[key].label} {<span className="text-danger">*</span>}
+                      </label>
+                    )}
+                  </div>
+                  <div className={'col-md-8 col-xl-7 col-12'}>
+                    <select
+                        onChange={(e: any) => {
+                          const selectedIndex = e.target.options.selectedIndex;
+                          const key = e.target.options[selectedIndex].getAttribute('data-code')
+                          setSelectedCity({value: e.target.value, key: key})
+                          setSelectedDistrict({value: '', key: ''})
+                          setFieldValue('city', e.target.value);
+                        }
+                      }
+                      className={'form-control'}
+                      >
+                      <option hidden>{intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'})}</option>
+                      {(selectedState && selectedState.key) ?
+                        Object.values(CITY_LIST).filter((city: any) => {return city.parent_code === selectedState.key}).map((city: any) => {
+                          return (city.name === values.city) ? (
+                            <option selected key={city.code} data-code={city.code} value={city.name}>{city.name}</option>
+                          ) : (
+                            <option key={city.code} data-code={city.code} value={city.name}>{city.name}</option>
+                          )
+                        })
+                        :
+                        (<></>)
+                      }
+                    </select>
+                  </div>
+                </div>
+                {/* <Field
+                  name={key}
+                  type="number"
+                  value={selectedCity.value}
+                  children={cityValues}
+                  onChange={(e: any) => {
+                    const selectedIndex = e.target.options.selectedIndex;
+                    const key = e.target.options[selectedIndex].getAttribute('data-code')
+                    setSelectedCity({value: e.target.value, key: key}
+                      )
+                    }
+                  }
+                  component={SelectField}
+                  isHorizontal
+                  withFeedbackLabel
+                  labelWidth={4}
+                  placeholder={value.data[key].placeholder}
+                  label={value.data[key].label}
+                  required={value.data[key].required}
+                /> */}
+              </div>
+            );
+
+          case 'districtSelect':
+            return (
+              <div className="mt-3" key={`${key}`}>
+                <div className="row">
+                  <div className={'col-md-4 col-xl-4 col-12 '}>
+                    {modifyModel.data[key].label && (
+                      <label  className={'mb-0 input-label mt-2'}>
+                        {modifyModel.data[key].label} {<span className="text-danger">*</span>}
+                      </label>
+                    )}
+                  </div>
+                    <div className={'col-md-8 col-xl-7 col-12'}>
+                      <select
+                          onChange={(e: any) => {
+                            const selectedIndex = e.target.options.selectedIndex;
+                            const key = e.target.options[selectedIndex].getAttribute('data-code')
+                            setSelectedDistrict({value: e.target.value, key: key})
+                            setFieldValue('district', e.target.value);
+                          }
+                        }
+                        className={'form-control'}
+                        >
+                        <option hidden>{intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'})}</option>
+                        {(selectedCity && selectedCity.key) ?
+                          Object.values(DISTRICT_LIST).filter((district: any) => {return district.parent_code === selectedCity.key}).map((district: any) => {
+                            return (district.name === values.district) ? (
+                              <option selected key={district.code} data-code={district.code} value={district.name}>{district.name}</option>
+                            ) : (
+                              <option key={district.code} data-code={district.code} value={district.name}>{district.name}</option>
+                            )
+                          })
+                          :
+                          (<></>)
+                        }
+                      </select>
+                    </div>
+                  </div>
+                {/* <Field
+                  name={key}
+                  type="number"
+                  value={selectedDistrict.value}
+                  children={districtValues}
+                  onChange={(e: any) => {
+                    const selectedIndex = e.target.options.selectedIndex;
+                    const key = e.target.options[selectedIndex].getAttribute('data-code')
+                    setSelectedDistrict({value: e.target.value, key: key}
+                      )
+                    }
+                  }
+                  component={SelectField}
+                  isHorizontal
+                  withFeedbackLabel
+                  labelWidth={4}
+                  placeholder={value.data[key].placeholder}
+                  label={value.data[key].label}
+                  required={value.data[key].required}
+                /> */}
+              </div>
+            );
+
           // handle shippingAddress
           case 'array':
             const shippingAddresses = formValues[key];
@@ -206,9 +520,9 @@ const FormTemplate = ({
                     isHorizontal
                     withFeedbackLabel
                     labelWidth={4}
-                    placeholder={value.data[key].placeholder}
-                    label={value.data[key].label}
-                    required={value.data[key].required}
+                    placeholder={modifyModel.data[key].placeholder}
+                    label={modifyModel.data[key].label}
+                    required={modifyModel.data[key].required}
                   />
                 </div>
                 )
@@ -221,17 +535,16 @@ const FormTemplate = ({
                 <DatePickerField
                   name={key}
                   isHorizontal
-                  label={value.data[key].label}
+                  label={modifyModel.data[key].label}
                   labelWidth={4}
                   type="Datetime"
-                  required={value.data[key].required}
+                  required={modifyModel.data[key].required}
                 />
               </div>
             );
           case 'radioGroup':
-            const _shippingAddresses = formValues['shippingAddress'];
-            return _shippingAddresses ? 
-            (
+            const _shippingAddresses = formValues['shippingAddress'] ? formValues['shippingAddress'] : [];
+            return (
               <FormikRadioGroup
                 handleAddButton={handleAddButton}
                 handleEditButton={handleEditButton}
@@ -241,7 +554,7 @@ const FormTemplate = ({
                 name='defaultShippingAddress'
                 addresses={_shippingAddresses}
               />
-            ) : <></>
+            );
           case 'image':
             return (
               <div className="mt-3" key={key}>
@@ -250,10 +563,10 @@ const FormTemplate = ({
                   onChange={(imageList: any, addUpdateIndex: any) => {
                     onChange(imageList, addUpdateIndex, key);
                   }}
-                  label={value.data[key].label}
+                  label={modifyModel.data[key].label}
                   labelWidth={4}
                   isHorizontal={true}
-                  required={value.data[key].required}
+                  required={modifyModel.data[key].required}
                 />
               </div>
             );
@@ -267,12 +580,32 @@ const FormTemplate = ({
                   isHorizontal
                   withFeedbackLabel
                   labelWidth={4}
-                  placeholder={value.data[key].placeholder}
-                  label={value.data[key].label}
-                  required={value.data[key].required}
+                  placeholder={modifyModel.data[key].placeholder}
+                  label={modifyModel.data[key].label}
+                  required={modifyModel.data[key].required}
                 />
               </div>
             );  
+          
+          case 'display':
+            return values && values[key] ?
+            (
+              <div className="mt-3" key={`${key}`}>
+                          
+                <Field
+                  name={key}
+                  displayValue={values[key]}
+                  component={DisplayField}
+                  isHorizontal
+                  withFeedbackLabel
+                  labelWidth={4}
+                  placeholder={modifyModel.data[key].placeholder}
+                  label={modifyModel.data[key].label}
+                  required={modifyModel.data[key].required}
+                />
+              </div>
+            ) :
+            (<></>);
           
           case 'option':
             return values.gender ? (
@@ -283,9 +616,9 @@ const FormTemplate = ({
                   isHorizontal
                   withFeedbackLabel
                   labelWidth={4}
-                  placeholder={value.data[key].placeholder}
-                  label={value.data[key].label}
-                  required={value.data[key].required}
+                  placeholder={modifyModel.data[key].placeholder}
+                  label={modifyModel.data[key].label}
+                  required={modifyModel.data[key].required}
                 />
                 {/* <RadioField 
                   defaultValue={values.gender}
@@ -296,21 +629,21 @@ const FormTemplate = ({
           case 'object':
             return (
               <div className="mt-3" key={key}>
-                {Object.keys(value.data[key]).map(childKey => {
-                  switch (value.data[key][childKey].type) {
+                {Object.keys(modifyModel.data[key]).map(childKey => {
+                  switch (modifyModel.data[key][childKey].type) {
                     case 'string':
                       return (
                         <div className="mt-3" key={childKey}>
                           <Field
                             name={`${key}.${childKey}`}
                             component={MainInput}
-                            placeholder={value.data[key][childKey].placeholder}
+                            placeholder={modifyModel.data[key][childKey].placeholder}
                             withFeedbackLabel
                             labelWidth={4}
                             isHorizontal
-                            label={value.data[key][childKey].label}
-                            disabled={value.data[key][childKey].disabled}
-                            required={value.data[key][childKey].required}
+                            label={modifyModel.data[key][childKey].label}
+                            disabled={modifyModel.data[key][childKey].disabled}
+                            required={modifyModel.data[key][childKey].required}
                           />
                         </div>
                       );
@@ -324,9 +657,9 @@ const FormTemplate = ({
                             isHorizontal
                             withFeedbackLabel
                             labelWidth={4}
-                            placeholder={value.data[key][childKey].placeholder}
-                            label={value.data[key][childKey].label}
-                            required={value.data[key][childKey].required}
+                            placeholder={modifyModel.data[key][childKey].placeholder}
+                            label={modifyModel.data[key][childKey].label}
+                            required={modifyModel.data[key][childKey].required}
                           />
                         </div>
                       );
@@ -339,10 +672,11 @@ const FormTemplate = ({
             return (
               <div className="mt-3" key={key}>
                 <InfiniteSelect
-                  label={value.data[key].label}
+                  label={modifyModel.data[key].label}
                   isHorizontal={true}
                   value={search[key]}
                   onChange={(value: any) => {
+                    console.log(value)
                     setSearch({ ...search, [key]: value });
                     // setSearchTerm({
                     //   ...searchTerm,
@@ -354,26 +688,48 @@ const FormTemplate = ({
                       search,
                       prevOptions,
                       { page },
-                      value.data[key].service,
-                      value.data[key].keyField,
+                      modifyModel.data[key].service,
+                      modifyModel.data[key].keyField,
                       key,
                     )
                   }
-                  refs={value.data[key].ref}
+                  refs={modifyModel.data[key].ref}
                   additional={{
                     page: DefaultPagination.page,
                   }}
                   name={key}
-                  placeholder={value.data[key].placeholder}
+                  placeholder={modifyModel.data[key].placeholder}
                 />
               </div>
             );
+          
+          case 'TreeSelect':
+            return treeSelectValue ? (
+              <div className="mt-3" key={key}>
+                <CustomeTreeSelect
+                  label={modifyModel.data[key].label}
+                  placeholder={modifyModel.data[key].placeholder}
+                  labelWidth={4}
+                  data={treeData}
+                  value={treeSelectValue}
+                  isHorizontal
+                  onChange={(value: any) => {
+                      setTreeSelectValue(value)
+                    }
+                  }
+                  name={key}
+                />
+              </div>
+            ) : (
+              <></>
+            );
+
 
           case 'tag':
             return (
               <div className="mt-3" key={key}>
                 <TagInput
-                  label={value.data[key].label}
+                  label={modifyModel.data[key].label}
                   isHorizontal={true}
                   name={key}
                   handleChange={handleChangeTag}
@@ -420,3 +776,58 @@ const FormTemplate = ({
 }
 
 export default FormTemplate;
+
+export const getCodeFromName = (arr: any[], name: string): number => {
+  const index: number = arr.findIndex(el => el.name === name);
+  if (index === -1) return 10;
+  return arr[index].code;
+};
+
+export const getNameFromCode = (arr: any[], code: number | string) => {
+  const index: number = arr.findIndex(el => el.code === code);
+  if (index === -1) return '';
+  return arr[index].name;
+};
+
+
+
+const DataExample: any = [
+  {
+    _id: 'dlc1',
+    code: 'zz_1',
+    title: 'Đại lý cấp 1',
+    child: [
+      {
+        _id: 'xxx-xxx',
+        code: 'cccc',
+        title: 'Đại lý cấp 2',
+        parentId: 'dlc1',
+      },
+    ],
+  },
+  {
+    _id: 'sieuthi',
+    code: 'abcxyz',
+    title: 'Siêu thị',
+    child: [],
+  },
+  {
+    _id: 'bigC',
+    code: 'dcvf',
+    title: 'Big C',
+    child: [
+      {
+        _id: 'xxx-xxx4',
+        code: 'cvfv',
+        title: 'Đại lý cấp 4',
+        parentId: 'bigC',
+      },
+      {
+        _id: 'xxx-xxx5',
+        code: 'dfs',
+        title: 'Đại lý cấp 5',
+        parentId: 'bigC',
+      },
+    ],
+  },
+];
