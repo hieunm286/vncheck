@@ -18,6 +18,12 @@ steps:
     configMode: 'manual'
     cliProjectKey: 'VnCheckClient'
     cliSources: '.'
+    extraProperties: |
+      # Additional properties that will be passed to the scanner, 
+      # Put one key=value per line, example:
+      # sonar.exclusions=**/*.bin
+      sonar.nodejs.executable="C:\Program Files\nodejs\node.exe"
+
 - task: MGSonarQubeAnalyze@5
 - task: MGSonarQubePublish@5
   inputs:
