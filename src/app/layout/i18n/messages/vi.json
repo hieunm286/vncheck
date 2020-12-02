@@ -256,6 +256,38 @@
   "AGENCY.EDIT.VALIDATION.SHIPPING_ADDRESS_ADDRESS": "Vui lòng nhập địa chỉ",
 
 
+  "AGENCY.VALIDATION.AGENCY_CODE.REQUIRED": "Vui lòng nhập mã đơn vị bán hàng",
+  "AGENCY.VALIDATION.AGENCY_NAME.REQUIRED": "Vui lòng nhập tên đơn vị bán hàng",
+  "AGENCY.VALIDATION.STATE.REQUIRED": "Vui lòng chọn tỉnh/thành phố",
+  "AGENCY.VALIDATION.CITY.REQUIRED": "Vui lòng chọn quận/huyện",
+  "AGENCY.VALIDATION.DISTRICT.REQUIRED": "Vui lòng chọn phường/xã",
+  "AGENCY.VALIDATION.ADDRESS.REQUIRED": "Vui lòng nhập địa chỉ chi tiết",
+  "AGENCY.VALIDATION.PHONE_NUMBER.REQUIRED": "Vui lòng nhập số điện thoại đơn vị bán hàng",
+  "AGENCY.VALIDATION.TAX_ID.REQUIRED": "Vui lòng nhập mã số thuế",
+  "AGENCY.VALIDATION.USER_NAME.REQUIRED": "Vui lòng nhập tên đăng nhập",
+  "AGENCY.VALIDATION.OWNER_NAME.REQUIRED": "Vui lòng nhập tên chủ đơn vị bán hàng",
+  "AGENCY.VALIDATION.OWNER_PHONE_NUMBER.REQUIRED": "Vui lòng nhập số điện thoại chủ đơn vị bán hàng",
+  "AGENCY.VALIDATION.EMAIL.REQUIRED": "Vui lòng nhập địa chỉ thư điện tử",
+  "AGENCY.VALIDATION.GENDER.REQUIRED": "Vui lòng chọn giới tính",
+  "AGENCY.VALIDATION.BIRTH_DAY.REQUIRED": "Vui lòng chọn ngày sinh",
+  "AGENCY.VALIDATION.ROLE_NAME.REQUIRED": "Vui lòng chọn vai trò",
+
+  "AGENCY.VALIDATION.STORE_LEVEL.REQUIRED": "Vui lòng chọn cấp bán hàng",
+  "AGENCY.VALIDATION.STATUS.REQUIRED": "Vui lòng chọn trạng thái",
+  "AGENCY.VALIDATION.BIRTHDAY.REQUIRED": "Vui lòng chọn ngày sinh",
+
+
+  "AGENCY.VALIDATION.AGENCY_CODE.MAX_LENGTH_EXCEEDED": "Mã đơn vị bán hàng không được vượt quá 255 ký tự",
+  "AGENCY.VALIDATION.AGENCY_NAME.MAX_LENGTH_EXCEEDED": "Tên đơn vị bán hàng không được vượt quá 255 ký tự",
+  "AGENCY.VALIDATION.TAX_ID.MAX_LENGTH_EXCEEDED": "Mã số thuế không được vượt quá 100 ký tự",
+  "AGENCY.VALIDATION.USER_NAME.MAX_LENGTH_EXCEEDED": "Tên đăng nhập không được vượt quá 255 ký tự",
+  "AGENCY.VALIDATION.OWNER_NAME.MAX_LENGTH_EXCEEDED": "Tên chủ đơn vị bán hàng không được vượt quá 255 ký tự",
+  "AGENCY.VALIDATION.OWNWER_PHONE_NUMBER.WRONG_EXACT_LENGTH": "Số điện thoại phải đúng chính xác 10 ký tự",
+  "AGENCY.VALIDATION.EMAIL.MAX_LENGTH_EXCEEDED": "Địa chỉ thư điện tử không được vượt quá 255 ký tự",
+
+
+
+
   "LAND_LOT.MASTER.HEADER.CODE": "Mã lô thửa",
   "LAND_LOT.MASTER.HEADER.LOT_CODE": "Mã lô",
   "LAND_LOT.MASTER.HEADER.SUB_LOT_CODE": "Mã thửa",
