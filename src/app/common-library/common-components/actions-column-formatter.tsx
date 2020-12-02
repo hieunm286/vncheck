@@ -8,7 +8,7 @@ import './master-table.scss';
 import { ToAbsoluteUrl } from '../helpers/assets-helpers';
 import { ActionColumnProps } from '../common-types/common-type';
 import { IntlShape } from 'react-intl';
-import { Link } from 'react-router-dom';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 export function ActionsColumnFormatter<T>(
   cellContent: any,
@@ -16,7 +16,6 @@ export function ActionsColumnFormatter<T>(
   rowIndex: number,
   { onShowDetail, onDelete, onEdit, intl }: ActionColumnProps<T> & { intl: IntlShape },
 ) {
-  
   return (
     <>
       <a
@@ -44,10 +43,9 @@ export function ActionsColumnFormatter<T>(
         className="btn btn-icon btn-light btn-hover-primary btn-sm"
         onClick={() => onDelete(row)}>
         <span className="svg-icon svg-icon-md svg-icon-primary">
-          <SVG
-            src={ToAbsoluteUrl('/media/svg/icons/General/Trash.svg')}
-            title={intl.formatMessage({ id: 'COMMON_COMPONENT.MASTER_BODY.TABLE.DELETE_BTN' })}
-          />
+          <span className="svg-icon svg-icon-md svg-icon-primary">
+            <DeleteIcon className="text-primary eye" />
+          </span>
         </span>
       </a>
     </>

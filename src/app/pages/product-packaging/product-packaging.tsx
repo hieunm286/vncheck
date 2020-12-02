@@ -202,6 +202,7 @@ function ProductPackaging() {
       label: 'PRODUCT_PACKAGING.MASTER.TABLE.NAME_COLUMN',
       service: ProductTypeService,
       keyField: 'name',
+      ref: true
     },
   };
 
@@ -340,8 +341,8 @@ function ProductPackaging() {
         validation={ProductPackagingSchema}
         error={error}
         autoFill={{
-          field: 'code',
-          data: GenerateCode(data),
+          field: '',
+          data: null,
           searchSelectField: [{ field: 'species', ref: { prop: 'species', key: 'name' } }],
         }}
         homePage={homeURL}
@@ -354,10 +355,14 @@ function ProductPackaging() {
               setPaginationProps(DefaultPagination)
               setFilterProps(value)
             }}
+            onReset={() => {
+              setPaginationProps(DefaultPagination)
+              setFilterProps(undefined)
+            }}
             searchModel={productTypeSearchModel}
             initValue={{
               code: '',
-              name: '',
+              species: '',
             }}
           />
           <MasterBody

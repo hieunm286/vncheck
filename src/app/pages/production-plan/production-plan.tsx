@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import {
   DefaultPagination,
@@ -45,7 +45,7 @@ const moduleName = 'PRODUCT_TYPE.MODULE_NAME';
 const deleteDialogTitle = 'PRODUCT_TYPE.DELETE_DIALOG.TITLE';
 const createTitle = 'PRODUCT_TYPE.CREATE.TITLE';
 const updateTitle = 'PURCHASE_ORDER.UPDATE.TITLE';
-const homeURL = `${window.location.pathname}`;
+const homeURL = `/production-plan`;
 
 const data = [
   {
@@ -258,9 +258,11 @@ function ProductionPlan() {
 
   const [noticeModal, setNoticeModal] = useState<boolean>(false);
 
-  //   useEffect(() => {
-  //     getAll(filterProps);
-  //   }, [paginationProps, trigger, filterProps]);
+  const [params, setParams] = useState({ step: 0 })
+
+    useEffect(() => {
+      getAll(params);
+    }, [paginationProps, trigger, params]);
 
   const columns = {
     _id: {
@@ -271,11 +273,12 @@ function ProductionPlan() {
       ),
       style: { paddingTop: 20 },
     },
+    
     seeding: {
       dataField: 'seeding.code',
       text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.PLANT_CODE' })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
-        <Link to={`/production-plan/seeding/${row._id}`}>{row.seeding.code}</Link>
+        <Link to={`/production-plan/seeding/${row._id}`}>{row.code}</Link>
       ),
       ...SortColumn,
       classes: 'text-center',
@@ -284,14 +287,14 @@ function ProductionPlan() {
       dataField: 'planting.code',
       text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.GROW_CODE' })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
-        <Link to={`/production-plan/planting/${row._id}`}>{row.planting.code}</Link>
+        <Link to={{ pathname: `/production-plan/planting/${row._id}`, state: {seedingCode: row.seeding, ...row.planting} }}>{row.planting.code}</Link>
       ),
       ...SortColumn,
       classes: 'text-center',
     },
 
     species: {
-      dataField: 'seeding.species.name',
+      dataField: 'planting.species.name',
       text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.SPECIES_NAME' })}`,
       ...SortColumn,
       classes: 'text-center',
@@ -301,7 +304,7 @@ function ProductionPlan() {
       dataField: 'planting.estimatedHarvestTime',
       text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.HARVEST_DATE' })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
-        <td>{new Intl.DateTimeFormat('en-GB').format(row.estimatedHarvestTime)}</td>
+        <span>{new Intl.DateTimeFormat('en-GB').format(new Date(row.planting.estimatedHarvestTime))}</span>
       ),
       ...SortColumn,
       classes: 'text-center',
@@ -330,11 +333,17 @@ function ProductionPlan() {
       ),
       style: { paddingTop: 20 },
     },
+    code: {
+      dataField: 'code',
+      text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.CODE' })}`,
+      ...SortColumn,
+      classes: 'text-center',
+    },
     seeding: {
       dataField: 'seeding.code',
       text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.PLANT_CODE' })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
-        <Link to={`/production-plan/seeding/${row._id}`}>{row.seeding.code}</Link>
+        <Link to={`/production-plan/seeding/${row._id}`}>{row.code}</Link>
       ),
       ...SortColumn,
       classes: 'text-center',
@@ -343,23 +352,23 @@ function ProductionPlan() {
       dataField: 'planting.code',
       text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.GROW_CODE' })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
-        <Link to={`/production-plan/planting/${row._id}`}>{row.planting.code}</Link>
+        <Link to={{ pathname: `/production-plan/planting/${row._id}`, state: row.planting }}>{row.planting.code}</Link>
       ),
       ...SortColumn,
       classes: 'text-center',
     },
     species: {
-      dataField: 'seeding.species.name',
+      dataField: 'planting.species.name',
       text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.SPECIES_NAME' })}`,
       ...SortColumn,
       classes: 'text-center',
       headerClasses: 'text-center',
     },
     createdAt: {
-      dataField: 'createAt',
+      dataField: 'createdAt',
       text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.CREATE_DATE' })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
-        <td>{new Intl.DateTimeFormat('en-GB').format(row.createdAt)}</td>
+        <span>{new Intl.DateTimeFormat('en-GB').format(new Date(row.createdAt))}</span>
       ),
       ...SortColumn,
       classes: 'text-center',
@@ -368,6 +377,9 @@ function ProductionPlan() {
     process: {
       dataField: 'process',
       text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.STATUS' })}`,
+      formatter: (cell: any, row: any, rowIndex: number) => (
+        <span>{row.process === "1" ? "Hoàn thành" : "Chưa hoàn thành"}</span>
+      ),
       ...SortColumn,
       classes: 'text-center',
       headerClasses: 'text-center',
@@ -375,6 +387,13 @@ function ProductionPlan() {
     confirmationStatus: {
       dataField: 'confirmationStatus',
       text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.APPROVE_STATUS' })}`,
+      formatter: (cell: any, row: any, rowIndex: number) => (
+        <span>
+          {row.confirmationStatus === "1" && "Đã duyệt"}
+          {row.confirmationStatus === "0" && "Chờ duyệt"}
+          {row.confirmationStatus === "2" && "Từ chối"}
+        </span>
+      ),
       ...SortColumn,
       classes: 'text-center',
       headerClasses: 'text-center',
@@ -406,9 +425,9 @@ function ProductionPlan() {
   const TabData = [
     {
       tabTitle: 'Chờ tạo',
-      entities: data,
+      entities: entities,
       columns: columns,
-      total: data.length,
+      total: entities.length,
       loading: loading,
       paginationParams: paginationProps,
       setPaginationParams: setPaginationProps,
@@ -417,9 +436,9 @@ function ProductionPlan() {
     },
     {
       tabTitle: 'Theo dõi',
-      entities: data,
+      entities: entities,
       columns: columns2,
-      total: data.length,
+      total: entities.length,
       loading: loading,
       paginationParams: paginationProps,
       setPaginationParams: setPaginationProps,
@@ -523,13 +542,14 @@ function ProductionPlan() {
         <Route exact path="/production-plan/planting/:code">
           {({ history, match }) => (
             <MasterEntityDetailPage
-              entity={detailEntity}
+              entity={history.location.state}
               renderInfo={masterEntityDetailDialog}
               onClose={() => {
                 setShowDetail(false);
               }}
               mode="line"
               title="THÔNG TIN GIEO TRỒNG"
+              homeURL={homeURL}
             />
           )}
         </Route>

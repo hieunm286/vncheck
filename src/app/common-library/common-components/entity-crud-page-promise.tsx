@@ -132,7 +132,7 @@ function EntityCrudPagePromise({
       })
       .catch(error => {
         setSubmitting(false);
-        setErrorMsg(JSON.stringify(error));
+        setErrorMsg(error.data || error.response.data);
         notify(JSON.stringify(error));
       });
   };

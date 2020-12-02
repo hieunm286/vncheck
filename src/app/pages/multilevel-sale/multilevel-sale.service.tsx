@@ -34,6 +34,12 @@ export const GetAll: GetAllProps<any> = ({
   });
 };
 
+export const GetAgency = (entity: any, { paginationProps }: any) => {
+  return axios.get(`${API_URL}/${entity._id}/agency`, {
+    params: { ...paginationProps }
+  })
+}
+
 export const Count: CountProps<any> = ({
   queryProps,
   sortList,

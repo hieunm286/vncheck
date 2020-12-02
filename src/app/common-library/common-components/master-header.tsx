@@ -28,11 +28,13 @@ export function MasterHeader<T>({
   initValue,
   stringOnChange,
   searchSelectOnChange,
+  onReset
 }: {
   searchModel: SearchModel;
   title: string;
   initValue: any;
   onSearch: (data: any) => void;
+  onReset?: () => void;
   stringOnChange?: (e: ChangeEvent<HTMLInputElement>, searchM: any, search: any, onChange: any, key: string, handleChange: any, setFieldValue: any, setIsDisabled: any, isDisabeld: any) => void;
   searchSelectOnChange?: (
     value: any,
@@ -145,7 +147,9 @@ export function MasterHeader<T>({
             console.log(values);
           }}
           onReset={data => {
-            onSearch(data);
+            if (onReset) {
+              onReset()
+            }
           }}>
           {({ values, handleSubmit, handleBlur, handleChange, setFieldValue, resetForm }) => (
             <form onSubmit={handleSubmit} className="form form-label-right">
