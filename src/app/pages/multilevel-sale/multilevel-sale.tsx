@@ -167,6 +167,9 @@ function MultilevelSale() {
   const [agencyParams, setAgencyParams] = useState({
     storeLevel: '',
   });
+  const [showdeleteAgency, setShowDeleteAgency] = useState(false)
+  const [deleteAgency, setDeleteAgency] = useState<any>(null);
+  const [refresh, setRefresh] = useState(false)
 
   useEffect(() => {
     getAll(filterProps);
@@ -184,7 +187,7 @@ function MultilevelSale() {
         console.log(err);
         setAgencyLoading(false)
       });
-  }, [paginationProps, agencyParams]);
+  }, [paginationProps, agencyParams, refresh]);
 
   const columns = {
     _id: {
@@ -216,8 +219,8 @@ function MultilevelSale() {
         intl,
 
         onDelete: (entity: any) => {
-          setDeleteEntity(entity);
-          setShowDelete(true);
+          setDeleteAgency(entity);
+          setShowDeleteAgency(true);
         },
       },
       ...NormalColumn,
@@ -293,6 +296,17 @@ function MultilevelSale() {
     setAgencyParams({ storeLevel: entity._id });
   };
 
+  const onDeleteAgency = (entity: any) => {
+    setAgencyLoading(true);
+    MultilevelSaleService.DeleteAgency(entity).then(res => {
+      setAgencyLoading(false)
+      setShowDeleteAgency(false)
+      setRefresh(!refresh) 
+    }).catch(err => {
+      setAgencyLoading(false)
+    })
+  }
+
   return (
     <React.Fragment>
       <DeleteEntityDialog
@@ -304,6 +318,18 @@ function MultilevelSale() {
         error={error}
         onHide={() => {
           setShowDelete(false);
+        }}
+        title={deleteDialogTitle}
+      />
+      <DeleteEntityDialog
+        moduleName={moduleName}
+        entity={deleteAgency}
+        onDelete={onDeleteAgency}
+        isShow={showdeleteAgency}
+        loading={agencyLoading}
+        error={error}
+        onHide={() => {
+          setShowDeleteAgency(false);
         }}
         title={deleteDialogTitle}
       />
