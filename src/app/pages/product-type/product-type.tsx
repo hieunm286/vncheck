@@ -346,10 +346,10 @@ function ProductType() {
             allFormField={allFormField}
             allFormButton={allFormButton}
             validation={ProductTypeSchema}
-            autoFill={{
-              field: 'code',
-              data: GenerateCode(data),
-            }}
+            // autoFill={{
+            //   field: 'code',
+            //   data: GenerateCode(data),
+            // }}
             refreshData={refreshData}
             homePage={homeURL}
           />

@@ -19,4 +19,5 @@ export interface MultilevelSaleBodyProp {
     onCreate?: (entity: any) => void;
     onEdit?: (entity: any) => void;
     onDelete?: (entity: any) => void; 
+    onFetchAgency?: (entity: any) => void;
 }

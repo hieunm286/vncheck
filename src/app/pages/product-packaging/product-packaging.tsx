@@ -135,7 +135,7 @@ function ProductPackaging() {
       classes: 'text-center',
     },
     name: {
-      dataField: 'species.name',
+      dataField: 'species',
       text: `${intl.formatMessage({ id: 'PRODUCT_PACKAGING.MASTER.TABLE.NAME_COLUMN' })}`,
       ...SortColumn,
       formatter: (cell: any, row: any, rowIndex: any) => {
@@ -202,6 +202,7 @@ function ProductPackaging() {
       label: 'PRODUCT_PACKAGING.MASTER.TABLE.NAME_COLUMN',
       service: ProductTypeService,
       keyField: 'name',
+      ref: true
     },
   };
 
@@ -211,27 +212,26 @@ function ProductPackaging() {
       data: {
         code: {
           type: 'string',
-          placeholder: intl.formatMessage({ id: 'COMMON_COMPONENT.INPUT.PLACEHOLDER' }),
-          label: intl.formatMessage({ id: 'PRODUCT_PACKAGING.MASTER.TABLE.CODE_COLUMN' }),
+          placeholder: '',
+          label: 'PRODUCT_PACKAGING.MASTER.TABLE.CODE_COLUMN',
           required: true,
           disabled: true,
         },
         species: {
           type: 'SearchSelect',
-          placeholder: intl.formatMessage({ id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER' }),
+          placeholder: 'COMMON_COMPONENT.SELECT.PLACEHOLDER',
           required: true,
-          label: intl.formatMessage({ id: 'PRODUCT_PACKAGING.MASTER.TABLE.NAME_COLUMN' }),
+          label: 'PRODUCT_PACKAGING.MASTER.TABLE.NAME_COLUMN',
           service: ProductTypeService,
           keyField: 'name',
           ref: true
         },
         weight: {
           type: 'number',
-          placeholder: intl.formatMessage({
-            id: 'COMMON_COMPONENT.INPUT.PLACEHOLDER',
-          }),
+          placeholder: 'COMMON_COMPONENT.INPUT.PLACEHOLDER',
+          
           required: true,
-          label: intl.formatMessage({ id: 'PRODUCT_PACKAGING.MASTER.TABLE.GRAM_COLUMN' }),
+          label: 'PRODUCT_PACKAGING.MASTER.TABLE.GRAM_COLUMN',
         },
       },
     },
@@ -318,8 +318,8 @@ function ProductPackaging() {
         validation={ProductPackagingSchema}
         error={error}
         autoFill={{
-          field: 'code',
-          data: GenerateCode(data),
+          field: '',
+          data: null,
         }}
         homePage={homeURL}
       />
@@ -340,8 +340,8 @@ function ProductPackaging() {
         validation={ProductPackagingSchema}
         error={error}
         autoFill={{
-          field: 'code',
-          data: GenerateCode(data),
+          field: '',
+          data: null,
           searchSelectField: [{ field: 'species', ref: { prop: 'species', key: 'name' } }],
         }}
         homePage={homeURL}
@@ -354,10 +354,14 @@ function ProductPackaging() {
               setPaginationProps(DefaultPagination)
               setFilterProps(value)
             }}
+            onReset={() => {
+              setPaginationProps(DefaultPagination)
+              setFilterProps(undefined)
+            }}
             searchModel={productTypeSearchModel}
             initValue={{
               code: '',
-              name: '',
+              species: '',
             }}
           />
           <MasterBody

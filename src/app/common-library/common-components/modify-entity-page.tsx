@@ -160,7 +160,7 @@ function ModifyEntityPage<T>({
                         <Field
                           name={prevKey !== '' ? `${prevKey}.${key}` : key}
                           component={MainInput}
-                          placeholder={intl.formatMessage({ id: value.data[key].placeholder })}
+                          placeholder={value.data[key].placeholder === '' ? value.data[key].placeholder : intl.formatMessage({ id: value.data[key].placeholder })}
                           withFeedbackLabel
                           labelWidth={4}
                           isHorizontal
@@ -345,7 +345,7 @@ function ModifyEntityPage<T>({
                             page: DefaultPagination.page,
                           }}
                           name={prevKey !== '' ? `${prevKey}.${key}` : key}
-                          placeholder={value.data[key].placeholder}
+                          placeholder={intl.formatMessage({ id: value.data[key].placeholder })}
                         />
                       </div>
                     );

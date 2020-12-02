@@ -256,7 +256,7 @@ export function InitMasterProps<T>({
           const data: any = getAllResponse.data
           setEntities(data.data ? data.data : data);
             setLoading(false);
-            setTotal(data.paging.total);
+            setTotal(data.paging ? data.paging.total : 5);
         })
         .catch(error => {
           console.log(error);

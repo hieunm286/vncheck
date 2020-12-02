@@ -13,6 +13,8 @@ import {
 
 export const API_URL = API_BASE_URL + '/store-level';
 
+export const API_AGENCY_URL = API_BASE_URL + '/agency';
+
 export const API_URL_TREE_FORMAT = API_URL + '/tree'
 
 export const BULK_API_URL = API_URL + '/bulk'
@@ -33,6 +35,12 @@ export const GetAll: GetAllProps<any> = ({
     // paramsSerializer: ParamsSerializer
   });
 };
+
+export const GetAgency = ({ agencyParams, paginationProps }: any) => {
+  return axios.get(`${API_AGENCY_URL}`, {
+    params: { ...agencyParams, ...paginationProps }
+  })
+}
 
 export const Count: CountProps<any> = ({
   queryProps,
@@ -64,3 +72,7 @@ export const DeleteMany: DeleteManyProps<any> = (entities: any[]) => {
     data: { listSpecies: entities },
   });
 };
+
+export const DeleteAgency = (entity: any) => {
+  return axios.delete(`${API_AGENCY_URL}/${entity._id}`);
+}

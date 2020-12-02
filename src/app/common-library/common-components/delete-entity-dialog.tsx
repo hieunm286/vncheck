@@ -64,11 +64,7 @@ export function DeleteEntityDialog<T>({
         {loading && <span>{intl.formatMessage({ id: deletingMessage })}</span>}
         {!loading && error !== '' && (
           <>
-            <p>
-              {
-                error
-              }
-            </p>
+            <p>{error}</p>
           </>
         )}
       </Modal.Body>
@@ -76,12 +72,22 @@ export function DeleteEntityDialog<T>({
       <Modal.Footer>
         <button type="button" className="btn btn-primary" onClick={e => onDelete(entity)}>
           <DeleteIcon style={iconStyle} />
+          {'\u00A0'}
           {intl.formatMessage({ id: deleteBtn })}
         </button>
 
         <button type="button" onClick={onHide} className="btn btn-outline-primary">
+          {'\u00A0'}
+          {'\u00A0'}
+          {'\u00A0'}
+          {'\u00A0'}
           <CancelOutlinedIcon style={iconStyle} />
+          {'\u00A0'}
           {intl.formatMessage({ id: cancelBtn })}
+          {'\u00A0'}
+          {'\u00A0'}
+          {'\u00A0'}
+          {'\u00A0'}
         </button>
       </Modal.Footer>
     </Modal>

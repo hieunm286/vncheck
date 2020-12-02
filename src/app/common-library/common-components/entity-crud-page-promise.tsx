@@ -96,6 +96,7 @@ function EntityCrudPagePromise({
     }
   }, [code]);
 
+  console.log(entityForEdit)
 
 
   const notify = (error: string) => {
@@ -132,8 +133,8 @@ function EntityCrudPagePromise({
       })
       .catch(error => {
         setSubmitting(false);
-        setErrorMsg(JSON.stringify(error));
-        notify(JSON.stringify(error));
+        setErrorMsg(error.data || error.response.data);
+        notify(error.data || error.response.data);
       });
   };
 
