@@ -114,22 +114,6 @@ const dataT: any = [
   },
 ];  
 
-  function genCharArray(charA: any, charZ: any) {
-    let a = [], i = charA.charCodeAt(0), j = charZ.charCodeAt(0);
-    for (; i <= j; ++i) {
-        a.push(String.fromCharCode(i));
-    }
-    return a;
-  }
-
-  function genNumberArray(start: number, end: number) {
-    let numberArray: any[] = [];
-    for(let i = start; i <= end; i++) {
-      let formattedNumber = ("0" + i).slice(-2);
-      numberArray.push(formattedNumber)
-    }
-    return numberArray;
-  }
 
   const loadOptions = async (
     search: string,
@@ -370,7 +354,11 @@ const dataT: any = [
                                   setSearch({...search, [key]: {label: enteredValue, name: enteredValue}});
                                   // handleChange(e);
                                   setFieldValue('lot', {label: enteredValue, name: enteredValue});
-                                  setFieldValue('code', enteredValue);
+                                  if(values.subLot) {
+                                    setFieldValue('code', enteredValue + values.subLot);
+                                  } else {
+                                    setFieldValue('code', enteredValue);
+                                  }
                                 }
                                 else if(key === 'subLot'
                                   &&  (enteredValue.length <=2
@@ -466,3 +454,21 @@ const dataT: any = [
 }
 
 export default ModifyEntityPageLandLot;
+
+
+export function genCharArray(charA: any, charZ: any) {
+  let a = [], i = charA.charCodeAt(0), j = charZ.charCodeAt(0);
+  for (; i <= j; ++i) {
+      a.push(String.fromCharCode(i));
+  }
+  return a;
+}
+
+export function genNumberArray(start: number, end: number) {
+  let numberArray: any[] = [];
+  for(let i = start; i <= end; i++) {
+    let formattedNumber = ("0" + i).slice(-2);
+    numberArray.push(formattedNumber)
+  }
+  return numberArray;
+}
