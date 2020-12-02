@@ -212,27 +212,26 @@ function ProductPackaging() {
       data: {
         code: {
           type: 'string',
-          placeholder: intl.formatMessage({ id: 'COMMON_COMPONENT.INPUT.PLACEHOLDER' }),
-          label: intl.formatMessage({ id: 'PRODUCT_PACKAGING.MASTER.TABLE.CODE_COLUMN' }),
+          placeholder: '',
+          label: 'PRODUCT_PACKAGING.MASTER.TABLE.CODE_COLUMN',
           required: true,
           disabled: true,
         },
         species: {
           type: 'SearchSelect',
-          placeholder: intl.formatMessage({ id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER' }),
+          placeholder: 'COMMON_COMPONENT.SELECT.PLACEHOLDER',
           required: true,
-          label: intl.formatMessage({ id: 'PRODUCT_PACKAGING.MASTER.TABLE.NAME_COLUMN' }),
+          label: 'PRODUCT_PACKAGING.MASTER.TABLE.NAME_COLUMN',
           service: ProductTypeService,
           keyField: 'name',
           ref: true
         },
         weight: {
           type: 'number',
-          placeholder: intl.formatMessage({
-            id: 'COMMON_COMPONENT.INPUT.PLACEHOLDER',
-          }),
+          placeholder: 'COMMON_COMPONENT.INPUT.PLACEHOLDER',
+          
           required: true,
-          label: intl.formatMessage({ id: 'PRODUCT_PACKAGING.MASTER.TABLE.GRAM_COLUMN' }),
+          label: 'PRODUCT_PACKAGING.MASTER.TABLE.GRAM_COLUMN',
         },
       },
     },
@@ -319,8 +318,8 @@ function ProductPackaging() {
         validation={ProductPackagingSchema}
         error={error}
         autoFill={{
-          field: 'code',
-          data: GenerateCode(data),
+          field: '',
+          data: null,
         }}
         homePage={homeURL}
       />
