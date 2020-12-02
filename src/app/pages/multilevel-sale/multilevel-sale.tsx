@@ -301,7 +301,7 @@ function MultilevelSale() {
     MultilevelSaleService.DeleteAgency(entity).then(res => {
       setAgencyLoading(false)
       setShowDeleteAgency(false)
-      setRefresh(!refresh)
+      setRefresh(!refresh) 
     }).catch(err => {
       setAgencyLoading(false)
     })
