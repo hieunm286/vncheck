@@ -5,6 +5,8 @@ import { MasterTable } from '../../common-library/common-components/master-table
 import MasterTreeStructure from '../../common-library/common-components/master-tree-structure';
 import { MultilevelSaleBodyProp } from './multilevel-sale.model';
 import AddIcon from '@material-ui/icons/Add';
+import './style/multilevel-sale.scss'
+
 const MultiLevelSaleBody: React.FC<MultilevelSaleBodyProp> = ({ title, data, body, onCreate, onEdit, onDelete, onFetchAgency }) => {
   const intl = useIntl();
 
@@ -23,7 +25,7 @@ const MultiLevelSaleBody: React.FC<MultilevelSaleBodyProp> = ({ title, data, bod
               case 'Tree':
                 return (
                   <Fragment key={key}>
-                    <div className={`col-xl-${(12 / body.length - 1)} col-12 border border-primary p-5 mr-md-5`}>
+                    <div className={`col-xl-${(12 / body.length - 1)} col-12 p-5 mr-xl-5 layout`}>
                       <p>{item.title} <span className="text-primary" style={{ cursor: 'pointer' }} onClick={() => {if (onCreate) {onCreate(null)}}}><AddIcon /></span></p>
                       <MasterTreeStructure data={item.data} onCreate={onCreate} onEdit={onEdit} onDelete={onDelete} onFetchAgency={onFetchAgency} />
                     </div>
@@ -33,7 +35,7 @@ const MultiLevelSaleBody: React.FC<MultilevelSaleBodyProp> = ({ title, data, bod
               case 'Table':
                 return (
                   <Fragment key={key}>
-                    <div className={`col-xl-${(12 / body.length)} col-12 border border-primary p-5 ml-md-5`}>
+                    <div className={`col-xl-${(12 / body.length)} col-12 p-5 ml-xl-5 layout`}>
                       <p>{item.title}</p>
 
                       <MasterTable
