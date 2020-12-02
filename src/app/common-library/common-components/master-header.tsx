@@ -33,6 +33,7 @@ export function MasterHeader<T>({
   initValue,
   stringOnChange,
   searchSelectOnChange,
+  customSearchSelectLoadOption,
   onReset
 }: {
   searchModel: SearchModel;
@@ -52,6 +53,14 @@ export function MasterHeader<T>({
     setFieldValue: any, 
     setIsDisabled: any, 
     isDisabled: any) => void;
+  customSearchSelectLoadOption?: (
+    search: string,
+    prevOptions: any,
+    { page }: any,
+    service: any,
+    keyField: string,
+    key: string,
+  ) => void;
 }) {
   const intl = useIntl();
 
@@ -298,18 +307,32 @@ export function MasterHeader<T>({
                                 // });
                               }}
                               loadOptions={(search: string, prevOptions: any, { page }: any) =>
-                                loadOptions(
-                                  search,
-                                  prevOptions,
-                                  { page },
-                                  {
-                                    service: searchM[key].service,
-                                    keyField: searchM[key].keyField,
-                                    key: key,
-                                  },
-                                  {}
+                                {
+                                  if(customSearchSelectLoadOption) {
+                                    return customSearchSelectLoadOption(
+                                      search,
+                                      prevOptions,
+                                      { page },
+                                      searchM[key].service,
+                                      searchM[key].keyField,
+                                      key,
+                                    )
+                                  } else {
+                                    return loadOptions(
+                                      search,
+                                      prevOptions,
+                                      { page },
+                                      {
+                                        service: searchM[key].service,
+                                        keyField: searchM[key].keyField,
+                                        key: key,
+                                      },
+                                      {}
+                                      
+                                    )
+                                  }
                                   
-                                )
+                                }
                               }
                               refs={searchM[key].ref}
                               additional={{
@@ -518,20 +541,24 @@ export function MasterHeader<T>({
                 )}
               </div>
 
-              <div>
-                <button className="btn btn-primary" type="submit">
+              <div className="row no-gutters">
+                <div className="col-xxl-1 col-xl-2 col-lg-2 mr-5">
+                <button className="btn btn-primary w-100" type="submit">
                   <SearchIcon />
                   {intl.formatMessage({ id: 'COMMON_COMPONENT.MASTER_HEADER.SEARCH_BTN' })}
                 </button>
+                </div>
 
+                <div className="col-xxl-1 col-xl-2 col-lg-2 mr-5">
                 <button
-                  className="btn btn-outline-primary ml-5"
+                  className="btn btn-outline-primary w-100"
                   type="reset"
                   onClick={() => handleResetForm(resetForm)}>
                   <SVG src={ToAbsoluteUrl('/media/svg/vncheck/reset-filter.svg')} />
                   &nbsp;
                   {intl.formatMessage({ id: 'COMMON_COMPONENT.MASTER_HEADER.RESET_FILTER_BTN' })}
                 </button>
+                </div>
               </div>
             </form>
           )}
