@@ -518,20 +518,24 @@ export function MasterHeader<T>({
                 )}
               </div>
 
-              <div>
-                <button className="btn btn-primary" type="submit">
+              <div className="row no-gutters">
+                <div className="col-xxl-1 col-xl-2 col-lg-2 mr-5">
+                <button className="btn btn-primary w-100" type="submit">
                   <SearchIcon />
                   {intl.formatMessage({ id: 'COMMON_COMPONENT.MASTER_HEADER.SEARCH_BTN' })}
                 </button>
+                </div>
 
+                <div className="col-xxl-1 col-xl-2 col-lg-2 mr-5">
                 <button
-                  className="btn btn-outline-primary ml-5"
+                  className="btn btn-outline-primary w-100"
                   type="reset"
                   onClick={() => handleResetForm(resetForm)}>
                   <SVG src={ToAbsoluteUrl('/media/svg/vncheck/reset-filter.svg')} />
                   &nbsp;
                   {intl.formatMessage({ id: 'COMMON_COMPONENT.MASTER_HEADER.RESET_FILTER_BTN' })}
                 </button>
+                </div>
               </div>
             </form>
           )}
