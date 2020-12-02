@@ -2,14 +2,14 @@ import { getShippingAddress } from '../../../common-library/forms/radio-group-fi
 
 export const convertToForm = (entity: any) => {
   return {...entity, 
-    storeLevel: entity.storeLevel.name,
+    storeLevel: entity.storeLevel._id,
     state: entity.address.state,
     city: entity.address.city,
     district: entity.address.district,
     detailAddress: entity.address.address,
     phoneNumber: entity.phone,
     username: entity.owner.username,
-    ownerName: entity.owner.firstName + ' ' + entity.owner.lastName,
+    ownerName: entity.owner.fullName,
     ownerPhoneNumber: entity.owner.phone,
     email: entity.owner.email,
     gender: entity.owner.gender,
@@ -49,7 +49,8 @@ export const convertToServer = (entity: any) => {
     shippingAddress: shippingAddress,
     phone: entity.phoneNumber,
     owner: {
-      username: entity.username,
+      // username: entity.username,
+      fullName: entity.ownerName,
       //TODO: concencus with backend ownerName
       phone: entity.ownerPhoneNumber,
       email: entity.email,

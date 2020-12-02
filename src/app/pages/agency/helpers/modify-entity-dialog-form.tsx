@@ -68,7 +68,19 @@ function ModifyEntityDialogFormAgency<T>({
         console.log(values)
         if (entity._id) {
           const updateValue = diff(entity, values);
-          onModify({ _id: values._id, ...updateValue });
+          if (entity.isDefault || entity.isDefault === false) {
+            onModify({ 
+              _id: values._id,
+              isDefault: values.isDefault,
+              state: values.state,
+              city: values.city,
+              district: values.district,
+              address: values.address,
+            });
+          } else {
+            onModify({_id: values._id, ...updateValue});
+          }
+          
         } else {
           onModify(values)
         } 
