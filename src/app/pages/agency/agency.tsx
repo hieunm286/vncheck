@@ -206,7 +206,7 @@ function AgencyPage() {
     },
   ];
 
-  const purchaseOrderSearchModel: SearchModel = {
+  const agencySearchModel: SearchModel = {
     code: {
       type: 'string',
       placeholder: 'AGENCY.MASTER.HEADER.AGENCY_CODE.PLACEHOLDER',
@@ -226,19 +226,19 @@ function AgencyPage() {
       keyField: 'name'
     }, 
     state: {
-      type: 'stateSelect',
+      type: 'string',
       placeholder: 'AGENCY.EDIT.PLACEHOLDER.STATE',
       label: 'AGENCY.EDIT.LABEL.STATE',
       keyField: 'name'
     }, 
     city: {
-      type: 'citySelect',
+      type: 'string',
       placeholder: 'AGENCY.EDIT.PLACEHOLDER.CITY',
       label: 'AGENCY.EDIT.LABEL.CITY',
       keyField: 'name'
     },
     district: {
-      type: 'districtSelect',
+      type: 'string',
       placeholder: 'AGENCY.EDIT.PLACEHOLDER.DISTRICT',
       label: 'AGENCY.EDIT.LABEL.DISTRICT',
       keyField: 'name'
@@ -701,7 +701,7 @@ function AgencyPage() {
           <MasterHeader
             title={headerTitle}
             onSearch={setFilterProps}
-            searchModel={purchaseOrderSearchModel}
+            searchModel={agencySearchModel}
             initValue={{
               code: '',
               lot: '',
