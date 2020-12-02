@@ -63,7 +63,10 @@ function CustomImageUpload({
       exifr.parse(item.file).then(res => {
         const image = {
           data_url: item.data_url,
-          exif: res,
+          exif: {
+            lat: res.latitude,
+            long: res.longitude
+          },
         };
 
         const data: any[] = [];

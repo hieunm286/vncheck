@@ -96,6 +96,7 @@ function EntityCrudPagePromise({
     }
   }, [code]);
 
+  console.log(entityForEdit)
 
 
   const notify = (error: string) => {

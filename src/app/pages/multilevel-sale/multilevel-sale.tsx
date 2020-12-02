@@ -9,7 +9,11 @@ import MultiLevelSaleBody from './multi-sale-body';
 import { TreeData } from './multilevel-sale.model';
 import * as MultilevelSaleService from './multilevel-sale.service';
 import { useIntl } from 'react-intl';
-import { DefaultPagination, NormalColumn, SortColumn } from '../../common-library/common-consts/const';
+import {
+  DefaultPagination,
+  NormalColumn,
+  SortColumn,
+} from '../../common-library/common-consts/const';
 import { MultilevelSaleActionColumn } from './multilevel-action-column';
 import ModifyEntityDialog from '../../common-library/common-components/modify-entity-dialog';
 import { GenerateCode } from '../product-type/product-type';
@@ -157,11 +161,30 @@ function MultilevelSale() {
   });
 
   const [agency, setAgency] = useState<any[]>([]);
-  const [agencyPagination, setAgencyPagination] = useState(DefaultPagination)
+  const [agencyPagination, setAgencyPagination] = useState(DefaultPagination);
+  const [agencyTotal, setAgencyTotal] = useState(0);
+  const [agencyLoading, setAgencyLoading] = useState(false);
+  const [agencyParams, setAgencyParams] = useState({
+    storeLevel: '',
+  });
 
   useEffect(() => {
     getAll(filterProps);
-  }, [paginationProps, trigger, filterProps]);
+  }, [trigger, filterProps]);
+
+  useEffect(() => {
+    setAgencyLoading(true)
+    MultilevelSaleService.GetAgency({ agencyParams, paginationProps })
+      .then(res => {
+        setAgency(res.data.data);
+        setAgencyTotal(res.data.paging.total);
+        setAgencyLoading(false)
+      })
+      .catch(err => {
+        console.log(err);
+        setAgencyLoading(false)
+      });
+  }, [paginationProps, agencyParams]);
 
   const columns = {
     _id: {
@@ -216,8 +239,8 @@ function MultilevelSale() {
       data: agency,
       prop: {
         columns: columns,
-        total: 2,
-        loading: loading,
+        total: agencyTotal,
+        loading: agencyLoading,
         paginationParams: paginationProps,
         setPaginationParams: setPaginationProps,
         onSelectMany: setSelectedEntities,
@@ -267,13 +290,8 @@ function MultilevelSale() {
   };
 
   const onFetchAgency = (entity: any) => {
-    console.log(entity)
-    MultilevelSaleService.GetAgency(entity, { paginationProps }).then(res => {
-      setAgency(res.data)
-    }).catch (err => {
-      console.log(err)
-    })
-  }
+    setAgencyParams({ storeLevel: entity._id });
+  };
 
   return (
     <React.Fragment>
@@ -292,13 +310,13 @@ function MultilevelSale() {
       <ModifyEntityDialog
         isShow={showCreate}
         entity={createEntity}
-        onModify={(values) => {
-          console.log(values)
-          console.log(editEntity)
+        onModify={values => {
+          console.log(values);
+          console.log(editEntity);
           if (editEntity) {
-            add({parentId: editEntity._id, ...ConvertStatusToString(values)})
+            add({ parentId: editEntity._id, ...ConvertStatusToString(values) });
           } else {
-            add(ConvertStatusToString(values))
+            add(ConvertStatusToString(values));
           }
         }}
         title={createTitle}
@@ -321,12 +339,12 @@ function MultilevelSale() {
       <ModifyEntityDialog
         isShow={showEdit}
         entity={editEntity}
-        onModify={(values) => {
-          console.log(values)
+        onModify={values => {
+          console.log(values);
           if (editEntity) {
-            update({parentId: editEntity._id, ...ConvertStatusToString(values)})
+            update({ parentId: editEntity._id, ...ConvertStatusToString(values) });
           } else {
-            update(ConvertStatusToString(values))
+            update(ConvertStatusToString(values));
           }
         }}
         title={updateTitle}
