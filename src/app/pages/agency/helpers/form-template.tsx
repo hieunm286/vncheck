@@ -86,8 +86,8 @@ const FormTemplate = ({
   const [ cityValues, setCityValues ] = useState<any>([]);
   const [ districtValues, setDistrictValues ] = useState<any>([]);
 
-  const [ treeSelectValue, setTreeSelectValue ] = useState<any>();
-  const [ treeData, setTreeData ] = useState<any>();
+  const [ treeSelectValue, setTreeSelectValue ] = useState<any>('');
+  const [ treeData, setTreeData ] = useState<any>([]);
 
   const intl = useIntl();
 
@@ -102,7 +102,12 @@ const FormTemplate = ({
     });
     
   },[]);
-  
+
+  useEffect(() => {
+    if(values.storeLevel && values.storeLevel._id) {
+      setTreeSelectValue(values.storeLevel._id)
+    }
+  }, [values.storeLevel])
 
   // useEffect(() => {
   //   const stateValues = Object.values(STATE_LIST).map((state: any) => {return {value: state.name, key: state.code}});
@@ -698,10 +703,7 @@ const FormTemplate = ({
             );
           
           case 'TreeSelect':
-            let data: any[] = [];
-
-            
-            return (
+            return treeSelectValue ? (
               <div className="mt-3" key={key}>
                 <CustomeTreeSelect
                   label={modifyModel.data[key].label}
@@ -717,6 +719,8 @@ const FormTemplate = ({
                   name={key}
                 />
               </div>
+            ) : (
+              <></>
             );
 
 
