@@ -5,6 +5,7 @@ import { useIntl } from 'react-intl';
 import { Card, CardBody, CardHeader } from '../card';
 import ImgGallery from '../forms/image-gallery';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import { useHistory } from 'react-router-dom';
 
 export function MasterEntityDetailPage({
   title = 'COMMON_COMPONENT.DETAIL_DIALOG.HEADER_TITLE',
@@ -13,6 +14,7 @@ export function MasterEntityDetailPage({
   onClose,
   renderInfo,
   mode,
+  homeURL,
 }: {
   title?: string;
   moduleName?: string;
@@ -20,8 +22,11 @@ export function MasterEntityDetailPage({
   renderInfo: any;
   onClose: () => void;
   mode: 'line' | 'split';
+  homeURL?: string;
 }) {
   const intl = useIntl();
+
+  const history = useHistory();
   return (
     <>
       {mode === 'line' && (
@@ -31,6 +36,8 @@ export function MasterEntityDetailPage({
           renderInfo={renderInfo}
           intl={intl}
           moduleName={moduleName}
+          history={history}
+          homeURL={homeURL}
         />
       )}
       {mode === 'split' && (
@@ -40,6 +47,8 @@ export function MasterEntityDetailPage({
           renderInfo={renderInfo}
           intl={intl}
           moduleName={moduleName}
+          history={history}
+          homeURL={homeURL}
         />
       )}
     </>
@@ -47,12 +56,19 @@ export function MasterEntityDetailPage({
 }
 
 // eslint-disable-next-line no-lone-blocks
-const LineMode = ({ entity, renderInfo, intl, title, moduleName }: any) => (
+const LineMode = ({ entity, renderInfo, intl, title, moduleName, history, homeURL }: any) => (
   <Card>
     <CardHeader
       title={
         <>
-          <span>
+          <span
+            onClick={() => {
+              if (homeURL) {
+                history.push(homeURL);
+              } else {
+                history.goBack();
+              }
+            }}>
             <ArrowBackIosIcon />
           </span>
           {intl.formatMessage({ id: title }).toUpperCase()}
@@ -66,15 +82,19 @@ const LineMode = ({ entity, renderInfo, intl, title, moduleName }: any) => (
           <div className="row">
             {value.data.map((el: any, elKey: number) => (
               <div key={elKey} className={`col-md-6 col-12 border-bottom pb-10`}>
-                {Object.keys(el).map((childKey: string) => {
-                  switch (el[childKey].type) {
+                {el.map((child: any, childKey: string) => {
+                  switch (child.type) {
                     case 'string':
                       return (
                         <div className="mt-3" key={childKey}>
                           <div className="row">
-                            <p className="col-4">{el[childKey].title}:</p>
+                            <p className="col-4">{child.title}:</p>
                             <p className="col-8">
-                              {entity && entity[childKey] ? entity[childKey] : 'Empty'}
+                              {entity && entity[child.keyField]
+                                ? child.nested
+                                  ? entity[child.keyField][child.nested]
+                                  : entity[child.keyField]
+                                : 'Empty'}
                             </p>
                           </div>
                         </div>
@@ -83,7 +103,10 @@ const LineMode = ({ entity, renderInfo, intl, title, moduleName }: any) => (
                     case 'image':
                       return (
                         <div className="mt-3" key={childKey}>
-                          <ImgGallery
+                          <p className="col-4">{child.title}:</p>
+
+                          <img src={entity[child.keyField][child.nested]} alt="..." />
+                          {/* <ImgGallery
                             label={el[childKey].title}
                             labelWidth={4}
                             name={key}
@@ -115,7 +138,7 @@ const LineMode = ({ entity, renderInfo, intl, title, moduleName }: any) => (
                                     },
                                   ]
                             }
-                          />
+                          /> */}
                         </div>
                       );
                   }
@@ -130,7 +153,7 @@ const LineMode = ({ entity, renderInfo, intl, title, moduleName }: any) => (
   </Card>
 );
 
-const SplitMode = ({ entity, renderInfo, intl, title, moduleName }: any) => (
+const SplitMode = ({ entity, renderInfo, intl, title, moduleName, history, homeURL }: any) => (
   <>
     {renderInfo.map((value: any, key: any) => (
       <React.Fragment key={key}>
@@ -139,7 +162,14 @@ const SplitMode = ({ entity, renderInfo, intl, title, moduleName }: any) => (
             <CardHeader
               title={
                 <>
-                  <span>
+                  <span
+                    onClick={() => {
+                      if (homeURL) {
+                        history.push(homeURL);
+                      } else {
+                        history.goBack();
+                      }
+                    }}>
                     <ArrowBackIosIcon />
                   </span>
                   {intl.formatMessage({ id: title }).toUpperCase()}
@@ -170,7 +200,7 @@ const SplitMode = ({ entity, renderInfo, intl, title, moduleName }: any) => (
                         case 'image':
                           return (
                             <div className="mt-3" key={childKey}>
-                              <ImgGallery
+                              {/* <ImgGallery
                                 label={el[childKey].title}
                                 labelWidth={4}
                                 name={key}
@@ -205,7 +235,8 @@ const SplitMode = ({ entity, renderInfo, intl, title, moduleName }: any) => (
                                         },
                                       ]
                                 }
-                              />
+                              /> */}
+                              <img src={entity[childKey]} alt="..." />
                             </div>
                           );
                       }

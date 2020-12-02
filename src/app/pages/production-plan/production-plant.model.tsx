@@ -7,11 +7,11 @@
 export interface ProductionPlanModel {
     step: string;
     isFulfilled: boolean;
-    confirmationStatus: boolean;
+    confirmationStatus: string;
     _id: string;
     code: string;
-    process: number;
-    seeding: {
+    process: string;
+    seeding?: {
         certificates: {
             path: string;
             hash: string;

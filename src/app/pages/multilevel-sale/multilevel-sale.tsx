@@ -9,7 +9,7 @@ import MultiLevelSaleBody from './multi-sale-body';
 import { TreeData } from './multilevel-sale.model';
 import * as MultilevelSaleService from './multilevel-sale.service';
 import { useIntl } from 'react-intl';
-import { NormalColumn, SortColumn } from '../../common-library/common-consts/const';
+import { DefaultPagination, NormalColumn, SortColumn } from '../../common-library/common-consts/const';
 import { MultilevelSaleActionColumn } from './multilevel-action-column';
 import ModifyEntityDialog from '../../common-library/common-components/modify-entity-dialog';
 import { GenerateCode } from '../product-type/product-type';
@@ -157,6 +157,7 @@ function MultilevelSale() {
   });
 
   const [agency, setAgency] = useState<any[]>([]);
+  const [agencyPagination, setAgencyPagination] = useState(DefaultPagination)
 
   useEffect(() => {
     getAll(filterProps);
@@ -212,7 +213,7 @@ function MultilevelSale() {
       name: 'Test',
       title: 'Danh sách các đơn vị bán hàng',
       type: 'Table',
-      data: entities,
+      data: agency,
       prop: {
         columns: columns,
         total: 2,
@@ -265,7 +266,14 @@ function MultilevelSale() {
     ...GenerateAllFormField(modifyModel),
   };
 
-  console.log(showEdit)
+  const onFetchAgency = (entity: any) => {
+    console.log(entity)
+    MultilevelSaleService.GetAgency(entity, { paginationProps }).then(res => {
+      setAgency(res.data)
+    }).catch (err => {
+      console.log(err)
+    })
+  }
 
   return (
     <React.Fragment>
@@ -358,6 +366,7 @@ function MultilevelSale() {
           setDeleteEntity(entity);
           setShowDelete(true);
         }}
+        onFetchAgency={onFetchAgency}
       />
     </React.Fragment>
   );

@@ -26,9 +26,10 @@ interface TreeDataProp {
   onCreate?: (entity: any) => void;
     onEdit?: (entity: any) => void;
     onDelete?: (entity: any) => void; 
+    onFetchAgency?: (entity: any) => void;
 }
 
-const MasterTreeStructure: React.FC<TreeDataProp> = ({ data, onCreate, onEdit, onDelete }) => {
+const MasterTreeStructure: React.FC<TreeDataProp> = ({ data, onCreate, onEdit, onDelete, onFetchAgency }) => {
   const [showChildrenV2, setShowChildrenV2] = React.useState<any>({ ...showArray_v2({}, data) });
 
   const handleAdd = (data: TreeData): void => {
@@ -51,7 +52,9 @@ const MasterTreeStructure: React.FC<TreeDataProp> = ({ data, onCreate, onEdit, o
 
   const handleClick = (data: TreeData): void => {
     console.log(data);
-    
+    if (onFetchAgency) {
+      onFetchAgency(data)
+    }
   }
 
   const handleDelete = (data: TreeData): void => {
