@@ -40,7 +40,7 @@ export function ActionsColumnFormatter<T>(
       </a>
       <a
         // title={intl.formatMessage({id: 'COMMON_COMPONENT.MASTER_BODY.TABLE.DELETE_BTN'})}
-        className="btn btn-icon btn-light btn-hover-primary btn-sm"
+        className="btn btn-icon btn-light btn-hover-primary btn-sm visibility"
         onClick={() => onDelete(row)}>
         <span className="svg-icon svg-icon-md svg-icon-primary">
           <span className="svg-icon svg-icon-md svg-icon-primary">

@@ -88,23 +88,23 @@ export const modifyModel: any[] = [
     data: {
       planCode: {
         type: 'string',
-        placeholder: 'PRODUCT_TYPE.MASTER.TABLE.CODE_COLUMN',
-        label: 'PRODUCT_TYPE.MASTER.TABLE.CODE_COLUMN',
+        placeholder: 'Mã kế hoạch',
+        label: 'Mã kế hoạch',
         required: true,
         disabled: true,
       },
-      plantCode: {
+      seedingCode: {
         type: 'string',
-        placeholder: 'PRODUCT_TYPE.MASTER.TABLE.NAME_COLUMN',
+        placeholder: 'Mã gieo giống',
         required: true,
-        label: 'PRODUCT_TYPE.MASTER.TABLE.NAME_COLUMN',
+        label: 'Mã gieo giống',
         disabled: true,
       },
-      growCode: {
+      plantingCode: {
         type: 'string',
         placeholder: 'PRODUCT_TYPE.MASTER.TABLE.BARCODE_COLUMN',
         required: true,
-        label: 'PRODUCT_TYPE.MASTER.TABLE.BARCODE_COLUMN',
+        label: 'Mã gieo trồng',
         disabled: true,
       },
       certificates: {
@@ -213,14 +213,14 @@ export const modifyModel2: any[] = [
     data: {
       manager: {
         type: 'string',
-        placeholder: 'PRODUCT_TYPE.MASTER.TABLE.NAME_COLUMN',
+        placeholder: 'Mã gieo giống',
         label: 'Thông tin Giám đốc/TGĐ',
         required: true,
         disabled: true,
       },
       plantLeader: {
         type: 'string',
-        placeholder: 'PRODUCT_TYPE.MASTER.TABLE.NAME_COLUMN',
+        placeholder: 'Mã gieo giống',
         required: true,
         label: 'Tổ trưởng gieo trồng',
         disabled: true,
@@ -257,7 +257,7 @@ export const modifyModel3: any[] = [
       },
       expectedQuantity: {
         type: 'number',
-        placeholder: 'PRODUCT_TYPE.MASTER.TABLE.NAME_COLUMN',
+        placeholder: 'Mã gieo giống',
         required: true,
         label: 'Sản lượng thu hoạch dự kiến (kg)',
         disabled: true,
@@ -287,14 +287,14 @@ export const modifyModel4: any[] = [
     data: {
       estimatedPTTime: {
         type: 'Datetime',
-        placeholder: 'PRODUCT_TYPE.MASTER.TABLE.NAME_COLUMN',
+        placeholder: 'Mã gieo giống',
         label: 'Thời gian thu hoạch (dự kiến)',
         required: true,
         disabled: true,
       },
       expectedPTQuantity: {
         type: 'number',
-        placeholder: 'PRODUCT_TYPE.MASTER.TABLE.NAME_COLUMN',
+        placeholder: 'Mã gieo giống',
         required: true,
         label: 'Sản lượng sau sơ chế dự kiến',
       },
@@ -323,14 +323,14 @@ export const modifyModel5: any[] = [
     data: {
       estimatedCleanTime: {
         type: 'Datetime',
-        placeholder: 'PRODUCT_TYPE.MASTER.TABLE.NAME_COLUMN',
+        placeholder: 'Mã gieo giống',
         label: 'Thời gian làm sạch (dự kiến)',
         required: true,
         disabled: true,
       },
       expectedCleanQuantity: {
         type: 'number',
-        placeholder: 'PRODUCT_TYPE.MASTER.TABLE.NAME_COLUMN',
+        placeholder: 'Mã gieo giống',
         required: true,
         label: 'Sản lượng sau làm sạch dự kiến',
       },
@@ -359,21 +359,21 @@ export const modifyModel6: any[] = [
     data: {
       estimatedCleanTime: {
         type: 'Datetime',
-        placeholder: 'PRODUCT_TYPE.MASTER.TABLE.NAME_COLUMN',
+        placeholder: 'Mã gieo giống',
         label: 'Thời gian làm sạch (dự kiến)',
         required: true,
         disabled: true,
       },
       expiryDate: {
         type: 'Datetime',
-        placeholder: 'PRODUCT_TYPE.MASTER.TABLE.NAME_COLUMN',
+        placeholder: 'Mã gieo giống',
         label: 'Hạn sử dụng (dự kiến)',
         required: true,
         disabled: true,
       },
       packing: {
         type: 'SearchSelect',
-        placeholder: 'PRODUCT_TYPE.MASTER.TABLE.NAME_COLUMN',
+        placeholder: 'Mã gieo giống',
         required: true,
         label: 'Sản lượng sau làm sạch dự kiến',
       },
@@ -407,7 +407,7 @@ export const modifyModel7: any[] = [
     data: {
       estimatedCleanTime: {
         type: 'Datetime',
-        placeholder: 'PRODUCT_TYPE.MASTER.TABLE.NAME_COLUMN',
+        placeholder: 'Mã gieo giống',
         label: 'Thời gian làm sạch (dự kiến)',
         required: true,
         disabled: true,
