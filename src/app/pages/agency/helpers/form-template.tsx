@@ -64,10 +64,10 @@ const FormTemplate = ({
 
   const [ search, setSearch ] = useState<any>(formValues);
 
-  // test autofill address
-  // useEffect(() => {
-  //   setSearch(formValues);
-  // }, [formValues])
+  // prevent role from being null
+  useEffect(() => {
+    setSearch(formValues);
+  }, [formValues])
 
   
 
@@ -676,6 +676,7 @@ const FormTemplate = ({
                   isHorizontal={true}
                   value={search[key]}
                   onChange={(value: any) => {
+                    console.log(value)
                     setSearch({ ...search, [key]: value });
                     // setSearchTerm({
                     //   ...searchTerm,
