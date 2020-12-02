@@ -31,6 +31,8 @@ import MasterGoogleMap from '../../common-library/common-components/master-googl
 import MasterMap from '../../common-library/common-components/master-google-map-other';
 import * as Yup from 'yup';
 import { stringOnChange, searchSelectOnChange } from './helpers/autofill';
+import { genCharArray, genNumberArray } from './helpers/modify-entity-page-land-lot';
+import { DefaultPagination } from '../../common-library/common-consts/const';
 
 const DataExample: any = [
   {
@@ -216,6 +218,55 @@ function LandLot() {
       ...NormalColumn,
       style: { minWidth: '130px' },
     },
+  };
+
+  const landLotSearchSelectLoadOption = async (
+    search: string,
+    prevOptions: any,
+    { page }: any,
+    service: any,
+    keyField: string,
+    key: string,
+  ) => {
+    const queryProps: any = {};
+    queryProps[keyField] = search;
+
+    const paginationProps = {
+      ...DefaultPagination,
+      page: page,
+    };
+
+
+    // const entities = await service.GetAll({ queryProps, paginationProps });
+    // const count = await service.Count({ queryProps });
+
+    // const hasMore = prevOptions.length < count.data - (DefaultPagination.limit ?? 0);
+
+    // setSearchTerm({ ...searchTerm, [key]: search });
+
+    // const data = [...new Set(dataT)];
+    let data = [];
+
+    if(key === "lot") {
+      data = genCharArray('A', 'Z'); // ["a", ..., "z"]
+    } else if(key === "subLot") {
+      data = genNumberArray(0, 99);
+    } else {
+      data = [];
+    }
+    return {
+      options: data
+        .filter((value: string)  => {
+          return value.startsWith(search.toString().toUpperCase());
+        })
+        .map((value: any) => {
+          return { label: value, value: value };
+        }),
+      hasMore: false,
+      additional: {
+        page: page + 1,
+      },
+    };
   };
 
   const masterEntityDetailDialog = [
@@ -510,6 +561,7 @@ function LandLot() {
               // tree: undefined,
               // tree2: undefined,
             }}
+            customSearchSelectLoadOption={landLotSearchSelectLoadOption}
           />
           <MasterBody
             onCreate={() => {

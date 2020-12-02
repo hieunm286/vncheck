@@ -33,6 +33,7 @@ export function MasterHeader<T>({
   initValue,
   stringOnChange,
   searchSelectOnChange,
+  customSearchSelectLoadOption,
   onReset
 }: {
   searchModel: SearchModel;
@@ -52,6 +53,14 @@ export function MasterHeader<T>({
     setFieldValue: any, 
     setIsDisabled: any, 
     isDisabled: any) => void;
+  customSearchSelectLoadOption?: (
+    search: string,
+    prevOptions: any,
+    { page }: any,
+    service: any,
+    keyField: string,
+    key: string,
+  ) => void;
 }) {
   const intl = useIntl();
 
@@ -298,18 +307,32 @@ export function MasterHeader<T>({
                                 // });
                               }}
                               loadOptions={(search: string, prevOptions: any, { page }: any) =>
-                                loadOptions(
-                                  search,
-                                  prevOptions,
-                                  { page },
-                                  {
-                                    service: searchM[key].service,
-                                    keyField: searchM[key].keyField,
-                                    key: key,
-                                  },
-                                  {}
+                                {
+                                  if(customSearchSelectLoadOption) {
+                                    return customSearchSelectLoadOption(
+                                      search,
+                                      prevOptions,
+                                      { page },
+                                      searchM[key].service,
+                                      searchM[key].keyField,
+                                      key,
+                                    )
+                                  } else {
+                                    return loadOptions(
+                                      search,
+                                      prevOptions,
+                                      { page },
+                                      {
+                                        service: searchM[key].service,
+                                        keyField: searchM[key].keyField,
+                                        key: key,
+                                      },
+                                      {}
+                                      
+                                    )
+                                  }
                                   
-                                )
+                                }
                               }
                               refs={searchM[key].ref}
                               additional={{
