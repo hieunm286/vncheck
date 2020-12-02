@@ -6,6 +6,7 @@ import { useIntl } from 'react-intl';
 import { ModalProgressBar } from '../modal-progress-bar';
 import { DeleteManyDialogProps } from '../common-types/common-type';
 import { CapitalizeFirstLetter } from '../helpers/common-function';
+import { iconStyle } from '../common-consts/const';
 
 function DeleteManyDialog<T>({
   selectedEntities,
@@ -21,7 +22,7 @@ function DeleteManyDialog<T>({
   cancelBtn = 'COMMON_COMPONENT.DELETE_MANY_DIALOG.CANCEL_BTN',
   moduleName = 'COMMON_COMPONENT.DELETE_MANY_DIALOG.MODULE_NAME',
   loading,
-  error
+  error,
 }: DeleteManyDialogProps<T>) {
   const intl = useIntl();
 
@@ -41,7 +42,8 @@ function DeleteManyDialog<T>({
 
       <Modal.Body>
         {selectedEntities && selectedEntities.length > 0 ? (
-          !loading && error === '' && (
+          !loading &&
+          error === '' && (
             <div>
               <p>
                 {intl.formatMessage(
@@ -71,11 +73,7 @@ function DeleteManyDialog<T>({
         {loading && <span>{intl.formatMessage({ id: deletingMessage })}</span>}
         {!loading && error !== '' && (
           <>
-            <p>
-              {
-                error
-              }
-            </p>
+            <p>{error}</p>
           </>
         )}
       </Modal.Body>
@@ -84,13 +82,24 @@ function DeleteManyDialog<T>({
         <div>
           {selectedEntities && selectedEntities.length > 0 && (
             <button type="button" onClick={() => onDelete()} className="btn btn-primary mr-3">
-              <DeleteIcon /> {intl.formatMessage({ id: deleteBtn })}
+              <DeleteIcon style={iconStyle} />
+              {'\u00A0'}
+              {intl.formatMessage({ id: deleteBtn })}
             </button>
           )}
-          
+
           <button type="button" onClick={() => onHide()} className="btn btn-outline-primary">
-            <CancelOutlinedIcon />
+            {'\u00A0'}
+            {'\u00A0'}
+            {'\u00A0'}
+            {'\u00A0'}
+            <CancelOutlinedIcon style={iconStyle} />
+            {'\u00A0'}
             {intl.formatMessage({ id: cancelBtn })}
+            {'\u00A0'}
+            {'\u00A0'}
+            {'\u00A0'}
+            {'\u00A0'}
           </button>
         </div>
       </Modal.Footer>
