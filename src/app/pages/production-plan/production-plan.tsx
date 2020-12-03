@@ -38,6 +38,9 @@ import {
   productPlanSearchModel1,
   productPlanSearchModel2,
 } from './defined/const';
+import { getAllUsers } from '../account/_redux/user-crud';
+import { fetchAllUser } from '../account/_redux/user-action';
+import { useDispatch } from 'react-redux';
 
 const headerTitle = 'PRODUCT_TYPE.MASTER.HEADER.TITLE';
 const bodyTitle = 'PRODUCT_TYPE.MASTER.BODY.TITLE';
@@ -260,9 +263,22 @@ function ProductionPlan() {
 
   const [params, setParams] = useState({ step: 0 }); 
 
+  const [tagData, setTagData] = useState([])
+
+  const dispatch = useDispatch();
+
+
   useEffect(() => {
     getAll(params);
+    
   }, [paginationProps, trigger, params]);
+
+  useEffect(() => {
+    getAllUsers().then(res => {
+      setTagData(res.data)
+    })
+  }, [])
+
 
   const columns = {
     _id: {
@@ -326,6 +342,7 @@ function ProductionPlan() {
           <button
             className="btn btn-primary"
             onClick={() => {
+
               setEditEntity(row);
             }}>
             + Tạo mới
@@ -528,6 +545,7 @@ function ProductionPlan() {
                 // }}
                 refreshData={refreshData}
                 homePage={homeURL}
+                tagData={tagData}
               />
             </>
           )}
