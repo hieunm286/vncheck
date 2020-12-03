@@ -29,6 +29,7 @@ function EntityCrudPageAgency({
   formPart: formParts,
   allFormField,
   allFormButton,
+  validation,
 }: {
   // modifyModel: ModifyModel;
   title?: string;
@@ -40,6 +41,7 @@ function EntityCrudPageAgency({
   formPart?: any;
   allFormField?: any;
   allFormButton?: any;
+  validation?: any;
 }) {
   const intl = useIntl();
   const initForm = generateInitForm(allFormField);
@@ -87,7 +89,7 @@ function EntityCrudPageAgency({
       <Formik
         enableReinitialize={true}
         initialValues={entityForEdit || initForm}
-        // validationSchema={PurchaseOrderSchema}
+        validationSchema={validation}
         onSubmit={values => {
           onModify(values);
           history.goBack()

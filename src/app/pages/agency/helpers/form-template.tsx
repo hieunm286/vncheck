@@ -64,9 +64,16 @@ const FormTemplate = ({
 
   const [ search, setSearch ] = useState<any>(formValues);
 
+  const [ searchSelect, setSearchSelect ] = useState<any>({});
+
   // prevent role from being null
   useEffect(() => {
     setSearch(formValues);
+  }, [formValues]);
+  useEffect(() => {
+    if(formValues.roleName) {
+      setSearchSelect(formValues.roleName);
+    }
   }, [formValues])
 
   
@@ -674,10 +681,13 @@ const FormTemplate = ({
                 <InfiniteSelect
                   label={modifyModel.data[key].label}
                   isHorizontal={true}
-                  value={search[key]}
+                  value={searchSelect} // value={search[key]}
                   onChange={(value: any) => {
-                    console.log(value)
-                    setSearch({ ...search, [key]: value });
+                    //setSearchSelect({value: value.value, label: value.label}); // setSearch({ ...search, [key]: value });
+                    setSearchSelect(value);
+                    setFieldValue('roleName', value);
+                    // values.roleName = value;
+
                     // setSearchTerm({
                     //   ...searchTerm,
                     //   [key]: searchM[key].ref ? value.value : value.label,

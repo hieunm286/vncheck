@@ -47,7 +47,7 @@ export const Delete: DeleteProps<AgencyModel> = (entity: AgencyModel) => {
 };
 
 export const DeleteMany: DeleteManyProps<AgencyModel> = (entities: AgencyModel[]) => {
-  return axios.delete(API_URL, {
-    data: { arrayEntities: entities },
+  return axios.delete(`${API_URL}/bulk`, {
+    data: { listAgencies: entities },
   });
 };

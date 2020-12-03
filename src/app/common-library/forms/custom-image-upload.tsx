@@ -170,12 +170,12 @@ function CustomImageUpload({
                   xmlns="http://www.w3.org/2000/svg">
                   <path
                     d="M2.5 2.5H18.75V11.25H21.25V2.5C21.25 1.12125 20.1287 0 18.75 0H2.5C1.12125 0 0 1.12125 0 2.5V17.5C0 18.8787 1.12125 20 2.5 20H12.5V17.5H2.5V2.5Z"
-                    fill="#EE4C4C"
+                    fill="#27AE60"
                   />
-                  <path d="M7.5 10L3.75 15H17.5L12.5 7.5L8.75 12.5L7.5 10Z" fill="#EE4C4C" />
+                  <path d="M7.5 10L3.75 15H17.5L12.5 7.5L8.75 12.5L7.5 10Z" fill="#27AE60" />
                   <path
                     d="M21.25 13.75H18.75V17.5H15V20H18.75V23.75H21.25V20H25V17.5H21.25V13.75Z"
-                    fill="#EE4C4C"
+                    fill="#27AE60"
                   />
                 </svg>
               </button>

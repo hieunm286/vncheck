@@ -206,7 +206,7 @@ function AgencyPage() {
     },
   ];
 
-  const purchaseOrderSearchModel: SearchModel = {
+  const agencySearchModel: SearchModel = {
     code: {
       type: 'string',
       placeholder: 'AGENCY.MASTER.HEADER.AGENCY_CODE.PLACEHOLDER',
@@ -226,19 +226,19 @@ function AgencyPage() {
       keyField: 'name'
     }, 
     state: {
-      type: 'stateSelect',
+      type: 'string',
       placeholder: 'AGENCY.EDIT.PLACEHOLDER.STATE',
       label: 'AGENCY.EDIT.LABEL.STATE',
       keyField: 'name'
     }, 
     city: {
-      type: 'citySelect',
+      type: 'string',
       placeholder: 'AGENCY.EDIT.PLACEHOLDER.CITY',
       label: 'AGENCY.EDIT.LABEL.CITY',
       keyField: 'name'
     },
     district: {
-      type: 'districtSelect',
+      type: 'string',
       placeholder: 'AGENCY.EDIT.PLACEHOLDER.DISTRICT',
       label: 'AGENCY.EDIT.LABEL.DISTRICT',
       keyField: 'name'
@@ -251,6 +251,54 @@ function AgencyPage() {
     // code: Yup.string().required('Vui lòng nhập mã đơn vị'),
     // agencyAddress: Yup.string().required('Vui lòng nhập tên đơn vị'),
     // phoneNumber: Yup.string().required('Vui lòng nhập số điện thoại'),
+
+    code: Yup.string()
+      .required(intl.formatMessage({id: 'AGENCY.VALIDATION.AGENCY_CODE.REQUIRED'}))
+      // .max(255, intl.formatMessage({id: 'AGENCY.VALIDATION.AGENCY_CODE.MAX_LENGTH_EXCEEDED'}))
+      ,
+    name: Yup.string()
+      .required(intl.formatMessage({id: 'AGENCY.VALIDATION.AGENCY_NAME.REQUIRED'}))
+      .max(255, intl.formatMessage({id: 'AGENCY.VALIDATION.AGENCY_NAME.MAX_LENGTH_EXCEEDED'})),
+    storeLevel: Yup.string()
+      .required(intl.formatMessage({id: 'AGENCY.VALIDATION.STORE_LEVEL.REQUIRED'})),
+    state: Yup.string()
+      .required(intl.formatMessage({id: 'AGENCY.VALIDATION.STATE.REQUIRED'})),
+    city: Yup.string()
+      .required(intl.formatMessage({id: 'AGENCY.VALIDATION.CITY.REQUIRED'})),
+    district: Yup.string()
+      .required(intl.formatMessage({id: 'AGENCY.VALIDATION.DISTRICT.REQUIRED'})),
+    detailAddress: Yup.string()
+      .required(intl.formatMessage({id: 'AGENCY.VALIDATION.ADDRESS.REQUIRED'})),
+    status: Yup.string()
+      .required(intl.formatMessage({id: 'AGENCY.VALIDATION.STATUS.REQUIRED'})),
+    phoneNumber: Yup.string()
+      .required(intl.formatMessage({id: 'AGENCY.VALIDATION.PHONE_NUMBER.REQUIRED'})),
+    taxId: Yup.string()
+      .required(intl.formatMessage({id: 'AGENCY.VALIDATION.TAX_ID.REQUIRED'}))
+      .max(100, intl.formatMessage({id: 'AGENCY.VALIDATION.TAX_ID.MAX_LENGTH_EXCEEDED'})),
+    // image: Yup.string().required(intl.formatMessage({id: 'AGENCY.VALIDATION.AGENCY_CODE.REQUIRED'})),
+
+
+    username: Yup.string()
+      .required(intl.formatMessage({id: 'AGENCY.VALIDATION.USER_NAME.REQUIRED'}))
+      .max(255, intl.formatMessage({id: 'AGENCY.VALIDATION.USER_NAME.MAX_LENGTH_EXCEEDED'})),
+    ownerName: Yup.string()
+      .required(intl.formatMessage({id: 'AGENCY.VALIDATION.OWNER_NAME.REQUIRED'}))
+      .max(255, intl.formatMessage({id: 'AGENCY.VALIDATION.OWNER_NAME.MAX_LENGTH_EXCEEDED'})),
+    ownerPhoneNumber: Yup.string()
+      .required(intl.formatMessage({id: 'AGENCY.VALIDATION.OWNER_PHONE_NUMBER.REQUIRED'}))
+      // .test('len', 'AGENCY.VALIDATION.OWNWER_PHONE_NUMBER.WRONG_EXACT_LENGTH', (val: any) => {return val.length !== null && val.length !== undefined && val.length === 10 }),
+      ,
+    email: Yup.string()
+      .required(intl.formatMessage({id: 'AGENCY.VALIDATION.EMAIL.REQUIRED'}))
+      .max(255, intl.formatMessage({id: 'AGENCY.VALIDATION.EMAIL.MAX_LENGTH_EXCEEDED'})),
+    gender: Yup.string()
+      .required(intl.formatMessage({id: 'AGENCY.VALIDATION.GENDER.REQUIRED'})),
+    birthDay: Yup.string()
+      .required(intl.formatMessage({id: 'AGENCY.VALIDATION.BIRTHDAY.REQUIRED'})),
+    roleName: Yup.string()
+      .required(intl.formatMessage({id: 'AGENCY.VALIDATION.ROLE_NAME.REQUIRED'})),
+    // avatar: Yup.string().required(intl.formatMessage({id: 'AGENCY.VALIDATION.AVATAR.REQUIRED'})),
   });
 
   const oldModifyModel: ModifyModel = {
@@ -596,6 +644,8 @@ function AgencyPage() {
     ...GenerateAllFormField(modifyModel)
   };
 
+  // const mock_entity: AgencyModel
+
   return (
     <Fragment>
 
@@ -653,7 +703,7 @@ function AgencyPage() {
           <MasterHeader
             title={headerTitle}
             onSearch={setFilterProps}
-            searchModel={purchaseOrderSearchModel}
+            searchModel={agencySearchModel}
             initValue={{
               code: '',
               lot: '',
@@ -699,6 +749,7 @@ function AgencyPage() {
               formPart={formPart}
               allFormField={allFormField}
               allFormButton={allFormButton}
+              validation={agencySchema}
             />
           )}
         </Route>
@@ -717,6 +768,7 @@ function AgencyPage() {
               formPart={formPart}
               allFormField={allFormField}
               allFormButton={allFormButton}
+              validation={agencySchema}
             />
           )}
         </Route>
