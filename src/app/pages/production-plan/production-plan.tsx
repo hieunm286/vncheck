@@ -540,10 +540,11 @@ function ProductionPlan() {
                 allFormField={allFormField}
                 allFormButton={allFormButton}
                 // validation={ProductTypeSchema}
-                // autoFill={{
-                //   field: 'code',
-                //   data: GenerateCode(data),
-                // }}
+                autoFill={{
+                  field: '',
+                  data: null,
+                  searchSelectField: [{ field: 'packing', ref: { prop: 'packing', key: 'packing.weight' } }],
+                }}
                 refreshData={refreshData}
                 homePage={homeURL}
                 tagData={tagData}
