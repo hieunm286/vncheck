@@ -36,7 +36,7 @@ export function InfiniteSelect({
             onChange={val => {
               setValue(val);
               onChange(val);
-              setFieldValue(name, refs ? val.value : val.label);
+              // setFieldValue(name, refs ? val.value : val.label);
             }}
             placeholder={placeholder}
             name={name}
