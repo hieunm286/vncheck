@@ -27,8 +27,6 @@ const getField = (field: any, fieldName: string) => {
 
   let fields: any = field.name[arrName[0]]
 
-  console.log(fields)
-
   arrName.forEach((el: string, key: number) => {
     if (key > 0) {
       fields = fields[el]
@@ -57,9 +55,7 @@ const getTouched = (touched: any, fieldName: string) => {
   if (fieldName.indexOf('.') === -1) {
     return touched[fieldName]
   }
-
-  console.log(fieldName)
-
+  
   const arrName = fieldName.split('.')
 
   if (arrName.length === 3) {
@@ -101,7 +97,6 @@ export function DatePickerField({ ...props }: any) {
   const { setFieldValue, errors, touched } = useFormikContext<any>();
   const [field] = useField(props);
   
-  console.log(field)
 
   return (
     <>
