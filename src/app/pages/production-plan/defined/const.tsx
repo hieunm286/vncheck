@@ -2,6 +2,8 @@ import { SearchModel } from '../../../common-library/common-types/common-type';
 import { GenerateAllFormField } from '../../../common-library/helpers/common-function';
 import * as ProductionPlanService from '../production-plan.service';
 import * as ProductPackagingService from '../../product-packaging/product-packaging.service';
+import * as ProductTypeService from '../../product-type/product-type.service';
+
 import '../style/production-plan.scss';
 
 export const headerTitle = 'PRODUCT_TYPE.MASTER.HEADER.TITLE';
@@ -431,12 +433,14 @@ export const modifyModel6: any[] = [
             required: true,
           },
           packing: {
-            type: 'SearchSelect',
+            type: 'SearchSelectV2',
             placeholder: 'Quy cách',
             required: true,
             label: 'Quy cách đóng gói',
             service: ProductPackagingService,
-            keyField: 'weight',
+            keyField: 'species',
+            rootField: 'planting',
+            display: 'weight',
             ref: true
           },
         },

@@ -61,8 +61,8 @@ const ImageDetail = ({
       <img src={image.src} alt={image.alt ? image.alt : ''} width="100%" />
       <div className="mt-5 pl-5">
         <p>Người chụp: {image.author}</p>
-        <p>Thời gian: {image.time && image.time}</p>
-        <p>Địa điểm: {image.location && image.location}</p>
+        <p>Thời gian: {image.time ? image.time : "Không có thông tin"}</p>
+        <p>Địa điểm: {image.location ? image.location : "không có thông tin"}</p>
       </div>
     </Modal>
   );

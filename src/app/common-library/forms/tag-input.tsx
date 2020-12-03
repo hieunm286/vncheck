@@ -8,22 +8,22 @@ const children = [
     {
         _id: '666safsa',
         code: 'NV1',
-        name: 'Nguyễn Văn A',
+        fullName: 'Nguyễn Văn A',
     },
     {
         _id: '666sasafsa',
         code: 'NV2',
-        name: 'Nguyễn Văn B',
+        fullName: 'Nguyễn Văn B',
     },
     {
         _id: '666ssaafsa',
         code: 'NV3',
-        name: 'Nguyễn Thị C',
+        fullName: 'Nguyễn Thị C',
     },
     {
         _id: '666safsfaa',
         code: 'NV4',
-        name: 'Nguyễn Thị D',
+        fullName: 'Nguyễn Thị D',
     },
 ];
 
@@ -106,19 +106,23 @@ function TagInput({
 
         <div className={isHorizontal && getClassName(labelWidth, false)}>
           <Select
-            mode="tags"
+            mode="multiple"
             style={{ width: '100%' }}
-            defaultValue={['666safsa']}
+            // defaultValue={['666safsa']}
             placeholder="Tags Mode"
             onChange={(value: any) => {
                 handleChange(value);
                 setFieldValue(name, value);
             }}
+            optionFilterProp="children"
+            filterOption={(input: any, option: any) =>  
+              option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0 
+            }
             className={`${errors[name] ? 'border border-danger rounded' : ''}`}
             >
-            {children.map((item: any, key: any) => (
+            {data.map((item: any, key: any) => (
               <Option key={item._id} value={item._id}>
-                {item.name}
+                {item.fullName}
               </Option>
             ))}
           </Select>
