@@ -14,7 +14,7 @@ export function createUser(user: {
   return axios.post(USERS_URL, user);
 }
 
-export function getAllUsers(queryParams: {
+export function getAllUsers(queryParams?: {
   filter: { field: string; searchText: any };
   pageNumber: any;
   limit: any;
@@ -23,6 +23,8 @@ export function getAllUsers(queryParams: {
 }) {
   // const sign = signTransaction('');
   // console.log(sign);
+  if (typeof queryParams === 'undefined') return axios.get(USERS_URL);
+
   if (queryParams.filter && queryParams.filter.field) {
     return axios.get(
       `${USER_URL_SEARCH}?page=${queryParams.pageNumber}&limit=${queryParams.limit}&sortby=${queryParams.sortField}&orderby=${queryParams.sortOrder}

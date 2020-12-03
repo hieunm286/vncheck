@@ -5,7 +5,7 @@ import { GenerateKeyPairAndEncrypt } from '../../auth/service/auth-cryptography'
 
 const { actions } = usersSlice;
 
-export const fetchAllUser = (queryParams: any) => (
+export const fetchAllUser = (queryParams?: any) => (
   dispatch: (arg0: { payload: any; type: string }) => void,
 ) => {
   dispatch(actions.startCall({ callType: callTypes.list }));

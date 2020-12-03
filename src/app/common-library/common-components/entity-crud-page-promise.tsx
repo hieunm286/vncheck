@@ -46,6 +46,7 @@ function EntityCrudPagePromise({
   homePage,
   asyncError,
   refreshData,
+  tagData
 }: {
   // modifyModel: ModifyModel;
   title: string;
@@ -62,6 +63,7 @@ function EntityCrudPagePromise({
   homePage?: string;
   asyncError?: string;
   refreshData: () => void;
+  tagData?: any
 }) {
   const intl = useIntl();
   const initForm = autoFill
@@ -181,6 +183,7 @@ function EntityCrudPagePromise({
                   )}
                   <CardBody>
                     <ModifyEntityPage
+                      entityForEdit={entityForEdit}
                       images={images}
                       modifyModel={formPart[key].modifyModel as any}
                       column={formPart[key].modifyModel.length}
@@ -188,6 +191,7 @@ function EntityCrudPagePromise({
                       handleChangeTag={handleChangeTag}
                       search={search}
                       setSearch={setSearch}
+                      tagData={tagData}
                     />
                     {errorMsg && (
                       <div className="text-right mt-5">
