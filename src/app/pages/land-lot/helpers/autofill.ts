@@ -99,8 +99,11 @@ export const searchSelectOnChange = (
         //   newStateWithTheseEnabled(isDisabled, ['subLot'])
         // );
         setFieldValue('code', value.label + values.subLot);
-        setFieldValue('subLot', '')
-        setSearch({...search, code: value.label, subLot: {value: '', label: ''}});
+        setFieldValue('lot', value.label);
+        // setFieldValue('subLot', '')
+        setSearch({...search, code: value.label, lot: {value: value.label, label: value.label}, 
+          // subLot: {value: '', label: ''}
+        });
       }
     }
 
