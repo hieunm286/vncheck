@@ -34,11 +34,10 @@ function ModifyEntityPageLandLot<T>({
   onChange,
   title,
   column,
-  search,
-  setSearch,
   handleChange,
   handleChangeTag,
-  setFieldValue
+  setFieldValue,
+  entity
 }: {
   modifyModel: any;
   values: any;
@@ -52,14 +51,14 @@ function ModifyEntityPageLandLot<T>({
   onChange?: any;
   title?: string;
   column?: number;
-  search?: any;
-  setSearch?: any;
   handleChange?: any;
   handleChangeTag?: any;
   setFieldValue?: any;
+  entity: any;
 }) {
   const intl = useIntl();
   // const initForm = generateInitForm(modifyModel);
+  const [search, setSearch] = useState<any>(entity);
   const modifyM = { ...modifyModel } as any;
 const dataT: any = [
   {
@@ -113,6 +112,7 @@ const dataT: any = [
     expiryDays: 19,
   },
 ];  
+console.log(search)
 
 
   const loadOptions = async (
@@ -367,7 +367,11 @@ const dataT: any = [
                                   || enteredValue === ''
                                 ) {
                                   setSearch({...search, [key]: {label: enteredValue, name: enteredValue}});
-                                  setFieldValue('code', values.lot + enteredValue);
+                                  if(values.lot) {
+                                    setFieldValue('code', values.lot + enteredValue);
+                                  } else {
+                                    setFieldValue('code', enteredValue);
+                                  }
                                   // handleChange(e);
                                 }
                                 else {
