@@ -13,7 +13,7 @@ import { MasterHeader } from "../../common-library/common-components/master-head
 import { MasterBody } from "../../common-library/common-components/master-body";
 import { ActionsColumnFormatter } from '../../common-library/common-components/actions-column-formatter';
 
-import { NormalColumn, SortColumn } from '../../common-library/common-consts/const';
+import { DefaultPagination, NormalColumn, SortColumn } from '../../common-library/common-consts/const';
 
 import {ModifyModel, SearchModel} from "../../common-library/common-types/common-type";
 
@@ -703,7 +703,14 @@ function AgencyPage() {
               {/* initValue={filterProps}/> */}
           <MasterHeader
             title={headerTitle}
-            onSearch={setFilterProps}
+            onSearch={(value) => {
+              setPaginationProps(DefaultPagination)
+              setFilterProps(value)
+            }}
+            onReset={() => {
+              setPaginationProps(DefaultPagination)
+              setFilterProps(undefined)
+            }}
             searchModel={agencySearchModel}
             initValue={{
               code: '',
