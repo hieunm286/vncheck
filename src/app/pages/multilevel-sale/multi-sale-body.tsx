@@ -5,9 +5,34 @@ import { MasterTable } from '../../common-library/common-components/master-table
 import MasterTreeStructure from '../../common-library/common-components/master-tree-structure';
 import { MultilevelSaleBodyProp } from './multilevel-sale.model';
 import AddIcon from '@material-ui/icons/Add';
-import './style/multilevel-sale.scss'
+import './style/multilevel-sale.scss';
 
-const MultiLevelSaleBody: React.FC<MultilevelSaleBodyProp> = ({ title, data, body, onCreate, onEdit, onDelete, onFetchAgency }) => {
+const showArray_v2 = (fileds: any, data: any): any => {
+  const AllField: any = fileds;
+
+  data.forEach((el: any, key: number) => {
+    // AllField[el._id] = true;
+    if (el.children && el.children.length > 0) {
+      AllField[el._id] = true;
+
+      showArray_v2(AllField, el.children);
+    } else {
+      AllField[el._id] = true;
+    }
+  });
+
+  return AllField;
+};
+
+const MultiLevelSaleBody: React.FC<MultilevelSaleBodyProp> = ({
+  title,
+  data,
+  body,
+  onCreate,
+  onEdit,
+  onDelete,
+  onFetchAgency,
+}) => {
   const intl = useIntl();
 
   return (
@@ -21,13 +46,33 @@ const MultiLevelSaleBody: React.FC<MultilevelSaleBodyProp> = ({ title, data, bod
         </div> */}
         <div className="row no-gutters mb-10 justify-content-center">
           {body.map((item: any, key: number) => {
+
             switch (item.type) {
               case 'Tree':
                 return (
                   <Fragment key={key}>
-                    <div className={`col-xl-${(12 / body.length - 1)} col-12 p-5 mr-xl-5 layout`}>
-                      <p>{item.title} <span className="text-primary" style={{ cursor: 'pointer' }} onClick={() => {if (onCreate) {onCreate(null)}}}><AddIcon /></span></p>
-                      <MasterTreeStructure data={item.data} onCreate={onCreate} onEdit={onEdit} onDelete={onDelete} onFetchAgency={onFetchAgency} />
+                    <div className={`col-xl-${12 / body.length - 1} col-12 p-5 mr-xl-5 layout`}>
+                      <p className="font-weight-bold">
+                        {item.title}
+                        <span
+                          className="text-primary"
+                          style={{ cursor: 'pointer' }}
+                          onClick={() => {
+                            if (onCreate) {
+                              onCreate(null);
+                            }
+                          }}>
+                          <AddIcon />
+                        </span>
+                      </p>
+                      <MasterTreeStructure
+                        data={item.data}
+                        onCreate={onCreate}
+                        onEdit={onEdit}
+                        onDelete={onDelete}
+                        onFetchAgency={onFetchAgency}
+                        showChildren={showArray_v2({}, item.data)}
+                      />
                     </div>
                   </Fragment>
                 );
@@ -35,8 +80,8 @@ const MultiLevelSaleBody: React.FC<MultilevelSaleBodyProp> = ({ title, data, bod
               case 'Table':
                 return (
                   <Fragment key={key}>
-                    <div className={`col-xl-${(12 / body.length)} col-12 p-5 ml-xl-5 layout`}>
-                      <p>{item.title}</p>
+                    <div className={`col-xl-${12 / body.length} col-12 p-5 ml-xl-5 layout`}>
+                      <p className="font-weight-bold">{item.title}</p>
 
                       <MasterTable
                         entities={item.data}
@@ -62,4 +107,3 @@ const MultiLevelSaleBody: React.FC<MultilevelSaleBodyProp> = ({ title, data, bod
 };
 
 export default MultiLevelSaleBody;
-
