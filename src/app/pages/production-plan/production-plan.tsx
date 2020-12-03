@@ -258,7 +258,7 @@ function ProductionPlan() {
 
   const [noticeModal, setNoticeModal] = useState<boolean>(false);
 
-  const [params, setParams] = useState({ step: 0 });
+  const [params, setParams] = useState({ step: 0 }); 
 
   useEffect(() => {
     getAll(params);
@@ -513,7 +513,7 @@ function ProductionPlan() {
               />
               <EntityCrudPagePromise
                 entity={history.location.state}
-                onModify={addPromise}
+                onModify={updatePromise}
                 title={createTitle}
                 // reduxModel="purchaseOrder"
                 code={null}
