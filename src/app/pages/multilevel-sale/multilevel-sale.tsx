@@ -203,13 +203,13 @@ function MultilevelSale() {
     },
     code: {
       dataField: 'code',
-      text: `${intl.formatMessage({ id: 'PRODUCT_TYPE.MASTER.TABLE.CODE_COLUMN' })}`,
+      text: `${intl.formatMessage({ id: 'MULTILEVEL_SALE.MASTER.TABLE.CODE_AGENCY' })}`,
       ...SortColumn,
       classes: 'text-center',
     },
     name: {
       dataField: 'name',
-      text: `${intl.formatMessage({ id: 'PRODUCT_TYPE.MASTER.TABLE.NAME_COLUMN' })}`,
+      text: `${intl.formatMessage({ id: 'MULTILEVEL_SALE.MASTER.TABLE.NAME_AGENCY' })}`,
       ...SortColumn,
       classes: 'text-center',
     },

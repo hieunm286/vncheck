@@ -13,6 +13,8 @@ import {
 
 export const API_URL = API_BASE_URL + '/product-plan';
 
+export const API_USER = API_BASE_URL + '/user';
+
 export const BULK_API_URL = API_URL + '/bulk'
 
 export const API_FILE_URL = API_BASE_URL + '/file';
@@ -45,6 +47,10 @@ export const Count: CountProps<any> = ({
 export const Get: GetProps<any> = entity => {
   return axios.get(`${API_URL}/${entity._id}`);
 };
+
+export const GetUser = () => {
+  return axios.get(`${API_USER}`);
+}
 
 export const GetById = (_id: string) => {
   return axios.get(`${API_URL}/${_id}`);
