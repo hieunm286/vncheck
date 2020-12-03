@@ -1,11 +1,33 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Modal } from 'react-bootstrap';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import { useIntl } from 'react-intl';
 import { Card, CardBody, CardHeader } from '../card';
 import ImgGallery from '../forms/image-gallery';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
+
+const getField = (field: any, fieldName: string) => {
+  console.log(field);
+  console.log(fieldName);
+  if (fieldName.indexOf('.') === -1) {
+    return field[fieldName];
+  }
+
+  const arrName = fieldName.split('.');
+
+  let fields: any = field[arrName[0]];
+
+  console.log(fields);
+
+  arrName.forEach((el: string, key: number) => {
+    if (key > 0) {
+      fields = fields[el];
+    }
+  });
+
+  return fields;
+};
 
 export function MasterEntityDetailPage({
   title = 'COMMON_COMPONENT.DETAIL_DIALOG.HEADER_TITLE',
@@ -15,6 +37,8 @@ export function MasterEntityDetailPage({
   renderInfo,
   mode,
   homeURL,
+  code,
+  get,
 }: {
   title?: string;
   moduleName?: string;
@@ -23,16 +47,31 @@ export function MasterEntityDetailPage({
   onClose: () => void;
   mode: 'line' | 'split';
   homeURL?: string;
+  code: string | null;
+  get: (code: string) => any | null;
 }) {
   const intl = useIntl();
 
+  const [entityDetail, setEntityDetail] = useState();
+
   const history = useHistory();
+
+  console.log(entityDetail);
+
+  useEffect(() => {
+    if (code) {
+      get(code).then((res: { data: any }) => {
+        setEntityDetail(res.data);
+      });
+    }
+  }, [code]);
+
   return (
     <>
       {mode === 'line' && (
         <LineMode
           title={title}
-          entity={entity}
+          entityDetail={entityDetail}
           renderInfo={renderInfo}
           intl={intl}
           moduleName={moduleName}
@@ -43,7 +82,7 @@ export function MasterEntityDetailPage({
       {mode === 'split' && (
         <SplitMode
           title={title}
-          entity={entity}
+          entityDetail={entityDetail}
           renderInfo={renderInfo}
           intl={intl}
           moduleName={moduleName}
@@ -56,7 +95,7 @@ export function MasterEntityDetailPage({
 }
 
 // eslint-disable-next-line no-lone-blocks
-const LineMode = ({ entity, renderInfo, intl, title, moduleName, history, homeURL }: any) => (
+const LineMode = ({ entityDetail, renderInfo, intl, title, moduleName, history, homeURL }: any) => (
   <Card>
     <CardHeader
       title={
@@ -90,12 +129,22 @@ const LineMode = ({ entity, renderInfo, intl, title, moduleName, history, homeUR
                           <div className="row">
                             <p className="col-4">{child.title}:</p>
                             <p className="col-8">
-                              {entity && entity[child.keyField]
-                                ? child.nested
-                                  ? entity[child.keyField][child.nested]
-                                  : entity[child.keyField]
-                                : 'Empty'}
+                              {entityDetail ? getField(entityDetail, child.keyField) : 'Empty'}
                             </p>
+                          </div>
+                        </div>
+                      );
+
+                    case 'link':
+                      return (
+                        <div className="mt-3" key={childKey}>
+                          <div className="row">
+                            <p className="col-4">{child.title}:</p>
+                            <div className="col-8">
+                              <Link to={entityDetail ? `${child.path}/${entityDetail[child.params]}` : ''}>
+                                {entityDetail ? getField(entityDetail, child.keyField) : 'Empty'}
+                              </Link>
+                            </div>
                           </div>
                         </div>
                       );
@@ -103,9 +152,17 @@ const LineMode = ({ entity, renderInfo, intl, title, moduleName, history, homeUR
                     case 'image':
                       return (
                         <div className="mt-3" key={childKey}>
-                          <p className="col-4">{child.title}:</p>
+                          <div className="row">
+                            <p className="col-4">{child.title}:</p>
+                            <div className="col-8">
+                              <img
+                                src={entityDetail ? getField(entityDetail, child.keyField) : ''}
+                                alt="..."
+                                width="125px"
+                              />
+                            </div>
+                          </div>
 
-                          <img src={entity[child.keyField][child.nested]} alt="..." />
                           {/* <ImgGallery
                             label={el[childKey].title}
                             labelWidth={4}
@@ -153,7 +210,15 @@ const LineMode = ({ entity, renderInfo, intl, title, moduleName, history, homeUR
   </Card>
 );
 
-const SplitMode = ({ entity, renderInfo, intl, title, moduleName, history, homeURL }: any) => (
+const SplitMode = ({
+  entityDetail,
+  renderInfo,
+  intl,
+  title,
+  moduleName,
+  history,
+  homeURL,
+}: any) => (
   <>
     {renderInfo.map((value: any, key: any) => (
       <React.Fragment key={key}>
@@ -191,7 +256,7 @@ const SplitMode = ({ entity, renderInfo, intl, title, moduleName, history, homeU
                               <div className="row">
                                 <p className="col-4">{el[childKey].title}:</p>
                                 <p className="col-8">
-                                  {entity && entity[childKey] ? entity[childKey] : 'Empty'}
+                                  {/* {entity && entity[childKey] ? entity[childKey] : 'Empty'} */}
                                 </p>
                               </div>
                             </div>
@@ -236,7 +301,7 @@ const SplitMode = ({ entity, renderInfo, intl, title, moduleName, history, homeU
                                       ]
                                 }
                               /> */}
-                              <img src={entity[childKey]} alt="..." />
+                              {/* <img src={entity[childKey]} alt="..." /> */}
                             </div>
                           );
                       }

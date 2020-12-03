@@ -33,10 +33,11 @@ import ProductionPlanModal from './production-plan-modal';
 import {
   allFormField,
   formPart,
-  masterEntityDetailDialog,
+  PlantingDetailDialog,
   masterEntityDetailDialog2,
   productPlanSearchModel1,
   productPlanSearchModel2,
+  SeedingDetailDialog,
 } from './defined/const';
 import { getAllUsers } from '../account/_redux/user-crud';
 import { fetchAllUser } from '../account/_redux/user-action';
@@ -338,11 +339,11 @@ function ProductionPlan() {
       dataField: 'action',
       text: `${intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.ACTION_COLUMN' })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
-        <Link to={{ pathname: '/production-plan/new', state: row }}>
+        <Link to={{ pathname: '/production-plan/new/' + row._id, state: row }}>
           <button
             className="btn btn-primary"
             onClick={() => {
-
+              get(row);
               setEditEntity(row);
             }}>
             + Tạo mới
@@ -516,8 +517,8 @@ function ProductionPlan() {
   return (
     <React.Fragment>
       <Switch>
-        <Route path="/production-plan/new">
-          {({ history }) => (
+        <Route path="/production-plan/new/:id">
+          {({ history, match }) => (
             <>
               <ProductionPlanModal
                 show={noticeModal}
@@ -533,8 +534,8 @@ function ProductionPlan() {
                 onModify={updatePromise}
                 title={createTitle}
                 // reduxModel="purchaseOrder"
-                code={null}
-                get={() => null}
+                code={match && match.params.id}
+                get={(code) => ProductionPlanService.GetById(code)}
                 formPart={formPart}
                 allFormField={allFormField}
                 allFormButton={allFormButton}
@@ -568,7 +569,9 @@ function ProductionPlan() {
           {({ history, match }) => (
             <MasterEntityDetailPage
               entity={detailEntity}
-              renderInfo={masterEntityDetailDialog}
+              renderInfo={SeedingDetailDialog}
+              code={match && match.params.code}
+              get={(code) => ProductionPlanService.GetById(code)}
               onClose={() => {
                 setShowDetail(false);
               }}
@@ -581,7 +584,9 @@ function ProductionPlan() {
           {({ history, match }) => (
             <MasterEntityDetailPage
               entity={history.location.state}
-              renderInfo={masterEntityDetailDialog}
+              renderInfo={PlantingDetailDialog}
+              code={match && match.params.code}
+              get={(code) => ProductionPlanService.GetById(code)}
               onClose={() => {
                 setShowDetail(false);
               }}
@@ -596,6 +601,8 @@ function ProductionPlan() {
             <MasterEntityDetailPage
               entity={detailEntity}
               renderInfo={masterEntityDetailDialog2}
+              code={match && match.params.code}
+              get={(code) => ProductionPlanService.GetById(code)}
               onClose={() => {
                 setShowDetail(false);
               }}
