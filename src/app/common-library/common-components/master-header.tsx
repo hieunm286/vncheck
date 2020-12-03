@@ -86,7 +86,11 @@ export function MasterHeader<T>({
     // reset disable
     let _disabled = {}
     Object.keys(initValue).forEach((field) => {
-      _disabled = {..._disabled, [field]: false};
+      if(field === 'subLot') {
+        _disabled = {..._disabled, [field]: true};
+      } else {
+        _disabled = {..._disabled, [field]: false};
+      }
     });
     setIsDisabled(_disabled);
   };
