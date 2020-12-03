@@ -46,8 +46,8 @@
 .example-highlight > pre {
   background: none transparent !important;
   margin: 0 !important;
-  padding-top: 0.5rem; 
-  code { 
+  padding-top: 0.5rem;
+  code {
       overflow-y: auto;
       display: block;
 
@@ -79,12 +79,12 @@
 .react-bootstrap-table {
   th {
     outline: none;
-   
-    &.sortable {  
+
+    &.sortable {
       .svg-icon-sort {
         opacity: 0;
       }
-  
+
       &:hover {
         cursor: pointer;
 
@@ -92,20 +92,24 @@
           opacity: 1;
         }
       }
-    }    
+    }
   }
 
   .table.table-head-custom thead tr {
     .sortable-active {
         color: $danger !important;
     }
-    
+
     background-color: #F3F6F9;
   }
 }
 
 .cursor-default {
   cursor: default !important;
+}
+
+.sort-icon{
+  position: absolute;
 }
 
 /*primary: #0B9446*/

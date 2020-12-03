@@ -5,19 +5,19 @@ import {ToAbsoluteUrl} from "./assets-helpers";
 
 export const SortCaret = (order: any, column: any) => {
     if (!order) return (
-        <span className="svg-icon svg-icon-sm svg-icon-primary ml-1 svg-icon-sort">
+        <span className="sort-icon svg-icon svg-icon-sm svg-icon-primary ml-1 svg-icon-sort">
       <SVG src={ToAbsoluteUrl("/media/svg/icons/Shopping/Sort1.svg")}/>
     </span>
     );
     else if (order === "asc")
         return (
-            <span className="svg-icon svg-icon-sm svg-icon-primary ml-1">
+            <span className="sort-icon svg-icon svg-icon-sm svg-icon-primary ml-1">
         <SVG src={ToAbsoluteUrl("/media/svg/icons/Navigation/Up-2.svg")}/>
       </span>
         );
     else if (order === "desc")
         return (
-            <span className="svg-icon svg-icon-sm svg-icon-primary ml-1">
+            <span className="sort-icon svg-icon svg-icon-sm svg-icon-primary ml-1">
         <SVG src={ToAbsoluteUrl("/media/svg/icons/Navigation/Down-2.svg")}/>
       </span>
         );
