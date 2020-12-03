@@ -268,8 +268,7 @@ export function InitMasterProps<T>({
   const deleteFn = (entity: T) => {
     setLoading(true);
     deleteServer(entity).then(refreshData).catch(error => {
-      console.log(error)
-      setError(error.message)
+      setError(error.message || error.response.data || JSON.stringify(error))
       setLoading(false);
     });
   };
@@ -279,7 +278,6 @@ export function InitMasterProps<T>({
     deleteManyServer(selectedEntities)
       .then(refreshData)
       .catch(error => {
-        console.log(error.response);
         setError(error.message)
         setLoading(false);
       });

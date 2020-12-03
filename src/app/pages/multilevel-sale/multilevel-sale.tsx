@@ -99,10 +99,10 @@ const data: TreeData[] = [
 
 const headerTitle = 'PRODUCT_PACKAGING.MASTER.HEADER.TITLE';
 const bodyTitle = 'PRODUCT_PACKAGING.MASTER.BODY.TITLE';
-const moduleName = 'PRODUCT_PACKAGING.MODULE_NAME';
-const deleteDialogTitle = 'PRODUCT_PACKAGING.DELETE_DIALOG.TITLE';
-const createTitle = 'PRODUCT_PACKAGING.CREATE.TITLE';
-const updateTitle = 'PRODUCT_PACKAGING.UPDATE.TITLE';
+const moduleName = 'MULTILEVEL_SALE.MODULE_NAME';
+const deleteDialogTitle = 'MULTILEVEL_SALE.DELETE_DIALOG.TITLE';
+const createTitle = 'MULTILEVEL_SALE.CREATE.TITLE';
+const updateTitle = 'MULTILEVEL_SALE.UPDATE.TITLE';
 const homeURL = `${window.location.pathname}`;
 
 function MultilevelSale() {
@@ -170,6 +170,7 @@ function MultilevelSale() {
   const [showdeleteAgency, setShowDeleteAgency] = useState(false)
   const [deleteAgency, setDeleteAgency] = useState<any>(null);
   const [refresh, setRefresh] = useState(false)
+  const [errorAgency, setErrorAgency] = useState('')
 
   useEffect(() => {
     getAll(filterProps);
@@ -182,10 +183,12 @@ function MultilevelSale() {
         setAgency(res.data.data);
         setAgencyTotal(res.data.paging.total);
         setAgencyLoading(false)
+        setErrorAgency('')
       })
       .catch(err => {
         console.log(err);
         setAgencyLoading(false)
+        setErrorAgency(err.message)
       });
   }, [paginationProps, agencyParams, refresh]);
 
@@ -220,6 +223,7 @@ function MultilevelSale() {
 
         onDelete: (entity: any) => {
           setDeleteAgency(entity);
+          setErrorAgency('')
           setShowDeleteAgency(true);
         },
       },
@@ -259,7 +263,7 @@ function MultilevelSale() {
         code: {
           type: 'string',
           placeholder: intl.formatMessage({ id: 'COMMON_COMPONENT.INPUT.PLACEHOLDER' }),
-          label: intl.formatMessage({ id: 'PRODUCT_PACKAGING.MASTER.TABLE.CODE_COLUMN' }),
+          label: intl.formatMessage({ id: 'MULTILEVEL_SALE.MASTER.CODE_COLUMN' }),
           required: true,
           disabled: true,
         },
@@ -269,7 +273,7 @@ function MultilevelSale() {
             id: 'COMMON_COMPONENT.INPUT.PLACEHOLDER',
           }),
           required: true,
-          label: intl.formatMessage({ id: 'PRODUCT_PACKAGING.MASTER.TABLE.GRAM_COLUMN' }),
+          label: intl.formatMessage({ id: 'MULTILEVEL_SALE.MASTER.NAME_COLUMN' }),
         },
         status: {
           type: 'boolean',
@@ -293,6 +297,7 @@ function MultilevelSale() {
   };
 
   const onFetchAgency = (entity: any) => {
+    setPaginationProps(DefaultPagination)
     setAgencyParams({ storeLevel: entity._id });
   };
 
@@ -302,8 +307,10 @@ function MultilevelSale() {
       setAgencyLoading(false)
       setShowDeleteAgency(false)
       setRefresh(!refresh) 
+      setErrorAgency('')
     }).catch(err => {
       setAgencyLoading(false)
+      setErrorAgency(err.message || err.reason)
     })
   }
 
@@ -327,7 +334,7 @@ function MultilevelSale() {
         onDelete={onDeleteAgency}
         isShow={showdeleteAgency}
         loading={agencyLoading}
-        error={error}
+        error={errorAgency}
         onHide={() => {
           setShowDeleteAgency(false);
         }}
@@ -351,8 +358,8 @@ function MultilevelSale() {
           setShowCreate(false);
         }}
         autoFill={{
-          field: 'code',
-          data: GenerateCode(data),
+          field: '',
+          data: null,
         }}
         code={null}
         get={() => null}
@@ -407,6 +414,7 @@ function MultilevelSale() {
           setShowEdit(true);
         }}
         onDelete={(entity: any) => {
+          setError('')
           setDeleteEntity(entity);
           setShowDelete(true);
         }}

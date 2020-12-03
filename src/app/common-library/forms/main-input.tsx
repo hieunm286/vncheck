@@ -59,6 +59,8 @@ const getTouched = (touched: any, fieldName: string) => {
     return touched[fieldName]
   }
 
+  console.log(fieldName)
+
   const arrName = fieldName.split('.')
 
   if (arrName.length === 3) {
@@ -79,6 +81,7 @@ interface MainInputState {
   labelWidth: any;
   width: any;
   type: any;
+  disabled?: boolean;
 }
 
 export function MainInput({
@@ -92,6 +95,7 @@ export function MainInput({
   labelWidth,
   width,
   type = 'text',
+  disabled,
   ...props
 }: MainInputState) {
   const styleLabe = {
@@ -128,6 +132,7 @@ export function MainInput({
                 : ''
             }
             min={type === 'number' ? 0 : undefined}
+            disabled={disabled}
             {...field}
             {...props}
           />

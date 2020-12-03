@@ -5,6 +5,7 @@ import { registerLocale, setDefaultLocale } from 'react-datepicker';
 import vi from 'date-fns/locale/vi';
 import 'react-datepicker/dist/react-datepicker.css'
 import "react-datepicker/dist/react-datepicker-cssmodules.css";
+
 registerLocale('vi', vi);
 
 const getFieldCSSClasses = (touched: any, errors: any) => {
@@ -16,6 +17,57 @@ const getFieldCSSClasses = (touched: any, errors: any) => {
 
   return classes.join(' ');
 };
+
+const getField = (field: any, fieldName: string) => {
+  if (fieldName.indexOf('.') === -1) {
+    return field.name[fieldName]
+  }
+
+  const arrName = fieldName.split('.')
+
+  let fields: any = field.name[arrName[0]]
+
+  console.log(fields)
+
+  arrName.forEach((el: string, key: number) => {
+    if (key > 0) {
+      fields = fields[el]
+    }
+    
+  })
+
+  return fields
+}
+
+const getError = (error: any, fieldName: string) => {
+  if (fieldName.indexOf('.') === -1) {
+    return error[fieldName]
+  }
+
+  const arrName = fieldName.split('.')
+
+  if (arrName.length === 3) {
+    return error[arrName[0]] && error[arrName[1]] ? error[arrName[0]][arrName[1]][arrName[2]] : ''
+  }
+
+  return error[arrName[0]] ? error[arrName[0]][arrName[1]] : ''
+}
+
+const getTouched = (touched: any, fieldName: string) => {
+  if (fieldName.indexOf('.') === -1) {
+    return touched[fieldName]
+  }
+
+  console.log(fieldName)
+
+  const arrName = fieldName.split('.')
+
+  if (arrName.length === 3) {
+    return touched[arrName[0]] && touched[arrName[1]] ? touched[arrName[0]][arrName[1]][arrName[2]] : ''
+  }
+
+  return touched[arrName[0]] ? touched[arrName[0]][arrName[1]] : ''
+}
 
 const getClassName = (labelWidth: number | null | undefined, labelStart: boolean) => {
   const classes: string[] = [];
@@ -48,9 +100,8 @@ const getClassName = (labelWidth: number | null | undefined, labelStart: boolean
 export function DatePickerField({ ...props }: any) {
   const { setFieldValue, errors, touched } = useFormikContext<any>();
   const [field] = useField(props);
-  // const [startDate, setStartDate] = React.useState(
-  //   setHours(setMinutes(new Date(), 30), 16)
-  // );
+  
+  console.log(field)
 
   return (
     <>
@@ -60,7 +111,7 @@ export function DatePickerField({ ...props }: any) {
         </div>
         <div className={props.isHorizontal && getClassName(props.labelWidth, false)}>
           <DatePicker
-            className={getFieldCSSClasses(touched[field.name], errors[field.name])}
+            className={getFieldCSSClasses(getTouched(touched, field.name), getError(errors, field.name))}
             style={{ width: '100%' }}
             dateFormat="dd/MM/yyyy h:mm aa"
             selected={(field.value && new Date(field.value)) || null}
@@ -76,8 +127,9 @@ export function DatePickerField({ ...props }: any) {
             // showTimeSelect
             showTimeInput
             timeInputLabel="Thời gian:"
+            disabled={props.disabled}
           />
-          {errors[field.name] && touched[field.name] ? (
+          {getError(errors, field.name) && getTouched(touched, field.name) ? (
             <div className="invalid-datepicker-feedback text-danger" style={{ fontSize: '0.9rem' }}>
               Vui lòng nhập 
               {
