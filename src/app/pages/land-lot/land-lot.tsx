@@ -565,11 +565,7 @@ function LandLot() {
           />
           <MasterBody
             onCreate={() => {
-              setCreateEntity({
-                code: '',
-                lot: 'a',
-                subLot: '01'
-              });
+              setCreateEntity(null);
               setEditEntity(null);
               setShowCreate(true);
               // history.push(`${window.location.pathname}/new`);

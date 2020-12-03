@@ -343,7 +343,7 @@ console.log(search)
                             <InfiniteSelect
                               label={value.data[key].label}
                               isHorizontal={true}
-                              value={search[key]}
+                              value={search[key] || ''}
                               onChange={(value: any) => {
                                 const enteredValue = value.value;
                                 if(key === 'lot' 
