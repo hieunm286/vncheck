@@ -1,4 +1,4 @@
-import React, { useEffect, Fragment } from "react";
+import React, { useEffect, Fragment, useState } from "react";
 import {useIntl} from 'react-intl';
 
 
@@ -198,7 +198,8 @@ function AgencyPage() {
           // setEditEntity(entity);
           // get(entity);
           setEditEntity(ConvertStatusToBoolean(entity));
-          history.push(`agency/${entity._id}`) // setShowEdit(true);
+          history.push(`${window.location.pathname}/${entity._id}`) // setShowEdit(true);
+          // history.push(`${entity._id}`) // setShowEdit(true);
         }
       },
       ...NormalColumn,
@@ -607,9 +608,9 @@ function AgencyPage() {
       icon: <SaveOutlinedIcon />,
     },
     cancel: {
-      role: 'link-button',
+      role: 'popupButton',
       type: 'button',
-      linkto: '/agency',
+      // linkto: '/agency',
       className: 'btn btn-outline-primary mr-2',
       label: intl.formatMessage({id: 'AGENCY.EDIT.BUTTON.CANCEL'}),
       icon: <CancelOutlinedIcon />,
@@ -753,7 +754,7 @@ function AgencyPage() {
             />
           )}
         </Route>
-        <Route path="/agency/:id">
+        <Route path="/agency/:code">
           {({ history, match }) => (
             <EntityCrudPageAgency
               entity={editEntity}
@@ -763,7 +764,7 @@ function AgencyPage() {
               // title={updateTitle}
               //  modifyModel={modifyModel}
               // reduxModel="purchaseOrder"
-              code={match && match.params.id}
+              code={match && match.params.code}
               get={AgencyService.GetById}
               formPart={formPart}
               allFormField={allFormField}

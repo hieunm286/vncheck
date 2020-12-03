@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import ModifyEntityPageAgency from './modify-entity-page-agency';
 import { ModifyModel } from '../../../common-library/common-types/common-type';
 import { useIntl } from 'react-intl';
-import { ConvertStatusToBoolean, generateInitForm, getNewImage, getOnlyFile } from '../../../common-library/helpers/common-function';
+import { ConvertStatusToBoolean, generateInitForm, GetHomePage, getNewImage, getOnlyFile } from '../../../common-library/helpers/common-function';
 import { Field, Form, Formik } from 'formik';
 import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
@@ -17,6 +17,7 @@ import { Card, CardBody, CardHeader } from '../../../common-library/card';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from '@material-ui/core';
 import { convertToForm } from './convert-data-model';
+import { NotifyDialog } from '../../../common-library/common-components/notify-dialog';
 
 function EntityCrudPageAgency({
   entity,
@@ -30,6 +31,7 @@ function EntityCrudPageAgency({
   allFormField,
   allFormButton,
   validation,
+  setShowDialog,
 }: {
   // modifyModel: ModifyModel;
   title?: string;
@@ -42,6 +44,7 @@ function EntityCrudPageAgency({
   allFormField?: any;
   allFormButton?: any;
   validation?: any;
+  setShowDialog?: any;
 }) {
   const intl = useIntl();
   const initForm = generateInitForm(allFormField);
@@ -51,6 +54,9 @@ function EntityCrudPageAgency({
 
   const [images, setImages] = useState(initForm);
   const [imageRootArr, setImageRootArr] = useState<any>([]);
+
+  const [ showConfirmDialog, setShowConfirmDialog ] = useState<any>(false);
+
 
   const [defaultShippingAddress, setDefaultShippingAddress] = useState(0);
   const handleShippingAddressChange = (e: any) => {
@@ -92,7 +98,9 @@ function EntityCrudPageAgency({
         validationSchema={validation}
         onSubmit={values => {
           onModify(values);
-          history.goBack()
+          // history.goBack()
+          history.push(GetHomePage(window.location.pathname));
+
         }}>
         {({ values, handleSubmit }) => (
           <>
@@ -167,6 +175,19 @@ function EntityCrudPageAgency({
                               </button>
                             </Link>
                           );
+                        case 'popupButton':
+                          return (
+                            <button
+                              onClick={(e: any) => {
+                                  setShowConfirmDialog(true);
+                                }
+                              }
+                              type={allFormButton[key].type}
+                              className={allFormButton[key].className}
+                              key={key}>
+                              {allFormButton[key].icon} {allFormButton[key].label}
+                            </button>
+                          );
                         }
                       })
                     }
@@ -192,6 +213,20 @@ function EntityCrudPageAgency({
           </>
         )}
       </Formik>
+      <NotifyDialog
+          moduleName='AGENCY.MODULE_NAME'
+          confirmMessage='AGENCY.NOTIFY_DIALOG.NOTSAVE'
+          onSubmit={() => {
+            history.push('/agency')
+            }
+          }
+          isShow={showConfirmDialog}
+          onHide={() => {
+            setShowConfirmDialog(false);
+          }}
+          loading={false}
+          error=''
+      />
     </>
   );
 }

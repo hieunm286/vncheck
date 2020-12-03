@@ -42,6 +42,21 @@ export interface DeleteDialogProps<T> {
   error?: string;
 }
 
+export interface NotifyDialogProps {
+  isShow: boolean;
+  onSubmit: () => any;
+  onHide: () => any;
+  title?: string;
+  moduleName?: string;
+  idProperty?: string;
+  bodyTitle?: string;
+  confirmMessage?: string;
+  confirmBtn?: string;
+  cancelBtn?: string;
+  loading?: boolean;
+  error?: string;
+}
+
 export interface DeleteManyDialogProps<T> {
   isShow: boolean;
   onHide: () => any;
