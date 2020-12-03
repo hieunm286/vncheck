@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Table } from 'react-bootstrap';
 import AddIcon from '@material-ui/icons/Add';
 import EditIcon from '@material-ui/icons/Edit';
@@ -7,19 +7,6 @@ import { TreeData } from '../../pages/multilevel-sale/multilevel-sale.model';
 import { ChildFriendly } from '@material-ui/icons';
 import { ConvertStatusToBoolean } from '../helpers/common-function';
 
-const showArray_v2 = (fileds: any, data: any): any => {
-  const AllField: any = fileds;
-
-  data.forEach((el: any, key: number) => {
-    if (el.children && el.children.length > 0) {
-      AllField[el._id] = false;
-
-      showArray_v2(AllField, el.children);
-    }
-  });
-
-  return AllField;
-};
 
 interface TreeDataProp {
   data: TreeData[];
@@ -27,10 +14,16 @@ interface TreeDataProp {
     onEdit?: (entity: any) => void;
     onDelete?: (entity: any) => void; 
     onFetchAgency?: (entity: any) => void;
+    showChildren: any;
 }
 
-const MasterTreeStructure: React.FC<TreeDataProp> = ({ data, onCreate, onEdit, onDelete, onFetchAgency }) => {
-  const [showChildrenV2, setShowChildrenV2] = React.useState<any>({ ...showArray_v2({}, data) });
+const MasterTreeStructure: React.FC<TreeDataProp> = ({ data, onCreate, onEdit, onDelete, onFetchAgency, showChildren }) => {
+  const [showChildrenV2, setShowChildrenV2] = useState(showChildren);
+  const [currentChild, setCurrentChild] = useState<string | undefined>()
+
+  // useEffect(() => {
+  //   setShowChildrenV2(showChildren)
+  // }, [showChildren])
 
   const handleAdd = (data: TreeData): void => {
     if (onCreate) {
@@ -52,6 +45,7 @@ const MasterTreeStructure: React.FC<TreeDataProp> = ({ data, onCreate, onEdit, o
 
   const handleClick = (data: TreeData): void => {
     console.log(data);
+    setCurrentChild(data._id)
     if (onFetchAgency) {
       onFetchAgency(data)
     }
@@ -72,9 +66,9 @@ const MasterTreeStructure: React.FC<TreeDataProp> = ({ data, onCreate, onEdit, o
         {data.map((childrenItem: TreeData, keyItem: number) => (
           <React.Fragment key={'childrenren' + keyItem}>
             <tr>
-              <td onClick={() => handleClick(childrenItem)}>
+              <td onClick={() => handleClick(childrenItem)} className={currentChild === childrenItem._id ? 'text-primary font-weight-bold' : ''} >
                 <div style={{ marginLeft: `${size}rem` }}>
-                  {childrenItem.children && childrenItem.children.length > 0 ? (
+                  {/* {childrenItem.children && childrenItem.children.length > 0 ? (
                     <button
                       onClick={() => onShowChildren(childrenItem._id)}
                       style={{ backgroundColor: 'white', border: 'none' }}>
@@ -86,8 +80,8 @@ const MasterTreeStructure: React.FC<TreeDataProp> = ({ data, onCreate, onEdit, o
                       style={{ backgroundColor: 'white', border: 'none' }}>
                       {'\u00A0'}
                     </button>
-                  )}
-                  <span onClick={() => onShowChildren(childrenItem._id)}>{childrenItem.name}</span>
+                  )} */}
+                  <span onClick={() => onShowChildren(childrenItem._id)} style={{ cursor: 'pointer' }}>{childrenItem.name}</span>
                 </div>
               </td>
               <td>
@@ -111,7 +105,7 @@ const MasterTreeStructure: React.FC<TreeDataProp> = ({ data, onCreate, onEdit, o
                 </button>
               </td>
             </tr>
-            {showChildrenV2[childrenItem._id] &&
+            {
               childrenItem.children &&
               childrenItem.children.length > 0 &&
               renderChild(childrenItem.children, size + skipDistance, skipDistance)}

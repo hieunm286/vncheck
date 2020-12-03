@@ -143,8 +143,8 @@ function ModifyEntityDialogForm<T>({
                       modifyModel={formPart[key].modifyModel as any}
                       column={formPart[key].modifyModel.length}
                       title={formPart[key].title}
-                      search={search}
-                      setSearch={setSearch}
+                      entity={search}
+                      // setSearch={setSearch}
                     />
                 </React.Fragment>
               ))}
