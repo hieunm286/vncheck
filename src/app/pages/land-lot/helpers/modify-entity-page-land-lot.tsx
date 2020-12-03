@@ -353,7 +353,8 @@ console.log(search)
                                 ) {
                                   setSearch({...search, [key]: {label: enteredValue, name: enteredValue}});
                                   // handleChange(e);
-                                  setFieldValue('lot', {label: enteredValue, name: enteredValue});
+                                  // setFieldValue('lot', {label: enteredValue, name: enteredValue});
+                                  setFieldValue('lot', enteredValue);
                                   if(values.subLot) {
                                     setFieldValue('code', enteredValue + values.subLot);
                                   } else {
@@ -367,6 +368,8 @@ console.log(search)
                                   || enteredValue === ''
                                 ) {
                                   setSearch({...search, [key]: {label: enteredValue, name: enteredValue}});
+                                  // setFieldValue('subLot', {label: enteredValue, name: enteredValue});
+                                  setFieldValue('subLot', enteredValue);
                                   if(values.lot) {
                                     setFieldValue('code', values.lot + enteredValue);
                                   } else {

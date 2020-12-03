@@ -72,7 +72,8 @@ export function MasterHeader<T>({
   Object.keys(initValue).forEach((field) => {
     _disabled = {..._disabled, [field]: false};
   });
-  _disabled.subLot = true;
+  // _disabled.subLot = true;
+  
 
   const [isDisabled, setIsDisabled] = useState<any>(_disabled);
 
@@ -86,11 +87,7 @@ export function MasterHeader<T>({
     // reset disable
     let _disabled = {}
     Object.keys(initValue).forEach((field) => {
-      if(field === 'subLot') {
-        _disabled = {..._disabled, [field]: true};
-      } else {
-        _disabled = {..._disabled, [field]: false};
-      }
+      _disabled = {..._disabled, [field]: false};
     });
     setIsDisabled(_disabled);
   };
@@ -303,8 +300,9 @@ export function MasterHeader<T>({
                                     value, values, searchM, search, setSearch, key, handleChange, setFieldValue, setIsDisabled, isDisabled
                                   );
 
+                                } else {
+                                  setSearch({ ...search, [key]: value });
                                 }
-                                setSearch({ ...search, [key]: value });
                                 // setSearchTerm({
                                 //   ...searchTerm,
                                 //   [key]: searchM[key].ref ? value.value : value.label,
