@@ -90,6 +90,8 @@ function EntityCrudPagePromise({
     // setTagArr({ ...tagArr, [key]: newTag });
   }
 
+  console.log(entityForEdit)
+
   useEffect(() => {
     if (code) {
       get(code).then((res: { data: any }) => {
@@ -128,7 +130,7 @@ function EntityCrudPagePromise({
   const submitHandle = (values: any, { setSubmitting, setFieldError }: any) => {
     onModify(values)
       .then((res: any) => {
-        history.push(GetHomePage(window.location.pathname));
+        history.push(homePage || GetHomePage(window.location.pathname));
         notifySuccess()
         setErrorMsg(undefined);
         refreshData();
@@ -171,7 +173,7 @@ function EntityCrudPagePromise({
                     <CardHeader
                       title={
                         <>
-                          <a onClick={() => history.goBack()}>
+                          <a onClick={() => history.push(homePage || GetHomePage(window.location.pathname))}>
                             <ArrowBackIosIcon />
                           </a>
                           {entityForEdit
