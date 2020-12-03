@@ -364,12 +364,14 @@ function ModifyEntityPage<T>({
               );
 
             case 'SearchSelectV2':
+              console.log(search[key])
+
               return (
                 <div className="mt-3" key={key}>
                   <InfiniteSelectV2
                     label={intl.formatMessage({ id: value.data[key].label })}
                     isHorizontal={true}
-                    value={search[key]}
+                    value={value.data[key].fillField ? search[key][value.data[key].fillField] : search[key]}
                     onChange={(value: any) => {
                       setSearch({ ...search, [key]: value });
                       // setSearchTerm({

@@ -440,6 +440,7 @@ export const modifyModel6: any[] = [
             service: ProductPackagingService,
             keyField: 'species',
             rootField: 'planting',
+            fillField: 'packing',
             display: 'weight',
             ref: true
           },

@@ -8,6 +8,7 @@ import {
   getNewImage,
   getOnlyFile,
   getOnlyBase64,
+  ConvertSelectSearch,
 } from '../helpers/common-function';
 import { Field, Form, Formik } from 'formik';
 import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
@@ -95,7 +96,9 @@ function EntityCrudPagePromise({
   useEffect(() => {
     if (code) {
       get(code).then((res: { data: any }) => {
-        setEntityForEdit(res.data);
+        const convert = (autoFill ? ConvertSelectSearch(res.data, autoFill.searchSelectField) : ConvertSelectSearch(res.data))
+        setEntityForEdit(convert);
+        setSearch(res.data)
       });
     }
   }, [code]);
@@ -142,7 +145,7 @@ function EntityCrudPagePromise({
       });
   };
 
-  console.log(initForm)
+  console.log(search)
 
   return (
     <>
