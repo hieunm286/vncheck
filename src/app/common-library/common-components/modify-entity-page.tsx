@@ -183,6 +183,7 @@ function ModifyEntityPage<T>({
                           placeholder={intl.formatMessage({ id: value.data[key].placeholder })}
                           label={intl.formatMessage({ id: value.data[key].label })}
                           required={value.data[key].required}
+                          disabled={value.data[key].disabled}
                         />
                       </div>
                     );
@@ -224,6 +225,7 @@ function ModifyEntityPage<T>({
                           labelWidth={4}
                           type="Datetime"
                           required={value.data[key].required}
+                          disabled={value.data[key].disabled}
                         />
                       </div>
                     );
