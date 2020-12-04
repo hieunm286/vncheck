@@ -14,10 +14,9 @@ import DeleteManyEntitiesDialog from '../../common-library/common-components/del
 import ModifyEntityDialog from './helpers/modify-entity-dialog';
 import { ModifyModel, SearchModel } from '../../common-library/common-types/common-type';
 import {
-  ConvertToTreeNode,
   GenerateAllFormField,
   InitMasterProps,
-} from './helpers/common-function-land-lot';
+} from '../../common-library/helpers/common-function';
 import * as AgencyService from '../purchase-order/agency.service';
 import * as LandLotService from './land-lot.service';
 import { Switch, Route, Redirect, useHistory } from 'react-router-dom';
@@ -120,6 +119,8 @@ function LandLot() {
     deleteFn,
     getAll,
     refreshData,
+    addPromise,
+    updatePromise,
   } = InitMasterProps<LandLotModel>({
     getServer: Get,
     countServer: Count,
@@ -143,12 +144,12 @@ function LandLot() {
     .required(intl.formatMessage({id:'LAND_LOT.EDIT.VALIDATION.LOT_CODE_EMPTY'}))
     .matches(/[a-zA-Z]/u, {
       message: intl.formatMessage({id: 'LAND_LOT.EDIT.VALIDATION.LOT_CODE_WRONG_FORMAT'})
-    }),
+    }).nullable(),
   subLot: Yup.string()
     .required(intl.formatMessage({id: 'LAND_LOT.EDIT.VALIDATION.SUB_LOT_CODE_EMPTY'}))
     .matches(/[0-9]+/u, {
       message: intl.formatMessage({id: 'LAND_LOT.EDIT.VALIDATION.SUB_LOT_CODE_WRONG_FORMAT'})
-    })
+    }).nullable()
     // .test('len', intl.formatMessage({id: 'LAND_LOT.EDIT.VALIDATION.SUB_LOT_CODE_WRONG_FORMAT_LENGTH'}), (val: any) => val.length === 2),
 });
 
@@ -519,13 +520,14 @@ function LandLot() {
         allFormField={allFormField}
         isShow={showCreate}
         entity={createEntity}
-        onModify={add}
+        onModify={addPromise}
         title={createTitle}
         modifyModel={modifyModel}
         validation={PurchaseOrderSchema}
         onHide={() => {
           setShowCreate(false);
         }}
+        refreshData={refreshData}
       />
       <ModifyEntityDialog
         autoFill=''
@@ -533,13 +535,14 @@ function LandLot() {
         allFormField={allFormField}
         isShow={showEdit}
         entity={editEntity}
-        onModify={update}
+        onModify={updatePromise}
         title={updateTitle}
         modifyModel={modifyModel}
         validation={PurchaseOrderSchema}
         onHide={() => {
           setShowEdit(false);
         }}
+        refreshData={refreshData}
       />
       <Switch>
         <Redirect from="/land-lot/edit" to="/land-lot" />

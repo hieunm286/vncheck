@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import { AsyncPaginate } from 'react-select-async-paginate';
 import { useField, useFormikContext } from 'formik';
+import { deCapitalizeFirstLetter } from '../helpers/common-function'
+import { useIntl } from 'react-intl';
 
 const style = {
   borderRadius: 5
@@ -17,8 +19,21 @@ export function InfiniteSelect({
   refs,
   isHorizontal,
   isDisabled,
+  validationMessage,
   ...props
-}: any) {
+}: {
+  label: string
+  loadOptions?: any;
+  value?: any;
+  onChange?: any;
+  placeholder?: any
+  name: string;
+  additional?: any;
+  refs?: boolean;
+  isHorizontal?: boolean;
+  isDisabled?: boolean;
+  validationMessage?: string;
+}) {
   const { setFieldValue, errors, touched } = useFormikContext<any>();
   const [values, setValue] = React.useState(null);
 
@@ -46,11 +61,10 @@ export function InfiniteSelect({
           />
           {errors[name] && touched[name] ? (
             <div className="invalid-datepicker-feedback text-danger" style={{ fontSize: '0.9rem' }}>
-              Vui lòng chọn 
-              {
-                // errors[field.name]?.toString()
-                 label
-              }
+             {
+              // validationMessage ? intl.formatMessage({id: validationMessage}) : 'Vui lòng chọn ' + deCapitalizeFirstLetter(label)
+              errors[name] ? errors[name] : 'Vui lòng chọn ' + deCapitalizeFirstLetter(label)
+             }
             </div>
           ) : (
             <div className="feedback">
