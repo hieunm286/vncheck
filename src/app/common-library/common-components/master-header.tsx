@@ -587,16 +587,16 @@ export function MasterHeader<T>({
               </div>
 
               <div className="row no-gutters">
-                <div className="mr-5">
-                  <button className="btn btn-primary pl-4 pr-5" type="submit">
-                    <SearchIcon style={{ fontSize: 14 }} />
+                <div className="col-pc-3 mr-5">
+                  <button className="btn btn-primary w-100" type="submit">
+                    <SearchIcon style={{ fontSize: 14, marginBottom: 2 }} />
                     {intl.formatMessage({ id: 'COMMON_COMPONENT.MASTER_HEADER.SEARCH_BTN' })}
                   </button>
                 </div>
 
-                <div className="mr-5">
+                <div className="mr-5 col-pc-3">
                   <button
-                    className="btn btn-outline-primary pl-7 pr-7"
+                    className="btn btn-outline-primary w-100"
                     type="reset"
                     onClick={() => handleResetForm(resetForm)}>
                     <SVG src={ToAbsoluteUrl('/media/svg/vncheck/reset-filter.svg')} />
