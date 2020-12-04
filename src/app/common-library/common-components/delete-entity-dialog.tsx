@@ -64,7 +64,7 @@ export function DeleteEntityDialog<T>({
         {loading && <span>{intl.formatMessage({ id: deletingMessage })}</span>}
         {!loading && error !== '' && (
           <>
-            <p>{error}</p>
+            <p>{typeof error === 'string' ? intl.formatMessage({ id: error }) : error}</p>
           </>
         )}
       </Modal.Body>
