@@ -20,6 +20,10 @@ export const CapitalizeFirstLetter = (string: string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
 };
 
+export const deCapitalizeFirstLetter = (string: string) => {
+  return string.charAt(0).toLowerCase() + string.slice(1);
+};
+
 export const generateInitForm = (modifyModel: any, initField?: string, initData?: string) => {
   const initValue = {} as any;
 

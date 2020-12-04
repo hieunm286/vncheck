@@ -5,6 +5,7 @@ import { useIntl } from 'react-intl';
 import { ModifyModel } from '../../../common-library/common-types/common-type';
 import { ConvertSelectSearch, generateInitForm } from '../../../common-library/helpers/common-function';
 import { DefaultPagination } from '../../../common-library/common-consts/const';
+import { AxiosResponse } from 'axios';
 
 function ModifyEntityDialog<T>({
   isShow,
@@ -21,13 +22,14 @@ function ModifyEntityDialog<T>({
   validation,
   autoFill,
   homePage,
+  refreshData,
 }: {
   modifyModel?: any;
   title: string;
   isShow: boolean;
   onHide: () => void;
   entity: T;
-  onModify: (values: any) => void;
+  onModify: (values: any) => Promise<AxiosResponse<T>>;
   code?: string | null;
   get?: (code: string) => any | null;
   formPart?: any;
@@ -36,6 +38,7 @@ function ModifyEntityDialog<T>({
   validation?: any;
   autoFill?: any;
   homePage?: string;
+  refreshData: () => void;
 }) {
   const intl = useIntl();
   const initForm = autoFill
@@ -94,6 +97,7 @@ function ModifyEntityDialog<T>({
         entity={(autoFill ? ConvertSelectSearch(entity, autoFill.searchSelectField) : ConvertSelectSearch(entity)) || initForm}
         onHide={onHide}
         onModify={onModify}
+        refreshData={refreshData}
       />
     </Modal>
   );

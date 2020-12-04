@@ -1,9 +1,8 @@
 export interface LandLotModel {
   _id?: any;
-  code?: string;
-  name?: string;
-  lot: string;
-  subLot: string;
+  code?: any;
+  lot: any;
+  subLot: any;
 }
 
 export interface LandLotSearchModel {
