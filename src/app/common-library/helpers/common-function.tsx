@@ -167,6 +167,8 @@ export const getField = (field: any, fieldName: string) => {
 
   const arrName = fieldName.split('.')
 
+  console.log(field)
+
   let fields: any = field[arrName[0]]
 
   arrName.forEach((el: string, key: number) => {
@@ -174,7 +176,6 @@ export const getField = (field: any, fieldName: string) => {
       if (fields[el]) {
         fields = fields[el]
       }
-      
     }
     
   })
@@ -196,8 +197,9 @@ export const ConvertSelectSearch = (entity: any, keyField?: FieldProp[]) => {
   if (keyField && keyField.length > 0) {
 
     keyField.forEach(({ field, ref }: FieldProp) => {
+      // if (ref && (!convertEntity[ref.prop] || convertEntity[ref.prop] === ''))
       if (ref && convertEntity[ref.prop]) {
-        convertEntity[field][field] = { label: getField(convertEntity[ref.prop], ref.key), value: entity._id }
+        convertEntity[field] = { label: getField(convertEntity[ref.prop], ref.key), value: entity._id }
       } else {
       convertEntity[field] = { label: convertEntity[field], value: entity._id }
       }

@@ -390,6 +390,10 @@ function ProductType() {
               setPaginationProps(DefaultPagination);
               setFilterProps(value);
             }}
+            onReset={() => {
+              setPaginationProps(DefaultPagination)
+              setFilterProps(undefined)
+            }}
             searchModel={productTypeSearchModel}
             initValue={{
               code: '',
