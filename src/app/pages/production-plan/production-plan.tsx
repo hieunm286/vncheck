@@ -339,16 +339,19 @@ function ProductionPlan() {
       dataField: 'action',
       text: `${intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.ACTION_COLUMN' })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
-        <Link to={{ pathname: '/production-plan/new/' + row._id, state: row }}>
           <button
             className="btn btn-primary"
             onClick={() => {
-              get(row);
-              setEditEntity(row);
+              ProductionPlanService.GetById(row._id).then(res => {
+                setEditEntity(res.data)
+                history.push({ 
+                  pathname: '/production-plan/new/' + row._id,
+                  state: res.data
+                 })
+              })
             }}>
             + Tạo mới
           </button>
-        </Link>
       ),
 
       ...NormalColumn,

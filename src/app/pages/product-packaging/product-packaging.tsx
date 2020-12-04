@@ -28,6 +28,7 @@ import * as ProductPackagingService from './product-packaging.service';
 import ProductPackagingDetailDialog from './product-packaging-detail-dialog';
 import { GenerateCode } from '../product-type/product-type';
 import * as ProductTypeService from '../product-type/product-type.service';
+import ModifyEntityDialogPromise from '../../common-library/common-components/modify-entity-dialog-promise';
 
 
 const data: any = [
@@ -108,6 +109,8 @@ function ProductPackaging() {
     setError,
     add,
     update,
+    addPromise,
+    updatePromise,
     get,
     deleteMany,
     deleteFn,
@@ -301,10 +304,10 @@ function ProductPackaging() {
           setShowDeleteMany(false);
         }}
       />
-      <ModifyEntityDialog
+      <ModifyEntityDialogPromise
         isShow={showCreate}
         entity={createEntity}
-        onModify={add}
+        onModify={addPromise}
         title={createTitle}
         modifyModel={modifyModel}
         onHide={() => {
@@ -322,11 +325,12 @@ function ProductPackaging() {
           data: null,
         }}
         homePage={homeURL}
+        refreshData={refreshData}
       />
-      <ModifyEntityDialog
+      <ModifyEntityDialogPromise
         isShow={showEdit}
         entity={editEntity}
-        onModify={update}
+        onModify={updatePromise}
         title={updateTitle}
         modifyModel={modifyModel}
         onHide={() => {
@@ -345,6 +349,7 @@ function ProductPackaging() {
           searchSelectField: [{ field: 'species', ref: { prop: 'species', key: 'name' } }],
         }}
         homePage={homeURL}
+        refreshData={refreshData}
       />
       <Switch>
         <Route path="/product-packaging">

@@ -811,14 +811,14 @@ export const SeedingDetailDialog = [
       [
         {
           type: 'image',
-          title: 'Hình ảnh trước nuôi trồng',
+          title: 'Hình ảnh định vị lô luống',
           keyField: 'planting.imageBefore.path',
         },
       ],
       [
         {
           type: 'image',
-          title: 'Hình ảnh sau nuôi trồng',
+          title: 'Hình ảnh trước khi đưa vào nuôi trồng',
           keyField: 'planting.imageAfter.path',
         },
       ],
