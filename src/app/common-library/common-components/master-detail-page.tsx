@@ -139,7 +139,8 @@ const LineMode = ({entityDetail, renderInfo, intl, title, moduleName, history, h
                             <p className="col-4">{child.title}:</p>
                             <p className="col-8">
                               {entityDetail ? getField(entityDetail, child.keyField).map((f, i, arr) => {
-                                  return (<Fragment>{child.convertFn?child.convertFn(f):f}{i < arr.length - 1 && (<Separator/>)}</Fragment>)
+                                  return (<Fragment>{child.convertFn ? child.convertFn(f) : f}{i < arr.length - 1 && (
+                                    <Separator/>)}</Fragment>)
                                 })
                                 : (<Fragment>'Empty'</Fragment>)}
                             </p>
@@ -155,7 +156,8 @@ const LineMode = ({entityDetail, renderInfo, intl, title, moduleName, history, h
                             <div className="col-8">
                               <Link to={entityDetail ? `${child.path}/${entityDetail[child.params]}` : ''}>
                                 {entityDetail ? getField(entityDetail, child.keyField).map((f, i, arr) => {
-                                    return (<Fragment>{child.convertFn?child.convertFn(f):f}{i < arr.length - 1 && (<Separator/>)}</Fragment>)
+                                    return (<Fragment>{child.convertFn ? child.convertFn(f) : f}{i < arr.length - 1 && (
+                                      <Separator/>)}</Fragment>)
                                   })
                                   : (<Fragment>'Empty'</Fragment>)}
                               </Link>
@@ -172,7 +174,7 @@ const LineMode = ({entityDetail, renderInfo, intl, title, moduleName, history, h
                             <div className="col-8">
                               {entityDetail ? getField(entityDetail, child.keyField).map((f, i, arr) => {
                                   return (<Fragment> <img
-                                    src={child.convertFn?child.convertFn(f):f}
+                                    src={child.convertFn ? child.convertFn(f) : f}
                                     alt="..."
                                     width="125px"
                                   />{i < arr.length - 1 && (<Separator/>)}</Fragment>)
@@ -267,7 +269,10 @@ const SplitMode = ({
               <div className="row">
                 {value.data.map((el: any, elKey: number) => (
                   <div key={elKey} className={`col-md-6 col-12`}>
-                    {Object.keys(el).map((childKey: string) => {
+                    {el.map((child: any, childKey: string) => {
+                      const Separator = () => child.separator ?
+                        typeof child.separator === 'string' ? (<Fragment>{child.separator}</Fragment>)
+                          : child.separator : (<Fragment> ,</Fragment>);
                       switch (el[childKey].type) {
                         case 'string':
                           return (
@@ -275,7 +280,11 @@ const SplitMode = ({
                               <div className="row">
                                 <p className="col-4">{el[childKey].title}:</p>
                                 <p className="col-8">
-                                  {/* {entity && entity[childKey] ? entity[childKey] : 'Empty'} */}
+                                  {entityDetail ? getField(entityDetail, child.keyField).map((f, i, arr) => {
+                                      return (<Fragment>{child.convertFn ? child.convertFn(f) : f}{i < arr.length - 1 && (
+                                        <Separator/>)}</Fragment>)
+                                    })
+                                    : (<Fragment>'Empty'</Fragment>)}
                                 </p>
                               </div>
                             </div>
