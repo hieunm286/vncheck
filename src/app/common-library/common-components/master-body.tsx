@@ -74,15 +74,15 @@ export function MasterBody<T>({
       {title && <CardHeader title={intl.formatMessage({ id: title }).toUpperCase()} />}
       <CardBody>
         <div className="row no-gutters mb-10">
-          <div className="col-xxl-1 col-xl-2 col-lg-2 mr-5">
-            <button type="button" className="btn btn-primary w-100" onClick={onCreate}>
+          <div className="mr-5">
+            <button type="button" className="btn btn-primary pl-5 pr-5" onClick={onCreate}>
               + {intl.formatMessage({ id: 'COMMON_COMPONENT.MASTER_BODY.HEADER.ADD_BTN' })}
             </button>
           </div>
-          <div className="col-xxl-1 col-xl-2 col-lg-2 mr-5">
+          <div className="mr-5">
             <button
               type="button"
-              className="btn btn-outline-primary w-100"
+              className="btn btn-outline-primary pl-10 pr-10"
               onClick={() => {
                 onSelectMany(selectedEntities);
                 onDeleteMany();

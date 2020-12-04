@@ -440,6 +440,7 @@ export const modifyModel6: any[] = [
             service: ProductPackagingService,
             keyField: 'species',
             rootField: 'planting',
+            fillField: 'packing',
             display: 'weight',
             ref: true
           },
@@ -558,70 +559,69 @@ export const allFormField: any = {
   ),
 };
 
-export const masterEntityDetailDialog = [
+export const PlantingDetailDialog = [
   {
     header: 'THÔNG TIN CHUNG',
     data: [
       [
         {
-          type: 'string',
+          type: 'link',
           title: 'Mã gieo giống',
-          keyField: 'seedingCode',
+          keyField: 'seeding.code',
+          path: '/production-plan/seeding',
+          params: '_id'
         },
         {
           type: 'string',
           title: 'Mã gieo trồng',
-          keyField: 'code',
+          keyField: 'planting.code',
         },
         {
           type: 'string',
           title: 'Thời gian gieo trồng dự kiến',
-          keyField: 'estimatedPlantingTime',
+          keyField: 'planting.estimatedPlantingTime',
         },
         {
           type: 'string',
           title: 'Thời gian thu hoạch dự kiến',
-          keyField: 'estimatedHarvestTime',
+          keyField: 'planting.estimatedHarvestTime',
         },
         {
           type: 'string',
           title: 'Lô gieo trồng',
-          keyField: 'landLot',
+          keyField: 'planting.landLot',
         },
         {
           type: 'string',
           title: 'Địa điểm Farm trồng',
-          keyField: 'farmLocation',
-          nested: 'coordinates',
+          keyField: 'planting.farmLocation.coordinates',
         },
       ],
       [
         {
           type: 'string',
-          title: 'Mã kế hoạch',
-          keyField: 'species',
-          nested: 'name',
+          title: 'Tên chủng loại',
+          keyField: 'planting.species.name',
         },
         {
           type: 'string',
-          title: 'Hình ảnh',
-          keyField: 'species',
-          nested: 'barcode',
+          title: 'GTIN',
+          keyField: 'planting.species.barcode',
         },
         {
           type: 'string',
           title: 'Diện tích gieo trồng',
-          keyField: 'area',
+          keyField: 'planting.area',
         },
         {
           type: 'string',
           title: 'Số cây con đã trồng',
-          keyField: 'numberOfPlants',
+          keyField: 'planting.numberOfPlants',
         },
         {
           type: 'string',
           title: 'Sản lượng dự kiến',
-          keyField: 'expectedQuantity',
+          keyField: 'planting.expectedQuantity',
         },
       ],
     ],
@@ -633,17 +633,17 @@ export const masterEntityDetailDialog = [
         {
           type: 'string',
           title: 'Nhiệt độ',
-          keyField: 'temperature',
+          keyField: 'planting.temperature',
         },
         {
           type: 'string',
           title: 'Độ ẩm',
-          keyField: 'humidity',
+          keyField: 'planting.humidity',
         },
         {
           type: 'string',
           title: 'Độ xốp',
-          keyField: 'porosity',
+          keyField: 'planting.porosity',
         },
       ],
     ],
@@ -655,17 +655,17 @@ export const masterEntityDetailDialog = [
         {
           type: 'string',
           title: 'Thông tin Giám đốc/TGĐ',
-          keyField: 'manager',
+          keyField: 'planting.manager',
         },
         {
           type: 'string',
           title: 'Tổ trưởng gieo trồng',
-          keyField: 'leader',
+          keyField: 'planting.leader',
         },
         {
           type: 'string',
           title: 'Công nhân gieo trồng',
-          keyField: 'worker',
+          keyField: 'planting.worker',
         },
       ],
     ],
@@ -677,16 +677,149 @@ export const masterEntityDetailDialog = [
         {
           type: 'image',
           title: 'Hình ảnh trước nuôi trồng',
-          keyField: 'imageBefore',
-          nested: 'path',
+          keyField: 'planting.imageBefore.path',
         },
       ],
       [
         {
           type: 'image',
           title: 'Hình ảnh sau nuôi trồng',
-          keyField: 'imageAfter',
-          nested: 'path',
+          keyField: 'planting.imageAfter.path',
+        },
+      ],
+    ],
+  },
+];
+
+export const SeedingDetailDialog = [
+  {
+    header: 'THÔNG TIN CHUNG',
+    data: [
+      [
+        {
+          type: 'string',
+          title: 'Mã gieo giống',
+          keyField: 'seeding.code',
+        },
+        {
+          type: 'image',
+          title: 'Giấy chứng nhận giống',
+          keyField: 'seeding.certificates.path',
+        },
+        {
+          type: 'image',
+          title: 'Hóa đơn mua giống',
+          keyField: 'seeding.buyInvoice.path',
+        },
+        {
+          type: 'string',
+          title: 'Thời gian xuống giống',
+          keyField: 'seeding.seedingTime',
+        },
+        {
+          type: 'string',
+          title: 'Thời gian trồng dự kiến',
+          keyField: 'seeding.estimatedPlantingTime',
+        },
+        {
+          type: 'string',
+          title: 'Lô gieo ươm',
+          keyField: 'seeding.landLot',
+        },
+      ],
+      [
+        {
+          type: 'string',
+          title: 'Địa điểm Farm giống',
+          keyField: 'seeding.farmLocation.coordinates',
+        },
+        {
+          type: 'string',
+          title: 'Tên chủng loại',
+          keyField: 'seeding.species.name',
+        },
+        {
+          type: 'string',
+          title: 'GTIN',
+          keyField: 'seeding.species.barcode',
+        },
+        {
+          type: 'string',
+          title: 'Diện tích gieo ươm giống',
+          keyField: 'seeding.area',
+        },
+        {
+          type: 'string',
+          title: 'Số cây con giống',
+          keyField: 'seeding.numberOfSeed',
+        },
+        {
+          type: 'string',
+          title: 'Sản lượng dự kiến',
+          keyField: 'seeding.expectedQuantity',
+        },
+      ],
+    ],
+  },
+  {
+    header: 'THÔNG TIN MÔI TRƯỜNG',
+    data: [
+      [
+        {
+          type: 'string',
+          title: 'Nhiệt độ',
+          keyField: 'planting.temperature',
+        },
+        {
+          type: 'string',
+          title: 'Độ ẩm',
+          keyField: 'planting.humidity',
+        },
+        {
+          type: 'string',
+          title: 'Độ xốp',
+          keyField: 'planting.porosity',
+        },
+      ],
+    ],
+  },
+  {
+    header: 'THÔNG TIN QUẢN TRỊ',
+    data: [
+      [
+        {
+          type: 'string',
+          title: 'Thông tin Giám đốc/TGĐ',
+          keyField: 'planting.manager',
+        },
+        {
+          type: 'string',
+          title: 'Tổ trưởng gieo trồng',
+          keyField: 'planting.leader',
+        },
+        {
+          type: 'string',
+          title: 'Công nhân gieo trồng',
+          keyField: 'planting.worker',
+        },
+      ],
+    ],
+  },
+  {
+    header: 'HÌNH ẢNH',
+    data: [
+      [
+        {
+          type: 'image',
+          title: 'Hình ảnh định vị lô luống',
+          keyField: 'planting.imageBefore.path',
+        },
+      ],
+      [
+        {
+          type: 'image',
+          title: 'Hình ảnh trước khi đưa vào nuôi trồng',
+          keyField: 'planting.imageAfter.path',
         },
       ],
     ],

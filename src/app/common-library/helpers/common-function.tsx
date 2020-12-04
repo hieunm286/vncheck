@@ -160,6 +160,29 @@ export const GetHomePage = (url: string) => {
   return homeURL;
 }
 
+export const getField = (field: any, fieldName: string) => {
+  if (fieldName.indexOf('.') === -1) {
+    return field[fieldName]
+  }
+
+  const arrName = fieldName.split('.')
+
+  console.log(field)
+
+  let fields: any = field[arrName[0]]
+
+  arrName.forEach((el: string, key: number) => {
+    if (key > 0) {
+      if (fields[el]) {
+        fields = fields[el]
+      }
+    }
+    
+  })
+
+  return fields
+}
+
 interface FieldProp {
   field: string;
   ref?: { prop: string, key: string }
@@ -174,8 +197,11 @@ export const ConvertSelectSearch = (entity: any, keyField?: FieldProp[]) => {
   if (keyField && keyField.length > 0) {
 
     keyField.forEach(({ field, ref }: FieldProp) => {
+      if (ref && (ref.prop || ref.prop === '')) {
+        convertEntity[field] = { label: getField(convertEntity[field], ref.key), value: entity._id }
+      }
       if (ref && convertEntity[ref.prop]) {
-        convertEntity[field] = { label: convertEntity[ref.prop][ref.key], value: entity._id }
+        convertEntity[field][ref.prop] = { label: getField(convertEntity[ref.prop], ref.key), value: entity._id }
       } else {
       convertEntity[field] = { label: convertEntity[field], value: entity._id }
       }

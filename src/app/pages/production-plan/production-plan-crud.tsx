@@ -1,26 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import ModifyEntityPage from './modify-entity-page';
-import { ModifyModel } from '../common-types/common-type';
-import { useIntl } from 'react-intl';
-import {
-  generateInitForm,
-  GetHomePage,
-  getNewImage,
-  getOnlyFile,
-  getOnlyBase64,
-  ConvertSelectSearch,
-} from '../helpers/common-function';
 import { Field, Form, Formik } from 'formik';
 import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import * as Yup from 'yup';
-import { MainInput } from '../forms/main-input';
-import { iconStyle } from '../common-consts/const';
 import { Link, useHistory } from 'react-router-dom';
 import ImageUploading from 'react-images-uploading';
-import CustomImageUpload from '../forms/custom-image-upload';
 import { uploadImage } from '../../pages/purchase-order/purchase-order.service';
-import { Card, CardBody, CardHeader } from '../card';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import { diff } from 'deep-object-diff';
 import EXIF from 'exif-js';
@@ -30,8 +15,12 @@ import { AxiosResponse } from 'axios';
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useIntl } from 'react-intl';
+import { ConvertSelectSearch, generateInitForm, GetHomePage } from '../../common-library/helpers/common-function';
+import { Card, CardBody, CardHeader } from '../../common-library/card';
+import ModifyEntityPage from '../../common-library/common-components/modify-entity-page';
 
-function EntityCrudPagePromise({
+function ProductionPlanCrud({
   entity,
   onModify,
   title,
@@ -293,4 +282,4 @@ function EntityCrudPagePromise({
   );
 }
 
-export default EntityCrudPagePromise;
+export default ProductionPlanCrud;

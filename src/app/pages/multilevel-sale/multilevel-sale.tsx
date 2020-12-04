@@ -399,7 +399,7 @@ function MultilevelSale() {
         homePage={homeURL}
       />
       <MultiLevelSaleBody
-        title="Cấp bán hàng"
+        title="CẤP BÁN HÀNG"
         data={data}
         body={TreeBody}
         onCreate={(entity: any) => {
