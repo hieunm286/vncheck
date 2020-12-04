@@ -1,45 +1,52 @@
-import React, { useEffect, useState } from 'react';
-import { Modal } from 'react-bootstrap';
-import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
-import { useIntl } from 'react-intl';
-import { Card, CardBody, CardHeader } from '../card';
-import ImgGallery from '../forms/image-gallery';
+import React, {Fragment, useEffect, useState} from 'react';
+import {useIntl} from 'react-intl';
+import {Card, CardBody, CardHeader} from '../card';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import { Link, useHistory } from 'react-router-dom';
+import {Link, useHistory} from 'react-router-dom';
 
 const getField = (field: any, fieldName: string) => {
-  console.log(field);
-  console.log(fieldName);
-  if (fieldName.indexOf('.') === -1) {
-    return field[fieldName];
+  const ifNested = (fN: string) => fN.indexOf('.') === -1;
+  const ifArray = (k: string) => k.indexOf('[') > -1;
+  
+  if (ifNested(fieldName)) {
+    return [field[fieldName]];
   }
-
   const arrName = fieldName.split('.');
-
-  let fields: any = field[arrName[0]];
-
-  console.log(fields);
-
-  arrName.forEach((el: string, key: number) => {
-    if (key > 0) {
-      fields = fields[el];
+  // let ke/y = arrName[0];
+  let fields: any[] = [field];
+  arrName.forEach((k, iK) => {
+    let newFields: any[] = [];
+    let key = k;
+    if (ifArray(key)) {
+      // console.log('ifArray');
+      key = key.substring(1, key.length - 1);
+      fields.forEach((f, i) => {
+        newFields.push(...f[key])
+      })
+    } else {
+      fields.forEach((f, i) => {
+        newFields.push(f[key])
+      })
     }
-  });
-
+    
+    // console.log('newFields',newFields);
+    fields = newFields;
+  })
+  console.log(fields);
   return fields;
 };
 
 export function MasterEntityDetailPage({
-  title = 'COMMON_COMPONENT.DETAIL_DIALOG.HEADER_TITLE',
-  moduleName = 'COMMON_COMPONENT.DETAIL_DIALOG.MODULE_NAME',
-  entity,
-  onClose,
-  renderInfo,
-  mode,
-  homeURL,
-  code,
-  get,
-}: {
+                                         title = 'COMMON_COMPONENT.DETAIL_DIALOG.HEADER_TITLE',
+                                         moduleName = 'COMMON_COMPONENT.DETAIL_DIALOG.MODULE_NAME',
+                                         entity,
+                                         onClose,
+                                         renderInfo,
+                                         mode,
+                                         homeURL,
+                                         code,
+                                         get,
+                                       }: {
   title?: string;
   moduleName?: string;
   entity: any;
@@ -51,13 +58,13 @@ export function MasterEntityDetailPage({
   get: (code: string) => any | null;
 }) {
   const intl = useIntl();
-
+  
   const [entityDetail, setEntityDetail] = useState();
-
+  
   const history = useHistory();
-
+  
   console.log(entityDetail);
-
+  
   useEffect(() => {
     if (code) {
       get(code).then((res: { data: any }) => {
@@ -65,7 +72,6 @@ export function MasterEntityDetailPage({
       });
     }
   }, [code]);
-
   return (
     <>
       {mode === 'line' && (
@@ -79,23 +85,23 @@ export function MasterEntityDetailPage({
           homeURL={homeURL}
         />
       )}
-      {mode === 'split' && (
-        <SplitMode
-          title={title}
-          entityDetail={entityDetail}
-          renderInfo={renderInfo}
-          intl={intl}
-          moduleName={moduleName}
-          history={history}
-          homeURL={homeURL}
-        />
-      )}
+      {/*{mode === 'split' && (*/}
+      {/*  <SplitMode*/}
+      {/*    title={title}*/}
+      {/*    entityDetail={entityDetail}*/}
+      {/*    renderInfo={renderInfo}*/}
+      {/*    intl={intl}*/}
+      {/*    moduleName={moduleName}*/}
+      {/*    history={history}*/}
+      {/*    homeURL={homeURL}*/}
+      {/*  />*/}
+      {/*)}*/}
     </>
   );
 }
 
 // eslint-disable-next-line no-lone-blocks
-const LineMode = ({ entityDetail, renderInfo, intl, title, moduleName, history, homeURL }: any) => (
+const LineMode = ({entityDetail, renderInfo, intl, title, moduleName, history, homeURL}: any) => (
   <Card>
     <CardHeader
       title={
@@ -108,9 +114,9 @@ const LineMode = ({ entityDetail, renderInfo, intl, title, moduleName, history, 
                 history.goBack();
               }
             }}>
-            <ArrowBackIosIcon />
+            <ArrowBackIosIcon/>
           </span>
-          {intl.formatMessage({ id: title }).toUpperCase()}
+          {intl.formatMessage({id: title}).toUpperCase()}
         </>
       }
     />
@@ -122,6 +128,9 @@ const LineMode = ({ entityDetail, renderInfo, intl, title, moduleName, history, 
             {value.data.map((el: any, elKey: number) => (
               <div key={elKey} className={`col-md-6 col-12 border-bottom pb-10`}>
                 {el.map((child: any, childKey: string) => {
+                  const Separator = () => child.separator ?
+                    typeof child.separator === 'string' ? (<Fragment>{child.separator}</Fragment>)
+                      : child.separator : (<Fragment> ,</Fragment>);
                   switch (child.type) {
                     case 'string':
                       return (
@@ -129,12 +138,15 @@ const LineMode = ({ entityDetail, renderInfo, intl, title, moduleName, history, 
                           <div className="row">
                             <p className="col-4">{child.title}:</p>
                             <p className="col-8">
-                              {entityDetail ? getField(entityDetail, child.keyField) : 'Empty'}
+                              {entityDetail ? getField(entityDetail, child.keyField).map((f, i, arr) => {
+                                  return (<Fragment>{child.convertFn?child.convertFn(f):f}{i < arr.length - 1 && (<Separator/>)}</Fragment>)
+                                })
+                                : (<Fragment>'Empty'</Fragment>)}
                             </p>
                           </div>
                         </div>
                       );
-
+                    
                     case 'link':
                       return (
                         <div className="mt-3" key={childKey}>
@@ -142,27 +154,34 @@ const LineMode = ({ entityDetail, renderInfo, intl, title, moduleName, history, 
                             <p className="col-4">{child.title}:</p>
                             <div className="col-8">
                               <Link to={entityDetail ? `${child.path}/${entityDetail[child.params]}` : ''}>
-                                {entityDetail ? getField(entityDetail, child.keyField) : 'Empty'}
+                                {entityDetail ? getField(entityDetail, child.keyField).map((f, i, arr) => {
+                                    return (<Fragment>{child.convertFn?child.convertFn(f):f}{i < arr.length - 1 && (<Separator/>)}</Fragment>)
+                                  })
+                                  : (<Fragment>'Empty'</Fragment>)}
                               </Link>
                             </div>
                           </div>
                         </div>
                       );
-
+                    
                     case 'image':
                       return (
                         <div className="mt-3" key={childKey}>
                           <div className="row">
                             <p className="col-4">{child.title}:</p>
                             <div className="col-8">
-                              <img
-                                src={entityDetail ? getField(entityDetail, child.keyField) : ''}
-                                alt="..."
-                                width="125px"
-                              />
+                              {entityDetail ? getField(entityDetail, child.keyField).map((f, i, arr) => {
+                                  return (<Fragment> <img
+                                    src={child.convertFn?child.convertFn(f):f}
+                                    alt="..."
+                                    width="125px"
+                                  />{i < arr.length - 1 && (<Separator/>)}</Fragment>)
+                                })
+                                : (<img src={''} alt="..." width="125px"/>)}
+                            
                             </div>
                           </div>
-
+                          
                           {/* <ImgGallery
                             label={el[childKey].title}
                             labelWidth={4}
@@ -211,14 +230,14 @@ const LineMode = ({ entityDetail, renderInfo, intl, title, moduleName, history, 
 );
 
 const SplitMode = ({
-  entityDetail,
-  renderInfo,
-  intl,
-  title,
-  moduleName,
-  history,
-  homeURL,
-}: any) => (
+                     entityDetail,
+                     renderInfo,
+                     intl,
+                     title,
+                     moduleName,
+                     history,
+                     homeURL,
+                   }: any) => (
   <>
     {renderInfo.map((value: any, key: any) => (
       <React.Fragment key={key}>
@@ -235,9 +254,9 @@ const SplitMode = ({
                         history.goBack();
                       }
                     }}>
-                    <ArrowBackIosIcon />
+                    <ArrowBackIosIcon/>
                   </span>
-                  {intl.formatMessage({ id: title }).toUpperCase()}
+                  {intl.formatMessage({id: title}).toUpperCase()}
                 </>
               }
             />
@@ -261,7 +280,7 @@ const SplitMode = ({
                               </div>
                             </div>
                           );
-
+                        
                         case 'image':
                           return (
                             <div className="mt-3" key={childKey}>

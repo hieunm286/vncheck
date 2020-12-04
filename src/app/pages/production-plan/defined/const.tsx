@@ -724,14 +724,15 @@ export const SeedingDetailDialog = [
         {
           type: 'string',
           title: 'Lô gieo ươm',
-          keyField: 'seeding.landLot',
+          keyField: 'seeding.landLot.code',
+          convertFn: (t: any) => t.toUpperCase()
         },
       ],
       [
         {
           type: 'string',
           title: 'Địa điểm Farm giống',
-          keyField: 'seeding.farmLocation.coordinates',
+          keyField: 'seeding.farmLocation.[coordinates]',
         },
         {
           type: 'string',
@@ -790,17 +791,18 @@ export const SeedingDetailDialog = [
         {
           type: 'string',
           title: 'Thông tin Giám đốc/TGĐ',
-          keyField: 'planting.manager',
+          keyField: 'planting.manager.fullName',
         },
         {
           type: 'string',
           title: 'Tổ trưởng gieo trồng',
-          keyField: 'planting.leader',
+          keyField: 'planting.[leader].fullName',
+          separator: ', ',
         },
         {
           type: 'string',
           title: 'Công nhân gieo trồng',
-          keyField: 'planting.worker',
+          keyField: 'planting.[worker].fullName',
         },
       ],
     ],
