@@ -46,13 +46,12 @@ const MultiLevelSaleBody: React.FC<MultilevelSaleBodyProp> = ({
         </div> */}
         <div className="row no-gutters mb-10 justify-content-center">
           {body.map((item: any, key: number) => {
-
             switch (item.type) {
               case 'Tree':
                 return (
                   <Fragment key={key}>
                     <div className={`col-xl-${12 / body.length - 1} col-12 p-5 mr-xl-5 layout`}>
-                      <p className="font-weight-bold">
+                      <p style={{ fontWeight: 'bold' }}>
                         {item.title}
                         <span
                           className="text-primary"
@@ -81,7 +80,7 @@ const MultiLevelSaleBody: React.FC<MultilevelSaleBodyProp> = ({
                 return (
                   <Fragment key={key}>
                     <div className={`col-xl-${12 / body.length} col-12 p-5 ml-xl-5 layout`}>
-                      <p className="font-weight-bold">{item.title}</p>
+                      <p style={{ fontWeight: 'bold' }}>{item.title}</p>
 
                       <MasterTable
                         entities={item.data}
