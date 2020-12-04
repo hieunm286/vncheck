@@ -26,8 +26,7 @@ import EntityCrudPage from '../../common-library/common-components/entity-crud-p
 import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import { isArray, isNull } from 'lodash';
-import MasterGoogleMap from '../../common-library/common-components/master-google-map';
-import MasterMap from '../../common-library/common-components/master-google-map-other';
+
 import * as Yup from 'yup';
 import { stringOnChange, searchSelectOnChange } from './helpers/autofill';
 import { genCharArray, genNumberArray } from './helpers/modify-entity-page-land-lot';

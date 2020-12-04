@@ -26,7 +26,7 @@ function ModifyEntityFormPromise<T>({
   modifyModel,
   formPart,
   validation,
-  refreshData
+  refreshData,
 }: {
   entity: any;
   onHide: () => void;
@@ -37,7 +37,7 @@ function ModifyEntityFormPromise<T>({
   refreshData: () => any;
 }) {
   const intl = useIntl();
-  
+
   const [images, setImages] = useState(entity);
   const [imageRootArr, setImageRootArr] = useState<any>([]);
 
@@ -87,12 +87,11 @@ function ModifyEntityFormPromise<T>({
     });
   };
 
-
   const submitHandle = (values: any, { setSubmitting, setFieldError }: any) => {
     onModify(values)
       .then((res: any) => {
         onHide();
-        notifySuccess()
+        notifySuccess();
         setErrorMsg(undefined);
         refreshData();
       })
@@ -110,17 +109,16 @@ function ModifyEntityFormPromise<T>({
       validationSchema={validation}
       onSubmit={(values, { setSubmitting, setFieldError }) => {
         let updateValue;
-          setErrorMsg(undefined);
+        setErrorMsg(undefined);
 
         if (entity._id) {
           const diffValue = diff(entity, values);
           updateValue = { _id: values._id, ...diffValue };
         } else {
-            updateValue = { ...values };
-        } 
+          updateValue = { ...values };
+        }
 
         submitHandle(updateValue, { setSubmitting, setFieldError });
-
       }}>
       {({ handleSubmit }) => (
         <>
@@ -208,6 +206,11 @@ function ModifyEntityFormPromise<T>({
                 <></>
               )}
             </Form> */}
+            {errorMsg && (
+              <div className="text-right mt-5 mr-7">
+                <span className="text-danger mr-5">{typeof errorMsg === 'string' ? intl.formatMessage({ id: errorMsg }) : errorMsg}</span>
+              </div>
+            )}
           </Modal.Body>
           <Modal.Footer>
             <button type="submit" onClick={() => handleSubmit()} className="btn btn-primary">
