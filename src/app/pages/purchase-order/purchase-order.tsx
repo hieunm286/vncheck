@@ -23,18 +23,13 @@ import {
   GenerateAllFormField,
   InitMasterProps,
 } from '../../common-library/helpers/common-function';
-import * as AgencyService from './agency.service';
-import * as PurchaseOrderService from './purchase-order.service';
 import { Switch, Route, Redirect, useHistory } from 'react-router-dom';
-import ModifyEntityPage from '../../common-library/common-components/modify-entity-page';
-import { purchaseOrderSlice, callTypes } from './purchase-order.redux';
-import ImageUploading from 'react-images-uploading';
 import EntityCrudPage from '../../common-library/common-components/entity-crud-page';
 import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
-import { isArray, isNull } from 'lodash';
 import * as Yup from 'yup';
 import GalleryImage from '../../common-library/forms/gallery-image';
+import * as AgencyService from './agency.service';
 
 const DataExample: any = [
   {
@@ -274,28 +269,28 @@ function PurchaseOrder() {
       type: 'SearchSelect',
       placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.PLACEHOLDER',
       label: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
-      service: PurchaseOrderService,
+      onSearch: GetAll,
       keyField: 'code',
     },
     agencyAddress: {
       type: 'SearchSelect',
       placeholder: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS_COLUMN',
       label: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS_COLUMN',
-      service: PurchaseOrderService,
+      onSearch: GetAll,
       keyField: 'agencyAddress',
     },
     date: {
       type: 'Datetime',
       placeholder: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS_COLUMN',
       label: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS_COLUMN',
-      service: PurchaseOrderService,
+      onSearch: GetAll,
       keyField: 'agencyAddress',
     },
     agency: {
       type: 'SearchSelect',
       placeholder: 'PURCHASE_ORDER.MASTER.HEADER.NAME.PLACEHOLDER',
       label: 'PURCHASE_ORDER.MASTER.HEADER.NAME.LABEL',
-      service: AgencyService,
+      onSearch: AgencyService.GetAll,
       keyField: 'name',
       ref: true,
     },
@@ -303,7 +298,7 @@ function PurchaseOrder() {
       type: 'number',
       placeholder: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS_COLUMN',
       label: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS_COLUMN',
-      service: PurchaseOrderService,
+      onSearch: GetAll,
       keyField: 'count',
     },
     tree: {

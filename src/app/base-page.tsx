@@ -19,7 +19,7 @@ const BasicUnitPage = lazy(() => import('./pages/basic-unit/basic-unit'));
 const PurchaseOrderPage = lazy(() => import('./pages/purchase-order/purchase-order'));
 
 const LandLotPage = lazy(() => import('./pages/land-lot/land-lot'));
-const ProductType = lazy(() => import('./pages/product-type/product-type'));
+const ProductType = lazy(() => import('./pages/species/species'));
 
 const ProductPackaging = lazy(() => import('./pages/product-packaging/product-packaging'));
 

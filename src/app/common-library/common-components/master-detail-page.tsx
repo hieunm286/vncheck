@@ -3,6 +3,7 @@ import {useIntl} from 'react-intl';
 import {Card, CardBody, CardHeader} from '../card';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import {Link, useHistory} from 'react-router-dom';
+import {format} from "date-fns";
 
 const getField = (field: any, fieldName: string) => {
   const ifNested = (fN: string) => fN.indexOf('.') === -1;
@@ -21,11 +22,11 @@ const getField = (field: any, fieldName: string) => {
       // console.log('ifArray');
       key = key.substring(1, key.length - 1);
       fields.forEach((f, i) => {
-        newFields.push(...f[key])
+        if(f[key]) newFields.push(...f[key])
       })
     } else {
       fields.forEach((f, i) => {
-        newFields.push(f[key])
+        if(f[key]) newFields.push(f[key])
       })
     }
     
@@ -85,17 +86,17 @@ export function MasterEntityDetailPage({
           homeURL={homeURL}
         />
       )}
-      {/*{mode === 'split' && (*/}
-      {/*  <SplitMode*/}
-      {/*    title={title}*/}
-      {/*    entityDetail={entityDetail}*/}
-      {/*    renderInfo={renderInfo}*/}
-      {/*    intl={intl}*/}
-      {/*    moduleName={moduleName}*/}
-      {/*    history={history}*/}
-      {/*    homeURL={homeURL}*/}
-      {/*  />*/}
-      {/*)}*/}
+      {mode === 'split' && (
+        <SplitMode
+          title={title}
+          entityDetail={entityDetail}
+          renderInfo={renderInfo}
+          intl={intl}
+          moduleName={moduleName}
+          history={history}
+          homeURL={homeURL}
+        />
+      )}
     </>
   );
 }
@@ -130,7 +131,7 @@ const LineMode = ({entityDetail, renderInfo, intl, title, moduleName, history, h
                 {el.map((child: any, childKey: string) => {
                   const Separator = () => child.separator ?
                     typeof child.separator === 'string' ? (<Fragment>{child.separator}</Fragment>)
-                      : child.separator : (<Fragment> ,</Fragment>);
+                      : child.separator : (<Fragment>, </Fragment>);
                   switch (child.type) {
                     case 'string':
                       return (
@@ -139,7 +140,24 @@ const LineMode = ({entityDetail, renderInfo, intl, title, moduleName, history, h
                             <p className="col-4">{child.title}:</p>
                             <p className="col-8">
                               {entityDetail ? getField(entityDetail, child.keyField).map((f, i, arr) => {
-                                  return (<Fragment>{child.convertFn?child.convertFn(f):f}{i < arr.length - 1 && (<Separator/>)}</Fragment>)
+                                  return (<Fragment>{child.convertFn ? child.convertFn(f) : f}{i < arr.length - 1 && (
+                                    <Separator/>)}</Fragment>)
+                                })
+                                : (<Fragment>'Empty'</Fragment>)}
+                            </p>
+                          </div>
+                        </div>
+                      );
+                      case 'date-time':
+                      return (
+                        <div className="mt-3" key={childKey}>
+                          <div className="row">
+                            <p className="col-4">{child.title}:</p>
+                            <p className="col-8">
+                              {entityDetail ? getField(entityDetail, child.keyField).map((f, i, arr) => {
+                                const date_input = new Date(f);
+                                  return (<Fragment>{child.convertFn ? child.convertFn(f) : format(date_input, child.format? child.format: "dd/MM/yyyy H:mma")}{i < arr.length - 1 && (
+                                    <Separator/>)}</Fragment>)
                                 })
                                 : (<Fragment>'Empty'</Fragment>)}
                             </p>
@@ -155,7 +173,8 @@ const LineMode = ({entityDetail, renderInfo, intl, title, moduleName, history, h
                             <div className="col-8">
                               <Link to={entityDetail ? `${child.path}/${entityDetail[child.params]}` : ''}>
                                 {entityDetail ? getField(entityDetail, child.keyField).map((f, i, arr) => {
-                                    return (<Fragment>{child.convertFn?child.convertFn(f):f}{i < arr.length - 1 && (<Separator/>)}</Fragment>)
+                                    return (<Fragment>{child.convertFn ? child.convertFn(f) : f}{i < arr.length - 1 && (
+                                      <Separator/>)}</Fragment>)
                                   })
                                   : (<Fragment>'Empty'</Fragment>)}
                               </Link>
@@ -172,7 +191,7 @@ const LineMode = ({entityDetail, renderInfo, intl, title, moduleName, history, h
                             <div className="col-8">
                               {entityDetail ? getField(entityDetail, child.keyField).map((f, i, arr) => {
                                   return (<Fragment> <img
-                                    src={child.convertFn?child.convertFn(f):f}
+                                    src={child.convertFn ? child.convertFn(f) : f}
                                     alt="..."
                                     width="125px"
                                   />{i < arr.length - 1 && (<Separator/>)}</Fragment>)
@@ -267,7 +286,10 @@ const SplitMode = ({
               <div className="row">
                 {value.data.map((el: any, elKey: number) => (
                   <div key={elKey} className={`col-md-6 col-12`}>
-                    {Object.keys(el).map((childKey: string) => {
+                    {el.map((child: any, childKey: string) => {
+                      const Separator = () => child.separator ?
+                        typeof child.separator === 'string' ? (<Fragment>{child.separator}</Fragment>)
+                          : child.separator : (<Fragment>, </Fragment>);
                       switch (el[childKey].type) {
                         case 'string':
                           return (
@@ -275,7 +297,11 @@ const SplitMode = ({
                               <div className="row">
                                 <p className="col-4">{el[childKey].title}:</p>
                                 <p className="col-8">
-                                  {/* {entity && entity[childKey] ? entity[childKey] : 'Empty'} */}
+                                  {entityDetail ? getField(entityDetail, child.keyField).map((f, i, arr) => {
+                                      return (<Fragment>{child.convertFn ? child.convertFn(f) : f}{i < arr.length - 1 && (
+                                        <Separator/>)}</Fragment>)
+                                    })
+                                    : (<Fragment>'Empty'</Fragment>)}
                                 </p>
                               </div>
                             </div>

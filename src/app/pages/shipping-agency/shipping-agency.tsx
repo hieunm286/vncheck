@@ -18,7 +18,8 @@ import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import * as Yup from 'yup';
 import * as ShippingAgencyService from './shipping-agency.service'
 import { ShippingAgencyModel } from './shipping-agency.model';
-import { GenerateCode } from '../product-type/product-type';
+import { GenerateCode } from '../species/species';
+import {GetAll} from "./shipping-agency.service";
 
 const data: any = [
     {
@@ -179,14 +180,14 @@ function ShippingAgency() {
       type: 'string',
       placeholder: 'PRODUCT_TYPE.MASTER.TABLE.CODE_COLUMN',
       label: 'PRODUCT_TYPE.MASTER.TABLE.CODE_COLUMN',
-      service: ShippingAgencyService,
+      onSearch: GetAll,
       keyField: 'code',
     },
     name: {
       type: 'string',
       placeholder: 'PRODUCT_TYPE.MASTER.TABLE.NAME_COLUMN',
       label: 'PRODUCT_TYPE.MASTER.TABLE.NAME_COLUMN',
-      service: ShippingAgencyService,
+      onSearch: GetAll,
       keyField: 'name',
     },
   };
@@ -282,7 +283,7 @@ function ShippingAgency() {
 
   return (
     <Fragment>
-      {/* <ProductTypeDetailDialog
+      {/* <SpeciesDetailDialog
         show={showDetail}
         entity={detailEntity}
         renderInfo={masterEntityDetailDialog}

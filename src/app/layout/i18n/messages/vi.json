@@ -189,7 +189,7 @@
   "AGENCY.VIEW.LABEL.AGENCY_NAME.STATUS": "Trạng thái",
   "AGENCY.VIEW.LABEL.AGENCY_NAME.TAX_ID": "Mã số thuế",
 
-  "AGENCY.EDIT.HEADER.AGENCY_INFO": "Thông tin đơn vị bán hàng", 
+  "AGENCY.EDIT.HEADER.AGENCY_INFO": "Thông tin đơn vị bán hàng",
   "AGENCY.EDIT.HEADER.AGENCY_OWNER_INFO": "Thông tin chủ đơn vị",
   "AGENCY.EDIT.HEADER.SHIPPING_ADDRESS": "Địa chỉ giao hàng",
   "AGENCY.EDIT.HEADER.EDIT_SHIPPING_ADDRESS": "Chỉnh sửa địa chỉ giao hàng",
@@ -313,7 +313,7 @@
   "LAND_LOT.EDIT.VALIDATION.SUB_LOT_CODE_EMPTY": "Mã thửa không được để trống",
   "LAND_LOT.EDIT.VALIDATION.SUB_LOT_CODE_WRONG_FORMAT": "Mã thửa không đúng định dạng",
   "LAND_LOT.EDIT.VALIDATION.SUB_LOT_CODE_WRONG_FORMAT_LENGTH": "Mã thửa phải có đúng hai chữ số",
-  
+
 
 
   "VALIDATE_TEST_01": "Vui lòng nhập mã đơn vị",
@@ -356,8 +356,8 @@
   "VALIDATE.ERROR.PACKING.PACKING_HAS_BEEN_USED": "Quy cách đóng gói đã tồn tại",
 
   "PRODUCTION_PLAN.CODE": "Mã kế hoạch",
-  "PRODUCTION_PLAN.PLANT_CODE": "Mã gieo giống",
-  "PRODUCTION_PLAN.GROW_CODE": "Mã gieo trồng",
+  "PRODUCTION_PLAN.PLANT_CODE": "Mã gieo trồng",
+  "PRODUCTION_PLAN.SEEDING_CODE": "Mã gieo giống",
   "PRODUCTION_PLAN.SPECIES_NAME": "Tên chủng loại",
   "PRODUCTION_PLAN.HARVEST_DATE": "Thời gian thu hoạch dự kiến",
   "PRODUCTION_PLAN.CREATE_DATE": "Ngày tạo",
@@ -380,5 +380,5 @@
   "DELETE.ERROR.STORE_LEVEL_HAVE_CHILDREN": "Không thể xóa vì cấp bán hàng đã có cấp con hoặc đơn vị bán hàng.",
 
   "CREATE.ERROR.LAND_LOT.LAND_LOT_IN_USE": "Mã lô thửa đã được dùng"
-  
+
 }

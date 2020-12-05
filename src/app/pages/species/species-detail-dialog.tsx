@@ -42,7 +42,7 @@ export function MasterEntityDetail({
   );
 }
 
-function ProductTypeDetailDialog({
+function SpeciesDetailDialog({
   title = 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.TITLE',
   moduleName = 'COMMON_COMPONENT.DETAIL_DIALOG.MODULE_NAME',
   show,
@@ -84,4 +84,4 @@ function ProductTypeDetailDialog({
   );
 }
 
-export default ProductTypeDetailDialog;
+export default SpeciesDetailDialog;

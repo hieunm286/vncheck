@@ -16,7 +16,7 @@ import {
 } from '../../common-library/common-consts/const';
 import { MultilevelSaleActionColumn } from './multilevel-action-column';
 import ModifyEntityDialog from '../../common-library/common-components/modify-entity-dialog';
-import { GenerateCode } from '../product-type/product-type';
+import { GenerateCode } from '../species/species';
 import { DeleteEntityDialog } from '../../common-library/common-components/delete-entity-dialog';
 
 const data: TreeData[] = [
@@ -306,7 +306,7 @@ function MultilevelSale() {
     MultilevelSaleService.DeleteAgency(entity).then(res => {
       setAgencyLoading(false)
       setShowDeleteAgency(false)
-      setRefresh(!refresh) 
+      setRefresh(!refresh)
       setErrorAgency('')
     }).catch(err => {
       setAgencyLoading(false)

@@ -1,4 +1,4 @@
-import { AxiosResponse } from 'axios';
+import {AxiosResponse} from 'axios';
 
 export interface PaginationProps {
   limit: number | undefined;
@@ -109,8 +109,8 @@ export type SearchModel = {
     type: 'string' | 'number' | 'Datetime' | 'SearchSelect' | 'file' | 'TreeSelect' | 'Search' | 'stateSelect' | 'citySelect' | 'districtSelect';
     placeholder: string;
     label: string;
-    keyField: string;
-    service?: any;
+    keyField?: string;
+    onSearch?: (t: any) => any;
     ref?: boolean;
     data?: any[];
   };
@@ -125,20 +125,20 @@ export type ModifyModel = {
 };
 
 export type GetAllProps<T> = ({
-  queryProps,
-  sortList,
-  paginationProps,
-}: {
+                                queryProps,
+                                sortList,
+                                paginationProps,
+                              }: {
   queryProps: any;
   sortList?: SortProps[];
   paginationProps?: PaginationProps | PaginationPropsV2;
 }) => Promise<AxiosResponse<T[]>>;
 
 export type CountProps<T> = ({
-  queryProps,
-  sortList,
-  paginationProps,
-}: {
+                               queryProps,
+                               sortList,
+                               paginationProps,
+                             }: {
   queryProps: any;
   sortList?: SortProps[];
   paginationProps?: PaginationProps;

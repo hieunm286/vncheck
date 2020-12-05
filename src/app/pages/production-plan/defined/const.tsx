@@ -1,8 +1,7 @@
-import { SearchModel } from '../../../common-library/common-types/common-type';
-import { GenerateAllFormField } from '../../../common-library/helpers/common-function';
-import * as ProductionPlanService from '../production-plan.service';
+import {SearchModel} from '../../../common-library/common-types/common-type';
+import {GenerateAllFormField} from '../../../common-library/helpers/common-function';
 import * as ProductPackagingService from '../../product-packaging/product-packaging.service';
-import * as ProductTypeService from '../../product-type/product-type.service';
+import * as SpeciesService from '../../species/species.service';
 
 import '../style/production-plan.scss';
 
@@ -15,72 +14,62 @@ export const updateTitle = 'PURCHASE_ORDER.UPDATE.TITLE';
 export const homeURL = `${window.location.pathname}`;
 
 export const productPlanSearchModel1: SearchModel = {
+  seedingCode: {
+    type: 'string',
+    label: 'PRODUCTION_PLAN.SEEDING_CODE',
+    placeholder: 'PRODUCTION_PLAN.INPUT',
+  },
   plantCode: {
     type: 'string',
     label: 'PRODUCTION_PLAN.PLANT_CODE',
     placeholder: 'PRODUCTION_PLAN.INPUT',
-    service: ProductionPlanService,
-    keyField: 'code',
   },
-  growCode: {
-    type: 'string',
-    label: 'PRODUCTION_PLAN.GROW_CODE',
-    placeholder: 'PRODUCTION_PLAN.INPUT',
-    service: ProductionPlanService,
-    keyField: 'name',
-  },
-  speciesName: {
+  species: {
     type: 'SearchSelect',
     label: 'PRODUCTION_PLAN.SPECIES_NAME',
     placeholder: 'PRODUCTION_PLAN.INPUT',
-    service: ProductionPlanService,
-    keyField: 'speciesName',
+    onSearch: SpeciesService.GetAll,
+    keyField: 'name',
     ref: true,
   },
-  date: {
+  estimatedHarvestTime: {
     type: 'Datetime',
     label: 'PRODUCTION_PLAN.HARVEST_DATE',
     placeholder: 'PRODUCTION_PLAN.INPUT',
-    service: ProductionPlanService,
-    keyField: 'agencyAddress',
   },
 };
 
 export const productPlanSearchModel2: SearchModel = {
-  planCode: {
+  seedingCode: {
     type: 'string',
     label: 'PRODUCTION_PLAN.CODE',
     placeholder: 'PRODUCTION_PLAN.INPUT',
-    service: ProductionPlanService,
     keyField: 'planCode',
   },
   plantCode: {
     type: 'string',
     label: 'PRODUCTION_PLAN.PLANT_CODE',
     placeholder: 'PRODUCTION_PLAN.INPUT',
-    service: ProductionPlanService,
     keyField: 'plantCode',
   },
   growCode: {
     type: 'string',
     label: 'PRODUCTION_PLAN.GROW_CODE',
     placeholder: 'PRODUCTION_PLAN.INPUT',
-    service: ProductionPlanService,
     keyField: 'growCode',
   },
-  speciesName: {
+  species: {
     type: 'SearchSelect',
     label: 'PRODUCTION_PLAN.SPECIES_NAME',
     placeholder: 'PRODUCTION_PLAN.INPUT',
-    service: ProductionPlanService,
-    keyField: 'speciesName',
+    onSearch: SpeciesService.GetAll,
+    keyField: 'name',
     ref: true,
   },
-  date: {
+  estimatedHarvestTime: {
     type: 'Datetime',
     label: 'PRODUCTION_PLAN.HARVEST_DATE',
     placeholder: 'PRODUCTION_PLAN.INPUT',
-    service: ProductionPlanService,
     keyField: 'agencyAddress',
   },
 };
@@ -196,14 +185,14 @@ export const modifyModel: any[] = [
           },
         },
       },
-
+      
       // growArea: {
       //   type: 'string',
       //   placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.EXPIRY',
       //   label: 'Diện tích gieo trồng',
       //   disabled: true,
       // },
-
+      
       // numberOfGrows: {
       //   type: 'string',
       //   placeholder: 'Số cây con trồng',
@@ -577,24 +566,25 @@ export const PlantingDetailDialog = [
           keyField: 'planting.code',
         },
         {
-          type: 'string',
+          type: 'date-time',
           title: 'Thời gian gieo trồng dự kiến',
           keyField: 'planting.estimatedPlantingTime',
         },
         {
-          type: 'string',
+          type: 'date-time',
           title: 'Thời gian thu hoạch dự kiến',
           keyField: 'planting.estimatedHarvestTime',
         },
         {
           type: 'string',
           title: 'Lô gieo trồng',
-          keyField: 'planting.landLot',
+          keyField: 'planting.landLot.code',
+          convertFn: (t: any) => t.toUpperCase()
         },
         {
           type: 'string',
           title: 'Địa điểm Farm trồng',
-          keyField: 'planting.farmLocation.coordinates',
+          keyField: 'planting.farmLocation.[coordinates]',
         },
       ],
       [
@@ -655,17 +645,17 @@ export const PlantingDetailDialog = [
         {
           type: 'string',
           title: 'Thông tin Giám đốc/TGĐ',
-          keyField: 'planting.manager',
+          keyField: 'planting.manager.fullName',
         },
         {
           type: 'string',
           title: 'Tổ trưởng gieo trồng',
-          keyField: 'planting.leader',
+          keyField: 'planting.[leader].fullName',
         },
         {
           type: 'string',
           title: 'Công nhân gieo trồng',
-          keyField: 'planting.worker',
+          keyField: 'planting.[worker].fullName',
         },
       ],
     ],
@@ -712,12 +702,12 @@ export const SeedingDetailDialog = [
           keyField: 'seeding.buyInvoice.path',
         },
         {
-          type: 'string',
+          type: 'date-time',
           title: 'Thời gian xuống giống',
           keyField: 'seeding.seedingTime',
         },
         {
-          type: 'string',
+          type: 'date-time',
           title: 'Thời gian trồng dự kiến',
           keyField: 'seeding.estimatedPlantingTime',
         },

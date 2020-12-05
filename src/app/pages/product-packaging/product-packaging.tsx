@@ -25,9 +25,10 @@ import * as Yup from 'yup';
 import { ProductPackagingModel } from './product-packaging.model';
 import * as ProductPackagingService from './product-packaging.service';
 import ProductPackagingDetailDialog from './product-packaging-detail-dialog';
-import { GenerateCode } from '../product-type/product-type';
-import * as ProductTypeService from '../product-type/product-type.service';
+import { GenerateCode } from '../species/species';
+import * as ProductTypeService from '../species/species.service';
 import ModifyEntityDialogPromise from '../../common-library/common-components/modify-entity-dialog-promise';
+import {GetAll} from "./product-packaging.service";
 
 
 const data: any = [
@@ -142,7 +143,7 @@ function ProductPackaging() {
       ...SortColumn,
       formatter: (cell: any, row: any, rowIndex: any) => {
         return (<p>{row.species ?  row.species.name : 'Không có thông tin nha'}</p>);
-      }, 
+      },
       classes: 'text-center',
     },
 
@@ -195,14 +196,14 @@ function ProductPackaging() {
       type: 'string',
       placeholder: 'COMMON_COMPONENT.INPUT.PLACEHOLDER',
       label: 'PRODUCT_PACKAGING.MASTER.TABLE.CODE_COLUMN',
-      service: ProductTypeService,
+      onSearch: GetAll,
       keyField: 'code',
     },
     species: {
       type: 'SearchSelect',
       placeholder: 'COMMON_COMPONENT.SELECT.PLACEHOLDER',
       label: 'PRODUCT_PACKAGING.MASTER.TABLE.NAME_COLUMN',
-      service: ProductTypeService,
+      onSearch: GetAll,
       keyField: 'name',
       ref: true
     },
