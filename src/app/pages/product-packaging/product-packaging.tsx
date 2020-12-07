@@ -203,7 +203,7 @@ function ProductPackaging() {
       type: 'SearchSelect',
       placeholder: 'COMMON_COMPONENT.SELECT.PLACEHOLDER',
       label: 'PRODUCT_PACKAGING.MASTER.TABLE.NAME_COLUMN',
-      onSearch: GetAll,
+      onSearch: ProductTypeService.GetAll,
       keyField: 'name',
       ref: true
     },
@@ -346,7 +346,7 @@ function ProductPackaging() {
         autoFill={{
           field: '',
           data: null,
-          searchSelectField: [{ field: 'species', ref: { prop: 'species', key: 'name' } }],
+          searchSelectField: [{ field: 'species', ref: { prop: '', key: 'name' } }],
         }}
         homePage={homeURL}
         refreshData={refreshData}

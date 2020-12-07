@@ -72,6 +72,8 @@ export function MasterHeader<T>({
   const searchM: any = {...searchModel};
   
   const [search, setSearch] = useState<any>(initValue);
+
+  console.log(search)
   
   let _disabled: any = {};
   Object.keys(initValue).forEach(field => {
@@ -180,6 +182,7 @@ export function MasterHeader<T>({
     };
     
     const entities = await onSearch({queryProps, paginationProps});
+
     // const count = onCount ? await onCount({ queryProps }) : await service.Count({ queryProps });
     const count = entities.data.paging.total;
     const hasMore = prevOptions.length < count - (DefaultPagination.limit ?? 0);

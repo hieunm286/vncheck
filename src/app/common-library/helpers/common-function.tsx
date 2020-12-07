@@ -201,9 +201,9 @@ export const ConvertSelectSearch = (entity: any, keyField?: FieldProp[]) => {
   if (keyField && keyField.length > 0) {
 
     keyField.forEach(({ field, ref }: FieldProp) => {
-      if (ref && (ref.prop || ref.prop === '')) {
+      if (ref && (!ref.prop || ref.prop === '')) {
         convertEntity[field] = { label: getField(convertEntity[field], ref.key), value: entity._id }
-      }
+      } else
       if (ref && convertEntity[ref.prop]) {
         convertEntity[field][ref.prop] = { label: getField(convertEntity[ref.prop], ref.key), value: entity._id }
       } else {
