@@ -132,6 +132,7 @@ function LandLot() {
 
   const moduleName = 'LAND_LOT.MODULE_NAME';
   const headerTitle = 'LAND_LOT.MASTER.HEADER.TITLE';
+  const bodyTitle = 'LAND_LOT.MASTER.BODY.TITLE';
   const createTitle = 'LAND_LOT.CREATE.TITLE';
   const updateTitle = 'LAND_LOT.EDIT.TITLE';
   const viewTitle = 'LAND_LOT.VIEW.TITLE';
@@ -566,6 +567,7 @@ function LandLot() {
             customSearchSelectLoadOption={landLotSearchSelectLoadOption}
           />
           <MasterBody
+            title={bodyTitle}
             onCreate={() => {
               setCreateEntity(null);
               setEditEntity(null);
