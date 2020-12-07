@@ -31,7 +31,7 @@ export function PaginationLinks({paginationProps}: any) {
     const disabledClass = pagesCount > 1 ? "" : "disabled";
     return (
         <>
-            {pagesCount < 2 && <></>}
+            {pagesCount < 2 && (<div className={`d-flex flex-wrap py-2 mr-3 ${disabledClass}`}></div>)}
             {pagesCount > 1 && (
                 <>
                     <div className={`d-flex flex-wrap py-2 mr-3 ${disabledClass}`}>
