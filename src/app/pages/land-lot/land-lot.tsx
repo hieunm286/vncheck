@@ -549,6 +549,7 @@ function LandLot() {
         <Route path="/land-lot">
           <MasterHeader
             title={headerTitle}
+            onReset={() => {setFilterProps(undefined)}}
             onSearch={setFilterProps}
             searchModel={purchaseOrderSearchModel}
             stringOnChange={stringOnChange}
