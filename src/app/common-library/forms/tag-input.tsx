@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Select } from 'antd';
 import { useField, useFormikContext } from 'formik';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 
 const { Option } = Select;
 
@@ -79,36 +80,73 @@ const getError = (error: any, fieldName: string) => {
   return error[arrName[0]] ? error[arrName[0]][arrName[1]] : '';
 };
 
+interface ReduxProp {
+  reduxState: string;
+  fetchAction: (queryParams? : any) => any;
+}
+
+interface TagProp {
+  label: string;
+  data: any;
+  handleChange: (value: any) => void;
+  name: string;
+  isHorizontal: boolean;
+  labelWidth: number;
+  isRequired: boolean;
+  reduxOption?: ReduxProp;
+}
+
 function TagInput({
   label,
   data,
   handleChange,
-  value,
+  // value,
   name,
-  isHorizontal,
+  isHorizontal = false,
   labelWidth,
   isRequired,
+  reduxOption,
   ...props
-}: any) {
+}: TagProp) {
 
     const { setFieldValue, errors, touched } = useFormikContext<any>();
 
+    const [hasMore, setHasMore] = useState(false)
+
+    const { reduxState, fetchAction }: ReduxProp = reduxOption || {} as ReduxProp;
+
+    const { currentState } = useSelector(
+      (state: any) => ({
+        currentState: state[reduxState],
+      }),
+      shallowEqual,
+    );
+    const { entities } = currentState || [];
+
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+      if (fetchAction) {
+        dispatch(fetchAction())
+      }
+    }, [dispatch])
+
   return (
     <>
-      <div className={isHorizontal && 'row'}>
-        <div className={isHorizontal && getClassName(labelWidth, true)}>
+      <div className={isHorizontal ? 'row' : ''}>
+        <div className={isHorizontal ? getClassName(labelWidth, true) : ''}>
           {label && (
-            <label className={isHorizontal && 'mb-0 input-label mt-2'}>
+            <label className={isHorizontal ? 'mb-0 input-label mt-2' : ''}>
               {label} {isRequired && <span className="text-danger">*</span>}
             </label>
           )}
         </div>
 
-        <div className={isHorizontal && getClassName(labelWidth, false)}>
+        <div className={isHorizontal ? getClassName(labelWidth, false): ''}>
           <Select
             mode="multiple"
             style={{ width: '100%' }}
-            // defaultValue={['666safsa']}
+            defaultValue={data || []}
             placeholder="Tags Mode"
             onChange={(value: any) => {
                 handleChange(value);
@@ -120,7 +158,11 @@ function TagInput({
             }
             className={`${errors[name] ? 'border border-danger rounded' : ''}`}
             >
-            {data.map((item: any, key: any) => (
+            {entities ? entities.map((item: any, key: any) => (
+              <Option key={item._id} value={item._id}>
+                {item.fullName}
+              </Option>
+            )) : data.map((item: any, key: any) => (
               <Option key={item._id} value={item._id}>
                 {item.fullName}
               </Option>

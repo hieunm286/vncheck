@@ -745,6 +745,7 @@ const FormTemplate = ({
                   handleChange={handleChangeTag}
                   isRequired
                   labelWidth={4}
+                  data={[]}
                 />
               </div>
             );
