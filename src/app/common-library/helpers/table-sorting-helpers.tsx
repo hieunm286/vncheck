@@ -1,29 +1,24 @@
 /* Pagination Helprs */
 import React from "react";
-import SVG from "react-inlinesvg";
-import {ToAbsoluteUrl} from "./assets-helpers";
+
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import {faSort, faSortDown, faSortUp} from '@fortawesome/free-solid-svg-icons'
 
 export const SortCaret = (order: any, column: any) => {
-    if (!order) return (
-        <span className="sort-icon svg-icon svg-icon-sm svg-icon-primary ml-1 svg-icon-sort">
-      <SVG src={ToAbsoluteUrl("/media/svg/icons/Shopping/Sort1.svg")}/>
-    </span>
+  if (!order) return (
+    <span style={{marginLeft:3}}><FontAwesomeIcon icon={faSort}/></span>
+  );
+  else if (order === "asc")
+    return (
+      <span style={{marginLeft:3}}><FontAwesomeIcon icon={faSortDown}/></span>
     );
-    else if (order === "asc")
-        return (
-            <span className="sort-icon svg-icon svg-icon-sm svg-icon-primary ml-1">
-        <SVG src={ToAbsoluteUrl("/media/svg/icons/Navigation/Up-2.svg")}/>
-      </span>
-        );
-    else if (order === "desc")
-        return (
-            <span className="sort-icon svg-icon svg-icon-sm svg-icon-primary ml-1">
-        <SVG src={ToAbsoluteUrl("/media/svg/icons/Navigation/Down-2.svg")}/>
-      </span>
-        );
-    return null;
+  else if (order === "desc")
+    return (
+      <span style={{marginLeft:3}}><FontAwesomeIcon icon={faSortUp}/></span>
+    );
+  return null;
 };
 
 export const HeaderSortingClasses = (column: any, sortOrder: any, isLastSorting: any, colIndex: any) => (
-    (sortOrder === 'asc' || sortOrder === "desc") ? 'sortable-active' : ''
+  (sortOrder === 'asc' || sortOrder === "desc") ? 'sortable-active' : ''
 );

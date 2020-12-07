@@ -41,9 +41,9 @@ export function InfiniteSelect({
   return (
     <>
       <div className={isHorizontal ? 'row' : ''}>
-        <div className={isHorizontal ? 'col-xl-4 col-md-4 col-12' : ''}>
+        {/*<div className={isHorizontal ? 'col-xl-4 col-md-4 col-12' : ''}>*/}
           <label>{label}</label>
-        </div>
+        {/*</div>*/}
         <div className={isHorizontal ? `col-xl-7 col-md-8 col-12` : ''}>
           <CustomAsyncPaginate
             value={value}
@@ -66,6 +66,7 @@ export function InfiniteSelect({
                   borderColor: "#E4E6EF",
                   borderRadius: "0.42rem",
                   borderWidth: "1px",
+                  minHeight:"2.3rem",
                   fontFamily: "SVN-Gilroy, Roboto, Poppins, Helvetica, sans-serif",
                   ":hover": {borderColor: "#0fc35c"},
                   ":focus": {borderColor: "#0fc35c"}

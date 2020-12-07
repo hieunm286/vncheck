@@ -4,6 +4,8 @@ import DatePicker, {registerLocale} from 'react-datepicker';
 import vi from 'date-fns/locale/vi';
 import 'react-datepicker/dist/react-datepicker.css'
 import "react-datepicker/dist/react-datepicker-cssmodules.css";
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import {faCalendarAlt} from '@fortawesome/free-solid-svg-icons'
 
 registerLocale('vi', vi);
 
@@ -95,7 +97,11 @@ const getClassName = (labelWidth: number | null | undefined, labelStart: boolean
 export function DatePickerField({...props}: any) {
   const {setFieldValue, errors, touched} = useFormikContext<any>();
   const [field] = useField(props);
-  
+  const ExampleCustomInput = ({ value, onClick }:{ value:any, onClick:any }) => (
+    <button  onClick={onClick}>
+      {value}
+    </button>
+  );
   
   return (
     <>
@@ -104,27 +110,36 @@ export function DatePickerField({...props}: any) {
           {props.label && <label>{props.label}</label>}
         </div>
         <div className={props.isHorizontal && getClassName(props.labelWidth, false)}>
-          <DatePicker
-            className={getFieldCSSClasses(getTouched(touched, field.name), getError(errors, field.name))}
-            style={{width: '100%'}}
-            dateFormat="dd/MM/yyyy h:mm aa"
-            selected={(field.value && new Date(field.value)) || null}
-            {...field}
-            {...props}
-            onChange={(val: any) => {
-              val.toISOString = () =>
-                (new Date(val.getTime() - val.getTimezoneOffset() * 60000)).toISOString();
-              setFieldValue(field.name, val);
-            }}
-            autoComplete="off"
-            wrapperClassName="d-block"
-            locale="vi"
-            placeholderText="Ngày tháng"
-            // showTimeSelect
-            showTimeInput
-            timeInputLabel="Thời gian:"
-            disabled={props.disabled}
-          />
+            <DatePicker
+              className={getFieldCSSClasses(getTouched(touched, field.name), getError(errors, field.name))}
+              style={{width: '100%'}}
+              dateFormat="dd/MM/yyyy h:mm aa"
+              selected={(field.value && new Date(field.value)) || null}
+              {...field}
+              {...props}
+              onChange={(val: any) => {
+                val.toISOString = () =>
+                  (new Date(val.getTime() - val.getTimezoneOffset() * 60000)).toISOString();
+                setFieldValue(field.name, val);
+              }}
+              autoComplete="off"
+              wrapperClassName="d-block"
+              locale="vi"
+              placeholderText="Chọn"
+              showTimeInput
+              timeInputLabel="Thời gian:"
+              disabled={props.disabled}
+            />
+          <FontAwesomeIcon icon={faCalendarAlt} style={{position:'absolute', top: 9, right:9}}/>
+          {/*<DatePicker*/}
+          {/*  onChange={(val: any) => {*/}
+          {/*    val.toISOString = () =>*/}
+          {/*      (new Date(val.getTime() - val.getTimezoneOffset() * 60000)).toISOString();*/}
+          {/*    setFieldValue(field.name, val);*/}
+          {/*  }}*/}
+          {/*  customInput={ExampleCustomInput}*/}
+          {/*/>*/}
+  
           {getError(errors, field.name) && getTouched(touched, field.name) ? (
             <div className="invalid-datepicker-feedback text-danger" style={{fontSize: '0.9rem'}}>
               Vui lòng nhập
