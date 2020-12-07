@@ -4,28 +4,15 @@ import { useField, useFormikContext } from 'formik';
 
 const { Option } = Select;
 
-const children = [
-    {
-        _id: '666safsa',
-        code: 'NV1',
-        fullName: 'Nguyễn Văn A',
-    },
-    {
-        _id: '666sasafsa',
-        code: 'NV2',
-        fullName: 'Nguyễn Văn B',
-    },
-    {
-        _id: '666ssaafsa',
-        code: 'NV3',
-        fullName: 'Nguyễn Thị C',
-    },
-    {
-        _id: '666safsfaa',
-        code: 'NV4',
-        fullName: 'Nguyễn Thị D',
-    },
-];
+const getDefautltTag = (data: any) => {
+  const idArr: any[] = []
+
+  data.forEach((el: any) => {
+    idArr.push(el._id)
+  })
+
+  return idArr
+}
 
 const getFieldCSSClasses = (touched: any, errors: any) => {
   const classes = ['form-control'];
@@ -88,10 +75,13 @@ function TagInput({
   isHorizontal,
   labelWidth,
   isRequired,
+  disabled,
   ...props
 }: any) {
 
     const { setFieldValue, errors, touched } = useFormikContext<any>();
+
+    console.log(data)
 
   return (
     <>
@@ -108,7 +98,7 @@ function TagInput({
           <Select
             mode="multiple"
             style={{ width: '100%' }}
-            // defaultValue={['666safsa']}
+            defaultValue={getDefautltTag(data) || []}
             placeholder="Tags Mode"
             onChange={(value: any) => {
                 handleChange(value);
@@ -118,6 +108,7 @@ function TagInput({
             filterOption={(input: any, option: any) =>  
               option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0 
             }
+            disabled={disabled}
             className={`${errors[name] ? 'border border-danger rounded' : ''}`}
             >
             {data.map((item: any, key: any) => (

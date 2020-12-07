@@ -172,6 +172,9 @@ export const getField = (field: any, fieldName: string) => {
   const arrName = fieldName.split('.')
 
   console.log(field)
+  console.log(fieldName)
+
+  if (!field[arrName[0]]) return;
 
   let fields: any = field[arrName[0]]
 
@@ -179,7 +182,7 @@ export const getField = (field: any, fieldName: string) => {
     if (key > 0) {
       if (fields[el]) {
         fields = fields[el]
-      }
+      } 
     }
     
   })
