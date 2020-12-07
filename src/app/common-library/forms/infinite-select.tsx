@@ -3,6 +3,7 @@ import {withAsyncPaginate} from 'react-select-async-paginate';
 import {useFormikContext} from 'formik';
 import {deCapitalizeFirstLetter} from '../helpers/common-function'
 import AtlaskitSelect from "@atlaskit/select";
+import {useIntl} from "react-intl";
 
 const style = {
   borderRadius: 5
@@ -13,7 +14,7 @@ export function InfiniteSelect({
                                  loadOptions,
                                  value,
                                  onChange,
-                                 placeholder,
+                                 placeholder = "COMMON_COMPONENT.INFINITE_SELECT.PLACEHOLDER",
                                  name,
                                  additional,
                                  refs,
@@ -37,13 +38,14 @@ export function InfiniteSelect({
   const {setFieldValue, errors, touched} = useFormikContext<any>();
   const [values, setValue] = React.useState(null);
   const CustomAsyncPaginate = withAsyncPaginate(AtlaskitSelect);
+  const intl = useIntl();
   
   return (
     <>
       <div className={isHorizontal ? 'row' : ''}>
-        <div className={isHorizontal ? 'col-xl-4 col-md-4 col-12' : ''}>
+        {/*<div className={isHorizontal ? 'col-xl-4 col-md-4 col-12' : ''}>*/}
           <label>{label}</label>
-        </div>
+        {/*</div>*/}
         <div className={isHorizontal ? `col-xl-7 col-md-8 col-12` : ''}>
           <CustomAsyncPaginate
             value={value}
@@ -54,7 +56,7 @@ export function InfiniteSelect({
               onChange(val);
               setFieldValue(name, refs ? val.value : val.label);
             }}
-            placeholder={placeholder}
+            placeholder={intl.formatMessage({id: placeholder})}
             name={name}
             additional={additional}
             styles={{
@@ -66,6 +68,7 @@ export function InfiniteSelect({
                   borderColor: "#E4E6EF",
                   borderRadius: "0.42rem",
                   borderWidth: "1px",
+                  minHeight:"2.3rem",
                   fontFamily: "SVN-Gilroy, Roboto, Poppins, Helvetica, sans-serif",
                   ":hover": {borderColor: "#0fc35c"},
                   ":focus": {borderColor: "#0fc35c"}

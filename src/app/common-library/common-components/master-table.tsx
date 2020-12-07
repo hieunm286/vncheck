@@ -111,8 +111,6 @@ export function MasterTable<T>({
     return 'desc'
   }
 
-  const sort = [{...SortDefault[0], order: GetSort(SortDefault[0].order)}]
-
   return (
     <PaginationProvider pagination={paginationFactory(paginationOptions)}>
       {({ paginationProps, paginationTableProps }) => {

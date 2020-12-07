@@ -60,7 +60,7 @@ export function MasterHeader<T>({
   ) => void;
   customSearchSelectLoadOption?: (
     search: string,
-    onSearch: (t:any)=> void,
+    onSearch: (t: any) => void,
     prevOptions: any,
     {page}: any,
     keyField: string,
@@ -221,9 +221,7 @@ export function MasterHeader<T>({
                     switch (searchM[key].type) {
                       case 'string':
                         return (
-                          <div
-                            className="col-xxl-2 col-md-2 mt-md-5 mt-5"
-                            key={'master_header' + key}>
+                          <div className="col-xxl-2 col-md-2 mt-md-5 mt-5" key={`master_header${key}`}>
                             <Field
                               name={key}
                               // value={search[key]}
@@ -255,9 +253,7 @@ export function MasterHeader<T>({
                       
                       case 'number':
                         return (
-                          <div
-                            className="col-xxl-2 col-md-2 mt-md-5 mt-5"
-                            key={`master_header${key}`}>
+                          <div className="col-xxl-2 col-md-2 mt-md-5 mt-5" key={`master_header${key}`}>
                             <Field
                               name={key}
                               type="number"
@@ -271,7 +267,7 @@ export function MasterHeader<T>({
                       
                       case 'Datetime':
                         return (
-                          <div className="col-xxl-2 col-md-2 mt-md-5 mt-5 " key={key}>
+                          <div className="col-xxl-2 col-md-2 mt-md-5 mt-5 " key={`master_header${key}`}>
                             <DatePickerField
                               name={key}
                               label={intl.formatMessage({id: searchM[key].label})}
@@ -334,7 +330,7 @@ export function MasterHeader<T>({
                                 page: DefaultPagination.page,
                               }}
                               name={key}
-                              placeholder={intl.formatMessage({id: searchM[key].placeholder})}
+                              placeholder={searchM[key].placeholder}
                             />
                           </div>
                         );

@@ -63,7 +63,8 @@ export function MasterBody<T>({
               {rowIndex + 1 + ((paginationParams.page ?? 0) - 1) * (paginationParams.limit ?? 0)}
             </p>
           ),
-          style: { paddingTop: 20 },
+          headerClasses: 'text-center pr-0',
+          align: 'right'
         },
         ...columns,
       }

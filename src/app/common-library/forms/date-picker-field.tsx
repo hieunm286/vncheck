@@ -1,9 +1,11 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {useField, useFormikContext} from 'formik';
 import DatePicker, {registerLocale} from 'react-datepicker';
 import vi from 'date-fns/locale/vi';
 import 'react-datepicker/dist/react-datepicker.css'
 import "react-datepicker/dist/react-datepicker-cssmodules.css";
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import {faCalendarAlt} from '@fortawesome/free-solid-svg-icons'
 
 registerLocale('vi', vi);
 
@@ -92,11 +94,26 @@ const getClassName = (labelWidth: number | null | undefined, labelStart: boolean
   return classes.join(' ');
 };
 
+// export function ExampleCustomInput({value, onClick}: { value: any, onClick: any }) {
+//   return (
+//     <div className="form-group">
+//       <input type="text" className="form-control" value={value} onClick={onClick}/>
+//       <FontAwesomeIcon icon={faCalendarAlt} onClick={onClick}/>
+//     </div>
+//   );
+// }
+
 export function DatePickerField({...props}: any) {
   const {setFieldValue, errors, touched} = useFormikContext<any>();
   const [field] = useField(props);
-  
-  
+  const ExampleCustomInput = (props: any) => {
+    return(
+    <div className="form-group mb-0">
+      <input type="text"  {...props} className="form-control"/>
+      <FontAwesomeIcon icon={faCalendarAlt} style={{position: 'absolute', top: 11, right: 9, color: '#DADADA'}}
+                       onClick={props.onClick}/>
+    </div>)
+  }
   return (
     <>
       <div className={props.isHorizontal && 'row'}>
@@ -105,8 +122,8 @@ export function DatePickerField({...props}: any) {
         </div>
         <div className={props.isHorizontal && getClassName(props.labelWidth, false)}>
           <DatePicker
-            className={getFieldCSSClasses(getTouched(touched, field.name), getError(errors, field.name))}
-            style={{width: '100%'}}
+            // className={getFieldCSSClasses(getTouched(touched, field.name), getError(errors, field.name))}
+            // style={{width: '100%'}}
             dateFormat="dd/MM/yyyy h:mm aa"
             selected={(field.value && new Date(field.value)) || null}
             {...field}
@@ -117,14 +134,13 @@ export function DatePickerField({...props}: any) {
               setFieldValue(field.name, val);
             }}
             autoComplete="off"
-            wrapperClassName="d-block"
+            // wrapperClassName="d-block"
             locale="vi"
-            placeholderText="Ngày tháng"
-            // showTimeSelect
+            placeholderText="Chọn"
             showTimeInput
             timeInputLabel="Thời gian:"
             disabled={props.disabled}
-          />
+            customInput={<ExampleCustomInput/>}/>
           {getError(errors, field.name) && getTouched(touched, field.name) ? (
             <div className="invalid-datepicker-feedback text-danger" style={{fontSize: '0.9rem'}}>
               Vui lòng nhập

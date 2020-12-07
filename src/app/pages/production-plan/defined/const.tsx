@@ -27,7 +27,6 @@ export const productPlanSearchModel1: SearchModel = {
   species: {
     type: 'SearchSelect',
     label: 'PRODUCTION_PLAN.SPECIES_NAME',
-    placeholder: 'PRODUCTION_PLAN.INPUT',
     onSearch: SpeciesService.GetAll,
     keyField: 'name',
     ref: true,
