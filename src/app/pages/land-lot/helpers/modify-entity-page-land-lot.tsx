@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { ModifyModel } from '../../../common-library/common-types/common-type'
 import { generateInitForm, getNewImage, getOnlyFile } from '../../../common-library/helpers/common-function';
-import { Field, Form, Formik } from 'formik';
+import { Field, Form, Formik, useFormikContext } from 'formik';
 import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import * as Yup from 'yup';
@@ -59,6 +59,7 @@ function ModifyEntityPageLandLot<T>({
   const intl = useIntl();
   // const initForm = generateInitForm(modifyModel);
   const [search, setSearch] = useState<any>(entity);
+  const { errors } = useFormikContext<any>();
   const modifyM = { ...modifyModel } as any;
 const dataT: any = [
   {

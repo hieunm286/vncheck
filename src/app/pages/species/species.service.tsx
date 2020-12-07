@@ -10,7 +10,7 @@ import {
   SearchModel,
   UpdateProps,
 } from '../../common-library/common-types/common-type';
-import { ProductTypeModel } from './product-type.model';
+import { SpeciesModel } from './species.model';
 
 export const API_URL = API_BASE_URL + '/species';
 
@@ -18,11 +18,11 @@ export const BULK_API_URL = API_URL + '/bulk'
 
 export const API_FILE_URL = API_BASE_URL + '/file';
 
-export const Create: CreateProps<ProductTypeModel> = (data: ProductTypeModel) => {
+export const Create: CreateProps<SpeciesModel> = (data: SpeciesModel) => {
   return axios.post(API_URL, data);
 };
 
-export const GetAll: GetAllProps<ProductTypeModel> = ({
+export const GetAll: GetAllProps<SpeciesModel> = ({
   queryProps,
   sortList,
   paginationProps,
@@ -33,7 +33,7 @@ export const GetAll: GetAllProps<ProductTypeModel> = ({
   });
 };
 
-export const Count: CountProps<ProductTypeModel> = ({
+export const Count: CountProps<SpeciesModel> = ({
   queryProps,
   sortList,
   paginationProps,
@@ -43,22 +43,22 @@ export const Count: CountProps<ProductTypeModel> = ({
   });
 };
 
-export const Get: GetProps<ProductTypeModel> = entity => {
+export const Get: GetProps<SpeciesModel> = entity => {
   return axios.get(`${API_URL}/${entity._id}`);
 };
 
 export const GetById = (_id: string) => {
   return axios.get(`${API_URL}/${_id}`);
 };
-export const Update: UpdateProps<ProductTypeModel> = (entity: ProductTypeModel) => {
+export const Update: UpdateProps<SpeciesModel> = (entity: SpeciesModel) => {
   return axios.put(`${API_URL}/${entity._id}`, entity);
 };
 
-export const Delete: DeleteProps<any> = (entity: ProductTypeModel) => {
+export const Delete: DeleteProps<any> = (entity: SpeciesModel) => {
   return axios.delete(`${API_URL}/${entity._id}`);
 };
 
-export const DeleteMany: DeleteManyProps<ProductTypeModel> = (entities: ProductTypeModel[]) => {
+export const DeleteMany: DeleteManyProps<SpeciesModel> = (entities: SpeciesModel[]) => {
   return axios.delete(BULK_API_URL, {
     data: { listSpecies: entities },
   });

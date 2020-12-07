@@ -63,7 +63,8 @@ export function MasterBody<T>({
               {rowIndex + 1 + ((paginationParams.page ?? 0) - 1) * (paginationParams.limit ?? 0)}
             </p>
           ),
-          style: { paddingTop: 20 },
+          headerClasses: 'text-center pr-0',
+          align: 'right'
         },
         ...columns,
       }
@@ -74,15 +75,15 @@ export function MasterBody<T>({
       {title && <CardHeader title={intl.formatMessage({ id: title }).toUpperCase()} />}
       <CardBody>
         <div className="row no-gutters mb-10">
-          <div className="mr-5">
-            <button type="button" className="btn btn-primary pl-5 pr-5" onClick={onCreate}>
+          <div className="col-pc-3 col-tablet-3 col-mobile-3 mr-5">
+            <button type="button" className="btn btn-primary w-100" onClick={onCreate}>
               + {intl.formatMessage({ id: 'COMMON_COMPONENT.MASTER_BODY.HEADER.ADD_BTN' })}
             </button>
           </div>
-          <div className="mr-5">
+          <div className="col-pc-3 col-tablet-3 col-mobile-3 mr-5">
             <button
               type="button"
-              className="btn btn-outline-primary pl-10 pr-10"
+              className="btn btn-outline-primary w-100"
               onClick={() => {
                 onSelectMany(selectedEntities);
                 onDeleteMany();

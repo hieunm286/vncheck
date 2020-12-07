@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { ModifyModel } from '../common-types/common-type';
 import { useIntl } from 'react-intl';
-import { generateInitForm, getNewImage, getOnlyFile } from '../helpers/common-function';
+import { generateInitForm, getField, getNewImage, getOnlyFile } from '../helpers/common-function';
 import { Field, Form, Formik } from 'formik';
 import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
@@ -22,59 +22,7 @@ import ImgGallery from '../forms/image-gallery';
 import { FormikRadioGroup } from '../forms/radio-group-field';
 import { SwitchField } from '../forms/switch-field';
 import { InfiniteSelectV2 } from '../forms/infinite-select-v2';
-
-const dataT: any = [
-  {
-    _id: 'abc',
-    code: '000001',
-    name: 'Rau muống',
-    barcode: '8930000001',
-    imageURL: 'https://product.hstatic.net/1000191320/product/rau-cai-chip_master.jpg',
-    growingDays: 15,
-    plantingDays: 30,
-    expiryDays: 30,
-  },
-  {
-    _id: 'abcd',
-    code: '000003',
-    name: 'Rau cải',
-    barcode: '8930000003',
-    imageURL: 'https://product.hstatic.net/1000191320/product/rau-cai-chip_master.jpg',
-    growingDays: 15,
-    plantingDays: 30,
-    expiryDays: 60,
-  },
-  {
-    _id: 'abce',
-    code: '000004',
-    name: 'Rau muống',
-    barcode: '8930000004',
-    imageURL: 'https://product.hstatic.net/1000191320/product/rau-cai-chip_master.jpg',
-    growingDays: 15,
-    plantingDays: 30,
-    expiryDays: 17,
-  },
-  {
-    _id: 'abcf',
-    code: '000005',
-    name: 'Rau muống',
-    barcode: '8930000005',
-    imageURL: 'https://product.hstatic.net/1000191320/product/rau-cai-chip_master.jpg',
-    growingDays: 15,
-    plantingDays: 30,
-    expiryDays: 19,
-  },
-  {
-    _id: 'abdacf',
-    code: '000009',
-    name: 'Rau cần',
-    barcode: '8930000009',
-    imageURL: 'https://product.hstatic.net/1000191320/product/rau-cai-chip_master.jpg',
-    growingDays: 15,
-    plantingDays: 30,
-    expiryDays: 19,
-  },
-];
+import { isArray } from 'lodash';
 
 function ModifyEntityPage<T>({
   // entity,
@@ -394,6 +342,7 @@ function ModifyEntityPage<T>({
               );
 
             case 'tag':
+              const defaultTag = (getField(entityForEdit, prevKey ? `${prevKey}.${key}` : key))
               return (
                 <div className="mt-3" key={key}>
                   <TagInput
@@ -403,7 +352,8 @@ function ModifyEntityPage<T>({
                     handleChange={handleChangeTag}
                     isRequired
                     labelWidth={4}
-                    data={tagData}
+                    disabled={value.data[key].disabled}
+                    data={isArray(defaultTag) ? defaultTag : []}
                   />
                 </div>
               );

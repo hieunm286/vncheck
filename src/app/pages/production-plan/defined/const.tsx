@@ -1,8 +1,7 @@
 import { SearchModel } from '../../../common-library/common-types/common-type';
 import { GenerateAllFormField } from '../../../common-library/helpers/common-function';
-import * as ProductionPlanService from '../production-plan.service';
 import * as ProductPackagingService from '../../product-packaging/product-packaging.service';
-import * as ProductTypeService from '../../product-type/product-type.service';
+import * as SpeciesService from '../../species/species.service';
 
 import '../style/production-plan.scss';
 
@@ -15,72 +14,61 @@ export const updateTitle = 'PURCHASE_ORDER.UPDATE.TITLE';
 export const homeURL = `${window.location.pathname}`;
 
 export const productPlanSearchModel1: SearchModel = {
+  seedingCode: {
+    type: 'string',
+    label: 'PRODUCTION_PLAN.SEEDING_CODE',
+    placeholder: 'PRODUCTION_PLAN.INPUT',
+  },
   plantCode: {
     type: 'string',
     label: 'PRODUCTION_PLAN.PLANT_CODE',
     placeholder: 'PRODUCTION_PLAN.INPUT',
-    service: ProductionPlanService,
-    keyField: 'code',
   },
-  growCode: {
-    type: 'string',
-    label: 'PRODUCTION_PLAN.GROW_CODE',
-    placeholder: 'PRODUCTION_PLAN.INPUT',
-    service: ProductionPlanService,
-    keyField: 'name',
-  },
-  speciesName: {
+  species: {
     type: 'SearchSelect',
     label: 'PRODUCTION_PLAN.SPECIES_NAME',
-    placeholder: 'PRODUCTION_PLAN.INPUT',
-    service: ProductionPlanService,
-    keyField: 'speciesName',
+    onSearch: SpeciesService.GetAll,
+    keyField: 'name',
     ref: true,
   },
-  date: {
+  estimatedHarvestTime: {
     type: 'Datetime',
     label: 'PRODUCTION_PLAN.HARVEST_DATE',
     placeholder: 'PRODUCTION_PLAN.INPUT',
-    service: ProductionPlanService,
-    keyField: 'agencyAddress',
   },
 };
 
 export const productPlanSearchModel2: SearchModel = {
-  planCode: {
+  seedingCode: {
     type: 'string',
     label: 'PRODUCTION_PLAN.CODE',
     placeholder: 'PRODUCTION_PLAN.INPUT',
-    service: ProductionPlanService,
     keyField: 'planCode',
   },
   plantCode: {
     type: 'string',
     label: 'PRODUCTION_PLAN.PLANT_CODE',
     placeholder: 'PRODUCTION_PLAN.INPUT',
-    service: ProductionPlanService,
     keyField: 'plantCode',
   },
   growCode: {
     type: 'string',
     label: 'PRODUCTION_PLAN.GROW_CODE',
     placeholder: 'PRODUCTION_PLAN.INPUT',
-    service: ProductionPlanService,
     keyField: 'growCode',
   },
-  speciesName: {
+  species: {
     type: 'SearchSelect',
     label: 'PRODUCTION_PLAN.SPECIES_NAME',
     placeholder: 'PRODUCTION_PLAN.INPUT',
-    service: ProductionPlanService,
-    keyField: 'speciesName',
+    onSearch: SpeciesService.GetAll,
+    keyField: 'name',
     ref: true,
   },
-  date: {
+  estimatedHarvestTime: {
     type: 'Datetime',
     label: 'PRODUCTION_PLAN.HARVEST_DATE',
     placeholder: 'PRODUCTION_PLAN.INPUT',
-    service: ProductionPlanService,
     keyField: 'agencyAddress',
   },
 };
@@ -97,11 +85,64 @@ export const modifyModel: any[] = [
         disabled: true,
       },
       seeding: {
-        type: 'string',
-        placeholder: 'Mã gieo giống',
-        required: true,
-        label: 'Mã gieo giống',
-        disabled: true,
+        type: 'object',
+        data: {
+          code: {
+            type: 'string',
+            placeholder: 'Mã gieo giống',
+            required: true,
+            label: 'Mã gieo giống',
+            disabled: true,
+          },
+          certificates: {
+            type: 'object',
+            data: {
+              path: {
+                type: 'string',
+                placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
+                label: 'Giấy chứng nhận giống',
+                disabled: true,
+              },
+            },
+          },
+          buyInvoice: {
+            type: 'object',
+            data: {
+              path: {
+                type: 'string',
+                placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
+                label: 'Hóa đơn mua hàng',
+                disabled: true,
+              },
+            },
+          },
+          seedingTime: {
+            type: 'string',
+            placeholder: 'PRODUCT_TYPE.MASTER.TABLE.BARCODE_COLUMN',
+            required: true,
+            label: 'Thời gian gieo',
+            disabled: true,
+          },
+          landLot: {
+            type: 'object',
+            data: {
+              code: {
+                type: 'string',
+                placeholder: 'PRODUCT_TYPE.MASTER.TABLE.BARCODE_COLUMN',
+                required: true,
+                label: 'Lô gieo ươm',
+                disabled: true,
+              },
+            },
+          },
+
+          // bill: {
+          //   type: 'string',
+          //   placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
+          //   label: 'Hóa đơn mua hàng',
+          //   disabled: true,
+          // },
+        },
       },
       planting: {
         type: 'object',
@@ -120,26 +161,20 @@ export const modifyModel: any[] = [
             disabled: true,
           },
           landLot: {
-            type: 'string',
-            placeholder: 'PRODUCT_TYPE.MASTER.TABLE.BARCODE_COLUMN',
-            required: true,
-            label: 'Lô gieo trồng',
-            disabled: true,
+            type: 'object',
+            data: {
+              code: {
+                type: 'string',
+                placeholder: 'PRODUCT_TYPE.MASTER.TABLE.BARCODE_COLUMN',
+                required: true,
+                label: 'Lô gieo trồng',
+                disabled: true,
+              },
+            },
           },
         },
       },
-      // certificates: {
-      //   type: 'string',
-      //   placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
-      //   label: 'Giấy chứng nhận giống',
-      //   disabled: true,
-      // },
-      // bill: {
-      //   type: 'string',
-      //   placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
-      //   label: 'Hóa đơn mua hàng',
-      //   disabled: true,
-      // },
+
       // plantTime: {
       //   type: 'string',
       //   placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
@@ -151,20 +186,9 @@ export const modifyModel: any[] = [
   {
     title: '\u00A0',
     data: {
-      planting: {
+      seeding: {
         type: 'object',
         data: {
-          farmLocation: {
-            type: 'object',
-            data: {
-              coordinates: {
-                type: 'string',
-                placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
-                label: 'Địa chỉ farm',
-                disabled: true,
-              },
-            },
-          },
           species: {
             type: 'object',
             data: {
@@ -188,40 +212,53 @@ export const modifyModel: any[] = [
             label: 'Diện tích gieo ươm',
             disabled: true,
           },
-          numberOfPlants: {
+          numberOfSeed: {
             type: 'string',
             placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.EXPIRY',
             label: 'Số cây con giống',
             disabled: true,
           },
+          farmLocation: {
+            type: 'object',
+            data: {
+              coordinates: {
+                type: 'string',
+                placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
+                label: 'Địa chỉ farm giống',
+                disabled: true,
+              },
+            },
+          },
         },
       },
-
-      // growArea: {
-      //   type: 'string',
-      //   placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.EXPIRY',
-      //   label: 'Diện tích gieo trồng',
-      //   disabled: true,
-      // },
-
-      // numberOfGrows: {
-      //   type: 'string',
-      //   placeholder: 'Số cây con trồng',
-      //   label: 'GTIN',
-      //   disabled: true,
-      // },
-      // plantLocation: {
-      //   type: 'string',
-      //   placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.EXPIRY',
-      //   label: 'Địa điểm Farm giống',
-      //   disabled: true,
-      // },
-      // growLocation: {
-      //   type: 'string',
-      //   placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.EXPIRY',
-      //   label: 'Địa điểm Farm trồng',
-      //   disabled: true,
-      // },
+      planting: {
+        type: 'object',
+        data: {
+          area: {
+            type: 'string',
+            placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.EXPIRY',
+            label: 'Diện tích gieo trồng',
+            disabled: true,
+          },
+          numberOfPlants: {
+            type: 'string',
+            placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.EXPIRY',
+            label: 'Số cây con trồng',
+            disabled: true,
+          },
+          farmLocation: {
+            type: 'object',
+            data: {
+              coordinates: {
+                type: 'string',
+                placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
+                label: 'Địa chỉ farm trồng',
+                disabled: true,
+              },
+            },
+          },
+        },
+      },
     },
   },
 ];
@@ -234,18 +271,28 @@ export const modifyModel2: any[] = [
         type: 'object',
         data: {
           manager: {
-            type: 'string',
-            placeholder: 'Mã gieo giống',
-            label: 'Thông tin Giám đốc/TGĐ',
-            required: true,
-            disabled: true,
+            type: 'object',
+            data: {
+              fullName: {
+                type: 'string',
+                placeholder: 'Mã gieo giống',
+                label: 'Thông tin Giám đốc/TGĐ',
+                required: true,
+                disabled: true,
+              },
+            },
           },
           leader: {
-            type: 'string',
-            placeholder: 'Mã gieo giống',
-            required: true,
-            label: 'Tổ trưởng gieo trồng',
-            disabled: true,
+            type: 'object',
+            data: {
+              lastName: {
+                type: 'tag',
+                placeholder: 'Mã gieo giống',
+                required: true,
+                label: 'Tổ trưởng gieo trồng',
+                disabled: true,
+              },
+            },
           },
         },
       },
@@ -439,10 +486,10 @@ export const modifyModel6: any[] = [
             label: 'Quy cách đóng gói',
             service: ProductPackagingService,
             keyField: 'species',
-            rootField: 'planting',
+            rootField: 'seeding',
             fillField: 'packing',
             display: 'weight',
-            ref: true
+            ref: true,
           },
         },
       },
@@ -569,7 +616,7 @@ export const PlantingDetailDialog = [
           title: 'Mã gieo giống',
           keyField: 'seeding.code',
           path: '/production-plan/seeding',
-          params: '_id'
+          params: '_id',
         },
         {
           type: 'string',
@@ -577,24 +624,25 @@ export const PlantingDetailDialog = [
           keyField: 'planting.code',
         },
         {
-          type: 'string',
+          type: 'date-time',
           title: 'Thời gian gieo trồng dự kiến',
           keyField: 'planting.estimatedPlantingTime',
         },
         {
-          type: 'string',
+          type: 'date-time',
           title: 'Thời gian thu hoạch dự kiến',
           keyField: 'planting.estimatedHarvestTime',
         },
         {
           type: 'string',
           title: 'Lô gieo trồng',
-          keyField: 'planting.landLot',
+          keyField: 'planting.landLot.code',
+          convertFn: (t: any) => t.toUpperCase(),
         },
         {
           type: 'string',
           title: 'Địa điểm Farm trồng',
-          keyField: 'planting.farmLocation.coordinates',
+          keyField: 'planting.farmLocation.[coordinates]',
         },
       ],
       [
@@ -655,17 +703,17 @@ export const PlantingDetailDialog = [
         {
           type: 'string',
           title: 'Thông tin Giám đốc/TGĐ',
-          keyField: 'planting.manager',
+          keyField: 'planting.manager.fullName',
         },
         {
           type: 'string',
           title: 'Tổ trưởng gieo trồng',
-          keyField: 'planting.leader',
+          keyField: 'planting.[leader].fullName',
         },
         {
           type: 'string',
           title: 'Công nhân gieo trồng',
-          keyField: 'planting.worker',
+          keyField: 'planting.[worker].fullName',
         },
       ],
     ],
@@ -712,26 +760,27 @@ export const SeedingDetailDialog = [
           keyField: 'seeding.buyInvoice.path',
         },
         {
-          type: 'string',
+          type: 'date-time',
           title: 'Thời gian xuống giống',
           keyField: 'seeding.seedingTime',
         },
         {
-          type: 'string',
+          type: 'date-time',
           title: 'Thời gian trồng dự kiến',
           keyField: 'seeding.estimatedPlantingTime',
         },
         {
           type: 'string',
           title: 'Lô gieo ươm',
-          keyField: 'seeding.landLot',
+          keyField: 'seeding.landLot.code',
+          convertFn: (t: any) => t.toUpperCase(),
         },
       ],
       [
         {
           type: 'string',
           title: 'Địa điểm Farm giống',
-          keyField: 'seeding.farmLocation.coordinates',
+          keyField: 'seeding.farmLocation.[coordinates]',
         },
         {
           type: 'string',
@@ -790,17 +839,18 @@ export const SeedingDetailDialog = [
         {
           type: 'string',
           title: 'Thông tin Giám đốc/TGĐ',
-          keyField: 'planting.manager',
+          keyField: 'planting.manager.fullName',
         },
         {
           type: 'string',
           title: 'Tổ trưởng gieo trồng',
-          keyField: 'planting.leader',
+          keyField: 'planting.[leader].fullName',
+          separator: ', ',
         },
         {
           type: 'string',
           title: 'Công nhân gieo trồng',
-          keyField: 'planting.worker',
+          keyField: 'planting.[worker].fullName',
         },
       ],
     ],

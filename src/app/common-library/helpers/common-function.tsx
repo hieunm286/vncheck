@@ -20,6 +20,10 @@ export const CapitalizeFirstLetter = (string: string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
 };
 
+export const deCapitalizeFirstLetter = (string: string) => {
+  return string.charAt(0).toLowerCase() + string.slice(1);
+};
+
 export const generateInitForm = (modifyModel: any, initField?: string, initData?: string) => {
   const initValue = {} as any;
 
@@ -168,6 +172,9 @@ export const getField = (field: any, fieldName: string) => {
   const arrName = fieldName.split('.')
 
   console.log(field)
+  console.log(fieldName)
+
+  if (!field[arrName[0]]) return;
 
   let fields: any = field[arrName[0]]
 
@@ -175,7 +182,7 @@ export const getField = (field: any, fieldName: string) => {
     if (key > 0) {
       if (fields[el]) {
         fields = fields[el]
-      }
+      } 
     }
     
   })
@@ -197,9 +204,9 @@ export const ConvertSelectSearch = (entity: any, keyField?: FieldProp[]) => {
   if (keyField && keyField.length > 0) {
 
     keyField.forEach(({ field, ref }: FieldProp) => {
-      if (ref && (ref.prop || ref.prop === '')) {
+      if (ref && (!ref.prop || ref.prop === '')) {
         convertEntity[field] = { label: getField(convertEntity[field], ref.key), value: entity._id }
-      }
+      } else
       if (ref && convertEntity[ref.prop]) {
         convertEntity[field][ref.prop] = { label: getField(convertEntity[ref.prop], ref.key), value: entity._id }
       } else {

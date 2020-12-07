@@ -9,11 +9,14 @@ import { MainInput } from '../../../common-library/forms/main-input';
 import { DefaultPagination, iconStyle } from '../../../common-library/common-consts/const';
 import { ModifyModel } from '../../../common-library/common-types/common-type';
 import CustomImageUpload from '../../../common-library/forms/custom-image-upload';
-import { getNewImage, getOnlyFile } from '../../../common-library/helpers/common-function';
+import { GetHomePage, getNewImage, getOnlyFile } from '../../../common-library/helpers/common-function';
 import { Card, CardBody, CardHeader } from '../../../common-library/card';
 import { uploadImage } from '../../../pages/purchase-order/purchase-order.service';
 import ModifyEntityPageLandLot from './modify-entity-page-land-lot';
 import { diff } from 'deep-object-diff';
+import { AxiosResponse } from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import { useHistory } from 'react-router';
 
 function ModifyEntityDialogForm<T>({
   entity,
@@ -21,14 +24,16 @@ function ModifyEntityDialogForm<T>({
   onModify,
   modifyModel,
   formPart,
-  validation
+  validation,
+  refreshData,
 }: {
   entity: any;
   onHide: () => void;
-  onModify: (values: any) => void;
+  onModify: (values: any) => Promise<AxiosResponse<T>>;
   modifyModel: ModifyModel;
   formPart: any;
   validation: any;
+  refreshData: () => void;
 }) {
   const intl = useIntl();
   const modifyM = { ...modifyModel } as any;
@@ -73,6 +78,44 @@ function ModifyEntityDialogForm<T>({
     };
   };
 
+  const getPromise = (entity: any, values: any, onModify: (values: any) => Promise<AxiosResponse<T>>) => {
+    // entity: entity from server
+    // values: fields from form
+    if (entity._id) {
+      const updateValue = diff(entity, values);
+      return onModify({ _id: values._id, ...updateValue });
+    } else {
+      return onModify(values)
+    } 
+  }
+
+  const notify = (error: string) => {
+    toast.error(`😠 ${error}`, {
+      position: 'top-right',
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+  };
+
+  const notifySuccess = () => {
+    toast.success(`😠 Thành công`, {
+      position: 'top-right',
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+  };
+
+  const [errorMsg, setErrorMsg] = useState<string | undefined>();
+
+
 
   const onChange = (imageList: any, addUpdateIndex: any, key: any) => {
     const imageArray = getOnlyFile(imageList);
@@ -98,15 +141,34 @@ function ModifyEntityDialogForm<T>({
       enableReinitialize={true}
       initialValues={entity}
       validationSchema={validation}
-      onSubmit={values => {
-        if (entity._id) {
-          const updateValue = diff(entity, values);
-          onModify({ _id: values._id, ...updateValue });
-        } else {
-          onModify(values)
-        } 
+      onSubmit={(values, {setSubmitting, setFieldError, setErrors}) => {
+        // if (entity._id) {
+        //   const updateValue = diff(entity, values);
+        //   onModify({ _id: values._id, ...updateValue });
+        // } else {
+        //   onModify(values)
+        // } 
+        getPromise(entity, values, onModify)
+        .then((res: any) => {
+          notifySuccess()
+          setErrorMsg(undefined);
+          refreshData();
+          onHide();
+        })
+        .catch(error => {
+          const errorMsg = error.data || error.response.data;
+          const formattedErrorMsg = intl.formatMessage({id: errorMsg});
+          setSubmitting(false);
+          setErrorMsg(formattedErrorMsg);
+          // Object.keys(values).map((fieldName: string) => {
+          //   console.log(fieldName)
+          // })
+          setErrors({lot: formattedErrorMsg, subLot: formattedErrorMsg})
+          // setFieldError('lot', 'oc cho');
+          notify(formattedErrorMsg);
+        });
 
-        onHide();
+
       }}>
       {({ values, handleSubmit, handleBlur, handleChange, setFieldValue, resetForm }) => (
         <>

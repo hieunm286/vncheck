@@ -1,41 +1,35 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
-import { useIntl } from 'react-intl';
-import { Field, Formik } from 'formik';
+import React, {ChangeEvent, useState} from 'react';
+import {useIntl} from 'react-intl';
+import {Field, Formik} from 'formik';
 import SearchIcon from '@material-ui/icons/Search';
-import { Input } from '../forms/input';
-import { Card, CardBody, CardHeader } from '../card';
+import {Input} from '../forms/input';
+import {Card, CardBody, CardHeader} from '../card';
 import SVG from 'react-inlinesvg';
-import { ToAbsoluteUrl } from '../helpers/assets-helpers';
-import { SearchModel } from '../common-types/common-type';
+import {ToAbsoluteUrl} from '../helpers/assets-helpers';
+import {SearchModel} from '../common-types/common-type';
 // import InfiniteScroll from 'react-infinite-scroll-component';
-import axios, { AxiosResponse } from 'axios';
-import * as AgencyService from '../../pages/purchase-order/agency.service';
-import { AsyncPaginate } from 'react-select-async-paginate';
-import { DefaultPagination } from '../common-consts/const';
-import { InfiniteSelect } from '../forms/infinite-select';
-import { DatePickerField } from '../forms/date-picker-field';
+import {AxiosResponse} from 'axios';
+import {DefaultPagination} from '../common-consts/const';
+import {InfiniteSelect} from '../forms/infinite-select';
+import {DatePickerField} from '../forms/date-picker-field';
 // import InfiniteSelect from '../forms/infinite-select';
-import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import { Button } from 'antd';
 import STATE_LIST from '../../../_metronic/AdministrativeDivision/state.json';
 import CITY_LIST from '../../../_metronic/AdministrativeDivision/city.json';
 import DISTRICT_LIST from '../../../_metronic/AdministrativeDivision/district.json';
 
 import './master-header.css';
 import CustomeTreeSelect from '../forms/tree-select';
-import { ConvertToTreeNode } from '../helpers/common-function';
-import * as StoreLevelService from '../../pages/multilevel-sale/multilevel-sale.service';
 
 export function MasterHeader<T>({
-  title,
-  onSearch,
-  searchModel,
-  initValue,
-  stringOnChange,
-  searchSelectOnChange,
-  customSearchSelectLoadOption,
-  onReset,
-}: {
+                                  title,
+                                  onSearch,
+                                  searchModel,
+                                  initValue,
+                                  stringOnChange,
+                                  searchSelectOnChange,
+                                  customSearchSelectLoadOption,
+                                  onReset,
+                                }: {
   searchModel: SearchModel;
   title: string;
   initValue: any;
@@ -66,29 +60,31 @@ export function MasterHeader<T>({
   ) => void;
   customSearchSelectLoadOption?: (
     search: string,
+    onSearch: (t: any) => void,
     prevOptions: any,
-    { page }: any,
-    service: any,
+    {page}: any,
     keyField: string,
     key: string,
   ) => void;
 }) {
   const intl = useIntl();
-
-  const searchM: any = { ...searchModel };
-
+  
+  const searchM: any = {...searchModel};
+  
   const [search, setSearch] = useState<any>(initValue);
 
+  console.log(search)
+  
   let _disabled: any = {};
   Object.keys(initValue).forEach(field => {
-    _disabled = { ..._disabled, [field]: false };
+    _disabled = {..._disabled, [field]: false};
   });
   // _disabled.subLot = true;
-
+  
   const [isDisabled, setIsDisabled] = useState<any>(_disabled);
-
+  
   const [treeValue, setTreeValue] = useState();
-
+  
   const handleResetForm = (resetForm: any) => {
     resetForm();
     // onSearch(initValue);
@@ -96,7 +92,7 @@ export function MasterHeader<T>({
     // reset disable
     let _disabled = {};
     Object.keys(initValue).forEach(field => {
-      _disabled = { ..._disabled, [field]: false };
+      _disabled = {..._disabled, [field]: false};
     });
     setIsDisabled(_disabled);
   };
@@ -125,51 +121,50 @@ export function MasterHeader<T>({
   //     },
   //   );
   // };
-
+  
   // const [ search, setSearch ] = useState<any>(formValues);
-
+  
   const [address, setAddress] = useState<any>({
-    state: { key: '', value: '' },
-    city: { key: '', value: '' },
-    district: { key: '', value: '' },
+    state: {key: '', value: ''},
+    city: {key: '', value: ''},
+    district: {key: '', value: ''},
   });
-
-  const [selectedState, setSelectedState] = useState<any>({ key: '', value: '' });
-  const [selectedCity, setSelectedCity] = useState<any>({ key: '', value: '' });
-  const [selectedDistrict, setSelectedDistrict] = useState<any>({ key: '', value: '' });
-
+  
+  const [selectedState, setSelectedState] = useState<any>({key: '', value: ''});
+  const [selectedCity, setSelectedCity] = useState<any>({key: '', value: ''});
+  const [selectedDistrict, setSelectedDistrict] = useState<any>({key: '', value: ''});
+  
   const [stateValues, setStateValues] = useState<any>();
   const [cityValues, setCityValues] = useState<any>();
   const [districtValues, setDistrictValues] = useState<any>();
-
+  
   const [treeSelectValue, setTreeSelectValue] = useState<any>();
   const [treeData, setTreeData] = useState<any>();
-
-  const treeLoadOptions = async (service: any) => {
-    const queryProps: any = {};
-    // queryProps[keyField] = search;
-    // queryProps =
-
-    if (!service) console.error('search select with undefined service');
-    const entities = await service.GetAll({});
-    return entities.data;
-  };
-
-  useEffect(() => {
-    treeLoadOptions(StoreLevelService) // treeLoadOptions(modifyModel.data['storeLevel'].service)
-      .then((res: any) => {
-        // console.log(res);
-        // console.log(DataExample)
-        const treeData = ConvertToTreeNode(res);
-        setTreeData(treeData);
-      });
-  }, []);
-
+  
+  // const treeLoadOptions = async (getAll: (t:any)=> any) => {
+  //   const queryProps: any = {};
+  //   // queryProps[keyField] = search;
+  //   // queryProps =
+  //
+  //   const entities = await getAll({});
+  //   return entities.data;
+  // };
+  
+  // useEffect(() => {
+  //   treeLoadOptions(StoreLevelService) // treeLoadOptions(modifyModel.data['storeLevel'].service)
+  //     .then((res: any) => {
+  //       // console.log(res);
+  //       // console.log(DataExample)
+  //       const treeData = ConvertToTreeNode(res);
+  //       setTreeData(treeData);
+  //     });
+  // }, []);
+  
   const loadOptions = async (
     search: string,
     prevOptions: any,
-    { page }: any,
-    { service, keyField, key }: { service: any; keyField: string; key: string },
+    {page}: any,
+    {onSearch, keyField, key}: { onSearch: (t: any) => any; keyField: string; key: string },
     {
       onFetch,
       onCount,
@@ -180,22 +175,23 @@ export function MasterHeader<T>({
   ) => {
     const queryProps: any = {};
     queryProps[keyField] = search;
-
+    
     const paginationProps = {
       ...DefaultPagination,
       page: page,
     };
+    
+    const entities = await onSearch({queryProps, paginationProps});
 
-    const entities = await service.GetAll({ queryProps, paginationProps });
     // const count = onCount ? await onCount({ queryProps }) : await service.Count({ queryProps });
     const count = entities.data.paging.total;
     const hasMore = prevOptions.length < count - (DefaultPagination.limit ?? 0);
-
+    
     const data = [...new Set(entities.data.data)];
-
+    
     return {
       options: data.map((e: any) => {
-        return { label: e[keyField], value: e._id };
+        return {label: e[keyField], value: e._id};
       }),
       hasMore: hasMore,
       additional: {
@@ -203,11 +199,11 @@ export function MasterHeader<T>({
       },
     };
   };
-
+  
   return (
     <Card>
-      <CardHeader title={intl.formatMessage({ id: title }).toUpperCase()} />
-
+      <CardHeader title={intl.formatMessage({id: title}).toUpperCase()}/>
+      
       <CardBody>
         <Formik
           initialValues={initValue}
@@ -220,7 +216,7 @@ export function MasterHeader<T>({
               onReset();
             }
           }}>
-          {({ values, handleSubmit, handleBlur, handleChange, setFieldValue, resetForm }) => (
+          {({values, handleSubmit, handleBlur, handleChange, setFieldValue, resetForm}) => (
             <form onSubmit={handleSubmit} className="form form-label-right">
               <div className="form-group row">
                 {searchModel ? (
@@ -228,9 +224,7 @@ export function MasterHeader<T>({
                     switch (searchM[key].type) {
                       case 'string':
                         return (
-                          <div
-                            className="col-xxl-2 col-md-2 mt-md-5 mt-5"
-                            key={'master_header' + key}>
+                          <div className="col-xxl-2 col-md-2 mt-md-5 mt-5" key={`master_header${key}`}>
                             <Field
                               name={key}
                               // value={search[key]}
@@ -253,54 +247,43 @@ export function MasterHeader<T>({
                                 }
                               }}
                               component={Input}
-                              placeholder={intl.formatMessage({ id: searchM[key].placeholder })}
-                              label={intl.formatMessage({ id: searchM[key].label })}
+                              placeholder={intl.formatMessage({id: searchM[key].placeholder})}
+                              label={intl.formatMessage({id: searchM[key].label})}
                               withFeedbackLabel={true}
-                              // onChange={(e: any) => {
-                              //   handleChange(e);
-                              //   let someValue = e.currentTarget.value;
-
-                              //   setSearch({
-                              //     ...search,
-                              //     name: { label: someValue, value: someValue },
-                              //   });
-                              // }}
                             />
                           </div>
                         );
-
+                      
                       case 'number':
                         return (
-                          <div
-                            className="col-xxl-2 col-md-2 mt-md-5 mt-5"
-                            key={`master_header${key}`}>
+                          <div className="col-xxl-2 col-md-2 mt-md-5 mt-5" key={`master_header${key}`}>
                             <Field
                               name={key}
                               type="number"
                               component={Input}
-                              placeholder={intl.formatMessage({ id: searchM[key].placeholder })}
-                              label={intl.formatMessage({ id: searchM[key].label })}
+                              placeholder={intl.formatMessage({id: searchM[key].placeholder})}
+                              label={intl.formatMessage({id: searchM[key].label})}
                               withFeedbackLabel={true}
                             />
                           </div>
                         );
-
+                      
                       case 'Datetime':
                         return (
-                          <div className="col-xxl-2 col-md-2 mt-md-5 mt-5 " key={key}>
+                          <div className="col-xxl-2 col-md-2 mt-md-5 mt-5 " key={`master_header${key}`}>
                             <DatePickerField
-                              name="date"
-                              label={intl.formatMessage({ id: searchM[key].label })}
+                              name={key}
+                              label={intl.formatMessage({id: searchM[key].label})}
                             />
                           </div>
                         );
-
+                      
                       case 'SearchSelect':
                         return (
                           <div className="col-xxl-2 col-md-2 mt-md-5 mt-5" key={key}>
                             <InfiniteSelect
                               isDisabled={isDisabled ? isDisabled[key] : false}
-                              label={intl.formatMessage({ id: searchM[key].label })}
+                              label={intl.formatMessage({id: searchM[key].label})}
                               isHorizontal={false}
                               value={search[key]}
                               onChange={(value: any) => {
@@ -318,20 +301,16 @@ export function MasterHeader<T>({
                                     isDisabled,
                                   );
                                 } else {
-                                  setSearch({ ...search, [key]: value });
+                                  setSearch({...search, [key]: value});
                                 }
-                                // setSearchTerm({
-                                //   ...searchTerm,
-                                //   [key]: searchM[key].ref ? value.value : value.label,
-                                // });
                               }}
-                              loadOptions={(search: string, prevOptions: any, { page }: any) => {
+                              loadOptions={(search: string, prevOptions: any, {page}: any) => {
                                 if (customSearchSelectLoadOption) {
                                   return customSearchSelectLoadOption(
                                     search,
                                     prevOptions,
-                                    { page },
-                                    searchM[key].service,
+                                    {page},
+                                    searchM[key].onSearch,
                                     searchM[key].keyField,
                                     key,
                                   );
@@ -339,9 +318,9 @@ export function MasterHeader<T>({
                                   return loadOptions(
                                     search,
                                     prevOptions,
-                                    { page },
+                                    {page},
                                     {
-                                      service: searchM[key].service,
+                                      onSearch: searchM[key].onSearch,
                                       keyField: searchM[key].keyField,
                                       key: key,
                                     },
@@ -354,30 +333,30 @@ export function MasterHeader<T>({
                                 page: DefaultPagination.page,
                               }}
                               name={key}
-                              placeholder={intl.formatMessage({ id: searchM[key].placeholder })}
+                              placeholder={searchM[key].placeholder}
                             />
                           </div>
                         );
-
+                      
                       case 'TreeSelect':
                         return (
                           <div className="col-xxl-2 col-md-2 mt-md-5 mt-5" key={key}>
                             <CustomeTreeSelect
-                              label={intl.formatMessage({ id: searchM[key].label })}
-                              placeholder={intl.formatMessage({ id: searchM[key].placeholder })}
+                              label={intl.formatMessage({id: searchM[key].label})}
+                              placeholder={intl.formatMessage({id: searchM[key].placeholder})}
                               data={treeData}
                               value={treeSelectValue}
-                              onChange={(value: any) => setSearch({ ...search, [key]: value })}
+                              onChange={(value: any) => setSearch({...search, [key]: value})}
                               name={key}
                             />
                           </div>
                         );
-
+                      
                       case 'stateSelect':
                         // const stateValues = Object.values(STATE_LIST).map((state: any) => {return {value: state.name, key: state.code}});
                         const labelWidth = 4;
                         const isHorizontal = false;
-                        const stateLabel = intl.formatMessage({ id: searchM[key].label });
+                        const stateLabel = intl.formatMessage({id: searchM[key].label});
                         const withFeedbackLabelState = true;
                         // const placeholder = modifyModel.data[key].placeholder
                         // const required = modifyModel.data[key].required;
@@ -385,7 +364,7 @@ export function MasterHeader<T>({
                           <div className="col-xxl-2 col-md-2 mt-md-5 mt-5" key={`${key}`}>
                             {stateLabel && (
                               <label
-                              // className={'mb-0 input-label mt-2'}
+                                // className={'mb-0 input-label mt-2'}
                               >
                                 {stateLabel}{' '}
                                 {withFeedbackLabelState && <span className="text-danger">*</span>}
@@ -397,14 +376,14 @@ export function MasterHeader<T>({
                                 const key = e.target.options[selectedIndex].getAttribute(
                                   'data-code',
                                 );
-                                setSelectedState({ value: e.target.value, key: key });
-                                setSelectedCity({ value: '', key: '' });
-                                setSelectedDistrict({ value: '', key: '' });
+                                setSelectedState({value: e.target.value, key: key});
+                                setSelectedCity({value: '', key: ''});
+                                setSelectedDistrict({value: '', key: ''});
                                 setFieldValue('state', e.target.value);
                               }}
                               className={'form-control'}>
                               <option hidden>
-                                {intl.formatMessage({ id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER' })}
+                                {intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'})}
                               </option>
                               {1 ? (
                                 Object.values(STATE_LIST).map((state: any) => {
@@ -443,15 +422,15 @@ export function MasterHeader<T>({
                             /> */}
                           </div>
                         );
-
+                      
                       case 'citySelect':
-                        const cityLabel = intl.formatMessage({ id: searchM[key].label });
+                        const cityLabel = intl.formatMessage({id: searchM[key].label});
                         const withFeedbackLabelCity = true;
                         return (
                           <div className="col-xxl-2 col-md-2 mt-md-5 mt-5" key={`${key}`}>
                             {cityLabel && (
                               <label
-                              // className={'mb-0 input-label mt-2'}
+                                // className={'mb-0 input-label mt-2'}
                               >
                                 {cityLabel} {<span className="text-danger">*</span>}
                               </label>
@@ -462,13 +441,13 @@ export function MasterHeader<T>({
                                 const key = e.target.options[selectedIndex].getAttribute(
                                   'data-code',
                                 );
-                                setSelectedCity({ value: e.target.value, key: key });
-                                setSelectedDistrict({ value: '', key: '' });
+                                setSelectedCity({value: e.target.value, key: key});
+                                setSelectedDistrict({value: '', key: ''});
                                 setFieldValue('city', e.target.value);
                               }}
                               className={'form-control'}>
                               <option hidden>
-                                {intl.formatMessage({ id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER' })}
+                                {intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'})}
                               </option>
                               {1 ? (
                                 Object.values(CITY_LIST)
@@ -511,15 +490,15 @@ export function MasterHeader<T>({
                               /> */}
                           </div>
                         );
-
+                      
                       case 'districtSelect':
-                        const districtLabel = intl.formatMessage({ id: searchM[key].label });
+                        const districtLabel = intl.formatMessage({id: searchM[key].label});
                         const withFeedbackLabelDistrict = true;
                         return (
                           <div className="col-xxl-2 col-md-2 mt-md-5 mt-5" key={`${key}`}>
                             {districtLabel && (
                               <label
-                              // className={'mb-0 input-label mt-2'}
+                                // className={'mb-0 input-label mt-2'}
                               >
                                 {districtLabel} {<span className="text-danger">*</span>}
                               </label>
@@ -530,12 +509,12 @@ export function MasterHeader<T>({
                                 const key = e.target.options[selectedIndex].getAttribute(
                                   'data-code',
                                 );
-                                setSelectedDistrict({ value: e.target.value, key: key });
+                                setSelectedDistrict({value: e.target.value, key: key});
                                 setFieldValue('district', e.target.value);
                               }}
                               className={'form-control'}>
                               <option hidden>
-                                {intl.formatMessage({ id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER' })}
+                                {intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'})}
                               </option>
                               {1 ? (
                                 Object.values(DISTRICT_LIST)
@@ -585,23 +564,24 @@ export function MasterHeader<T>({
                   <></>
                 )}
               </div>
-
+              
               <div className="row no-gutters">
-                <div className="mr-5">
-                  <button className="btn btn-primary pl-4 pr-5" type="submit">
-                    <SearchIcon style={{ fontSize: 14 }} />
-                    {intl.formatMessage({ id: 'COMMON_COMPONENT.MASTER_HEADER.SEARCH_BTN' })}
+                <div className="col-pc-3 mr-5">
+                  <button className="btn btn-primary w-100" type="submit">
+                    <SearchIcon style={{fontSize: 14, marginBottom: 2}}/>
+                    {intl.formatMessage({id: 'COMMON_COMPONENT.MASTER_HEADER.SEARCH_BTN'})}
                   </button>
                 </div>
-
-                <div className="mr-5">
+                
+                <div className="mr-5 col-pc-3">
                   <button
-                    className="btn btn-outline-primary pl-7 pr-7"
+                    className="btn btn-outline-primary w-100"
                     type="reset"
                     onClick={() => handleResetForm(resetForm)}>
-                    <SVG src={ToAbsoluteUrl('/media/svg/vncheck/reset-filter.svg')} />
+                    <SVG src={ToAbsoluteUrl('/media/svg/vncheck/reset-filter.svg')}
+                         style={{fontSize: 14, marginBottom: 2}}/>
                     &nbsp;
-                    {intl.formatMessage({ id: 'COMMON_COMPONENT.MASTER_HEADER.RESET_FILTER_BTN' })}
+                    {intl.formatMessage({id: 'COMMON_COMPONENT.MASTER_HEADER.RESET_FILTER_BTN'})}
                   </button>
                 </div>
               </div>

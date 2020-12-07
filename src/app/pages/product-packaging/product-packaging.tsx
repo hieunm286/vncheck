@@ -21,14 +21,14 @@ import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import { isArray, isNull } from 'lodash';
 import MasterGoogleMap from '../../common-library/common-components/master-google-map';
-import MasterMap from '../../common-library/common-components/master-google-map-other';
 import * as Yup from 'yup';
 import { ProductPackagingModel } from './product-packaging.model';
 import * as ProductPackagingService from './product-packaging.service';
 import ProductPackagingDetailDialog from './product-packaging-detail-dialog';
-import { GenerateCode } from '../product-type/product-type';
-import * as ProductTypeService from '../product-type/product-type.service';
+import { GenerateCode } from '../species/species';
+import * as ProductTypeService from '../species/species.service';
 import ModifyEntityDialogPromise from '../../common-library/common-components/modify-entity-dialog-promise';
+import {GetAll} from "./product-packaging.service";
 
 
 const data: any = [
@@ -143,7 +143,7 @@ function ProductPackaging() {
       ...SortColumn,
       formatter: (cell: any, row: any, rowIndex: any) => {
         return (<p>{row.species ?  row.species.name : 'Không có thông tin nha'}</p>);
-      }, 
+      },
       classes: 'text-center',
     },
 
@@ -196,14 +196,14 @@ function ProductPackaging() {
       type: 'string',
       placeholder: 'COMMON_COMPONENT.INPUT.PLACEHOLDER',
       label: 'PRODUCT_PACKAGING.MASTER.TABLE.CODE_COLUMN',
-      service: ProductTypeService,
+      onSearch: GetAll,
       keyField: 'code',
     },
     species: {
       type: 'SearchSelect',
       placeholder: 'COMMON_COMPONENT.SELECT.PLACEHOLDER',
       label: 'PRODUCT_PACKAGING.MASTER.TABLE.NAME_COLUMN',
-      service: ProductTypeService,
+      onSearch: ProductTypeService.GetAll,
       keyField: 'name',
       ref: true
     },
@@ -346,7 +346,7 @@ function ProductPackaging() {
         autoFill={{
           field: '',
           data: null,
-          searchSelectField: [{ field: 'species', ref: { prop: 'species', key: 'name' } }],
+          searchSelectField: [{ field: 'species', ref: { prop: '', key: 'name' } }],
         }}
         homePage={homeURL}
         refreshData={refreshData}

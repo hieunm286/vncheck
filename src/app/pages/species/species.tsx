@@ -21,9 +21,9 @@ import EntityCrudPage from '../../common-library/common-components/entity-crud-p
 import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import * as Yup from 'yup';
-import { ProductTypeModel, ProductTypeModifyModelDetail } from './product-type.model';
-import * as ProductTypeService from './product-type.service';
-import ProductTypeDetailDialog from './product-type-detail-dialog';
+import { SpeciesModel, ProductTypeModifyModelDetail } from './species.model';
+import * as ProductTypeService from './species.service';
+import SpeciesDetailDialog from './species-detail-dialog';
 import EntityCrudPagePromise from '../../common-library/common-components/entity-crud-page-promise';
 
 import { ToastContainer, toast } from 'react-toastify';
@@ -134,7 +134,7 @@ const ProductTypeSchema = Yup.object().shape({
     .typeError('Vui lòng nhập số'),
 });
 
-function ProductType() {
+function Species() {
   const intl = useIntl();
 
   const history = useHistory();
@@ -182,7 +182,7 @@ function ProductType() {
     deleteFn,
     getAll,
     refreshData,
-  } = InitMasterProps<ProductTypeModel>({
+  } = InitMasterProps<SpeciesModel>({
     getServer: ProductTypeService.Get,
     countServer: ProductTypeService.Count,
     createServer: ProductTypeService.Create,
@@ -223,16 +223,16 @@ function ProductType() {
       formatter: ActionsColumnFormatter,
       formatExtraData: {
         intl,
-        onShowDetail: (entity: ProductTypeModel) => {
+        onShowDetail: (entity: SpeciesModel) => {
           get(entity);
           setShowDetail(true);
           setDetailEntity(entity);
         },
-        onDelete: (entity: ProductTypeModel) => {
+        onDelete: (entity: SpeciesModel) => {
           setDeleteEntity(entity);
           setShowDelete(true);
         },
-        onEdit: (entity: ProductTypeModel) => {
+        onEdit: (entity: SpeciesModel) => {
           get(entity);
           // setShowEdit(true);
           setEditEntity(entity);
@@ -258,7 +258,7 @@ function ProductType() {
       cancel: {
         role: 'link-button',
         type: 'button',
-        linkto: '/product-type',
+        linkto: '/species',
         className: 'btn btn-outline-primary mr-2 pl-8 pr-8',
         label: 'Hủy',
         icon: <CancelOutlinedIcon />,
@@ -301,7 +301,7 @@ function ProductType() {
     <Fragment>
       {/* <ReactNotification /> */}
       {/* <ToastContainer /> */}
-      <ProductTypeDetailDialog
+      <SpeciesDetailDialog
         show={showDetail}
         entity={detailEntity}
         renderInfo={masterEntityDetailDialog}
@@ -427,4 +427,4 @@ function ProductType() {
   );
 }
 
-export default ProductType;
+export default Species;

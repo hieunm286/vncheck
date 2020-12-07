@@ -1,5 +1,5 @@
 
-export interface ProductTypeModel {
+export interface SpeciesModel {
     _id: any;
     code: string;
     name: string;
@@ -16,5 +16,5 @@ export interface ProductTypeModifyModelDetail {
 }
 
 export interface ProductTypeFormPart {
-    
+
 }

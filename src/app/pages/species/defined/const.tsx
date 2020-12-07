@@ -1,7 +1,7 @@
 import { SearchModel } from '../../../common-library/common-types/common-type';
 import { GenerateAllFormField, getField } from '../../../common-library/helpers/common-function';
-import { ProductTypeModifyModelDetail } from '../product-type.model';
-import * as ProductTypeService from '../product-type.service';
+import { ProductTypeModifyModelDetail } from '../species.model';
+import {GetAll} from "../species.service";
 
 export const masterEntityDetailDialog = [
   {
@@ -22,14 +22,14 @@ export const productTypeSearchModel: SearchModel = {
     type: 'string',
     placeholder: 'PRODUCT_TYPE.MASTER.TABLE.CODE_COLUMN',
     label: 'PRODUCT_TYPE.MASTER.TABLE.CODE_COLUMN',
-    service: ProductTypeService,
+    onSearch: GetAll,
     keyField: 'code',
   },
   name: {
     type: 'string',
     placeholder: 'PRODUCT_TYPE.MASTER.TABLE.NAME_COLUMN',
     label: 'PRODUCT_TYPE.MASTER.TABLE.NAME_COLUMN',
-    service: ProductTypeService,
+    onSearch: GetAll,
     keyField: 'name',
   },
 };
