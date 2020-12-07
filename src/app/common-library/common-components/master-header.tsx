@@ -24,7 +24,7 @@ export function MasterHeader<T>({
                                   title,
                                   onSearch,
                                   searchModel,
-                                  initValue,
+                                  initValue={},
                                   stringOnChange,
                                   searchSelectOnChange,
                                   customSearchSelectLoadOption,
@@ -32,7 +32,7 @@ export function MasterHeader<T>({
                                 }: {
   searchModel: SearchModel;
   title: string;
-  initValue: any;
+  initValue?: any;
   onSearch: (data: any) => void;
   onReset?: () => void;
   stringOnChange?: (
@@ -566,20 +566,20 @@ export function MasterHeader<T>({
               </div>
               
               <div className="row no-gutters">
-                <div className="col-pc-3 mr-5">
+                <div className="mr-5" style={{width:"8rem"}}>
                   <button className="btn btn-primary w-100" type="submit">
                     <SearchIcon style={{fontSize: 14, marginBottom: 2}}/>
                     {intl.formatMessage({id: 'COMMON_COMPONENT.MASTER_HEADER.SEARCH_BTN'})}
                   </button>
                 </div>
                 
-                <div className="mr-5 col-pc-3">
+                <div className="mr-5" style={{width:"8rem"}}>
                   <button
                     className="btn btn-outline-primary w-100"
                     type="reset"
                     onClick={() => handleResetForm(resetForm)}>
                     <SVG src={ToAbsoluteUrl('/media/svg/vncheck/reset-filter.svg')}
-                         style={{fontSize: 14, marginBottom: 2}}/>
+                         style={{fontSize: 14, marginBottom: 3}}/>
                     &nbsp;
                     {intl.formatMessage({id: 'COMMON_COMPONENT.MASTER_HEADER.RESET_FILTER_BTN'})}
                   </button>

@@ -818,16 +818,19 @@ export const SeedingDetailDialog = [
           type: 'string',
           title: 'Nhiệt độ',
           keyField: 'planting.temperature',
+          convertFn: (t: string) => t + "°C"
         },
         {
           type: 'string',
           title: 'Độ ẩm',
           keyField: 'planting.humidity',
+          convertFn: (t: string) => t + "%"
         },
         {
           type: 'string',
           title: 'Độ xốp',
           keyField: 'planting.porosity',
+          convertFn: (t: string) => t + "%"
         },
       ],
     ],

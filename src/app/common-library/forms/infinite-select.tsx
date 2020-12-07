@@ -81,6 +81,7 @@ export function InfiniteSelect({
                   fontFamily: "SVN-Gilroy, Roboto, Poppins, Helvetica, sans-serif",
                 }
               }, menuList: (base, props1) => {
+                console.log(props1);
                 return {
                   ...base,
                   fontFamily: "SVN-Gilroy, Roboto, Poppins, Helvetica, sans-serif",
@@ -90,16 +91,10 @@ export function InfiniteSelect({
                   ...base,
                   fontFamily: "SVN-Gilroy, Roboto, Poppins, Helvetica, sans-serif",
                 }
-              }
-              //
-              // , input: (base, props1) => {
-              //   console.log("input",base, props1)
-              //   return {...base, onFocus:()=>{console.log(1)},onBlur:(a:any,b:any)=>{console.log(2,a,b)}}
-              // },valueContainer:(base, props1) => {
-              //   console.log("valueContainer",base, props1)
-              //   return {...base, onFocus:()=>{console.log(1)},onBlur:(a:any,b:any)=>{console.log(2,a,b)}}
-              // }
-            }}
+              },
+              placeholder: (styles) => { return {...styles,color:"#B5B5C3"}},
+              option: (styles,{data, isDisabled,isFocused, isSelected}) => { return {...styles}},
+         }}
             className={`${errors[name] ? 'border-danger' : 'input-search-select'}`}
           />
           {errors[name] && touched[name] ? (

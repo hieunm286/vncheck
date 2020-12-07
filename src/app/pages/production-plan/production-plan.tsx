@@ -271,8 +271,9 @@ function ProductionPlan() {
       formatter: (cell: any, row: any, rowIndex: number) => (
         <p>{rowIndex + 1 + ((paginationProps.page ?? 0) - 1) * (paginationProps.limit ?? 0)}</p>
       ),
-      headerClasses: 'text-center pr-0',
-      align: 'right'
+      headerClasses: 'text-center',
+      align: 'center'
+  
     },
     
     seeding: {
@@ -612,10 +613,6 @@ function ProductionPlan() {
               setFilterProps(undefined)
             }}
             searchModel={currentTab == '0' ? productPlanSearchModel1 : productPlanSearchModel2}
-            initValue={{
-              code: '',
-              name: '',
-            }}
           />
           <ProductionPlanBody
             tabData={TabData}
