@@ -43,9 +43,9 @@ export function InfiniteSelect({
   return (
     <>
       <div className={isHorizontal ? 'row' : ''}>
-        {/*<div className={isHorizontal ? 'col-xl-4 col-md-4 col-12' : ''}>*/}
-          <label>{label}</label>
-        {/*</div>*/}
+        <div className={isHorizontal ? 'col-xl-4 col-md-4 col-12' : ''}>
+          <label className='mb-0 input-label mt-2'>{label}</label>
+        </div>
         <div className={isHorizontal ? `col-xl-7 col-md-8 col-12` : ''}>
           <CustomAsyncPaginate
             value={value}
