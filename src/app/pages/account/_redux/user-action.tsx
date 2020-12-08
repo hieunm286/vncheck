@@ -11,10 +11,36 @@ export const fetchAllUser = (queryParams?: any) => (
   dispatch(actions.startCall({ callType: callTypes.list }));
 
   return requestFromServer
-    .getAllUsers(queryParams)
+    .GetAll(queryParams)
     .then(response => {
       const user = response.data;
       dispatch(actions.usersFetched({ data: user }));
+    })
+    .catch(error => {
+      error.clientMessage = "Can't find user";
+      dispatch(
+        actions.catchError({
+          error,
+          callType: callTypes.action,
+        }),
+      );
+    });
+};
+
+export const fetchAllUserForTag = (queryParams?: any) => (
+  dispatch: (arg0: { payload: any; type: string }) => void,
+) => {
+  dispatch(actions.startCall({ callType: callTypes.list }));
+
+  return requestFromServer
+    .GetAll(queryParams)
+    .then(response => {
+      const user = response.data;
+      if (queryParams.queryProps.firstName === '') {
+        dispatch(actions.usersFetchedTag({ data: user }));
+      } else {
+        dispatch(actions.usersSearchTag({ data: user }));
+      }
     })
     .catch(error => {
       error.clientMessage = "Can't find user";
