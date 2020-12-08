@@ -60,7 +60,7 @@ const FormTemplate = ({
   formValues?: any;
 }) => {
 
-  const { values, setFieldValue } = useFormikContext<any>();
+  const { touched, errors, values, setFieldValue } = useFormikContext<any>();
 
   const [ search, setSearch ] = useState<any>(formValues);
 
@@ -326,9 +326,25 @@ const FormTemplate = ({
             const withFeedbackLabel = true;
             const placeholder = modifyModel.data[key].placeholder
             const required = modifyModel.data[key].required;
+            console.log(errors);
+            console.log(touched)
             return (
               <div className="mt-3" key={`${key}`}>
                 <div className="row">
+                  
+                <Field name="state">
+                  {({
+                    field, // { name, value, onChange, onBlur }
+                    form: { touched, errors }, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
+                    meta,
+                  } : {
+                    field: any;
+                    form: any;
+                    meta: any;
+                  }
+                  ) => 
+                  (
+                  <>
                   <div className={'col-md-4 col-xl-4 col-12'}>
                     {label && (
                       <label  className={isHorizontal && 'mb-0 input-label mt-2'}>
@@ -347,10 +363,10 @@ const FormTemplate = ({
                           setFieldValue('state', e.target.value);
                         }
                       }
-                      className={'form-control'}
+                      className={(errors[key] && touched[key]) ? 'is-invalid form-control' : 'form-control'}
                       >
                       <option hidden>{intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'})}</option>
-                      {1 ?
+                      {
                         Object.values(STATE_LIST).map((state: any) => {
                           return (state.name === values.state) ? (
                             <option selected key={state.code} data-code={state.code} value={state.name}>{state.name}</option>
@@ -358,11 +374,18 @@ const FormTemplate = ({
                             <option key={state.code} data-code={state.code} value={state.name}>{state.name}</option>
                           )
                         })
-                        :
-                        (<></>)
                       }
                     </select>
-                  </div>
+                      {
+                        // console.log(touched)
+                        (errors[key] && touched[key]) && (
+                          <div className="invalid-feedback">{errors[key]}</div>
+                        )
+                      }
+                  </div> 
+                  </>
+                  )}
+                  </Field>
                 </div>
                 {/* <Field
                   name={key}
@@ -408,7 +431,7 @@ const FormTemplate = ({
                           setFieldValue('city', e.target.value);
                         }
                       }
-                      className={'form-control'}
+                      className={(errors[key] && touched[key]) ? 'is-invalid form-control' : 'form-control'}
                       >
                       <option hidden>{intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'})}</option>
                       {(selectedState && selectedState.key) ?
@@ -423,6 +446,11 @@ const FormTemplate = ({
                         (<></>)
                       }
                     </select>
+                    {
+                        (errors[key] && touched[key]) && (
+                          <div className="invalid-feedback">{errors[key]}</div>
+                        )
+                      }
                   </div>
                 </div>
                 {/* <Field
@@ -468,7 +496,7 @@ const FormTemplate = ({
                             setFieldValue('district', e.target.value);
                           }
                         }
-                        className={'form-control'}
+                        className={(errors[key] && touched[key]) ? 'is-invalid form-control' : 'form-control'}
                         >
                         <option hidden>{intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'})}</option>
                         {(selectedCity && selectedCity.key) ?
@@ -483,6 +511,11 @@ const FormTemplate = ({
                           (<></>)
                         }
                       </select>
+                      {
+                        (errors[key] && touched[key]) && (
+                          <div className="invalid-feedback">{errors[key]}</div>
+                        )
+                      }
                     </div>
                   </div>
                 {/* <Field

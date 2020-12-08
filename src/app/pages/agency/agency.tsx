@@ -263,12 +263,12 @@ function AgencyPage() {
       .max(255, intl.formatMessage({id: 'AGENCY.VALIDATION.AGENCY_NAME.MAX_LENGTH_EXCEEDED'})),
     storeLevel: Yup.string()
       .required(intl.formatMessage({id: 'AGENCY.VALIDATION.STORE_LEVEL.REQUIRED'})),
-    // state: Yup.string()
-    //   .required(intl.formatMessage({id: 'AGENCY.VALIDATION.STATE.REQUIRED'})),
-    // city: Yup.string()
-    //   .required(intl.formatMessage({id: 'AGENCY.VALIDATION.CITY.REQUIRED'})),
-    // district: Yup.string()
-    //   .required(intl.formatMessage({id: 'AGENCY.VALIDATION.DISTRICT.REQUIRED'})),
+    state: Yup.string()
+      .required(intl.formatMessage({id: 'AGENCY.VALIDATION.STATE.REQUIRED'})),
+    city: Yup.string()
+      .required(intl.formatMessage({id: 'AGENCY.VALIDATION.CITY.REQUIRED'})),
+    district: Yup.string()
+      .required(intl.formatMessage({id: 'AGENCY.VALIDATION.DISTRICT.REQUIRED'})),
     detailAddress: Yup.string()
       .required(intl.formatMessage({id: 'AGENCY.VALIDATION.ADDRESS.REQUIRED'})),
     // status: Yup.string()
@@ -503,8 +503,8 @@ function AgencyPage() {
         },
         roleName: {
           type: 'SearchSelect',
-          placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.ROLE_NAME' }),
-          label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.ROLE_NAME' }),
+          placeholder: 'AGENCY.EDIT.PLACEHOLDER.ROLE_NAME',
+          label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.ROLE_NAME' }),
           service: RoleService,
           keyField: 'name'
         },
@@ -729,7 +729,8 @@ function AgencyPage() {
             title={bodyTitle}
             onCreate={() => {
               setEditEntity(null);
-              setCreateEntity(mockAgency);
+              // setCreateEntity(mockAgency);
+              setCreateEntity(null)
               history.push('/agency/new');// setShowCreate(true);
             }}
             onDeleteMany={() => setShowDeleteMany(true)}
