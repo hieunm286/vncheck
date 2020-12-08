@@ -112,8 +112,8 @@ export function DatePickerField({...props}: any) {
             {...field}
             {...props}
             onChange={(val: any) => {
-              val.toISOString = () =>
-                (new Date(val.getTime() - val.getTimezoneOffset() * 60000)).toISOString();
+              // val.toISOString = () =>
+              //   (new Date(val.getTime() - val.getTimezoneOffset() * 60000)).toISOString();
               setFieldValue(field.name, val);
             }}
             autoComplete="off"
