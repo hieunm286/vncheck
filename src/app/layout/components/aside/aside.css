@@ -42,6 +42,21 @@
 
 }
 
+/* submenu background gray color */
+.menu-item.menu-item-submenu.false.menu-item-open a.menu-link.menu-toggle {
+  background-color: #F6F7FA !important;
+}
+
+/* submenu icon green color */
+.menu-item.menu-item-submenu.false.menu-item-open a.menu-link.menu-toggle span.svg-icon.menu-icon svg path {
+  fill: #27AE60 !important;
+}
+
+/* submenu text green color */
+.menu-item.menu-item-submenu.false.menu-item-open a.menu-link.menu-toggle span.menu-text {
+  color: #27AE60 !important;
+}
+
 .menu-item-open a.menu-toggle {
   background-color: white !important;
   color: #0B9446 !important
