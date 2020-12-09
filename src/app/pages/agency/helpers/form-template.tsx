@@ -23,6 +23,7 @@ import { ConvertToTreeNode } from '../../../common-library/helpers/common-functi
 import * as StoreLevelService from '../../multilevel-sale/multilevel-sale.service';
 import { Select } from 'antd'; // import Select from 'react-select';
 import './ant-select.scss'
+import SelectDropDownIcon from '../../../common-library/forms/select-drop-down-icon';
 
 const FormTemplate = ({
   // entity,
@@ -366,6 +367,7 @@ const FormTemplate = ({
                   </div>
                   <div className={'col-md-8 col-xl-7 col-12'}>
                     <Select
+                      suffixIcon={<SelectDropDownIcon />}
                       defaultValue={selectedState.value}
                       onChange={(value: any) => {
                           const key = getCodeFromName(Object.values(STATE_LIST), value)
@@ -437,6 +439,7 @@ const FormTemplate = ({
                   </div>
                   <div className={'col-md-8 col-xl-7 col-12'}>
                     <Select
+                        suffixIcon={<SelectDropDownIcon />}
                         defaultValue={selectedCity.value}
                         onChange={(value: any) => {
                           // const selectedIndex = e.target.options.selectedIndex;
@@ -506,6 +509,7 @@ const FormTemplate = ({
                   </div>
                     <div className={'col-md-8 col-xl-7 col-12'}>
                       <Select
+                          suffixIcon={<SelectDropDownIcon />}
                           defaultValue={values.district}
                           onChange={(value: any) => {
                             // const selectedIndex = e.target.options.selectedIndex;
