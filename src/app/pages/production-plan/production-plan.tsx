@@ -25,7 +25,10 @@ import {
   SeedingDetailDialog,
 } from './defined/const';
 import {getAllUsers} from '../account/_redux/user-crud';
-import {useDispatch} from 'react-redux';
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
+import ProductionPlanCrud from './production-plan-crud';
+import { fetchAllUser } from '../account/_redux/user-action';
+import * as Yup from 'yup';
 
 const headerTitle = 'PRODUCT_TYPE.MASTER.HEADER.TITLE';
 const bodyTitle = 'PRODUCT_TYPE.MASTER.BODY.TITLE';
@@ -34,143 +37,6 @@ const deleteDialogTitle = 'PRODUCT_TYPE.DELETE_DIALOG.TITLE';
 const createTitle = 'PRODUCT_TYPE.CREATE.TITLE';
 const updateTitle = 'PURCHASE_ORDER.UPDATE.TITLE';
 const homeURL = `/production-plan`;
-
-const data = [
-  {
-    step: 'string',
-    isFulfilled: true,
-    confirmationStatus: true,
-    _id: 'string',
-    code: 'string',
-    process: 1,
-    seeding: {
-      certificates: {
-        path: 'string',
-        hash: 'string',
-      },
-      buyInvoice: {
-        path: 'string',
-        hash: 'string',
-      },
-      farmLocation: {
-        coordinates: ['abc'],
-        type: 'string',
-      },
-      landLotImage: {
-        path: 'string',
-        hash: 'string',
-      },
-      leader: ['xyz'],
-      worker: ['zzz'],
-      _id: 'string',
-      code: 'string',
-      seedingTime: new Date(),
-      estimatedPlantingTime: new Date(),
-      landLot: 'string',
-      species: {
-        _id: 'string12',
-        name: 'string',
-        barcode: 'string',
-        seedingDays: 14,
-        plantingDays: 15,
-        expiryDays: 14,
-        code: 'string',
-      },
-      area: 1,
-      numberOfSeed: 2,
-      expectedQuantity: 3,
-      temperature: 4,
-      humidity: 5,
-      porosity: 6,
-      manager: 'string',
-    },
-    planting: {
-      farmLocation: {
-        coordinates: ['zxc'],
-        type: 'string',
-      },
-      imageAfter: {
-        path: 'string',
-        hash: 'string',
-      },
-      imageBefore: {
-        path: 'string',
-        hash: 'string',
-      },
-      leader: ['rrr'],
-      worker: ['ttt'],
-      _id: 'ghhgf',
-      estimatedPlantingTime: new Date(),
-      estimatedHarvestTime: new Date(),
-      code: 'string',
-      area: 1,
-      numberOfPlants: 5,
-      expectedQuantity: 7,
-      temperature: 4,
-      humidity: 5,
-      porosity: 6,
-      landLot: 'string',
-      species: {
-        _id: 'ghjgk',
-        name: 'string',
-        barcode: 'string',
-        seedingDays: 14,
-        plantingDays: 15,
-        expiryDays: 16,
-        code: 'string',
-      },
-      manager: 'string',
-    },
-    harvesting: {
-      _id: 'strinhfgg',
-      leader: [{_id: 'strinfgkg', isRecieved: true, info: 'string'}],
-      technicalStaff: [{_id: 'stghfgfhring', isRecieved: true, info: 'string'}],
-    },
-    preliminaryTreatment: {
-      _id: 'strigjfjng',
-      time: new Date(),
-      quantity: 14,
-      leader: [{_id: 'string', isRecieved: true, info: 'string'}],
-      technicalStaff: [{_id: 'striđâsg', isRecieved: true, info: 'string'}],
-    },
-    cleaning: {
-      _id: 'hgfhgfj',
-      time: Date,
-      quantity: 14,
-      leader: [{_id: 'string', isRecieved: true, info: 'string'}],
-      technicalStaff: [{_id: 'striđâsg', isRecieved: true, info: 'string'}],
-    },
-    packing: {
-      _id: 'sdhbdfhgfd',
-      quantity: 32,
-      leader: [{_id: 'string', isRecieved: true, info: 'string'}],
-    },
-    preservation: {
-      _id: 'fdnbdh',
-      technicalStaff: [{_id: 'striđâsg', isRecieved: true, info: 'string'}],
-    },
-    createdBy: {
-      _id: 'bdfbdf',
-      firstName: 'fdsb',
-      lastName: 'string',
-    },
-    createdAt: new Date(),
-    updateAt: new Date(),
-  },
-];
-
-const data2 = [
-  {
-    _id: 'xcasvs',
-    planCode: '000001',
-    plantCode: '000001',
-    growCode: '000001',
-    speciesName: 'Rau muống',
-    createAt: '10/11/2020',
-    status: 'Hoàn thành',
-    approve: 'Đã duyệt',
-  },
-];
 
 const versionData = [
   {
@@ -181,6 +47,31 @@ const versionData = [
     approveDate: new Date(),
   },
 ];
+
+const ProductPlantSchema = Yup.object().shape({
+  planting: Yup.object().shape({
+    technical: Yup.array().typeError('Type err'),
+    leader: Yup.array().when('technical', {
+      is: (val) => val && val.length === 0,
+      then: Yup.array().required('Bắt buộc'),
+      otherwise: Yup.array()
+    })
+  }),
+  // cleaning: Yup.object().shape({
+  //   technical: Yup.array().test('oneOfRequired', 'Nhập hết vào', function (value: any) {
+  //     return this.parent.leader && this.parent.leader.length > 0
+  //   }),
+  //   leader: Yup.array().test('oneOfRequired', 'Nhập hết vào', function (value: any) {
+  //     return this.parent.technical && this.parent.technical.length > 0
+  //   }),
+  // })
+  cleaning: Yup.object().shape({
+    technical: Yup.array().typeError('Type err'),
+    leader: Yup.array()
+  }).test('global-ok', 'Nhập hết vào', (value: any) => {
+    return value.technical && value.technical.length > 0 && value.leader && value.leader.length > 0
+  }),
+});
 
 function ProductionPlan() {
   const intl = useIntl();
@@ -247,20 +138,33 @@ function ProductionPlan() {
   const [noticeModal, setNoticeModal] = useState<boolean>(false);
   
   const [tagData, setTagData] = useState([])
+
+  const [submit, setSubmit] = useState(false)
   
+    
+  const {currentState} = useSelector(
+    (state: any) => ({
+      currentState: state.users,
+    }),
+    shallowEqual,
+  );
+
+  // const userData = currentState.entities;
+  
+  // Customers Redux state
   const dispatch = useDispatch();
-  
+  useEffect(() => {
+    
+    dispatch(fetchAllUser());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch]);
   
   useEffect(() => {
     getAll({...(filterProps as any), step: currentTab});
     
   }, [paginationProps, trigger, filterProps]);
   
-  useEffect(() => {
-    getAllUsers().then(res => {
-      setTagData(res.data)
-    })
-  }, [])
+  
   
   
   const columns = {
@@ -470,14 +374,15 @@ function ProductionPlan() {
     type: 'outside',
     data: {
       sendRequest: {
-        role: 'button',
-        type: 'button',
+        role: 'special',
+        type: 'submit',
         linkto: undefined,
         className: 'btn btn-primary mr-5 pl-8 pr-8',
         label: 'Gửi duyệt',
         icon: <SaveOutlinedIcon/>,
         onClick: () => {
-          setNoticeModal(true);
+          // setNoticeModal(true);
+          setSubmit(true)
         },
       },
       save: {
@@ -487,6 +392,10 @@ function ProductionPlan() {
         className: 'btn btn-outline-primary mr-5 pl-8 pr-8',
         label: 'Lưu',
         icon: <CancelOutlinedIcon/>,
+        onClick: () => {
+          // setNoticeModal(true);
+          setSubmit(false)
+        },
       },
       cancel: {
         role: 'link-button',
@@ -498,6 +407,11 @@ function ProductionPlan() {
       },
     },
   };
+
+  const approve = (entity: any) => {
+    const data = { confirmationStatus: "1" }
+    return ProductionPlanService.Approve(entity, data)
+  }
   
   return (
     <React.Fragment>
@@ -505,16 +419,18 @@ function ProductionPlan() {
         <Route path="/production-plan/new/:id">
           {({history, match}) => (
             <>
-              <ProductionPlanModal
+              {/* <ProductionPlanModal
                 show={noticeModal}
                 mode="notice"
                 title="abc"
                 body="xyz"
                 onClose={() => {
                   setNoticeModal(false);
+                  setSubmit(true);
                 }}
-              />
-              <EntityCrudPagePromise
+                setSubmit={setSubmit}
+              /> */}
+              <ProductionPlanCrud
                 entity={history.location.state}
                 onModify={updatePromise}
                 title={createTitle}
@@ -524,7 +440,7 @@ function ProductionPlan() {
                 formPart={formPart}
                 allFormField={allFormField}
                 allFormButton={allFormButton}
-                // validation={ProductTypeSchema}
+                validation={ProductPlantSchema}
                 autoFill={{
                   field: '',
                   data: null,
@@ -533,6 +449,8 @@ function ProductionPlan() {
                 refreshData={refreshData}
                 homePage={homeURL}
                 tagData={tagData}
+                submit={submit}
+                onApprove={approve}
               />
             </>
           )}
