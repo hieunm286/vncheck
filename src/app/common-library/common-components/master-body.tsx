@@ -59,9 +59,9 @@ export function MasterBody<T>({
           dataField: '_id',
           text: 'STT',
           formatter: (cell: any, row: any, rowIndex: number) => (
-            <p>
+            <>
               {rowIndex + 1 + ((paginationParams.page ?? 0) - 1) * (paginationParams.limit ?? 0)}
-            </p>
+            </>
           ),
           headerClasses: 'text-center',
           align: 'center'

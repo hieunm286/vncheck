@@ -164,7 +164,7 @@ function LandLot() {
       dataField: 'code',
       text: `${intl.formatMessage({ id: 'LAND_LOT.MASTER.HEADER.CODE' })}`,
       formatter: (cell: any, row: any, rowIndex: any) => {
-        return (<p>{row.lot + row.subLot}</p>);
+        return (<>{row.lot + row.subLot}</>);
       },
       ...SortColumn,
     },
