@@ -27,8 +27,7 @@ import ModifyEntityPage from '../../common-library/common-components/modify-enti
 import _ from 'lodash';
 
 const diff = (obj1: any, obj2: any) => {
-  console.log(obj1)
-  console.log(obj2)
+
   if (!obj2 || Object.prototype.toString.call(obj2) !== '[object Object]') {
     return obj1;
   }
@@ -185,8 +184,6 @@ function ProductionPlanCrud({
     // setTagArr({ ...tagArr, [key]: newTag });
   }
 
-  console.log(entityForEdit);
-
   useEffect(() => {
     if (code) {
       get(code).then((res: { data: any }) => {
@@ -198,8 +195,6 @@ function ProductionPlanCrud({
       });
     }
   }, [code]);
-
-  console.log(entityForEdit);
 
   const notify = (error: string) => {
     toast.error(`😠 ${error}`, {
@@ -240,8 +235,6 @@ function ProductionPlanCrud({
       });
   };
 
-  console.log(search);
-
   return (
     <>
       <Formik
@@ -259,28 +252,6 @@ function ProductionPlanCrud({
             if (diffValue.packing && _.isObject(diffValue.packing.packing) && !diffValue.packing.packing.label) {
               delete diffValue.packing
             }
-
-            console.log(diff(entityForEdit, values))
-
-            let v: any = {};
-
-            // diffValue?.forEach((value: any) => {
-            //   const pathLength = value.path.length;
-
-            //   v[value.path[0]] = {};
-
-            //   if (pathLength === 1) {
-            //     v[value.path[0]] = values[value.path[0]];
-            //   } else if (pathLength === 2) {
-            //     v[value.path[0]][value.path[1]] = values[value.path[0]][value.path[1]];
-            //   } else if (pathLength === 3) {
-            //     v[value.path[0]][value.path[1]] = {};
-            //     v[value.path[0]][value.path[1]][value.path[2]] =
-            //       values[value.path[0]][value.path[1]][value.path[2]];
-            //   }
-            // });
-
-            console.log(diff(entityForEdit, values));
 
             updateValue = { _id: values._id, ...diffValue };
           } else {

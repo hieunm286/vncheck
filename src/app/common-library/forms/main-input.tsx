@@ -59,8 +59,6 @@ const getTouched = (touched: any, fieldName: string) => {
     return touched[fieldName]
   }
 
-  console.log(fieldName)
-
   const arrName = fieldName.split('.')
 
   if (arrName.length === 3) {

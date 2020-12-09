@@ -62,8 +62,6 @@ export function InfiniteSelectV2({
     displayField?: string,
   ) => {
 
-    console.log('runn')
-
     const queryProps: any = {};
     queryProps[keyField] = dataField ? dataField._id : search;
 
@@ -89,8 +87,6 @@ export function InfiniteSelectV2({
       },
     };
   };
-
-  console.log(errors)
 
   return (
     <>
@@ -126,7 +122,7 @@ export function InfiniteSelectV2({
             name={name}
             additional={additional}
             isSearchable={false}
-            className={`${errors[name] ? 'border border-danger rounded' : ''}`}
+            className={`${getError(errors, name) ? 'border border-danger rounded' : ''}`}
           />
           {getError(errors, name) && getTouched(touched, name) ? (
             <div className="invalid-datepicker-feedback text-danger" style={{ fontSize: '0.9rem' }}>

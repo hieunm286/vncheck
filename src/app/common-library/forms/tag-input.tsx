@@ -147,9 +147,6 @@ function TagInput({
   //   // eslint-disable-next-line react-hooks/exhaustive-deps
   // }, [queryProps, paginationProps, dispatch]);
 
-  console.log(errors)
-  console.log(name)
-  console.log(getError(errors, name, 0))
   return (
     <>
       <div className={isHorizontal && 'row'}>
@@ -168,7 +165,6 @@ function TagInput({
             defaultValue={getDefautltTag(data) || []}
             placeholder="Tags Mode"
             onChange={(value: any) => {
-              console.log(value)
                 handleChange(value);
                 setFieldValue(name, value);
             }}
@@ -181,7 +177,7 @@ function TagInput({
             >
             {entities && entities.map((item: any, key: any) => (
               <Option key={item._id} value={item._id}>
-                {item.fullName ? item.fullName : item.user.fullName}
+                {item.fullName ? item.fullName : item.user.fullName ? item.user.fullName : item.lastName ? item.lastName : item.user.lastName}
               </Option>
             ))}
           </Select>

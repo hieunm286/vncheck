@@ -72,8 +72,6 @@ export function MasterHeader<T>({
   const searchM: any = {...searchModel};
   
   const [search, setSearch] = useState<any>(initValue);
-
-  console.log(search)
   
   let _disabled: any = {};
   Object.keys(initValue).forEach(field => {
@@ -209,7 +207,6 @@ export function MasterHeader<T>({
           initialValues={initValue}
           onSubmit={values => {
             onSearch(values);
-            console.log(values);
           }}
           onReset={data => {
             if (onReset) {
