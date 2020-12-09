@@ -2,8 +2,10 @@ import { SearchModel } from '../../../common-library/common-types/common-type';
 import { GenerateAllFormField } from '../../../common-library/helpers/common-function';
 import * as ProductPackagingService from '../../product-packaging/product-packaging.service';
 import * as SpeciesService from '../../species/species.service';
+import * as Yup from 'yup';
 
 import '../style/production-plan.scss';
+import _ from 'lodash';
 
 export const headerTitle = 'PRODUCT_TYPE.MASTER.HEADER.TITLE';
 export const bodyTitle = 'PRODUCT_TYPE.MASTER.BODY.TITLE';
@@ -442,13 +444,13 @@ export const modifyModel5: any[] = [
             type: 'tag',
             placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
             label: 'Nhân viên kỹ thuật làm sạch',
-            root: 'cleaning'
+            root: 'cleaning',
           },
           leader: {
             type: 'tag',
             placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
             label: 'Tổ trưởng làm sạch',
-            root: 'cleaning'
+            root: 'cleaning',
           },
         },
       },
@@ -820,19 +822,19 @@ export const SeedingDetailDialog = [
           type: 'string',
           title: 'Nhiệt độ',
           keyField: 'planting.temperature',
-          convertFn: (t: string) => t + "°C"
+          convertFn: (t: string) => t + '°C',
         },
         {
           type: 'string',
           title: 'Độ ẩm',
           keyField: 'planting.humidity',
-          convertFn: (t: string) => t + "%"
+          convertFn: (t: string) => t + '%',
         },
         {
           type: 'string',
           title: 'Độ xốp',
           keyField: 'planting.porosity',
-          convertFn: (t: string) => t + "%"
+          convertFn: (t: string) => t + '%',
         },
       ],
     ],
@@ -905,3 +907,278 @@ export const masterEntityDetailDialog2 = [
     ],
   },
 ];
+
+export const halfValidate = {
+  estimatedHarvestTime: Yup.mixed(),
+  expectedQuantity: Yup.number(),
+  technical: Yup.array().test('oneOfRequired', 'Nhập hết vào', function(value: any) {
+    return (
+      (this.parent.leader.length > 0 &&
+        this.parent.expectedQuantity > 0 &&
+        this.parent.estimatedHarvestTime &&
+        value.length > 0) ||
+      ((!this.parent.leader || this.parent.leader.length === 0) &&
+        this.parent.expectedQuantity > 0 &&
+        this.parent.estimatedHarvestTime &&
+        (!value || value.length === 0)) ||
+      value.length > 0
+    );
+  }),
+  leader: Yup.array().test('oneOfRequired', 'Nhập hết vào', function(value: any) {
+    return (
+      (this.parent.technical.length > 0 &&
+        this.parent.estimatedQuantity > 0 &&
+        this.parent.estimatedHarvestTime &&
+        value.length > 0) ||
+      ((!this.parent.technical || this.parent.technical.length === 0) &&
+        this.parent.expectedQuantity > 0 &&
+        this.parent.estimatedHarvestTime &&
+        (!value || value.length === 0)) ||
+      value.length > 0
+    );
+  }),
+};
+
+export const validate = {
+  estimatedTime: Yup.mixed().test('oneOfRequired', 'Nhập hết vào', function(value: any) {
+    return (
+      (this.parent.leader.length > 0 &&
+        this.parent.technical.length > 0 &&
+        this.parent.estimatedQuantity > 0 &&
+        value) ||
+      ((!this.parent.leader || this.parent.leader.length === 0) &&
+        (!this.parent.technical || this.parent.technical.length === 0) &&
+        (!this.parent.estimatedQuantity || this.parent.estimatedQuantity === 0) &&
+        !value) ||
+      value
+    );
+  }),
+  estimatedQuantity: Yup.number().test('oneOfRequired', 'Nhập hết vào', function(value: any) {
+    return (
+      (this.parent.leader.length > 0 &&
+        this.parent.technical.length > 0 &&
+        this.parent.estimatedTime &&
+        value > 0) ||
+      ((!this.parent.leader || this.parent.leader.length === 0) &&
+        (!this.parent.technical || this.parent.technical.length === 0) &&
+        (!this.parent.estimatedTime || this.parent.estimatedTime === '') &&
+        (!value || value === 0)) ||
+      (value && value > 0)
+    );
+  }),
+  technical: Yup.array().test('oneOfRequired', 'Nhập hết vào', function(value: any) {
+    return (
+      (this.parent.leader.length > 0 &&
+        this.parent.estimatedQuantity > 0 &&
+        this.parent.estimatedTime &&
+        value.length > 0) ||
+      ((!this.parent.leader || this.parent.leader.length === 0) &&
+        (!this.parent.estimatedQuantity || this.parent.estimatedQuantity === 0) &&
+        (!this.parent.estimatedTime || this.parent.estimatedTime === '') &&
+        (!value || value.length === 0)) ||
+      value.length > 0
+    );
+  }),
+  leader: Yup.array().test('oneOfRequired', 'Nhập hết vào', function(value: any) {
+    return (
+      (this.parent.technical.length > 0 &&
+        this.parent.estimatedQuantity > 0 &&
+        this.parent.estimatedTime &&
+        value.length > 0) ||
+      ((!this.parent.technical || this.parent.technical.length === 0) &&
+        (!this.parent.estimatedQuantity || this.parent.estimatedQuantity === 0) &&
+        (!this.parent.estimatedTime || this.parent.estimatedTime === '') &&
+        (!value || value.length === 0)) ||
+      value.length > 0
+    );
+  }),
+};
+
+export const packingValidate = {
+  estimatedTime: Yup.mixed().test('oneOfRequired', 'Nhập hết vào', function(value: any) {
+    return (
+      (this.parent.leader.length > 0 &&
+        this.parent.technical.length > 0 &&
+        this.parent.estimatedQuantity > 0 &&
+        this.parent.estimatedExpireTimeStart &&
+        this.parent.estimatedExpireTimeEnd &&
+        this.parent.packing &&
+        _.isString(this.parent.packing) &&
+        this.parent.packing !== '' &&
+        value) ||
+      ((!this.parent.leader || this.parent.leader.length === 0) &&
+        (!this.parent.technical || this.parent.technical.length === 0) &&
+        !this.parent.packing.label &&
+        !_.isString(this.parent.packing) &&
+        (!this.parent.estimatedQuantity || this.parent.estimatedQuantity === 0) &&
+        (!this.parent.estimatedExpireTimeStart || this.parent.estimatedExpireTimeStart === '') &&
+        (!this.parent.estimatedExpireTimeEnd || this.parent.estimatedExpireTimeEnd === '') &&
+        !value) ||
+      value
+    );
+  }),
+
+  estimatedExpireTimeStart: Yup.mixed().test('oneOfRequired', 'Nhập hết vào', function(value: any) {
+    return (
+      (this.parent.leader.length > 0 &&
+        this.parent.technical.length > 0 &&
+        this.parent.estimatedQuantity > 0 &&
+        this.parent.estimatedTime &&
+        this.parent.estimatedExpireTimeEnd &&
+        this.parent.packing &&
+        _.isString(this.parent.packing) &&
+        this.parent.packing !== '' &&
+        value) ||
+      ((!this.parent.leader || this.parent.leader.length === 0) &&
+        (!this.parent.technical || this.parent.technical.length === 0) &&
+        !this.parent.packing.label &&
+        !_.isString(this.parent.packing) &&
+        (!this.parent.estimatedQuantity || this.parent.estimatedQuantity === 0) &&
+        (!this.parent.estimatedTime || this.parent.estimatedTime === '') &&
+        (!this.parent.estimatedExpireTimeEnd || this.parent.estimatedExpireTimeEnd === '') &&
+        !value) ||
+      value
+    );
+  }),
+
+  estimatedExpireTimeEnd: Yup.mixed().test('oneOfRequired', 'Nhập hết vào', function(value: any) {
+    return (
+      (this.parent.leader.length > 0 &&
+        this.parent.technical.length > 0 &&
+        this.parent.estimatedQuantity > 0 &&
+        this.parent.estimatedExpireTimeStart &&
+        this.parent.estimatedTime &&
+        this.parent.packing &&
+        _.isString(this.parent.packing) &&
+        this.parent.packing !== '' &&
+        value) ||
+      ((!this.parent.leader || this.parent.leader.length === 0) &&
+        (!this.parent.technical || this.parent.technical.length === 0) &&
+        !this.parent.packing.label &&
+        !_.isString(this.parent.packing) &&
+        (!this.parent.estimatedQuantity || this.parent.estimatedQuantity === 0) &&
+        (!this.parent.estimatedExpireTimeStart || this.parent.estimatedExpireTimeStart === '') &&
+        (!this.parent.estimatedTime || this.parent.estimatedTime === '') &&
+        !value) ||
+      value
+    );
+  }),
+
+  packing: Yup.mixed().test('oneOfRequired', 'Nhập hết vào', function(value: any) {
+    console.log(value);
+    return (
+      (this.parent.leader.length > 0 &&
+        this.parent.technical.length > 0 &&
+        this.parent.estimatedQuantity > 0 &&
+        this.parent.estimatedTime &&
+        this.parent.estimatedExpireTimeStart &&
+        this.parent.estimatedExpireTimeEnd &&
+        value) ||
+      ((!this.parent.leader || this.parent.leader.length === 0) &&
+        (!this.parent.technical || this.parent.technical.length === 0) &&
+        !this.parent.estimatedTime &&
+        !this.parent.estimatedExpireTimeStart &&
+        !this.parent.estimatedExpireTimeEnd &&
+        (!this.parent.estimatedQuantity || this.parent.estimatedQuantity === 0) &&
+        !value.label) ||
+      (value && _.isString(value))
+    );
+  }),
+
+  estimatedQuantity: Yup.number().test('oneOfRequired', 'Nhập hết vào', function(value: any) {
+    return (
+      (this.parent.leader.length > 0 &&
+        this.parent.technical.length > 0 &&
+        this.parent.estimatedTime &&
+        this.parent.estimatedExpireTimeStart &&
+        this.parent.estimatedExpireTimeEnd &&
+        this.parent.packing &&
+        _.isString(this.parent.packing) &&
+        this.parent.packing !== '' &&
+        value > 0) ||
+      ((!this.parent.leader || this.parent.leader.length === 0) &&
+        (!this.parent.technical || this.parent.technical.length === 0) &&
+        !this.parent.packing.label &&
+        !_.isString(this.parent.packing) &&
+        !this.parent.estimatedExpireTimeStart &&
+        !this.parent.estimatedExpireTimeEnd &&
+        (!this.parent.estimatedTime || this.parent.estimatedTime === '') &&
+        (!value || value === 0)) ||
+      (value && value > 0)
+    );
+  }),
+  technical: Yup.array().test('oneOfRequired', 'Nhập hết vào', function(value: any) {
+    return (
+      (this.parent.leader.length > 0 &&
+        this.parent.estimatedQuantity > 0 &&
+        this.parent.estimatedTime &&
+        this.parent.estimatedExpireTimeStart &&
+        this.parent.estimatedExpireTimeEnd &&
+        this.parent.packing &&
+        _.isString(this.parent.packing) &&
+        this.parent.packing !== '' &&
+        value.length > 0) ||
+      ((!this.parent.leader || this.parent.leader.length === 0) &&
+        !this.parent.packing.label &&
+        !_.isString(this.parent.packing) &&
+        !this.parent.estimatedExpireTimeStart &&
+        !this.parent.estimatedExpireTimeEnd &&
+        (!this.parent.estimatedQuantity || this.parent.estimatedQuantity === 0) &&
+        (!this.parent.estimatedTime || this.parent.estimatedTime === '') &&
+        (!value || value.length === 0)) ||
+      value.length > 0
+    );
+  }),
+  leader: Yup.array().test('oneOfRequired', 'Nhập hết vào', function(value: any) {
+    return (
+      (this.parent.technical.length > 0 &&
+        this.parent.estimatedQuantity > 0 &&
+        this.parent.estimatedTime &&
+        this.parent.estimatedExpireTimeStart &&
+        this.parent.estimatedExpireTimeEnd &&
+        this.parent.packing &&
+        _.isString(this.parent.packing) &&
+        this.parent.packing !== '' &&
+        value.length > 0) ||
+      ((!this.parent.technical || this.parent.technical.length === 0) &&
+        !this.parent.packing.label &&
+        !_.isString(this.parent.packing) &&
+        (!this.parent.estimatedQuantity || this.parent.estimatedQuantity === 0) &&
+        !this.parent.estimatedExpireTimeStart &&
+        !this.parent.estimatedExpireTimeEnd &&
+        (!this.parent.estimatedTime || this.parent.estimatedTime === '') &&
+        (!value || value.length === 0)) ||
+      value.length > 0
+    );
+  }),
+};
+
+export const preservationValidate = {
+  estimatedStartTime: Yup.mixed().test('oneOfRequired', 'Nhập hết vào', function(value: any) {
+    return (
+      (this.parent.technical.length > 0 && this.parent.estimatedEndTime && value) ||
+      ((!this.parent.technical || this.parent.technical.length === 0) &&
+        !this.parent.estimatedEndTime &&
+        !value) ||
+      value
+    );
+  }),
+  estimatedEndTime: Yup.mixed().test('oneOfRequired', 'Nhập hết vào', function(value: any) {
+    return (
+      (this.parent.technical.length > 0 && this.parent.estimatedStartTime && value) ||
+      ((!this.parent.technical || this.parent.technical.length === 0) &&
+        !this.parent.estimatedStartTime &&
+        !value) ||
+      value
+    );
+  }),
+  technical: Yup.array().test('oneOfRequired', 'Nhập hết vào', function(value: any) {
+    return (
+      (this.parent.estimatedStartTime && this.parent.estimatedEndTime && value.length > 0) ||
+      (!this.parent.estimatedStartTime &&
+        !this.parent.estimatedEndTime &&
+        (!value || value.length === 0)) ||
+      value.length > 0
+    );
+  }),
+};

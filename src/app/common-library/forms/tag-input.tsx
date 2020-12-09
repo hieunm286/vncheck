@@ -185,7 +185,7 @@ function TagInput({
               </Option>
             ))}
           </Select>
-          {errors[root] && getTouched(touched, name) ? (
+          {getError(errors, name) && getTouched(touched, name) ? (
             <div className="invalid-datepicker-feedback text-danger" style={{ fontSize: '0.9rem' }}>
               Vui lòng chọn
               {
