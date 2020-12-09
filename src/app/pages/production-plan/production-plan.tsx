@@ -137,17 +137,18 @@ function ProductionPlan() {
   const [submit, setSubmit] = useState(false)
   
     
-  const {currentState} = useSelector(
+  const { authState } = useSelector(
     (state: any) => ({
-      currentState: state.users,
+      authState: state.auth,
     }),
     shallowEqual,
   );
+  const { username, role } = authState;
 
   // const userData = currentState.entities;
-  
-  // Customers Redux state
+
   const dispatch = useDispatch();
+
   useEffect(() => {
     
     dispatch(fetchAllUser());
@@ -406,6 +407,56 @@ function ProductionPlan() {
     },
   };
 
+  const adminAllFormButton: any = {
+    type: 'outside',
+    data: {
+      approve: {
+        role: 'button',
+        type: 'button',
+        linkto: undefined,
+        className: 'btn btn-primary mr-5 pl-8 pr-8',
+        label: 'Phê duyệt',
+        icon: <SaveOutlinedIcon/>,
+        onClick: () => {
+          // setNoticeModal(true);
+          // setSubmit(true)
+        },
+      },
+      refuse: {
+        role: 'button',
+        type: 'button',
+        linkto: undefined,
+        className: 'btn btn-outline-primary mr-5 pl-8 pr-8',
+        label: 'Từ chối',
+        icon: <SaveOutlinedIcon/>,
+        onClick: () => {
+          // setNoticeModal(true);
+          // setSubmit(true)
+        },
+      },
+      save: {
+        role: 'submit',
+        type: 'submit',
+        linkto: undefined,
+        className: 'btn btn-outline-primary mr-5 pl-8 pr-8',
+        label: 'Lưu',
+        icon: <CancelOutlinedIcon/>,
+        onClick: () => {
+          // setNoticeModal(true);
+          setSubmit(false)
+        },
+      },
+      cancel: {
+        role: 'link-button',
+        type: 'button',
+        linkto: '/production-plan',
+        className: 'btn btn-outline-primary mr-2 pl-8 pr-8',
+        label: 'Hủy',
+        icon: <CancelOutlinedIcon/>,
+      },
+    },
+  };
+
   const approve = (entity: any) => {
     const data = { confirmationStatus: "1" }
     return ProductionPlanService.Approve(entity, data)
@@ -437,7 +488,7 @@ function ProductionPlan() {
                 get={(code) => ProductionPlanService.GetById(code)}
                 formPart={formPart}
                 allFormField={allFormField}
-                allFormButton={allFormButton}
+                allFormButton={username === 'admin' ? adminAllFormButton : allFormButton}
                 validation={ProductPlantSchema}
                 autoFill={{
                   field: '',

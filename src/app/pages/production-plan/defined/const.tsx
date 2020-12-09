@@ -1073,7 +1073,7 @@ export const packingValidate = {
         this.parent.estimatedTime &&
         this.parent.estimatedExpireTimeStart &&
         this.parent.estimatedExpireTimeEnd &&
-        value) ||
+        (value && _.isString(value))) ||
       ((!this.parent.leader || this.parent.leader.length === 0) &&
         (!this.parent.technical || this.parent.technical.length === 0) &&
         !this.parent.estimatedTime &&
