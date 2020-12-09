@@ -298,8 +298,9 @@ function AgencyPage() {
     //   .required(intl.formatMessage({id: 'AGENCY.VALIDATION.GENDER.REQUIRED'})),
     birthDay: Yup.date()
       .required(intl.formatMessage({id: 'AGENCY.VALIDATION.BIRTHDAY.REQUIRED'})),
-    // roleName: Yup.string()
-    //   .required(intl.formatMessage({id: 'AGENCY.VALIDATION.ROLE_NAME.REQUIRED'})),
+    roleName: Yup.string()
+      .required(intl.formatMessage({id: 'AGENCY.VALIDATION.ROLE_NAME.REQUIRED'}))
+      .nullable(),
     // avatar: Yup.string().required(intl.formatMessage({id: 'AGENCY.VALIDATION.AVATAR.REQUIRED'})),
   });
 
