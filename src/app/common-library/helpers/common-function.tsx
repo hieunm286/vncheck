@@ -60,7 +60,7 @@ export const generateInitForm = (modifyModel: any, initField?: string, initData?
     else if (modifyModel[key].type === 'object') {
       // initValue[key] = {}
       initValue[key] = generateInitForm(modifyModel[key].data)
-      console.log(generateInitForm(modifyModel[key].data))
+      // console.log(generateInitForm(modifyModel[key].data))
       // Object.keys(modifyModel[key]).map(childKey => {
       //   if (modifyModel[key][childKey].type === 'string') {
       //     initValue[key][childKey] = ''
@@ -170,9 +170,6 @@ export const getField = (field: any, fieldName: string) => {
   }
 
   const arrName = fieldName.split('.')
-
-  console.log(field)
-  console.log(fieldName)
 
   if (!field[arrName[0]]) return;
 

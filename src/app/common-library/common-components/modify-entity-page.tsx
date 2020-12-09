@@ -99,13 +99,10 @@ function ModifyEntityPage<T>({
     };
   };
 
-  console.log(entityForEdit)
-
   const renderForm = (value: any, prevKey: string) => {
     return (
       <>
         {Object.keys(value.data).map(key => {
-          console.log(key);
 
           switch (value.data[key].type) {
             case 'string':
@@ -312,8 +309,6 @@ function ModifyEntityPage<T>({
               );
 
             case 'SearchSelectV2':
-              console.log(search[key])
-
               return (
                 <div className="mt-3" key={key}>
                   <InfiniteSelectV2

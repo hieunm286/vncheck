@@ -707,17 +707,17 @@ export const PlantingDetailDialog = [
         {
           type: 'string',
           title: 'Thông tin Giám đốc/TGĐ',
-          keyField: 'planting.manager.fullName',
+          keyField: 'planting.manager.lastName',
         },
         {
           type: 'string',
           title: 'Tổ trưởng gieo trồng',
-          keyField: 'planting.[leader].fullName',
+          keyField: 'planting.[leader].lastName',
         },
         {
           type: 'string',
           title: 'Công nhân gieo trồng',
-          keyField: 'planting.[worker].fullName',
+          keyField: 'planting.[worker].lastName',
         },
       ],
     ],
@@ -846,18 +846,18 @@ export const SeedingDetailDialog = [
         {
           type: 'string',
           title: 'Thông tin Giám đốc/TGĐ',
-          keyField: 'planting.manager.fullName',
+          keyField: 'planting.manager.lastName',
         },
         {
           type: 'string',
           title: 'Tổ trưởng gieo trồng',
-          keyField: 'planting.[leader].fullName',
+          keyField: 'planting.[leader].lastName',
           separator: ', ',
         },
         {
           type: 'string',
           title: 'Công nhân gieo trồng',
-          keyField: 'planting.[worker].fullName',
+          keyField: 'planting.[worker].lastName',
         },
       ],
     ],
@@ -1081,7 +1081,7 @@ export const packingValidate = {
         !this.parent.estimatedExpireTimeEnd &&
         (!this.parent.estimatedQuantity || this.parent.estimatedQuantity === 0) &&
         !value.label) ||
-      (value && _.isString(value))
+      ((value && _.isString(value)) || (!_.isString(value) && value.label))
     );
   }),
 

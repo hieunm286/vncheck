@@ -37,13 +37,12 @@ function ModifyEntityDialogForm<T>({
 
   const [search, setSearch] = useState<any>(entity);
 
-  console.log(search)
 
   const onChange = (imageList: any, addUpdateIndex: any, key: any) => {
     const imageArray = getOnlyFile(imageList);
 
     const newArr = getNewImage(imageRootArr, imageArray);
-    console.log(key);
+
     newArr.forEach((file, index) => {
       uploadImage(file)
         .then(res => {
@@ -64,7 +63,6 @@ function ModifyEntityDialogForm<T>({
       initialValues={entity}
       validationSchema={validation}
       onSubmit={values => {
-        console.log(values)
         if (entity._id) {
           const updateValue = diff(entity, values);
           onModify({ _id: values._id, ...updateValue });

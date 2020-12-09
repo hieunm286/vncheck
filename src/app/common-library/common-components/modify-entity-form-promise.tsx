@@ -48,7 +48,6 @@ function ModifyEntityFormPromise<T>({
     const imageArray = getOnlyFile(imageList);
 
     const newArr = getNewImage(imageRootArr, imageArray);
-    console.log(key);
     newArr.forEach((file, index) => {
       uploadImage(file)
         .then(res => {

@@ -91,8 +91,6 @@ function EntityCrudPagePromise({
     // setTagArr({ ...tagArr, [key]: newTag });
   }
 
-  console.log(entityForEdit)
-
   useEffect(() => {
     if (code) {
       get(code).then((res: { data: any }) => {
@@ -102,9 +100,6 @@ function EntityCrudPagePromise({
       });
     }
   }, [code]);
-
-  console.log('abc')
-
 
   const notify = (error: string) => {
     toast.error(`😠 ${error}`, {
@@ -145,8 +140,6 @@ function EntityCrudPagePromise({
       });
   };
 
-  console.log(search)
-
   return (
     <>
       
@@ -164,13 +157,10 @@ function EntityCrudPagePromise({
           if (entityForEdit) {
             const diffValue = updatedDiff(entityForEdit, values);
 
-            console.log(diffValue)
             updateValue = { _id: values._id, ...diffValue };
           } else {
             updateValue = { ...values };
           }
-
-          console.log(updateValue)
 
           submitHandle(updateValue, { setSubmitting, setFieldError });
         }}>
