@@ -718,7 +718,6 @@ const FormTemplate = ({
                   onChange={(value: any) => {
                     //setSearchSelect({value: value.value, label: value.label}); // setSearch({ ...search, [key]: value });
                     setSearchSelect(value);
-                    setFieldValue('roleName', value);
                     // values.roleName = value;
 
                     // setSearchTerm({

@@ -98,17 +98,17 @@ export function InfiniteSelect({
             className={`${errors[name] ? 'border-danger' : 'input-search-select'}`}
           />
           {errors[name] && touched[name] ? (
-            <div className="invalid-datepicker-feedback text-danger" style={{fontSize: '0.9rem'}}>
-              {
-                // validationMessage ? intl.formatMessage({id: validationMessage}) : 'Vui lòng chọn ' + deCapitalizeFirstLetter(label)
-                errors[name] ? errors[name] : 'Vui lòng chọn ' + deCapitalizeFirstLetter(label)
-              }
-            </div>
-          ) : (
-            <div className="feedback">
-              {/* Please enter <b>{props.label}</b> in 'mm/dd/yyyy' format */}
-            </div>
-          )}
+              <div className="invalid-feedback invalid-datepicker-feedback text-danger" style={{fontSize: '0.9rem'}}>
+                {
+                  // validationMessage ? intl.formatMessage({id: validationMessage}) : 'Vui lòng chọn ' + deCapitalizeFirstLetter(label)
+                  errors[name] ? errors[name] : 'Vui lòng chọn ' + deCapitalizeFirstLetter(label)
+                }
+              </div>
+            ) : (
+              <div className="feedback">
+                {/* Please enter <b>{props.label}</b> in 'mm/dd/yyyy' format */}
+              </div>
+            )}
         </div>
       </div>
     </>

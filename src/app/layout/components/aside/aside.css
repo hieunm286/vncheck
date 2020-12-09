@@ -7,6 +7,10 @@
   fill: white !important;
 }
 
+.menu-item.menu-item-active.menu-item-open a span svg path {
+  fill: white !important;
+}
+
 .menu-text.title {
   font-size: 13px !important;
   font-weight: bold !important;
