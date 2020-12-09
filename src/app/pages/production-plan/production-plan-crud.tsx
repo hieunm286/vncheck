@@ -7,18 +7,119 @@ import { Link, useHistory } from 'react-router-dom';
 import ImageUploading from 'react-images-uploading';
 import { uploadImage } from '../../pages/purchase-order/purchase-order.service';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import { diff } from 'deep-object-diff';
+// import { diff } from 'deep-object-diff';
 import EXIF from 'exif-js';
-import { isEmpty } from 'lodash';
+import { isEmpty, isEqual } from 'lodash';
 import exifr from 'exifr';
 import { AxiosResponse } from 'axios';
+// import { diff } from 'deep-diff';
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useIntl } from 'react-intl';
-import { ConvertSelectSearch, generateInitForm, GetHomePage } from '../../common-library/helpers/common-function';
+import {
+  ConvertSelectSearch,
+  generateInitForm,
+  GetHomePage,
+} from '../../common-library/helpers/common-function';
 import { Card, CardBody, CardHeader } from '../../common-library/card';
 import ModifyEntityPage from '../../common-library/common-components/modify-entity-page';
+import _ from 'lodash';
+
+const diff = (obj1: any, obj2: any) => {
+  console.log(obj1)
+  console.log(obj2)
+  if (!obj2 || Object.prototype.toString.call(obj2) !== '[object Object]') {
+    return obj1;
+  }
+
+
+  let diffs: any = {};
+  let key;
+
+  let arraysMatch = function(arr1: any, arr2: any) {
+    // Check if the arrays are the same length
+    if (arr1.length !== arr2.length) return false;
+
+    // Check if all items exist and are in the same order
+    for (let i = 0; i < arr1.length; i++) {
+      if (arr1[i] !== arr2[i]) return false;
+    }
+
+    // Otherwise, return true
+    return true;
+  };
+
+  let compare = function(item1: any, item2: any, key: any) {
+    // Get the object type
+    let type1 = Object.prototype.toString.call(item1);
+    let type2 = Object.prototype.toString.call(item2);
+
+    // If type2 is undefined it has been removed
+    if (type2 === '[object Undefined]') {
+      diffs[key] = null;
+      return;
+    }
+
+    // If items are different types
+    if (type1 !== type2) {
+      diffs[key] = item2;
+      return;
+    }
+
+    // If an object, compare recursively
+    if (type1 === '[object Object]') {
+      let objDiff: any = diff(item1, item2);
+      if (Object.keys(objDiff).length > 0) {
+        diffs[key] = objDiff;
+      }
+      return;
+    }
+
+    // If an array, compare
+    if (type1 === '[object Array]') {
+      if (!arraysMatch(item1, item2)) {
+        diffs[key] = item2;
+      }
+      return;
+    }
+
+    // Else if it's a function, convert to a string and compare
+    // Otherwise, just compare
+    if (type1 === '[object Function]') {
+      if (item1.toString() !== item2.toString()) {
+        diffs[key] = item2;
+      }
+    } else {
+      if (item1 !== item2) {
+        diffs[key] = item2;
+      }
+    }
+  };
+
+  //
+  // Compare our objects
+  //
+
+  // Loop through the first object
+  for (key in obj1) {
+    if (obj1.hasOwnProperty(key)) {
+      compare(obj1[key], obj2[key], key);
+    }
+  }
+
+  // Loop through the second object and find missing items
+  for (key in obj2) {
+    if (obj2.hasOwnProperty(key)) {
+      if (!obj1[key] && obj1[key] !== obj2[key]) {
+        diffs[key] = obj2[key];
+      }
+    }
+  }
+
+  // Return the object of differences
+  return diffs;
+};
 
 function ProductionPlanCrud({
   entity,
@@ -36,7 +137,9 @@ function ProductionPlanCrud({
   homePage,
   asyncError,
   refreshData,
-  tagData
+  tagData,
+  submit,
+  onApprove,
 }: {
   // modifyModel: ModifyModel;
   title: string;
@@ -53,7 +156,9 @@ function ProductionPlanCrud({
   homePage?: string;
   asyncError?: string;
   refreshData: () => void;
-  tagData?: any
+  tagData?: any;
+  submit: boolean;
+  onApprove: (data: any) => Promise<AxiosResponse<any>>;
 }) {
   const intl = useIntl();
   const initForm = autoFill
@@ -80,20 +185,21 @@ function ProductionPlanCrud({
     // setTagArr({ ...tagArr, [key]: newTag });
   }
 
-  console.log(entityForEdit)
+  console.log(entityForEdit);
 
   useEffect(() => {
     if (code) {
       get(code).then((res: { data: any }) => {
-        const convert = (autoFill ? ConvertSelectSearch(res.data, autoFill.searchSelectField) : ConvertSelectSearch(res.data))
+        const convert = autoFill
+          ? ConvertSelectSearch(res.data, autoFill.searchSelectField)
+          : ConvertSelectSearch(res.data);
         setEntityForEdit(convert);
-        setSearch(res.data)
+        setSearch(res.data);
       });
     }
   }, [code]);
 
-  console.log(entityForEdit)
-
+  console.log(entityForEdit);
 
   const notify = (error: string) => {
     toast.error(`😠 ${error}`, {
@@ -123,7 +229,7 @@ function ProductionPlanCrud({
     onModify(values)
       .then((res: any) => {
         history.push(homePage || GetHomePage(window.location.pathname));
-        notifySuccess()
+        notifySuccess();
         setErrorMsg(undefined);
         refreshData();
       })
@@ -134,27 +240,66 @@ function ProductionPlanCrud({
       });
   };
 
-  console.log(search)
+  console.log(search);
 
   return (
     <>
-      
       <Formik
         enableReinitialize={true}
         initialValues={entityForEdit || initForm}
         // initialValues={initForm}
         validationSchema={validation}
         onSubmit={(values, { setSubmitting, setFieldError }) => {
-          let updateValue;
+          let updateValue: any;
           setErrorMsg(undefined);
 
           if (entityForEdit) {
             const diffValue = diff(entityForEdit, values);
+
+            if (diffValue.packing && _.isObject(diffValue.packing.packing) && !diffValue.packing.packing.label) {
+              delete diffValue.packing
+            }
+
+            console.log(diff(entityForEdit, values))
+
+            let v: any = {};
+
+            // diffValue?.forEach((value: any) => {
+            //   const pathLength = value.path.length;
+
+            //   v[value.path[0]] = {};
+
+            //   if (pathLength === 1) {
+            //     v[value.path[0]] = values[value.path[0]];
+            //   } else if (pathLength === 2) {
+            //     v[value.path[0]][value.path[1]] = values[value.path[0]][value.path[1]];
+            //   } else if (pathLength === 3) {
+            //     v[value.path[0]][value.path[1]] = {};
+            //     v[value.path[0]][value.path[1]][value.path[2]] =
+            //       values[value.path[0]][value.path[1]][value.path[2]];
+            //   }
+            // });
+
+            console.log(diff(entityForEdit, values));
+
             updateValue = { _id: values._id, ...diffValue };
           } else {
             updateValue = { ...values };
           }
-          submitHandle(updateValue, { setSubmitting, setFieldError });
+
+          if (!submit) {
+            submitHandle(updateValue, { setSubmitting, setFieldError });
+          } else {
+            onApprove(values)
+              .then(res => {
+                submitHandle(updateValue, { setSubmitting, setFieldError });
+              })
+              .catch(error => {
+                setSubmitting(false);
+                setErrorMsg(error.data || error.response.data);
+                notify(error.data || error.response.data);
+              });
+          }
         }}>
         {({ handleSubmit, setFieldValue, values }) => (
           <>
@@ -165,7 +310,10 @@ function ProductionPlanCrud({
                     <CardHeader
                       title={
                         <>
-                          <a onClick={() => history.push(homePage || GetHomePage(window.location.pathname))}>
+                          <a
+                            onClick={() =>
+                              history.push(homePage || GetHomePage(window.location.pathname))
+                            }>
                             <ArrowBackIosIcon />
                           </a>
                           {entityForEdit
@@ -193,88 +341,112 @@ function ProductionPlanCrud({
                       </div>
                     )}
                   </CardBody>
-                  {allFormButton.type === 'inside' && key === Object.keys(formPart)[Object.keys(formPart).length - 1] && (
-                    <div className="text-right mb-5 mr-20" key={key}>
-                      {Object.keys(allFormButton.data).map(keyss => {
-                        switch (allFormButton['data'][keyss].role) {
-                          case 'submit':
-                            return (
-                              <button
-                                formNoValidate
-                                type={allFormButton['data'][keyss].type}
-                                className={allFormButton['data'][keyss].className}
-                                key={keyss}>
-                                {allFormButton['data'][keyss].icon} {allFormButton['data'][keyss].label}
-                              </button>
-                            );
+                  {allFormButton.type === 'inside' &&
+                    key === Object.keys(formPart)[Object.keys(formPart).length - 1] && (
+                      <div className="text-right mb-5 mr-20" key={key}>
+                        {Object.keys(allFormButton.data).map(keyss => {
+                          switch (allFormButton['data'][keyss].role) {
+                            case 'submit':
+                              return (
+                                <button
+                                  formNoValidate
+                                  type={allFormButton['data'][keyss].type}
+                                  className={allFormButton['data'][keyss].className}
+                                  key={keyss}>
+                                  {allFormButton['data'][keyss].icon}{' '}
+                                  {allFormButton['data'][keyss].label}
+                                </button>
+                              );
 
-                          case 'button':
-                            return (
-                              <button
-                                type={allFormButton['data'][keyss].type}
-                                className={allFormButton['data'][keyss].className}
-                                key={keyss}
-                                onClick={() => {allFormButton['data'][keyss].onClick()}}
-                                >
-                                {allFormButton['data'][keyss].icon} {allFormButton['data'][keyss].label}
-                              </button>
-                            );
-                          case 'link-button':
-                            return (
-                              <Link to={allFormButton['data'][keyss].linkto} key={keyss}>
+                            case 'button':
+                              return (
                                 <button
                                   type={allFormButton['data'][keyss].type}
-                                  className={allFormButton['data'][keyss].className}>
-                                  {allFormButton['data'][keyss].icon} {allFormButton['data'][keyss].label}
+                                  className={allFormButton['data'][keyss].className}
+                                  key={keyss}
+                                  onClick={() => {
+                                    allFormButton['data'][keyss].onClick();
+                                  }}>
+                                  {allFormButton['data'][keyss].icon}{' '}
+                                  {allFormButton['data'][keyss].label}
                                 </button>
-                              </Link>
-                            );
-                        }
-                      })}
-                    </div>
-                  )}
+                              );
+                            case 'link-button':
+                              return (
+                                <Link to={allFormButton['data'][keyss].linkto} key={keyss}>
+                                  <button
+                                    type={allFormButton['data'][keyss].type}
+                                    className={allFormButton['data'][keyss].className}>
+                                    {allFormButton['data'][keyss].icon}{' '}
+                                    {allFormButton['data'][keyss].label}
+                                  </button>
+                                </Link>
+                              );
+                          }
+                        })}
+                      </div>
+                    )}
                 </Card>
               ))}
             </Form>
             {allFormButton.type === 'outside' && (
-                    <div className="text-right mb-5 mr-20">
-                      {Object.keys(allFormButton.data).map(keyss => {
-                        switch (allFormButton['data'][keyss].role) {
-                          case 'submit':
-                            return (
-                              <button
-                                type={allFormButton['data'][keyss].type}
-                                onClick={() => handleSubmit()}
-                                className={allFormButton['data'][keyss].className}
-                                key={keyss}>
-                                {allFormButton['data'][keyss].icon} {allFormButton['data'][keyss].label}
-                              </button>
-                            );
+              <div className="text-right mb-5 mr-20">
+                {Object.keys(allFormButton.data).map(keyss => {
+                  switch (allFormButton['data'][keyss].role) {
+                    case 'submit':
+                      return (
+                        <button
+                          type={allFormButton['data'][keyss].type}
+                          onClick={() => {
+                            handleSubmit();
+                            allFormButton['data'][keyss].onClick();
+                          }}
+                          className={allFormButton['data'][keyss].className}
+                          key={keyss}>
+                          {allFormButton['data'][keyss].icon} {allFormButton['data'][keyss].label}
+                        </button>
+                      );
 
-                          case 'button':
-                            return (
-                              <button
-                                type={allFormButton['data'][keyss].type}
-                                className={allFormButton['data'][keyss].className}
-                                key={keyss}
-                                onClick={() => {allFormButton['data'][keyss].onClick()}}>
-                                {allFormButton['data'][keyss].icon} {allFormButton['data'][keyss].label}
-                              </button>
-                            );
-                          case 'link-button':
-                            return (
-                              <Link to={allFormButton['data'][keyss].linkto} key={keyss}>
-                                <button
-                                  type={allFormButton['data'][keyss].type}
-                                  className={allFormButton['data'][keyss].className}>
-                                  {allFormButton['data'][keyss].icon} {allFormButton['data'][keyss].label}
-                                </button>
-                              </Link>
-                            );
-                        }
-                      })}
-                    </div>
-                  )}
+                    case 'special':
+                      return (
+                        <button
+                          type={allFormButton['data'][keyss].type}
+                          onClick={() => {
+                            handleSubmit();
+                            allFormButton['data'][keyss].onClick();
+                          }}
+                          className={allFormButton['data'][keyss].className}
+                          key={keyss}>
+                          {allFormButton['data'][keyss].icon} {allFormButton['data'][keyss].label}
+                        </button>
+                      );
+
+                    case 'button':
+                      return (
+                        <button
+                          type={allFormButton['data'][keyss].type}
+                          className={allFormButton['data'][keyss].className}
+                          key={keyss}
+                          onClick={() => {
+                            allFormButton['data'][keyss].onClick();
+                          }}>
+                          {allFormButton['data'][keyss].icon} {allFormButton['data'][keyss].label}
+                        </button>
+                      );
+                    case 'link-button':
+                      return (
+                        <Link to={allFormButton['data'][keyss].linkto} key={keyss}>
+                          <button
+                            type={allFormButton['data'][keyss].type}
+                            className={allFormButton['data'][keyss].className}>
+                            {allFormButton['data'][keyss].icon} {allFormButton['data'][keyss].label}
+                          </button>
+                        </Link>
+                      );
+                  }
+                })}
+              </div>
+            )}
           </>
         )}
       </Formik>

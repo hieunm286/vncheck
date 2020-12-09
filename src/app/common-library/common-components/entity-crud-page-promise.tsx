@@ -22,7 +22,7 @@ import CustomImageUpload from '../forms/custom-image-upload';
 import { uploadImage } from '../../pages/purchase-order/purchase-order.service';
 import { Card, CardBody, CardHeader } from '../card';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import { diff } from 'deep-object-diff';
+import { diff, updatedDiff } from 'deep-object-diff';
 import EXIF from 'exif-js';
 import { isEmpty } from 'lodash';
 import exifr from 'exifr';
@@ -156,15 +156,22 @@ function EntityCrudPagePromise({
         // initialValues={initForm}
         validationSchema={validation}
         onSubmit={(values, { setSubmitting, setFieldError }) => {
+
+
           let updateValue;
           setErrorMsg(undefined);
 
           if (entityForEdit) {
-            const diffValue = diff(entityForEdit, values);
+            const diffValue = updatedDiff(entityForEdit, values);
+
+            console.log(diffValue)
             updateValue = { _id: values._id, ...diffValue };
           } else {
             updateValue = { ...values };
           }
+
+          console.log(updateValue)
+
           submitHandle(updateValue, { setSubmitting, setFieldError });
         }}>
         {({ handleSubmit, setFieldValue, values }) => (

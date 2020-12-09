@@ -190,6 +190,23 @@ export const getField = (field: any, fieldName: string) => {
   return fields
 }
 
+export const getFieldV2 = (field: any, fieldName: string[]) => {
+
+  if (!field[fieldName[0]]) return;
+
+  let fields: any = field[fieldName[0]]
+
+  fieldName.forEach((el: string, key: number) => {
+    if (key > 0) {
+      if (fields[el]) {
+        fields = fields[el]
+      } 
+    }
+    
+  })
+
+  return fields
+}
 interface FieldProp {
   field: string;
   ref?: { prop: string, key: string }

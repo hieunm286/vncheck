@@ -354,6 +354,8 @@ function ModifyEntityPage<T>({
                     labelWidth={4}
                     disabled={value.data[key].disabled}
                     data={isArray(defaultTag) ? defaultTag : []}
+                    tagData={tagData}
+                    root={value.data[key].root}
                   />
                 </div>
               );

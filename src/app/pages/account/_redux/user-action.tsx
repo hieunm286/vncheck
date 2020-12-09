@@ -11,7 +11,7 @@ export const fetchAllUser = (queryParams?: any) => (
   dispatch(actions.startCall({ callType: callTypes.list }));
 
   return requestFromServer
-    .GetAll(queryParams)
+    .getAllUsers(queryParams)
     .then(response => {
       const user = response.data;
       dispatch(actions.usersFetched({ data: user }));

@@ -348,15 +348,15 @@ export const modifyModel3: any[] = [
       harvesting: {
         type: 'object',
         data: {
-          leader: {
-            type: 'tag',
-            placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
-            label: 'Nhân viên kỹ thuật thu hoạch',
-          },
           technical: {
             type: 'tag',
             placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
             label: 'Nhân viên kỹ thuật thu hoạch',
+          },
+          leader: {
+            type: 'tag',
+            placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
+            label: 'Tổ trưởng thu hoạch',
           },
         },
       },
@@ -374,14 +374,14 @@ export const modifyModel4: any[] = [
           estimatedTime: {
             type: 'Datetime',
             placeholder: 'Mã gieo giống',
-            label: 'Thời gian thu hoạch (dự kiến)',
+            label: 'Thời gian sơ chế (dự kiến)',
             required: true,
           },
           estimatedQuantity: {
             type: 'number',
             placeholder: 'Mã gieo giống',
             required: true,
-            label: 'Sản lượng sau sơ chế dự kiến',
+            label: 'Sản lượng sau sơ chế dự kiến (kg)',
           },
         },
       },
@@ -393,15 +393,15 @@ export const modifyModel4: any[] = [
       preliminaryTreatment: {
         type: 'object',
         data: {
-          leader: {
-            type: 'tag',
-            placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
-            label: 'Tổ trưởng sơ chế',
-          },
           technical: {
             type: 'tag',
             placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
             label: 'Nhân viên kỹ thuật sơ chế',
+          },
+          leader: {
+            type: 'tag',
+            placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
+            label: 'Tổ trưởng sơ chế',
           },
         },
       },
@@ -426,7 +426,7 @@ export const modifyModel5: any[] = [
             type: 'number',
             placeholder: 'Mã gieo giống',
             required: true,
-            label: 'Sản lượng sau làm sạch dự kiến',
+            label: 'Sản lượng sau làm sạch dự kiến (kg)',
           },
         },
       },
@@ -438,15 +438,17 @@ export const modifyModel5: any[] = [
       cleaning: {
         type: 'object',
         data: {
-          leader: {
-            type: 'tag',
-            placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
-            label: 'Nhân viên kỹ thuật làm sạch',
-          },
           technical: {
             type: 'tag',
             placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
             label: 'Nhân viên kỹ thuật làm sạch',
+            root: 'cleaning'
+          },
+          leader: {
+            type: 'tag',
+            placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
+            label: 'Tổ trưởng làm sạch',
+            root: 'cleaning'
           },
         },
       },
@@ -464,19 +466,19 @@ export const modifyModel6: any[] = [
           estimatedTime: {
             type: 'Datetime',
             placeholder: 'Mã gieo giống',
-            label: 'Thời gian làm sạch (dự kiến)',
+            label: 'Thời gian đóng gói (dự kiến)',
             required: true,
           },
           estimatedExpireTimeStart: {
             type: 'Datetime',
             placeholder: 'Hạn sử dụng',
-            label: 'Thời gian làm sạch (dự kiến)',
+            label: 'Hạn sử dụng bắt đầu (dự kiến)',
             required: true,
           },
           estimatedExpireTimeEnd: {
             type: 'Datetime',
             placeholder: 'Hạn sử dụng',
-            label: 'Thời gian làm sạch (dự kiến)',
+            label: 'Hạn sử dụng kết thúc (dự kiến)',
             required: true,
           },
           packing: {
@@ -532,13 +534,13 @@ export const modifyModel7: any[] = [
           estimatedStartTime: {
             type: 'Datetime',
             placeholder: 'Mã gieo giống',
-            label: 'Thời gian làm sạch (dự kiến)',
+            label: 'Thời gian bắt đầu bảo quản (dự kiến)',
             required: true,
           },
           estimatedEndTime: {
             type: 'Datetime',
             placeholder: 'Mã gieo giống',
-            label: 'Thời gian làm sạch (dự kiến)',
+            label: 'Thời gian kết thúc bảo quản (dự kiến)',
             required: true,
           },
         },
