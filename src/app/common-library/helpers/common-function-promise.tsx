@@ -44,7 +44,7 @@ export function InitMasterProps<T>({
   const [showDeleteMany, setShowDeleteMany] = useState(false);
   const [trigger, setTrigger] = useState(false);
   const [paginationProps, setPaginationProps] = useState(DefaultPagination);
-  const [filterProps, setFilterProps] = useState({ name: '', code: '' });
+  const [filterProps, setFilterProps] = useState();
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('')

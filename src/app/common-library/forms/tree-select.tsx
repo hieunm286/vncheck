@@ -2,6 +2,7 @@ import React from 'react';
 import { TreeSelect } from 'antd';
 import { useField, useFormikContext } from 'formik';
 import './tree-select.scss'
+import SelectDropDownIcon from './select-drop-down-icon';
 
 const getClassName = (labelWidth: number | null | undefined, labelStart: boolean) => {
   const classes: string[] = [];
@@ -63,6 +64,7 @@ function CustomeTreeSelect(
         </div>
         <div className={isHorizontal && getClassName(labelWidth, false)}>
           <TreeSelect
+            suffixIcon={<SelectDropDownIcon />}
             value={value}
             dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
             treeData={data}

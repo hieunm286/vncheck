@@ -174,7 +174,9 @@ function ProductionPlan() {
       formatter: (cell: any, row: any, rowIndex: number) => (
         <p>{rowIndex + 1 + ((paginationProps.page ?? 0) - 1) * (paginationProps.limit ?? 0)}</p>
       ),
-      style: {paddingTop: 20},
+      headerClasses: 'text-center',
+      align: 'center'
+  
     },
     
     seeding: {
@@ -184,7 +186,8 @@ function ProductionPlan() {
         <Link to={`/production-plan/seeding/${row._id}`}>{row.code}</Link>
       ),
       ...SortColumn,
-      classes: 'text-center',
+      align: 'center',
+      // classes: 'text-center',
     },
     planting: {
       dataField: 'planting.code',
@@ -199,7 +202,7 @@ function ProductionPlan() {
         </Link>
       ),
       ...SortColumn,
-      classes: 'text-center',
+      align: 'center',
     },
     
     species: {
@@ -350,7 +353,7 @@ function ProductionPlan() {
       tabTitle: 'Chờ tạo',
       entities: entities,
       columns: columns,
-      total: entities.length,
+      total: total,
       loading: loading,
       paginationParams: paginationProps,
       setPaginationParams: setPaginationProps,
@@ -361,7 +364,7 @@ function ProductionPlan() {
       tabTitle: 'Theo dõi',
       entities: entities,
       columns: columns2,
-      total: entities.length,
+      total: total,
       loading: loading,
       paginationParams: paginationProps,
       setPaginationParams: setPaginationProps,
@@ -527,10 +530,6 @@ function ProductionPlan() {
               setFilterProps(undefined)
             }}
             searchModel={currentTab == '0' ? productPlanSearchModel1 : productPlanSearchModel2}
-            initValue={{
-              code: '',
-              name: '',
-            }}
           />
           <ProductionPlanBody
             tabData={TabData}

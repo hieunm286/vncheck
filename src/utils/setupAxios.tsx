@@ -6,20 +6,20 @@ import {EnhancedStore} from "@reduxjs/toolkit";
 const GetURLEndPoint = (url: string) => {
   const index = url.indexOf('/api/');
   const lastIndex = url.lastIndexOf('/')
-
-  if (index ===-1 && lastIndex === -1) return url;
-
+  
+  if (index === -1 && lastIndex === -1) return url;
+  
   let endPoint: string = '';
-
+  
   if (lastIndex - index === 4) {
     endPoint = url.substring(lastIndex + 1)
   } else {
     endPoint = url.substring(index + 5, lastIndex)
   }
-
+  
   const re = /-/gi
-  let finalEndPoint= endPoint.replace(re, '_');
-
+  let finalEndPoint = endPoint.replace(re, '_');
+  
   return finalEndPoint;
 }
 
@@ -55,9 +55,9 @@ export default function setupAxios(axios: AxiosStatic, store: EnhancedStore) {
           config.data = {
             // actionType: ('' + config.method + ':' + GetURLEndPoint(config.url ? config.url : '')).toUpperCase(),
             actionType: config.method,
-
+            
           };
-
+          
           const signature = SignMessage(auth._privateKey, config.data);
           config.data = {
             ...config.data,
@@ -83,6 +83,7 @@ export default function setupAxios(axios: AxiosStatic, store: EnhancedStore) {
       return Promise.resolve(nextData);
     },
     (error) => {
+      if (!error.response) return Promise.reject(error);
       const errorCode = error.response.data;
       //const responseRegex = /\bAUTH.ERROR./i;
       if (errorCode === 'AUTH.ERROR.NEED_TO_CHANGE_PASSWORD') {

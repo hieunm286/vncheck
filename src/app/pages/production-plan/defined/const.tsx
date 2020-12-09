@@ -27,7 +27,6 @@ export const productPlanSearchModel1: SearchModel = {
   species: {
     type: 'SearchSelect',
     label: 'PRODUCTION_PLAN.SPECIES_NAME',
-    placeholder: 'PRODUCTION_PLAN.INPUT',
     onSearch: SpeciesService.GetAll,
     keyField: 'name',
     ref: true,
@@ -821,16 +820,19 @@ export const SeedingDetailDialog = [
           type: 'string',
           title: 'Nhiệt độ',
           keyField: 'planting.temperature',
+          convertFn: (t: string) => t + "°C"
         },
         {
           type: 'string',
           title: 'Độ ẩm',
           keyField: 'planting.humidity',
+          convertFn: (t: string) => t + "%"
         },
         {
           type: 'string',
           title: 'Độ xốp',
           keyField: 'planting.porosity',
+          convertFn: (t: string) => t + "%"
         },
       ],
     ],

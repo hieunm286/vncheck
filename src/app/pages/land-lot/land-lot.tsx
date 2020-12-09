@@ -31,6 +31,7 @@ import * as Yup from 'yup';
 import { stringOnChange, searchSelectOnChange } from './helpers/autofill';
 import { genCharArray, genNumberArray } from './helpers/modify-entity-page-land-lot';
 import { DefaultPagination } from '../../common-library/common-consts/const';
+import { toast } from 'react-toastify';
 
 const DataExample: any = [
   {
@@ -132,6 +133,7 @@ function LandLot() {
 
   const moduleName = 'LAND_LOT.MODULE_NAME';
   const headerTitle = 'LAND_LOT.MASTER.HEADER.TITLE';
+  const bodyTitle = 'LAND_LOT.MASTER.BODY.TITLE';
   const createTitle = 'LAND_LOT.CREATE.TITLE';
   const updateTitle = 'LAND_LOT.EDIT.TITLE';
   const viewTitle = 'LAND_LOT.VIEW.TITLE';
@@ -219,6 +221,24 @@ function LandLot() {
       style: { minWidth: '130px' },
     },
   };
+
+  const notify = () => {
+    toast.error(`😠 ${error}`, {
+      position: 'top-right',
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+  };
+
+  useEffect(() => {
+    if (error !== '') {
+      notify();
+    }
+  }, [error]);
 
   const landLotSearchSelectLoadOption = async (
     search: string,
@@ -548,6 +568,7 @@ function LandLot() {
         <Route path="/land-lot">
           <MasterHeader
             title={headerTitle}
+            onReset={() => {setFilterProps(undefined)}}
             onSearch={setFilterProps}
             searchModel={purchaseOrderSearchModel}
             stringOnChange={stringOnChange}
@@ -566,6 +587,7 @@ function LandLot() {
             customSearchSelectLoadOption={landLotSearchSelectLoadOption}
           />
           <MasterBody
+            title={bodyTitle}
             onCreate={() => {
               setCreateEntity(null);
               setEditEntity(null);

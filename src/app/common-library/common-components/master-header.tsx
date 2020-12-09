@@ -24,7 +24,7 @@ export function MasterHeader<T>({
                                   title,
                                   onSearch,
                                   searchModel,
-                                  initValue,
+                                  initValue={},
                                   stringOnChange,
                                   searchSelectOnChange,
                                   customSearchSelectLoadOption,
@@ -32,7 +32,7 @@ export function MasterHeader<T>({
                                 }: {
   searchModel: SearchModel;
   title: string;
-  initValue: any;
+  initValue?: any;
   onSearch: (data: any) => void;
   onReset?: () => void;
   stringOnChange?: (
@@ -60,7 +60,7 @@ export function MasterHeader<T>({
   ) => void;
   customSearchSelectLoadOption?: (
     search: string,
-    onSearch: (t:any)=> void,
+    onSearch: (t: any) => void,
     prevOptions: any,
     {page}: any,
     keyField: string,
@@ -224,9 +224,7 @@ export function MasterHeader<T>({
                     switch (searchM[key].type) {
                       case 'string':
                         return (
-                          <div
-                            className="col-xxl-2 col-md-2 mt-md-5 mt-5"
-                            key={'master_header' + key}>
+                          <div className="col-xxl-2 col-md-2 mt-md-5 mt-5" key={`master_header${key}`}>
                             <Field
                               name={key}
                               // value={search[key]}
@@ -258,9 +256,7 @@ export function MasterHeader<T>({
                       
                       case 'number':
                         return (
-                          <div
-                            className="col-xxl-2 col-md-2 mt-md-5 mt-5"
-                            key={`master_header${key}`}>
+                          <div className="col-xxl-2 col-md-2 mt-md-5 mt-5" key={`master_header${key}`}>
                             <Field
                               name={key}
                               type="number"
@@ -274,7 +270,7 @@ export function MasterHeader<T>({
                       
                       case 'Datetime':
                         return (
-                          <div className="col-xxl-2 col-md-2 mt-md-5 mt-5 " key={key}>
+                          <div className="col-xxl-2 col-md-2 mt-md-5 mt-5 " key={`master_header${key}`}>
                             <DatePickerField
                               name={key}
                               label={intl.formatMessage({id: searchM[key].label})}
@@ -337,7 +333,7 @@ export function MasterHeader<T>({
                                 page: DefaultPagination.page,
                               }}
                               name={key}
-                              placeholder={intl.formatMessage({id: searchM[key].placeholder})}
+                              placeholder={searchM[key].placeholder}
                             />
                           </div>
                         );
@@ -570,20 +566,20 @@ export function MasterHeader<T>({
               </div>
               
               <div className="row no-gutters">
-                <div className="col-pc-3 mr-5">
+                <div className="mr-5" style={{width:"8rem"}}>
                   <button className="btn btn-primary w-100" type="submit">
                     <SearchIcon style={{fontSize: 14, marginBottom: 2}}/>
                     {intl.formatMessage({id: 'COMMON_COMPONENT.MASTER_HEADER.SEARCH_BTN'})}
                   </button>
                 </div>
                 
-                <div className="mr-5 col-pc-3">
+                <div className="mr-5" style={{width:"8rem"}}>
                   <button
                     className="btn btn-outline-primary w-100"
                     type="reset"
                     onClick={() => handleResetForm(resetForm)}>
                     <SVG src={ToAbsoluteUrl('/media/svg/vncheck/reset-filter.svg')}
-                         style={{fontSize: 14, marginBottom: 2}}/>
+                         style={{fontSize: 14, marginBottom: 3}}/>
                     &nbsp;
                     {intl.formatMessage({id: 'COMMON_COMPONENT.MASTER_HEADER.RESET_FILTER_BTN'})}
                   </button>

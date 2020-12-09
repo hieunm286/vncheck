@@ -107,7 +107,7 @@ export interface ActionColumnProps<T> {
 export type SearchModel = {
   [T: string]: {
     type: 'string' | 'number' | 'Datetime' | 'SearchSelect' | 'file' | 'TreeSelect' | 'Search' | 'stateSelect' | 'citySelect' | 'districtSelect';
-    placeholder: string;
+    placeholder?: string;
     label: string;
     keyField?: string;
     onSearch?: (t: any) => any;

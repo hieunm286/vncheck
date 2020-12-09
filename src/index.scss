@@ -82,15 +82,21 @@
   border-color: #0fc35c !important;
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 8 8'%3e%3cpath fill='%230fc35c' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3e%3c/svg%3e") !important;
 }
-
+.table.table-head-custom thead tr, .table.table-head-custom thead th {
+  font-weight: 600;
+  color: #B5B5C3 !important;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.1rem;
+}
 .react-bootstrap-table {
   th {
     outline: none;
 
     &.sortable {
-      .svg-icon-sort {
-        opacity: 0;
-      }
+      //.svg-icon-sort {
+      //  opacity: 0;
+      //}
 
       &:hover {
         cursor: pointer;
@@ -104,7 +110,7 @@
 
   .table.table-head-custom thead tr {
     .sortable-active {
-      color: $danger !important;
+      color: $primary !important;
     }
 
     background-color: #F3F6F9;
