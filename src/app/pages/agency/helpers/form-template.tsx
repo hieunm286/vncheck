@@ -21,6 +21,9 @@ import { useIntl } from 'react-intl';
 import CustomeTreeSelect from '../../../common-library/forms/tree-select';
 import { ConvertToTreeNode } from '../../../common-library/helpers/common-function';
 import * as StoreLevelService from '../../multilevel-sale/multilevel-sale.service';
+import { Select } from 'antd'; // import Select from 'react-select';
+import './ant-select.scss'
+import SelectDropDownIcon from '../../../common-library/forms/select-drop-down-icon';
 
 const FormTemplate = ({
   // entity,
@@ -65,6 +68,8 @@ const FormTemplate = ({
   const [ search, setSearch ] = useState<any>(formValues);
 
   const [ searchSelect, setSearchSelect ] = useState<any>({});
+
+  const { Option } = Select;
 
   // prevent role from being null
   useEffect(() => {
@@ -143,6 +148,12 @@ const FormTemplate = ({
         value: values.state, 
         key: getCodeFromName(Object.values(STATE_LIST), values.state)
       });
+      // setFieldValue('city', '')
+      // setFieldValue('district', '')
+    } else {
+      setSelectedState({key: '', value: intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'})})
+      // setFieldValue('city', intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'}));
+      //                     setFieldValue('district', intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'}));
     }
   },[values.state]);
 
@@ -152,6 +163,8 @@ const FormTemplate = ({
         value: values.city, 
         key: getCodeFromName(Object.values(CITY_LIST).filter((city: any) => { return city.parent_code === selectedState.key }), values.city)
       });
+    } else {
+      setSelectedCity({key: '', value: intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'})})
     }
   },[selectedState]);
 
@@ -161,6 +174,8 @@ const FormTemplate = ({
         value: values.district, 
         key: getCodeFromName(Object.values(DISTRICT_LIST).filter((district: any) => { return district.parent_code === selectedCity.key }), values.district)
       });
+    } else {
+      setSelectedDistrict({key: '', value: intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'})})
     }
   },[selectedCity]);
 
@@ -326,9 +341,7 @@ const FormTemplate = ({
             const withFeedbackLabel = true;
             const placeholder = modifyModel.data[key].placeholder
             const required = modifyModel.data[key].required;
-            console.log(errors);
-            console.log(touched)
-            return (
+            return selectedState && selectedState.key && selectedState.value && (
               <div className="mt-3" key={`${key}`}>
                 <div className="row">
                   
@@ -353,29 +366,32 @@ const FormTemplate = ({
                     )}
                   </div>
                   <div className={'col-md-8 col-xl-7 col-12'}>
-                    <select
-                      onChange={(e: any) => {
-                          const selectedIndex = e.target.options.selectedIndex;
-                          const key = e.target.options[selectedIndex].getAttribute('data-code')
-                          setSelectedState({value: e.target.value, key: key})
+                    <Select
+                      suffixIcon={<SelectDropDownIcon />}
+                      defaultValue={selectedState.value}
+                      onChange={(value: any) => {
+                          const key = getCodeFromName(Object.values(STATE_LIST), value)
+                          // const selectedIndex = e.target.options.selectedIndex;
+                          // const key = e.target.options[selectedIndex].getAttribute('data-code')
+                          setSelectedState({value: value, key: key})
                           setSelectedCity({value: '', key: ''})
                           setSelectedDistrict({value: '', key: ''})
-                          setFieldValue('state', e.target.value);
+                          setFieldValue('state', value);
+                          setFieldValue('city', intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'}));
+                          setFieldValue('district', intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'}));
                         }
                       }
-                      className={(errors[key] && touched[key]) ? 'is-invalid form-control' : 'form-control'}
+                      className={(errors[key] && touched[key]) ? 'is-invalid' : ''}
                       >
-                      <option hidden>{intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'})}</option>
+                      <Option children='' value={intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'})} hidden></Option>
                       {
                         Object.values(STATE_LIST).map((state: any) => {
-                          return (state.name === values.state) ? (
-                            <option selected key={state.code} data-code={state.code} value={state.name}>{state.name}</option>
-                          ) : (
-                            <option key={state.code} data-code={state.code} value={state.name}>{state.name}</option>
+                          return (
+                            <Option key={state.code} data-code={state.code} value={state.name}>{state.name}</Option>
                           )
                         })
                       }
-                    </select>
+                    </Select>
                       {
                         // console.log(touched)
                         (errors[key] && touched[key]) && (
@@ -411,7 +427,7 @@ const FormTemplate = ({
             );
 
           case 'citySelect':
-            return (
+            return selectedCity && selectedCity.key && selectedCity.value && (
               <div className="mt-3" key={`${key}`}>
                 <div className="row">
                   <div className={'col-md-4 col-xl-4 col-12'}>
@@ -422,30 +438,34 @@ const FormTemplate = ({
                     )}
                   </div>
                   <div className={'col-md-8 col-xl-7 col-12'}>
-                    <select
-                        onChange={(e: any) => {
-                          const selectedIndex = e.target.options.selectedIndex;
-                          const key = e.target.options[selectedIndex].getAttribute('data-code')
-                          setSelectedCity({value: e.target.value, key: key})
+                    <Select
+                        suffixIcon={<SelectDropDownIcon />}
+                        defaultValue={selectedCity.value}
+                        onChange={(value: any) => {
+                          // const selectedIndex = e.target.options.selectedIndex;
+                          // const key = e.target.options[selectedIndex].getAttribute('data-code')
+                          const key = getCodeFromName(Object.values(CITY_LIST).filter((city: any) => {return city.parent_code === selectedState.key}), value);
+                          setSelectedCity({value: value, key: key})
                           setSelectedDistrict({value: '', key: ''})
-                          setFieldValue('city', e.target.value);
+                          setFieldValue('district', intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'}));
                         }
                       }
-                      className={(errors[key] && touched[key]) ? 'is-invalid form-control' : 'form-control'}
+                      className={(errors[key] && touched[key]) ? 'is-invalid form-control' : ''}
                       >
-                      <option hidden>{intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'})}</option>
+                      <Option children='' value={intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'})} hidden></Option>
                       {(selectedState && selectedState.key) ?
                         Object.values(CITY_LIST).filter((city: any) => {return city.parent_code === selectedState.key}).map((city: any) => {
-                          return (city.name === values.city) ? (
-                            <option selected key={city.code} data-code={city.code} value={city.name}>{city.name}</option>
-                          ) : (
-                            <option key={city.code} data-code={city.code} value={city.name}>{city.name}</option>
+                          return (
+                          //   city.name === values.city) ? (
+                          //   <Option selected key={city.code} data-code={city.code} value={city.name}>{city.name}</Option>
+                          // ) : (
+                            <Option key={city.code} data-code={city.code} value={city.name}>{city.name}</Option>
                           )
                         })
                         :
                         (<></>)
                       }
-                    </select>
+                    </Select>
                     {
                         (errors[key] && touched[key]) && (
                           <div className="invalid-feedback">{errors[key]}</div>
@@ -477,7 +497,7 @@ const FormTemplate = ({
             );
 
           case 'districtSelect':
-            return (
+            return selectedDistrict && selectedDistrict.key && selectedDistrict.value && (
               <div className="mt-3" key={`${key}`}>
                 <div className="row">
                   <div className={'col-md-4 col-xl-4 col-12 '}>
@@ -488,29 +508,30 @@ const FormTemplate = ({
                     )}
                   </div>
                     <div className={'col-md-8 col-xl-7 col-12'}>
-                      <select
-                          onChange={(e: any) => {
-                            const selectedIndex = e.target.options.selectedIndex;
-                            const key = e.target.options[selectedIndex].getAttribute('data-code')
-                            setSelectedDistrict({value: e.target.value, key: key})
-                            setFieldValue('district', e.target.value);
+                      <Select
+                          suffixIcon={<SelectDropDownIcon />}
+                          defaultValue={values.district}
+                          onChange={(value: any) => {
+                            // const selectedIndex = e.target.options.selectedIndex;
+                            // const key = e.target.options[selectedIndex].getAttribute('data-code')
+                            const key = getCodeFromName(Object.values(DISTRICT_LIST).filter((district: any) => {return district.parent_code === selectedCity.key}), value);
+                            setSelectedDistrict({value: value, key: key})
+                            // setFieldValue('district', e.target.value);
                           }
                         }
-                        className={(errors[key] && touched[key]) ? 'is-invalid form-control' : 'form-control'}
+                        className={(errors[key] && touched[key]) ? 'is-invalid form-control' : ''}
                         >
-                        <option hidden>{intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'})}</option>
+                        <Option children='' value={intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'})} hidden></Option>
                         {(selectedCity && selectedCity.key) ?
                           Object.values(DISTRICT_LIST).filter((district: any) => {return district.parent_code === selectedCity.key}).map((district: any) => {
-                            return (district.name === values.district) ? (
-                              <option selected key={district.code} data-code={district.code} value={district.name}>{district.name}</option>
-                            ) : (
-                              <option key={district.code} data-code={district.code} value={district.name}>{district.name}</option>
+                            return (
+                              <Option key={district.code} data-code={district.code} value={district.name}>{district.name}</Option>
                             )
                           })
                           :
                           (<></>)
                         }
-                      </select>
+                      </Select>
                       {
                         (errors[key] && touched[key]) && (
                           <div className="invalid-feedback">{errors[key]}</div>
