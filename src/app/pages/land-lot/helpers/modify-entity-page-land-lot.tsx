@@ -403,6 +403,7 @@ console.log(search)
                               }}
                               name={key}
                               placeholder={value.data[key].placeholder}
+                              required={value.data[key].required}
                             />
                           </div>
                         );
