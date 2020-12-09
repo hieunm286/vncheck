@@ -13,7 +13,7 @@ import { MasterHeader } from "../../common-library/common-components/master-head
 import { MasterBody } from "../../common-library/common-components/master-body";
 import { ActionsColumnFormatter } from '../../common-library/common-components/actions-column-formatter';
 
-import { NormalColumn, SortColumn } from '../../common-library/common-consts/const';
+import { DefaultPagination, NormalColumn, SortColumn } from '../../common-library/common-consts/const';
 
 import {ModifyModel, SearchModel} from "../../common-library/common-types/common-type";
 
@@ -35,6 +35,7 @@ import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import { convertToServer } from "./helpers/convert-data-model";
 import * as StoreLevelService from '../multilevel-sale/multilevel-sale.service';
 import * as RoleService from './helpers/role.service';
+import { mockAgency } from "./helpers/mock-entity";
 
 function AgencyPage() {
 
@@ -270,8 +271,8 @@ function AgencyPage() {
       .required(intl.formatMessage({id: 'AGENCY.VALIDATION.DISTRICT.REQUIRED'})),
     detailAddress: Yup.string()
       .required(intl.formatMessage({id: 'AGENCY.VALIDATION.ADDRESS.REQUIRED'})),
-    status: Yup.string()
-      .required(intl.formatMessage({id: 'AGENCY.VALIDATION.STATUS.REQUIRED'})),
+    // status: Yup.string()
+    //   .required(intl.formatMessage({id: 'AGENCY.VALIDATION.STATUS.REQUIRED'})),
     phoneNumber: Yup.string()
       .required(intl.formatMessage({id: 'AGENCY.VALIDATION.PHONE_NUMBER.REQUIRED'})),
     taxId: Yup.string()
@@ -293,12 +294,12 @@ function AgencyPage() {
     email: Yup.string()
       .required(intl.formatMessage({id: 'AGENCY.VALIDATION.EMAIL.REQUIRED'}))
       .max(255, intl.formatMessage({id: 'AGENCY.VALIDATION.EMAIL.MAX_LENGTH_EXCEEDED'})),
-    gender: Yup.string()
-      .required(intl.formatMessage({id: 'AGENCY.VALIDATION.GENDER.REQUIRED'})),
-    birthDay: Yup.string()
-      .required(intl.formatMessage({id: 'AGENCY.VALIDATION.BIRTHDAY.REQUIRED'})),
-    roleName: Yup.string()
-      .required(intl.formatMessage({id: 'AGENCY.VALIDATION.ROLE_NAME.REQUIRED'})),
+    // gender: Yup.string()
+    //   .required(intl.formatMessage({id: 'AGENCY.VALIDATION.GENDER.REQUIRED'})),
+    // birthDay: Yup.string()
+    //   .required(intl.formatMessage({id: 'AGENCY.VALIDATION.BIRTHDAY.REQUIRED'})),
+    // roleName: Yup.string()
+    //   .required(intl.formatMessage({id: 'AGENCY.VALIDATION.ROLE_NAME.REQUIRED'})),
     // avatar: Yup.string().required(intl.formatMessage({id: 'AGENCY.VALIDATION.AVATAR.REQUIRED'})),
   });
 
@@ -502,8 +503,8 @@ function AgencyPage() {
         },
         roleName: {
           type: 'SearchSelect',
-          placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.ROLE_NAME' }),
-          label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.ROLE_NAME' }),
+          placeholder: 'AGENCY.EDIT.PLACEHOLDER.ROLE_NAME',
+          label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.ROLE_NAME' }),
           service: RoleService,
           keyField: 'name'
         },
@@ -703,7 +704,14 @@ function AgencyPage() {
               {/* initValue={filterProps}/> */}
           <MasterHeader
             title={headerTitle}
-            onSearch={setFilterProps}
+            onSearch={(value) => {
+              setPaginationProps(DefaultPagination)
+              setFilterProps(value)
+            }}
+            onReset={() => {
+              setPaginationProps(DefaultPagination)
+              setFilterProps(undefined)
+            }}
             searchModel={agencySearchModel}
             initValue={{
               code: '',
@@ -721,7 +729,8 @@ function AgencyPage() {
             title={bodyTitle}
             onCreate={() => {
               setEditEntity(null);
-              setCreateEntity(null);
+              // setCreateEntity(mockAgency);
+              setCreateEntity(null)
               history.push('/agency/new');// setShowCreate(true);
             }}
             onDeleteMany={() => setShowDeleteMany(true)}

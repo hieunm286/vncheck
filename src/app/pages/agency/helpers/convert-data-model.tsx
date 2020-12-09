@@ -22,7 +22,8 @@ export const convertToForm = (entity: any) => {
 }
 
 export const convertToServer = (entity: any) => {
-  const shippingAddress = entity.shippingAddress;
+  console.log(entity.detailAddress)
+  const shippingAddress = entity.shippingAddress || [];
   shippingAddress.map((addr: any) => {
     if(addr._id) {
       if(addr._id.toString().match(/^[0-9a-fA-F]{24}$/)) {
@@ -37,24 +38,23 @@ export const convertToServer = (entity: any) => {
   });
   
   let _entity = {...entity,
-    storeLevel: entity.storeLevel,
+    storeLevel: entity.storeLevel || '',
     address: {
-      state: entity.state,
-      city: entity.city,
-      district: entity.district,
-      address: entity.detailAddress,
+      state: entity.state || '',
+      city: entity.city || '',
+      district: entity.district || '',
+      address: entity.detailAddress || '',
     },
-    shippingAddress: shippingAddress,
-    phone: entity.phoneNumber,
+    shippingAddress: shippingAddress || [],
+    phone: entity.phoneNumber || '',
     owner: {
-      // username: entity.username,
-      fullName: entity.ownerName,
-      //TODO: concencus with backend ownerName
-      phone: entity.ownerPhoneNumber,
-      // email: entity.email,
-      gender: entity.gender,
-      birthDay: entity.birthDay && entity.birthDay.toString(),
-      roleId: entity.roleName.value,
+      username: entity.username,
+      fullName: entity.ownerName || '',
+      phone: entity.ownerPhoneNumber || '',
+      email: entity.email,
+      gender: entity.gender || '',
+      birthDay: entity.birthDay && entity.birthDay.toString()  || '',
+      roleId: (entity.roleName && entity.roleName) ? entity.roleName.value : '',
     },
     status: entity.status,
   };

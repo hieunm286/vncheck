@@ -98,7 +98,7 @@ export const MenuItems: MenuItemModel[] = [
         children: [
           {
             title: 'MENU.DATA.PRODUCT.PRODUCT_TYPE',
-            url: '/product-type',
+            url: '/species',
             icon: 'distributor-2.svg',
           },
           {

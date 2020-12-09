@@ -41,5 +41,21 @@ export interface AgencyModel {
   >;
   status: boolean;
   taxId: string;
-  storeLevel: string;
+  storeLevel: object | string;
+
+  username?: string;
+  fullName?: string;
+  ownerName?: string;
+  ownerPhoneNumber?: string;
+  email?: string;
+  birthDay?: Date,
+  gender?: string;
+  roleName?: object;
+  phoneNumber?: string;
+  detailAddress?: string;
+  district?: string;
+  city?: string;
+  state?: string;
+  
+
 }
