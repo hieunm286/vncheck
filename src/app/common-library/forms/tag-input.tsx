@@ -1,18 +1,21 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Select } from 'antd';
 import { useField, useFormikContext } from 'formik';
+import { DefaultPagination } from '../common-consts/const';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { fetchAllUser } from '../../pages/account/_redux/user-action';
 
 const { Option } = Select;
 
 const getDefautltTag = (data: any) => {
-  const idArr: any[] = []
+  const idArr: any[] = [];
 
   data.forEach((el: any) => {
-    idArr.push(el._id)
-  })
+    idArr.push(el._id);
+  });
 
-  return idArr
-}
+  return idArr;
+};
 
 const getFieldCSSClasses = (touched: any, errors: any) => {
   const classes = ['form-control'];
@@ -66,6 +69,26 @@ const getError = (error: any, fieldName: string) => {
   return error[arrName[0]] ? error[arrName[0]][arrName[1]] : '';
 };
 
+function useStateCallback(initialState: any) {
+  const [state, setState] = useState(initialState);
+  const cbRef = useRef(null); // mutable ref to store current callback
+
+  const setStateCallback = (state: any, cb: any) => {
+    cbRef.current = cb; // store passed callback to ref
+    setState(state);
+  };
+
+  useEffect(() => {
+    // cb.current is `null` on initial render, so we only execute cb on state *updates*
+    if (cbRef.current) {
+      cbRef.current = state;
+      cbRef.current = null; // reset callback after execution
+    }
+  }, [state]);
+
+  return [state, setStateCallback];
+}
+
 function TagInput({
   label,
   data,
@@ -76,12 +99,45 @@ function TagInput({
   labelWidth,
   isRequired,
   disabled,
+  reduxOption,
   ...props
 }: any) {
+  const { setFieldValue, errors, touched } = useFormikContext<any>();
+  
+  const [state, setStateCallback] = useStateCallback({
+    hasMore: false,
+    loading: false
+  });
 
-    const { setFieldValue, errors, touched } = useFormikContext<any>();
+  const [queryProps, setQueryProps] = useState({ firstName: '' })
+  const [paginationProps, setPaginationProps] = useState(DefaultPagination);
 
-    console.log(data)
+  const {currentState} = useSelector(
+    (state: any) => ({
+      currentState: state.users,
+    }),
+    shallowEqual,
+  );
+  const {totalCount, entities, listLoading} = currentState;
+  
+  // Customers Redux state
+  const dispatch = useDispatch();
+  useEffect(() => {
+    
+    dispatch(fetchAllUser({ paginationProps, queryProps }));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [queryProps, paginationProps, dispatch]);
+ 
+  const onScroll = (event: any) => {
+    const target = event.target;
+    if (!state.loading && target.scrollTop + target.offsetHeight === target.scrollHeight) {
+      setStateCallback({ ...state, loading: true }, () => {
+        target.scrollTo(0, target.scrollHeight);
+        setPaginationProps({ ...paginationProps })
+        
+      });
+    }
+  };
 
   return (
     <>
@@ -101,17 +157,16 @@ function TagInput({
             defaultValue={getDefautltTag(data) || []}
             placeholder="Tags Mode"
             onChange={(value: any) => {
-                handleChange(value);
-                setFieldValue(name, value);
+              handleChange(value);
+              setFieldValue(name, value);
             }}
             optionFilterProp="children"
-            filterOption={(input: any, option: any) =>  
-              option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0 
+            filterOption={(input: any, option: any) =>
+              option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
             }
             disabled={disabled}
-            className={`${errors[name] ? 'border border-danger rounded' : ''}`}
-            >
-            {data.map((item: any, key: any) => (
+            className={`${errors[name] ? 'border border-danger rounded' : ''}`}>
+            {entities && entities.map((item: any, key: any) => (
               <Option key={item._id} value={item._id}>
                 {item.fullName}
               </Option>
@@ -119,10 +174,10 @@ function TagInput({
           </Select>
           {errors[name] && touched[name] ? (
             <div className="invalid-datepicker-feedback text-danger" style={{ fontSize: '0.9rem' }}>
-              Vui lòng chọn 
+              Vui lòng chọn
               {
                 // errors[field.name]?.toString()
-                 label
+                label
               }
             </div>
           ) : (

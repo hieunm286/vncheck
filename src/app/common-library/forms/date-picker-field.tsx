@@ -108,9 +108,9 @@ export function DatePickerField({...props}: any) {
   const [field] = useField(props);
   const ExampleCustomInput = (props: any) => {
     return(
-    <div className="form-group mb-0">
-      <input type="text"  {...props} className="form-control"/>
-      <FontAwesomeIcon icon={faCalendarAlt} style={{position: 'absolute', top: 11, right: 9, color: '#DADADA'}}
+    <div className="form-group mb-0 cursor-pointer">
+      <input type="text"  {...props} className="form-control pr-8"/>
+      <FontAwesomeIcon icon={faCalendarAlt} style={{position: 'absolute', top: 11, right: 9, color: '#42526E'}}
                        onClick={props.onClick}/>
     </div>)
   }
@@ -124,17 +124,17 @@ export function DatePickerField({...props}: any) {
           <DatePicker
             // className={getFieldCSSClasses(getTouched(touched, field.name), getError(errors, field.name))}
             // style={{width: '100%'}}
-            dateFormat="dd/MM/yyyy h:mm aa"
+            dateFormat="dd/MM/yyyy"
             selected={(field.value && new Date(field.value)) || null}
             {...field}
             {...props}
             onChange={(val: any) => {
-              val.toISOString = () =>
-                (new Date(val.getTime() - val.getTimezoneOffset() * 60000)).toISOString();
+              // val.toISOString = () =>
+              //   (new Date(val.getTime() - val.getTimezoneOffset() * 60000)).toISOString();
               setFieldValue(field.name, val);
             }}
             autoComplete="off"
-            // wrapperClassName="d-block"
+            wrapperClassName="d-block"
             locale="vi"
             placeholderText="Chọn"
             showTimeInput

@@ -44,7 +44,7 @@ export function InfiniteSelect({
     <>
       <div className={isHorizontal ? 'row' : ''}>
         <div className={isHorizontal ? 'col-xl-4 col-md-4 col-12' : ''}>
-          <label className='mb-0 input-label mt-2'>{label}</label>
+          <label className={isHorizontal ? 'mb-0 input-label mt-2' : ''}>{label}</label>
         </div>
         <div className={isHorizontal ? `col-xl-7 col-md-8 col-12` : ''}>
           <CustomAsyncPaginate
@@ -81,6 +81,7 @@ export function InfiniteSelect({
                   fontFamily: "SVN-Gilroy, Roboto, Poppins, Helvetica, sans-serif",
                 }
               }, menuList: (base, props1) => {
+                console.log(props1);
                 return {
                   ...base,
                   fontFamily: "SVN-Gilroy, Roboto, Poppins, Helvetica, sans-serif",
@@ -90,16 +91,10 @@ export function InfiniteSelect({
                   ...base,
                   fontFamily: "SVN-Gilroy, Roboto, Poppins, Helvetica, sans-serif",
                 }
-              }
-              //
-              // , input: (base, props1) => {
-              //   console.log("input",base, props1)
-              //   return {...base, onFocus:()=>{console.log(1)},onBlur:(a:any,b:any)=>{console.log(2,a,b)}}
-              // },valueContainer:(base, props1) => {
-              //   console.log("valueContainer",base, props1)
-              //   return {...base, onFocus:()=>{console.log(1)},onBlur:(a:any,b:any)=>{console.log(2,a,b)}}
-              // }
-            }}
+              },
+              placeholder: (styles) => { return {...styles,color:"#B5B5C3"}},
+              option: (styles,{data, isDisabled,isFocused, isSelected}) => { return {...styles}},
+         }}
             className={`${errors[name] ? 'border-danger' : 'input-search-select'}`}
           />
           {errors[name] && touched[name] ? (
