@@ -3,6 +3,35 @@ import { AsyncPaginate } from 'react-select-async-paginate';
 import { useField, useFormikContext } from 'formik';
 import { DefaultPagination } from '../common-consts/const';
 
+
+const getError = (error: any, fieldName: string) => {
+  if (fieldName.indexOf('.') === -1) {
+    return error[fieldName]
+  }
+  
+  const arrName = fieldName.split('.')
+  
+  if (arrName.length === 3) {
+    return error[arrName[0]] && error[arrName[1]] ? error[arrName[0]][arrName[1]][arrName[2]] : ''
+  }
+  
+  return error[arrName[0]] ? error[arrName[0]][arrName[1]] : ''
+}
+
+const getTouched = (touched: any, fieldName: string) => {
+  if (fieldName.indexOf('.') === -1) {
+    return touched[fieldName]
+  }
+  
+  const arrName = fieldName.split('.')
+  
+  if (arrName.length === 3) {
+    return touched[arrName[0]] && touched[arrName[1]] ? touched[arrName[0]][arrName[1]][arrName[2]] : ''
+  }
+  
+  return touched[arrName[0]] ? touched[arrName[0]][arrName[1]] : ''
+}
+
 export function InfiniteSelectV2({
   label,
   value,
@@ -61,6 +90,8 @@ export function InfiniteSelectV2({
     };
   };
 
+  console.log(errors)
+
   return (
     <>
       <div className={isHorizontal ? 'row' : ''}>
@@ -97,7 +128,7 @@ export function InfiniteSelectV2({
             isSearchable={false}
             className={`${errors[name] ? 'border border-danger rounded' : ''}`}
           />
-          {errors[name] && touched[name] ? (
+          {getError(errors, name) && getTouched(touched, name) ? (
             <div className="invalid-datepicker-feedback text-danger" style={{ fontSize: '0.9rem' }}>
               Vui lòng chọn
               {

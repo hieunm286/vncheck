@@ -18,11 +18,15 @@ import ProductionPlanModal from './production-plan-modal';
 import {
   allFormField,
   formPart,
+  halfValidate,
   masterEntityDetailDialog2,
+  packingValidate,
   PlantingDetailDialog,
+  preservationValidate,
   productPlanSearchModel1,
   productPlanSearchModel2,
   SeedingDetailDialog,
+  validate,
 } from './defined/const';
 import {getAllUsers} from '../account/_redux/user-crud';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
@@ -48,23 +52,14 @@ const versionData = [
   },
 ];
 
+
 const ProductPlantSchema = Yup.object().shape({
-  planting: Yup.object().shape({
-    technical: Yup.array().typeError('Type err'),
-    leader: Yup.array().when('technical', {
-      is: (val) => val && val.length === 0,
-      then: Yup.array().required('Bắt buộc'),
-      otherwise: Yup.array()
-    })
-  }),
-  cleaning: Yup.object().shape({
-    technical: Yup.array().test('oneOfRequired', 'Nhập hết vào', function (value: any) {
-      return this.parent.leader && this.parent.leader.length > 0
-    }),
-    leader: Yup.array().test('oneOfRequired', 'Nhập hết vào', function (value: any) {
-      return this.parent.technical && this.parent.technical.length > 0
-    }),
-  })
+  harvesting: Yup.object().shape(halfValidate),
+  preliminaryTreatment: Yup.object().shape(validate),
+  cleaning: Yup.object().shape(validate),
+  packing: Yup.object().shape(packingValidate),
+  preservation: Yup.object().shape(preservationValidate)
+  
   // cleaning: Yup.object().shape({
   //   technical: Yup.array().typeError('Type err'),
   //   leader: Yup.array()
