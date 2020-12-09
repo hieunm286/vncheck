@@ -334,7 +334,7 @@ function Species() {
       />
 
       <Switch>
-        <Route path="/product-type/new">
+        <Route path="/species/new">
           <EntityCrudPagePromise
             entity={createEntity}
             onModify={addPromise}
@@ -354,7 +354,7 @@ function Species() {
             homePage={homeURL}
           />
         </Route>
-        <Route path={`/product-type/:code`}>
+        <Route path={`/species/:code`}>
           {({ history, match }) => (
             // <ModifyEntityPage
             //   entity={editEntity}
@@ -383,7 +383,7 @@ function Species() {
             />
           )}
         </Route>
-        <Route path="/product-type">
+        <Route path="/species">
           <MasterHeader
             title={headerTitle}
             onSearch={value => {

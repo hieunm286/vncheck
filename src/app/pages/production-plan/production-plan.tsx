@@ -57,20 +57,20 @@ const ProductPlantSchema = Yup.object().shape({
       otherwise: Yup.array()
     })
   }),
-  // cleaning: Yup.object().shape({
-  //   technical: Yup.array().test('oneOfRequired', 'Nhập hết vào', function (value: any) {
-  //     return this.parent.leader && this.parent.leader.length > 0
-  //   }),
-  //   leader: Yup.array().test('oneOfRequired', 'Nhập hết vào', function (value: any) {
-  //     return this.parent.technical && this.parent.technical.length > 0
-  //   }),
-  // })
   cleaning: Yup.object().shape({
-    technical: Yup.array().typeError('Type err'),
-    leader: Yup.array()
-  }).test('global-ok', 'Nhập hết vào', (value: any) => {
-    return value.technical && value.technical.length > 0 && value.leader && value.leader.length > 0
-  }),
+    technical: Yup.array().test('oneOfRequired', 'Nhập hết vào', function (value: any) {
+      return this.parent.leader && this.parent.leader.length > 0
+    }),
+    leader: Yup.array().test('oneOfRequired', 'Nhập hết vào', function (value: any) {
+      return this.parent.technical && this.parent.technical.length > 0
+    }),
+  })
+  // cleaning: Yup.object().shape({
+  //   technical: Yup.array().typeError('Type err'),
+  //   leader: Yup.array()
+  // }).test('global-ok', 'Nhập hết vào', (value: any) => {
+  //   return value.technical && value.technical.length > 0 && value.leader && value.leader.length > 0
+  // }),
 });
 
 function ProductionPlan() {

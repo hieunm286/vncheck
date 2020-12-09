@@ -16,10 +16,10 @@ export function createUser(user: {
 
 export function getAllUsers(queryParams?: {
   filter: { field: string; searchText: any };
-  pageNumber: any;
+  page: any;
   limit: any;
-  sortField: any;
-  sortOrder: any;
+  sortBy: any;
+  sortType: any;
 }) {
   // const sign = signTransaction('');
   // console.log(sign);
@@ -27,7 +27,7 @@ export function getAllUsers(queryParams?: {
 
   if (queryParams.filter && queryParams.filter.field) {
     return axios.get(
-      `${USER_URL_SEARCH}?page=${queryParams.pageNumber}&limit=${queryParams.limit}&sortby=${queryParams.sortField}&orderby=${queryParams.sortOrder}
+      `${USER_URL_SEARCH}?page=${queryParams.page}&limit=${queryParams.limit}&sortBy=${queryParams.sortBy}&sortType=${queryParams.sortType}
       &field=${queryParams.filter.field}
       &query=${queryParams.filter.searchText}`,
     );
@@ -36,18 +36,29 @@ export function getAllUsers(queryParams?: {
     (!queryParams.filter.field || queryParams.filter.field === 'all')
   ) {
     return axios.get(
-      `${USER_URL_SEARCH}?page=${queryParams.pageNumber}&limit=${queryParams.limit}&sortby=${queryParams.sortField}&orderby=${queryParams.sortOrder}
+      `${USER_URL_SEARCH}?page=${queryParams.page}&limit=${queryParams.limit}&sortBy=${queryParams.sortBy}&sortType=${queryParams.sortType}
       &field=all
       &query=${queryParams.filter.searchText}`,
     );
   } else {
     return axios.get(
-      `${USERS_URL}?page=${queryParams.pageNumber}&limit=${queryParams.limit}&sortby=${queryParams.sortField}&orderby=${queryParams.sortOrder}
+      `${USERS_URL}?page=${queryParams.page}&limit=${queryParams.limit}&sortBy=${queryParams.sortBy}&sortType=${queryParams.sortType}
       `,
     );
   }
 }
 
+export const GetAll = ({
+  queryProps,
+  sortList,
+  paginationProps,
+}: any) => {
+  console.log(111);
+  return axios.get(`${USERS_URL}`, {
+    params: { ...queryProps, ...paginationProps },
+    // paramsSerializer: ParamsSerializer
+  });
+};
 export function getUserById(id: string) {
   return axios.get(`${USERS_URL}/${id}`);
 }

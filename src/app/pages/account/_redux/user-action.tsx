@@ -27,6 +27,32 @@ export const fetchAllUser = (queryParams?: any) => (
     });
 };
 
+export const fetchAllUserForTag = (queryParams?: any) => (
+  dispatch: (arg0: { payload: any; type: string }) => void,
+) => {
+  dispatch(actions.startCall({ callType: callTypes.list }));
+
+  return requestFromServer
+    .GetAll(queryParams)
+    .then(response => {
+      const user = response.data;
+      if (queryParams.queryProps.firstName === '') {
+        dispatch(actions.usersFetchedTag({ data: user }));
+      } else {
+        dispatch(actions.usersSearchTag({ data: user }));
+      }
+    })
+    .catch(error => {
+      error.clientMessage = "Can't find user";
+      dispatch(
+        actions.catchError({
+          error,
+          callType: callTypes.action,
+        }),
+      );
+    });
+};
+
 export const fetchUserById = (id: string) => (
   dispatch: (arg0: { payload: any; type: string }) => void,
 ) => {

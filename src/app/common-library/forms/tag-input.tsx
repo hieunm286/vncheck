@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Select } from 'antd';
 import { useField, useFormikContext } from 'formik';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
@@ -8,14 +8,14 @@ import { fetchAllUser } from '../../pages/account/_redux/user-action';
 const { Option } = Select;
 
 const getDefautltTag = (data: any) => {
-  const idArr: any[] = []
+  const idArr: any[] = [];
 
   data.forEach((el: any) => {
     idArr.push(el.user ? el.user._id : el._id)
   })
 
-  return idArr
-}
+  return idArr;
+};
 
 const getFieldCSSClasses = (touched: any, errors: any) => {
   const classes = ['form-control'];
@@ -91,6 +91,26 @@ const getError = (error: any, fieldName: string, index?: number) => {
   return error[arrName[0]] ? error[arrName[0]][arrName[1]] : '';
 };
 
+function useStateCallback(initialState: any) {
+  const [state, setState] = useState(initialState);
+  const cbRef = useRef(null); // mutable ref to store current callback
+
+  const setStateCallback = (state: any, cb: any) => {
+    cbRef.current = cb; // store passed callback to ref
+    setState(state);
+  };
+
+  useEffect(() => {
+    // cb.current is `null` on initial render, so we only execute cb on state *updates*
+    if (cbRef.current) {
+      cbRef.current = state;
+      cbRef.current = null; // reset callback after execution
+    }
+  }, [state]);
+
+  return [state, setStateCallback];
+}
+
 function TagInput({
   label,
   data,
@@ -153,8 +173,8 @@ function TagInput({
                 setFieldValue(name, value);
             }}
             optionFilterProp="children"
-            filterOption={(input: any, option: any) =>  
-              option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0 
+            filterOption={(input: any, option: any) =>
+              option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
             }
             disabled={disabled}
             className={`${getError(errors, name) ? 'border border-danger rounded' : ''}`}
@@ -167,10 +187,10 @@ function TagInput({
           </Select>
           {errors[root] && getTouched(touched, name) ? (
             <div className="invalid-datepicker-feedback text-danger" style={{ fontSize: '0.9rem' }}>
-              Vui lòng chọn 
+              Vui lòng chọn
               {
                 // errors[field.name]?.toString()
-                 label
+                label
               }
             </div>
           ) : (

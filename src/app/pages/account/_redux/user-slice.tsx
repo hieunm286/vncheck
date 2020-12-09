@@ -5,6 +5,7 @@ export interface UserState {
   actionsLoading: boolean;
   totalCount: number;
   entities: any;
+  entitiesTag: any;
   userForEdit: any;
   lastError: any;
   transactionData: any;
@@ -16,6 +17,7 @@ const initialUsersState: UserState = {
   actionsLoading: false,
   totalCount: 0,
   entities: null,
+  entitiesTag: null,
   userForEdit: undefined,
   lastError: null,
   transactionData: null,
@@ -58,6 +60,29 @@ export const usersSlice = createSlice({
       state.listLoading = false;
       state.error = null;
       state.entities = data;
+      state.totalCount = total;
+    },
+    usersFetchedTag: (state, action) => {
+      const { total, data } = action.payload;
+      state.listLoading = false;
+      state.error = null;
+      if (!state.entitiesTag) {
+        state.entitiesTag = data;
+        
+      } else {
+        const newTag = [...state.entitiesTag]
+        data.forEach((el: any) => {
+          newTag.push(el)
+        })
+        state.entitiesTag = newTag;
+      }
+      state.totalCount = total;
+    },
+    usersSearchTag: (state, action) => {
+      const { total, data } = action.payload;
+      state.listLoading = false;
+      state.error = null;
+      state.entitiesTag = data;
       state.totalCount = total;
     },
     userCreated: (state, action) => {

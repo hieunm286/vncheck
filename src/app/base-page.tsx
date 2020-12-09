@@ -53,7 +53,7 @@ export default function BasePage() {
         <Route path="/basic-unit" component={BasicUnitPage} />
         <Route path="/purchase-order" component={PurchaseOrderPage} />
         <Route path="/land-lot" component={LandLotPage} />
-        <Route path="/product-type" component={ProductType} />
+        <Route path="/species" component={ProductType} />
         <Route path="/product-packaging" component={ProductPackaging} />
         <Route path="/multilevel-sale" component={MultilevelSale} />
         <Route path="/shipping-agency" component={ShippingAgency} />
