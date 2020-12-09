@@ -31,6 +31,7 @@ import * as Yup from 'yup';
 import { stringOnChange, searchSelectOnChange } from './helpers/autofill';
 import { genCharArray, genNumberArray } from './helpers/modify-entity-page-land-lot';
 import { DefaultPagination } from '../../common-library/common-consts/const';
+import { toast } from 'react-toastify';
 
 const DataExample: any = [
   {
@@ -220,6 +221,24 @@ function LandLot() {
       style: { minWidth: '130px' },
     },
   };
+
+  const notify = () => {
+    toast.error(`😠 ${error}`, {
+      position: 'top-right',
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+  };
+
+  useEffect(() => {
+    if (error !== '') {
+      notify();
+    }
+  }, [error]);
 
   const landLotSearchSelectLoadOption = async (
     search: string,
