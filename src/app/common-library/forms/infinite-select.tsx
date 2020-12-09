@@ -61,7 +61,7 @@ export function InfiniteSelect({
             additional={additional}
             styles={{
               control: (base, props1) => {
-                console.log("control", base, props1)
+                // console.log("control", base, props1)
                 return {
                   ...base,
                   backgroundColor: "transparent",
