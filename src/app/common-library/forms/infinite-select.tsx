@@ -9,6 +9,22 @@ const style = {
   borderRadius: 5
 }
 
+const getCSSClasses= (errorName: any, isTouched: any) : string => {
+  const classes : string[] = [];
+
+  // classes.push('form-control')
+  if(isTouched) {
+    if(errorName) {
+      classes.push('is-invalid');
+      classes.push('border-danger');
+    } else {
+      // classes.push('is-valid');
+    }
+  }
+  classes.push('input-search-select');
+  return classes.join(" ");
+}
+
 export function InfiniteSelect({
                                  label,
                                  loadOptions,
@@ -95,7 +111,8 @@ export function InfiniteSelect({
               placeholder: (styles) => { return {...styles,color:"#B5B5C3"}},
               option: (styles,{data, isDisabled,isFocused, isSelected}) => { return {...styles}},
          }}
-            className={`${errors[name] ? 'border-danger' : 'input-search-select'}`}
+            // className={`${errors[name] ? 'border-danger' : 'input-search-select'}`}
+            className={getCSSClasses(errors[name], touched[name])}
           />
           {errors[name] && touched[name] ? (
               <div className="invalid-feedback invalid-datepicker-feedback text-danger" style={{fontSize: '0.9rem'}}>
