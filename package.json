@@ -107,7 +107,7 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "^3.4.3",
     "react-scroll": "^1.8.1",
-    "react-select": "^3.1.0",
+    "react-select": "^3.1.1",
     "react-select-async-paginate": "^0.4.1",
     "react-swipeable-views": "0.13.9",
     "react-syntax-highlighter": "12.2.1",
