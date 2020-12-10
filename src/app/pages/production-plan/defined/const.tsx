@@ -49,13 +49,13 @@ export const productPlanSearchModel2: SearchModel = {
   },
   plantCode: {
     type: 'string',
-    label: 'PRODUCTION_PLAN.PLANT_CODE',
+    label: 'PRODUCTION_PLAN.SEEDING_CODE',
     placeholder: 'PRODUCTION_PLAN.INPUT',
     keyField: 'plantCode',
   },
   growCode: {
     type: 'string',
-    label: 'PRODUCTION_PLAN.GROW_CODE',
+    label: 'PRODUCTION_PLAN.PLANT_CODE',
     placeholder: 'PRODUCTION_PLAN.INPUT',
     keyField: 'growCode',
   },
