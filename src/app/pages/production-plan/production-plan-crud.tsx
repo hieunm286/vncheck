@@ -25,6 +25,7 @@ import {
 import { Card, CardBody, CardHeader } from '../../common-library/card';
 import ModifyEntityPage from '../../common-library/common-components/modify-entity-page';
 import _ from 'lodash';
+import { addInitField, initProductPlanForm } from './defined/const';
 
 const diff = (obj1: any, obj2: any) => {
 
@@ -235,11 +236,14 @@ function ProductionPlanCrud({
       });
   };
 
+  console.log(entityForEdit)
+  console.log(initForm)
+
   return (
     <>
       <Formik
         enableReinitialize={true}
-        initialValues={entityForEdit || initForm}
+        initialValues={addInitField(entityForEdit, initProductPlanForm) || initForm}
         // initialValues={initForm}
         validationSchema={validation}
         onSubmit={(values, { setSubmitting, setFieldError }) => {
