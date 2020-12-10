@@ -908,6 +908,43 @@ export const masterEntityDetailDialog2 = [
   },
 ];
 
+export const addInitField = (obj1: any, obj2: any) => {
+  const rs = { ...obj1 };
+
+  Object.keys(obj2).forEach(key => {
+    if (rs[key]) {
+      Object.keys(obj2[key]).forEach(keys => {
+        if (!rs[key][keys]) {
+          rs[key][keys] = obj2[key][keys]
+        }
+      })
+    }
+  })
+
+  return rs
+}
+
+export const initProductPlanForm = {
+  preliminaryTreatment: {
+    estimatedTime: null,
+    estimatedQuantity: undefined
+  },
+  cleaning: {
+    estimatedTime: null,
+    estimatedQuantity: undefined
+  },
+  packing: {
+    estimatedTime: null,
+    estimatedExpireTimeStart: null,
+    estimatedExpireTimeEnd: null,
+    estimatedQuantity: undefined
+  },
+  preservation: {
+    estimatedStartTime: null,
+    estimatedEndTime: null
+  }
+}
+
 export const halfValidate = {
   estimatedHarvestTime: Yup.mixed(),
   expectedQuantity: Yup.number(),
