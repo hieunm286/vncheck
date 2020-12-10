@@ -158,7 +158,7 @@ function ProductionPlan() {
   useEffect(() => {
     getAll({...(filterProps as any), step: currentTab});
     
-  }, [paginationProps, trigger, filterProps]);
+  }, [paginationProps, trigger, filterProps, currentTab]);
   
   
   
@@ -261,7 +261,7 @@ function ProductionPlan() {
     },
     seeding: {
       dataField: 'seeding.code',
-      text: `${intl.formatMessage({id: 'PRODUCTION_PLAN.PLANT_CODE'})}`,
+      text: `${intl.formatMessage({id: 'PRODUCTION_PLAN.SEEDING_CODE'})}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
         <Link to={`/production-plan/seeding/${row._id}`}>{row.code}</Link>
       ),
@@ -270,7 +270,7 @@ function ProductionPlan() {
     },
     planting: {
       dataField: 'planting.code',
-      text: `${intl.formatMessage({id: 'PRODUCTION_PLAN.GROW_CODE'})}`,
+      text: `${intl.formatMessage({id: 'PRODUCTION_PLAN.PLANT_CODE'})}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
         <Link to={{pathname: `/production-plan/planting/${row._id}`, state: row.planting}}>
           {row.planting.code}

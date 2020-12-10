@@ -221,7 +221,7 @@ export function MasterHeader<T>({
                     switch (searchM[key].type) {
                       case 'string':
                         return (
-                          <div className="col-xxl-2 col-md-2 mt-md-5 mt-5" key={`master_header${key}`}>
+                          <div className="col-xxl-2 col-md-3 mt-md-5 mt-5" key={`master_header${key}`}>
                             <Field
                               name={key}
                               // value={search[key]}
@@ -253,7 +253,7 @@ export function MasterHeader<T>({
                       
                       case 'number':
                         return (
-                          <div className="col-xxl-2 col-md-2 mt-md-5 mt-5" key={`master_header${key}`}>
+                          <div className="col-xxl-2 col-md-3 mt-md-5 mt-5" key={`master_header${key}`}>
                             <Field
                               name={key}
                               type="number"
@@ -267,7 +267,7 @@ export function MasterHeader<T>({
                       
                       case 'Datetime':
                         return (
-                          <div className="col-xxl-2 col-md-2 mt-md-5 mt-5 " key={`master_header${key}`}>
+                          <div className="col-xxl-2 col-md-3 mt-md-5 mt-5 " key={`master_header${key}`}>
                             <DatePickerField
                               name={key}
                               label={intl.formatMessage({id: searchM[key].label})}
@@ -277,7 +277,7 @@ export function MasterHeader<T>({
                       
                       case 'SearchSelect':
                         return (
-                          <div className="col-xxl-2 col-md-2 mt-md-5 mt-5" key={key}>
+                          <div className="col-xxl-2 col-md-3 mt-md-5 mt-5" key={key}>
                             <InfiniteSelect
                               isDisabled={isDisabled ? isDisabled[key] : false}
                               label={intl.formatMessage({id: searchM[key].label})}
@@ -337,7 +337,7 @@ export function MasterHeader<T>({
                       
                       case 'TreeSelect':
                         return (
-                          <div className="col-xxl-2 col-md-2 mt-md-5 mt-5" key={key}>
+                          <div className="col-xxl-2 col-md-3 mt-md-5 mt-5" key={key}>
                             <CustomeTreeSelect
                               label={intl.formatMessage({id: searchM[key].label})}
                               placeholder={intl.formatMessage({id: searchM[key].placeholder})}
@@ -358,7 +358,7 @@ export function MasterHeader<T>({
                         // const placeholder = modifyModel.data[key].placeholder
                         // const required = modifyModel.data[key].required;
                         return (
-                          <div className="col-xxl-2 col-md-2 mt-md-5 mt-5" key={`${key}`}>
+                          <div className="col-xxl-2 col-md-3 mt-md-5 mt-5" key={`${key}`}>
                             {stateLabel && (
                               <label
                                 // className={'mb-0 input-label mt-2'}
@@ -424,7 +424,7 @@ export function MasterHeader<T>({
                         const cityLabel = intl.formatMessage({id: searchM[key].label});
                         const withFeedbackLabelCity = true;
                         return (
-                          <div className="col-xxl-2 col-md-2 mt-md-5 mt-5" key={`${key}`}>
+                          <div className="col-xxl-2 col-md-3 mt-md-5 mt-5" key={`${key}`}>
                             {cityLabel && (
                               <label
                                 // className={'mb-0 input-label mt-2'}
@@ -492,7 +492,7 @@ export function MasterHeader<T>({
                         const districtLabel = intl.formatMessage({id: searchM[key].label});
                         const withFeedbackLabelDistrict = true;
                         return (
-                          <div className="col-xxl-2 col-md-2 mt-md-5 mt-5" key={`${key}`}>
+                          <div className="col-xxl-2 col-md-3 mt-md-5 mt-5" key={`${key}`}>
                             {districtLabel && (
                               <label
                                 // className={'mb-0 input-label mt-2'}
