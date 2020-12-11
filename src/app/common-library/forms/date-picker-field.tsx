@@ -142,7 +142,7 @@ export function DatePickerField({...props}: any) {
             showTimeInput
             timeInputLabel="Thời gian:"
             disabled={props.disabled}
-            customInput={!getError(errors, field.name) && <ExampleCustomInput/>}
+            // customInput={!getError(errors, field.name) && <ExampleCustomInput/>}
             />
           {getError(errors, field.name) && getTouched(touched, field.name) ? (
             <div className="invalid-datepicker-feedback text-danger" style={{fontSize: '0.9rem'}}>

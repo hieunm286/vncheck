@@ -138,7 +138,7 @@ function ProductionPlanCrud({
   asyncError,
   refreshData,
   tagData,
-  submit,
+  step,
   onApprove,
 }: {
   // modifyModel: ModifyModel;
@@ -157,7 +157,7 @@ function ProductionPlanCrud({
   asyncError?: string;
   refreshData: () => void;
   tagData?: any;
-  submit: boolean;
+  step: string;
   onApprove: (data: any) => Promise<AxiosResponse<any>>;
 }) {
   const intl = useIntl();
@@ -247,6 +247,7 @@ function ProductionPlanCrud({
         // initialValues={initForm}
         validationSchema={validation}
         onSubmit={(values, { setSubmitting, setFieldError }) => {
+
           let updateValue: any;
           setErrorMsg(undefined);
 
@@ -262,9 +263,16 @@ function ProductionPlanCrud({
             updateValue = { ...values };
           }
 
-          if (!submit) {
+
+          if (step === "0") {
             submitHandle(updateValue, { setSubmitting, setFieldError });
-          } else {
+          } else if (step === "1") {
+   
+            if (!updateValue.step || updateValue.step !== "1") {
+              updateValue.step = "1"
+            }
+            submitHandle(updateValue, { setSubmitting, setFieldError });
+          } else if (step === "2") {
             onApprove(values)
               .then(res => {
                 submitHandle(updateValue, { setSubmitting, setFieldError });
