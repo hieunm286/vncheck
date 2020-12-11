@@ -135,6 +135,9 @@ function ProductionPlan() {
   const [tagData, setTagData] = useState([])
 
   const [submit, setSubmit] = useState(false)
+
+  const [step, setStep] = useState('0')
+
   
   
   const { authState } = useSelector(
@@ -320,6 +323,93 @@ function ProductionPlan() {
     action: {
       dataField: 'action',
       text: `${intl.formatMessage({id: 'PURCHASE_ORDER.MASTER.TABLE.ACTION_COLUMN'})}`,
+      formatter: (cell: any, row: any, rowIndex: number) => (
+        <button
+          className="btn btn-primary"
+          onClick={() => {
+            ProductionPlanService.GetById(row._id).then(res => {
+              setEditEntity(res.data)
+              history.push({
+                pathname: '/production-plan/new/' + row._id,
+                state: res.data
+              })
+            })
+          }}>
+          Phê duyệt
+        </button>
+      ),
+      
+      ...NormalColumn,
+      style: {minWidth: '130px'},
+    },
+  };
+
+  const columns3 = {
+    _id: {
+      dataField: '_id',
+      text: 'STT',
+      formatter: (cell: any, row: any, rowIndex: number) => (
+        <p>{rowIndex + 1 + ((paginationProps.page ?? 0) - 1) * (paginationProps.limit ?? 0)}</p>
+      ),
+      style: {paddingTop: 20},
+    },
+    code: {
+      dataField: 'code',
+      text: `${intl.formatMessage({id: 'PRODUCTION_PLAN.CODE'})}`,
+      ...SortColumn,
+      classes: 'text-center',
+    },
+    seeding: {
+      dataField: 'seeding.code',
+      text: `${intl.formatMessage({id: 'PRODUCTION_PLAN.SEEDING_CODE'})}`,
+      formatter: (cell: any, row: any, rowIndex: number) => (
+        <Link to={`/production-plan/seeding/${row._id}`}>{row.code}</Link>
+      ),
+      ...SortColumn,
+      classes: 'text-center',
+    },
+    planting: {
+      dataField: 'planting.code',
+      text: `${intl.formatMessage({id: 'PRODUCTION_PLAN.PLANT_CODE'})}`,
+      formatter: (cell: any, row: any, rowIndex: number) => (
+        <Link to={{pathname: `/production-plan/planting/${row._id}`, state: row.planting}}>
+          {row.planting.code}
+        </Link>
+      ),
+      ...SortColumn,
+      classes: 'text-center',
+    },
+    species: {
+      dataField: 'planting.species.name',
+      text: `${intl.formatMessage({id: 'PRODUCTION_PLAN.SPECIES_NAME'})}`,
+      ...SortColumn,
+      classes: 'text-center',
+      headerClasses: 'text-center',
+    },
+    createdAt: {
+      dataField: 'createdAt',
+      text: `${intl.formatMessage({id: 'PRODUCTION_PLAN.CREATE_DATE'})}`,
+      formatter: (cell: any, row: any, rowIndex: number) => (
+        <span>{new Intl.DateTimeFormat('en-GB').format(new Date(row.createdAt))}</span>
+      ),
+      ...SortColumn,
+      classes: 'text-center',
+      headerClasses: 'text-center',
+    },
+    process: {
+      dataField: 'process',
+      text: `${intl.formatMessage({id: 'PRODUCTION_PLAN.STATUS'})}`,
+      formatter: (cell: any, row: any, rowIndex: number) => (
+        <span>{row.process === '1' ? 'Hoàn thành' : 'Chưa hoàn thành'}</span>
+      ),
+      ...SortColumn,
+      classes: 'text-center',
+      headerClasses: 'text-center',
+    },
+    
+    action: {
+      dataField: 'action',
+      text: `${intl.formatMessage({id: 'PURCHASE_ORDER.MASTER.TABLE.ACTION_COLUMN'})}`,
       formatter: ProductPlanActionsColumn,
       formatExtraData: {
         intl,
@@ -329,11 +419,13 @@ function ProductionPlan() {
           history.push(`${window.location.pathname}/${entity._id}`);
         },
         onEdit: (entity: any) => {
-          get(entity);
-          // setShowEdit(true);
-          setEditEntity(entity);
-          setVersionTitle('Kế hoạch số' + entity._id);
-          history.push(`${window.location.pathname}/${entity._id}`);
+          ProductionPlanService.GetById(entity._id).then(res => {
+              setEditEntity(res.data)
+              history.push({
+                pathname: '/production-plan/new/' + entity._id,
+                state: res.data
+              })
+            })
         },
       },
       ...NormalColumn,
@@ -354,9 +446,20 @@ function ProductionPlan() {
       selectedEntities: selectedEntities,
     },
     {
-      tabTitle: 'Theo dõi',
+      tabTitle: 'Chờ duyệt',
       entities: entities,
       columns: columns2,
+      total: total,
+      loading: loading,
+      paginationParams: paginationProps,
+      setPaginationParams: setPaginationProps,
+      onSelectMany: setSelectedEntities,
+      selectedEntities: selectedEntities,
+    },
+    {
+      tabTitle: 'Theo dõi',
+      entities: entities,
+      columns: columns3,
       total: total,
       loading: loading,
       paginationParams: paginationProps,
@@ -378,6 +481,7 @@ function ProductionPlan() {
         icon: <SaveOutlinedIcon/>,
         onClick: () => {
           // setNoticeModal(true);
+          setStep("1")
           setSubmit(true)
         },
       },
@@ -390,6 +494,7 @@ function ProductionPlan() {
         icon: <CancelOutlinedIcon/>,
         onClick: () => {
           // setNoticeModal(true);
+          setStep("0")
           setSubmit(false)
         },
       },
@@ -408,8 +513,8 @@ function ProductionPlan() {
     type: 'outside',
     data: {
       approve: {
-        role: 'button',
-        type: 'button',
+        role: 'special',
+        type: 'submit',
         linkto: undefined,
         className: 'btn btn-primary mr-5 pl-8 pr-8',
         label: 'Phê duyệt',
@@ -417,6 +522,7 @@ function ProductionPlan() {
         onClick: () => {
           // setNoticeModal(true);
           // setSubmit(true)
+          setStep("2")
         },
       },
       refuse: {
@@ -458,6 +564,10 @@ function ProductionPlan() {
     const data = { confirmationStatus: "1" }
     return ProductionPlanService.Approve(entity, data)
   }
+
+  const requestApprove = (entity: any) => {
+    const data = {}
+  }
   
   return (
     <React.Fragment>
@@ -495,7 +605,7 @@ function ProductionPlan() {
                 refreshData={refreshData}
                 homePage={homeURL}
                 tagData={tagData}
-                submit={submit}
+                step={step}
                 onApprove={approve}
               />
             </>
