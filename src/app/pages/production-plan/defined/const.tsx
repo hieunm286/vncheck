@@ -275,7 +275,7 @@ export const modifyModel2: any[] = [
   {
     title: 'THÔNG TIN QUẢN TRỊ',
     data: {
-      planting: {
+      seeding: {
         type: 'object',
         data: {
           manager: {
@@ -297,7 +297,7 @@ export const modifyModel2: any[] = [
                 type: 'tag',
                 placeholder: 'Mã gieo giống',
                 required: true,
-                label: 'Tổ trưởng gieo trồng',
+                label: 'Tổ trưởng gieo giống',
                 disabled: true,
               },
             },
@@ -309,17 +309,34 @@ export const modifyModel2: any[] = [
   {
     title: '\u00A0',
     data: {
-      planHuman: {
-        type: 'string',
-        placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
-        label: 'Người lập kế hoạch',
-        disabled: true,
-      },
-      growLeader: {
-        type: 'string',
-        placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.PLANTING',
-        label: 'Tổ trưởng gieo trồng',
-        disabled: true,
+      planting: {
+        type: 'object',
+        data: {
+          manager: {
+            type: 'object',
+            data: {
+              fullName: {
+                type: 'string',
+                placeholder: 'Mã gieo giống',
+                label: 'Người lập kế hoạch',
+                required: true,
+                disabled: true,
+              },
+            },
+          },
+          leader: {
+            type: 'object',
+            data: {
+              lastName: {
+                type: 'tag',
+                placeholder: 'Mã gieo giống',
+                required: true,
+                label: 'Tổ trưởng gieo trồng',
+                disabled: true,
+              },
+            },
+          },
+        },
       },
     },
   },
@@ -901,15 +918,271 @@ export const masterEntityDetailDialog2 = [
         },
         {
           type: 'string',
-          title: 'Mã kế hoạch',
-          keyField: 'estimatedPlantingTime',
+          title: 'Mã gieo giống',
+          keyField: 'seeding.code',
         },
         {
-          type: 'image',
-          title: 'Hình ảnh',
-          keyField: 'estimatedHarvestTime',
+          type: 'string',
+          title: 'Giấy chứng nhận giống',
+          keyField: 'seeding.certificates.path',
+        },
+        {
+          type: 'string',
+          title: 'Hóa đơn mua hàng',
+          keyField: 'seeding.buyInvoice.path',
+        },
+        {
+          type: 'date-time',
+          title: 'Thời gian gieo',
+          keyField: 'seeding.seedingTime',
+        },
+        {
+          type: 'string',
+          title: 'Lô gieo ươm',
+          keyField: 'seeding.landLot.code',
+        },
+        {
+          type: 'string',
+          title: 'Mã gieo trồng',
+          keyField: 'planting.code',
+        },
+        {
+          type: 'data-time',
+          title: 'Thời gian trồng',
+          keyField: 'planting.estimatedPlantingTime',
+        },
+        {
+          type: 'string',
+          title: 'Lô gieo trồng',
+          keyField: 'planting.landLot.code',
         },
       ],
+      [
+        {
+          type: 'string',
+          title: 'Tên chủng loại',
+          keyField: 'seeding.species.name',
+        },
+        {
+          type: 'string',
+          title: 'GTIN',
+          keyField: 'seeding.species.barcode',
+        },
+        {
+          type: 'string',
+          title: 'Diện tích gieo ươm',
+          keyField: 'seeding.area',
+        },
+        {
+          type: 'string',
+          title: 'Số cây con giống',
+          keyField: 'seeding.numberOfSeed',
+        },
+        {
+          type: 'string',
+          title: 'Địa chỉ farm giống',
+          keyField: 'seeding.farmLocation',
+        },
+        {
+          type: 'string',
+          title: 'Diện tích gieo trồng',
+          keyField: 'planting.area',
+        },
+        {
+          type: 'string',
+          title: 'Số cây con trồng',
+          keyField: 'planting.numberOfPlants',
+        },
+        {
+          type: 'string',
+          title: 'Địa chỉ farm trồng',
+          keyField: 'planting.farmLocation',
+        },
+      ]
+    ],
+  },
+  {
+    header: 'THÔNG TIN QUẢN TRỊ',
+    data: [
+      [
+        {
+          type: 'string',
+          title: 'Thông tin Giám đốc/TGĐ',
+          keyField: 'seeding.manager.fullName',
+        },
+        {
+          type: 'string',
+          title: 'Tổ trưởng gieo giống',
+          keyField: 'seeding.leader.lastName',
+        },
+      ],
+      [
+        {
+          type: 'string',
+          title: 'Người lập kế hoạch',
+          keyField: 'planting.manager.fullName',
+        },
+        {
+          type: 'string',
+          title: 'Tổ trưởng gieo trồng',
+          keyField: 'planting.leader.lastName',
+        },
+      ]
+    ],
+  },
+  {
+    header: 'THÔNG TIN THU HOẠCH',
+    data: [
+      [
+        {
+          type: 'date-time',
+          title: 'Thời gian thu hoạch (dự kiến)',
+          keyField: 'planting.estimatedHarvestTime',
+        },
+        {
+          type: 'string',
+          title: 'Sản lượng thu hoạch (dự kiến)',
+          keyField: 'planting.expectedQuantity',
+        },
+      ],
+      [
+        {
+          type: 'string',
+          title: 'Nhân viên kĩ thuật thu hoạch',
+          keyField: 'harvesting.technical',
+        },
+        {
+          type: 'string',
+          title: 'Tổ trưởng thu hoạch',
+          keyField: 'harvesting.leader',
+        },
+      ]
+    ],
+  },
+  {
+    header: 'THÔNG TIN SƠ CHẾ',
+    data: [
+      [
+        {
+          type: 'date-time',
+          title: 'Thời gian sơ chế (dự kiến)',
+          keyField: 'preliminaryTreatment.estimatedTime',
+        },
+        {
+          type: 'string',
+          title: 'Sản lượng sau sơ chế dự kiến (kg)',
+          keyField: 'preliminaryTreatment.estimatedQuantity',
+        },
+      ],
+      [
+        {
+          type: 'string',
+          title: 'Nhân viên kĩ thuật sơ chế',
+          keyField: 'preliminaryTreatment.technical',
+        },
+        {
+          type: 'string',
+          title: 'Tổ trưởng sơ chế',
+          keyField: 'preliminaryTreatment.leader',
+        },
+      ]
+    ],
+  },
+  {
+    header: 'THÔNG TIN LÀM SẠCH',
+    data: [
+      [
+        {
+          type: 'date-time',
+          title: 'Thời gian làm sạch (dự kiến)',
+          keyField: 'cleaning.estimatedTime',
+        },
+        {
+          type: 'string',
+          title: 'Sản lượng sau làm sạch dự kiến (kg)',
+          keyField: 'cleaning.estimatedQuantity',
+        },
+      ],
+      [
+        {
+          type: 'string',
+          title: 'Nhân viên kĩ thuật làm sạch',
+          keyField: 'cleaning.technical',
+        },
+        {
+          type: 'string',
+          title: 'Tổ trưởng làm sạch',
+          keyField: 'cleaning.leader',
+        },
+      ]
+    ],
+  },
+  {
+    header: 'THÔNG TIN ĐÓNG GÓI',
+    data: [
+      [
+        {
+          type: 'date-time',
+          title: 'Thời gian đóng gói (dự kiến)',
+          keyField: 'packing.estimatedTime',
+        },
+        {
+          type: 'date-time',
+          title: 'Hạn sử dụng bắt đầu (dự kiến)',
+          keyField: 'packing.estimatedExpireTimeStart',
+        },
+        {
+          type: 'date-time',
+          title: 'Hạn sử dụng kết thúc (dự kiến)',
+          keyField: 'packing.estimatedExpireTimeEnd',
+        },
+        {
+          type: 'string',
+          title: 'Quy cách đóng gói',
+          keyField: 'packing.packing.label',
+        },
+      ],
+      [
+        {
+          type: 'string',
+          title: 'Số lượng đóng gói dự kiến',
+          keyField: 'packing.estimatedQuantity',
+        },
+        {
+          type: 'string',
+          title: 'KCS',
+          keyField: 'packing.technical',
+        },
+        {
+          type: 'string',
+          title: 'Tổ trưởng đóng gói',
+          keyField: 'packing.leader',
+        },
+      ]
+    ],
+  },
+  {
+    header: 'THÔNG TIN BẢO QUẢN',
+    data: [
+      [
+        {
+          type: 'date-time',
+          title: 'Thời gian bắt đầu bảo quản (dự kiến)',
+          keyField: 'preservation.estimatedStartTime',
+        },
+        {
+          type: 'date-time',
+          title: 'Thời gian kết thúc bảo quản (dự kiến)',
+          keyField: 'preservation.estimatedEndTime',
+        },
+      ],
+      [
+        {
+          type: 'string',
+          title: 'Nhân viên kĩ thuật bảo quản',
+          keyField: 'preservation.technical',
+        },
+      ]
     ],
   },
 ];
