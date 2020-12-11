@@ -733,6 +733,7 @@ const FormTemplate = ({
             return (
               <div className="mt-3" key={key}>
                 <InfiniteSelect
+                  changeId
                   label={modifyModel.data[key].label}
                   isHorizontal={true}
                   value={searchSelect} // value={search[key]}

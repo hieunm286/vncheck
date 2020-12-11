@@ -48,6 +48,7 @@ export const convertToServer = (entity: any) => {
     shippingAddress: shippingAddress || [],
     phone: entity.phoneNumber || '',
     owner: {
+      _id: entity.owner._id,
       username: entity.username,
       fullName: entity.ownerName || '',
       phone: entity.ownerPhoneNumber || '',
@@ -55,7 +56,8 @@ export const convertToServer = (entity: any) => {
       gender: entity.gender || '',
       // birthDay: entity.birthDay && entity.birthDay.toString()  || '',
       birthDay: entity.birthDay,
-      roleId: (entity.roleName && entity.roleName) ? entity.roleName.value : '',
+      role: entity.roleName,
+      // roleId: (entity.roleName && entity.roleName.value) ? entity.roleName.value : '',
     },
     status: entity.status,
   };
