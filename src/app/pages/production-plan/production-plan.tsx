@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {Fragment, useEffect, useState} from 'react';
 import {useIntl} from 'react-intl';
 import {DefaultPagination, NormalColumn, SortColumn,} from '../../common-library/common-consts/const';
 import {MasterHeader} from '../../common-library/common-components/master-header';
@@ -136,7 +136,7 @@ function ProductionPlan() {
 
   const [submit, setSubmit] = useState(false)
   
-    
+  
   const { authState } = useSelector(
     (state: any) => ({
       authState: state.auth,
@@ -160,15 +160,12 @@ function ProductionPlan() {
     
   }, [paginationProps, trigger, filterProps, currentTab]);
   
-  
-  
-  
   const columns = {
     _id: {
       dataField: '_id',
       text: 'STT',
       formatter: (cell: any, row: any, rowIndex: number) => (
-        <p>{rowIndex + 1 + ((paginationProps.page ?? 0) - 1) * (paginationProps.limit ?? 0)}</p>
+        <Fragment>{rowIndex + 1 + ((paginationProps.page ?? 0) - 1) * (paginationProps.limit ?? 0)}</Fragment>
       ),
       headerClasses: 'text-center',
       align: 'center'
@@ -249,7 +246,7 @@ function ProductionPlan() {
       dataField: '_id',
       text: 'STT',
       formatter: (cell: any, row: any, rowIndex: number) => (
-        <p>{rowIndex + 1 + ((paginationProps.page ?? 0) - 1) * (paginationProps.limit ?? 0)}</p>
+        <Fragment>{rowIndex + 1 + ((paginationProps.page ?? 0) - 1) * (paginationProps.limit ?? 0)}</Fragment>
       ),
       style: {paddingTop: 20},
     },

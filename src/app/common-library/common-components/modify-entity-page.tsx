@@ -146,19 +146,19 @@ function ModifyEntityPage<T>({
             case 'array':
               const shippingAddresses = values[key];
               return shippingAddresses
-                ? shippingAddresses.map((el: any, innerkey: any) => {
+                ? shippingAddresses.map((el: any, innerKey: any) => {
                     return (
-                      <div className="mt-3" key={`${innerkey}`}>
+                      <div className="mt-3" key={`${innerKey}`}>
                         <Field
                           name={key}
                           value={
-                            shippingAddresses[innerkey].address +
+                            shippingAddresses[innerKey].address +
                             ', ' +
-                            shippingAddresses[innerkey].district +
+                            shippingAddresses[innerKey].district +
                             ', ' +
-                            shippingAddresses[innerkey].city +
+                            shippingAddresses[innerKey].city +
                             ', ' +
-                            shippingAddresses[innerkey].state
+                            shippingAddresses[innerKey].state
                           }
                           component={MainInput}
                           isHorizontal

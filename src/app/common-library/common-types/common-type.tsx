@@ -113,6 +113,7 @@ export type SearchModel = {
     onSearch?: (t: any) => any;
     ref?: boolean;
     data?: any[];
+    customName?: string;
   };
 };
 export type ModifyModel = {

@@ -35,6 +35,7 @@ export const productPlanSearchModel1: SearchModel = {
   },
   estimatedHarvestTime: {
     type: 'Datetime',
+    customName: 'plan.estimatedTime',
     label: 'PRODUCTION_PLAN.HARVEST_DATE',
     placeholder: 'PRODUCTION_PLAN.INPUT',
   },

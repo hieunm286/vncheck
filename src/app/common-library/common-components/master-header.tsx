@@ -24,7 +24,7 @@ export function MasterHeader<T>({
                                   title,
                                   onSearch,
                                   searchModel,
-                                  initValue={},
+                                  initValue = {},
                                   stringOnChange,
                                   searchSelectOnChange,
                                   customSearchSelectLoadOption,
@@ -180,7 +180,7 @@ export function MasterHeader<T>({
     };
     
     const entities = await onSearch({queryProps, paginationProps});
-
+    
     // const count = onCount ? await onCount({ queryProps }) : await service.Count({ queryProps });
     const count = entities.data.paging.total;
     const hasMore = prevOptions.length < count - (DefaultPagination.limit ?? 0);
@@ -218,12 +218,14 @@ export function MasterHeader<T>({
               <div className="form-group row">
                 {searchModel ? (
                   Object.keys(searchM).map(key => {
+                    const name = searchM[key].customName ?? key;
+                    const className = searchM[key].className ?? "col-xxl-2 col-md-3 mt-md-5 mt-5";
                     switch (searchM[key].type) {
                       case 'string':
                         return (
-                          <div className="col-xxl-2 col-md-3 mt-md-5 mt-5" key={`master_header${key}`}>
+                          <div className={className} key={`master_header${key}`}>
                             <Field
-                              name={key}
+                              name={name}
                               // value={search[key]}
                               disabled={isDisabled ? isDisabled[key] : false}
                               onChange={(e: ChangeEvent<HTMLInputElement>) => {
@@ -253,9 +255,9 @@ export function MasterHeader<T>({
                       
                       case 'number':
                         return (
-                          <div className="col-xxl-2 col-md-3 mt-md-5 mt-5" key={`master_header${key}`}>
+                          <div className={className} key={`master_header${key}`}>
                             <Field
-                              name={key}
+                              name={name}
                               type="number"
                               component={Input}
                               placeholder={intl.formatMessage({id: searchM[key].placeholder})}
@@ -267,9 +269,9 @@ export function MasterHeader<T>({
                       
                       case 'Datetime':
                         return (
-                          <div className="col-xxl-2 col-md-3 mt-md-5 mt-5 " key={`master_header${key}`}>
+                          <div className={className} key={`master_header${key}`}>
                             <DatePickerField
-                              name={key}
+                              name={name}
                               label={intl.formatMessage({id: searchM[key].label})}
                             />
                           </div>
@@ -277,7 +279,7 @@ export function MasterHeader<T>({
                       
                       case 'SearchSelect':
                         return (
-                          <div className="col-xxl-2 col-md-3 mt-md-5 mt-5" key={key}>
+                          <div className={className} key={key}>
                             <InfiniteSelect
                               isDisabled={isDisabled ? isDisabled[key] : false}
                               label={intl.formatMessage({id: searchM[key].label})}
@@ -329,7 +331,7 @@ export function MasterHeader<T>({
                               additional={{
                                 page: DefaultPagination.page,
                               }}
-                              name={key}
+                              name={name}
                               placeholder={searchM[key].placeholder}
                             />
                           </div>
@@ -337,14 +339,14 @@ export function MasterHeader<T>({
                       
                       case 'TreeSelect':
                         return (
-                          <div className="col-xxl-2 col-md-3 mt-md-5 mt-5" key={key}>
+                          <div className={className} key={key}>
                             <CustomeTreeSelect
                               label={intl.formatMessage({id: searchM[key].label})}
                               placeholder={intl.formatMessage({id: searchM[key].placeholder})}
                               data={treeData}
                               value={treeSelectValue}
                               onChange={(value: any) => setSearch({...search, [key]: value})}
-                              name={key}
+                              name={name}
                             />
                           </div>
                         );
@@ -358,7 +360,7 @@ export function MasterHeader<T>({
                         // const placeholder = modifyModel.data[key].placeholder
                         // const required = modifyModel.data[key].required;
                         return (
-                          <div className="col-xxl-2 col-md-3 mt-md-5 mt-5" key={`${key}`}>
+                          <div className={className} key={`${key}`}>
                             {stateLabel && (
                               <label
                                 // className={'mb-0 input-label mt-2'}
@@ -424,7 +426,7 @@ export function MasterHeader<T>({
                         const cityLabel = intl.formatMessage({id: searchM[key].label});
                         const withFeedbackLabelCity = true;
                         return (
-                          <div className="col-xxl-2 col-md-3 mt-md-5 mt-5" key={`${key}`}>
+                          <div className={className} key={`${key}`}>
                             {cityLabel && (
                               <label
                                 // className={'mb-0 input-label mt-2'}
@@ -492,7 +494,7 @@ export function MasterHeader<T>({
                         const districtLabel = intl.formatMessage({id: searchM[key].label});
                         const withFeedbackLabelDistrict = true;
                         return (
-                          <div className="col-xxl-2 col-md-3 mt-md-5 mt-5" key={`${key}`}>
+                          <div className={className} key={`${key}`}>
                             {districtLabel && (
                               <label
                                 // className={'mb-0 input-label mt-2'}
@@ -563,14 +565,14 @@ export function MasterHeader<T>({
               </div>
               
               <div className="row no-gutters">
-                <div className="mr-5" style={{width:"8rem"}}>
+                <div className="mr-5" style={{width: "8rem"}}>
                   <button className="btn btn-primary w-100" type="submit">
                     <SearchIcon style={{fontSize: 14, marginBottom: 2}}/>
                     {intl.formatMessage({id: 'COMMON_COMPONENT.MASTER_HEADER.SEARCH_BTN'})}
                   </button>
                 </div>
                 
-                <div className="mr-5" style={{width:"8rem"}}>
+                <div className="mr-5" style={{width: "8rem"}}>
                   <button
                     className="btn btn-outline-primary w-100"
                     type="reset"
