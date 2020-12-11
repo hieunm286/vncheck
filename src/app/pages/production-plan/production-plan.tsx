@@ -610,8 +610,8 @@ function ProductionPlan() {
       dataField: 'action',
       text: `${intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.ACTION_COLUMN' })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
-        <button
-          className="btn btn-primary"
+        <span
+          className="btn btn-icon btn-light btn-hover-primary btn-sm visibility"
           onClick={() => {
             // ProductionPlanService.GetById(row._id).then(res => {
             //   history.push({
@@ -627,7 +627,7 @@ function ProductionPlan() {
           <span className="svg-icon svg-icon-md svg-icon-primary">
             <Visibility className="text-primary eye" />
           </span>
-        </button>
+        </span>
       ),
 
       ...NormalColumn,
