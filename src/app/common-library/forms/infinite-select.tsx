@@ -40,7 +40,7 @@ export function InfiniteSelect({
                                  required,
                                  ...props
                                }: {
-  label: string
+  label?: string
   loadOptions?: any;
   value?: any;
   onChange?: any;
@@ -54,19 +54,19 @@ export function InfiniteSelect({
   required?: boolean;
 }) {
   const {setFieldValue, errors, touched} = useFormikContext<any>();
-  const [values, setValue] = React.useState(null);
+  const [innerValue, setValue] = React.useState(value);
   const CustomAsyncPaginate = withAsyncPaginate(AtlaskitSelect);
   const intl = useIntl();
   
   return (
     <>
       <div className={isHorizontal ? 'row' : ''}>
-        <div className={isHorizontal ? 'col-xl-4 col-md-4 col-12' : ''}>
+        {label && <div className={isHorizontal ? 'col-xl-4 col-md-4 col-12' : ''}>
           <label className={isHorizontal ? 'mb-0 input-label mt-2' : ''}>{label} {required ? <span className="text-danger">*</span> : <></>}</label>
-        </div>
+        </div>}
         <div className={isHorizontal ? `col-xl-7 col-md-8 col-12` : ''}>
           <CustomAsyncPaginate
-            value={value}
+            value={innerValue}
             isDisabled={isDisabled}
             loadOptions={loadOptions}
             onChange={(val: any) => {
@@ -112,7 +112,7 @@ export function InfiniteSelect({
               },
               placeholder: (styles) => { return {...styles,color:"#B5B5C3"}},
               option: (styles,{data, isDisabled,isFocused, isSelected}) => { return {...styles}},
-         }}
+            }}
             // className={`${errors[name] ? 'border-danger' : 'input-search-select'}`}
             className={getCSSClasses(errors[name], touched[name])}
           />
@@ -120,7 +120,7 @@ export function InfiniteSelect({
               <div className="invalid-feedback invalid-datepicker-feedback text-danger" style={{fontSize: '0.9rem'}}>
                 {
                   // validationMessage ? intl.formatMessage({id: validationMessage}) : 'Vui lòng chọn ' + deCapitalizeFirstLetter(label)
-                  errors[name] ? errors[name] : 'Vui lòng chọn ' + deCapitalizeFirstLetter(label)
+                  errors[name] ? errors[name] : 'Vui lòng chọn ' + deCapitalizeFirstLetter(label??'')
                 }
               </div>
             ) : (

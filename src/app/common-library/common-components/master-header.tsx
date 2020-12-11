@@ -24,7 +24,7 @@ export function MasterHeader<T>({
                                   title,
                                   onSearch,
                                   searchModel,
-                                  initValue={},
+                                  initValue = {},
                                   stringOnChange,
                                   searchSelectOnChange,
                                   customSearchSelectLoadOption,
@@ -60,11 +60,9 @@ export function MasterHeader<T>({
   ) => void;
   customSearchSelectLoadOption?: (
     search: string,
-    onSearch: (t: any) => void,
     prevOptions: any,
     {page}: any,
-    keyField: string,
-    key: string,
+    {onSearch, keyField, key}: { onSearch: (t: any) => any; keyField: string; key: string },
   ) => void;
 }) {
   const intl = useIntl();
@@ -77,8 +75,6 @@ export function MasterHeader<T>({
   Object.keys(initValue).forEach(field => {
     _disabled = {..._disabled, [field]: false};
   });
-  // _disabled.subLot = true;
-  
   const [isDisabled, setIsDisabled] = useState<any>(_disabled);
   
   const [treeValue, setTreeValue] = useState();
@@ -94,40 +90,6 @@ export function MasterHeader<T>({
     });
     setIsDisabled(_disabled);
   };
-  // const loadOptions = async (search: string, prevOptions: any, service: any, keyField: string) => {
-  //   return new Promise<{ options: { label: string; value: string }[]; hasMore: boolean }>(
-  //     resolve => {
-  //       const queryProps: any = {};
-  //       queryProps[keyField] = search;
-  //       service.GetAll({ queryProps, paginationProps }).then((res: { data: any[] }) => {
-  //         service.Count({ queryProps: { code: search } }).then((c: any) => {
-  //           const hasMore = prevOptions.length < c.data - (DefaultPagination.limit ?? 0);
-  //           console.log(hasMore);
-  //           console.log(prevOptions);
-  //           setPaginationProps({
-  //             ...paginationProps,
-  //             page: (paginationProps.page ?? 0) + 1,
-  //           });
-  //           resolve({
-  //             options: res.data.map(e => {
-  //               return { label: e[keyField], value: e[keyField] };
-  //             }),
-  //             hasMore: hasMore,
-  //           });
-  //         });
-  //       });
-  //     },
-  //   );
-  // };
-  
-  // const [ search, setSearch ] = useState<any>(formValues);
-  
-  const [address, setAddress] = useState<any>({
-    state: {key: '', value: ''},
-    city: {key: '', value: ''},
-    district: {key: '', value: ''},
-  });
-  
   const [selectedState, setSelectedState] = useState<any>({key: '', value: ''});
   const [selectedCity, setSelectedCity] = useState<any>({key: '', value: ''});
   const [selectedDistrict, setSelectedDistrict] = useState<any>({key: '', value: ''});
@@ -139,49 +101,19 @@ export function MasterHeader<T>({
   const [treeSelectValue, setTreeSelectValue] = useState<any>();
   const [treeData, setTreeData] = useState<any>();
   
-  // const treeLoadOptions = async (getAll: (t:any)=> any) => {
-  //   const queryProps: any = {};
-  //   // queryProps[keyField] = search;
-  //   // queryProps =
-  //
-  //   const entities = await getAll({});
-  //   return entities.data;
-  // };
-  
-  // useEffect(() => {
-  //   treeLoadOptions(StoreLevelService) // treeLoadOptions(modifyModel.data['storeLevel'].service)
-  //     .then((res: any) => {
-  //       // console.log(res);
-  //       // console.log(DataExample)
-  //       const treeData = ConvertToTreeNode(res);
-  //       setTreeData(treeData);
-  //     });
-  // }, []);
-  
-  const loadOptions = async (
+  const loadOptions = customSearchSelectLoadOption ? customSearchSelectLoadOption : async (
     search: string,
     prevOptions: any,
-    {page}: any,
+    {page}: { page: number },
     {onSearch, keyField, key}: { onSearch: (t: any) => any; keyField: string; key: string },
-    {
-      onFetch,
-      onCount,
-    }: {
-      onFetch?: (props: any) => Promise<AxiosResponse<any>>;
-      onCount?: (props: any) => Promise<AxiosResponse<any>>;
-    },
   ) => {
     const queryProps: any = {};
     queryProps[keyField] = search;
-    
     const paginationProps = {
       ...DefaultPagination,
       page: page,
     };
-    
     const entities = await onSearch({queryProps, paginationProps});
-
-    // const count = onCount ? await onCount({ queryProps }) : await service.Count({ queryProps });
     const count = entities.data.paging.total;
     const hasMore = prevOptions.length < count - (DefaultPagination.limit ?? 0);
     
@@ -302,28 +234,12 @@ export function MasterHeader<T>({
                                 }
                               }}
                               loadOptions={(search: string, prevOptions: any, {page}: any) => {
-                                if (customSearchSelectLoadOption) {
-                                  return customSearchSelectLoadOption(
-                                    search,
-                                    prevOptions,
-                                    {page},
-                                    searchM[key].onSearch,
-                                    searchM[key].keyField,
-                                    key,
-                                  );
-                                } else {
-                                  return loadOptions(
-                                    search,
-                                    prevOptions,
-                                    {page},
-                                    {
-                                      onSearch: searchM[key].onSearch,
-                                      keyField: searchM[key].keyField,
-                                      key: key,
-                                    },
-                                    {},
-                                  );
-                                }
+                                return loadOptions(
+                                  search,
+                                  prevOptions,
+                                  {page},
+                                  searchM[key]
+                                );
                               }}
                               refs={searchM[key].ref}
                               additional={{
@@ -563,14 +479,14 @@ export function MasterHeader<T>({
               </div>
               
               <div className="row no-gutters">
-                <div className="mr-5" style={{width:"8rem"}}>
+                <div className="mr-5" style={{width: "8rem"}}>
                   <button className="btn btn-primary w-100" type="submit">
                     <SearchIcon style={{fontSize: 14, marginBottom: 2}}/>
                     {intl.formatMessage({id: 'COMMON_COMPONENT.MASTER_HEADER.SEARCH_BTN'})}
                   </button>
                 </div>
                 
-                <div className="mr-5" style={{width:"8rem"}}>
+                <div className="mr-5" style={{width: "8rem"}}>
                   <button
                     className="btn btn-outline-primary w-100"
                     type="reset"
