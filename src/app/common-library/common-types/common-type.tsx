@@ -1,4 +1,5 @@
 import {AxiosResponse} from 'axios';
+import {ReactElement} from "react";
 
 export interface PaginationProps {
   limit: number | undefined;
@@ -108,7 +109,7 @@ export type SearchModel = {
   [T: string]: {
     type: 'string' | 'number' | 'Datetime' | 'SearchSelect' | 'file' | 'TreeSelect' | 'Search' | 'stateSelect' | 'citySelect' | 'districtSelect';
     placeholder?: string;
-    label: string;
+    label: string| ReactElement;
     keyField?: string;
     onSearch?: (t: any) => any;
     ref?: boolean;

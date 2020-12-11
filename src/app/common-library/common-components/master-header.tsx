@@ -247,7 +247,7 @@ export function MasterHeader<T>({
                               }}
                               component={Input}
                               placeholder={intl.formatMessage({id: searchM[key].placeholder})}
-                              label={intl.formatMessage({id: searchM[key].label})}
+                              label={typeof searchM[key].label === 'string' ? intl.formatMessage({id: searchM[key].label}): searchM[key].label}
                               withFeedbackLabel={true}
                             />
                           </div>
@@ -272,7 +272,7 @@ export function MasterHeader<T>({
                           <div className={className} key={`master_header${key}`}>
                             <DatePickerField
                               name={name}
-                              label={intl.formatMessage({id: searchM[key].label})}
+                              label={typeof searchM[key].label === 'string' ? intl.formatMessage({id: searchM[key].label}): searchM[key].label}
                             />
                           </div>
                         );

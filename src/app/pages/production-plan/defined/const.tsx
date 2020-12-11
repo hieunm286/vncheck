@@ -1,11 +1,13 @@
-import { SearchModel } from '../../../common-library/common-types/common-type';
-import { GenerateAllFormField } from '../../../common-library/helpers/common-function';
+import {SearchModel} from '../../../common-library/common-types/common-type';
+import {GenerateAllFormField} from '../../../common-library/helpers/common-function';
 import * as ProductPackagingService from '../../product-packaging/product-packaging.service';
 import * as SpeciesService from '../../species/species.service';
 import * as Yup from 'yup';
 
 import '../style/production-plan.scss';
 import _ from 'lodash';
+import React, {Fragment} from 'react';
+import {useIntl} from "react-intl";
 
 export const headerTitle = 'PRODUCT_TYPE.MASTER.HEADER.TITLE';
 export const bodyTitle = 'PRODUCT_TYPE.MASTER.BODY.TITLE';
@@ -14,7 +16,10 @@ export const deleteDialogTitle = 'PRODUCT_TYPE.DELETE_DIALOG.TITLE';
 export const createTitle = 'PRODUCT_TYPE.CREATE.TITLE';
 export const updateTitle = 'PURCHASE_ORDER.UPDATE.TITLE';
 export const homeURL = `${window.location.pathname}`;
-
+const Fix = ({title}: { title: string }) => {
+  const intl = useIntl();
+  return (<div style={{minWidth:174}}>{intl.formatMessage({id: title})}</div>);
+}
 export const productPlanSearchModel1: SearchModel = {
   seedingCode: {
     type: 'string',
@@ -36,7 +41,7 @@ export const productPlanSearchModel1: SearchModel = {
   estimatedHarvestTime: {
     type: 'Datetime',
     customName: 'plan.estimatedTime',
-    label: 'PRODUCTION_PLAN.HARVEST_DATE',
+    label: <Fix title={'PRODUCTION_PLAN.HARVEST_DATE'}/>,
     placeholder: 'PRODUCTION_PLAN.INPUT',
   },
 };
@@ -138,7 +143,7 @@ export const modifyModel: any[] = [
               },
             },
           },
-
+          
           // bill: {
           //   type: 'string',
           //   placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
@@ -177,7 +182,7 @@ export const modifyModel: any[] = [
           },
         },
       },
-
+      
       // plantTime: {
       //   type: 'string',
       //   placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
@@ -910,8 +915,8 @@ export const masterEntityDetailDialog2 = [
 ];
 
 export const addInitField = (obj1: any, obj2: any) => {
-  const rs = { ...obj1 };
-
+  const rs = {...obj1};
+  
   Object.keys(obj2).forEach(key => {
     if (rs[key]) {
       Object.keys(obj2[key]).forEach(keys => {
@@ -921,7 +926,7 @@ export const addInitField = (obj1: any, obj2: any) => {
       })
     }
   })
-
+  
   return rs
 }
 
@@ -949,7 +954,7 @@ export const initProductPlanForm = {
 export const halfValidate = {
   estimatedHarvestTime: Yup.mixed(),
   expectedQuantity: Yup.number(),
-  technical: Yup.array().test('oneOfRequired', 'Nhập hết vào', function(value: any) {
+  technical: Yup.array().test('oneOfRequired', 'Nhập hết vào', function (value: any) {
     return (
       (this.parent.leader.length > 0 &&
         this.parent.expectedQuantity > 0 &&
@@ -962,7 +967,7 @@ export const halfValidate = {
       value.length > 0
     );
   }),
-  leader: Yup.array().test('oneOfRequired', 'Nhập hết vào', function(value: any) {
+  leader: Yup.array().test('oneOfRequired', 'Nhập hết vào', function (value: any) {
     return (
       (this.parent.technical.length > 0 &&
         this.parent.estimatedQuantity > 0 &&
@@ -978,7 +983,7 @@ export const halfValidate = {
 };
 
 export const validate = {
-  estimatedTime: Yup.mixed().test('oneOfRequired', 'Nhập hết vào', function(value: any) {
+  estimatedTime: Yup.mixed().test('oneOfRequired', 'Nhập hết vào', function (value: any) {
     return (
       (this.parent.leader.length > 0 &&
         this.parent.technical.length > 0 &&
@@ -991,7 +996,7 @@ export const validate = {
       value
     );
   }),
-  estimatedQuantity: Yup.number().test('oneOfRequired', 'Nhập hết vào', function(value: any) {
+  estimatedQuantity: Yup.number().test('oneOfRequired', 'Nhập hết vào', function (value: any) {
     return (
       (this.parent.leader.length > 0 &&
         this.parent.technical.length > 0 &&
@@ -1004,7 +1009,7 @@ export const validate = {
       (value && value > 0)
     );
   }),
-  technical: Yup.array().test('oneOfRequired', 'Nhập hết vào', function(value: any) {
+  technical: Yup.array().test('oneOfRequired', 'Nhập hết vào', function (value: any) {
     return (
       (this.parent.leader.length > 0 &&
         this.parent.estimatedQuantity > 0 &&
@@ -1017,7 +1022,7 @@ export const validate = {
       value.length > 0
     );
   }),
-  leader: Yup.array().test('oneOfRequired', 'Nhập hết vào', function(value: any) {
+  leader: Yup.array().test('oneOfRequired', 'Nhập hết vào', function (value: any) {
     return (
       (this.parent.technical.length > 0 &&
         this.parent.estimatedQuantity > 0 &&
@@ -1033,7 +1038,7 @@ export const validate = {
 };
 
 export const packingValidate = {
-  estimatedTime: Yup.mixed().test('oneOfRequired', 'Nhập hết vào', function(value: any) {
+  estimatedTime: Yup.mixed().test('oneOfRequired', 'Nhập hết vào', function (value: any) {
     return (
       (this.parent.leader.length > 0 &&
         this.parent.technical.length > 0 &&
@@ -1055,8 +1060,8 @@ export const packingValidate = {
       value
     );
   }),
-
-  estimatedExpireTimeStart: Yup.mixed().test('oneOfRequired', 'Nhập hết vào', function(value: any) {
+  
+  estimatedExpireTimeStart: Yup.mixed().test('oneOfRequired', 'Nhập hết vào', function (value: any) {
     return (
       (this.parent.leader.length > 0 &&
         this.parent.technical.length > 0 &&
@@ -1078,8 +1083,8 @@ export const packingValidate = {
       value
     );
   }),
-
-  estimatedExpireTimeEnd: Yup.mixed().test('oneOfRequired', 'Nhập hết vào', function(value: any) {
+  
+  estimatedExpireTimeEnd: Yup.mixed().test('oneOfRequired', 'Nhập hết vào', function (value: any) {
     return (
       (this.parent.leader.length > 0 &&
         this.parent.technical.length > 0 &&
@@ -1101,8 +1106,8 @@ export const packingValidate = {
       value
     );
   }),
-
-  packing: Yup.mixed().test('oneOfRequired', 'Nhập hết vào', function(value: any) {
+  
+  packing: Yup.mixed().test('oneOfRequired', 'Nhập hết vào', function (value: any) {
     console.log(value);
     return (
       (this.parent.leader.length > 0 &&
@@ -1122,8 +1127,8 @@ export const packingValidate = {
       ((value && _.isString(value)) || (!_.isString(value) && value.label))
     );
   }),
-
-  estimatedQuantity: Yup.number().test('oneOfRequired', 'Nhập hết vào', function(value: any) {
+  
+  estimatedQuantity: Yup.number().test('oneOfRequired', 'Nhập hết vào', function (value: any) {
     return (
       (this.parent.leader.length > 0 &&
         this.parent.technical.length > 0 &&
@@ -1145,7 +1150,7 @@ export const packingValidate = {
       (value && value > 0)
     );
   }),
-  technical: Yup.array().test('oneOfRequired', 'Nhập hết vào', function(value: any) {
+  technical: Yup.array().test('oneOfRequired', 'Nhập hết vào', function (value: any) {
     return (
       (this.parent.leader.length > 0 &&
         this.parent.estimatedQuantity > 0 &&
@@ -1167,7 +1172,7 @@ export const packingValidate = {
       value.length > 0
     );
   }),
-  leader: Yup.array().test('oneOfRequired', 'Nhập hết vào', function(value: any) {
+  leader: Yup.array().test('oneOfRequired', 'Nhập hết vào', function (value: any) {
     return (
       (this.parent.technical.length > 0 &&
         this.parent.estimatedQuantity > 0 &&
@@ -1192,7 +1197,7 @@ export const packingValidate = {
 };
 
 export const preservationValidate = {
-  estimatedStartTime: Yup.mixed().test('oneOfRequired', 'Nhập hết vào', function(value: any) {
+  estimatedStartTime: Yup.mixed().test('oneOfRequired', 'Nhập hết vào', function (value: any) {
     return (
       (this.parent.technical.length > 0 && this.parent.estimatedEndTime && value) ||
       ((!this.parent.technical || this.parent.technical.length === 0) &&
@@ -1201,7 +1206,7 @@ export const preservationValidate = {
       value
     );
   }),
-  estimatedEndTime: Yup.mixed().test('oneOfRequired', 'Nhập hết vào', function(value: any) {
+  estimatedEndTime: Yup.mixed().test('oneOfRequired', 'Nhập hết vào', function (value: any) {
     return (
       (this.parent.technical.length > 0 && this.parent.estimatedStartTime && value) ||
       ((!this.parent.technical || this.parent.technical.length === 0) &&
@@ -1210,7 +1215,7 @@ export const preservationValidate = {
       value
     );
   }),
-  technical: Yup.array().test('oneOfRequired', 'Nhập hết vào', function(value: any) {
+  technical: Yup.array().test('oneOfRequired', 'Nhập hết vào', function (value: any) {
     return (
       (this.parent.estimatedStartTime && this.parent.estimatedEndTime && value.length > 0) ||
       (!this.parent.estimatedStartTime &&
