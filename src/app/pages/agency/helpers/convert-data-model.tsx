@@ -13,7 +13,7 @@ export const convertToForm = (entity: any) => {
     ownerPhoneNumber: entity.owner.phone,
     email: entity.owner.email,
     gender: entity.owner.gender,
-    birthDay: entity.owner.birthDay && Date.parse(entity.owner.birthDay),
+    birthDay: entity.owner.birthDay, // entity.owner.birthDay && Date.parse(entity.owner.birthDay),
     roleName: {label: entity.owner.role.name, value: entity.owner.role._id},
     status: entity.status,
     defaultShippingAddress: getShippingAddress(entity.shippingAddress.find((addr: any) => {return addr.isDefault === true}))
