@@ -1,93 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { ModifyModel } from '../../../common-library/common-types/common-type';
 import { useIntl } from 'react-intl';
-import { generateInitForm, getNewImage, getOnlyFile } from '../../../common-library/helpers/common-function';
-import { Field, Form, Formik, useFormikContext } from 'formik';
+import { useFormikContext } from 'formik';
 import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import * as Yup from 'yup';
-import { MainInput } from '../../../common-library/forms/main-input';
-import { DefaultPagination, iconStyle } from '../../../common-library/common-consts/const';
-import { Link, useHistory } from 'react-router-dom';
-import ImageUploading from 'react-images-uploading';
-import CustomImageUpload from '../../../common-library/forms/custom-image-upload';
-import { uploadImage } from '../../purchase-order/purchase-order.service';
-import { Card, CardBody } from '../../../common-library/card';
-import { DatePickerField } from '../../../common-library/forms/date-picker-field';
-import { Switch } from '@material-ui/core';
-import CheckCircleOutlinedIcon from '@material-ui/icons/CheckCircleOutlined';
-import { InfiniteSelect } from '../../../common-library/forms/infinite-select';
-import TagInput from '../../../common-library/forms/tag-input';
-import ImgGallery from '../../../common-library/forms/image-gallery';
-import { FormikRadioGroup } from '../../../common-library/forms/radio-group-field';
 import FormTemplate from './form-template';
-import ModifyEntityDialogAgency from './modify-entity-dialog-agency';
 import {
   GenerateAllFormField
 } from '../../../common-library/helpers/common-function';
 import { DeleteEntityDialog } from '../../../common-library/common-components/delete-entity-dialog';
+import ModifyEntityDialog from '../../../common-library/common-components/modify-entity-dialog';
 
-const dataT: any = [
-  {
-    _id: 'abc',
-    code: '000001',
-    name: 'Rau muống',
-    barcode: '8930000001',
-    imageURL: 'https://product.hstatic.net/1000191320/product/rau-cai-chip_master.jpg',
-    growingDays: 15,
-    plantingDays: 30,
-    expiryDays: 30,
-  },
-  {
-    _id: 'abcd',
-    code: '000003',
-    name: 'Rau cải',
-    barcode: '8930000003',
-    imageURL: 'https://product.hstatic.net/1000191320/product/rau-cai-chip_master.jpg',
-    growingDays: 15,
-    plantingDays: 30,
-    expiryDays: 60,
-  },
-  {
-    _id: 'abce',
-    code: '000004',
-    name: 'Rau muống',
-    barcode: '8930000004',
-    imageURL: 'https://product.hstatic.net/1000191320/product/rau-cai-chip_master.jpg',
-    growingDays: 15,
-    plantingDays: 30,
-    expiryDays: 17,
-  },
-  {
-    _id: 'abcf',
-    code: '000005',
-    name: 'Rau muống',
-    barcode: '8930000005',
-    imageURL: 'https://product.hstatic.net/1000191320/product/rau-cai-chip_master.jpg',
-    growingDays: 15,
-    plantingDays: 30,
-    expiryDays: 19,
-  },
-  {
-    _id: 'abdacf',
-    code: '000009',
-    name: 'Rau cần',
-    barcode: '8930000009',
-    imageURL: 'https://product.hstatic.net/1000191320/product/rau-cai-chip_master.jpg',
-    growingDays: 15,
-    plantingDays: 30,
-    expiryDays: 19,
-  },
-];
 
 function ModifyEntityPageAgency<T>({
-  // entity,
-  // onModify,
-  // title,
   modifyModel,
-  // reduxModel,
-  // code,
-  // get,
   images,
   onChange,
   title,
@@ -98,12 +24,6 @@ function ModifyEntityPageAgency<T>({
   values,
 }: {
   modifyModel: any;
-  // title: string;
-  // entity: T;
-  // onModify: (values: any) => void;
-  // reduxModel: string;
-  // code: string | null;
-  // get: (code: string) => any | null;
   images?: any;
   onChange?: any;
   title?: string;
@@ -114,7 +34,6 @@ function ModifyEntityPageAgency<T>({
   values?: any;
 }) {
   const intl = useIntl();
-  // const initForm = generateInitForm(modifyModel);
   const modifyM = { ...modifyModel } as any;
 
   const [entities, setEntities] = useState<T[]>([]);
@@ -155,49 +74,16 @@ function ModifyEntityPageAgency<T>({
   }
 
   const PurchaseOrderSchema = Yup.object().shape({
-    // code: Yup.string()
-    //   .min(3, 'Minimum 3 symbols')
-    //   .max(50, 'Maximum 50 symbols')
-    //   .required('Code không được để trống'),
-    // // dateofbirth: Yup.mixed()
-    // //   .nullable(false)
-    // //   .required('Date of Birth is required'),
     state: Yup.string().required(intl.formatMessage({id: 'AGENCY.EDIT.VALIDATION.SHIPPING_ADDRESS_STATE'})),
     city: Yup.string().required(intl.formatMessage({id: 'AGENCY.EDIT.VALIDATION.SHIPPING_ADDRESS_CITY'})),
     district: Yup.string().required(intl.formatMessage({id: 'AGENCY.EDIT.VALIDATION.SHIPPING_ADDRESS_DISTRICT'})),
     address: Yup.string().required(intl.formatMessage({id: 'AGENCY.EDIT.VALIDATION.SHIPPING_ADDRESS_ADDRESS'})),
-    // phoneNumber: Yup.string()
-    //   .required('Last name không được để trống')
-    //   .matches(/[0-9]$/u, {
-    //     message: 'Vui lòng nhập tên đúng định dạng',
-    //   }),
-    // time: Yup.date().required('Vui lòng nhập date'),
-    // time2: Yup.date().required('Vui lòng nhập date'),
-    // quantity: Yup.number().required('Vui lòng nhập số lượng'),
-    // agency: Yup.object().shape({
-    //   name: Yup.string().required('Name ko đc để trống'),
-    //   taxId: Yup.string().required('TaxId ko đc để trống'),
-    // }),
-    // staff: Yup.array().min(1, 'Nhân viên ko đc để trống')
   });
 
   const modifyModelAddress = [
     {
       title: '',
       data: {
-        // code: {
-        //   type: 'string',
-        //   placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.PLACEHOLDER' }),
-        //   label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL' }),
-        //   required: true,
-        //   disabled: !!editEntity,
-        // },
-        // agencyAddress: {
-        //   type: '',
-        //   placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.NAME.PLACEHOLDER' }),
-        //   required: true,
-        //   label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.NAME.LABEL' }),
-        // },
         state: {
           type: 'stateSelect',
           placeholder: intl.formatMessage({
@@ -230,67 +116,8 @@ function ModifyEntityPageAgency<T>({
           required: true,
           label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.SHIPPING_ADDRESS_ADDRESS' }),
         },
-        // phoneNumber: {
-        //   type: 'string',
-        //   placeholder: intl.formatMessage({
-        //     id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN',
-        //   }),
-        //   required: true,
-        //   label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
-        // },
-        // image: {
-        //   type: 'image',
-        //   placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL' }),
-        //   label: 'Album 1',
-        // },
-        // image2: {
-        //   type: 'image',
-        //   placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL' }),
-        //   label: 'Album 2',
-        // },
-        // agency: {
-        //   type: 'object',
-        //   name: {
-        //     type: 'string',
-        //     label: 'Name',
-        //     placeholder: 'Name',
-        //   },
-        //   taxId: {
-        //     type: 'string',
-        //     label: 'Tax',
-        //     placeholder: 'Tax',
-        //   },
-        // },
-        // staff: {
-        //   type: 'tag',
-        //   label: 'Nhân viên',
-        //   placeholder: 'Nhân viên',
-        // }
       },
     },
-    // {
-    //   title: 'Test222',
-    //   data: {
-    //     test1: {
-    //       type: 'string',
-    //       placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.PLACEHOLDER' }),
-    //       label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL' }),
-    //       disabled: !!editEntity,
-    //     },
-    //     test2: {
-    //       type: 'string',
-    //       placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.NAME.PLACEHOLDER' }),
-    //       label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.NAME.LABEL' }),
-    //     },
-    //     test3: {
-    //       type: 'string',
-    //       placeholder: intl.formatMessage({
-    //         id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN',
-    //       }),
-    //       label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
-    //     },
-    //   },
-    // },
   ];
 
   const createTitle = 'AGENCY.EDIT.HEADER.ADD_NEW_SHIPPING_ADDRESS';
@@ -308,7 +135,6 @@ function ModifyEntityPageAgency<T>({
   const allFormField: any = {
     ...GenerateAllFormField(
       modifyModelAddress,
-      // , modifyModel_2, modifyModel_3, modifyModel_4
     ),
   };
 
@@ -405,110 +231,10 @@ function ModifyEntityPageAgency<T>({
     });
   }, [entityNumber]);
 
-
-
-  const loadOptions = async (
-    search: string,
-    prevOptions: any,
-    { page }: any,
-    service: any,
-    keyField: string,
-    key: string,
-  ) => {
-    const queryProps: any = {};
-    queryProps[keyField] = search;
-
-    const paginationProps = {
-      ...DefaultPagination,
-      page: page,
-    };
-
-
-    // const entities = await service.GetAll({ queryProps, paginationProps });
-    // const count = await service.Count({ queryProps });
-
-    // const hasMore = prevOptions.length < count.data - (DefaultPagination.limit ?? 0);
-
-    // // setSearchTerm({ ...searchTerm, [key]: search });
-
-    const data = [...new Set(dataT)];
-
-    return {
-      options: data.map((e: any) => {
-        return { label: e[keyField], value: e._id };
-      }),
-      hasMore: false,
-      additional: {
-        page: page + 1,
-      },
-    };
-  };
-
-  // const sleep = (ms: any) =>
-  // new Promise(resolve => {
-  //   setTimeout(() => {
-  //     resolve();
-  //   }, ms);
-  // });
-
-  // const loadOptions = async (search: any, prevOptions: any) => {
-  //   await sleep(1000);
-
-  //   let filteredOptions;
-  //   if (!search) {
-  //     filteredOptions = data;
-  //   } else {
-  //     const searchLower = search.toLowerCase();
-  //     console.log(data)
-  //     filteredOptions = data.filter(({ name }: any) =>
-  //       name.toLowerCase().includes(searchLower)
-  //     );
-  //   }
-
-  //   const hasMore = filteredOptions.length > prevOptions.length + 10;
-  //   const slicedOptions = filteredOptions.slice(
-  //     prevOptions.length,
-  //     prevOptions.length + 10
-  //   );
-
-  //   return {
-  //     options: slicedOptions,
-  //     hasMore
-  //   };
-  // };
-
   return (
-    // <Card>
-    //   <CardBody>
-    //     <Formik
-    //       enableReinitialize={true}
-    //       initialValues={entityForEdit || initForm}
-    //       // validationSchema={PurchaseOrderSchema}
-    //       onSubmit={values => {
-    //         onModify(values);
-    //         history.push('/purchase-order');
-    //       }}>
-    //       {({ handleSubmit }) => (
     <>
-      {/* <Form className="form form-label-right"> */}
       {title && <h6 className="text-primary">{title.toUpperCase()}</h6>}
       <div className={(column ? column : 1) > 1 ? 'row' : ''}>
-        {/* {modifyModel &&
-          modifyModel.map((value: any, key: any) => (
-            <div className={`col-md-${12 / (column ? column : 1)} col-12`} key={key}>
-                <FormTemplate 
-                  values={values}
-                  images={images}
-                  onChange={(imageList: any, addUpdateIndex: any, key: any) => {
-                    onChange(imageList, addUpdateIndex, key);
-
-                  }}
-                  modifyModel={modifyModel}
-                  column={column}
-                  value={value}
-                />
-            </div>
-          ))} */}
         {
           modifyModel && (
             <>
@@ -522,7 +248,6 @@ function ModifyEntityPageAgency<T>({
                   }}
                   modifyModel={modifyModel[0]}
                   column={column}
-                  // value={modifyModel[0]}
                 />
               </div>
               <div className={`col-md-${12 / (column ? column : 1)} col-12`} key={1}>
@@ -535,7 +260,6 @@ function ModifyEntityPageAgency<T>({
                   }}
                   modifyModel={modifyModel[1]}
                   column={column}
-                  // value={modifyModel[1]}
                 />
                 <FormTemplate 
                   formValues={values}
@@ -546,7 +270,6 @@ function ModifyEntityPageAgency<T>({
                   }}
                   modifyModel={modifyModel[2]}
                   column={column}
-                  // value={modifyModel[2]}
                   handleEditButton={setShowEdit}
                   handleDeleteButton={setShowDelete}
                   handleAddButton={setShowCreate}
@@ -558,7 +281,7 @@ function ModifyEntityPageAgency<T>({
         }
       </div>
 
-      <ModifyEntityDialogAgency
+      <ModifyEntityDialog
         modifyModel={modifyModelAddress}
         isShow={showEdit}
         entity={editEntity}
@@ -573,7 +296,7 @@ function ModifyEntityPageAgency<T>({
         }}
       />
 
-      <ModifyEntityDialogAgency
+      <ModifyEntityDialog
         modifyModel={modifyModelAddress}
         isShow={showCreate}
         entity={createEntity}
