@@ -4,8 +4,10 @@ import { Card, CardBody, CardHeader } from '../card';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import { Link, useHistory } from 'react-router-dom';
 import { format } from 'date-fns';
+import { getField } from '../helpers/common-function';
+import _ from 'lodash';
 
-const getField = (field: any, fieldName: string) => {
+const getFieldV3 = (field: any, fieldName: string) => {
   const ifNested = (fN: string) => fN.indexOf('.') === -1;
   const ifArray = (k: string) => k.indexOf('[') > -1;
 
@@ -47,6 +49,7 @@ export function MasterEntityDetailPage({
   homeURL,
   code,
   get,
+  allFormButton,
 }: {
   title?: string;
   moduleName?: string;
@@ -57,6 +60,7 @@ export function MasterEntityDetailPage({
   homeURL?: string;
   code: string | null;
   get: (code: string) => any | null;
+  allFormButton?: any;
 }) {
   const intl = useIntl();
 
@@ -87,6 +91,7 @@ export function MasterEntityDetailPage({
         />
       )}
       {mode === 'split' && (
+        <>
         <SplitMode
           title={title}
           entityDetail={entityDetail}
@@ -95,7 +100,67 @@ export function MasterEntityDetailPage({
           moduleName={moduleName}
           history={history}
           homeURL={homeURL}
+          allFormButton={allFormButton}
         />
+        {allFormButton && allFormButton.type === 'outside' && (
+          <div className="text-right mb-5 mr-20">
+            {Object.keys(allFormButton.data).map(keyss => {
+              switch (allFormButton['data'][keyss].role) {
+                case 'submit':
+                  return (
+                    <button
+                      type={allFormButton['data'][keyss].type}
+                      onClick={() => {
+                        // handleSubmit();
+                        allFormButton['data'][keyss].onClick();
+                      }}
+                      className={allFormButton['data'][keyss].className}
+                      key={keyss}>
+                      {allFormButton['data'][keyss].icon} {allFormButton['data'][keyss].label}
+                    </button>
+                  );
+
+                case 'special':
+                  return (
+                    <button
+                      type={allFormButton['data'][keyss].type}
+                      onClick={() => {
+                        // handleSubmit();
+                        allFormButton['data'][keyss].onClick();
+                      }}
+                      className={allFormButton['data'][keyss].className}
+                      key={keyss}>
+                      {allFormButton['data'][keyss].icon} {allFormButton['data'][keyss].label}
+                    </button>
+                  );
+
+                case 'button':
+                  return (
+                    <button
+                      type={allFormButton['data'][keyss].type}
+                      className={allFormButton['data'][keyss].className}
+                      key={keyss}
+                      onClick={() => {
+                        allFormButton['data'][keyss].onClick(entityDetail);
+                      }}>
+                      {allFormButton['data'][keyss].icon} {allFormButton['data'][keyss].label}
+                    </button>
+                  );
+                case 'link-button':
+                  return (
+                    <Link to={allFormButton['data'][keyss].linkto} key={keyss}>
+                      <button
+                        type={allFormButton['data'][keyss].type}
+                        className={allFormButton['data'][keyss].className}>
+                        {allFormButton['data'][keyss].icon} {allFormButton['data'][keyss].label}
+                      </button>
+                    </Link>
+                  );
+              }
+            })}
+          </div>
+        )}
+        </>
       )}
     </>
   );
@@ -147,7 +212,7 @@ const LineMode = ({ entityDetail, renderInfo, intl, title, moduleName, history, 
                             <p className="col-4">{child.title}:</p>
                             <p className="col-8">
                               {entityDetail ? (
-                                getField(entityDetail, child.keyField).map((f, i, arr) => {
+                                getFieldV3(entityDetail, child.keyField).map((f, i, arr) => {
                                   return (
                                     <Fragment>
                                       {child.convertFn ? child.convertFn(f) : f}
@@ -169,7 +234,7 @@ const LineMode = ({ entityDetail, renderInfo, intl, title, moduleName, history, 
                             <p className="col-4">{child.title}:</p>
                             <p className="col-8">
                               {entityDetail ? (
-                                getField(entityDetail, child.keyField).map((f, i, arr) => {
+                                getFieldV3(entityDetail, child.keyField).map((f, i, arr) => {
                                   const date_input = new Date(f);
                                   return (
                                     <Fragment>
@@ -202,7 +267,7 @@ const LineMode = ({ entityDetail, renderInfo, intl, title, moduleName, history, 
                                   entityDetail ? `${child.path}/${entityDetail[child.params]}` : ''
                                 }>
                                 {entityDetail ? (
-                                  getField(entityDetail, child.keyField).map((f, i, arr) => {
+                                  getFieldV3(entityDetail, child.keyField).map((f, i, arr) => {
                                     return (
                                       <Fragment>
                                         {child.convertFn ? child.convertFn(f) : f}
@@ -226,7 +291,7 @@ const LineMode = ({ entityDetail, renderInfo, intl, title, moduleName, history, 
                             <p className="col-4">{child.title}:</p>
                             <div className="col-8">
                               {entityDetail ? (
-                                getField(entityDetail, child.keyField).map((f, i, arr) => {
+                                getFieldV3(entityDetail, child.keyField).map((f, i, arr) => {
                                   return (
                                     <Fragment>
                                       {' '}
@@ -300,6 +365,7 @@ const SplitMode = ({
   moduleName,
   history,
   homeURL,
+  allFormButton
 }: any) => (
   <>
     {renderInfo.map((value: any, key: any) => (
@@ -349,14 +415,42 @@ const SplitMode = ({
                                 <p className="col-4">{el[childKey].title}:</p>
                                 <p className="col-8">
                                   {entityDetail ? (
-                                    getField(entityDetail, child.keyField).map((f, i, arr) => {
-                                      return (
-                                        <Fragment>
-                                          {child.convertFn ? child.convertFn(f) : f}
-                                          {i < arr.length - 1 && <Separator />}
-                                        </Fragment>
-                                      );
-                                    })
+                                    _.isArray(getField(entityDetail, child.keyField)) ? (
+                                      getField(
+                                        entityDetail,
+                                        child.keyField,
+                                      ).map((f: any, i: number) => <p key={i}>{f.lastName}</p>)
+                                    ) : (
+                                      getFieldV3(entityDetail, child.keyField).map((f, i, arr) => {
+                                        return (
+                                          <Fragment>
+                                            {child.convertFn ? child.convertFn(f) : f}
+                                            {i < arr.length - 1 && <Separator />}
+                                          </Fragment>
+                                        );
+                                      })
+                                    )
+                                  ) : (
+                                    // getField(entityDetail, child.keyField)
+                                    <Fragment>'Empty'</Fragment>
+                                  )}
+                                </p>
+                              </div>
+                            </div>
+                          );
+
+                        case 'array':
+                          const arr = entityDetail ? getField(entityDetail, child.keyField) : []
+                          return (
+                            <div className="mt-3" key={childKey}>
+                              <div className="row">
+                                <p className="col-4">{el[childKey].title}:</p>
+                                <p className="col-8">
+                                  {entityDetail ? (
+                                    arr.map((f: any, i: number) => (
+                                      <span key={i}>{getField(f, el[childKey].target)}
+                                      {i < arr.length - 1 && ','}</span>
+                                    ))
                                   ) : (
                                     <Fragment>'Empty'</Fragment>
                                   )}
@@ -364,6 +458,7 @@ const SplitMode = ({
                               </div>
                             </div>
                           );
+
                         case 'date-time':
                           return (
                             <div className="mt-3" key={childKey}>
@@ -371,7 +466,7 @@ const SplitMode = ({
                                 <p className="col-4">{child.title}:</p>
                                 <p className="col-8">
                                   {entityDetail ? (
-                                    getField(entityDetail, child.keyField).map((f, i, arr) => {
+                                    getFieldV3(entityDetail, child.keyField).map((f, i, arr) => {
                                       const date_input = new Date(f);
                                       return (
                                         <Fragment>
@@ -444,6 +539,7 @@ const SplitMode = ({
             </div>
           </CardBody>
         </Card>
+        
       </React.Fragment>
     ))}
   </>

@@ -981,7 +981,7 @@ export const masterEntityDetailDialog2 = [
         {
           type: 'string',
           title: 'Địa chỉ farm giống',
-          keyField: 'seeding.farmLocation',
+          keyField: 'seeding.farmLocation.[coordinates]',
         },
         {
           type: 'string',
@@ -996,7 +996,7 @@ export const masterEntityDetailDialog2 = [
         {
           type: 'string',
           title: 'Địa chỉ farm trồng',
-          keyField: 'planting.farmLocation',
+          keyField: 'planting.farmLocation.[coordinates]',
         },
       ]
     ],
@@ -1011,9 +1011,10 @@ export const masterEntityDetailDialog2 = [
           keyField: 'seeding.manager.fullName',
         },
         {
-          type: 'string',
+          type: 'array',
           title: 'Tổ trưởng gieo giống',
-          keyField: 'seeding.leader.lastName',
+          keyField: 'seeding.leader',
+          target: 'fullName'
         },
       ],
       [
@@ -1023,9 +1024,10 @@ export const masterEntityDetailDialog2 = [
           keyField: 'planting.manager.fullName',
         },
         {
-          type: 'string',
+          type: 'array',
           title: 'Tổ trưởng gieo trồng',
-          keyField: 'planting.leader.lastName',
+          keyField: 'planting.leader',
+          target: 'fullName'
         },
       ]
     ],
@@ -1047,14 +1049,16 @@ export const masterEntityDetailDialog2 = [
       ],
       [
         {
-          type: 'string',
+          type: 'array',
           title: 'Nhân viên kĩ thuật thu hoạch',
           keyField: 'harvesting.technical',
+          target: 'user.lastName'
         },
         {
-          type: 'string',
+          type: 'array',
           title: 'Tổ trưởng thu hoạch',
           keyField: 'harvesting.leader',
+          target: 'user.lastName'
         },
       ]
     ],
@@ -1076,14 +1080,16 @@ export const masterEntityDetailDialog2 = [
       ],
       [
         {
-          type: 'string',
+          type: 'array',
           title: 'Nhân viên kĩ thuật sơ chế',
           keyField: 'preliminaryTreatment.technical',
+          target: 'user.lastName'
         },
         {
-          type: 'string',
+          type: 'array',
           title: 'Tổ trưởng sơ chế',
           keyField: 'preliminaryTreatment.leader',
+          target: 'user.lastName'
         },
       ]
     ],
@@ -1105,14 +1111,16 @@ export const masterEntityDetailDialog2 = [
       ],
       [
         {
-          type: 'string',
+          type: 'array',
           title: 'Nhân viên kĩ thuật làm sạch',
           keyField: 'cleaning.technical',
+          target: 'user.lastName'
         },
         {
-          type: 'string',
+          type: 'array',
           title: 'Tổ trưởng làm sạch',
           keyField: 'cleaning.leader',
+          target: 'user.lastName'
         },
       ]
     ],
@@ -1139,7 +1147,7 @@ export const masterEntityDetailDialog2 = [
         {
           type: 'string',
           title: 'Quy cách đóng gói',
-          keyField: 'packing.packing.label',
+          keyField: 'packing.packing.weight',
         },
       ],
       [
@@ -1149,14 +1157,16 @@ export const masterEntityDetailDialog2 = [
           keyField: 'packing.estimatedQuantity',
         },
         {
-          type: 'string',
+          type: 'array',
           title: 'KCS',
           keyField: 'packing.technical',
+          target: 'user.lastName'
         },
         {
-          type: 'string',
+          type: 'array',
           title: 'Tổ trưởng đóng gói',
           keyField: 'packing.leader',
+          target: 'user.lastName'
         },
       ]
     ],
@@ -1178,9 +1188,10 @@ export const masterEntityDetailDialog2 = [
       ],
       [
         {
-          type: 'string',
+          type: 'array',
           title: 'Nhân viên kĩ thuật bảo quản',
           keyField: 'preservation.technical',
+          target: 'user.lastName'
         },
       ]
     ],

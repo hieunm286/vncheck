@@ -286,6 +286,7 @@ export function InitMasterProps<T>({
   const [filterProps, setFilterProps] = useState();
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [spinning, setSpinning] = useState(false)
   const [error, setError] = useState('')
 
   const dispatch = useDispatch();
@@ -303,11 +304,13 @@ export function InitMasterProps<T>({
           const data: any = getAllResponse.data
           setEntities(data.data ? data.data : data);
             setLoading(false);
+            setSpinning(false)
             setTotal(data.paging ? data.paging.total : 5);
         })
         .catch(error => {
           console.log(error);
           setError(error.message)
+          setSpinning(false)
           setLoading(false);
         });
     },
@@ -324,6 +327,7 @@ export function InitMasterProps<T>({
     setShowCreate(false);
     setSelectedEntities([]);
     setLoading(false);
+    setSpinning(false);
     setFilterProps(undefined);
     setError('')
   };
@@ -434,6 +438,8 @@ export function InitMasterProps<T>({
     addPromise,
     updatePromise,
     get,
+    spinning,
+    setSpinning,
     deleteMany,
     deleteFn,
     getAll,
