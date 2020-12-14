@@ -1,19 +1,23 @@
-import React, {Fragment, useEffect, useState} from 'react';
-import {useIntl} from 'react-intl';
-import {DefaultPagination, NormalColumn, SortColumn,} from '../../common-library/common-consts/const';
-import {MasterHeader} from '../../common-library/common-components/master-header';
-import {InitMasterProps,} from '../../common-library/helpers/common-function';
-import {Link, Route, Switch, useHistory} from 'react-router-dom';
+import React, { Fragment, useEffect, useState } from 'react';
+import { useIntl } from 'react-intl';
+import {
+  DefaultPagination,
+  NormalColumn,
+  SortColumn,
+} from '../../common-library/common-consts/const';
+import { MasterHeader } from '../../common-library/common-components/master-header';
+import { InitMasterProps } from '../../common-library/helpers/common-function';
+import { Link, Route, Switch, useHistory } from 'react-router-dom';
 import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import * as ProductionPlanService from './production-plan.service';
-import {ProductionPlanModel} from './production-plant.model';
+import { ProductionPlanModel } from './production-plant.model';
 import ProductionPlanBody from './production-plant-body';
 import './style/production-plan.scss';
-import {ProductPlanActionsColumn} from './production-plan-actions-column';
+import { ProductPlanActionsColumn } from './production-plan-actions-column';
 import EntityCrudPagePromise from '../../common-library/common-components/entity-crud-page-promise';
 import ProductionPlanVersion from './production-plan-version';
-import {MasterEntityDetailPage} from '../../common-library/common-components/master-detail-page';
+import { MasterEntityDetailPage } from '../../common-library/common-components/master-detail-page';
 import ProductionPlanModal from './production-plan-modal';
 import {
   allFormField,
@@ -28,11 +32,12 @@ import {
   SeedingDetailDialog,
   validate,
 } from './defined/const';
-import {getAllUsers} from '../account/_redux/user-crud';
-import {shallowEqual, useDispatch, useSelector} from 'react-redux';
+import { getAllUsers } from '../account/_redux/user-crud';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import ProductionPlanCrud from './production-plan-crud';
 import { fetchAllUser } from '../account/_redux/user-action';
 import * as Yup from 'yup';
+import Visibility from '@material-ui/icons/Visibility';
 
 const headerTitle = 'PRODUCT_TYPE.MASTER.HEADER.TITLE';
 const bodyTitle = 'PRODUCT_TYPE.MASTER.BODY.TITLE';
@@ -52,14 +57,13 @@ const versionData = [
   },
 ];
 
-
 const ProductPlantSchema = Yup.object().shape({
   harvesting: Yup.object().shape(halfValidate),
   preliminaryTreatment: Yup.object().shape(validate),
   cleaning: Yup.object().shape(validate),
   packing: Yup.object().shape(packingValidate),
-  preservation: Yup.object().shape(preservationValidate)
-  
+  preservation: Yup.object().shape(preservationValidate),
+
   // cleaning: Yup.object().shape({
   //   technical: Yup.array().typeError('Type err'),
   //   leader: Yup.array()
@@ -70,7 +74,7 @@ const ProductPlantSchema = Yup.object().shape({
 
 function ProductionPlan() {
   const intl = useIntl();
-  
+
   const history = useHistory();
   const {
     entities,
@@ -125,21 +129,19 @@ function ProductionPlan() {
     getAllServer: ProductionPlanService.GetAll,
     updateServer: ProductionPlanService.Update,
   });
-  
+
   const [currentTab, setCurrentTab] = useState<string | undefined>('0');
-  
+
   const [versionTitle, setVersionTitle] = useState<string>('');
-  
+
   const [noticeModal, setNoticeModal] = useState<boolean>(false);
-  
-  const [tagData, setTagData] = useState([])
 
-  const [submit, setSubmit] = useState(false)
+  const [tagData, setTagData] = useState([]);
 
-  const [step, setStep] = useState('0')
+  const [submit, setSubmit] = useState(false);
 
-  
-  
+  const [step, setStep] = useState('0');
+
   const { authState } = useSelector(
     (state: any) => ({
       authState: state.auth,
@@ -153,31 +155,30 @@ function ProductionPlan() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    
     dispatch(fetchAllUser());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
-  
+
   useEffect(() => {
-    getAll({...(filterProps as any), step: currentTab});
-    
+    getAll({ ...(filterProps as any), step: currentTab });
   }, [paginationProps, trigger, filterProps, currentTab]);
-  
+
   const columns = {
     _id: {
       dataField: '_id',
       text: 'STT',
       formatter: (cell: any, row: any, rowIndex: number) => (
-        <Fragment>{rowIndex + 1 + ((paginationProps.page ?? 0) - 1) * (paginationProps.limit ?? 0)}</Fragment>
+        <Fragment>
+          {rowIndex + 1 + ((paginationProps.page ?? 0) - 1) * (paginationProps.limit ?? 0)}
+        </Fragment>
       ),
       headerClasses: 'text-center',
-      align: 'center'
-  
+      align: 'center',
     },
-    
+
     seeding: {
       dataField: 'seeding.code',
-      text: `${intl.formatMessage({id: 'PRODUCTION_PLAN.SEEDING_CODE'})}`,
+      text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.SEEDING_CODE' })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
         <Link to={`/production-plan/seeding/${row._id}`}>{row.code}</Link>
       ),
@@ -187,12 +188,12 @@ function ProductionPlan() {
     },
     planting: {
       dataField: 'planting.code',
-      text: `${intl.formatMessage({id: 'PRODUCTION_PLAN.PLANT_CODE'})}`,
+      text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.PLANT_CODE' })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
         <Link
           to={{
             pathname: `/production-plan/planting/${row._id}`,
-            state: {seedingCode: row.seeding, ...row.planting},
+            state: { seedingCode: row.seeding, ...row.planting },
           }}>
           {row.planting.code}
         </Link>
@@ -200,17 +201,17 @@ function ProductionPlan() {
       ...SortColumn,
       align: 'center',
     },
-    
+
     species: {
       dataField: 'seeding.species.name',
-      text: `${intl.formatMessage({id: 'PRODUCTION_PLAN.SPECIES_NAME'})}`,
+      text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.SPECIES_NAME' })}`,
       ...SortColumn,
       classes: 'text-center',
       headerClasses: 'text-center',
     },
     estimatedHarvestTime: {
       dataField: 'planting.estimatedHarvestTime',
-      text: `${intl.formatMessage({id: 'PRODUCTION_PLAN.HARVEST_DATE'})}`,
+      text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.HARVEST_DATE' })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
         <span>
           {new Intl.DateTimeFormat('en-GB').format(new Date(row.planting.estimatedHarvestTime))}
@@ -222,46 +223,48 @@ function ProductionPlan() {
     },
     action: {
       dataField: 'action',
-      text: `${intl.formatMessage({id: 'PURCHASE_ORDER.MASTER.TABLE.ACTION_COLUMN'})}`,
+      text: `${intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.ACTION_COLUMN' })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
         <button
           className="btn btn-primary"
           onClick={() => {
             ProductionPlanService.GetById(row._id).then(res => {
-              setEditEntity(res.data)
+              setEditEntity(res.data);
               history.push({
                 pathname: '/production-plan/new/' + row._id,
-                state: res.data
-              })
-            })
+                state: res.data,
+              });
+            });
           }}>
           + Tạo mới
         </button>
       ),
-      
+
       ...NormalColumn,
-      style: {minWidth: '130px'},
+      style: { minWidth: '130px' },
     },
   };
-  
+
   const columns2 = {
     _id: {
       dataField: '_id',
       text: 'STT',
       formatter: (cell: any, row: any, rowIndex: number) => (
-        <Fragment>{rowIndex + 1 + ((paginationProps.page ?? 0) - 1) * (paginationProps.limit ?? 0)}</Fragment>
+        <Fragment>
+          {rowIndex + 1 + ((paginationProps.page ?? 0) - 1) * (paginationProps.limit ?? 0)}
+        </Fragment>
       ),
-      style: {paddingTop: 20},
+      style: { paddingTop: 20 },
     },
     code: {
       dataField: 'code',
-      text: `${intl.formatMessage({id: 'PRODUCTION_PLAN.CODE'})}`,
+      text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.CODE' })}`,
       ...SortColumn,
       classes: 'text-center',
     },
     seeding: {
       dataField: 'seeding.code',
-      text: `${intl.formatMessage({id: 'PRODUCTION_PLAN.SEEDING_CODE'})}`,
+      text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.SEEDING_CODE' })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
         <Link to={`/production-plan/seeding/${row._id}`}>{row.code}</Link>
       ),
@@ -270,9 +273,9 @@ function ProductionPlan() {
     },
     planting: {
       dataField: 'planting.code',
-      text: `${intl.formatMessage({id: 'PRODUCTION_PLAN.PLANT_CODE'})}`,
+      text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.PLANT_CODE' })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
-        <Link to={{pathname: `/production-plan/planting/${row._id}`, state: row.planting}}>
+        <Link to={{ pathname: `/production-plan/planting/${row._id}`, state: row.planting }}>
           {row.planting.code}
         </Link>
       ),
@@ -281,14 +284,14 @@ function ProductionPlan() {
     },
     species: {
       dataField: 'planting.species.name',
-      text: `${intl.formatMessage({id: 'PRODUCTION_PLAN.SPECIES_NAME'})}`,
+      text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.SPECIES_NAME' })}`,
       ...SortColumn,
       classes: 'text-center',
       headerClasses: 'text-center',
     },
     createdAt: {
       dataField: 'createdAt',
-      text: `${intl.formatMessage({id: 'PRODUCTION_PLAN.CREATE_DATE'})}`,
+      text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.CREATE_DATE' })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
         <span>{new Intl.DateTimeFormat('en-GB').format(new Date(row.createdAt))}</span>
       ),
@@ -298,7 +301,7 @@ function ProductionPlan() {
     },
     process: {
       dataField: 'process',
-      text: `${intl.formatMessage({id: 'PRODUCTION_PLAN.STATUS'})}`,
+      text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.STATUS' })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
         <span>{row.process === '1' ? 'Hoàn thành' : 'Chưa hoàn thành'}</span>
       ),
@@ -308,7 +311,7 @@ function ProductionPlan() {
     },
     confirmationStatus: {
       dataField: 'confirmationStatus',
-      text: `${intl.formatMessage({id: 'PRODUCTION_PLAN.APPROVE_STATUS'})}`,
+      text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.APPROVE_STATUS' })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
         <span>
           {row.confirmationStatus === '1' && 'Đã duyệt'}
@@ -322,25 +325,25 @@ function ProductionPlan() {
     },
     action: {
       dataField: 'action',
-      text: `${intl.formatMessage({id: 'PURCHASE_ORDER.MASTER.TABLE.ACTION_COLUMN'})}`,
+      text: `${intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.ACTION_COLUMN' })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
         <button
           className="btn btn-primary"
           onClick={() => {
             ProductionPlanService.GetById(row._id).then(res => {
-              setEditEntity(res.data)
+              setEditEntity(res.data);
               history.push({
                 pathname: '/production-plan/new/' + row._id,
-                state: res.data
-              })
-            })
+                state: res.data,
+              });
+            });
           }}>
           Phê duyệt
         </button>
       ),
-      
+
       ...NormalColumn,
-      style: {minWidth: '130px'},
+      style: { minWidth: '130px' },
     },
   };
 
@@ -351,17 +354,17 @@ function ProductionPlan() {
       formatter: (cell: any, row: any, rowIndex: number) => (
         <p>{rowIndex + 1 + ((paginationProps.page ?? 0) - 1) * (paginationProps.limit ?? 0)}</p>
       ),
-      style: {paddingTop: 20},
+      style: { paddingTop: 20 },
     },
     code: {
       dataField: 'code',
-      text: `${intl.formatMessage({id: 'PRODUCTION_PLAN.CODE'})}`,
+      text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.CODE' })}`,
       ...SortColumn,
       classes: 'text-center',
     },
     seeding: {
       dataField: 'seeding.code',
-      text: `${intl.formatMessage({id: 'PRODUCTION_PLAN.SEEDING_CODE'})}`,
+      text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.SEEDING_CODE' })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
         <Link to={`/production-plan/seeding/${row._id}`}>{row.code}</Link>
       ),
@@ -370,9 +373,9 @@ function ProductionPlan() {
     },
     planting: {
       dataField: 'planting.code',
-      text: `${intl.formatMessage({id: 'PRODUCTION_PLAN.PLANT_CODE'})}`,
+      text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.PLANT_CODE' })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
-        <Link to={{pathname: `/production-plan/planting/${row._id}`, state: row.planting}}>
+        <Link to={{ pathname: `/production-plan/planting/${row._id}`, state: row.planting }}>
           {row.planting.code}
         </Link>
       ),
@@ -381,14 +384,14 @@ function ProductionPlan() {
     },
     species: {
       dataField: 'planting.species.name',
-      text: `${intl.formatMessage({id: 'PRODUCTION_PLAN.SPECIES_NAME'})}`,
+      text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.SPECIES_NAME' })}`,
       ...SortColumn,
       classes: 'text-center',
       headerClasses: 'text-center',
     },
     createdAt: {
       dataField: 'createdAt',
-      text: `${intl.formatMessage({id: 'PRODUCTION_PLAN.CREATE_DATE'})}`,
+      text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.CREATE_DATE' })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
         <span>{new Intl.DateTimeFormat('en-GB').format(new Date(row.createdAt))}</span>
       ),
@@ -398,7 +401,7 @@ function ProductionPlan() {
     },
     process: {
       dataField: 'process',
-      text: `${intl.formatMessage({id: 'PRODUCTION_PLAN.STATUS'})}`,
+      text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.STATUS' })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
         <span>{row.process === '1' ? 'Hoàn thành' : 'Chưa hoàn thành'}</span>
       ),
@@ -406,10 +409,10 @@ function ProductionPlan() {
       classes: 'text-center',
       headerClasses: 'text-center',
     },
-    
+
     action: {
       dataField: 'action',
-      text: `${intl.formatMessage({id: 'PURCHASE_ORDER.MASTER.TABLE.ACTION_COLUMN'})}`,
+      text: `${intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.ACTION_COLUMN' })}`,
       formatter: ProductPlanActionsColumn,
       formatExtraData: {
         intl,
@@ -420,19 +423,19 @@ function ProductionPlan() {
         },
         onEdit: (entity: any) => {
           ProductionPlanService.GetById(entity._id).then(res => {
-              setEditEntity(res.data)
-              history.push({
-                pathname: '/production-plan/new/' + entity._id,
-                state: res.data
-              })
-            })
+            setEditEntity(res.data);
+            history.push({
+              pathname: '/production-plan/new/' + entity._id,
+              state: res.data,
+            });
+          });
         },
       },
       ...NormalColumn,
-      style: {minWidth: '130px'},
+      style: { minWidth: '130px' },
     },
   };
-  
+
   const TabData = [
     {
       tabTitle: 'Chờ tạo',
@@ -468,7 +471,7 @@ function ProductionPlan() {
       selectedEntities: selectedEntities,
     },
   ];
-  
+
   const allFormButton: any = {
     type: 'outside',
     data: {
@@ -478,11 +481,11 @@ function ProductionPlan() {
         linkto: undefined,
         className: 'btn btn-primary mr-5 pl-8 pr-8',
         label: 'Gửi duyệt',
-        icon: <SaveOutlinedIcon/>,
+        icon: <SaveOutlinedIcon />,
         onClick: () => {
           // setNoticeModal(true);
-          setStep("1")
-          setSubmit(true)
+          setStep('1');
+          setSubmit(true);
         },
       },
       save: {
@@ -491,11 +494,11 @@ function ProductionPlan() {
         linkto: undefined,
         className: 'btn btn-outline-primary mr-5 pl-8 pr-8',
         label: 'Lưu',
-        icon: <CancelOutlinedIcon/>,
+        icon: <CancelOutlinedIcon />,
         onClick: () => {
           // setNoticeModal(true);
-          setStep("0")
-          setSubmit(false)
+          setStep('0');
+          setSubmit(false);
         },
       },
       cancel: {
@@ -504,7 +507,7 @@ function ProductionPlan() {
         linkto: '/production-plan',
         className: 'btn btn-outline-primary mr-2 pl-8 pr-8',
         label: 'Hủy',
-        icon: <CancelOutlinedIcon/>,
+        icon: <CancelOutlinedIcon />,
       },
     },
   };
@@ -518,11 +521,11 @@ function ProductionPlan() {
         linkto: undefined,
         className: 'btn btn-primary mr-5 pl-8 pr-8',
         label: 'Phê duyệt',
-        icon: <SaveOutlinedIcon/>,
+        icon: <SaveOutlinedIcon />,
         onClick: () => {
           // setNoticeModal(true);
           // setSubmit(true)
-          setStep("2")
+          setStep('2');
         },
       },
       refuse: {
@@ -531,7 +534,7 @@ function ProductionPlan() {
         linkto: undefined,
         className: 'btn btn-outline-primary mr-5 pl-8 pr-8',
         label: 'Từ chối',
-        icon: <SaveOutlinedIcon/>,
+        icon: <SaveOutlinedIcon />,
         onClick: () => {
           // setNoticeModal(true);
           // setSubmit(true)
@@ -543,10 +546,10 @@ function ProductionPlan() {
         linkto: undefined,
         className: 'btn btn-outline-primary mr-5 pl-8 pr-8',
         label: 'Lưu',
-        icon: <CancelOutlinedIcon/>,
+        icon: <CancelOutlinedIcon />,
         onClick: () => {
           // setNoticeModal(true);
-          setSubmit(false)
+          setSubmit(false);
         },
       },
       cancel: {
@@ -555,25 +558,97 @@ function ProductionPlan() {
         linkto: '/production-plan',
         className: 'btn btn-outline-primary mr-2 pl-8 pr-8',
         label: 'Hủy',
-        icon: <CancelOutlinedIcon/>,
+        icon: <CancelOutlinedIcon />,
       },
     },
   };
 
+  const versionColumns = {
+    _id: {
+      dataField: '_id',
+      text: 'STT',
+      formatter: (cell: any, row: any, rowIndex: number) => (
+        <p>{rowIndex + 1 + ((paginationProps.page ?? 0) - 1) * (paginationProps.limit ?? 0)}</p>
+      ),
+      style: { paddingTop: 20 },
+    },
+    name: {
+      dataField: 'name',
+      text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.VERSION_NAME' })}`,
+      ...SortColumn,
+      classes: 'text-center',
+    },
+    createBy: {
+      dataField: 'createBy',
+      text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.VERSION_CREATEBY' })}`,
+
+      ...SortColumn,
+      classes: 'text-center',
+    },
+
+    createDate: {
+      dataField: 'createDate',
+      text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.VERSION_CREATEDATE' })}`,
+      formatter: (cell: any, row: any, rowIndex: number) => (
+        <span>{new Intl.DateTimeFormat('en-GB').format(row.createDate)}</span>
+      ),
+      ...SortColumn,
+      classes: 'text-center',
+      headerClasses: 'text-center',
+    },
+    approveDate: {
+      dataField: 'approveDate',
+      text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.VERSION_APPROVEDATE' })}`,
+      formatter: (cell: any, row: any, rowIndex: number) => (
+        <p>{new Intl.DateTimeFormat('en-GB').format(row.approveDate)}</p>
+      ),
+      ...SortColumn,
+      classes: 'text-center',
+      headerClasses: 'text-center',
+    },
+    action: {
+      dataField: 'action',
+      text: `${intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.ACTION_COLUMN' })}`,
+      formatter: (cell: any, row: any, rowIndex: number) => (
+        <span
+          className="btn btn-icon btn-light btn-hover-primary btn-sm visibility"
+          onClick={() => {
+            // ProductionPlanService.GetById(row._id).then(res => {
+            //   history.push({
+            //     pathname: '/production-plan/plan-view/' + row._id,
+            //     state: res.data,
+            //   });
+            // });
+            history.push({
+              pathname: '/production-plan/plan-view/' + row._id,
+              // state: res.data,
+            });
+          }}>
+          <span className="svg-icon svg-icon-md svg-icon-primary">
+            <Visibility className="text-primary eye" />
+          </span>
+        </span>
+      ),
+
+      ...NormalColumn,
+      style: { minWidth: '130px' },
+    },
+  };
+
   const approve = (entity: any) => {
-    const data = { confirmationStatus: "1" }
-    return ProductionPlanService.Approve(entity, data)
-  }
+    const data = { confirmationStatus: '1' };
+    return ProductionPlanService.Approve(entity, data);
+  };
 
   const requestApprove = (entity: any) => {
-    const data = {}
-  }
-  
+    const data = {};
+  };
+
   return (
     <React.Fragment>
       <Switch>
         <Route path="/production-plan/new/:id">
-          {({history, match}) => (
+          {({ history, match }) => (
             <>
               {/* <ProductionPlanModal
                 show={noticeModal}
@@ -592,7 +667,7 @@ function ProductionPlan() {
                 title={createTitle}
                 // reduxModel="purchaseOrder"
                 code={match && match.params.id}
-                get={(code) => ProductionPlanService.GetById(code)}
+                get={code => ProductionPlanService.GetById(code)}
                 formPart={formPart}
                 allFormField={allFormField}
                 allFormButton={username === 'admin' ? adminAllFormButton : allFormButton}
@@ -600,7 +675,9 @@ function ProductionPlan() {
                 autoFill={{
                   field: '',
                   data: null,
-                  searchSelectField: [{field: 'packing', ref: {prop: 'packing', key: 'packing.weight'}}],
+                  searchSelectField: [
+                    { field: 'packing', ref: { prop: 'packing', key: 'packing.weight' } },
+                  ],
                 }}
                 refreshData={refreshData}
                 homePage={homeURL}
@@ -612,11 +689,12 @@ function ProductionPlan() {
           )}
         </Route>
         <Route exact path={`/production-plan/:code`}>
-          {({history, match}) => (
+          {({ history, match }) => (
             <ProductionPlanVersion
               title={match && match.params.code}
               data={versionData}
               total={versionData.length}
+              versionColumns={versionColumns}
               loading={loading}
               paginationParams={paginationProps}
               setPaginationParams={setPaginationProps}
@@ -626,12 +704,12 @@ function ProductionPlan() {
           )}
         </Route>
         <Route exact path="/production-plan/seeding/:code">
-          {({history, match}) => (
+          {({ history, match }) => (
             <MasterEntityDetailPage
               entity={detailEntity}
               renderInfo={SeedingDetailDialog}
               code={match && match.params.code}
-              get={(code) => ProductionPlanService.GetById(code)}
+              get={code => ProductionPlanService.GetById(code)}
               onClose={() => {
                 setShowDetail(false);
               }}
@@ -641,12 +719,12 @@ function ProductionPlan() {
           )}
         </Route>
         <Route exact path="/production-plan/planting/:code">
-          {({history, match}) => (
+          {({ history, match }) => (
             <MasterEntityDetailPage
               entity={history.location.state}
               renderInfo={PlantingDetailDialog}
               code={match && match.params.code}
-              get={(code) => ProductionPlanService.GetById(code)}
+              get={code => ProductionPlanService.GetById(code)}
               onClose={() => {
                 setShowDetail(false);
               }}
@@ -657,12 +735,12 @@ function ProductionPlan() {
           )}
         </Route>
         <Route exact path="/production-plan/plan-view/:code">
-          {({history, match}) => (
+          {({ history, match }) => (
             <MasterEntityDetailPage
-              entity={detailEntity}
+              entity={history.location.state}
               renderInfo={masterEntityDetailDialog2}
               code={match && match.params.code}
-              get={(code) => ProductionPlanService.GetById(code)}
+              get={code => ProductionPlanService.GetById(code)}
               onClose={() => {
                 setShowDetail(false);
               }}
@@ -676,11 +754,11 @@ function ProductionPlan() {
             title={headerTitle}
             onSearch={value => {
               setPaginationProps(DefaultPagination);
-              setFilterProps({...value});
+              setFilterProps({ ...value });
             }}
             onReset={() => {
-              setPaginationProps(DefaultPagination)
-              setFilterProps(undefined)
+              setPaginationProps(DefaultPagination);
+              setFilterProps(undefined);
             }}
             searchModel={currentTab == '0' ? productPlanSearchModel1 : productPlanSearchModel2}
           />

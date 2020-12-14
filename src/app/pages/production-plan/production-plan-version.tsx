@@ -8,6 +8,7 @@ import { NormalColumn, SortColumn } from '../../common-library/common-consts/con
 import { Link, useHistory } from 'react-router-dom';
 import Visibility from '@material-ui/icons/Visibility';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import * as ProductionPlanService from './production-plan.service';
 
 interface MasterDataVersion {
   _id: string;
@@ -25,76 +26,16 @@ interface VersionProp {
   paginationParams: any;
   setPaginationParams: (paginationParams: any) => void;
   onSelectMany: (selectedEntities: ProductionPlanModel[]) => void;
-	selectedEntities: ProductionPlanModel[];
+  selectedEntities: ProductionPlanModel[];
+  versionColumns: any
 
 }
 
-function ProductionPlanVersion({ title, data, paginationParams, setPaginationParams, onSelectMany, selectedEntities, total, loading }: VersionProp) {
+function ProductionPlanVersion({ title, data, paginationParams, setPaginationParams, onSelectMany, selectedEntities, total, loading, versionColumns }: VersionProp) {
 	const history = useHistory()
 	const intl = useIntl();
 
-  const versionColumns = {
-    _id: {
-      dataField: '_id',
-      text: 'STT',
-      formatter: (cell: any, row: any, rowIndex: number) => (
-        <p>{rowIndex + 1 + ((paginationParams.page ?? 0) - 1) * (paginationParams.limit ?? 0)}</p>
-      ),
-      style: { paddingTop: 20 },
-    },
-    name: {
-      dataField: 'name',
-      text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.VERSION_NAME' })}`,
-      ...SortColumn,
-      classes: 'text-center',
-    },
-    createBy: {
-      dataField: 'createBy',
-			text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.VERSION_CREATEBY' })}`,
-		
-      ...SortColumn,
-      classes: 'text-center',
-    },
-
-    createDate: {
-      dataField: 'createDate',
-			text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.VERSION_CREATEDATE' })}`,
-			formatter: (cell: any, row: any, rowIndex: number) => (
-        <span>{new Intl.DateTimeFormat('en-GB').format(row.createDate)}</span>
-      ),
-      ...SortColumn,
-      classes: 'text-center',
-      headerClasses: 'text-center',
-    },
-    approveDate: {
-      dataField: 'approveDate',
-			text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.VERSION_APPROVEDATE' })}`,
-			formatter: (cell: any, row: any, rowIndex: number) => (
-        <p>{new Intl.DateTimeFormat('en-GB').format(row.approveDate)}</p>
-      ),
-      ...SortColumn,
-      classes: 'text-center',
-      headerClasses: 'text-center',
-    },
-    action: {
-      dataField: 'action',
-      text: `${intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.ACTION_COLUMN' })}`,
-      formatter: (cell: any, row: any, rowIndex: number) => (
-        <Link
-        to={`/production-plan/plan-view/${title}`}
-          className="btn btn-icon btn-light btn-hover-primary btn-sm visibility"
-          // onClick={() => onShowDetail(row)}
-        >
-          <span className="svg-icon svg-icon-md svg-icon-primary">
-            <Visibility className="text-primary eye" />
-          </span>
-        </Link>
-      ),
-
-      ...NormalColumn,
-      style: { minWidth: '130px' },
-    },
-  };
+  
 
   return (
     <Card>
