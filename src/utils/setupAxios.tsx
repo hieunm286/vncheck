@@ -2,7 +2,7 @@ import {SignMessage} from '../app/pages/auth/service/auth-cryptography';
 import {actionTypes} from '../app/pages/auth/_redux/auth-redux';
 import {AxiosStatic} from "axios";
 import {EnhancedStore} from "@reduxjs/toolkit";
-
+const qs = require('qs');
 const GetURLEndPoint = (url: string) => {
   const index = url.indexOf('/api/');
   const lastIndex = url.lastIndexOf('/')
@@ -27,6 +27,10 @@ const GetURLEndPoint = (url: string) => {
 export default function setupAxios(axios: AxiosStatic, store: EnhancedStore) {
   axios.interceptors.request.use(
     (config) => {
+      config.paramsSerializer = params => {
+        // Qs is already included in the Axios package
+        return qs.stringify(params, { allowDots: true });
+      };
       const {auth} = store.getState();
       if (auth) {
         config.headers.Authorization = `${JSON.stringify(auth._certificate)}`;
