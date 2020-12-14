@@ -222,7 +222,7 @@ function LandLot() {
     },
   };
 
-  const notify = () => {
+  const notify = (error: string) => {
     toast.error(`😠 ${error}`, {
       position: 'top-right',
       autoClose: 5000,
@@ -236,7 +236,7 @@ function LandLot() {
 
   useEffect(() => {
     if (error !== '') {
-      notify();
+      notify(intl.formatMessage({id: error}));
     }
   }, [error]);
 
@@ -518,6 +518,7 @@ function LandLot() {
         isShow={showDelete}
         onHide={() => {
           setShowDelete(false);
+          setError('');
         }}
         loading={loading}
         error={error}
@@ -531,6 +532,7 @@ function LandLot() {
         onDelete={deleteMany}
         onHide={() => {
           setShowDeleteMany(false);
+          setError('');
         }}
       />
       <ModifyEntityDialog

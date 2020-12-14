@@ -380,6 +380,7 @@
   "MULTILEVEL_SALE.MASTER.TABLE.NAME_AGENCY": "Tên đơn vị",
   "DELETE.ERROR.STORE_LEVEL_HAVE_CHILDREN": "Không thể xóa vì cấp bán hàng đã có cấp con hoặc đơn vị bán hàng.",
 
-  "CREATE.ERROR.LAND_LOT.LAND_LOT_IN_USE": "Mã lô thửa đã được dùng"
+  "CREATE.ERROR.LAND_LOT.LAND_LOT_IN_USE": "Mã lô thửa đã được dùng",
+  "DELETE.ERROR.LAND_LOT.LAND_LOT_IN_USE": "Lô thửa đã được sử dụng"
 
 }

@@ -327,7 +327,7 @@ export function InitMasterProps<T>({
     deleteManyServer(selectedEntities)
       .then(refreshData)
       .catch(error => {
-        setError(error.message)
+        setError(error.message || error.response.data || JSON.stringify(error))
         setLoading(false);
       });
   };
