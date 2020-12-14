@@ -32,8 +32,8 @@ export const initialFilter = {
     password: '',
     is_locked: 0,
   },
-  sortOrder: 'asc', // asc||desc
-  sortField: 'username',
-  pageNumber: 1,
+  sortType: 'asc', // asc||desc
+  sortBy: 'username',
+  page: 1,
   limit: 5,
 };

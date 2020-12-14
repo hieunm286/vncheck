@@ -1,4 +1,5 @@
 import {AxiosResponse} from 'axios';
+import {ReactElement} from "react";
 
 export interface PaginationProps {
   limit: number | undefined;
@@ -106,13 +107,14 @@ export interface ActionColumnProps<T> {
 
 export type SearchModel = {
   [T: string]: {
-    type: 'string' | 'number' | 'Datetime' | 'SearchSelect' | 'file' | 'TreeSelect' | 'Search' | 'stateSelect' | 'citySelect' | 'districtSelect';
+    type: 'string' | 'number' | 'Datetime' | 'SearchSelect' | 'file' | 'TreeSelect' | 'Search' | 'stateSelect' | 'citySelect' | 'districtSelect' | 'nested';
     placeholder?: string;
-    label: string;
+    label?: string| ReactElement;
     keyField?: string;
     onSearch?: (t: any) => any;
     ref?: boolean;
-    data?: any[];
+    data?: any;
+    customName?: string;
   };
 };
 export type ModifyModel = {

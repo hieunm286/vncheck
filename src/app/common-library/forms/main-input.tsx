@@ -7,7 +7,7 @@ const getFieldCSSClasses = (touched: any, errors: any) => {
 
   if (touched && errors) classes.push('is-invalid');
 
-  if (touched && errors) classes.push('is-valid');
+  if (touched && !errors) classes.push('is-valid');
 
   return classes.join(' ');
 };
@@ -58,8 +58,6 @@ const getTouched = (touched: any, fieldName: string) => {
   if (fieldName.indexOf('.') === -1) {
     return touched[fieldName]
   }
-
-  console.log(fieldName)
 
   const arrName = fieldName.split('.')
 

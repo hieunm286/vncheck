@@ -1,9 +1,13 @@
-import { SearchModel } from '../../../common-library/common-types/common-type';
-import { GenerateAllFormField } from '../../../common-library/helpers/common-function';
+import {SearchModel} from '../../../common-library/common-types/common-type';
+import {GenerateAllFormField} from '../../../common-library/helpers/common-function';
 import * as ProductPackagingService from '../../product-packaging/product-packaging.service';
 import * as SpeciesService from '../../species/species.service';
+import * as Yup from 'yup';
 
 import '../style/production-plan.scss';
+import _ from 'lodash';
+import React, {Fragment} from 'react';
+import {useIntl} from "react-intl";
 
 export const headerTitle = 'PRODUCT_TYPE.MASTER.HEADER.TITLE';
 export const bodyTitle = 'PRODUCT_TYPE.MASTER.BODY.TITLE';
@@ -12,7 +16,10 @@ export const deleteDialogTitle = 'PRODUCT_TYPE.DELETE_DIALOG.TITLE';
 export const createTitle = 'PRODUCT_TYPE.CREATE.TITLE';
 export const updateTitle = 'PURCHASE_ORDER.UPDATE.TITLE';
 export const homeURL = `${window.location.pathname}`;
-
+const Fix = ({title}: { title: string }) => {
+  const intl = useIntl();
+  return (<div style={{minWidth:174}}>{intl.formatMessage({id: title})}</div>);
+}
 export const productPlanSearchModel1: SearchModel = {
   seedingCode: {
     type: 'string',
@@ -33,7 +40,8 @@ export const productPlanSearchModel1: SearchModel = {
   },
   estimatedHarvestTime: {
     type: 'Datetime',
-    label: 'PRODUCTION_PLAN.HARVEST_DATE',
+    customName: 'plan.estimatedTime',
+    label: <Fix title={'PRODUCTION_PLAN.HARVEST_DATE'}/>,
     placeholder: 'PRODUCTION_PLAN.INPUT',
   },
 };
@@ -47,13 +55,13 @@ export const productPlanSearchModel2: SearchModel = {
   },
   plantCode: {
     type: 'string',
-    label: 'PRODUCTION_PLAN.PLANT_CODE',
+    label: 'PRODUCTION_PLAN.SEEDING_CODE',
     placeholder: 'PRODUCTION_PLAN.INPUT',
     keyField: 'plantCode',
   },
   growCode: {
     type: 'string',
-    label: 'PRODUCTION_PLAN.GROW_CODE',
+    label: 'PRODUCTION_PLAN.PLANT_CODE',
     placeholder: 'PRODUCTION_PLAN.INPUT',
     keyField: 'growCode',
   },
@@ -135,7 +143,7 @@ export const modifyModel: any[] = [
               },
             },
           },
-
+          
           // bill: {
           //   type: 'string',
           //   placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
@@ -174,7 +182,7 @@ export const modifyModel: any[] = [
           },
         },
       },
-
+      
       // plantTime: {
       //   type: 'string',
       //   placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
@@ -348,15 +356,15 @@ export const modifyModel3: any[] = [
       harvesting: {
         type: 'object',
         data: {
-          leader: {
-            type: 'tag',
-            placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
-            label: 'Nhân viên kỹ thuật thu hoạch',
-          },
           technical: {
             type: 'tag',
             placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
             label: 'Nhân viên kỹ thuật thu hoạch',
+          },
+          leader: {
+            type: 'tag',
+            placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
+            label: 'Tổ trưởng thu hoạch',
           },
         },
       },
@@ -374,14 +382,14 @@ export const modifyModel4: any[] = [
           estimatedTime: {
             type: 'Datetime',
             placeholder: 'Mã gieo giống',
-            label: 'Thời gian thu hoạch (dự kiến)',
+            label: 'Thời gian sơ chế (dự kiến)',
             required: true,
           },
           estimatedQuantity: {
             type: 'number',
             placeholder: 'Mã gieo giống',
             required: true,
-            label: 'Sản lượng sau sơ chế dự kiến',
+            label: 'Sản lượng sau sơ chế dự kiến (kg)',
           },
         },
       },
@@ -393,15 +401,15 @@ export const modifyModel4: any[] = [
       preliminaryTreatment: {
         type: 'object',
         data: {
-          leader: {
-            type: 'tag',
-            placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
-            label: 'Tổ trưởng sơ chế',
-          },
           technical: {
             type: 'tag',
             placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
             label: 'Nhân viên kỹ thuật sơ chế',
+          },
+          leader: {
+            type: 'tag',
+            placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
+            label: 'Tổ trưởng sơ chế',
           },
         },
       },
@@ -426,7 +434,7 @@ export const modifyModel5: any[] = [
             type: 'number',
             placeholder: 'Mã gieo giống',
             required: true,
-            label: 'Sản lượng sau làm sạch dự kiến',
+            label: 'Sản lượng sau làm sạch dự kiến (kg)',
           },
         },
       },
@@ -438,15 +446,17 @@ export const modifyModel5: any[] = [
       cleaning: {
         type: 'object',
         data: {
-          leader: {
-            type: 'tag',
-            placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
-            label: 'Nhân viên kỹ thuật làm sạch',
-          },
           technical: {
             type: 'tag',
             placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
             label: 'Nhân viên kỹ thuật làm sạch',
+            root: 'cleaning',
+          },
+          leader: {
+            type: 'tag',
+            placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
+            label: 'Tổ trưởng làm sạch',
+            root: 'cleaning',
           },
         },
       },
@@ -464,19 +474,19 @@ export const modifyModel6: any[] = [
           estimatedTime: {
             type: 'Datetime',
             placeholder: 'Mã gieo giống',
-            label: 'Thời gian làm sạch (dự kiến)',
+            label: 'Thời gian đóng gói (dự kiến)',
             required: true,
           },
           estimatedExpireTimeStart: {
             type: 'Datetime',
             placeholder: 'Hạn sử dụng',
-            label: 'Thời gian làm sạch (dự kiến)',
+            label: 'Hạn sử dụng bắt đầu (dự kiến)',
             required: true,
           },
           estimatedExpireTimeEnd: {
             type: 'Datetime',
             placeholder: 'Hạn sử dụng',
-            label: 'Thời gian làm sạch (dự kiến)',
+            label: 'Hạn sử dụng kết thúc (dự kiến)',
             required: true,
           },
           packing: {
@@ -532,13 +542,13 @@ export const modifyModel7: any[] = [
           estimatedStartTime: {
             type: 'Datetime',
             placeholder: 'Mã gieo giống',
-            label: 'Thời gian làm sạch (dự kiến)',
+            label: 'Thời gian bắt đầu bảo quản (dự kiến)',
             required: true,
           },
           estimatedEndTime: {
             type: 'Datetime',
             placeholder: 'Mã gieo giống',
-            label: 'Thời gian làm sạch (dự kiến)',
+            label: 'Thời gian kết thúc bảo quản (dự kiến)',
             required: true,
           },
         },
@@ -703,17 +713,17 @@ export const PlantingDetailDialog = [
         {
           type: 'string',
           title: 'Thông tin Giám đốc/TGĐ',
-          keyField: 'planting.manager.fullName',
+          keyField: 'planting.manager.lastName',
         },
         {
           type: 'string',
           title: 'Tổ trưởng gieo trồng',
-          keyField: 'planting.[leader].fullName',
+          keyField: 'planting.[leader].lastName',
         },
         {
           type: 'string',
           title: 'Công nhân gieo trồng',
-          keyField: 'planting.[worker].fullName',
+          keyField: 'planting.[worker].lastName',
         },
       ],
     ],
@@ -818,19 +828,19 @@ export const SeedingDetailDialog = [
           type: 'string',
           title: 'Nhiệt độ',
           keyField: 'planting.temperature',
-          convertFn: (t: string) => t + "°C"
+          convertFn: (t: string) => t + '°C',
         },
         {
           type: 'string',
           title: 'Độ ẩm',
           keyField: 'planting.humidity',
-          convertFn: (t: string) => t + "%"
+          convertFn: (t: string) => t + '%',
         },
         {
           type: 'string',
           title: 'Độ xốp',
           keyField: 'planting.porosity',
-          convertFn: (t: string) => t + "%"
+          convertFn: (t: string) => t + '%',
         },
       ],
     ],
@@ -842,18 +852,18 @@ export const SeedingDetailDialog = [
         {
           type: 'string',
           title: 'Thông tin Giám đốc/TGĐ',
-          keyField: 'planting.manager.fullName',
+          keyField: 'planting.manager.lastName',
         },
         {
           type: 'string',
           title: 'Tổ trưởng gieo trồng',
-          keyField: 'planting.[leader].fullName',
+          keyField: 'planting.[leader].lastName',
           separator: ', ',
         },
         {
           type: 'string',
           title: 'Công nhân gieo trồng',
-          keyField: 'planting.[worker].fullName',
+          keyField: 'planting.[worker].lastName',
         },
       ],
     ],
@@ -903,3 +913,315 @@ export const masterEntityDetailDialog2 = [
     ],
   },
 ];
+
+export const addInitField = (obj1: any, obj2: any) => {
+  const rs = {...obj1};
+  
+  Object.keys(obj2).forEach(key => {
+    if (rs[key]) {
+      Object.keys(obj2[key]).forEach(keys => {
+        if (!rs[key][keys]) {
+          rs[key][keys] = obj2[key][keys]
+        }
+      })
+    }
+  })
+  
+  return rs
+}
+
+export const initProductPlanForm = {
+  preliminaryTreatment: {
+    estimatedTime: null,
+    estimatedQuantity: undefined
+  },
+  cleaning: {
+    estimatedTime: null,
+    estimatedQuantity: undefined
+  },
+  packing: {
+    estimatedTime: null,
+    estimatedExpireTimeStart: null,
+    estimatedExpireTimeEnd: null,
+    estimatedQuantity: undefined
+  },
+  preservation: {
+    estimatedStartTime: null,
+    estimatedEndTime: null
+  }
+}
+
+export const halfValidate = {
+  estimatedHarvestTime: Yup.mixed(),
+  expectedQuantity: Yup.number(),
+  technical: Yup.array().test('oneOfRequired', 'Nhập hết vào', function (value: any) {
+    return (
+      (this.parent.leader.length > 0 &&
+        this.parent.expectedQuantity > 0 &&
+        this.parent.estimatedHarvestTime &&
+        value.length > 0) ||
+      ((!this.parent.leader || this.parent.leader.length === 0) &&
+        this.parent.expectedQuantity > 0 &&
+        this.parent.estimatedHarvestTime &&
+        (!value || value.length === 0)) ||
+      value.length > 0
+    );
+  }),
+  leader: Yup.array().test('oneOfRequired', 'Nhập hết vào', function (value: any) {
+    return (
+      (this.parent.technical.length > 0 &&
+        this.parent.estimatedQuantity > 0 &&
+        this.parent.estimatedHarvestTime &&
+        value.length > 0) ||
+      ((!this.parent.technical || this.parent.technical.length === 0) &&
+        this.parent.expectedQuantity > 0 &&
+        this.parent.estimatedHarvestTime &&
+        (!value || value.length === 0)) ||
+      value.length > 0
+    );
+  }),
+};
+
+export const validate = {
+  estimatedTime: Yup.mixed().test('oneOfRequired', 'Nhập hết vào', function (value: any) {
+    return (
+      (this.parent.leader.length > 0 &&
+        this.parent.technical.length > 0 &&
+        this.parent.estimatedQuantity > 0 &&
+        value) ||
+      ((!this.parent.leader || this.parent.leader.length === 0) &&
+        (!this.parent.technical || this.parent.technical.length === 0) &&
+        (!this.parent.estimatedQuantity || this.parent.estimatedQuantity === 0) &&
+        !value) ||
+      value
+    );
+  }),
+  estimatedQuantity: Yup.number().test('oneOfRequired', 'Nhập hết vào', function (value: any) {
+    return (
+      (this.parent.leader.length > 0 &&
+        this.parent.technical.length > 0 &&
+        this.parent.estimatedTime &&
+        value > 0) ||
+      ((!this.parent.leader || this.parent.leader.length === 0) &&
+        (!this.parent.technical || this.parent.technical.length === 0) &&
+        (!this.parent.estimatedTime || this.parent.estimatedTime === '') &&
+        (!value || value === 0)) ||
+      (value && value > 0)
+    );
+  }),
+  technical: Yup.array().test('oneOfRequired', 'Nhập hết vào', function (value: any) {
+    return (
+      (this.parent.leader.length > 0 &&
+        this.parent.estimatedQuantity > 0 &&
+        this.parent.estimatedTime &&
+        value.length > 0) ||
+      ((!this.parent.leader || this.parent.leader.length === 0) &&
+        (!this.parent.estimatedQuantity || this.parent.estimatedQuantity === 0) &&
+        (!this.parent.estimatedTime || this.parent.estimatedTime === '') &&
+        (!value || value.length === 0)) ||
+      value.length > 0
+    );
+  }),
+  leader: Yup.array().test('oneOfRequired', 'Nhập hết vào', function (value: any) {
+    return (
+      (this.parent.technical.length > 0 &&
+        this.parent.estimatedQuantity > 0 &&
+        this.parent.estimatedTime &&
+        value.length > 0) ||
+      ((!this.parent.technical || this.parent.technical.length === 0) &&
+        (!this.parent.estimatedQuantity || this.parent.estimatedQuantity === 0) &&
+        (!this.parent.estimatedTime || this.parent.estimatedTime === '') &&
+        (!value || value.length === 0)) ||
+      value.length > 0
+    );
+  }),
+};
+
+export const packingValidate = {
+  estimatedTime: Yup.mixed().test('oneOfRequired', 'Nhập hết vào', function (value: any) {
+    return (
+      (this.parent.leader.length > 0 &&
+        this.parent.technical.length > 0 &&
+        this.parent.estimatedQuantity > 0 &&
+        this.parent.estimatedExpireTimeStart &&
+        this.parent.estimatedExpireTimeEnd &&
+        this.parent.packing &&
+        _.isString(this.parent.packing) &&
+        this.parent.packing !== '' &&
+        value) ||
+      ((!this.parent.leader || this.parent.leader.length === 0) &&
+        (!this.parent.technical || this.parent.technical.length === 0) &&
+        !this.parent.packing.label &&
+        !_.isString(this.parent.packing) &&
+        (!this.parent.estimatedQuantity || this.parent.estimatedQuantity === 0) &&
+        (!this.parent.estimatedExpireTimeStart || this.parent.estimatedExpireTimeStart === '') &&
+        (!this.parent.estimatedExpireTimeEnd || this.parent.estimatedExpireTimeEnd === '') &&
+        !value) ||
+      value
+    );
+  }),
+  
+  estimatedExpireTimeStart: Yup.mixed().test('oneOfRequired', 'Nhập hết vào', function (value: any) {
+    return (
+      (this.parent.leader.length > 0 &&
+        this.parent.technical.length > 0 &&
+        this.parent.estimatedQuantity > 0 &&
+        this.parent.estimatedTime &&
+        this.parent.estimatedExpireTimeEnd &&
+        this.parent.packing &&
+        _.isString(this.parent.packing) &&
+        this.parent.packing !== '' &&
+        value) ||
+      ((!this.parent.leader || this.parent.leader.length === 0) &&
+        (!this.parent.technical || this.parent.technical.length === 0) &&
+        !this.parent.packing.label &&
+        !_.isString(this.parent.packing) &&
+        (!this.parent.estimatedQuantity || this.parent.estimatedQuantity === 0) &&
+        (!this.parent.estimatedTime || this.parent.estimatedTime === '') &&
+        (!this.parent.estimatedExpireTimeEnd || this.parent.estimatedExpireTimeEnd === '') &&
+        !value) ||
+      value
+    );
+  }),
+  
+  estimatedExpireTimeEnd: Yup.mixed().test('oneOfRequired', 'Nhập hết vào', function (value: any) {
+    return (
+      (this.parent.leader.length > 0 &&
+        this.parent.technical.length > 0 &&
+        this.parent.estimatedQuantity > 0 &&
+        this.parent.estimatedExpireTimeStart &&
+        this.parent.estimatedTime &&
+        this.parent.packing &&
+        _.isString(this.parent.packing) &&
+        this.parent.packing !== '' &&
+        value) ||
+      ((!this.parent.leader || this.parent.leader.length === 0) &&
+        (!this.parent.technical || this.parent.technical.length === 0) &&
+        !this.parent.packing.label &&
+        !_.isString(this.parent.packing) &&
+        (!this.parent.estimatedQuantity || this.parent.estimatedQuantity === 0) &&
+        (!this.parent.estimatedExpireTimeStart || this.parent.estimatedExpireTimeStart === '') &&
+        (!this.parent.estimatedTime || this.parent.estimatedTime === '') &&
+        !value) ||
+      value
+    );
+  }),
+  
+  packing: Yup.mixed().test('oneOfRequired', 'Nhập hết vào', function (value: any) {
+    console.log(value);
+    return (
+      (this.parent.leader.length > 0 &&
+        this.parent.technical.length > 0 &&
+        this.parent.estimatedQuantity > 0 &&
+        this.parent.estimatedTime &&
+        this.parent.estimatedExpireTimeStart &&
+        this.parent.estimatedExpireTimeEnd &&
+        (value && _.isString(value))) ||
+      ((!this.parent.leader || this.parent.leader.length === 0) &&
+        (!this.parent.technical || this.parent.technical.length === 0) &&
+        !this.parent.estimatedTime &&
+        !this.parent.estimatedExpireTimeStart &&
+        !this.parent.estimatedExpireTimeEnd &&
+        (!this.parent.estimatedQuantity || this.parent.estimatedQuantity === 0) &&
+        !value.label) ||
+      ((value && _.isString(value)) || (!_.isString(value) && value.label))
+    );
+  }),
+  
+  estimatedQuantity: Yup.number().test('oneOfRequired', 'Nhập hết vào', function (value: any) {
+    return (
+      (this.parent.leader.length > 0 &&
+        this.parent.technical.length > 0 &&
+        this.parent.estimatedTime &&
+        this.parent.estimatedExpireTimeStart &&
+        this.parent.estimatedExpireTimeEnd &&
+        this.parent.packing &&
+        _.isString(this.parent.packing) &&
+        this.parent.packing !== '' &&
+        value > 0) ||
+      ((!this.parent.leader || this.parent.leader.length === 0) &&
+        (!this.parent.technical || this.parent.technical.length === 0) &&
+        !this.parent.packing.label &&
+        !_.isString(this.parent.packing) &&
+        !this.parent.estimatedExpireTimeStart &&
+        !this.parent.estimatedExpireTimeEnd &&
+        (!this.parent.estimatedTime || this.parent.estimatedTime === '') &&
+        (!value || value === 0)) ||
+      (value && value > 0)
+    );
+  }),
+  technical: Yup.array().test('oneOfRequired', 'Nhập hết vào', function (value: any) {
+    return (
+      (this.parent.leader.length > 0 &&
+        this.parent.estimatedQuantity > 0 &&
+        this.parent.estimatedTime &&
+        this.parent.estimatedExpireTimeStart &&
+        this.parent.estimatedExpireTimeEnd &&
+        this.parent.packing &&
+        _.isString(this.parent.packing) &&
+        this.parent.packing !== '' &&
+        value.length > 0) ||
+      ((!this.parent.leader || this.parent.leader.length === 0) &&
+        !this.parent.packing.label &&
+        !_.isString(this.parent.packing) &&
+        !this.parent.estimatedExpireTimeStart &&
+        !this.parent.estimatedExpireTimeEnd &&
+        (!this.parent.estimatedQuantity || this.parent.estimatedQuantity === 0) &&
+        (!this.parent.estimatedTime || this.parent.estimatedTime === '') &&
+        (!value || value.length === 0)) ||
+      value.length > 0
+    );
+  }),
+  leader: Yup.array().test('oneOfRequired', 'Nhập hết vào', function (value: any) {
+    return (
+      (this.parent.technical.length > 0 &&
+        this.parent.estimatedQuantity > 0 &&
+        this.parent.estimatedTime &&
+        this.parent.estimatedExpireTimeStart &&
+        this.parent.estimatedExpireTimeEnd &&
+        this.parent.packing &&
+        _.isString(this.parent.packing) &&
+        this.parent.packing !== '' &&
+        value.length > 0) ||
+      ((!this.parent.technical || this.parent.technical.length === 0) &&
+        !this.parent.packing.label &&
+        !_.isString(this.parent.packing) &&
+        (!this.parent.estimatedQuantity || this.parent.estimatedQuantity === 0) &&
+        !this.parent.estimatedExpireTimeStart &&
+        !this.parent.estimatedExpireTimeEnd &&
+        (!this.parent.estimatedTime || this.parent.estimatedTime === '') &&
+        (!value || value.length === 0)) ||
+      value.length > 0
+    );
+  }),
+};
+
+export const preservationValidate = {
+  estimatedStartTime: Yup.mixed().test('oneOfRequired', 'Nhập hết vào', function (value: any) {
+    return (
+      (this.parent.technical.length > 0 && this.parent.estimatedEndTime && value) ||
+      ((!this.parent.technical || this.parent.technical.length === 0) &&
+        !this.parent.estimatedEndTime &&
+        !value) ||
+      value
+    );
+  }),
+  estimatedEndTime: Yup.mixed().test('oneOfRequired', 'Nhập hết vào', function (value: any) {
+    return (
+      (this.parent.technical.length > 0 && this.parent.estimatedStartTime && value) ||
+      ((!this.parent.technical || this.parent.technical.length === 0) &&
+        !this.parent.estimatedStartTime &&
+        !value) ||
+      value
+    );
+  }),
+  technical: Yup.array().test('oneOfRequired', 'Nhập hết vào', function (value: any) {
+    return (
+      (this.parent.estimatedStartTime && this.parent.estimatedEndTime && value.length > 0) ||
+      (!this.parent.estimatedStartTime &&
+        !this.parent.estimatedEndTime &&
+        (!value || value.length === 0)) ||
+      value.length > 0
+    );
+  }),
+};

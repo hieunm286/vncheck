@@ -99,13 +99,10 @@ function ModifyEntityPage<T>({
     };
   };
 
-  console.log(entityForEdit)
-
   const renderForm = (value: any, prevKey: string) => {
     return (
       <>
         {Object.keys(value.data).map(key => {
-          console.log(key);
 
           switch (value.data[key].type) {
             case 'string':
@@ -149,19 +146,19 @@ function ModifyEntityPage<T>({
             case 'array':
               const shippingAddresses = values[key];
               return shippingAddresses
-                ? shippingAddresses.map((el: any, innerkey: any) => {
+                ? shippingAddresses.map((el: any, innerKey: any) => {
                     return (
-                      <div className="mt-3" key={`${innerkey}`}>
+                      <div className="mt-3" key={`${innerKey}`}>
                         <Field
                           name={key}
                           value={
-                            shippingAddresses[innerkey].address +
+                            shippingAddresses[innerKey].address +
                             ', ' +
-                            shippingAddresses[innerkey].district +
+                            shippingAddresses[innerKey].district +
                             ', ' +
-                            shippingAddresses[innerkey].city +
+                            shippingAddresses[innerKey].city +
                             ', ' +
-                            shippingAddresses[innerkey].state
+                            shippingAddresses[innerKey].state
                           }
                           component={MainInput}
                           isHorizontal
@@ -312,8 +309,6 @@ function ModifyEntityPage<T>({
               );
 
             case 'SearchSelectV2':
-              console.log(search[key])
-
               return (
                 <div className="mt-3" key={key}>
                   <InfiniteSelectV2
@@ -354,6 +349,8 @@ function ModifyEntityPage<T>({
                     labelWidth={4}
                     disabled={value.data[key].disabled}
                     data={isArray(defaultTag) ? defaultTag : []}
+                    tagData={tagData}
+                    root={value.data[key].root}
                   />
                 </div>
               );
