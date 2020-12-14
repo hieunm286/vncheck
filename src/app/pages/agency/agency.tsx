@@ -227,24 +227,29 @@ function AgencyPage() {
       label: 'AGENCY.EDIT.LABEL.SELL_GOOD_LEVEL',
       keyField: 'name'
     }, 
-    state: {
-      type: 'string',
-      placeholder: 'AGENCY.EDIT.PLACEHOLDER.STATE',
-      label: 'AGENCY.EDIT.LABEL.STATE',
-      keyField: 'name'
+    address: {
+      type: 'nested',
+      data: {
+        state: {
+          type: 'string',
+          placeholder: 'AGENCY.EDIT.PLACEHOLDER.STATE',
+          label: 'AGENCY.EDIT.LABEL.STATE',
+        },
+        city: {
+          type: 'string',
+          placeholder: 'AGENCY.EDIT.PLACEHOLDER.CITY',
+          label: 'AGENCY.EDIT.LABEL.CITY',
+          keyField: 'name'
+        },
+        district: {
+          type: 'string',
+          placeholder: 'AGENCY.EDIT.PLACEHOLDER.DISTRICT',
+          label: 'AGENCY.EDIT.LABEL.DISTRICT',
+          keyField: 'name'
+        }
+      }
     }, 
-    city: {
-      type: 'string',
-      placeholder: 'AGENCY.EDIT.PLACEHOLDER.CITY',
-      label: 'AGENCY.EDIT.LABEL.CITY',
-      keyField: 'name'
-    },
-    district: {
-      type: 'string',
-      placeholder: 'AGENCY.EDIT.PLACEHOLDER.DISTRICT',
-      label: 'AGENCY.EDIT.LABEL.DISTRICT',
-      keyField: 'name'
-    }
+    
   };
 
 
@@ -718,6 +723,11 @@ function AgencyPage() {
               code: '',
               lot: '',
               subLot: '',
+              address: {
+                state: '',
+                city: '',
+                district: ''
+              }
               // agencyAddress: '',
               // agency: null,
               // date: '',
