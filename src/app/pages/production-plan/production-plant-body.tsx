@@ -12,15 +12,18 @@ const { TabPane } = Tabs;
 function ProductionPlanBody({
   tabData,
   setCurrentTab,
-  currentTab
+  currentTab,
+  setEntities
 }: {
   tabData: any[],
   setCurrentTab: (tab: string | undefined) => void;
   currentTab: string | undefined;
+  setEntities: (el: any) => void;
 }) {
 
   function callback(key: string | undefined) {
     setCurrentTab(key)
+    setEntities([])
   }
   
 
