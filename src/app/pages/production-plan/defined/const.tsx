@@ -40,7 +40,7 @@ export const productPlanSearchModel1: SearchModel = {
   },
   estimatedHarvestTime: {
     type: 'Datetime',
-    customName: 'plan.estimatedTime',
+    customName: 'planting.estimatedHarvestTime',
     label: <Fix title={'PRODUCTION_PLAN.HARVEST_DATE'}/>,
     placeholder: 'PRODUCTION_PLAN.INPUT',
   },
@@ -75,9 +75,9 @@ export const productPlanSearchModel2: SearchModel = {
   },
   estimatedHarvestTime: {
     type: 'Datetime',
+    customName: 'planting.estimatedHarvestTime',
     label: 'PRODUCTION_PLAN.HARVEST_DATE',
     placeholder: 'PRODUCTION_PLAN.INPUT',
-    keyField: 'agencyAddress',
   },
 };
 

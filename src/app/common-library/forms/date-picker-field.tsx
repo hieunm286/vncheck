@@ -1,21 +1,29 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {useField, useFormikContext} from 'formik';
-import DatePicker, {registerLocale} from 'react-datepicker';
-import vi from 'date-fns/locale/vi';
-import 'react-datepicker/dist/react-datepicker.css';
-import "react-datepicker/dist/react-datepicker-cssmodules.css";
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faCalendarAlt} from '@fortawesome/free-solid-svg-icons';
-import { deCapitalizeFirstLetter } from '../helpers/common-function';
+// import DatePicker, {registerLocale} from 'react-datepicker';
+// import vi from 'date-fns/locale/vi';
+// import 'react-datepicker/dist/react-datepicker.css';
+// import "react-datepicker/dist/react-datepicker-cssmodules.css";
+// import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+// import {faCalendarAlt} from '@fortawesome/free-solid-svg-icons';
+// import { deCapitalizeFirstLetter } from '../helpers/common-function';
 
-registerLocale('vi', vi);
+// registerLocale('vi', vi);
+// import DatePicker, {registerLocale} from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css'
+import "react-datepicker/dist/react-datepicker-cssmodules.css";
+import {DatePicker} from 'antd';
+// registerLocale('vi', vi);
+import locale from 'antd/es/date-picker/locale/vi_VN';
+import {useIntl} from "react-intl";
+import moment, {Moment} from 'moment';
 
 const getFieldCSSClasses = (touched: any, errors: any) => {
   const classes = ['form-control'];
   
   if (touched && errors) classes.push('is-invalid');
   
-  if (touched && !errors) classes.push(' ');
+  if (touched && !errors) classes.push('is-valid');
   
   return classes.join(' ');
 };
@@ -107,14 +115,9 @@ const getClassName = (labelWidth: number | null | undefined, labelStart: boolean
 export function DatePickerField({...props}: any) {
   const {setFieldValue, errors, touched} = useFormikContext<any>();
   const [field] = useField(props);
-  const ExampleCustomInput = (props: any) => {
-    return(
-    <div className="form-group mb-0 cursor-pointer">
-      <input type="text"  {...props} className="form-control pr-8"/>
-      <FontAwesomeIcon icon={faCalendarAlt} style={{position: 'absolute', top: 11, right: 9, color: '#42526E'}}
-                       onClick={props.onClick}/>
-    </div>)
-  }
+  const intl = useIntl();
+  const timestamp = new Date();
+  const inverseOffset = moment(timestamp).utcOffset() * -1;
   return (
     <>
       <div className={props.isHorizontal && 'row'}>
@@ -122,29 +125,19 @@ export function DatePickerField({...props}: any) {
           {props.label && <label>{props.label}</label>}
         </div>
         <div className={props.isHorizontal && getClassName(props.labelWidth, false)}>
-          <DatePicker
-            className={getFieldCSSClasses(getTouched(touched, field.name), getError(errors, field.name))}
-            // style={{width: '100%'}}
-            dateFormat="dd/MM/yyyy"
-            selected={(field.value && new Date(field.value)) || null}
-            {...field}
-            {...props}
-            onChange={(val: any) => {
-              if (val) {
-                val.toISOString = () =>
-                (new Date(val.getTime() - val.getTimezoneOffset() * 60000)).toISOString();
-              }
-              setFieldValue(field.name, val);
-            }}
-            autoComplete="off"
-            wrapperClassName="d-block"
-            locale="vi"
-            placeholderText="Chọn"
-            showTimeInput
-            timeInputLabel="Thời gian:"
-            disabled={props.disabled}
-            // customInput={!getError(errors, field.name) && <ExampleCustomInput/>}
-            />
+          <DatePicker picker="date"
+                      className={'default-behave ' + getFieldCSSClasses(getTouched(touched, field.name), getError(errors, field.name))}
+                      locale={locale}
+                      placeholder={intl.formatMessage({id: props.placeholder ?? 'COMMON_COMPONENT.DATEPICKER.PLACEHOLDER'})}
+                      format={"DD/MM/yyyy"}
+                      onChange={(val: Moment | null, dateString: string) => {
+                        setFieldValue(field.name, val);
+                        if (val) setFieldValue(field.name, moment(val).add(val.utcOffset(), 'm').utc().toISOString());
+                        else setFieldValue(field.name, undefined);
+                      }}
+                      disabled={props.disabled}
+                      value={field.value ? moment(field.value).add(inverseOffset,'m') : null}
+          />
           {getError(errors, field.name) && getTouched(touched, field.name) ? (
             <div className="invalid-datepicker-feedback text-danger" style={{fontSize: '0.9rem'}}>
               Vui lòng chọn
