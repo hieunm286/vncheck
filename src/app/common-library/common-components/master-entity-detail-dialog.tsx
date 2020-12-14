@@ -27,8 +27,7 @@ export function MasterEntityDetailDialog({
       aria-labelledby="example-modal-sizes-title-lg"
       dialogClassName="modal-detail">
       <Modal.Header closeButton className="border-bottom-0">
-        <Modal.Title id="example-modal-sizes-title-lg" className="text-primary"
-                     style={{fontSize: 18, fontWeight: "bold"}}>
+        <Modal.Title id="example-modal-sizes-title-lg" className="text-primary">
           {intl
             .formatMessage({id: title}, {moduleName: intl.formatMessage({id: moduleName})})
             .toUpperCase()}
@@ -60,8 +59,9 @@ export function MasterEntityDetail({
     <Modal.Body>
       {renderInfo.map((value: any, key: any) => (
         <div key={key}>
-          <p
-            className="text-primary font-weight-bold detail-dialog-subtitle">{intl.formatMessage({id: value.header})}</p>
+          <p className="text-primary font-weight-bold detail-dialog-subtitle">
+            {intl.formatMessage({id: value.header})}
+          </p>
           {Object.keys(value.data).map((dataKey: any) => (
             <div className="row detail-dialog-row-info" key={dataKey}>
               <div className="col-6">

@@ -30,7 +30,8 @@ const headerTitle = 'PRODUCT_TYPE.MASTER.HEADER.TITLE';
 const tableTitle = 'SHIPPING_AGENCY.MASTER.TABLE.TITLE';
 const detailDialogTitle = 'SHIPPING_AGENCY.DETAIL_DIALOG.TITLE';
 const moduleName = 'PRODUCT_TYPE.MODULE_NAME';
-const deleteDialogTitle = 'PRODUCT_TYPE.DELETE_DIALOG.TITLE';
+const deleteDialogTitle = 'SHIPPING_AGENCY.DELETE_DIALOG.TITLE';
+const deleteDialogBodyTitle = 'SHIPPING_AGENCY.DELETE_DIALOG.BODY_TITLE';
 const createTitle = 'PRODUCT_TYPE.CREATE.TITLE';
 const updateTitle = 'PURCHASE_ORDER.UPDATE.TITLE';
 const homeURL = `${window.location.pathname}`
@@ -289,7 +290,6 @@ function ShippingAgency() {
         show={showDetail}
         renderInfo={masterEntityDetailDialog}/>
       <DeleteEntityDialog
-        moduleName={moduleName}
         entity={deleteEntity}
         onDelete={deleteFn}
         isShow={showDelete}
@@ -299,6 +299,7 @@ function ShippingAgency() {
           setShowDelete(false);
         }}
         title={deleteDialogTitle}
+        bodyTitle={deleteDialogBodyTitle}
       />
       <DeleteManyEntitiesDialog
         moduleName={moduleName}

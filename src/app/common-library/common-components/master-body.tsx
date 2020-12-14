@@ -1,12 +1,12 @@
-import React, { Fragment } from 'react';
-import { Card, CardBody, CardHeader } from '../card';
+import React, {Fragment} from 'react';
+import {Card, CardBody, CardHeader} from '../card';
 import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined';
-import { useIntl } from 'react-intl';
-import { iconStyle } from '../common-consts/const';
-import { MasterTable } from './master-table';
-import { PaginationProps } from '../common-types/common-type';
-import { ColumnDescription } from 'react-bootstrap-table-next';
-import { Link } from 'react-router-dom';
+import {useIntl} from 'react-intl';
+import {iconStyle} from '../common-consts/const';
+import {MasterTable} from './master-table';
+import {PaginationProps} from '../common-types/common-type';
+import {ColumnDescription} from 'react-bootstrap-table-next';
+import {Link} from 'react-router-dom';
 import MasterTreeStructure from './master-tree-structure';
 import MasterGoogleMap from './master-google-map';
 
@@ -25,19 +25,19 @@ export interface BasicUnitDataProps {
 }
 
 export function MasterBody<T>({
-  entities,
-  total,
-  loading,
-  paginationParams,
-  setPaginationParams,
-  onSelectMany,
-  onCreate,
-  selectedEntities,
-  columns,
-  onDeleteMany,
-  isShowId,
-  title,
-}: {
+                                entities,
+                                total,
+                                loading,
+                                paginationParams,
+                                setPaginationParams,
+                                onSelectMany,
+                                onCreate,
+                                selectedEntities,
+                                columns,
+                                onDeleteMany,
+                                isShowId,
+                                title,
+                              }: {
   total: number;
   loading: boolean;
   onSelectMany: (entities: T[]) => void;
@@ -52,35 +52,35 @@ export function MasterBody<T>({
   title?: string;
 }) {
   const intl = useIntl();
-
+  
   const masterColumn = isShowId
     ? {
-        _id: {
-          dataField: '_id',
-          text: 'STT',
-          formatter: (cell: any, row: any, rowIndex: number) => (
-            <Fragment>
-              {rowIndex + 1 + ((paginationParams.page ?? 0) - 1) * (paginationParams.limit ?? 0)}
-            </Fragment>
-          ),
-          headerClasses: 'text-center',
-          align: 'center'
-        },
-        ...columns,
-      }
+      _id: {
+        dataField: '_id',
+        text: 'STT',
+        formatter: (cell: any, row: any, rowIndex: number) => (
+          <Fragment>
+            {rowIndex + 1 + ((paginationParams.page ?? 0) - 1) * (paginationParams.limit ?? 0)}
+          </Fragment>
+        ),
+        headerClasses: 'text-center',
+        align: 'center'
+      },
+      ...columns,
+    }
     : columns;
-
+  
   return (
     <Card>
-      {title && <CardHeader title={intl.formatMessage({ id: title }).toUpperCase()} />}
+      {title && <CardHeader title={intl.formatMessage({id: title}).toUpperCase()}/>}
       <CardBody>
         <div className="row no-gutters mb-10">
-          <div className="col-pc-3 col-tablet-3 col-mobile-3 mr-5">
+          <div className="mr-5 fixed-btn-width">
             <button type="button" className="btn btn-primary w-100" onClick={onCreate}>
-              + {intl.formatMessage({ id: 'COMMON_COMPONENT.MASTER_BODY.HEADER.ADD_BTN' })}
+              + {intl.formatMessage({id: 'COMMON_COMPONENT.MASTER_BODY.HEADER.ADD_BTN'})}
             </button>
           </div>
-          <div className="col-pc-3 col-tablet-3 col-mobile-3 mr-5">
+          <div className="mr-5 fixed-btn-width">
             <button
               type="button"
               className="btn btn-outline-primary w-100"
@@ -88,12 +88,12 @@ export function MasterBody<T>({
                 onSelectMany(selectedEntities);
                 onDeleteMany();
               }}>
-              <DeleteOutlineOutlinedIcon style={iconStyle} />{' '}
-              {intl.formatMessage({ id: 'COMMON_COMPONENT.MASTER_BODY.HEADER.DELETE_BTN' })}
+              <DeleteOutlineOutlinedIcon style={iconStyle}/>
+              {intl.formatMessage({id: 'COMMON_COMPONENT.MASTER_BODY.HEADER.DELETE_BTN'})}
             </button>
           </div>
         </div>
-
+        
         <MasterTable
           entities={entities}
           columns={masterColumn}
@@ -104,7 +104,7 @@ export function MasterBody<T>({
           onSelectMany={onSelectMany}
           selectedEntities={selectedEntities}
         />
-
+        
         {/* <MasterTreeStructure /> */}
       </CardBody>
     </Card>
