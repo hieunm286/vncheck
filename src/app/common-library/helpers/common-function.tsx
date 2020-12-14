@@ -394,6 +394,14 @@ export function InitMasterProps<T>({
       
   };
 
+  const deletePromise = (entity: T) => {
+    return deleteServer(entity)
+  }
+
+  const deleteManyPromise = () => {
+    return deleteManyServer(selectedEntities)
+  }
+
   return {
     entities,
     setEntities,
@@ -433,6 +441,8 @@ export function InitMasterProps<T>({
     update,
     addPromise,
     updatePromise,
+    deletePromise,
+    deleteManyPromise,
     get,
     deleteMany,
     deleteFn,

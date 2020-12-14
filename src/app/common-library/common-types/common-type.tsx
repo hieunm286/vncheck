@@ -43,7 +43,26 @@ export interface DeleteDialogProps<T> {
   error?: string;
 }
 
-export interface NotifyDialogProps {
+export interface DeleteDialogPromiseProps<T> {
+  isShow: boolean;
+  onHide: () => any;
+  onDelete: (entity: T) => any;
+  title?: string;
+  moduleName?: string;
+  entity: T;
+  idProperty?: string;
+  bodyTitle?: string;
+  confirmMessage?: string;
+  deleteBtn?: string;
+  cancelBtn?: string;
+  loading?: boolean;
+  deletingMessage?: string;
+  error?: string;
+  deleteSuccess: any;
+  deleteFail: any;
+}
+
+export interface ConfirmDialogProps {
   isShow: boolean;
   onSubmit: () => any;
   onHide: () => any;
@@ -56,6 +75,16 @@ export interface NotifyDialogProps {
   cancelBtn?: string;
   loading?: boolean;
   error?: string;
+}
+
+export interface NotifyDialogProps {
+  isShow: boolean;
+  onHide: () => any;
+  title?: string;
+  moduleName?: string;
+  bodyTitle?: string;
+  notifyMessage?: string;
+  cancelBtn?: string;
 }
 
 export interface DeleteManyDialogProps<T> {
@@ -75,6 +104,27 @@ export interface DeleteManyDialogProps<T> {
   cancelBtn?: string;
   loading?: boolean;
   error?: string;
+}
+
+export interface DeleteManyDialogPromiseProps<T> {
+  isShow: boolean;
+  onHide: () => any;
+  onDelete: () => any;
+  selectedEntities: any[];
+  title?: string;
+  moduleName?: string;
+  entity?: T;
+  idProperty?: string;
+  bodyTitle?: string;
+  confirmMessage?: string;
+  noSelectedEntityMessage?: string;
+  deletingMessage?: string;
+  deleteBtn?: string;
+  cancelBtn?: string;
+  loading?: boolean;
+  error?: string;
+  deleteSuccess: any;
+  deleteFail: any;
 }
 
 export interface ActionColumnProps<T> {

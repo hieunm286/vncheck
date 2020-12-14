@@ -7,7 +7,7 @@ import { uploadImage } from '../../purchase-order/purchase-order.service';
 import { Card, CardBody, CardHeader } from '../../../common-library/card';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import { convertToForm } from './convert-data-model';
-import { NotifyDialog } from '../../../common-library/common-components/notify-dialog';
+import { ConfirmDialog } from '../../../common-library/common-components/confirm-dialog';
 
 function EntityCrudPageAgency({
   entity,
@@ -180,7 +180,7 @@ function EntityCrudPageAgency({
           </>
         )}
       </Formik>
-      <NotifyDialog
+      <ConfirmDialog
           moduleName='AGENCY.MODULE_NAME'
           confirmMessage='AGENCY.NOTIFY_DIALOG.NOTSAVE'
           onSubmit={() => {

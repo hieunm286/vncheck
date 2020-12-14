@@ -315,6 +315,8 @@
   "LAND_LOT.EDIT.VALIDATION.SUB_LOT_CODE_EMPTY": "Mã thửa không được để trống",
   "LAND_LOT.EDIT.VALIDATION.SUB_LOT_CODE_WRONG_FORMAT": "Mã thửa không đúng định dạng",
   "LAND_LOT.EDIT.VALIDATION.SUB_LOT_CODE_WRONG_FORMAT_LENGTH": "Mã thửa phải có đúng hai chữ số",
+  
+  "LAND_LOT.DELETE.TITLE": "Xóa lô thửa",
 
 
 
