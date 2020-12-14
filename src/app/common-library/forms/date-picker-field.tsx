@@ -123,15 +123,17 @@ export function DatePickerField({...props}: any) {
         </div>
         <div className={props.isHorizontal && getClassName(props.labelWidth, false)}>
           <DatePicker
-            // className={getFieldCSSClasses(getTouched(touched, field.name), getError(errors, field.name))}
+            className={getFieldCSSClasses(getTouched(touched, field.name), getError(errors, field.name))}
             // style={{width: '100%'}}
             dateFormat="dd/MM/yyyy"
             selected={(field.value && new Date(field.value)) || null}
             {...field}
             {...props}
             onChange={(val: any) => {
-              // val.toISOString = () =>
-              //   (new Date(val.getTime() - val.getTimezoneOffset() * 60000)).toISOString();
+              if (val) {
+                val.toISOString = () =>
+                (new Date(val.getTime() - val.getTimezoneOffset() * 60000)).toISOString();
+              }
               setFieldValue(field.name, val);
             }}
             autoComplete="off"
@@ -141,7 +143,8 @@ export function DatePickerField({...props}: any) {
             showTimeInput
             timeInputLabel="Thời gian:"
             disabled={props.disabled}
-            customInput={<ExampleCustomInput/>}/>
+            // customInput={!getError(errors, field.name) && <ExampleCustomInput/>}
+            />
           {getError(errors, field.name) && getTouched(touched, field.name) ? (
             <div className="invalid-datepicker-feedback text-danger" style={{fontSize: '0.9rem'}}>
               Vui lòng chọn

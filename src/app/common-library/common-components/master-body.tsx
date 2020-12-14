@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Card, CardBody, CardHeader } from '../card';
 import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined';
 import { useIntl } from 'react-intl';
@@ -59,9 +59,9 @@ export function MasterBody<T>({
           dataField: '_id',
           text: 'STT',
           formatter: (cell: any, row: any, rowIndex: number) => (
-            <p>
+            <Fragment>
               {rowIndex + 1 + ((paginationParams.page ?? 0) - 1) * (paginationParams.limit ?? 0)}
-            </p>
+            </Fragment>
           ),
           headerClasses: 'text-center',
           align: 'center'

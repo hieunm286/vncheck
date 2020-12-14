@@ -103,14 +103,6 @@ export function MasterTable<T>({
       onSelectMany([])
     },
   };
-
-  const GetSort = (order: string) => {
-    if (order === '1') {
-      return 'asc'
-    }
-    return 'desc'
-  }
-
   return (
     <PaginationProvider pagination={paginationFactory(paginationOptions)}>
       {({ paginationProps, paginationTableProps }) => {

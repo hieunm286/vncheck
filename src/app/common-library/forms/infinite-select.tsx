@@ -38,6 +38,7 @@ export function InfiniteSelect({
                                  isHorizontal,
                                  isDisabled,
                                  validationMessage,
+                                 required,
                                  ...props
                                }: {
   label: string
@@ -52,6 +53,7 @@ export function InfiniteSelect({
   isHorizontal?: boolean;
   isDisabled?: boolean;
   validationMessage?: string;
+  required?: boolean;
 }) {
   const {setFieldValue, errors, touched} = useFormikContext<any>();
   const [values, setValue] = React.useState(null);
@@ -62,7 +64,7 @@ export function InfiniteSelect({
     <>
       <div className={isHorizontal ? 'row' : ''}>
         <div className={isHorizontal ? 'col-xl-4 col-md-4 col-12' : ''}>
-          <label className={isHorizontal ? 'mb-0 input-label mt-2' : ''}>{label}</label>
+          <label className={isHorizontal ? 'mb-0 input-label mt-2' : ''}>{label} {required ? <span className="text-danger">*</span> : <></>}</label>
         </div>
         <div className={isHorizontal ? `col-xl-7 col-md-8 col-12` : ''}>
           <CustomAsyncPaginate

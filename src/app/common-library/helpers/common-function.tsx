@@ -60,7 +60,7 @@ export const generateInitForm = (modifyModel: any, initField?: string, initData?
     else if (modifyModel[key].type === 'object') {
       // initValue[key] = {}
       initValue[key] = generateInitForm(modifyModel[key].data)
-      console.log(generateInitForm(modifyModel[key].data))
+      // console.log(generateInitForm(modifyModel[key].data))
       // Object.keys(modifyModel[key]).map(childKey => {
       //   if (modifyModel[key][childKey].type === 'string') {
       //     initValue[key][childKey] = ''
@@ -171,9 +171,6 @@ export const getField = (field: any, fieldName: string) => {
 
   const arrName = fieldName.split('.')
 
-  console.log(field)
-  console.log(fieldName)
-
   if (!field[arrName[0]]) return;
 
   let fields: any = field[arrName[0]]
@@ -190,6 +187,23 @@ export const getField = (field: any, fieldName: string) => {
   return fields
 }
 
+export const getFieldV2 = (field: any, fieldName: string[]) => {
+
+  if (!field[fieldName[0]]) return;
+
+  let fields: any = field[fieldName[0]]
+
+  fieldName.forEach((el: string, key: number) => {
+    if (key > 0) {
+      if (fields[el]) {
+        fields = fields[el]
+      } 
+    }
+    
+  })
+
+  return fields
+}
 interface FieldProp {
   field: string;
   ref?: { prop: string, key: string }

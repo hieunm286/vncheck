@@ -128,7 +128,7 @@ export function AuthPage() {
             <div
               className="d-flex flex-column-fluid justify-content-center align-items-center flex-column mt-30 mt-lg-0 input-section">
               <div className="d-flex justify-content-center align-items-center flex-column mb-10">
-                <img src={ToAbsoluteUrl('/media/logos/logo-unifarm.png')} alt="logo" width="50"/>
+                <img src={ToAbsoluteUrl('/media/logos/vncheck-company-logo.svg')} alt="logo" width="100"/>
                 <h6 className="text-center mt-5">
                   VNCheck - Giải pháp Blockchain truy xuất nguồn gốc nông sản
                 </h6>

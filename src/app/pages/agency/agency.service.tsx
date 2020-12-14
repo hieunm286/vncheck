@@ -17,7 +17,29 @@ export const Create: CreateProps<AgencyModel> = (data: AgencyModel) => {
   return axios.post(API_URL, data);
 };
 
+const convertAddress = (address: any) => {
+  let convertURL: string = `${API_URL}?`
+
+  Object.keys(address).forEach((key: string, index: number) => {
+    convertURL = convertURL + `address.${key}=${address[key]}`
+
+    if (index !== Object.keys(address).length - 1) {
+      convertURL = convertURL + '&'
+    }
+  })
+
+  return convertURL
+}
+
 export const GetAll: GetAllProps<AgencyModel> = ({ queryProps, sortList, paginationProps }) => {
+  const convertQuery = { ...queryProps }
+  if (queryProps && queryProps.address) {
+    delete convertQuery.address
+    return axios.get(convertAddress(queryProps.address), {
+      params: { ...convertQuery, ...paginationProps, sortList },
+      // paramsSerializer: ParamsSerializer
+    });
+  }
   return axios.get(`${API_URL}`, {
     params: { ...queryProps, ...paginationProps, sortList },
     // paramsSerializer: ParamsSerializer

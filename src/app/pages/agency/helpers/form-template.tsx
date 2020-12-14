@@ -763,6 +763,7 @@ const FormTemplate = ({
                   }}
                   name={key}
                   placeholder={modifyModel.data[key].placeholder}
+                  required={modifyModel.data[key].required}
                 />
               </div>
             );

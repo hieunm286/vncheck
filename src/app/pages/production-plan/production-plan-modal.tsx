@@ -10,9 +10,10 @@ interface ModalProp {
   mode: 'notice' | 'confirm';
   onConfirm?: () => void;
   onClose?: () => void;
+  setSubmit?: (submit: boolean) => void;
 }
 
-function ProductionPlanModal({ show, title, body, mode, onConfirm, onClose }: ModalProp) {
+function ProductionPlanModal({ show, title, body, mode, onConfirm, onClose, setSubmit }: ModalProp) {
   const intl = useIntl();
 
   return (

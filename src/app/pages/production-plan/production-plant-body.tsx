@@ -29,24 +29,6 @@ function ProductionPlanBody({
       {/* {title && <CardHeader title={intl.formatMessage({ id: title }).toUpperCase()} />} */}
       <CardBody>
         <Tabs defaultActiveKey={currentTab} onChange={callback} tabBarStyle={{ color: '#27AE60' }} className="production-plan-tab-active">
-          {/* <TabPane tab="Tab 1" key="1">
-            <MasterTable
-              entities={entities}
-              columns={masterColumn}
-              total={total}
-              loading={loading}
-              paginationParams={paginationParams}
-              setPaginationParams={setPaginationParams}
-              onSelectMany={onSelectMany}
-              selectedEntities={selectedEntities}
-            />
-          </TabPane>
-          <TabPane tab="Tab 2" key="2">
-            Content of Tab Pane 2
-          </TabPane>
-          <TabPane tab="Tab 3" key="3">
-            Content of Tab Pane 3
-          </TabPane> */}
           {tabData.map((item: any, key: number) => (
             <TabPane tab={item.tabTitle} key={'' + key}>
               <MasterTable
@@ -63,7 +45,6 @@ function ProductionPlanBody({
             </TabPane>
           ))}
         </Tabs>
-
         {/* <MasterTreeStructure /> */}
       </CardBody>
     </Card>
