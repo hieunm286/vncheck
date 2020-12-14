@@ -3,12 +3,12 @@ import { Modal } from 'react-bootstrap';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { useIntl } from 'react-intl';
-import { DeleteDialogProps } from '../common-types/common-type';
+import { DeleteDialogPromiseProps } from '../common-types/common-type';
 import { iconStyle } from '../common-consts/const';
 import { ModalProgressBar } from '../modal-progress-bar';
 import { CapitalizeFirstLetter } from '../helpers/common-function';
 
-export function DeleteEntityDialog<T>({
+export function DeleteEntityDialogPromise<T>({
   isShow,
   entity,
   onHide,
@@ -22,8 +22,16 @@ export function DeleteEntityDialog<T>({
   moduleName = 'COMMON_COMPONENT.DELETE_DIALOG.MODULE_NAME',
   loading,
   error,
-}: DeleteDialogProps<T>) {
+  deleteSuccess,
+  deleteFail,
+}: DeleteDialogPromiseProps<T>) {
   const intl = useIntl();
+
+  const handleDelete = (entity: T) => {
+    onDelete(entity)
+      .then(deleteSuccess)
+      .catch((error: any) => deleteFail(error))
+  }
 
   return (
     <Modal
@@ -70,7 +78,7 @@ export function DeleteEntityDialog<T>({
       </Modal.Body>
 
       <Modal.Footer>
-        <button type="button" className="btn btn-primary" onClick={e => onDelete(entity)}>
+        <button type="button" className="btn btn-primary" onClick={e => handleDelete(entity)}>
           <DeleteIcon style={iconStyle} />
           {'\u00A0'}
           {intl.formatMessage({ id: deleteBtn })}

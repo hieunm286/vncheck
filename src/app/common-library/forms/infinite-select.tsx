@@ -34,6 +34,7 @@ export function InfiniteSelect({
                                  name,
                                  additional,
                                  refs,
+                                 changeId,
                                  isHorizontal,
                                  isDisabled,
                                  validationMessage,
@@ -48,6 +49,7 @@ export function InfiniteSelect({
   name: string;
   additional?: any;
   refs?: boolean;
+  changeId?: boolean;
   isHorizontal?: boolean;
   isDisabled?: boolean;
   validationMessage?: string;
@@ -72,7 +74,7 @@ export function InfiniteSelect({
             onChange={(val: any) => {
               setValue(val);
               onChange(val);
-              setFieldValue(name, refs ? val.value : val.label);
+              setFieldValue(name, changeId ? val.value : refs ? val.value : val.label);
             }}
             placeholder={intl.formatMessage({id: placeholder})}
             name={name}
@@ -99,7 +101,7 @@ export function InfiniteSelect({
                   fontFamily: "SVN-Gilroy, Roboto, Poppins, Helvetica, sans-serif",
                 }
               }, menuList: (base, props1) => {
-                console.log(props1);
+                // console.log(props1);
                 return {
                   ...base,
                   fontFamily: "SVN-Gilroy, Roboto, Poppins, Helvetica, sans-serif",

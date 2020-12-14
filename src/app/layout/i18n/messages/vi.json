@@ -314,6 +314,8 @@
   "LAND_LOT.EDIT.VALIDATION.SUB_LOT_CODE_EMPTY": "Mã thửa không được để trống",
   "LAND_LOT.EDIT.VALIDATION.SUB_LOT_CODE_WRONG_FORMAT": "Mã thửa không đúng định dạng",
   "LAND_LOT.EDIT.VALIDATION.SUB_LOT_CODE_WRONG_FORMAT_LENGTH": "Mã thửa phải có đúng hai chữ số",
+  
+  "LAND_LOT.DELETE.TITLE": "Xóa lô thửa",
 
 
 
@@ -380,6 +382,7 @@
   "MULTILEVEL_SALE.MASTER.TABLE.NAME_AGENCY": "Tên đơn vị",
   "DELETE.ERROR.STORE_LEVEL_HAVE_CHILDREN": "Không thể xóa vì cấp bán hàng đã có cấp con hoặc đơn vị bán hàng.",
 
-  "CREATE.ERROR.LAND_LOT.LAND_LOT_IN_USE": "Mã lô thửa đã được dùng"
+  "CREATE.ERROR.LAND_LOT.LAND_LOT_IN_USE": "Mã lô thửa đã được dùng",
+  "DELETE.ERROR.LAND_LOT.LAND_LOT_IN_USE": "Lô thửa đã được sử dụng"
 
 }

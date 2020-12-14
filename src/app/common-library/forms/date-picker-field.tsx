@@ -1,6 +1,15 @@
 import React from 'react';
 import {useField, useFormikContext} from 'formik';
 // import DatePicker, {registerLocale} from 'react-datepicker';
+// import vi from 'date-fns/locale/vi';
+// import 'react-datepicker/dist/react-datepicker.css';
+// import "react-datepicker/dist/react-datepicker-cssmodules.css";
+// import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+// import {faCalendarAlt} from '@fortawesome/free-solid-svg-icons';
+// import { deCapitalizeFirstLetter } from '../helpers/common-function';
+
+// registerLocale('vi', vi);
+// import DatePicker, {registerLocale} from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css'
 import "react-datepicker/dist/react-datepicker-cssmodules.css";
 import {DatePicker} from 'antd';
@@ -131,10 +140,10 @@ export function DatePickerField({...props}: any) {
           />
           {getError(errors, field.name) && getTouched(touched, field.name) ? (
             <div className="invalid-datepicker-feedback text-danger" style={{fontSize: '0.9rem'}}>
-              Vui lòng nhập
+              Vui lòng chọn
               {
                 // errors[field.name]?.toString()
-                props.label
+                '\u00A0' + deCapitalizeFirstLetter(props.label)
               }
             </div>
           ) : (

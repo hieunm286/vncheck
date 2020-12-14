@@ -4,7 +4,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import { Modal } from 'react-bootstrap';
 import { useIntl } from 'react-intl';
 import { ModalProgressBar } from '../modal-progress-bar';
-import { DeleteManyDialogProps } from '../common-types/common-type';
+import { DeleteManyDialogPromiseProps } from '../common-types/common-type';
 import { CapitalizeFirstLetter } from '../helpers/common-function';
 import { iconStyle } from '../common-consts/const';
 
@@ -23,8 +23,16 @@ function DeleteManyDialog<T>({
   moduleName = 'COMMON_COMPONENT.DELETE_MANY_DIALOG.MODULE_NAME',
   loading,
   error,
-}: DeleteManyDialogProps<T>) {
+  deleteSuccess,
+  deleteFail,
+}: DeleteManyDialogPromiseProps<T>) {
   const intl = useIntl();
+
+  const handleDelete = () => {
+    onDelete()
+      .then(deleteSuccess)
+      .catch((error: any) => deleteFail(error))
+  }
 
   return (
     <Modal show={isShow} onHide={() => onHide()} aria-labelledby="example-modal-sizes-title-lg">
@@ -81,7 +89,7 @@ function DeleteManyDialog<T>({
       <Modal.Footer>
         <div>
           {selectedEntities && selectedEntities.length > 0 && (
-            <button type="button" onClick={() => onDelete()} className="btn btn-primary mr-3">
+            <button type="button" onClick={() => handleDelete()} className="btn btn-primary mr-3">
               <DeleteIcon style={iconStyle} />
               {'\u00A0'}
               {intl.formatMessage({ id: deleteBtn })}

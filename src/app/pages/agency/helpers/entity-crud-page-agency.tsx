@@ -1,29 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import ModifyEntityPageAgency from './modify-entity-page-agency';
-import { ModifyModel } from '../../../common-library/common-types/common-type';
-import { useIntl } from 'react-intl';
 import { ConvertStatusToBoolean, generateInitForm, GetHomePage, getNewImage, getOnlyFile } from '../../../common-library/helpers/common-function';
-import { Field, Form, Formik } from 'formik';
-import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
-import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
-import * as Yup from 'yup';
-import { MainInput } from '../../../common-library/forms/main-input';
-import { iconStyle } from '../../../common-library/common-consts/const';
+import { Form, Formik } from 'formik';
 import { Link, useHistory } from 'react-router-dom';
-import ImageUploading from 'react-images-uploading';
-import CustomImageUpload from '../../../common-library/forms/custom-image-upload';
 import { uploadImage } from '../../purchase-order/purchase-order.service';
 import { Card, CardBody, CardHeader } from '../../../common-library/card';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from '@material-ui/core';
 import { convertToForm } from './convert-data-model';
-import { NotifyDialog } from '../../../common-library/common-components/notify-dialog';
+import { ConfirmDialog } from '../../../common-library/common-components/confirm-dialog';
 
 function EntityCrudPageAgency({
   entity,
   onModify,
   title,
-  // modifyModel,
   reduxModel,
   code,
   get,
@@ -33,7 +22,6 @@ function EntityCrudPageAgency({
   validation,
   setShowDialog,
 }: {
-  // modifyModel: ModifyModel;
   title?: string;
   entity?: any;
   onModify: (values: any) => void;
@@ -46,7 +34,6 @@ function EntityCrudPageAgency({
   validation?: any;
   setShowDialog?: any;
 }) {
-  const intl = useIntl();
   const initForm = generateInitForm(allFormField);
   //   const modifyM = { ...modifyModel } as any;
   const history = useHistory();
@@ -120,15 +107,6 @@ function EntityCrudPageAgency({
                     />
                   )}
                   <CardBody>
-                  {/* <FormControl component="fieldset">
-                    <FormLabel component="legend">Gender</FormLabel>
-                    <RadioGroup aria-label="gender" name="gender1" value={defaultShippingAddress} onChange={handleShippingAddressChange}>
-                      <FormControlLabel value={0} control={<Radio />} label="Female" />
-                      <FormControlLabel value={1} control={<Radio />} label="Male" />
-                      <FormControlLabel value={2} control={<Radio />} label="Other" />
-                      <FormControlLabel value={3} disabled control={<Radio />} label="(Disabled option)" />
-                    </RadioGroup>
-                  </FormControl> */}
                     <ModifyEntityPageAgency
                       values={values}
                       images={images}
@@ -137,8 +115,7 @@ function EntityCrudPageAgency({
 
                       }}
                       modifyModel={formParts[key].modifyModel as any}
-                      column={2} // column={formParts[key].modifyModel.length}
-                      // title={intl.formatMessage({id: formParts[key].title}).toUpperCase()}
+                      column={2}
                     />
                   </CardBody>
                   {key === Object.keys(formParts)[Object.keys(formParts).length - 1] && (
@@ -198,22 +175,12 @@ function EntityCrudPageAgency({
               ))}
             
             </Form>
-            {/* 
-            <button type="submit" onClick={() => handleSubmit()} className="btn btn-primary mr-2">
-              <SaveOutlinedIcon style={iconStyle} /> Lưu
-            </button>
-
-            <Link to="/purchase-order">
-              <button type="button" className="btn btn-outline-primary">
-                <CancelOutlinedIcon style={iconStyle} /> Hủy
-              </button>
-            </Link> */}
 
            
           </>
         )}
       </Formik>
-      <NotifyDialog
+      <ConfirmDialog
           moduleName='AGENCY.MODULE_NAME'
           confirmMessage='AGENCY.NOTIFY_DIALOG.NOTSAVE'
           onSubmit={() => {

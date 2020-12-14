@@ -33,9 +33,11 @@ import { Switch, Route, Redirect, useHistory } from 'react-router-dom';
 import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import { convertToServer } from "./helpers/convert-data-model";
+import { mockAgency } from "./helpers/mock-entity";
+import { agencySearchModel, allFormButton, agencySchema, masterEntityDetailDialog } from './defined/const';
 import * as StoreLevelService from '../multilevel-sale/multilevel-sale.service';
 import * as RoleService from './helpers/role.service';
-import { mockAgency } from "./helpers/mock-entity";
+
 
 function AgencyPage() {
 
@@ -86,29 +88,13 @@ function AgencyPage() {
     updateServer: Update
   });
 
-  // const mock_entities: AgencyModel[] = [
-  //   {
-  //       _id: "",
-  //       // address: {state: "Sample State", city: "Sample City", district: "Sample District", address: "Sample address"},
-  //       address: "",
-  //       code: "casual_magenta",
-  //       imagePath: ["sdassad"],
-  //       name: "scattered gold",
-  //       owner: "5fa0df3cc8a04103d0876308",
-  //       phone: "(+84)388944118",
-  //       // shippingAddress: [{state: "Sample State", city: "Sample City", district: "Sample District", address: "Sample address", isDefault: true}],
-  //       shippingAddress: "",
-  //       status: true,
-  //       taxId: "9187609710",
-  //       type: "5fa0df3dc8a04103d0876331"
-  //   }
-  // ]
-
   useEffect(() => {
     getAll(filterProps);
     // setEntities(mock_entities);
     // setEntities([{}]);
   }, [paginationProps, trigger, filterProps]);
+
+  const history = useHistory();
 
   const moduleName = 'AGENCY.MODULE_NAME';
   const headerTitle = 'AGENCY.MASTER.HEADER.TITLE';
@@ -116,7 +102,7 @@ function AgencyPage() {
   // const createTitle = 'PURCHASE_ORDER.CREATE.TITLE';
   // const updateTitle = 'PURCHASE_ORDER.UPDATE.TITLE';
   const bodyTitle = 'AGENCY.MASTER.BODY.TITLE';
-  const history = useHistory();
+
   const columns = [
     {
       dataField: 'ordinal',
@@ -167,24 +153,6 @@ function AgencyPage() {
           get(entity)
             .then(res => {
               setDetailEntity(res.data);
-              // setEditEntity(ConvertStatusToBoolean(res.data));
-              // Promise.all(
-              //   [getUserById(res.data.owner),
-              //     agencyTypeService.Get(
-              //       {_id: res.data.type, code: '', name: '', status: true}
-              //     )
-              //   ]
-              // ).then(values => {
-              //   const agency = res.data;
-              //   const agencyOwner = values[0].data;
-              //   const agencyType = values[1].data;
-              //   setDetailEntity(
-              //     { ...agency, owner: agencyOwner, type: agencyType }
-              //   );
-              //   setEditEntity(
-              //     { ...agency, owner: agencyOwner, type: agencyType }
-              //   );
-              // });
             })
             .catch(error => {
               console.log(error);
@@ -206,190 +174,6 @@ function AgencyPage() {
       ...NormalColumn,
       style: {minWidth: '130px'},
     },
-  ];
-
-  const agencySearchModel: SearchModel = {
-    code: {
-      type: 'string',
-      placeholder: 'AGENCY.MASTER.HEADER.AGENCY_CODE.PLACEHOLDER',
-      label: 'AGENCY.MASTER.HEADER.AGENCY_CODE.LABEL',
-      keyField: 'code'
-    }, 
-    name: {
-      type: 'string',
-      placeholder: 'AGENCY.MASTER.HEADER.AGENCY_NAME.PLACEHOLDER',
-      label: 'AGENCY.MASTER.HEADER.AGENCY_NAME.LABEL',
-      keyField: 'name'
-    }, 
-    storeLevel: {
-      type: 'TreeSelect',
-      placeholder: 'AGENCY.EDIT.PLACEHOLDER.SELL_GOOD_LEVEL',
-      label: 'AGENCY.EDIT.LABEL.SELL_GOOD_LEVEL',
-      keyField: 'name'
-    }, 
-    state: {
-      type: 'string',
-      placeholder: 'AGENCY.EDIT.PLACEHOLDER.STATE',
-      label: 'AGENCY.EDIT.LABEL.STATE',
-      keyField: 'name'
-    }, 
-    city: {
-      type: 'string',
-      placeholder: 'AGENCY.EDIT.PLACEHOLDER.CITY',
-      label: 'AGENCY.EDIT.LABEL.CITY',
-      keyField: 'name'
-    },
-    district: {
-      type: 'string',
-      placeholder: 'AGENCY.EDIT.PLACEHOLDER.DISTRICT',
-      label: 'AGENCY.EDIT.LABEL.DISTRICT',
-      keyField: 'name'
-    }
-  };
-
-
-
-  const agencySchema = Yup.object<AgencyModel>().shape({
-    // code: Yup.string().required('Vui lòng nhập mã đơn vị'),
-    // agencyAddress: Yup.string().required('Vui lòng nhập tên đơn vị'),
-    // phoneNumber: Yup.string().required('Vui lòng nhập số điện thoại'),
-
-    code: Yup.string()
-      .required(intl.formatMessage({id: 'AGENCY.VALIDATION.AGENCY_CODE.REQUIRED'}))
-      // .max(255, intl.formatMessage({id: 'AGENCY.VALIDATION.AGENCY_CODE.MAX_LENGTH_EXCEEDED'}))
-      ,
-    name: Yup.string()
-      .required(intl.formatMessage({id: 'AGENCY.VALIDATION.AGENCY_NAME.REQUIRED'}))
-      .max(255, intl.formatMessage({id: 'AGENCY.VALIDATION.AGENCY_NAME.MAX_LENGTH_EXCEEDED'})),
-    storeLevel: Yup.string()
-      .required(intl.formatMessage({id: 'AGENCY.VALIDATION.STORE_LEVEL.REQUIRED'})),
-    state: Yup.string()
-      .required(intl.formatMessage({id: 'AGENCY.VALIDATION.STATE.REQUIRED'})),
-    city: Yup.string()
-      .required(intl.formatMessage({id: 'AGENCY.VALIDATION.CITY.REQUIRED'})),
-    district: Yup.string()
-      .required(intl.formatMessage({id: 'AGENCY.VALIDATION.DISTRICT.REQUIRED'})),
-    detailAddress: Yup.string()
-      .required(intl.formatMessage({id: 'AGENCY.VALIDATION.ADDRESS.REQUIRED'})),
-    // status: Yup.string()
-    //   .required(intl.formatMessage({id: 'AGENCY.VALIDATION.STATUS.REQUIRED'})),
-    phoneNumber: Yup.string()
-      .required(intl.formatMessage({id: 'AGENCY.VALIDATION.PHONE_NUMBER.REQUIRED'})),
-    taxId: Yup.string()
-      .required(intl.formatMessage({id: 'AGENCY.VALIDATION.TAX_ID.REQUIRED'}))
-      .max(100, intl.formatMessage({id: 'AGENCY.VALIDATION.TAX_ID.MAX_LENGTH_EXCEEDED'})),
-    // image: Yup.string().required(intl.formatMessage({id: 'AGENCY.VALIDATION.AGENCY_CODE.REQUIRED'})),
-
-
-    username: Yup.string()
-      .required(intl.formatMessage({id: 'AGENCY.VALIDATION.USER_NAME.REQUIRED'}))
-      .max(255, intl.formatMessage({id: 'AGENCY.VALIDATION.USER_NAME.MAX_LENGTH_EXCEEDED'})),
-    ownerName: Yup.string()
-      .required(intl.formatMessage({id: 'AGENCY.VALIDATION.OWNER_NAME.REQUIRED'}))
-      .max(255, intl.formatMessage({id: 'AGENCY.VALIDATION.OWNER_NAME.MAX_LENGTH_EXCEEDED'})),
-    ownerPhoneNumber: Yup.string()
-      .required(intl.formatMessage({id: 'AGENCY.VALIDATION.OWNER_PHONE_NUMBER.REQUIRED'}))
-      // .test('len', 'AGENCY.VALIDATION.OWNWER_PHONE_NUMBER.WRONG_EXACT_LENGTH', (val: any) => {return val.length !== null && val.length !== undefined && val.length === 10 }),
-      ,
-    email: Yup.string()
-      .required(intl.formatMessage({id: 'AGENCY.VALIDATION.EMAIL.REQUIRED'}))
-      .max(255, intl.formatMessage({id: 'AGENCY.VALIDATION.EMAIL.MAX_LENGTH_EXCEEDED'})),
-    // gender: Yup.string()
-    //   .required(intl.formatMessage({id: 'AGENCY.VALIDATION.GENDER.REQUIRED'})),
-    birthDay: Yup.date()
-      .required(intl.formatMessage({id: 'AGENCY.VALIDATION.BIRTHDAY.REQUIRED'})),
-    roleName: Yup.string()
-      .required(intl.formatMessage({id: 'AGENCY.VALIDATION.ROLE_NAME.REQUIRED'}))
-      .nullable(),
-    // avatar: Yup.string().required(intl.formatMessage({id: 'AGENCY.VALIDATION.AVATAR.REQUIRED'})),
-  });
-
-  const oldModifyModel: ModifyModel = {
-    code: {
-      type: 'string',
-      placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.PLACEHOLDER',
-      label: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
-    },
-    name: {
-      type: 'string',
-      placeholder: 'PURCHASE_ORDER.MASTER.HEADER.NAME.PLACEHOLDER',
-      label: 'PURCHASE_ORDER.MASTER.HEADER.NAME.LABEL',
-    },
-    phone: {
-      type: 'string',
-      placeholder: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN',
-      label: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN',
-    },
-    status: {
-      type: 'string',
-      placeholder: 'AGENCY.MASTER.TABLE.STATUS_COLUMN',
-      label: 'AGENCY.MASTER.TABLE.STATUS_COLUMN'
-    },
-    taxId: {
-      type: 'string',
-      placeholder: 'AGENCY.MASTER.TABLE.TAXID_COLUMN',
-      label: 'AGENCY.MASTER.TABLE.TAXID_COLUMN'
-    },
-    type: {
-      type: 'string',
-      placeholder: 'AGENCY.MASTER.TABLE.AGENCY_TYPE',
-      label: 'AGENCY.MASTER.TABLE.AGENCY_TYPE'
-    },
-    // owner: "5f8aae8710bd6f1624b533c7",
-    "owner.username": {
-      type: 'string',
-      placeholder: 'AGENCY.MASTER.TABLE.OWNER',
-      label: 'AGENCY.MASTER.TABLE.OWNER'
-    },
-    // shippingAddress: [],
-    shippingAddress:  {
-      type: 'string',
-      placeholder: 'AGENCY.MASTER.TABLE.SHIPING_ADDRESS',
-      label: 'AGENCY.MASTER.TABLE.SHIPPING_ADDRESS'
-    },
-    imagePath: {
-      type: 'string',
-      placeholder: 'PURCHASE_ORDER.MASTER.TABLE.IMAGE_PATH',
-      label: 'PURCHASE_ORDER.MASTER.TABLE.IMAGE_PATH',
-    },
-    address: {
-      type: 'string',
-      placeholder: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS_COLUMN',
-      label: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS_COLUMN',
-    },
-
-  };
-
-  const masterEntityDetailDialog = [
-    {
-      header: 'AGENCY.MASTER.HEADER.AGENCY_INFO',
-      data: [
-        { keyField: 'code', title: 'AGENCY.VIEW.LABEL.AGENCY_CODE' },
-        { keyField: 'name', title: 'AGENCY.VIEW.LABEL.AGENCY_NAME' },
-        { keyField: ['address.district', 'address.city', 'address.state'], title: 'AGENCY.VIEW.LABEL.AGENCY_ADDRESS' },
-        { keyField: 'phone', title: 'AGENCY.VIEW.LABEL.PHONE' },
-        // { keyField: 'taxId', title: 'AGENCY.VIEW.LABEL.AGENCY_NAME.TAX_ID' },
-        { keyField: 'status', title: 'AGENCY.VIEW.LABEL.AGENCY_NAME.STATUS' },
-        // { keyField: 'type.name', title: 'AGENCY_TYPE.MASTER.TABLE.NAME' },
-        // { keyField: 'type.code', title: 'AGENCY_TYPE.MASTER.TABLE.CODE' },
-      ]
-    },
-    {
-      header: 'AGENCY.MASTER.HEADER.AGENCY_OWNER_INFO',
-      data: [
-        { keyField: 'owner.username', title: 'AGENCY.VIEW.LABEL.OWNER_NAME' },
-        { keyField: 'owner.email', title: 'AGENCY.VIEW.LABEL.OWNER_EMAIL' },
-        { keyField: 'owner.phone', title: 'AGENCY.VIEW.LABEL.OWNER_PHONE' },
-      ]
-    },
-    {
-      header: 'AGENCY.VIEW.LABEL.SHIPPING_ADDRESS',
-      data: [
-        { keyField: 'shippingAddress', title: 'AGENCY.VIEW.LABEL.SHIPPING_ADDRESS' },
-      ]
-    },  
-    
- 
   ];
 
   const modifyModel = [
@@ -531,93 +315,7 @@ function AgencyPage() {
         }
       }
     }
-
-    // {
-
-    // }
   ];
-
-  const modifyModel_3 = [{
-    time: {
-      type: 'Datetime',
-      placeholder: 'Thời gian thu hoạch',
-      label: 'Thời gian thu hoạch',
-    },
-    time2: {
-      type: 'Datetime',
-      placeholder: 'Thời gian thu hoạch2',
-      label: 'Thời gian thu hoạch2',
-    },
-    quantity: {
-      type: 'number',
-      label: 'Sản lượng thu hoạch (kg)',
-      placeholder: 'Sản lượng',
-    },
-  }];
-
-  const modifyModel_2 = [{
-    director: {
-      type: 'string',
-      label: 'Thông tin giám đốc',
-      placeholder: 'Thông tin giám đốc',
-    },
-    leader: {
-      type: 'string',
-      label: 'Tổ trưởng gieo trồng',
-      placeholder: 'Tổ trưởng gieo trồng',
-    },
-  }];
-
-  const modifyModel_4 = [
-    {
-      test4: {
-        type: 'string',
-        label: 'Test 4',
-        placeholder: 'Test 4'
-      },
-      test5: {
-        type: 'string',
-        label: 'Test 5',
-        placeholder: 'Test 5'
-      }
-    },
-    {
-      test6: {
-        type: 'string',
-        label: 'Test 6',
-        placeholder: 'Test 6'
-      },
-      test7: {
-        type: 'string',
-        label: 'Test 7',
-        placeholder: 'Test 7'
-      },
-      test8: {
-        type: 'string',
-        label: 'Test 8',
-        placeholder: 'Test 8'
-      }
-    }
-  ]
-
-  const allFormButton: any = {
-    save: {
-      role: 'submit',
-      type: 'submit',
-      linkto: undefined,
-      className: 'btn btn-primary mr-2',
-      label: intl.formatMessage({id: 'AGENCY.EDIT.BUTTON.SAVE'}),
-      icon: <SaveOutlinedIcon />,
-    },
-    cancel: {
-      role: 'popupButton',
-      type: 'button',
-      // linkto: '/agency',
-      className: 'btn btn-outline-primary mr-2',
-      label: intl.formatMessage({id: 'AGENCY.EDIT.BUTTON.CANCEL'}),
-      icon: <CancelOutlinedIcon />,
-    },
-  };
 
   const formPart: any = {
     form_1: {
@@ -642,12 +340,11 @@ function AgencyPage() {
     //   modifyModel: modifyModel_2
     // }
   };
-
+  
   const allFormField: any = {
     ...GenerateAllFormField(modifyModel)
   };
-
-  // const mock_entity: AgencyModel
+  
 
   return (
     <Fragment>
@@ -675,28 +372,6 @@ function AgencyPage() {
         }}
         error={error}
       />
-      {/* <ModifyEntityDialog
-        isShow={showCreate}
-        entity={createEntity}
-        onModify={add}
-        title={createTitle}
-        modifyModel={oldModifyModel}
-        // validationModel={agencySchema}
-        onHide={() => {
-          setShowCreate(false);
-        }}
-      />
-      <ModifyEntityDialog
-        isShow={showEdit}
-        entity={editEntity}
-        onModify={update}
-        title={updateTitle}
-        modifyModel={oldModifyModel}
-        // validationModel={agencySchema}
-        onHide={() => {
-          setShowEdit(false);
-        }}
-      /> */}
 
       <Switch>
         {/* <Redirect from="/purchase-order/edit" to="/purchase-order" /> */}
@@ -718,6 +393,11 @@ function AgencyPage() {
               code: '',
               lot: '',
               subLot: '',
+              address: {
+                state: '',
+                city: '',
+                district: ''
+              }
               // agencyAddress: '',
               // agency: null,
               // date: '',
@@ -771,9 +451,6 @@ function AgencyPage() {
               onModify={(values) => {
                 update(ConvertStatusToString(convertToServer(values)))
               }}
-              // title={updateTitle}
-              //  modifyModel={modifyModel}
-              // reduxModel="purchaseOrder"
               code={match && match.params.code}
               get={AgencyService.GetById}
               formPart={formPart}
