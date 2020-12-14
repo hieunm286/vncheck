@@ -111,6 +111,33 @@ input {
   letter-spacing: 0.1rem;
 }
 
+.modal-content {
+  width: 1000px;
+
+  > div {
+    padding-left: 50px;
+  }
+
+  > .modal-body {
+    padding-top: 0;
+  }
+
+  > .modal-header {
+    padding-top: 50px;
+    padding-bottom: 35px;
+  }
+
+  .detail-dialog-subtitle {
+    font-weight: 600;
+    padding-bottom: 32px;
+    margin-bottom: 0;
+  }
+
+  .detail-dialog-row-info {
+    padding-bottom: 32px;
+  }
+}
+
 .react-bootstrap-table {
   th {
     outline: none;
