@@ -200,7 +200,7 @@ export function MasterHeader<T>({
   
   return (
     <Card>
-      <CardHeader title={intl.formatMessage({id: title}).toUpperCase()}/>
+      <CardHeader className={'master-card-header'} title={intl.formatMessage({id: title}).toUpperCase()}/>
       
       <CardBody>
         <Formik

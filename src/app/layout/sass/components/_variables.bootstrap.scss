@@ -55,8 +55,8 @@ $dark-light:          							    $gray-400 !default; // Custom variable
 $dark-inverse:         								$white !default; // Custom variable
 
 // Primary colors
-$primary:       									#3699FF !default; // Bootstrap variable
-$primary-hover:    									#187DE4 !default; // Custom variable
+$primary:       									#27AE60 !default; // Bootstrap variable
+$primary-hover:    									#05803a !default; // Custom variable
 $primary-light:    									#E1F0FF !default; // Custom variable
 $primary-inverse:  									$white !default;  // Custom variable
 
@@ -85,8 +85,8 @@ $warning-light:    									#FFF4DE !default; // Custom variable
 $warning-inverse:  									$white !default; // Custom variable
 
 // Danger colors
-$danger:        									#0B9446 !default; // Bootstrap variable
-$danger-hover:     									#EE2D41 !default; // Custom variable
+$danger:        									rgb(241, 13, 13) !default; // Bootstrap variable
+$danger-hover:     									#fd0000 !default; // Custom variable
 $danger-light:     									#FFE2E5 !default; // Custom variable
 $danger-inverse:   									$white !default; // Custom variable
 
@@ -364,7 +364,7 @@ $container-max-widths: (
 //
 // Set the number of columns and specify the width of the gutters.
 $grid-columns:                						12 !default;
-$grid-gutter-width:           						25px !default;
+$grid-gutter-width:           						10px !default;
 $grid-divider-bg:                                   $gray-200 !default; // Custom variable
 
 
