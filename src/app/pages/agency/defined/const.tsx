@@ -202,7 +202,6 @@ export const masterEntityDetailDialog = [
 ];
 
 
-
 export const allFormButton: any = {
   save: {
     role: 'submit',
