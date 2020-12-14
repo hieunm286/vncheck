@@ -17,7 +17,7 @@
 }
 
 .menu-icon svg {
-  fill: #0B9446
+  fill: currentColor
 }
 
 .menu-link:hover svg path {
@@ -63,11 +63,11 @@
 
 .menu-item-open a.menu-toggle {
   background-color: white !important;
-  color: #0B9446 !important
+  color: #27AE60 !important
 }
 
 .menu-item-open a.menu-toggle:hover {
-  background-color: #0B9446 !important;
+  background-color: #27AE60 !important;
 }
 
 .menu-item-open a.menu-toggle:hover span {
@@ -75,7 +75,7 @@
 }
 
 .menu-item-open a.menu-toggle span {
-  color: #0B9446 !important
+  color: #27AE60 !important
 }
 
 .menu-text {
@@ -87,7 +87,7 @@
 }
 
 .menu-item.menu-item-open > .menu-link .menu-arrow {
-  color: #0B9446 !important;
+  color: #27AE60 !important;
 } 
 
 .menu-item-open a.menu-toggle:hover .menu-arrow {
