@@ -72,14 +72,14 @@ const FormTemplate = ({
   const { Option } = Select;
 
   // prevent role from being null
-  useEffect(() => {
-    setSearch(formValues);
-  }, [formValues]);
+  // useEffect(() => {
+  //   setSearch(formValues);
+  // }, [formValues]);
   // useEffect(() => {
   //   if(formValues.roleName) {
   //     setSearchSelect(formValues.roleName);
   //   }
-  // }, [formValues])
+  // }, [])
 
   
 
@@ -730,7 +730,8 @@ const FormTemplate = ({
             );
 
           case 'SearchSelect':
-            return (
+            // setTouched({[key]: true})
+            return values[key] && (
               <div className="mt-3" key={key}>
                 <InfiniteSelect
                   changeId
@@ -747,15 +748,17 @@ const FormTemplate = ({
                     //   [key]: searchM[key].ref ? value.value : value.label,
                     // });
                   }}
-                  loadOptions={(search: string, prevOptions: any, { page }: any) =>
-                    loadOptions(
-                      search,
-                      prevOptions,
-                      { page },
-                      modifyModel.data[key].service,
-                      modifyModel.data[key].keyField,
-                      key,
-                    )
+                  loadOptions={(search: string, prevOptions: any, { page }: any) => {
+                      // setSearchSelect(values[key])
+                      return loadOptions(
+                        search,
+                        prevOptions,
+                        { page },
+                        modifyModel.data[key].service,
+                        modifyModel.data[key].keyField,
+                        key,
+                      )
+                    }
                   }
                   refs={modifyModel.data[key].ref}
                   additional={{
