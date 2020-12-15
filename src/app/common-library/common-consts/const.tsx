@@ -19,7 +19,7 @@ export const DefaultPagination: PaginationProps = {
   limit: 5,
 };
 export const iconStyle = {
-  fontSize: 15, marginBottom: 3,marginRight: 2
+  fontSize: 15, transform: 'translateY(-1px)',marginRight: 2
 };
 
 export const SortColumn = {
