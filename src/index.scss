@@ -11,7 +11,7 @@
 @import "./app/layout/sass/themes/layout/brand/dark.scss";
 @import "./app/layout/sass/themes/layout/aside/dark.scss";
 @import '~antd/dist/antd.css';
-
+@import "const";
 // Header themes
 // Light
 //@import "./_metronic/_assets/sass/themes/layout/header/base/light.scss";
@@ -156,7 +156,7 @@ input {
   }
 
   .modal-title {
-    font-size: 18px !important;
+    font-size: $font-size-lg !important;
     font-weight: 700 !important;
   }
 
@@ -243,9 +243,37 @@ input {
 //  }
 //}
 
+.input-search-select{
+  font-size: $defaut-font-size;
+}
+
 .master-card-header{
   .card-label{
-    font-size:18px !important;
+    font-size:$font-size-lg !important;
     font-weight:700 !important;
+  }
+}
+
+html, body{
+  font-size: $defaut-font-size!important;
+}
+
+.ant-tabs-tab{
+  font-size: $defaut-font-size;
+}
+
+.ant-tabs{
+  font-size: $defaut-font-size;
+}
+
+.form-group{
+  label{
+    font-size: $defaut-font-size;
+  }
+}
+
+.form-control{
+  input{
+    font-size: $defaut-font-size;
   }
 }

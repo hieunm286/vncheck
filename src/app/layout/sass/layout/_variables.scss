@@ -1,6 +1,7 @@
 //
 // Layout Config
 //
+@import "../../../../const.scss";
 
 // Root Font Sizes
 $root-font-size:                                    13px; // Root font size for desktop mode
@@ -110,7 +111,7 @@ $header-menu-config: (
 
 						// Text
 						text: (
-							font-size: 1rem,
+							font-size: $defaut-font-size,
 							font-weight: 400,
 							font-transform:	initial
 						),
@@ -192,7 +193,7 @@ $header-menu-config: (
 
 								// Text
 								text: (
-									font-size: 1rem,
+									font-size: $defaut-font-size,
 									font-weight: 400,
 									font-transform:	initial
 								),
@@ -691,7 +692,7 @@ $header-menu-config: (
 
 									// Text
 									text:	(
-										font-size: 1rem,
+										font-size: $defaut-font-size,
 										font-weight: 400,
 										font-transform:	initial
 									),
@@ -1288,7 +1289,7 @@ $aside-menu-config: (
 
 						// Text
 						text:	(
-							font-size: 1rem,
+							font-size: $defaut-font-size,
 							font-weight: 400,
 							font-transform:	initial
 						),
@@ -1355,7 +1356,7 @@ $aside-menu-config: (
 
 								// Text
 								text:	(
-									font-size: 1rem,
+									font-size: $defaut-font-size,
 									font-weight: 400,
 									font-transform:	initial
 								),
@@ -1576,7 +1577,7 @@ $aside-menu-config: (
 
 								// Text
 								text:	(
-									font-size: 1rem,
+									font-size: $defaut-font-size,
 									font-weight: 400,
 									font-transform:	initial
 								),

@@ -1,7 +1,7 @@
 //
 // Accordion
 //
-
+@import "../../../../const";
 // Variables
 $accordion-card-spacer-x: 1.25rem;
 $accordion-card-spacer-y: 1rem;
@@ -69,7 +69,7 @@ $accordion-svg-toggle-width: 3rem;
 
 		.card-body {
 			padding: $accordion-card-spacer-y $accordion-card-spacer-x;
-			font-size: 1rem;
+			font-size: $defaut-font-size;
 		}
 	}
 

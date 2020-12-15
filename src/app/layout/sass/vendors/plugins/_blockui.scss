@@ -1,6 +1,7 @@
 //
 // BlockUI
 //
+@import "../../../../../const.scss";
 
 
 
@@ -22,7 +23,7 @@
     > span {
         color: $dark-75;
         padding: 0.75rem 1.2rem;
-        font-size: 1rem;
+        font-size: $defaut-font-size;
         font-weight: 400;
         flex-wrap: nowrap;
 

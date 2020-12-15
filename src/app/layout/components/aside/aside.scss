@@ -2,7 +2,7 @@
 .aside-menu .menu-nav > .menu-item > .menu-submenu .menu-subnav > .menu-item > .menu-link {
   padding-left: 50px !important;
 } */
-
+@import "../../../../const.scss";
 .menu-item.menu-item-active.menu-item-open svg {
   fill: white !important;
 }
@@ -12,7 +12,7 @@
 }
 
 .menu-text.title {
-  font-size: 13px !important;
+  font-size: $defaut-font-size !important;
   font-weight: bold !important;
 }
 
@@ -53,21 +53,21 @@
 
 /* submenu icon green color */
 .menu-item.menu-item-submenu.false.menu-item-open a.menu-link.menu-toggle span.svg-icon.menu-icon svg path {
-  fill: #27AE60 !important;
+  fill: $primary-color !important;
 }
 
 /* submenu text green color */
 .menu-item.menu-item-submenu.false.menu-item-open a.menu-link.menu-toggle span.menu-text {
-  color: #27AE60 !important;
+  color: $primary-color !important;
 }
 
 .menu-item-open a.menu-toggle {
   background-color: white !important;
-  color: #27AE60 !important
+  color: $primary-color !important
 }
 
 .menu-item-open a.menu-toggle:hover {
-  background-color: #27AE60 !important;
+  background-color: $primary-color !important;
 }
 
 .menu-item-open a.menu-toggle:hover span {
@@ -75,11 +75,11 @@
 }
 
 .menu-item-open a.menu-toggle span {
-  color: #27AE60 !important
+  color: $primary-color !important
 }
 
 .menu-text {
-  font-size: 12px !important;
+  font-size: $defaut-font-size !important;
 }
 
 .menu-link:hover .aside-menu .menu-nav > .menu-item .menu-submenu .menu-item.menu-item-open > .menu-link .menu-arrow {
@@ -87,8 +87,8 @@
 }
 
 .menu-item.menu-item-open > .menu-link .menu-arrow {
-  color: #27AE60 !important;
-} 
+  color: $primary-color !important;
+}
 
 .menu-item-open a.menu-toggle:hover .menu-arrow {
   color: white !important

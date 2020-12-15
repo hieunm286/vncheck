@@ -380,7 +380,7 @@ $body-color:                						$dark-75 !default;
 // Font family
 $font-family-base:            						SVN-Gilroy, Roboto, Poppins, Helvetica, "sans-serif" !default;
 
-$font-size-base:              						1rem !default; // Assumes the browser default, typically `13px`
+$font-size-base:              						12px !default; // Assumes the browser default, typically `13px`
 $font-size-lg:               	 					$font-size-base * 1.08 !default;   // 14.04px
 $font-size-sm:                						$font-size-base * .925 !default;   // 12.025px
 $font-size-xs:                						$font-size-base * .8 !default;     // 10.4px

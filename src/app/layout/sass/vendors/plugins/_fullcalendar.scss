@@ -2,6 +2,7 @@
 // Fullcalendar
 //
 
+@import "../../../../../const.scss";
 
 // Base
 @mixin fullcalendar-base() {
@@ -37,7 +38,7 @@
         // Header
         th.fc-day-header {
             padding: $head-space-y $head-space-x;
-            font-size: 1rem;
+            font-size: $defaut-font-size;
             font-weight: 500;
         }
 
@@ -48,7 +49,7 @@
 
             .fc-list-heading-main,
             .fc-list-heading-alt {
-                font-size: 1rem;
+                font-size: $defaut-font-size;
                 font-weight: 400;
             }
 
@@ -130,7 +131,7 @@
         }
 
         .fc-list-item-title > a {
-            font-size: 1rem;
+            font-size: $defaut-font-size;
             font-weight: 500;
         }
 
@@ -193,7 +194,7 @@
                 outline: none !important;
                 height: 2.75rem;
                 padding: 0 1.25rem;
-                font-size: 1rem;
+                font-size: $defaut-font-size;
 
                 &.fc-corner-left {
                     @include border-top-left-radius($border-radius);
