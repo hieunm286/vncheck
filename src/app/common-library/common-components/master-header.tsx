@@ -9,7 +9,7 @@ import {ToAbsoluteUrl} from '../helpers/assets-helpers';
 import {SearchModel} from '../common-types/common-type';
 // import InfiniteScroll from 'react-infinite-scroll-component';
 import {AxiosResponse} from 'axios';
-import {DefaultPagination} from '../common-consts/const';
+import {DefaultPagination, iconStyle} from '../common-consts/const';
 import {InfiniteSelect} from '../forms/infinite-select';
 import {DatePickerField} from '../forms/date-picker-field';
 // import InfiniteSelect from '../forms/infinite-select';
@@ -200,7 +200,7 @@ export function MasterHeader<T>({
   
   return (
     <Card>
-      <CardHeader title={intl.formatMessage({id: title}).toUpperCase()}/>
+      <CardHeader className={'master-card-header'} title={intl.formatMessage({id: title}).toUpperCase()}/>
       
       <CardBody>
         <Formik
@@ -565,20 +565,20 @@ export function MasterHeader<T>({
               </div>
               
               <div className="row no-gutters">
-                <div className="mr-5" style={{width: "8rem"}}>
+                <div className="mr-5 fixed-btn-width">
                   <button className="btn btn-primary w-100" type="submit">
-                    <SearchIcon style={{fontSize: 14, marginBottom: 2}}/>
+                    <SearchIcon style={iconStyle}/>
                     {intl.formatMessage({id: 'COMMON_COMPONENT.MASTER_HEADER.SEARCH_BTN'})}
                   </button>
                 </div>
                 
-                <div className="mr-5" style={{width: "8rem"}}>
+                <div className="mr-5 fixed-btn-width">
                   <button
                     className="btn btn-outline-primary w-100"
                     type="reset"
                     onClick={() => handleResetForm(resetForm)}>
                     <SVG src={ToAbsoluteUrl('/media/svg/vncheck/reset-filter.svg')}
-                         style={{fontSize: 14, marginBottom: 3}}/>
+                         style={iconStyle}/>
                     &nbsp;
                     {intl.formatMessage({id: 'COMMON_COMPONENT.MASTER_HEADER.RESET_FILTER_BTN'})}
                   </button>

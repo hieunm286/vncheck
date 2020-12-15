@@ -9,7 +9,7 @@ $root-font-size-md:                             	12px; // Root font size for mob
 
 // Layout Theme Colors
 $layout-themes: (
-	dark:  #1e1e2d, // Dark theme color
+	dark:  #ffffff, // Dark theme color
 	light: #ffffff // Light theme color
 ) !default;
 
@@ -18,8 +18,8 @@ $page-bg:	 										#EEF0F8 !default;
 
 // Page Paddings
 $page-padding: (
-	desktop: 25px, // Padding for desktop mode
-	tablet-and-mobile: 15px // Padding for tablet and mobile modes
+	desktop: 10px, // Padding for desktop mode
+	tablet-and-mobile: 10px // Padding for tablet and mobile modes
 ) !default;
 
 // Header
@@ -480,9 +480,9 @@ $header-menu-config: (
 									self: (
 										bg-color: (
 											default: transparent,
-											open: #1b1b28,
-											active: #1b1b28,
-											hover: #1b1b28
+											open: #27AE60,
+											active: #27AE60,
+											hover: #27AE60
 										)
 									),
 
@@ -519,7 +519,7 @@ $header-menu-config: (
 									// Text
 									text: (
 										font-color:	(
-											default: #a2a3b7,
+											default: #27AE60,
 											here: #ffffff,
 											active: #ffffff,
 											hover: #ffffff
@@ -555,7 +555,7 @@ $header-menu-config: (
 
 											// Text
 											text: (
-												font-color:	#a2a3b7
+												font-color:	#27AE60
 											)
 										)
 									)
@@ -795,10 +795,10 @@ $header-menu-config: (
 								self: (
 									bg-color: (
 										default: transparent,
-										open: #1b1b28,
-										here: #1b1b28,
-										active: #1b1b28,
-										hover: #1b1b28
+										open: #27AE60,
+										here: #27AE60,
+										active: #27AE60,
+										hover: #27AE60
 									)
 								),
 								// Icon
@@ -815,7 +815,7 @@ $header-menu-config: (
 								bullet:	(
 									dot: (
 										bg-color: (
-											default: #0B9446,
+											default: #27AE60,
 											open: $primary,
 											here: $primary,
 											active: $primary,
@@ -824,7 +824,7 @@ $header-menu-config: (
 									),
 									line: (
 										bg-color: (
-											default: #0B9446,
+											default: #27AE60,
 											open: $primary,
 											here: $primary,
 											active: $primary,
@@ -835,7 +835,7 @@ $header-menu-config: (
 								// Text
 								text:	(
 									font-color:	(
-										default: #a2a3b7,
+										default: #27AE60,
 										open: #ffffff,
 										here: #ffffff,
 										active: #ffffff,
@@ -845,7 +845,7 @@ $header-menu-config: (
 								// Arrow
 								arrow:	(
 									font-color:	(
-										default: #0B9446,
+										default: #27AE60,
 										open: #ffffff,
 										here: #ffffff,
 										active: #ffffff,
@@ -883,10 +883,10 @@ $header-menu-config: (
 										self: (
 											bg-color: (
 												default: transparent,
-												open: #1b1b28,
-												here: #1b1b28,
-												active: #1b1b28,
-												hover: #1b1b28
+												open: #27AE60,
+												here: #27AE60,
+												active: #27AE60,
+												hover: #27AE60
 											)
 										),
 
@@ -905,7 +905,7 @@ $header-menu-config: (
 										bullet:	(
 											dot: (
 												bg-color: (
-													default: #0B9446,
+													default: #27AE60,
 													open: $primary,
 													here: $primary,
 													active: $primary,
@@ -914,7 +914,7 @@ $header-menu-config: (
 											),
 											line: (
 												bg-color: (
-													default: #0B9446,
+													default: #27AE60,
 													open: $primary,
 													here: $primary,
 													active: $primary,
@@ -925,7 +925,7 @@ $header-menu-config: (
 										// Text
 										text: (
 											font-color:	(
-												default: #9899ac,
+												default: #27AE60,
 												open: #ffffff,
 												active: #ffffff,
 												hover: #ffffff
@@ -934,7 +934,7 @@ $header-menu-config: (
 										// Arrow
 										arrow:	(
 											font-color:	(
-												default: #0B9446,
+												default: #27AE60,
 												open: #ffffff,
 												here: #ffffff,
 												active: #ffffff,
@@ -1653,10 +1653,10 @@ $aside-menu-config: (
 							self: (
 								bg-color: (
 									default: transparent,
-									open: #1b1b28,
-									here: #1b1b28,
-									active: #1b1b28,
-									hover: #1b1b28
+									open: #27AE60,
+									here: #27AE60,
+									active: #27AE60,
+									hover: #27AE60
 								)
 							),
 
@@ -1675,7 +1675,7 @@ $aside-menu-config: (
 							bullet:	(
 								dot: (
 									bg-color: (
-										default: #0B9446,
+										default: #27AE60,
 										open: $primary,
 										here: $primary,
 										active: $primary,
@@ -1685,7 +1685,7 @@ $aside-menu-config: (
 
 								line: (
 									bg-color: (
-										default: #0B9446,
+										default: #27AE60,
 										open: $primary,
 										here: $primary,
 										active: $primary,
@@ -1697,7 +1697,7 @@ $aside-menu-config: (
 							// Text
 							text:	(
 								font-color:	(
-									default: #a2a3b7,
+									default: #27AE60,
 									open: #ffffff,
 									here: #ffffff,
 									active: #ffffff,
@@ -1708,7 +1708,7 @@ $aside-menu-config: (
 							// Arrow
 							arrow:	(
 								font-color:	(
-									default: #0B9446,
+									default: #27AE60,
 									open: #ffffff,
 									here: #ffffff,
 									active: #ffffff,
@@ -1747,10 +1747,10 @@ $aside-menu-config: (
 									self: (
 										bg-color: (
 											default: transparent,
-											open: #1b1b28,
-											here: #1b1b28,
-											active: #1b1b28,
-											hover: #1b1b28
+											open: #27AE60,
+											here: #27AE60,
+											active: #27AE60,
+											hover: #27AE60
 										)
 									),
 									// Icon
@@ -1767,7 +1767,7 @@ $aside-menu-config: (
 									bullet:	(
 										dot: (
 											bg-color: (
-												default: #0B9446,
+												default: #27AE60,
 												open: $primary,
 												here: $primary,
 												active: $primary,
@@ -1776,7 +1776,7 @@ $aside-menu-config: (
 										),
 										line: (
 											bg-color: (
-												default: #0B9446,
+												default: #27AE60,
 												open: $primary,
 												here: $primary,
 												active: $primary,
@@ -1787,7 +1787,7 @@ $aside-menu-config: (
 									// Text
 									text: (
 										font-color:	(
-											default: #9899ac,
+											default: #27AE60,
 											open: #ffffff,
 											active: #ffffff,
 											hover: #ffffff
@@ -1796,7 +1796,7 @@ $aside-menu-config: (
 									// Arrow
 									arrow:	(
 										font-color:	(
-											default: #0B9446,
+											default: #27AE60,
 											open: #ffffff,
 											here: #ffffff,
 											active: #ffffff,

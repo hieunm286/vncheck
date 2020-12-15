@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { Count, Create, Delete, DeleteMany, Get, GetAll, Update } from './land-lot.service';
 import { LandLotModel } from './land-lot.model';
@@ -9,8 +9,8 @@ import { MasterBody } from '../../common-library/common-components/master-body';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import IndeterminateCheckBoxIcon from '@material-ui/icons/IndeterminateCheckBox';
 import { ActionsColumnFormatter } from '../../common-library/common-components/actions-column-formatter';
-import { DeleteEntityDialog } from '../../common-library/common-components/delete-entity-dialog';
-import DeleteManyEntitiesDialog from '../../common-library/common-components/delete-many-dialog';
+import { DeleteEntityDialogPromise } from '../../common-library/common-components/delete-entity-dialog-promise';
+import DeleteManyEntitiesDialogPromise from '../../common-library/common-components/delete-many-dialog-promise';
 import ModifyEntityDialog from './helpers/modify-entity-dialog';
 import { ModifyModel, SearchModel } from '../../common-library/common-types/common-type';
 import {
@@ -32,6 +32,7 @@ import { stringOnChange, searchSelectOnChange } from './helpers/autofill';
 import { genCharArray, genNumberArray } from './helpers/modify-entity-page-land-lot';
 import { DefaultPagination } from '../../common-library/common-consts/const';
 import { toast } from 'react-toastify';
+import { NotifyDialog } from '../../common-library/common-components/notify-dialog';
 
 const DataExample: any = [
   {
@@ -121,6 +122,8 @@ function LandLot() {
     refreshData,
     addPromise,
     updatePromise,
+    deletePromise,
+    deleteManyPromise,
   } = InitMasterProps<LandLotModel>({
     getServer: Get,
     countServer: Count,
@@ -131,6 +134,8 @@ function LandLot() {
     updateServer: Update,
   });
 
+  const [ showNotifyDialog, setShowNotifyDialog ] = useState<boolean>(false);
+
   const moduleName = 'LAND_LOT.MODULE_NAME';
   const headerTitle = 'LAND_LOT.MASTER.HEADER.TITLE';
   const bodyTitle = 'LAND_LOT.MASTER.BODY.TITLE';
@@ -138,6 +143,18 @@ function LandLot() {
   const updateTitle = 'LAND_LOT.EDIT.TITLE';
   const viewTitle = 'LAND_LOT.VIEW.TITLE';
   const history = useHistory();
+
+  const deleteSuccess = () => {
+    refreshData();
+  }
+
+  const deleteFail = (error: any) => {
+    setError(error.message || error.response.data || JSON.stringify(error))
+    setLoading(false);
+    setShowDelete(false);
+    setShowDeleteMany(false);
+    setShowNotifyDialog(true);
+  }
 
   const PurchaseOrderSchema = Yup.object().shape({
   // code: Yup.string().required('abc'),
@@ -222,7 +239,7 @@ function LandLot() {
     },
   };
 
-  const notify = () => {
+  const notify = (error: string) => {
     toast.error(`😠 ${error}`, {
       position: 'top-right',
       autoClose: 5000,
@@ -236,7 +253,7 @@ function LandLot() {
 
   useEffect(() => {
     if (error !== '') {
-      notify();
+      notify(intl.formatMessage({id: error}));
     }
   }, [error]);
 
@@ -511,27 +528,44 @@ function LandLot() {
           setShowDetail(false);
         }}
       />
-      <DeleteEntityDialog
+      <DeleteEntityDialogPromise
         moduleName={moduleName}
         entity={deleteEntity}
-        onDelete={deleteFn}
+        onDelete={deletePromise}
         isShow={showDelete}
         onHide={() => {
           setShowDelete(false);
+          setError('');
         }}
         loading={loading}
         error={error}
+        deleteSuccess={deleteSuccess}
+        deleteFail={deleteFail}
       />
-      <DeleteManyEntitiesDialog
+      <DeleteManyEntitiesDialogPromise
         moduleName={moduleName}
         selectedEntities={selectedEntities}
         loading={loading}
         error={error}
         isShow={showDeleteMany}
-        onDelete={deleteMany}
+        onDelete={deleteManyPromise}
         onHide={() => {
           setShowDeleteMany(false);
+          setError('');
         }}
+        deleteSuccess={deleteSuccess}
+        deleteFail={deleteFail}
+      />
+      <NotifyDialog 
+        isShow={showNotifyDialog}
+        onHide={() => {
+            setShowNotifyDialog(false);
+            setError(''); 
+          }
+        }
+        // title={intl.formatMessage({id: 'LAND_LOT.DELETE.TITLE'}).toUpperCase()}
+        moduleName='LAND_LOT.MODULE_NAME'
+        notifyMessage='DELETE.ERROR.LAND_LOT.LAND_LOT_IN_USE'
       />
       <ModifyEntityDialog
         autoFill=''

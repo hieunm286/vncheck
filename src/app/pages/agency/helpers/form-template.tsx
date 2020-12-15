@@ -26,13 +26,7 @@ import './ant-select.scss'
 import SelectDropDownIcon from '../../../common-library/forms/select-drop-down-icon';
 
 const FormTemplate = ({
-  // entity,
-  // onModify,
-  // title,
   modifyModel,
-  // reduxModel,
-  // code,
-  // get,
   images,
   onChange,
   title,
@@ -45,12 +39,6 @@ const FormTemplate = ({
   formValues,
 }: {
   modifyModel: any;
-  // title: string;
-  // entity: T;
-  // onModify: (values: any) => void;
-  // reduxModel: string;
-  // code: string | null;
-  // get: (code: string) => any | null;
   images?: any;
   onChange?: any;
   title?: string;
@@ -72,14 +60,14 @@ const FormTemplate = ({
   const { Option } = Select;
 
   // prevent role from being null
-  useEffect(() => {
-    setSearch(formValues);
-  }, [formValues]);
+  // useEffect(() => {
+  //   setSearch(formValues);
+  // }, [formValues]);
   // useEffect(() => {
   //   if(formValues.roleName) {
   //     setSearchSelect(formValues.roleName);
   //   }
-  // }, [formValues])
+  // }, [])
 
   
 
@@ -181,59 +169,6 @@ const FormTemplate = ({
 
 
 
-  const dataT: any = [
-    {
-      _id: 'abc',
-      code: '000001',
-      name: 'Rau muống',
-      barcode: '8930000001',
-      imageURL: 'https://product.hstatic.net/1000191320/product/rau-cai-chip_master.jpg',
-      growingDays: 15,
-      plantingDays: 30,
-      expiryDays: 30,
-    },
-    {
-      _id: 'abcd',
-      code: '000003',
-      name: 'Rau cải',
-      barcode: '8930000003',
-      imageURL: 'https://product.hstatic.net/1000191320/product/rau-cai-chip_master.jpg',
-      growingDays: 15,
-      plantingDays: 30,
-      expiryDays: 60,
-    },
-    {
-      _id: 'abce',
-      code: '000004',
-      name: 'Rau muống',
-      barcode: '8930000004',
-      imageURL: 'https://product.hstatic.net/1000191320/product/rau-cai-chip_master.jpg',
-      growingDays: 15,
-      plantingDays: 30,
-      expiryDays: 17,
-    },
-    {
-      _id: 'abcf',
-      code: '000005',
-      name: 'Rau muống',
-      barcode: '8930000005',
-      imageURL: 'https://product.hstatic.net/1000191320/product/rau-cai-chip_master.jpg',
-      growingDays: 15,
-      plantingDays: 30,
-      expiryDays: 19,
-    },
-    {
-      _id: 'abdacf',
-      code: '000009',
-      name: 'Rau cần',
-      barcode: '8930000009',
-      imageURL: 'https://product.hstatic.net/1000191320/product/rau-cai-chip_master.jpg',
-      growingDays: 15,
-      plantingDays: 30,
-      expiryDays: 19,
-    },
-  ];
-
   const loadOptions = async (
     search: string,
     prevOptions: any,
@@ -252,22 +187,9 @@ const FormTemplate = ({
 
     if(!service) console.error('search select with undefined service')
     const entities = await service.GetAll({ queryProps, paginationProps });
-    // console.log(entities)
-    // const count = await service.Count({ queryProps });
     const count = entities.data.length;
-    // console.log(count)
 
     const hasMore = prevOptions.length < count - (DefaultPagination.limit ?? 0);
-
-    // const entities = await service.GetAll({ queryProps, paginationProps });
-    // // const count = onCount ? await onCount({ queryProps }) : await service.Count({ queryProps });
-    // const count = entities.data.paging.total
-    // const hasMore = prevOptions.length < count - (DefaultPagination.limit ?? 0);
-
-    // setSearchTerm({ ...searchTerm, [key]: search });
-
-    // const data = [...new Set(entities.data)];
-    // console.log(data)
 
     return {
       options: entities.data.map((e: any) => {
@@ -334,7 +256,6 @@ const FormTemplate = ({
 
 
           case 'stateSelect':
-            // const stateValues = Object.values(STATE_LIST).map((state: any) => {return {value: state.name, key: state.code}});
             const labelWidth = 4;
             const isHorizontal = true;
             const label = modifyModel.data[key].label;
@@ -403,26 +324,6 @@ const FormTemplate = ({
                   )}
                   </Field>
                 </div>
-                {/* <Field
-                  name={key}
-                  type="number"
-                  value={selectedState.value}
-                  children={stateValues}
-                  onChange={(e: any) => {
-                      const selectedIndex = e.target.options.selectedIndex;
-                      const key = e.target.options[selectedIndex].getAttribute('data-code')
-                      setSelectedState({value: e.target.value, key: key}
-                      )
-                    }
-                  }
-                  component={SelectField}
-                  isHorizontal
-                  withFeedbackLabel
-                  labelWidth={4}
-                  placeholder={value.data[key].placeholder}
-                  label={value.data[key].label}
-                  required={value.data[key].required}
-                /> */}
               </div>
             );
 
@@ -447,6 +348,7 @@ const FormTemplate = ({
                           const key = getCodeFromName(Object.values(CITY_LIST).filter((city: any) => {return city.parent_code === selectedState.key}), value);
                           setSelectedCity({value: value, key: key})
                           setSelectedDistrict({value: '', key: ''})
+                          setFieldValue('city', value);
                           setFieldValue('district', intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'}));
                         }
                       }
@@ -456,9 +358,6 @@ const FormTemplate = ({
                       {(selectedState && selectedState.key) ?
                         Object.values(CITY_LIST).filter((city: any) => {return city.parent_code === selectedState.key}).map((city: any) => {
                           return (
-                          //   city.name === values.city) ? (
-                          //   <Option selected key={city.code} data-code={city.code} value={city.name}>{city.name}</Option>
-                          // ) : (
                             <Option key={city.code} data-code={city.code} value={city.name}>{city.name}</Option>
                           )
                         })
@@ -473,26 +372,6 @@ const FormTemplate = ({
                       }
                   </div>
                 </div>
-                {/* <Field
-                  name={key}
-                  type="number"
-                  value={selectedCity.value}
-                  children={cityValues}
-                  onChange={(e: any) => {
-                    const selectedIndex = e.target.options.selectedIndex;
-                    const key = e.target.options[selectedIndex].getAttribute('data-code')
-                    setSelectedCity({value: e.target.value, key: key}
-                      )
-                    }
-                  }
-                  component={SelectField}
-                  isHorizontal
-                  withFeedbackLabel
-                  labelWidth={4}
-                  placeholder={value.data[key].placeholder}
-                  label={value.data[key].label}
-                  required={value.data[key].required}
-                /> */}
               </div>
             );
 
@@ -515,6 +394,7 @@ const FormTemplate = ({
                             // const selectedIndex = e.target.options.selectedIndex;
                             // const key = e.target.options[selectedIndex].getAttribute('data-code')
                             const key = getCodeFromName(Object.values(DISTRICT_LIST).filter((district: any) => {return district.parent_code === selectedCity.key}), value);
+                            setFieldValue('district', value);
                             setSelectedDistrict({value: value, key: key})
                             // setFieldValue('district', e.target.value);
                           }
@@ -539,26 +419,6 @@ const FormTemplate = ({
                       }
                     </div>
                   </div>
-                {/* <Field
-                  name={key}
-                  type="number"
-                  value={selectedDistrict.value}
-                  children={districtValues}
-                  onChange={(e: any) => {
-                    const selectedIndex = e.target.options.selectedIndex;
-                    const key = e.target.options[selectedIndex].getAttribute('data-code')
-                    setSelectedDistrict({value: e.target.value, key: key}
-                      )
-                    }
-                  }
-                  component={SelectField}
-                  isHorizontal
-                  withFeedbackLabel
-                  labelWidth={4}
-                  placeholder={value.data[key].placeholder}
-                  label={value.data[key].label}
-                  required={value.data[key].required}
-                /> */}
               </div>
             );
 
@@ -730,9 +590,11 @@ const FormTemplate = ({
             );
 
           case 'SearchSelect':
-            return (
+            // setTouched({[key]: true})
+            return values[key] && (
               <div className="mt-3" key={key}>
                 <InfiniteSelect
+                  changeId
                   label={modifyModel.data[key].label}
                   isHorizontal={true}
                   value={searchSelect} // value={search[key]}
@@ -746,15 +608,17 @@ const FormTemplate = ({
                     //   [key]: searchM[key].ref ? value.value : value.label,
                     // });
                   }}
-                  loadOptions={(search: string, prevOptions: any, { page }: any) =>
-                    loadOptions(
-                      search,
-                      prevOptions,
-                      { page },
-                      modifyModel.data[key].service,
-                      modifyModel.data[key].keyField,
-                      key,
-                    )
+                  loadOptions={(search: string, prevOptions: any, { page }: any) => {
+                      // setSearchSelect(values[key])
+                      return loadOptions(
+                        search,
+                        prevOptions,
+                        { page },
+                        modifyModel.data[key].service,
+                        modifyModel.data[key].keyField,
+                        key,
+                      )
+                    }
                   }
                   refs={modifyModel.data[key].ref}
                   additional={{
@@ -855,46 +719,3 @@ export const getNameFromCode = (arr: any[], code: number | string) => {
   if (index === -1) return '';
   return arr[index].name;
 };
-
-
-
-const DataExample: any = [
-  {
-    _id: 'dlc1',
-    code: 'zz_1',
-    title: 'Đại lý cấp 1',
-    child: [
-      {
-        _id: 'xxx-xxx',
-        code: 'cccc',
-        title: 'Đại lý cấp 2',
-        parentId: 'dlc1',
-      },
-    ],
-  },
-  {
-    _id: 'sieuthi',
-    code: 'abcxyz',
-    title: 'Siêu thị',
-    child: [],
-  },
-  {
-    _id: 'bigC',
-    code: 'dcvf',
-    title: 'Big C',
-    child: [
-      {
-        _id: 'xxx-xxx4',
-        code: 'cvfv',
-        title: 'Đại lý cấp 4',
-        parentId: 'bigC',
-      },
-      {
-        _id: 'xxx-xxx5',
-        code: 'dfs',
-        title: 'Đại lý cấp 5',
-        parentId: 'bigC',
-      },
-    ],
-  },
-];

@@ -5,25 +5,26 @@ import React from 'react';
 import SVG from 'react-inlinesvg';
 import Visibility from '@material-ui/icons/Visibility';
 import './master-table.scss';
-import { ToAbsoluteUrl } from '../helpers/assets-helpers';
-import { ActionColumnProps } from '../common-types/common-type';
-import { IntlShape } from 'react-intl';
+import {ToAbsoluteUrl} from '../helpers/assets-helpers';
+import {ActionColumnProps} from '../common-types/common-type';
+import {IntlShape} from 'react-intl';
 import DeleteIcon from '@material-ui/icons/Delete';
+import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 
 export function ActionsColumnFormatter<T>(
   cellContent: any,
   row: any,
   rowIndex: number,
-  { onShowDetail, onDelete, onEdit, intl }: ActionColumnProps<T> & { intl: IntlShape },
+  {onShowDetail, onDelete, onEdit, intl}: ActionColumnProps<T> & { intl: IntlShape },
 ) {
   return (
     <>
       <a
-        title={intl.formatMessage({ id: 'COMMON_COMPONENT.MASTER_BODY.TABLE.SHOW_DETAIL_BTN' })}
+        title={intl.formatMessage({id: 'COMMON_COMPONENT.MASTER_BODY.TABLE.SHOW_DETAIL_BTN'})}
         className="btn btn-icon btn-light btn-hover-primary btn-sm visibility"
         onClick={() => onShowDetail(row)}>
         <span className="svg-icon svg-icon-md svg-icon-primary">
-          <Visibility className="text-primary eye" />
+          <Visibility className="text-primary eye"/>
         </span>
       </a>
       <a
@@ -34,7 +35,7 @@ export function ActionsColumnFormatter<T>(
         <span className="svg-icon svg-icon-md svg-icon-primary">
           <SVG
             src={ToAbsoluteUrl('/media/svg/icons/Communication/Write.svg')}
-            title={intl.formatMessage({ id: 'COMMON_COMPONENT.MASTER_BODY.TABLE.EDIT_BTN' })}
+            title={intl.formatMessage({id: 'COMMON_COMPONENT.MASTER_BODY.TABLE.EDIT_BTN'})}
           />
         </span>
       </a>
@@ -44,10 +45,19 @@ export function ActionsColumnFormatter<T>(
         onClick={() => onDelete(row)}>
         <span className="svg-icon svg-icon-md svg-icon-primary">
           <span className="svg-icon svg-icon-md svg-icon-primary">
-            <DeleteIcon className="text-primary eye" />
+            <DeleteIcon className="text-primary eye"/>
           </span>
         </span>
       </a>
     </>
   );
+}
+
+export function TickColumnFormatter<T>(
+  cellContent: string,
+  row: any,
+  rowIndex: number) {
+  console.log(cellContent);
+  return (cellContent === "1" || cellContent)? (<CheckCircleIcon style={{color: '#1DBE2D'}}/>) : (
+    <CheckCircleIcon style={{color: '#C4C4C4'}}/>)
 }

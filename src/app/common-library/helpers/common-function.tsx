@@ -345,7 +345,7 @@ export function InitMasterProps<T>({
     deleteManyServer(selectedEntities)
       .then(refreshData)
       .catch(error => {
-        setError(error.message)
+        setError(error.message || error.response.data || JSON.stringify(error))
         setLoading(false);
       });
   };
@@ -398,6 +398,14 @@ export function InitMasterProps<T>({
       
   };
 
+  const deletePromise = (entity: T) => {
+    return deleteServer(entity)
+  }
+
+  const deleteManyPromise = () => {
+    return deleteManyServer(selectedEntities)
+  }
+
   return {
     entities,
     setEntities,
@@ -437,6 +445,8 @@ export function InitMasterProps<T>({
     update,
     addPromise,
     updatePromise,
+    deletePromise,
+    deleteManyPromise,
     get,
     spinning,
     setSpinning,
