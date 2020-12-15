@@ -275,6 +275,7 @@ function ShippingAgency() {
         title={detailDialogTitle}
         entity={detailEntity}
         onClose={() => {
+          setError('');
           setShowDetail(false);
         }}
         show={showDetail}
@@ -286,6 +287,7 @@ function ShippingAgency() {
         loading={loading}
         error={error}
         onHide={() => {
+          setError('');
           setShowDelete(false);
         }}
         title={deleteDialogTitle}
@@ -299,6 +301,7 @@ function ShippingAgency() {
         onDelete={deleteMany}
         error={error}
         onHide={() => {
+          setError('');
           setShowDeleteMany(false);
         }}
       />

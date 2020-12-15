@@ -72,13 +72,14 @@ function DeleteManyDialog<T>({
         )}
       </Modal.Body>
       <Modal.Footer className="border-top-0">
+        {selectedEntities && selectedEntities.length > 0 &&
         <button type="button" className="btn btn-primary mr-lg-8 fixed-btn-width"
                 onClick={e => onDelete(selectedEntities)}>
           {/*<DeleteIcon style={iconStyle}/>*/}
           {loading ? (<div className="spinner spinner-sm spinner-darker-white">
             <span className={'ml-6'}>{intl.formatMessage({id: deleteBtn})}</span>
           </div>) : intl.formatMessage({id: deleteBtn})}
-        </button>
+        </button>}
         
         <button type="button" onClick={onHide} className="btn btn-outline-primary fixed-btn-width">
           <CancelOutlinedIcon style={iconStyle}/>
