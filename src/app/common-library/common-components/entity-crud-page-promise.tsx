@@ -150,12 +150,13 @@ function EntityCrudPagePromise({
         validationSchema={validation}
         onSubmit={(values, { setSubmitting, setFieldError }) => {
 
-
+          console.log(entityForEdit)
+          console.log(values)
           let updateValue;
           setErrorMsg(undefined);
 
           if (entityForEdit) {
-            const diffValue = updatedDiff(entityForEdit, values);
+            const diffValue = diff(entityForEdit, values);
 
             updateValue = { _id: values._id, ...diffValue };
           } else {

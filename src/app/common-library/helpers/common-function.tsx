@@ -335,9 +335,9 @@ export function InitMasterProps<T>({
     });
   };
   
-  const deleteMany = () => {
+  const deleteMany = (entities?: T[]) => {
     setLoading(true);
-    deleteManyServer(selectedEntities)
+    deleteManyServer(entities ?? selectedEntities)
       .then(refreshData)
       .catch(error => {
         setError(error.message || error.response.data || JSON.stringify(error))

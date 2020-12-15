@@ -298,10 +298,10 @@ function ProductionPlanCrud({
           if (step === '0') {
             submitHandle(updateValue, { setSubmitting, setFieldError });
           } else if (step === '1') {
-            // if (!updateValue.step || updateValue.step !== '1') {
-            //   updateValue.step = '1';
-            // }
-            // submitHandle(updateValue, { setSubmitting, setFieldError });
+            if (!updateValue.step || updateValue.step !== '1') {
+              updateValue.step = '1';
+            }
+            submitHandle(updateValue, { setSubmitting, setFieldError });
             onModify(updateValue)
               .then((res: any) => {
                 sendRequest(entityForEdit)

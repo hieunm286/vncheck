@@ -519,20 +519,53 @@ function ProductionPlan() {
     },
   };
 
+  
+  const sendRequest = (entity: any) => {
+    const data = { confirmationStatus: '1' };
+    return ProductionPlanService.Approve(entity, data);
+  }; 
+
+  const approve = (entity: any) => {
+    const data = { confirmationStatus: '2' };
+    return ProductionPlanService.Approve(entity, data);
+  };
+
+  const updateProcess = (entity: any) => {
+    const newProcess = _.toString((_.toInteger(entity.process) + 1))
+    const data = { process: newProcess }
+    return ProductionPlanService.UpdateProcess(entity, data)
+  }
+
+
   const adminAllFormButton: any = {
     type: 'outside',
     data: {
       approve: {
         role: 'special',
-        type: 'submit',
+        type: 'button',
         linkto: undefined,
         className: 'btn btn-primary mr-5 pl-8 pr-8',
         label: 'Phê duyệt',
         icon: <SaveOutlinedIcon />,
-        onClick: () => {
+        onClick: (entity: any) => {
           // setNoticeModal(true);
           // setSubmit(true)
           setStep('2');
+          approve(entity).then(res => {
+            updateProcess(entity)
+              .then(ress => {
+      
+                refreshData();
+                history.push('/production-plan');
+
+              })
+              .catch(error => {
+              
+              });
+          })
+          .catch(error => {
+           
+          });
         },
       },
       refuse: {
@@ -638,22 +671,6 @@ function ProductionPlan() {
       style: { minWidth: '130px' },
     },
   };
-
-  const sendRequest = (entity: any) => {
-    const data = { confirmationStatus: '1' };
-    return ProductionPlanService.Approve(entity, data);
-  }; 
-
-  const approve = (entity: any) => {
-    const data = { confirmationStatus: '2' };
-    return ProductionPlanService.Approve(entity, data);
-  };
-
-  const updateProcess = (entity: any) => {
-    const newProcess = _.toString((_.toInteger(entity.process) + 1))
-    const data = { process: newProcess }
-    return ProductionPlanService.UpdateProcess(entity, data)
-  }
 
   return (
     <React.Fragment>
