@@ -314,9 +314,8 @@
   "LAND_LOT.EDIT.VALIDATION.SUB_LOT_CODE_EMPTY": "Mã thửa không được để trống",
   "LAND_LOT.EDIT.VALIDATION.SUB_LOT_CODE_WRONG_FORMAT": "Mã thửa không đúng định dạng",
   "LAND_LOT.EDIT.VALIDATION.SUB_LOT_CODE_WRONG_FORMAT_LENGTH": "Mã thửa phải có đúng hai chữ số",
-  
-  "LAND_LOT.DELETE.TITLE": "Xóa lô thửa",
 
+  "LAND_LOT.DELETE.TITLE": "Xóa lô thửa",
 
 
   "VALIDATE_TEST_01": "Vui lòng nhập mã đơn vị",
@@ -383,6 +382,21 @@
   "DELETE.ERROR.STORE_LEVEL_HAVE_CHILDREN": "Không thể xóa vì cấp bán hàng đã có cấp con hoặc đơn vị bán hàng.",
 
   "CREATE.ERROR.LAND_LOT.LAND_LOT_IN_USE": "Mã lô thửa đã được dùng",
-  "DELETE.ERROR.LAND_LOT.LAND_LOT_IN_USE": "Lô thửa đã được sử dụng"
+  "DELETE.ERROR.LAND_LOT.LAND_LOT_IN_USE": "Lô thửa đã được sử dụng",
+  "SHIPPING_AGENCY.MASTER.TABLE.TITLE": "Danh mục đơn vị vận chuyển",
+  "SHIPPING_AGENCY.MASTER.TABLE.CODE_COLUMN": "Mã đơn vị",
+  "SHIPPING_AGENCY.MASTER.TABLE.NAME_COLUMN": "Tên đơn vị",
+  "SHIPPING_AGENCY.MASTER.TABLE.PHONE_COLUMN": "Số điện thoại",
+  "SHIPPING_AGENCY.MASTER.TABLE.STATUS_COLUMN": "Trạng thái",
+  "SHIPPING_AGENCY.MASTER.TABLE.ACTION_COLUMN": "Hành động",
+  "SHIPPING_AGENCY.DELETE_DIALOG.TITLE": "Xóa đơn vị vận chuyển",
+  "SHIPPING_AGENCY.DELETE_DIALOG.BODY_TITLE": "Đơn vị vận chuyển này sẽ bị xóa.",
+  "SHIPPING_AGENCY.DETAIL_DIALOG.TITLE": "Thông tin chi tiết",
+  "SHIPPING_AGENCY.DETAIL_DIALOG.SHIPPING.SUBTITLE": "Thông tin đơn vị vận chuyển",
+  "SHIPPING_AGENCY.DETAIL_DIALOG.SHIPPING.CODE": "Mã đơn vị",
+  "SHIPPING_AGENCY.DETAIL_DIALOG.SHIPPING.NAME": "Tên đơn vị",
+  "SHIPPING_AGENCY.DETAIL_DIALOG.SHIPPING.ADDRESS": "Địa chỉ đơn vị",
+  "SHIPPING_AGENCY.DETAIL_DIALOG.SHIPPING.PHONE_NUMBER": "Số điện thoại đơn vị",
+  "SHIPPING_AGENCY.DETAIL_DIALOG.SHIPPING.STATUS": "Trạng thái"
 
 }
