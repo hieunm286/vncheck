@@ -77,7 +77,7 @@ function DeleteManyDialog<T>({
         {loading && <span>{intl.formatMessage({id: deletingMessage})}</span>}
         {!loading && error !== '' && (
           <>
-            <p>{error}</p>
+            <p className='text-danger'>{intl.formatMessage({id: error})}</p>
           </>
         )}
       </Modal.Body>

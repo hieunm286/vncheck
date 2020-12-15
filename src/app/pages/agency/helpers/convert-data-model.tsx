@@ -13,7 +13,7 @@ export const convertToForm = (entity: any) => {
     ownerPhoneNumber: entity.owner.phone,
     email: entity.owner.email,
     gender: entity.owner.gender,
-    birthDay: entity.owner.birthDay && Date.parse(entity.owner.birthDay),
+    birthDay: entity.owner.birthDay, // entity.owner.birthDay && Date.parse(entity.owner.birthDay),
     roleName: {label: entity.owner.role.name, value: entity.owner.role._id},
     status: entity.status,
     defaultShippingAddress: getShippingAddress(entity.shippingAddress.find((addr: any) => {return addr.isDefault === true}))
@@ -48,6 +48,7 @@ export const convertToServer = (entity: any) => {
     shippingAddress: shippingAddress || [],
     phone: entity.phoneNumber || '',
     owner: {
+      _id: entity.owner._id,
       username: entity.username,
       fullName: entity.ownerName || '',
       phone: entity.ownerPhoneNumber || '',
@@ -55,7 +56,8 @@ export const convertToServer = (entity: any) => {
       gender: entity.gender || '',
       // birthDay: entity.birthDay && entity.birthDay.toString()  || '',
       birthDay: entity.birthDay,
-      roleId: (entity.roleName && entity.roleName) ? entity.roleName.value : '',
+      role: entity.roleName,
+      // roleId: (entity.roleName && entity.roleName.value) ? entity.roleName.value : '',
     },
     status: entity.status,
   };

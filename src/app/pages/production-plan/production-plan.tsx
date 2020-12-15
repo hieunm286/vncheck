@@ -38,6 +38,7 @@ import ProductionPlanCrud from './production-plan-crud';
 import { fetchAllUser } from '../account/_redux/user-action';
 import * as Yup from 'yup';
 import Visibility from '@material-ui/icons/Visibility';
+import clsx from 'clsx';
 
 const headerTitle = 'PRODUCT_TYPE.MASTER.HEADER.TITLE';
 const bodyTitle = 'PRODUCT_TYPE.MASTER.BODY.TITLE';
@@ -109,6 +110,8 @@ function ProductionPlan() {
     setTotal,
     loading,
     setLoading,
+    spinning,
+    setSpinning,
     error,
     setError,
     add,
@@ -118,7 +121,7 @@ function ProductionPlan() {
     get,
     deleteMany,
     deleteFn,
-    getAll,
+    getAll,  
     refreshData,
   } = InitMasterProps<ProductionPlanModel>({
     getServer: ProductionPlanService.Get,
@@ -141,7 +144,7 @@ function ProductionPlan() {
   const [submit, setSubmit] = useState(false);
 
   const [step, setStep] = useState('0');
-
+  
   const { authState } = useSelector(
     (state: any) => ({
       authState: state.auth,
@@ -151,6 +154,8 @@ function ProductionPlan() {
   const { username, role } = authState;
 
   // const userData = currentState.entities;
+
+  console.log(spinning)
 
   const dispatch = useDispatch();
 
@@ -311,7 +316,7 @@ function ProductionPlan() {
             ProductionPlanService.GetById(row._id).then(res => {
               setEditEntity(res.data);
               history.push({
-                pathname: '/production-plan/new/' + row._id,
+                pathname: '/production-plan/plan-view/' + row._id,
                 state: res.data,
               });
             });
@@ -519,25 +524,22 @@ function ProductionPlan() {
         },
       },
       save: {
-        role: 'submit',
-        type: 'submit',
-        linkto: undefined,
-        className: 'btn btn-outline-primary mr-5 pl-8 pr-8',
-        label: 'Lưu',
-        icon: <CancelOutlinedIcon />,
-        onClick: () => {
-          // setNoticeModal(true);
-          setSubmit(false);
-        },
-      },
-      cancel: {
-        role: 'link-button',
+        role: 'button',
         type: 'button',
-        linkto: '/production-plan',
-        className: 'btn btn-outline-primary mr-2 pl-8 pr-8',
-        label: 'Hủy',
+        className: 'btn btn-primary mr-5 pl-8 pr-8',
+        label: 'Chỉnh sửa',
         icon: <CancelOutlinedIcon />,
+        onClick: (entity: any) => {
+          ProductionPlanService.GetById(entity._id).then(res => {
+            setEditEntity(res.data);
+            history.push({
+              pathname: '/production-plan/new/' + entity._id,
+              state: res.data,
+            });
+          });
+        }
       },
+      
     },
   };
 
@@ -648,7 +650,7 @@ function ProductionPlan() {
                 get={code => ProductionPlanService.GetById(code)}
                 formPart={formPart}
                 allFormField={allFormField}
-                allFormButton={username === 'admin' ? adminAllFormButton : allFormButton}
+                allFormButton={allFormButton}
                 validation={ProductPlantSchema}
                 autoFill={{
                   field: '',
@@ -722,8 +724,9 @@ function ProductionPlan() {
               onClose={() => {
                 setShowDetail(false);
               }}
+              allFormButton={username === 'admin' && adminAllFormButton}
               mode="split"
-              title={`${detailEntity ? detailEntity._id : 'nothing'}`}
+              title={`CHI TIẾT KẾ HOẠCH`}
             />
           )}
         </Route>
@@ -744,6 +747,8 @@ function ProductionPlan() {
             tabData={TabData}
             currentTab={currentTab}
             setCurrentTab={setCurrentTab}
+            setEntities={setEntities}
+            // spinning={spinning}
           />
         </Route>
       </Switch>
