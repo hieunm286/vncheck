@@ -87,7 +87,7 @@ function ModifyEntityFormPromise<T>({
   };
 
   const submitHandle = (values: any, { setSubmitting, setFieldError }: any) => {
-    onModify({...entity,...values})
+    onModify(values)
       .then((res: any) => {
         onHide();
         notifySuccess();
@@ -121,7 +121,7 @@ function ModifyEntityFormPromise<T>({
           updateValue = { ...values };
         }
 
-        submitHandle(updateValue, { setSubmitting, setFieldError });
+        submitHandle(values, { setSubmitting, setFieldError });
       }}>
       {({ handleSubmit }) => (
         <>

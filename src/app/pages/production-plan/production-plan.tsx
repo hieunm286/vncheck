@@ -169,7 +169,7 @@ function ProductionPlan() {
     if (currentTab === '0') {
       getAll({ ...(filterProps as any), step: "0" });
     } else if (currentTab === "1") {
-      getAll({ ...(filterProps as any), confirmationStatus: "1" });
+      getAll({ ...(filterProps as any), step: "0", confirmationStatus: "1" });
     } else if (currentTab === "2") {
       getAll({ ...(filterProps as any), step: "1", confirmationStatus: "2" });
     }
@@ -410,7 +410,7 @@ function ProductionPlan() {
       dataField: 'process',
       text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.STATUS' })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
-        <span>{row.process === '1' ? 'Hoàn thành' : 'Chưa hoàn thành'}</span>
+        <span>{row.process !== '1' ? 'Hoàn thành' : 'Chưa hoàn thành'}</span>
       ),
       ...SortColumn,
       classes: 'text-center',
