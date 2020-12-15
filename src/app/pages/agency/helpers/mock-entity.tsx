@@ -67,6 +67,77 @@ export const mockAgency: AgencyModel = {
   detailAddress: "Số 2 ngõ 219 Trung Kính",
   district: "Yên Hoà",
   city: "Cầu Giấy",
-  state: "Hà Nội",
+  state: null,
+
+}
+
+export const initAgency: AgencyModel = {
+  // _id: "",
+  code: "",
+  name: "",
+  // address: "",
+  address: {
+    address: "",
+    district: "",
+    city: "",
+    state: "",
+  },
+  image: [''],
+  owner: {
+    address: {
+      address: "",
+      district: "",
+      city: "",
+      state: "",
+    },
+    email: "",
+    fullName: "",
+    gender: "1",
+    phone: "",
+    role: {
+      name: "",
+      // _id: "",
+      level: 2,
+      scope: "",
+    }
+  },
+  phone: "",
+  // shippingAddress: "",
+  shippingAddress: [
+    // {
+    //   address: "",
+    //   district: "",
+    //   city: "",
+    //   state: "",
+    //   isDefault: false,
+    // },
+    // {
+    //   address: "",
+    //   district: "",
+    //   city: "",
+    //   state: "",
+    //   isDefault: true,
+    // }
+  ],
+  status: false,
+  taxId: "",
+  // storeLevel: {label: 'label',value: 'value'},
+  storeLevel: null,
+
+
+  username: "",
+  // fullName: "Nguyen Van A",
+  ownerName: "",
+  ownerPhoneNumber: "",
+  email: "",
+  birthDay: null,
+  gender: "1",
+  roleName: null,
+  phoneNumber: "",
+
+  detailAddress: "",
+  district: null,
+  city: null,
+  state: null,
 
 }

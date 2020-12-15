@@ -33,7 +33,7 @@ import { Switch, Route, Redirect, useHistory } from 'react-router-dom';
 import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import { convertToServer } from "./helpers/convert-data-model";
-import { mockAgency } from "./helpers/mock-entity";
+import { mockAgency, initAgency } from "./helpers/mock-entity";
 import { agencySearchModel, allFormButton, agencySchema, masterEntityDetailDialog } from './defined/const';
 import * as StoreLevelService from '../multilevel-sale/multilevel-sale.service';
 import * as RoleService from './helpers/role.service';
@@ -454,8 +454,7 @@ function AgencyPage() {
             title={bodyTitle}
             onCreate={() => {
               setEditEntity(null);
-              // setCreateEntity(mockAgency);
-              setCreateEntity(null)
+              setCreateEntity(initAgency);
               history.push('/agency/new');// setShowCreate(true);
             }}
             onDeleteMany={() => setShowDeleteMany(true)}

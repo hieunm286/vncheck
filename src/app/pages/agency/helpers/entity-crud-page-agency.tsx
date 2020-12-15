@@ -92,6 +92,22 @@ function EntityCrudPageAgency({
     ;
   }
 
+  const addInitField = (nullableEntity: any, compensateField: any) => {
+    console.log(nullableEntity)
+    const newEntity = {...nullableEntity};
+    Object.keys(compensateField).map((field: string) => {
+      if(!newEntity[field]) {
+        newEntity[field] = compensateField[field];
+      }
+    })
+    return newEntity;
+  }
+
+  const compensateField = {
+    storeLevel: null,
+  }
+
+
   return (
     <>
       <Formik
@@ -102,8 +118,11 @@ function EntityCrudPageAgency({
           handleModify(values);
           // history.goBack()
         }}>
-        {({ values, handleSubmit }) => (
+        {({ values, handleSubmit, errors }) => (
           <>
+          {
+            console.log(errors)
+          }
             <Form className="form form-label-right">
               {Object.keys(formParts).map(key => (
                 <Card key={key}>

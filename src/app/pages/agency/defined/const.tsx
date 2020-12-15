@@ -71,13 +71,17 @@ export const agencySchema = Yup.object<AgencyModel>().shape({
     .required(intl.formatMessage({id: 'AGENCY.VALIDATION.AGENCY_NAME.REQUIRED'}))
     .max(255, intl.formatMessage({id: 'AGENCY.VALIDATION.AGENCY_NAME.MAX_LENGTH_EXCEEDED'})),
   storeLevel: Yup.string()
-    .required(intl.formatMessage({id: 'AGENCY.VALIDATION.STORE_LEVEL.REQUIRED'})),
+    .required(intl.formatMessage({id: 'AGENCY.VALIDATION.STORE_LEVEL.REQUIRED'}))
+    .nullable(),
   state: Yup.string()
-    .required(intl.formatMessage({id: 'AGENCY.VALIDATION.STATE.REQUIRED'})),
+    .required(intl.formatMessage({id: 'AGENCY.VALIDATION.STATE.REQUIRED'}))
+    .nullable(),
   city: Yup.string()
-    .required(intl.formatMessage({id: 'AGENCY.VALIDATION.CITY.REQUIRED'})),
+    .required(intl.formatMessage({id: 'AGENCY.VALIDATION.CITY.REQUIRED'}))
+    .nullable(),
   district: Yup.string()
-    .required(intl.formatMessage({id: 'AGENCY.VALIDATION.DISTRICT.REQUIRED'})),
+    .required(intl.formatMessage({id: 'AGENCY.VALIDATION.DISTRICT.REQUIRED'}))
+    .nullable(),
   detailAddress: Yup.string()
     .required(intl.formatMessage({id: 'AGENCY.VALIDATION.ADDRESS.REQUIRED'})),
   // status: Yup.string()
@@ -106,7 +110,8 @@ export const agencySchema = Yup.object<AgencyModel>().shape({
   // gender: Yup.string()
   //   .required(intl.formatMessage({id: 'AGENCY.VALIDATION.GENDER.REQUIRED'})),
   birthDay: Yup.date()
-    .required(intl.formatMessage({id: 'AGENCY.VALIDATION.BIRTHDAY.REQUIRED'})),
+    .required(intl.formatMessage({id: 'AGENCY.VALIDATION.BIRTHDAY.REQUIRED'}))
+    .nullable(),
   roleName: Yup.string()
     .required(intl.formatMessage({id: 'AGENCY.VALIDATION.ROLE_NAME.REQUIRED'}))
     .nullable(),

@@ -131,39 +131,65 @@ const FormTemplate = ({
   // },[selectedState]);
 
   useEffect(() => {
-    if(values.state) {
+    if (values.state === undefined) {
+      setSelectedState({
+        value: undefined, 
+        key: undefined
+      });
+    }
+    if(values.state !== undefined && values.state !== null) {
       setSelectedState({
         value: values.state, 
         key: getCodeFromName(Object.values(STATE_LIST), values.state)
       });
-      // setFieldValue('city', '')
-      // setFieldValue('district', '')
-    } else {
-      setSelectedState({key: '', value: intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'})})
-      // setFieldValue('city', intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'}));
-      //                     setFieldValue('district', intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'}));
+    }
+    if (values.state === null) {
+      setSelectedState({
+        value: null, 
+        key: null
+      });
     }
   },[values.state]);
 
   useEffect(() => {
-    if(values.city) {
+    if(values.city !== undefined && values.city !== null) {
       setSelectedCity({
         value: values.city, 
         key: getCodeFromName(Object.values(CITY_LIST).filter((city: any) => { return city.parent_code === selectedState.key }), values.city)
       });
-    } else {
-      setSelectedCity({key: '', value: intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'})})
+    }
+    if (values.city === undefined) {
+      setSelectedCity({
+        value: undefined, 
+        key: undefined
+      });
+    }
+    if (values.city === null) {
+      setSelectedCity({
+        value: null, 
+        key: null
+      });
     }
   },[selectedState]);
 
   useEffect(() => {
-    if(values.district) {
+    if(values.district !== undefined && values.district !== null) {
       setSelectedDistrict({
         value: values.district, 
         key: getCodeFromName(Object.values(DISTRICT_LIST).filter((district: any) => { return district.parent_code === selectedCity.key }), values.district)
       });
-    } else {
-      setSelectedDistrict({key: '', value: intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'})})
+    }
+    if (values.district === undefined) {
+      setSelectedDistrict({
+        value: undefined, 
+        key: undefined
+      });
+    }
+    if (values.district === null) {
+      setSelectedDistrict({
+        value: null, 
+        key: null
+      });
     }
   },[selectedCity]);
 
@@ -262,7 +288,8 @@ const FormTemplate = ({
             const withFeedbackLabel = true;
             const placeholder = modifyModel.data[key].placeholder
             const required = modifyModel.data[key].required;
-            return selectedState && selectedState.key && selectedState.value && (
+            console.log(selectedState)
+            return (selectedState.value || (selectedState.key === null && selectedState.value === null)) && (
               <div className="mt-3" key={`${key}`}>
                 <div className="row">
                   
@@ -328,7 +355,7 @@ const FormTemplate = ({
             );
 
           case 'citySelect':
-            return selectedCity && selectedCity.key && selectedCity.value && (
+            return (selectedCity.value || (selectedCity.key === null && selectedCity.value === null)) && (
               <div className="mt-3" key={`${key}`}>
                 <div className="row">
                   <div className={'col-md-4 col-xl-4 col-12'}>
@@ -352,7 +379,7 @@ const FormTemplate = ({
                           setFieldValue('district', intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'}));
                         }
                       }
-                      className={(errors[key] && touched[key]) ? 'is-invalid form-control' : ''}
+                      className={(errors[key] && touched[key]) ? 'is-invalid' : ''}
                       >
                       <Option children='' value={intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'})} hidden></Option>
                       {(selectedState && selectedState.key) ?
@@ -376,7 +403,7 @@ const FormTemplate = ({
             );
 
           case 'districtSelect':
-            return selectedDistrict && selectedDistrict.key && selectedDistrict.value && (
+            return (selectedDistrict.value || (selectedDistrict.key === null && selectedDistrict.value === null)) && (
               <div className="mt-3" key={`${key}`}>
                 <div className="row">
                   <div className={'col-md-4 col-xl-4 col-12 '}>
@@ -399,7 +426,7 @@ const FormTemplate = ({
                             // setFieldValue('district', e.target.value);
                           }
                         }
-                        className={(errors[key] && touched[key]) ? 'is-invalid form-control' : ''}
+                        className={(errors[key] && touched[key]) ? 'is-invalid' : ''}
                         >
                         <Option children='' value={intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'})} hidden></Option>
                         {(selectedCity && selectedCity.key) ?
@@ -631,7 +658,7 @@ const FormTemplate = ({
             );
           
           case 'TreeSelect':
-            return treeSelectValue ? (
+            return treeData ? (
               <div className="mt-3" key={key}>
                 <CustomeTreeSelect
                   label={modifyModel.data[key].label}
