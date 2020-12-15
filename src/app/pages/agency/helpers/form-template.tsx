@@ -481,13 +481,11 @@ const FormTemplate = ({
               <div className="mt-3" key={key}>
                 <CustomImageUpload
                   images={images[key]}
-                  onChange={(imageList: any, addUpdateIndex: any) => {
-                    onChange(imageList, addUpdateIndex, key);
-                  }}
                   label={modifyModel.data[key].label}
                   labelWidth={4}
                   isHorizontal={true}
                   required={modifyModel.data[key].required}
+                  name={key}
                 />
               </div>
             );
