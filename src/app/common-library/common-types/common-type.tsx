@@ -90,7 +90,7 @@ export interface NotifyDialogProps {
 export interface DeleteManyDialogProps<T> {
   isShow: boolean;
   onHide: () => any;
-  onDelete: () => any;
+  onDelete: (entities?: T[]) => any;
   selectedEntities: any[];
   title?: string;
   moduleName?: string;
