@@ -752,14 +752,14 @@ export const PlantingDetailDialog = [
         {
           type: 'image',
           title: 'Hình ảnh trước nuôi trồng',
-          keyField: 'planting.imageBefore.path',
+          keyField: 'planting.imageBefore',
         },
       ],
       [
         {
           type: 'image',
           title: 'Hình ảnh sau nuôi trồng',
-          keyField: 'planting.imageAfter.path',
+          keyField: 'planting.imageAfter',
         },
       ],
     ],
@@ -779,12 +779,12 @@ export const SeedingDetailDialog = [
         {
           type: 'image',
           title: 'Giấy chứng nhận giống',
-          keyField: 'seeding.certificates.path',
+          keyField: 'seeding.certificates',
         },
         {
           type: 'image',
           title: 'Hóa đơn mua giống',
-          keyField: 'seeding.buyInvoice.path',
+          keyField: 'seeding.buyInvoice',
         },
         {
           type: 'date-time',
@@ -892,14 +892,14 @@ export const SeedingDetailDialog = [
         {
           type: 'image',
           title: 'Hình ảnh định vị lô luống',
-          keyField: 'planting.imageBefore.path',
+          keyField: 'seeding.landLotImage',
         },
       ],
       [
         {
           type: 'image',
           title: 'Hình ảnh trước khi đưa vào nuôi trồng',
-          keyField: 'planting.imageAfter.path',
+          keyField: 'planting.imageAfter',
         },
       ],
     ],

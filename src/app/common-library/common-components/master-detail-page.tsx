@@ -6,6 +6,7 @@ import { Link, useHistory } from 'react-router-dom';
 import { format } from 'date-fns';
 import { getField } from '../helpers/common-function';
 import _ from 'lodash';
+import ImgGallery from '../forms/image-gallery';
 
 const getFieldV3 = (field: any, fieldName: string) => {
   const ifNested = (fN: string) => fN.indexOf('.') === -1;
@@ -287,14 +288,13 @@ const LineMode = ({ entityDetail, renderInfo, intl, title, moduleName, history, 
                     case 'image':
                       return (
                         <div className="mt-3" key={childKey}>
-                          <div className="row">
+                          {/* <div className="row">
                             <p className="col-4">{child.title}:</p>
                             <div className="col-8">
                               {entityDetail ? (
                                 getFieldV3(entityDetail, child.keyField).map((f, i, arr) => {
                                   return (
                                     <Fragment>
-                                      {' '}
                                       <img
                                         src={child.convertFn ? child.convertFn(f) : f}
                                         alt="..."
@@ -308,41 +308,16 @@ const LineMode = ({ entityDetail, renderInfo, intl, title, moduleName, history, 
                                 <img src={''} alt="..." width="125px" />
                               )}
                             </div>
-                          </div>
+                          </div> */}
 
-                          {/* <ImgGallery
+                          <ImgGallery
                             label={el[childKey].title}
                             labelWidth={4}
                             name={key}
                             isHorizontal
-                            photos={
-                              entity && entity[childKey]
-                                ? entity[childKey]
-                                : [
-                                    {
-                                      src: 'https://source.unsplash.com/aZjw7xI3QAA/1144x763',
-                                      author: 'Nguyễn Minh Hiếu',
-                                      time: '26/09/2020 9:00',
-                                      location: `21°01'10.1"N 105°47'28.6"E`,
-                                      thumbnail: 'https://source.unsplash.com/aZjw7xI3QAA/100x67',
-                                    },
-                                    {
-                                      src: 'https://source.unsplash.com/c77MgFOt7e0/1144x763',
-                                      author: 'Nguyễn Minh Hiếu',
-                                      time: '26/09/2020 9:00',
-                                      location: `21°01'10.1"N 105°47'28.6"E`,
-                                      thumbnail: 'https://source.unsplash.com/c77MgFOt7e0/100x67',
-                                    },
-                                    {
-                                      src: 'https://source.unsplash.com/QdBHnkBdu4g/1144x763',
-                                      author: 'Nguyễn Minh Hiếu',
-                                      time: '26/09/2020 9:00',
-                                      location: `21°01'10.1"N 105°47'28.6"E`,
-                                      thumbnail: 'https://source.unsplash.com/QdBHnkBdu4g/100x67',
-                                    },
-                                  ]
-                            }
-                          /> */}
+                            photo={entityDetail && getField(entityDetail, child.keyField)}
+                            mode='single'
+                          />
                         </div>
                       );
                   }

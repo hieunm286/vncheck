@@ -1,22 +1,29 @@
+import _ from 'lodash';
 import React, { useState } from 'react';
 import { Modal } from 'react-bootstrap';
 
+interface LocationProp {
+  coordinates?: any[];
+}
 interface PhotosProp {
-  src: string;
+  path: string;
   author: string;
   caption?: string;
   time?: string;
-  location?: string;
+  location?: string | LocationProp;
   thumbnail?: string;
   alt?: string;
+  hash?: string;
 }
 
 interface Props {
-  photos: PhotosProp[];
+  photos?: PhotosProp[];
+  photo?: PhotosProp;
   label: string;
   isHorizontal: boolean;
   labelWidth?: number;
   name: string;
+  mode: 'single' | 'multiple';
 }
 
 const getClassName = (labelWidth: number | null | undefined, labelStart: boolean) => {
@@ -58,20 +65,33 @@ const ImageDetail = ({
 }) => {
   return (
     <Modal size="sm" show={isShow} onHide={onHide} aria-labelledby="example-modal-sizes-title-lg">
-      <img src={image.src} alt={image.alt ? image.alt : ''} width="100%" />
+      <img src={image.path} alt={image.alt ? image.alt : ''} width="100%" />
       <div className="mt-5 pl-5">
         <p>Người chụp: {image.author}</p>
-        <p>Thời gian: {image.time ? image.time : "Không có thông tin"}</p>
-        <p>Địa điểm: {image.location ? image.location : "không có thông tin"}</p>
+        <p>Thời gian: {image.time ? image.time : 'Không có thông tin'}</p>
+        <p>
+          Địa điểm:
+          {image.location && !_.isString(image.location) &&  _.isArray(image.location.coordinates) && image.location.coordinates.length > 0
+            ? _.toString(image.location.coordinates)
+            : 'không có thông tin'}
+        </p>
       </div>
     </Modal>
   );
 };
 
-function ImgGallery({ photos, label, isHorizontal = false, labelWidth, name }: Props) {
+function ImgGallery({
+  photos,
+  label,
+  photo,
+  isHorizontal = false,
+  labelWidth,
+  name,
+  mode = 'single',
+}: Props) {
   const [_isShow, setShow] = useState<boolean>(false);
   const [_currentImage, setCurrentImage] = useState<PhotosProp>({
-    src: '',
+    path: '',
     author: '',
   });
 
@@ -94,16 +114,28 @@ function ImgGallery({ photos, label, isHorizontal = false, labelWidth, name }: P
         </div>
 
         <div className={isHorizontal ? getClassName(labelWidth, false) : ''}>
-          {photos.map((value: PhotosProp, key: number) => (
-            <React.Fragment key={key}>
+          {mode === 'multiple' &&
+            _.isArray(photos) &&
+            photos.map((value: PhotosProp, key: number) => (
+              <React.Fragment key={key}>
+                <img
+                  src={value.path}
+                  alt={value.alt ? value.alt : ''}
+                  width="150px"
+                  onClick={() => handleClickImage(value)}
+                />
+              </React.Fragment>
+            ))}
+          {mode === 'single' && photo && (
+            <React.Fragment>
               <img
-                src={value.src}
-                alt={value.alt ? value.alt : ''}
+                src={photo.path}
+                alt={photo.alt ? photo.alt : ''}
                 width="150px"
-                onClick={() => handleClickImage(value)}
+                onClick={() => handleClickImage(photo)}
               />
             </React.Fragment>
-          ))}
+          )}
         </div>
       </div>
     </>
