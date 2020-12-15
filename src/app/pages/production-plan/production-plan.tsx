@@ -169,6 +169,14 @@ function ProductionPlan() {
   }, [paginationProps, trigger, filterProps, currentTab]);
 
   const columns = {
+    _id: {
+      dataField: '_id',
+      text: 'STT',
+      formatter: (cell: any, row: any, rowIndex: number) => (
+        <p>{rowIndex + 1 + ((paginationProps.page ?? 0) - 1) * (paginationProps.limit ?? 0)}</p>
+      ),
+      style: { paddingTop: 20 },
+    },
     seeding: {
       dataField: 'seeding.code',
       text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.SEEDING_CODE' })}`,
@@ -224,7 +232,7 @@ function ProductionPlan() {
             ProductionPlanService.GetById(row._id).then(res => {
               setEditEntity(res.data);
               history.push({
-                pathname: '/production-plan/new/' + row._id,
+                pathname: '/production-plan/' + row._id + '/new',
                 state: res.data,
               });
             });
@@ -239,6 +247,14 @@ function ProductionPlan() {
   };
 
   const columns2 = {
+    _id: {
+      dataField: '_id',
+      text: 'STT',
+      formatter: (cell: any, row: any, rowIndex: number) => (
+        <p>{rowIndex + 1 + ((paginationProps.page ?? 0) - 1) * (paginationProps.limit ?? 0)}</p>
+      ),
+      style: { paddingTop: 20 },
+    },
     code: {
       dataField: 'code',
       text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.CODE' })}`,
@@ -408,7 +424,7 @@ function ProductionPlan() {
           ProductionPlanService.GetById(entity._id).then(res => {
             setEditEntity(res.data);
             history.push({
-              pathname: '/production-plan/new/' + entity._id,
+              pathname: '/production-plan/' + entity._id + '/new',
               state: res.data,
             });
           });
@@ -533,7 +549,7 @@ function ProductionPlan() {
           ProductionPlanService.GetById(entity._id).then(res => {
             setEditEntity(res.data);
             history.push({
-              pathname: '/production-plan/new/' + entity._id,
+              pathname: '/production-plan/' + entity._id + '/new',
               state: res.data,
             });
           });
@@ -627,7 +643,7 @@ function ProductionPlan() {
   return (
     <React.Fragment>
       <Switch>
-        <Route path="/production-plan/new/:id">
+        <Route path="/production-plan/:id/new">
           {({ history, match }) => (
             <>
               {/* <ProductionPlanModal
