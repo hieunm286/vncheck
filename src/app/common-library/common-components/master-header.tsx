@@ -580,7 +580,6 @@ export function MasterHeader<T>({
                     onClick={() => handleResetForm(resetForm)}>
                     <SVG src={ToAbsoluteUrl('/media/svg/vncheck/reset-filter.svg')}
                          style={iconStyle}/>
-                    &nbsp;
                     {intl.formatMessage({id: 'COMMON_COMPONENT.MASTER_HEADER.RESET_FILTER_BTN'})}
                   </button>
                 </div>

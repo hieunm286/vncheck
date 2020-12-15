@@ -1,14 +1,12 @@
 import React, {Fragment} from 'react';
 import {Card, CardBody, CardHeader} from '../card';
 import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined';
+import AddIcon from '@material-ui/icons/Add';
 import {useIntl} from 'react-intl';
 import {iconStyle} from '../common-consts/const';
 import {MasterTable} from './master-table';
 import {PaginationProps} from '../common-types/common-type';
 import {ColumnDescription} from 'react-bootstrap-table-next';
-import {Link} from 'react-router-dom';
-import MasterTreeStructure from './master-tree-structure';
-import MasterGoogleMap from './master-google-map';
 
 export interface BasicUnitDataProps {
   showModal: any;
@@ -77,7 +75,8 @@ export function MasterBody<T>({
         <div className="row no-gutters mb-10">
           <div className="mr-5 fixed-btn-width">
             <button type="button" className="btn btn-primary w-100" onClick={onCreate}>
-              + {intl.formatMessage({id: 'COMMON_COMPONENT.MASTER_BODY.HEADER.ADD_BTN'})}
+              <AddIcon style={iconStyle}/>
+              {intl.formatMessage({id: 'COMMON_COMPONENT.MASTER_BODY.HEADER.ADD_BTN'})}
             </button>
           </div>
           <div className="mr-5 fixed-btn-width">
