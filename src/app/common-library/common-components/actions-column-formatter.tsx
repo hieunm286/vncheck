@@ -54,10 +54,9 @@ export function ActionsColumnFormatter<T>(
 }
 
 export function TickColumnFormatter<T>(
-  cellContent: string,
+  cellContent: string|boolean,
   row: any,
   rowIndex: number) {
-  console.log(cellContent);
-  return (cellContent === "1" || cellContent)? (<CheckCircleIcon style={{color: '#1DBE2D'}}/>) : (
-    <CheckCircleIcon style={{color: '#C4C4C4'}}/>)
+  return (cellContent === "1" || cellContent === "true" || cellContent === true) ? (
+    <CheckCircleIcon style={{color: '#1DBE2D'}}/>) : (<CheckCircleIcon style={{color: '#C4C4C4'}}/>)
 }

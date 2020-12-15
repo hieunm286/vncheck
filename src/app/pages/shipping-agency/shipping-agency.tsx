@@ -145,22 +145,40 @@ function ShippingAgency() {
   const masterEntityDetailDialog = [
     {
       header: 'SHIPPING_AGENCY.DETAIL_DIALOG.SHIPPING.SUBTITLE',
+      className: 'col-7',
       data: {
         code: {title: 'SHIPPING_AGENCY.DETAIL_DIALOG.SHIPPING.CODE'},
         name: {title: 'SHIPPING_AGENCY.DETAIL_DIALOG.SHIPPING.NAME'},
-        // address: {title: 'SHIPPING_AGENCY.DETAIL_DIALOG.SHIPPING.ADDRESS'},
+        address: {
+          title: 'SHIPPING_AGENCY.DETAIL_DIALOG.SHIPPING.ADDRESS',
+          formatter: (address: any) => {
+            const addressString = `${address.district}, ${address.city}, ${address.state}`;
+            return (<>{addressString}</>);
+          }
+        },
         phone: {title: 'SHIPPING_AGENCY.DETAIL_DIALOG.SHIPPING.PHONE_NUMBER'},
-        status: {title: 'SHIPPING_AGENCY.DETAIL_DIALOG.SHIPPING.STATUS'},
+        status: {
+          title: 'SHIPPING_AGENCY.DETAIL_DIALOG.SHIPPING.STATUS',
+          formatter: TickColumnFormatter
+        },
       },
     },
     {
-      header: 'SHIPPING_AGENCY.DETAIL_DIALOG.SHIPPING.SUBTITLE',
+      header: 'SHIPPING_AGENCY.DETAIL_DIALOG.OWNER.SUBTITLE',
+      className: 'col-5',
+      titleClassName: 'col-5',
+      dataClassName: 'col-7',
       data: {
-        code: {title: 'SHIPPING_AGENCY.DETAIL_DIALOG.SHIPPING.CODE'},
-        name: {title: 'SHIPPING_AGENCY.DETAIL_DIALOG.SHIPPING.NAME'},
-        // address: {title: 'SHIPPING_AGENCY.DETAIL_DIALOG.SHIPPING.ADDRESS'},
-        phone: {title: 'SHIPPING_AGENCY.DETAIL_DIALOG.SHIPPING.PHONE_NUMBER'},
-        status: {title: 'SHIPPING_AGENCY.DETAIL_DIALOG.SHIPPING.STATUS'},
+        fullName: {
+          title: 'SHIPPING_AGENCY.DETAIL_DIALOG.OWNER.FULL_NAME',
+          keyField: 'owner.fullName'
+        }, email: {
+          title: 'SHIPPING_AGENCY.DETAIL_DIALOG.OWNER.EMAIL',
+          keyField: 'owner.email'
+        }, phone: {
+          title: 'SHIPPING_AGENCY.DETAIL_DIALOG.OWNER.PHONE_NUMBER',
+          keyField: 'owner.phone'
+        },
       },
     },
   ];
@@ -279,6 +297,7 @@ function ShippingAgency() {
           setShowDetail(false);
         }}
         show={showDetail}
+        size={'lg'}
         renderInfo={masterEntityDetailDialog}/>
       <DeleteEntityDialog
         entity={deleteEntity}
