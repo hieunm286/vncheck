@@ -141,6 +141,8 @@ function ProductionPlanCrud({
   onApprove,
   updateProcess,
   sendRequest,
+  approveFollow,
+  currentTab,
 }: {
   // modifyModel: ModifyModel;
   title: string;
@@ -162,6 +164,8 @@ function ProductionPlanCrud({
   onApprove: (data: any) => Promise<AxiosResponse<any>>;
   updateProcess: (data: any) => Promise<AxiosResponse<any>>;
   sendRequest: (data: any) => Promise<AxiosResponse<any>>;
+  approveFollow: (data: any) => Promise<AxiosResponse<any>>;
+  currentTab: string | undefined;
 }) {
   const intl = useIntl();
   const initForm = autoFill
@@ -298,7 +302,7 @@ function ProductionPlanCrud({
 
           if (step === '0') {
             submitHandle(updateValue, { setSubmitting, setFieldError });
-          } else if (step === '1') {
+          } else if (step === '1' && currentTab !== '2') {
             // if (!updateValue.step || updateValue.step !== '1') {
             //   updateValue.step = '1';
             // }
@@ -311,7 +315,6 @@ function ProductionPlanCrud({
                     setErrorMsg(undefined);
                     refreshData();
                     history.push(homePage || GetHomePage(window.location.pathname));
-
                   })
                   .catch(error => {
                     setSubmitting(false);
@@ -324,7 +327,20 @@ function ProductionPlanCrud({
                 setErrorMsg(error.data || error.response.data);
                 notify(error.data || error.response.data);
               });
-          } 
+          } else if (step === '1' && currentTab === '2') {
+            approveFollow(updateValue)
+              .then(res => {
+                notifySuccess();
+                setErrorMsg(undefined);
+                refreshData();
+                history.push(homePage || GetHomePage(window.location.pathname));
+              })
+              .catch(error => {
+                setSubmitting(false);
+                setErrorMsg(error.data || error.response.data);
+                notify(error.data || error.response.data);
+              });
+          }
         }}>
         {({ handleSubmit, setFieldValue, values }) => (
           <>
