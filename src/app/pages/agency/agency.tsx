@@ -2,7 +2,7 @@ import React, { useEffect, Fragment, useState } from "react";
 import {useIntl} from 'react-intl';
 
 
-import {InitMasterProps} from "../../common-library/helpers/common-function-promise";
+import {InitMasterProps} from "../../common-library/helpers/common-function";
 
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import IndeterminateCheckBoxIcon from '@material-ui/icons/IndeterminateCheckBox';
@@ -77,7 +77,11 @@ function AgencyPage() {
     setLoading,
     error,
     setError,
-    add, update, get, deleteMany, deleteFn, getAll, refreshData
+    add, update, get, deleteMany, deleteFn, getAll, refreshData,
+    addPromise,
+    updatePromise,
+    deletePromise,
+    deleteManyPromise,
   } = InitMasterProps<AgencyModel>({
     getServer: Get,
     countServer: Count,
@@ -151,12 +155,12 @@ function AgencyPage() {
         intl,
         onShowDetail: (entity: AgencyModel) => {
           get(entity)
-            .then(res => {
-              setDetailEntity(res.data);
-            })
-            .catch(error => {
-              console.log(error);
-            });
+            // .then(res => {
+            //   setDetailEntity(res.data);
+            // })
+            // .catch(error => {
+            //   console.log(error);
+            // });
           setShowDetail(true);
         },
         onDelete: (entity: AgencyModel) => {
@@ -344,6 +348,10 @@ function AgencyPage() {
   const allFormField: any = {
     ...GenerateAllFormField(modifyModel)
   };
+
+  const crudSuccess = () => {
+    ref
+  }
   
 
   return (

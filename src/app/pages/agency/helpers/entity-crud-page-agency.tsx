@@ -77,6 +77,12 @@ function EntityCrudPageAgency({
     }
   }, [code]);
 
+  const handleModify = (values: any) => {
+    onModify(values)
+    
+    ;
+  }
+
   return (
     <>
       <Formik
@@ -84,7 +90,6 @@ function EntityCrudPageAgency({
         initialValues={entityForEdit || initForm}
         validationSchema={validation}
         onSubmit={values => {
-          onModify(values);
           // history.goBack()
           history.push(GetHomePage(window.location.pathname));
 
