@@ -321,9 +321,9 @@ function ProductionPlan() {
       text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.APPROVE_STATUS' })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
         <span>
-          {row.confirmationStatus === '1' && 'Đã duyệt'}
-          {row.confirmationStatus === '0' && 'Chờ duyệt'}
-          {row.confirmationStatus === '2' && 'Từ chối'}
+          {row.confirmationStatus === '1' && 'Chờ duyệt'}
+          {row.confirmationStatus === '2' && 'Đã duyệt'}
+          {row.confirmationStatus === '3' && 'Từ chối'}
         </span>
       ),
       ...SortColumn,
@@ -484,7 +484,7 @@ function ProductionPlan() {
     data: {
       sendRequest: {
         role: 'special',
-        type: 'submit',
+        type: 'button',
         linkto: undefined,
         className: 'btn btn-primary mr-5 pl-8 pr-8',
         label: 'Gửi duyệt',
@@ -497,7 +497,7 @@ function ProductionPlan() {
       },
       save: {
         role: 'submit',
-        type: 'submit',
+        type: 'button',
         linkto: undefined,
         className: 'btn btn-outline-primary mr-5 pl-8 pr-8',
         label: 'Lưu',
@@ -534,6 +534,11 @@ function ProductionPlan() {
     const newProcess = _.toString((_.toInteger(entity.process) + 1))
     const data = { process: newProcess }
     return ProductionPlanService.UpdateProcess(entity, data)
+  }
+
+  const refuse = (entity: any) => {
+    const data = { confirmationStatus: '3' };
+    return ProductionPlanService.Approve(entity, data);
   }
 
 
@@ -575,9 +580,13 @@ function ProductionPlan() {
         className: 'btn btn-outline-primary mr-5 pl-8 pr-8',
         label: 'Từ chối',
         icon: <SaveOutlinedIcon />,
-        onClick: () => {
-          // setNoticeModal(true);
-          // setSubmit(true)
+        onClick: (entity: any) => {
+          refuse(entity).then(res => {
+            refreshData();
+            history.push('/production-plan');
+          }).catch(error => {
+            console.log(error)
+          });
         },
       },
       save: {

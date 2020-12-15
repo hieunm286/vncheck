@@ -323,29 +323,7 @@ function ProductionPlanCrud({
                 setErrorMsg(error.data || error.response.data);
                 notify(error.data || error.response.data);
               });
-          } else if (step === '2') {
-            onApprove(entityForEdit)
-              .then(res => {
-                updateProcess(entityForEdit)
-                  .then(ress => {
-                    notifySuccess();
-                    setErrorMsg(undefined);
-                    refreshData();
-                    history.push(homePage || GetHomePage(window.location.pathname));
-
-                  })
-                  .catch(error => {
-                    setSubmitting(false);
-                    setErrorMsg(error.data || error.response.data);
-                    notify(error.data || error.response.data);
-                  });
-              })
-              .catch(error => {
-                setSubmitting(false);
-                setErrorMsg(error.data || error.response.data);
-                notify(error.data || error.response.data);
-              });
-          }
+          } 
         }}>
         {({ handleSubmit, setFieldValue, values }) => (
           <>
