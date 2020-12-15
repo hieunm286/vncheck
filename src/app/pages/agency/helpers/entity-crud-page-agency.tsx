@@ -141,7 +141,7 @@ function EntityCrudPageAgency({
                               type={allFormButton[key].type}
                               className={allFormButton[key].className}
                               key={key}
-                              onClick={() => handleSubmit()}>
+                              onClick={() => {}}>
                               {allFormButton[key].icon} {allFormButton[key].label}
                             </button>
                           );
