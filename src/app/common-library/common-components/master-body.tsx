@@ -69,8 +69,8 @@ export function MasterBody<T>({
     : columns;
   
   return (
-    <Card>
-      {title && <CardHeader className={'master-card-header'} title={intl.formatMessage({id: title}).toUpperCase()}/>}
+    <Card className={'master-body-card'} >
+      {title && <CardHeader title={intl.formatMessage({id: title}).toUpperCase()}/>}
       <CardBody>
         <div className="row no-gutters mb-10">
           <div className="mr-5 fixed-btn-width">

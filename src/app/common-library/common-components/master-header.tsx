@@ -199,8 +199,8 @@ export function MasterHeader<T>({
   };
   
   return (
-    <Card>
-      <CardHeader className={'master-card-header'} title={intl.formatMessage({id: title}).toUpperCase()}/>
+    <Card className={'master-header-card'} >
+      <CardHeader title={intl.formatMessage({id: title}).toUpperCase()}/>
       
       <CardBody>
         <Formik
@@ -215,11 +215,11 @@ export function MasterHeader<T>({
           }}>
           {({values, handleSubmit, handleBlur, handleChange, setFieldValue, resetForm}) => (
             <form onSubmit={handleSubmit} className="form form-label-right">
-              <div className="form-group row">
+              <div className="form-group row master-header-search-margin">
                 {searchModel ? (
                   Object.keys(searchM).map(key => {
                     const name = searchM[key].customName ?? key;
-                    const className = searchM[key].className ?? "col-xxl-2 col-md-3 mt-md-5 mt-5";
+                    const className = searchM[key].className ?? "col-xxl-2 col-md-3 master-header-search-input-margin";
                     switch (searchM[key].type) {
                       case 'string':
                         return (

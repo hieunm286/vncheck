@@ -346,6 +346,7 @@
   "DELETE.ERROR.STORE_LEVEL_HAVE_CHILDREN": "Không thể xóa vì cấp bán hàng đã có cấp con hoặc đơn vị bán hàng.",
   "CREATE.ERROR.LAND_LOT.LAND_LOT_IN_USE": "Mã lô thửa đã được dùng",
   "DELETE.ERROR.LAND_LOT.LAND_LOT_IN_USE": "Lô thửa đã được sử dụng",
+  "SHIPPING_AGENCY.MODULE_NAME": "đơn vị vận chuyển",
   "SHIPPING_AGENCY.MASTER.SEARCH.CODE": "Mã đơn vị",
   "SHIPPING_AGENCY.MASTER.SEARCH.NAME": "Tên đơn vị",
   "SHIPPING_AGENCY.MASTER.SEARCH.PHONE": "Số điện thoại",
