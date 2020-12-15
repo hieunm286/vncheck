@@ -675,25 +675,28 @@ const FormTemplate = ({
                   labelWidth={4}
                   name={key}
                   isHorizontal
+                  mode='multiple'
                   photos={[{
-                    src: "https://source.unsplash.com/aZjw7xI3QAA/1144x763",
-                    author: "Nguyễn Minh Hiếu",
-                    time: "26/09/2020 9:00",
-                    location: `21°01'10.1"N 105°47'28.6"E`,
-                    thumbnail: "https://source.unsplash.com/aZjw7xI3QAA/100x67",
-                  }, {
-                    src: "https://source.unsplash.com/c77MgFOt7e0/1144x763",
-                    author: "Nguyễn Minh Hiếu",
-                    time: "26/09/2020 9:00",
-                    location: `21°01'10.1"N 105°47'28.6"E`,
-                    thumbnail: "https://source.unsplash.com/c77MgFOt7e0/100x67",
-                  }, {
-                    src: "https://source.unsplash.com/QdBHnkBdu4g/1144x763",
-                    author: "Nguyễn Minh Hiếu",
-                    time: "26/09/2020 9:00",
-                    location: `21°01'10.1"N 105°47'28.6"E`,
-                    thumbnail: "https://source.unsplash.com/QdBHnkBdu4g/100x67",
-                  }]}
+                    path: 'https://source.unsplash.com/aZjw7xI3QAA/1144x763',
+                    author: 'Nguyễn Minh Hiếu',
+                    time: '26/09/2020 9:00',
+                    location: { coordinates: [`21°01'10.1"N 105°47'28.6"E`] },
+                    thumbnail: 'https://source.unsplash.com/aZjw7xI3QAA/100x67',
+                  },
+                  {
+                    path: 'https://source.unsplash.com/c77MgFOt7e0/1144x763',
+                    author: 'Nguyễn Minh Hiếu',
+                    time: '26/09/2020 9:00',
+                    location: { coordinates: [`21°01'10.1"N 105°47'28.6"E`] },
+                    thumbnail: 'https://source.unsplash.com/c77MgFOt7e0/100x67',
+                  },
+                  {
+                    path: 'https://source.unsplash.com/QdBHnkBdu4g/1144x763',
+                    author: 'Nguyễn Minh Hiếu',
+                    time: '26/09/2020 9:00',
+                    location: { coordinates: [`21°01'10.1"N 105°47'28.6"E`] },
+                    thumbnail: 'https://source.unsplash.com/QdBHnkBdu4g/100x67',
+                  },]}
                 />
               </div>
             );
