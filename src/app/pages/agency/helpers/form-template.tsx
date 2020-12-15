@@ -63,11 +63,11 @@ const FormTemplate = ({
   // useEffect(() => {
   //   setSearch(formValues);
   // }, [formValues]);
-  // useEffect(() => {
-  //   if(formValues.roleName) {
-  //     setSearchSelect(formValues.roleName);
-  //   }
-  // }, [])
+  useEffect(() => {
+    if(formValues.roleName) {
+      setSearchSelect(formValues.roleName);
+    }
+  }, [formValues.roleName])
 
   
 
@@ -589,7 +589,7 @@ const FormTemplate = ({
 
           case 'SearchSelect':
             // setTouched({[key]: true})
-            return values[key] && (
+            return searchSelect && (
               <div className="mt-3" key={key}>
                 <InfiniteSelect
                   changeId
@@ -598,6 +598,7 @@ const FormTemplate = ({
                   value={searchSelect} // value={search[key]}
                   onChange={(value: any) => {
                     //setSearchSelect({value: value.value, label: value.label}); // setSearch({ ...search, [key]: value });
+                    console.log(value)
                     setSearchSelect(value);
                     // values.roleName = value;
 

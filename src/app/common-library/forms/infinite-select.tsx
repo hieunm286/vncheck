@@ -59,6 +59,7 @@ export function InfiniteSelect({
   const [values, setValue] = React.useState(null);
   const CustomAsyncPaginate = withAsyncPaginate(AtlaskitSelect);
   const intl = useIntl();
+  console.log(value)
   
   return (
     <>
@@ -74,7 +75,7 @@ export function InfiniteSelect({
             onChange={(val: any) => {
               setValue(val);
               onChange(val);
-              setFieldValue(name, changeId ? val.value : refs ? val.value : val.label);
+              setFieldValue(name, changeId === true ? val : refs ? val.value : val.label);
             }}
             placeholder={intl.formatMessage({id: placeholder})}
             name={name}
