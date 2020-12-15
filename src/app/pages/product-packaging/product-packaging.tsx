@@ -29,6 +29,7 @@ import { GenerateCode } from '../species/species';
 import * as ProductTypeService from '../species/species.service';
 import ModifyEntityDialogPromise from '../../common-library/common-components/modify-entity-dialog-promise';
 import {GetAll} from "./product-packaging.service";
+import _ from 'lodash';
 
 
 const data: any = [
@@ -230,7 +231,7 @@ function ProductPackaging() {
           ref: true
         },
         weight: {
-          type: 'number',
+          type: 'string',
           placeholder: 'COMMON_COMPONENT.INPUT.PLACEHOLDER',
           
           required: true,
@@ -330,7 +331,13 @@ function ProductPackaging() {
       <ModifyEntityDialogPromise
         isShow={showEdit}
         entity={editEntity}
-        onModify={updatePromise}
+        onModify={(entity: any) => {
+          const cv = { ...entity }
+          if (_.isObject(cv.species)) {
+            cv.species = entity.species.value
+          }
+          return updatePromise(cv)
+        }}
         title={updateTitle}
         modifyModel={modifyModel}
         onHide={() => {

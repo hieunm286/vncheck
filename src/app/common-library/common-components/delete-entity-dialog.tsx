@@ -55,10 +55,10 @@ export function   DeleteEntityDialog<T>({
             )}
           </>
         )}
-        {loading && <span>{intl.formatMessage({id: deletingMessage})}</span>}
+        {loading && <span className={'ml-1'}>{intl.formatMessage({id: deletingMessage})}</span>}
         {!loading && error !== '' && (
           <>
-            {typeof error === 'string' ? intl.formatMessage({id: error}) : error}
+            {typeof error === 'string' ? (<p className='text-danger'>{intl.formatMessage({id: error})}</p>) : error}
           </>
         )}
       </Modal.Body>
