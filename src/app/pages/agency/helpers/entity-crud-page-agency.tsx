@@ -8,10 +8,12 @@ import { Card, CardBody, CardHeader } from '../../../common-library/card';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import { convertToForm } from './convert-data-model';
 import { ConfirmDialog } from '../../../common-library/common-components/confirm-dialog';
+import { AxiosResponse } from 'axios';
 
 function EntityCrudPageAgency({
   entity,
   onModify,
+  onClickReturn,
   title,
   reduxModel,
   code,
@@ -21,10 +23,13 @@ function EntityCrudPageAgency({
   allFormButton,
   validation,
   setShowDialog,
+  crudSuccess,
+  crudFail,
 }: {
   title?: string;
   entity?: any;
-  onModify: (values: any) => void;
+  onModify: (values: any) => Promise<AxiosResponse<any>>;
+  onClickReturn: () => void;
   reduxModel?: string;
   code?: string | null;
   get: (code: string) => any | null;
@@ -33,6 +38,8 @@ function EntityCrudPageAgency({
   allFormButton?: any;
   validation?: any;
   setShowDialog?: any;
+  crudSuccess: any;
+  crudFail: any;
 }) {
   const initForm = generateInitForm(allFormField);
   //   const modifyM = { ...modifyModel } as any;
@@ -79,6 +86,8 @@ function EntityCrudPageAgency({
 
   const handleModify = (values: any) => {
     onModify(values)
+      .then(crudSuccess)
+      .catch((error: any) => crudFail(error))
     
     ;
   }
@@ -90,9 +99,8 @@ function EntityCrudPageAgency({
         initialValues={entityForEdit || initForm}
         validationSchema={validation}
         onSubmit={values => {
+          handleModify(values);
           // history.goBack()
-          history.push(GetHomePage(window.location.pathname));
-
         }}>
         {({ values, handleSubmit }) => (
           <>
@@ -190,6 +198,7 @@ function EntityCrudPageAgency({
           confirmMessage='AGENCY.NOTIFY_DIALOG.NOTSAVE'
           onSubmit={() => {
             history.push('/agency')
+            onClickReturn();
             }
           }
           isShow={showConfirmDialog}

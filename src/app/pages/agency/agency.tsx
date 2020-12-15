@@ -2,7 +2,7 @@ import React, { useEffect, Fragment, useState } from "react";
 import {useIntl} from 'react-intl';
 
 
-import {InitMasterProps} from "../../common-library/helpers/common-function";
+import {GetHomePage, InitMasterProps} from "../../common-library/helpers/common-function";
 
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import IndeterminateCheckBoxIcon from '@material-ui/icons/IndeterminateCheckBox';
@@ -37,6 +37,8 @@ import { mockAgency } from "./helpers/mock-entity";
 import { agencySearchModel, allFormButton, agencySchema, masterEntityDetailDialog } from './defined/const';
 import * as StoreLevelService from '../multilevel-sale/multilevel-sale.service';
 import * as RoleService from './helpers/role.service';
+import { ToastContainer, toast } from 'react-toastify';
+
 
 
 function AgencyPage() {
@@ -349,8 +351,42 @@ function AgencyPage() {
     ...GenerateAllFormField(modifyModel)
   };
 
+  const notify = (error: string) => {
+    toast.error(`😠 ${error}`, {
+      position: 'top-right',
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+  };
+
+  const notifySuccess = () => {
+    toast.success(`😠 Thành công`, {
+      position: 'top-right',
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+  };
+
   const crudSuccess = () => {
-    ref
+    refreshData();
+    notifySuccess();
+    history.push(GetHomePage(window.location.pathname));
+    history.push('/agency')
+    // history.goBack()
+
+  }
+
+  const crudFail = (error: any) => {
+    setError(error.response.data || error.message || JSON.stringify(error))
+    notify(intl.formatMessage({id: error.response.data || error.message || JSON.stringify(error)}));
   }
   
 
@@ -382,7 +418,7 @@ function AgencyPage() {
       />
 
       <Switch>
-        {/* <Redirect from="/purchase-order/edit" to="/purchase-order" /> */}
+        {/* <Redirect from="/agency/:code" to="/agency" /> */}
         <Route path="/agency" exact={true}>
           {/* <MasterHeader title={headerTitle} onSearch={setFilterProps} searchModel={purchaseOrderSearchModel} */}
               {/* initValue={filterProps}/> */}
@@ -438,8 +474,9 @@ function AgencyPage() {
             <EntityCrudPageAgency
               entity={createEntity}
               onModify={(values) => {
-                add(ConvertStatusToString(convertToServer(values)))
+                return addPromise(ConvertStatusToString(convertToServer(values)))
               }}
+              onClickReturn={refreshData}
               // title={updateTitle}
               //  modifyModel={modifyModel}
               // reduxModel="purchaseOrder"
@@ -449,6 +486,8 @@ function AgencyPage() {
               allFormField={allFormField}
               allFormButton={allFormButton}
               validation={agencySchema}
+              crudSuccess={crudSuccess}
+              crudFail={crudFail}
             />
           )}
         </Route>
@@ -457,14 +496,17 @@ function AgencyPage() {
             <EntityCrudPageAgency
               entity={editEntity}
               onModify={(values) => {
-                update(ConvertStatusToString(convertToServer(values)))
+                return updatePromise(ConvertStatusToString(convertToServer(values)))
               }}
+              onClickReturn={refreshData}
               code={match && match.params.code}
               get={AgencyService.GetById}
               formPart={formPart}
               allFormField={allFormField}
               allFormButton={allFormButton}
               validation={agencySchema}
+              crudSuccess={crudSuccess}
+              crudFail={crudFail}
             />
           )}
         </Route>
