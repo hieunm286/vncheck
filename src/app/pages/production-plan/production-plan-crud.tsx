@@ -301,7 +301,7 @@ function ProductionPlanCrud({
             if (!updateValue.step || updateValue.step !== '1') {
               updateValue.step = '1';
             }
-            submitHandle(updateValue, { setSubmitting, setFieldError });
+            // submitHandle(updateValue, { setSubmitting, setFieldError });
             onModify(updateValue)
               .then((res: any) => {
                 sendRequest(entityForEdit)
