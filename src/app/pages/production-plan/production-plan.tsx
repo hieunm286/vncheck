@@ -169,18 +169,6 @@ function ProductionPlan() {
   }, [paginationProps, trigger, filterProps, currentTab]);
 
   const columns = {
-    _id: {
-      dataField: '_id',
-      text: 'STT',
-      formatter: (cell: any, row: any, rowIndex: number) => (
-        <Fragment>
-          {rowIndex + 1 + ((paginationProps.page ?? 0) - 1) * (paginationProps.limit ?? 0)}
-        </Fragment>
-      ),
-      headerClasses: 'text-center',
-      align: 'center',
-    },
-
     seeding: {
       dataField: 'seeding.code',
       text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.SEEDING_CODE' })}`,
@@ -251,16 +239,6 @@ function ProductionPlan() {
   };
 
   const columns2 = {
-    _id: {
-      dataField: '_id',
-      text: 'STT',
-      formatter: (cell: any, row: any, rowIndex: number) => (
-        <Fragment>
-          {rowIndex + 1 + ((paginationProps.page ?? 0) - 1) * (paginationProps.limit ?? 0)}
-        </Fragment>
-      ),
-      style: { paddingTop: 20 },
-    },
     code: {
       dataField: 'code',
       text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.CODE' })}`,

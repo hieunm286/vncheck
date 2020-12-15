@@ -6,7 +6,7 @@ import {useField, useFormikContext} from 'formik';
 // import "react-datepicker/dist/react-datepicker-cssmodules.css";
 // import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 // import {faCalendarAlt} from '@fortawesome/free-solid-svg-icons';
-// import { deCapitalizeFirstLetter } from '../helpers/common-function';
+import { deCapitalizeFirstLetter } from '../helpers/common-function';
 
 // registerLocale('vi', vi);
 // import DatePicker, {registerLocale} from 'react-datepicker';
