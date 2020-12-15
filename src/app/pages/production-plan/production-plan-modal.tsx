@@ -32,20 +32,20 @@ function ProductionPlanModal({ show, title, body, mode, onConfirm, onClose, setS
       )}
 
       <Modal.Body>
-        <Modal.Title id="example-modal-sizes-title-lg" className="text-primary">
+        <span>
           {intl.formatMessage({ id: body }).toUpperCase()}
-        </Modal.Title>
+        </span>
       </Modal.Body>
 
       <Modal.Footer className="border-top-0">
         {mode === 'confirm' && (
-          <button type="button" onClick={onConfirm} className="btn btn-outline-primary">
-            {intl.formatMessage({ id: 'COMMON_COMPONENT.DETAIL_DIALOG.CLOSE_BTN' })}
+          <button type="button" onClick={onConfirm} className="btn btn-primary">
+            {intl.formatMessage({ id: 'COMMON_COMPONENT.DELETE_DIALOG.DELETE_BTN' })}
           </button>
         )}
         <button type="button" onClick={onClose} className="btn btn-outline-primary">
           <CancelOutlinedIcon style={{ fontSize: 14 }} />
-          {intl.formatMessage({ id: 'COMMON_COMPONENT.DELETE_DIALOG.DELETE_BTN' })}
+          {intl.formatMessage({ id: 'COMMON_COMPONENT.DETAIL_DIALOG.CLOSE_BTN' })}
         </button>
       </Modal.Footer>
     </Modal>

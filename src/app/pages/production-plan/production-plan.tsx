@@ -39,6 +39,7 @@ import { fetchAllUser } from '../account/_redux/user-action';
 import * as Yup from 'yup';
 import Visibility from '@material-ui/icons/Visibility';
 import clsx from 'clsx';
+import _ from 'lodash';
 
 const headerTitle = 'PRODUCT_TYPE.MASTER.HEADER.TITLE';
 const bodyTitle = 'PRODUCT_TYPE.MASTER.BODY.TITLE';
@@ -165,7 +166,14 @@ function ProductionPlan() {
   }, [dispatch]);
 
   useEffect(() => {
-    getAll({ ...(filterProps as any), step: currentTab });
+    if (currentTab === '0') {
+      getAll({ ...(filterProps as any), step: "0" });
+    } else if (currentTab === "1") {
+      getAll({ ...(filterProps as any), confirmationStatus: "1" });
+    } else if (currentTab === "2") {
+      getAll({ ...(filterProps as any), step: "1", confirmationStatus: "2" });
+    }
+
   }, [paginationProps, trigger, filterProps, currentTab]);
 
   const columns = {
@@ -313,9 +321,9 @@ function ProductionPlan() {
       text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.APPROVE_STATUS' })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
         <span>
-          {row.confirmationStatus === '1' && 'Đã duyệt'}
-          {row.confirmationStatus === '0' && 'Chờ duyệt'}
-          {row.confirmationStatus === '2' && 'Từ chối'}
+          {row.confirmationStatus === '1' && 'Chờ duyệt'}
+          {row.confirmationStatus === '2' && 'Đã duyệt'}
+          {row.confirmationStatus === '3' && 'Từ chối'}
         </span>
       ),
       ...SortColumn,
@@ -476,7 +484,7 @@ function ProductionPlan() {
     data: {
       sendRequest: {
         role: 'special',
-        type: 'submit',
+        type: 'button',
         linkto: undefined,
         className: 'btn btn-primary mr-5 pl-8 pr-8',
         label: 'Gửi duyệt',
@@ -489,7 +497,7 @@ function ProductionPlan() {
       },
       save: {
         role: 'submit',
-        type: 'submit',
+        type: 'button',
         linkto: undefined,
         className: 'btn btn-outline-primary mr-5 pl-8 pr-8',
         label: 'Lưu',
@@ -511,20 +519,58 @@ function ProductionPlan() {
     },
   };
 
+  
+  const sendRequest = (entity: any) => {
+    const data = { confirmationStatus: '1' };
+    return ProductionPlanService.Approve(entity, data);
+  }; 
+
+  const approve = (entity: any) => {
+    const data = { confirmationStatus: '2' };
+    return ProductionPlanService.Approve(entity, data);
+  };
+
+  const updateProcess = (entity: any) => {
+    const newProcess = _.toString((_.toInteger(entity.process) + 1))
+    const data = { process: newProcess }
+    return ProductionPlanService.UpdateProcess(entity, data)
+  }
+
+  const refuse = (entity: any) => {
+    const data = { confirmationStatus: '3' };
+    return ProductionPlanService.Approve(entity, data);
+  }
+
+
   const adminAllFormButton: any = {
     type: 'outside',
     data: {
       approve: {
         role: 'special',
-        type: 'submit',
+        type: 'button',
         linkto: undefined,
         className: 'btn btn-primary mr-5 pl-8 pr-8',
         label: 'Phê duyệt',
         icon: <SaveOutlinedIcon />,
-        onClick: () => {
+        onClick: (entity: any) => {
           // setNoticeModal(true);
           // setSubmit(true)
           setStep('2');
+          approve(entity).then(res => {
+            updateProcess(entity)
+              .then(ress => {
+      
+                refreshData();
+                history.push('/production-plan');
+
+              })
+              .catch(error => {
+              
+              });
+          })
+          .catch(error => {
+           
+          });
         },
       },
       refuse: {
@@ -534,9 +580,13 @@ function ProductionPlan() {
         className: 'btn btn-outline-primary mr-5 pl-8 pr-8',
         label: 'Từ chối',
         icon: <SaveOutlinedIcon />,
-        onClick: () => {
-          // setNoticeModal(true);
-          // setSubmit(true)
+        onClick: (entity: any) => {
+          refuse(entity).then(res => {
+            refreshData();
+            history.push('/production-plan');
+          }).catch(error => {
+            console.log(error)
+          });
         },
       },
       save: {
@@ -631,15 +681,6 @@ function ProductionPlan() {
     },
   };
 
-  const approve = (entity: any) => {
-    const data = { confirmationStatus: '1' };
-    return ProductionPlanService.Approve(entity, data);
-  };
-
-  const requestApprove = (entity: any) => {
-    const data = {};
-  };
-
   return (
     <React.Fragment>
       <Switch>
@@ -680,6 +721,8 @@ function ProductionPlan() {
                 tagData={tagData}
                 step={step}
                 onApprove={approve}
+                updateProcess={updateProcess}
+                sendRequest={sendRequest}
               />
             </>
           )}
@@ -702,7 +745,7 @@ function ProductionPlan() {
         <Route exact path="/production-plan/seeding/:code">
           {({ history, match }) => (
             <MasterEntityDetailPage
-              entity={detailEntity}
+              entity={history.location.state}
               renderInfo={SeedingDetailDialog}
               code={match && match.params.code}
               get={code => ProductionPlanService.GetById(code)}
@@ -764,6 +807,7 @@ function ProductionPlan() {
             currentTab={currentTab}
             setCurrentTab={setCurrentTab}
             setEntities={setEntities}
+            setPaginationProps={setPaginationProps}
             // spinning={spinning}
           />
         </Route>

@@ -110,8 +110,12 @@ function ModifyEntityFormPromise<T>({
         let updateValue;
         setErrorMsg(undefined);
 
+        console.log(entity)
+        console.log(values)
+
         if (entity._id) {
           const diffValue = diff(entity, values);
+          console.log(diffValue)
           updateValue = { _id: values._id, ...diffValue };
         } else {
           updateValue = { ...values };
