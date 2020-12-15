@@ -17,7 +17,6 @@ import {DatePicker} from 'antd';
 import locale from 'antd/es/date-picker/locale/vi_VN';
 import {useIntl} from "react-intl";
 import moment, {Moment} from 'moment';
-import {deCapitalizeFirstLetter} from "../helpers/common-function";
 
 const getFieldCSSClasses = (touched: any, errors: any) => {
   const classes = ['form-control'];
