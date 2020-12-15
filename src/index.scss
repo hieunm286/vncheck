@@ -120,32 +120,58 @@ input {
   letter-spacing: 0.1rem;
 }
 
-.modal-detail {
-  .modal-content {
+.modal-detail{
+  .modal-content{
+    padding: 35px;
+  }
+  &.modal-lg {
     width: 1000px;
+    .modal-content {
+      .detail-dialog-subtitle {
+        font-weight: 600;
+        padding-bottom: 32px;
+        margin-bottom: 0;
+      }
 
-    .detail-dialog-subtitle {
-      font-weight: 600;
-      padding-bottom: 32px;
-      margin-bottom: 0;
-    }
-
-    .detail-dialog-row-info {
-      padding-bottom: 32px;
+      .detail-dialog-row-info {
+        padding-bottom: 32px;
+      }
     }
   }
+  &.modal-sm {
+    max-width: 500px;
+    width: 500px;
+    .modal-content {
+      .detail-dialog-subtitle {
+        font-weight: 600;
+        padding-bottom: 32px;
+        margin-bottom: 0;
+      }
 
+      .detail-dialog-row-info {
+        padding-bottom: 32px;
+      }
+    }
+    .modal-body{
+      padding: 0 0 0 0;
+    }
+  }
+}
+
+.btn{
+  width: 100px;
+  height: 34px;
 }
 
 .modal-delete {
+  width: 500px;
   .modal-content {
-    width: 500px;
   }
 }
 
 .modal-delete-many {
+  width: 500px;
   .modal-content {
-    width: 500px;
   }
 }
 

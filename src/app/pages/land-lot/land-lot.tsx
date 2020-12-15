@@ -308,7 +308,6 @@ function LandLot() {
 
   const masterEntityDetailDialog = [
     {
-      header: '',
       data: {
         code: { title: 'LAND_LOT.MASTER.HEADER.CODE',
         formatter: (data: any, fields = ['lot', 'subLot']) => {
