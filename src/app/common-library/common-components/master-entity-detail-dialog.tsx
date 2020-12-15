@@ -3,6 +3,7 @@ import {Modal} from 'react-bootstrap';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import {useIntl} from 'react-intl';
 import {iconStyle} from "../common-consts/const";
+import {getField} from "../helpers/common-function";
 
 export function MasterEntityDetailDialog({
                                            title = 'COMMON_COMPONENT.DETAIL_DIALOG.HEADER_TITLE',
@@ -65,20 +66,21 @@ export function MasterEntityDetail({
       <div className={`row`}>
         {renderInfo.map((value: any, key: any) => (
           <div key={key} className={`${value.className ?? 'col-12'}`}>
-            {value.header && <p className="text-primary font-weight-bold detail-dialog-subtitle">
+            {value.header && <p className="text-primary detail-dialog-subtitle">
               {intl.formatMessage({id: value.header})}
             </p>}
             {Object.keys(value.data).map((dataKey: any) => (
               <div className={`detail-dialog-row-info row`} key={dataKey}>
-                <div className="col-4">
+                <div className={`${value.titleClassName ?? 'col-4'}`}>
                   {intl.formatMessage({id: value.data[dataKey].title})}:
                 </div>
-                <div className="col-8">
-                  {
-                    value.data[dataKey].formatter ?
-                      <strong>{value.data[dataKey].formatter(data)}</strong>
-                      :
-                      <strong>{data[dataKey]}</strong>
+                <div className={`${value.dataClassName ?? 'col-8'}`}>
+                  {(() => {
+                    const displayData = value.data[dataKey].keyField ? getField(data, value.data[dataKey].keyField) : data[dataKey];
+                    return value.data[dataKey].formatter ?
+                      (<>{value.data[dataKey].formatter(displayData)}</>)
+                      : (<>{displayData}</>)
+                  })()
                   }
                 </div>
               </div>

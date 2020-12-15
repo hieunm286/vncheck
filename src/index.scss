@@ -124,13 +124,17 @@ input {
   .modal-content{
     padding: 35px;
   }
+  .modal-body{
+    padding: 0 0 0 0 !important;
+  }
   &.modal-lg {
     width: 1000px;
     .modal-content {
       .detail-dialog-subtitle {
         font-weight: 600;
-        padding-bottom: 32px;
+        padding-bottom: 25px;
         margin-bottom: 0;
+        text-transform: uppercase;
       }
 
       .detail-dialog-row-info {
@@ -151,9 +155,6 @@ input {
       .detail-dialog-row-info {
         padding-bottom: 32px;
       }
-    }
-    .modal-body{
-      padding: 0 0 0 0;
     }
   }
 }
