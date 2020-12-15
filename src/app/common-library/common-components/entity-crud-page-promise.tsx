@@ -9,6 +9,8 @@ import {
   getOnlyFile,
   getOnlyBase64,
   ConvertSelectSearch,
+  notifySuccess,
+  notify,
 } from '../helpers/common-function';
 import { Field, Form, Formik } from 'formik';
 import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
@@ -100,30 +102,6 @@ function EntityCrudPagePromise({
       });
     }
   }, [code]);
-
-  const notify = (error: string) => {
-    toast.error(`😠 ${error}`, {
-      position: 'top-right',
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
-  };
-
-  const notifySuccess = () => {
-    toast.success(`😠 Thành công`, {
-      position: 'top-right',
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
-  };
 
   const submitHandle = (values: any, { setSubmitting, setFieldError }: any) => {
     onModify(values)

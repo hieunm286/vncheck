@@ -14,13 +14,14 @@ import exifr from 'exifr';
 import { AxiosResponse } from 'axios';
 // import { diff } from 'deep-diff';
 
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+
 import { useIntl } from 'react-intl';
 import {
   ConvertSelectSearch,
   generateInitForm,
   GetHomePage,
+  notifySuccess,
+  notify
 } from '../../common-library/helpers/common-function';
 import { Card, CardBody, CardHeader } from '../../common-library/card';
 import ModifyEntityPage from '../../common-library/common-components/modify-entity-page';
@@ -206,29 +207,7 @@ function ProductionPlanCrud({
     }
   }, [code]);
 
-  const notify = (error: string) => {
-    toast.error(`😠 ${error}`, {
-      position: 'top-right',
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
-  };
-
-  const notifySuccess = () => {
-    toast.success(`😠 Thành công`, {
-      position: 'top-right',
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
-  };
+  
 
   const submitHandle = (values: any, { setSubmitting, setFieldError }: any) => {
     onModify(values)
