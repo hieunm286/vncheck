@@ -76,7 +76,7 @@ export function InfiniteSelect({
               onChange(val);
               setFieldValue(name, changeId ? val.value : refs ? val.value : val.label);
             }}
-            placeholder={intl.formatMessage({id: placeholder})}
+            placeholder={intl.formatMessage({id: placeholder ?? 'COMMON_COMPONENT.INFINITE_SELECT.PLACEHOLDER'})}
             name={name}
             additional={additional}
             styles={{

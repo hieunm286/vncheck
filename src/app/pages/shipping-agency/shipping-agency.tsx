@@ -94,7 +94,7 @@ function ShippingAgency() {
   
   useEffect(() => {
     getAll(filterProps);
-  }, [paginationProps, trigger, filterProps]);
+  }, [paginationProps, trigger, filterProps, getAll]);
   
   const columns = {
     code: {
@@ -109,7 +109,6 @@ function ShippingAgency() {
       ...SortColumn,
       align: 'center',
     },
-    
     phone: {
       dataField: 'phone',
       text: `${intl.formatMessage({id: 'SHIPPING_AGENCY.MASTER.TABLE.PHONE_COLUMN'})}`,
@@ -173,17 +172,21 @@ function ShippingAgency() {
     },
   ];
   
-  const productTypeSearchModel: SearchModel = {
+  const searchModel: SearchModel = {
     code: {
       type: 'string',
-      placeholder: 'PRODUCT_TYPE.MASTER.TABLE.CODE_COLUMN',
       label: 'PRODUCT_TYPE.MASTER.TABLE.CODE_COLUMN',
       onSearch: GetAll,
       keyField: 'code',
     },
     name: {
       type: 'string',
-      placeholder: 'PRODUCT_TYPE.MASTER.TABLE.NAME_COLUMN',
+      label: 'PRODUCT_TYPE.MASTER.TABLE.NAME_COLUMN',
+      onSearch: GetAll,
+      keyField: 'name',
+    },
+    phone: {
+      type: 'string',
       label: 'PRODUCT_TYPE.MASTER.TABLE.NAME_COLUMN',
       onSearch: GetAll,
       keyField: 'name',
@@ -367,11 +370,7 @@ function ShippingAgency() {
               setPaginationProps(DefaultPagination)
               setFilterProps(value)
             }}
-            searchModel={productTypeSearchModel}
-            initValue={{
-              code: '',
-              name: '',
-            }}
+            searchModel={searchModel}
           />
           <MasterBody
             title={tableTitle}

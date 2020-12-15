@@ -246,8 +246,8 @@ export function MasterHeader<T>({
                                 }
                               }}
                               component={Input}
-                              placeholder={intl.formatMessage({id: searchM[key].placeholder})}
-                              label={typeof searchM[key].label === 'string' ? intl.formatMessage({id: searchM[key].label}): searchM[key].label}
+                              placeholder={intl.formatMessage({id: searchM[key].placeholder ?? 'COMMON_COMPONENT.INPUT.PLACEHOLDER'})}
+                              label={typeof searchM[key].label === 'string' ? intl.formatMessage({id: searchM[key].label}) : searchM[key].label}
                               withFeedbackLabel={true}
                             />
                           </div>
@@ -260,8 +260,8 @@ export function MasterHeader<T>({
                               name={name}
                               type="number"
                               component={Input}
-                              placeholder={intl.formatMessage({id: searchM[key].placeholder})}
-                              label={intl.formatMessage({id: searchM[key].label})}
+                              placeholder={intl.formatMessage({id: searchM[key].placeholder ?? 'COMMON_COMPONENT.INPUT.PLACEHOLDER'})}
+                              label={typeof searchM[key].label === 'string' ? intl.formatMessage({id: searchM[key].label}) : searchM[key].label}
                               withFeedbackLabel={true}
                             />
                           </div>
@@ -271,8 +271,9 @@ export function MasterHeader<T>({
                         return (
                           <div className={className} key={`master_header${key}`}>
                             <DatePickerField
+                              {...searchM[key]}
                               name={name}
-                              label={typeof searchM[key].label === 'string' ? intl.formatMessage({id: searchM[key].label}): searchM[key].label}
+                              label={typeof searchM[key].label === 'string' ? intl.formatMessage({id: searchM[key].label}) : searchM[key].label}
                             />
                           </div>
                         );
