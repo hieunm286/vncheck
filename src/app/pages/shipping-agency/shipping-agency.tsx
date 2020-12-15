@@ -1,6 +1,6 @@
 import React, {Fragment, useEffect} from 'react';
 import {useIntl} from 'react-intl';
-import {DefaultPagination, NormalColumn, SortColumn, StatusValue} from '../../common-library/common-consts/const';
+import {DefaultPagination, NormalColumn, SortColumn} from '../../common-library/common-consts/const';
 import {MasterHeader} from '../../common-library/common-components/master-header';
 import {MasterBody} from '../../common-library/common-components/master-body';
 import {
@@ -9,27 +9,20 @@ import {
 } from '../../common-library/common-components/actions-column-formatter';
 import {DeleteEntityDialog} from '../../common-library/common-components/delete-entity-dialog';
 import DeleteManyEntitiesDialog from '../../common-library/common-components/delete-many-dialog';
-import {ModifyModel, SearchModel} from '../../common-library/common-types/common-type';
-import {
-  GenerateAllFormField,
-  InitMasterProps,
-} from '../../common-library/helpers/common-function';
-import {Switch, Route, useHistory} from 'react-router-dom';
+import {SearchModel} from '../../common-library/common-types/common-type';
+import {GenerateAllFormField, InitMasterProps,} from '../../common-library/helpers/common-function';
+import {Route, Switch, useHistory} from 'react-router-dom';
 import EntityCrudPage from '../../common-library/common-components/entity-crud-page';
 import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
-import * as Yup from 'yup';
 import * as ShippingAgencyService from './shipping-agency.service'
 import {ShippingAgencyModel} from './shipping-agency.model';
-import {GenerateCode} from '../species/species';
-import {GetAll} from "./shipping-agency.service";
-import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import {MasterEntityDetailDialog} from "../../common-library/common-components/master-entity-detail-dialog";
 
 const headerTitle = 'PRODUCT_TYPE.MASTER.HEADER.TITLE';
 const tableTitle = 'SHIPPING_AGENCY.MASTER.TABLE.TITLE';
 const detailDialogTitle = 'SHIPPING_AGENCY.DETAIL_DIALOG.TITLE';
-const moduleName = 'PRODUCT_TYPE.MODULE_NAME';
+const moduleName = 'SHIPPING_AGENCY.MODULE_NAME';
 const deleteDialogTitle = 'SHIPPING_AGENCY.DELETE_DIALOG.TITLE';
 const deleteDialogBodyTitle = 'SHIPPING_AGENCY.DELETE_DIALOG.BODY_TITLE';
 const createTitle = 'PRODUCT_TYPE.CREATE.TITLE';
@@ -94,7 +87,7 @@ function ShippingAgency() {
   
   useEffect(() => {
     getAll(filterProps);
-  }, [paginationProps, trigger, filterProps]);
+  }, [paginationProps, trigger, filterProps, getAll]);
   
   const columns = {
     code: {
@@ -109,7 +102,6 @@ function ShippingAgency() {
       ...SortColumn,
       align: 'center',
     },
-    
     phone: {
       dataField: 'phone',
       text: `${intl.formatMessage({id: 'SHIPPING_AGENCY.MASTER.TABLE.PHONE_COLUMN'})}`,
@@ -156,7 +148,7 @@ function ShippingAgency() {
       data: {
         code: {title: 'SHIPPING_AGENCY.DETAIL_DIALOG.SHIPPING.CODE'},
         name: {title: 'SHIPPING_AGENCY.DETAIL_DIALOG.SHIPPING.NAME'},
-          // address: {title: 'SHIPPING_AGENCY.DETAIL_DIALOG.SHIPPING.ADDRESS'},
+        // address: {title: 'SHIPPING_AGENCY.DETAIL_DIALOG.SHIPPING.ADDRESS'},
         phone: {title: 'SHIPPING_AGENCY.DETAIL_DIALOG.SHIPPING.PHONE_NUMBER'},
         status: {title: 'SHIPPING_AGENCY.DETAIL_DIALOG.SHIPPING.STATUS'},
       },
@@ -173,20 +165,18 @@ function ShippingAgency() {
     },
   ];
   
-  const productTypeSearchModel: SearchModel = {
+  const searchModel: SearchModel = {
     code: {
       type: 'string',
-      placeholder: 'PRODUCT_TYPE.MASTER.TABLE.CODE_COLUMN',
-      label: 'PRODUCT_TYPE.MASTER.TABLE.CODE_COLUMN',
-      onSearch: GetAll,
-      keyField: 'code',
+      label: 'SHIPPING_AGENCY.MASTER.SEARCH.CODE',
     },
     name: {
       type: 'string',
-      placeholder: 'PRODUCT_TYPE.MASTER.TABLE.NAME_COLUMN',
-      label: 'PRODUCT_TYPE.MASTER.TABLE.NAME_COLUMN',
-      onSearch: GetAll,
-      keyField: 'name',
+      label: 'SHIPPING_AGENCY.MASTER.SEARCH.NAME',
+    },
+    phone: {
+      type: 'string',
+      label: 'SHIPPING_AGENCY.MASTER.SEARCH.PHONE',
     },
   };
   
@@ -367,11 +357,11 @@ function ShippingAgency() {
               setPaginationProps(DefaultPagination)
               setFilterProps(value)
             }}
-            searchModel={productTypeSearchModel}
-            initValue={{
-              code: '',
-              name: '',
+            onReset={() => {
+              setPaginationProps(DefaultPagination);
+              setFilterProps(undefined);
             }}
+            searchModel={searchModel}
           />
           <MasterBody
             title={tableTitle}
@@ -399,5 +389,5 @@ function ShippingAgency() {
     </Fragment>
   );
 }
-  
-  export default ShippingAgency
+
+export default ShippingAgency

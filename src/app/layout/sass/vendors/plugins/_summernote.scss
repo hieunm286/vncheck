@@ -1,6 +1,7 @@
 //
 // Summernote
 //
+@import "../../../../../const.scss";
 
 
 .note-popover {
@@ -36,7 +37,7 @@
                 border: 1px solid $gray-200;
 
                 i {
-                    font-size: 1rem;
+                    font-size: $defaut-font-size;
                     line-height: 0;
                     padding-right: 0;
                     color: $dark-50;

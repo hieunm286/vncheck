@@ -1,6 +1,7 @@
 //
 // Typeahead
 //
+@import "../../../../../const.scss";
 
 
 // Base
@@ -32,7 +33,7 @@
         .tt-dataset {
             .tt-suggestion {
                 padding: $input-btn-padding-y $input-btn-padding-x;
-                font-size: 1rem;
+                font-size: $defaut-font-size;
                 color: $dark-75;
                 cursor: pointer;
 

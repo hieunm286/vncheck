@@ -8,7 +8,7 @@ import {iconStyle} from '../common-consts/const';
 import {ModalProgressBar} from '../modal-progress-bar';
 import {CapitalizeFirstLetter} from '../helpers/common-function';
 
-export function DeleteEntityDialog<T>({
+export function   DeleteEntityDialog<T>({
                                         isShow,
                                         entity,
                                         onHide,
@@ -40,7 +40,6 @@ export function DeleteEntityDialog<T>({
             .toUpperCase()}
         </Modal.Title>
       </Modal.Header>
-      
       <Modal.Body>
         {!loading && error === '' && (
           <>

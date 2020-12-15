@@ -24,12 +24,10 @@ export const productPlanSearchModel1: SearchModel = {
   seedingCode: {
     type: 'string',
     label: 'PRODUCTION_PLAN.SEEDING_CODE',
-    placeholder: 'PRODUCTION_PLAN.INPUT',
   },
   plantCode: {
     type: 'string',
     label: 'PRODUCTION_PLAN.PLANT_CODE',
-    placeholder: 'PRODUCTION_PLAN.INPUT',
   },
   species: {
     type: 'SearchSelect',
@@ -42,7 +40,6 @@ export const productPlanSearchModel1: SearchModel = {
     type: 'Datetime',
     customName: 'planting.estimatedHarvestTime',
     label: <Fix title={'PRODUCTION_PLAN.HARVEST_DATE'}/>,
-    placeholder: 'PRODUCTION_PLAN.INPUT',
   },
 };
 

@@ -31,10 +31,10 @@ export function PaginationLinks({paginationProps}: any) {
     const disabledClass = pagesCount > 1 ? "" : "disabled";
     return (
         <>
-            {pagesCount < 2 && (<div className={`d-flex flex-wrap py-2 mr-3 ${disabledClass}`}></div>)}
+            {pagesCount < 2 && (<div className={`d-flex flex-wrap mr-3 ${disabledClass}`}/>)}
             {pagesCount > 1 && (
                 <>
-                    <div className={`d-flex flex-wrap py-2 mr-3 ${disabledClass}`}>
+                    <div className={`d-flex flex-wrap mr-3 ${disabledClass}`}>
                         <a
                             onClick={() => handleFirstPage(paginationProps)}
                             className={`btn btn-icon btn-sm btn-light btn-hover-primary mr-2 my-1 ${paginationProps.page < 2 ? "disabled" : ""}`}

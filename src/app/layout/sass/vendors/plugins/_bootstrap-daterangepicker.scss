@@ -2,6 +2,7 @@
 // Bootstrap Daterangepicker
 //
 
+@import "../../../../../const.scss";
 
 
 // Base
@@ -33,7 +34,7 @@
         li {
             padding: 0.7rem 1.75rem;
             font-weight: 500;
-            font-size: 1rem;
+            font-size: $defaut-font-size;
             color: $dark-50;
             transition: color 0.3s ease;
 
@@ -88,7 +89,7 @@
 
         th,
         td {
-            font-size: 1rem;
+            font-size: $defaut-font-size;
             font-weight: regular;
             width: 33px;
             height: 33px;
@@ -181,7 +182,7 @@
     .daterangepicker {
         &.show-calendar {
             .ranges {
-                height: 297px !important;                
+                height: 297px !important;
             }
         }
     }

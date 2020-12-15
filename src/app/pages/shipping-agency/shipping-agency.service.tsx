@@ -59,6 +59,6 @@ export const Delete: DeleteProps<any> = (entity: any) => {
 
 export const DeleteMany: DeleteManyProps<any> = (entities: any[]) => {
   return axios.delete(BULK_API_URL, {
-    data: { listSpecies: entities },
+    data: { listShippingAgencies: entities },
   });
 };

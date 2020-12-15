@@ -28,7 +28,7 @@ export function PaginationToolbar({
   };
 
   return (
-    <div className="d-flex align-items-center py-3">
+    <div className="d-flex align-items-center">
       {isLoading && (
         <div className="d-flex align-items-center">
           <div className="mr-2 text-muted">

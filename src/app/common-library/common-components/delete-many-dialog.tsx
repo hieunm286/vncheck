@@ -35,7 +35,6 @@ function DeleteManyDialog<T>({
       {/*begin::Loading*/}
       {loading && <ModalProgressBar/>}
       {/*end::Loading*/}
-      
       <Modal.Header closeButton>
         <Modal.Title id="example-modal-sizes-title-lg" className="text-primary">
           {intl
@@ -43,26 +42,22 @@ function DeleteManyDialog<T>({
             .toUpperCase()}
         </Modal.Title>
       </Modal.Header>
-      
       <Modal.Body>
         {selectedEntities && selectedEntities.length > 0 ? (
           !loading &&
           error === '' && (
-            <div>
-              <p>
-                {intl.formatMessage(
+            <>
+              {CapitalizeFirstLetter(
+                intl.formatMessage(
                   {id: bodyTitle},
                   {moduleName: intl.formatMessage({id: moduleName})},
-                )}
-              </p>
-              
-              <p className="mt-5">
-                {intl.formatMessage(
-                  {id: confirmMessage},
-                  {moduleName: intl.formatMessage({id: moduleName})},
-                )}
-              </p>
-            </div>
+                ),
+              )}
+              {' ' + intl.formatMessage(
+                {id: confirmMessage},
+                {moduleName: intl.formatMessage({id: moduleName})},
+              )}
+            </>
           )
         ) : (
           <div>

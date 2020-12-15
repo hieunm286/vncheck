@@ -1,6 +1,7 @@
 //
 // Uppy
 //
+@import "../../../../../const.scss";
 
 
 
@@ -30,7 +31,7 @@
 
 		.uppy-DashboardContent-title {
 			color: $dark-75;
-			font-size: 1rem;
+			font-size: $defaut-font-size;
 			font-weight: 500;
 		}
 
@@ -78,7 +79,7 @@
 	}
 
 	.uppy-btn-primary {
-		font-size: 1rem;
+		font-size: $defaut-font-size;
 		font-weight: 400;
 		background: $primary;
 		color: $white;
@@ -91,7 +92,7 @@
 	}
 
 	.uppy-DashboardContent-back {
-		font-size: 1rem;
+		font-size: $defaut-font-size;
 		font-weight: 500;
 		color: $primary;
 		outline: none !important;
@@ -132,7 +133,7 @@
 	}
 
 	.uppy-DragDrop-label {
-		font-size: 1rem;
+		font-size: $defaut-font-size;
 		font-weight: 500;
 		color: $dark-75;
 
