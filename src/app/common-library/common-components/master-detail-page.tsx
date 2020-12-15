@@ -1,16 +1,16 @@
-import React, { Fragment, useEffect, useState } from 'react';
-import { useIntl } from 'react-intl';
-import { Card, CardBody, CardHeader } from '../card';
+import React, {Fragment, useEffect, useState} from 'react';
+import {useIntl} from 'react-intl';
+import {Card, CardBody, CardHeader} from '../card';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import { Link, useHistory } from 'react-router-dom';
-import { format } from 'date-fns';
-import { getField } from '../helpers/common-function';
+import {Link, useHistory} from 'react-router-dom';
+import {format} from 'date-fns';
+import {getField} from '../helpers/common-function';
 import _ from 'lodash';
 
 const getFieldV3 = (field: any, fieldName: string) => {
   const ifNested = (fN: string) => fN.indexOf('.') === -1;
   const ifArray = (k: string) => k.indexOf('[') > -1;
-
+  
   if (ifNested(fieldName)) {
     return [field[fieldName]];
   }
@@ -31,7 +31,7 @@ const getFieldV3 = (field: any, fieldName: string) => {
         if (f[key]) newFields.push(f[key]);
       });
     }
-
+    
     // console.log('newFields',newFields);
     fields = newFields;
   });
@@ -40,17 +40,17 @@ const getFieldV3 = (field: any, fieldName: string) => {
 };
 
 export function MasterEntityDetailPage({
-  title = 'COMMON_COMPONENT.DETAIL_DIALOG.HEADER_TITLE',
-  moduleName = 'COMMON_COMPONENT.DETAIL_DIALOG.MODULE_NAME',
-  entity,
-  onClose,
-  renderInfo,
-  mode,
-  homeURL,
-  code,
-  get,
-  allFormButton,
-}: {
+                                         title = 'COMMON_COMPONENT.DETAIL_DIALOG.HEADER_TITLE',
+                                         moduleName = 'COMMON_COMPONENT.DETAIL_DIALOG.MODULE_NAME',
+                                         entity,
+                                         onClose,
+                                         renderInfo,
+                                         mode,
+                                         homeURL,
+                                         code,
+                                         get,
+                                         allFormButton,
+                                       }: {
   title?: string;
   moduleName?: string;
   entity: any;
@@ -63,20 +63,20 @@ export function MasterEntityDetailPage({
   allFormButton?: any;
 }) {
   const intl = useIntl();
-
+  
   const [entityDetail, setEntityDetail] = useState();
-
+  
   const history = useHistory();
-
+  
   console.log(entityDetail);
-
+  
   useEffect(() => {
     if (code) {
       get(code).then((res: { data: any }) => {
         setEntityDetail(res.data);
       });
     }
-  }, [code]);
+  }, [code, get]);
   return (
     <>
       {mode === 'line' && (
@@ -92,74 +92,74 @@ export function MasterEntityDetailPage({
       )}
       {mode === 'split' && (
         <>
-        <SplitMode
-          title={title}
-          entityDetail={entityDetail}
-          renderInfo={renderInfo}
-          intl={intl}
-          moduleName={moduleName}
-          history={history}
-          homeURL={homeURL}
-          allFormButton={allFormButton}
-        />
-        {allFormButton && allFormButton.type === 'outside' && (
-          <div className="text-right mb-5 mr-20">
-            {Object.keys(allFormButton.data).map(keyss => {
-              switch (allFormButton['data'][keyss].role) {
-                case 'submit':
-                  return (
-                    <button
-                      type={allFormButton['data'][keyss].type}
-                      onClick={() => {
-                        // handleSubmit();
-                        allFormButton['data'][keyss].onClick();
-                      }}
-                      className={allFormButton['data'][keyss].className}
-                      key={keyss}>
-                      {allFormButton['data'][keyss].icon} {allFormButton['data'][keyss].label}
-                    </button>
-                  );
-
-                case 'special':
-                  return (
-                    <button
-                      type={allFormButton['data'][keyss].type}
-                      onClick={() => {
-                        // handleSubmit();
-                        allFormButton['data'][keyss].onClick();
-                      }}
-                      className={allFormButton['data'][keyss].className}
-                      key={keyss}>
-                      {allFormButton['data'][keyss].icon} {allFormButton['data'][keyss].label}
-                    </button>
-                  );
-
-                case 'button':
-                  return (
-                    <button
-                      type={allFormButton['data'][keyss].type}
-                      className={allFormButton['data'][keyss].className}
-                      key={keyss}
-                      onClick={() => {
-                        allFormButton['data'][keyss].onClick(entityDetail);
-                      }}>
-                      {allFormButton['data'][keyss].icon} {allFormButton['data'][keyss].label}
-                    </button>
-                  );
-                case 'link-button':
-                  return (
-                    <Link to={allFormButton['data'][keyss].linkto} key={keyss}>
+          <SplitMode
+            title={title}
+            entityDetail={entityDetail}
+            renderInfo={renderInfo}
+            intl={intl}
+            moduleName={moduleName}
+            history={history}
+            homeURL={homeURL}
+            allFormButton={allFormButton}
+          />
+          {allFormButton && allFormButton.type === 'outside' && (
+            <div className="text-right mb-5 mr-20">
+              {Object.keys(allFormButton.data).map(keyss => {
+                switch (allFormButton['data'][keyss].role) {
+                  case 'submit':
+                    return (
                       <button
                         type={allFormButton['data'][keyss].type}
-                        className={allFormButton['data'][keyss].className}>
+                        onClick={() => {
+                          // handleSubmit();
+                          allFormButton['data'][keyss].onClick();
+                        }}
+                        className={allFormButton['data'][keyss].className}
+                        key={keyss}>
                         {allFormButton['data'][keyss].icon} {allFormButton['data'][keyss].label}
                       </button>
-                    </Link>
-                  );
-              }
-            })}
-          </div>
-        )}
+                    );
+                  
+                  case 'special':
+                    return (
+                      <button
+                        type={allFormButton['data'][keyss].type}
+                        onClick={() => {
+                          // handleSubmit();
+                          allFormButton['data'][keyss].onClick();
+                        }}
+                        className={allFormButton['data'][keyss].className}
+                        key={keyss}>
+                        {allFormButton['data'][keyss].icon} {allFormButton['data'][keyss].label}
+                      </button>
+                    );
+                  
+                  case 'button':
+                    return (
+                      <button
+                        type={allFormButton['data'][keyss].type}
+                        className={allFormButton['data'][keyss].className}
+                        key={keyss}
+                        onClick={() => {
+                          allFormButton['data'][keyss].onClick(entityDetail);
+                        }}>
+                        {allFormButton['data'][keyss].icon} {allFormButton['data'][keyss].label}
+                      </button>
+                    );
+                  case 'link-button':
+                    return (
+                      <Link to={allFormButton['data'][keyss].linkto} key={keyss}>
+                        <button
+                          type={allFormButton['data'][keyss].type}
+                          className={allFormButton['data'][keyss].className}>
+                          {allFormButton['data'][keyss].icon} {allFormButton['data'][keyss].label}
+                        </button>
+                      </Link>
+                    );
+                }
+              })}
+            </div>
+          )}
         </>
       )}
     </>
@@ -167,22 +167,20 @@ export function MasterEntityDetailPage({
 }
 
 // eslint-disable-next-line no-lone-blocks
-const LineMode = ({ entityDetail, renderInfo, intl, title, moduleName, history, homeURL }: any) => (
+const LineMode = ({entityDetail, renderInfo, intl, title, moduleName, history, homeURL}: any) => (
   <Card>
     <CardHeader
       title={
         <>
-          <span
-            onClick={() => {
-              if (homeURL) {
-                history.push(homeURL);
-              } else {
-                history.goBack();
-              }
-            }}>
-            <ArrowBackIosIcon />
-          </span>
-          {intl.formatMessage({ id: title }).toUpperCase()}
+          <span onClick={() => {
+            if (homeURL) {
+              history.push(homeURL);
+            } else {
+              history.goBack();
+            }
+          }}/>
+          <ArrowBackIosIcon className={'mb-1'}/>
+          {intl.formatMessage({id: title}).toUpperCase()}
         </>
       }
     />
@@ -216,7 +214,7 @@ const LineMode = ({ entityDetail, renderInfo, intl, title, moduleName, history, 
                                   return (
                                     <Fragment>
                                       {child.convertFn ? child.convertFn(f) : f}
-                                      {i < arr.length - 1 && <Separator />}
+                                      {i < arr.length - 1 && <Separator/>}
                                     </Fragment>
                                   );
                                 })
@@ -241,10 +239,10 @@ const LineMode = ({ entityDetail, renderInfo, intl, title, moduleName, history, 
                                       {child.convertFn
                                         ? child.convertFn(f)
                                         : format(
-                                            date_input,
-                                            child.format ? child.format : 'dd/MM/yyyy H:mma',
-                                          )}
-                                      {i < arr.length - 1 && <Separator />}
+                                          date_input,
+                                          child.format ? child.format : 'dd/MM/yyyy H:mma',
+                                        )}
+                                      {i < arr.length - 1 && <Separator/>}
                                     </Fragment>
                                   );
                                 })
@@ -255,7 +253,7 @@ const LineMode = ({ entityDetail, renderInfo, intl, title, moduleName, history, 
                           </div>
                         </div>
                       );
-
+                    
                     case 'link':
                       return (
                         <div className="mt-3" key={childKey}>
@@ -271,7 +269,7 @@ const LineMode = ({ entityDetail, renderInfo, intl, title, moduleName, history, 
                                     return (
                                       <Fragment>
                                         {child.convertFn ? child.convertFn(f) : f}
-                                        {i < arr.length - 1 && <Separator />}
+                                        {i < arr.length - 1 && <Separator/>}
                                       </Fragment>
                                     );
                                   })
@@ -283,7 +281,7 @@ const LineMode = ({ entityDetail, renderInfo, intl, title, moduleName, history, 
                           </div>
                         </div>
                       );
-
+                    
                     case 'image':
                       return (
                         <div className="mt-3" key={childKey}>
@@ -300,16 +298,16 @@ const LineMode = ({ entityDetail, renderInfo, intl, title, moduleName, history, 
                                         alt="..."
                                         width="125px"
                                       />
-                                      {i < arr.length - 1 && <Separator />}
+                                      {i < arr.length - 1 && <Separator/>}
                                     </Fragment>
                                   );
                                 })
                               ) : (
-                                <img src={''} alt="..." width="125px" />
+                                <img src={''} alt="..." width="125px"/>
                               )}
                             </div>
                           </div>
-
+                          
                           {/* <ImgGallery
                             label={el[childKey].title}
                             labelWidth={4}
@@ -358,15 +356,15 @@ const LineMode = ({ entityDetail, renderInfo, intl, title, moduleName, history, 
 );
 
 const SplitMode = ({
-  entityDetail,
-  renderInfo,
-  intl,
-  title,
-  moduleName,
-  history,
-  homeURL,
-  allFormButton
-}: any) => (
+                     entityDetail,
+                     renderInfo,
+                     intl,
+                     title,
+                     moduleName,
+                     history,
+                     homeURL,
+                     allFormButton
+                   }: any) => (
   <>
     {renderInfo.map((value: any, key: any) => (
       <React.Fragment key={key}>
@@ -375,17 +373,15 @@ const SplitMode = ({
             <CardHeader
               title={
                 <>
-                  <span
-                    onClick={() => {
-                      if (homeURL) {
-                        history.push(homeURL);
-                      } else {
-                        history.goBack();
-                      }
-                    }}>
-                    <ArrowBackIosIcon />
-                  </span>
-                  {intl.formatMessage({ id: title }).toUpperCase()}
+          <span onClick={() => {
+            if (homeURL) {
+              history.push(homeURL);
+            } else {
+              history.goBack();
+            }
+          }}/>
+                  <ArrowBackIosIcon className={'mb-1'}/>
+                  {intl.formatMessage({id: title}).toUpperCase()}
                 </>
               }
             />
@@ -425,7 +421,7 @@ const SplitMode = ({
                                         return (
                                           <Fragment>
                                             {child.convertFn ? child.convertFn(f) : f}
-                                            {i < arr.length - 1 && <Separator />}
+                                            {i < arr.length - 1 && <Separator/>}
                                           </Fragment>
                                         );
                                       })
@@ -438,7 +434,7 @@ const SplitMode = ({
                               </div>
                             </div>
                           );
-
+                        
                         case 'array':
                           const arr = entityDetail ? getField(entityDetail, child.keyField) : []
                           return (
@@ -449,7 +445,7 @@ const SplitMode = ({
                                   {entityDetail ? (
                                     arr.map((f: any, i: number) => (
                                       <span key={i}>{getField(f, el[childKey].target)}
-                                      {i < arr.length - 1 && ','}</span>
+                                        {i < arr.length - 1 && ','}</span>
                                     ))
                                   ) : (
                                     <Fragment>'Empty'</Fragment>
@@ -458,7 +454,7 @@ const SplitMode = ({
                               </div>
                             </div>
                           );
-
+                        
                         case 'date-time':
                           return (
                             <div className="mt-3" key={childKey}>
@@ -473,10 +469,10 @@ const SplitMode = ({
                                           {child.convertFn
                                             ? child.convertFn(f)
                                             : format(
-                                                date_input,
-                                                child.format ? child.format : 'dd/MM/yyyy H:mma',
-                                              )}
-                                          {i < arr.length - 1 && <Separator />}
+                                              date_input,
+                                              child.format ? child.format : 'dd/MM/yyyy H:mma',
+                                            )}
+                                          {i < arr.length - 1 && <Separator/>}
                                         </Fragment>
                                       );
                                     })
@@ -487,7 +483,7 @@ const SplitMode = ({
                               </div>
                             </div>
                           );
-
+                        
                         case 'image':
                           return (
                             <div className="mt-3" key={childKey}>
@@ -539,7 +535,7 @@ const SplitMode = ({
             </div>
           </CardBody>
         </Card>
-        
+      
       </React.Fragment>
     ))}
   </>
