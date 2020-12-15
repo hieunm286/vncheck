@@ -333,6 +333,7 @@ function ProductPackaging() {
         entity={editEntity}
         onModify={(entity: any) => {
           const cv = { ...entity }
+          console.log(cv)
           if (_.isObject(cv.species)) {
             cv.species = entity.species.value
           }
