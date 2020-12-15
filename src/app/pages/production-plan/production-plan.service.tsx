@@ -37,7 +37,10 @@ export const GetAll: GetAllProps<any> = ({
 
 export const Approve = (entity: any, data: any) => {
   return axios.put(`${API_URL}/${entity._id}/confirm`, data);
+}
 
+export const UpdateProcess = (entity: any, data: any) => {
+  return axios.put(`${API_URL}/${entity._id}/update-process`, data)
 }
 
 export const Count: CountProps<any> = ({
