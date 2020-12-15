@@ -64,10 +64,10 @@ const FormTemplate = ({
   //   setSearch(formValues);
   // }, [formValues]);
   useEffect(() => {
-    if(formValues.roleName) {
+    if(formValues && formValues.roleName) {
       setSearchSelect(formValues.roleName);
     }
-  }, [formValues.roleName])
+  }, [formValues])
 
   
 

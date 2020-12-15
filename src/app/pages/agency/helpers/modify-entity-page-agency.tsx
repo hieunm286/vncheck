@@ -10,6 +10,7 @@ import {
 } from '../../../common-library/helpers/common-function';
 import { DeleteEntityDialog } from '../../../common-library/common-components/delete-entity-dialog';
 import ModifyEntityDialog from '../../../common-library/common-components/modify-entity-dialog';
+import ModifyShippingAddressDialog from './modify-shipping-address-dialog';
 
 
 function ModifyEntityPageAgency<T>({
@@ -39,7 +40,12 @@ function ModifyEntityPageAgency<T>({
   const [entities, setEntities] = useState<T[]>([]);
   const [deleteEntity, setDeleteEntity] = useState<T>(null as any);
   const [editEntity, setEditEntity] = useState(values && values.shippingAddress);
-  const [createEntity, setCreateEntity] = useState<T | null>(null as any);
+  const [createEntity, setCreateEntity] = useState<any>({
+    state: null,
+    city: null,
+    district: null,
+    isDefault: false
+  });
   const [selectedEntities, setSelectedEntities] = useState<T[]>([]);
   const [detailEntity, setDetailEntity] = useState<T>(null as any);
   const [showDelete, setShowDelete] = useState(false);
@@ -281,7 +287,7 @@ function ModifyEntityPageAgency<T>({
         }
       </div>
 
-      <ModifyEntityDialog
+      <ModifyShippingAddressDialog
         modifyModel={modifyModelAddress}
         isShow={showEdit}
         entity={editEntity}
@@ -296,7 +302,7 @@ function ModifyEntityPageAgency<T>({
         }}
       />
 
-      <ModifyEntityDialog
+      <ModifyShippingAddressDialog
         modifyModel={modifyModelAddress}
         isShow={showCreate}
         entity={createEntity}
