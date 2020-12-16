@@ -519,6 +519,33 @@ function ProductionPlan() {
     },
   };
 
+  const allFormButton2: any = {
+    type: 'outside',
+    data: {
+      sendRequest: {
+        role: 'special',
+        type: 'button',
+        linkto: undefined,
+        className: 'btn btn-primary mr-5 pl-8 pr-8',
+        label: 'Gửi duyệt',
+        icon: <SaveOutlinedIcon />,
+        onClick: () => {
+          // setNoticeModal(true);
+          setStep('1');
+          setSubmit(true);
+        },
+      },
+      cancel: {
+        role: 'link-button',
+        type: 'button',
+        linkto: '/production-plan',
+        className: 'btn btn-outline-primary mr-2 pl-8 pr-8',
+        label: 'Hủy',
+        icon: <CancelOutlinedIcon />,
+      },
+    },
+  };
+
   
   const sendRequest = (entity: any) => {
     const data = { confirmationStatus: '1' };
@@ -539,6 +566,11 @@ function ProductionPlan() {
   const refuse = (entity: any) => {
     const data = { confirmationStatus: '3' };
     return ProductionPlanService.Approve(entity, data);
+  }
+
+  const approveFollow = (entity: any) => {
+    // const data = { ...entity, confirmationStatus: '1' }
+    return ProductionPlanService.Approve(entity, entity);
   }
 
 
@@ -707,7 +739,7 @@ function ProductionPlan() {
                 get={code => ProductionPlanService.GetById(code)}
                 formPart={formPart}
                 allFormField={allFormField}
-                allFormButton={allFormButton}
+                allFormButton={currentTab !== '2' ? allFormButton : allFormButton2}
                 validation={ProductPlantSchema}
                 autoFill={{
                   field: '',
@@ -716,6 +748,7 @@ function ProductionPlan() {
                     { field: 'packing', ref: { prop: 'packing', key: 'packing.weight' } },
                   ],
                 }}
+                currentTab={currentTab}
                 refreshData={refreshData}
                 homePage={homeURL}
                 tagData={tagData}
@@ -723,6 +756,7 @@ function ProductionPlan() {
                 onApprove={approve}
                 updateProcess={updateProcess}
                 sendRequest={sendRequest}
+                approveFollow={approveFollow}
               />
             </>
           )}

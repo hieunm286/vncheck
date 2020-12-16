@@ -12,6 +12,8 @@ import {
   UpdateProps,
 } from '../common-types/common-type';
 import {diff} from 'deep-object-diff';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const CapitalizeFirstLetter = (string: string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
@@ -247,6 +249,30 @@ export const ConvertStatusToBoolean = (data: any) => {
 export const ConvertStatusToString = (data: any) => {
   return typeof data.status === 'boolean' ? {...data, status: data.status ? "1" : "0"} : data;
 }
+
+export const notify = (error: string) => {
+  toast.error(`😠 ${error}`, {
+    position: 'top-right',
+    autoClose: 3000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+  });
+};
+
+export const notifySuccess = () => {
+  toast.success(`😠 Thành công`, {
+    position: 'top-right',
+    autoClose: 3000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+  });
+};
 
 export function InitMasterProps<T>({
                                      getAllServer,

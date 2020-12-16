@@ -14,13 +14,14 @@ import exifr from 'exifr';
 import { AxiosResponse } from 'axios';
 // import { diff } from 'deep-diff';
 
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+
 import { useIntl } from 'react-intl';
 import {
   ConvertSelectSearch,
   generateInitForm,
   GetHomePage,
+  notifySuccess,
+  notify
 } from '../../common-library/helpers/common-function';
 import { Card, CardBody, CardHeader } from '../../common-library/card';
 import ModifyEntityPage from '../../common-library/common-components/modify-entity-page';
@@ -141,6 +142,8 @@ function ProductionPlanCrud({
   onApprove,
   updateProcess,
   sendRequest,
+  approveFollow,
+  currentTab,
 }: {
   // modifyModel: ModifyModel;
   title: string;
@@ -162,6 +165,8 @@ function ProductionPlanCrud({
   onApprove: (data: any) => Promise<AxiosResponse<any>>;
   updateProcess: (data: any) => Promise<AxiosResponse<any>>;
   sendRequest: (data: any) => Promise<AxiosResponse<any>>;
+  approveFollow: (data: any) => Promise<AxiosResponse<any>>;
+  currentTab: string | undefined;
 }) {
   const intl = useIntl();
   const initForm = autoFill
@@ -202,29 +207,7 @@ function ProductionPlanCrud({
     }
   }, [code]);
 
-  const notify = (error: string) => {
-    toast.error(`😠 ${error}`, {
-      position: 'top-right',
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
-  };
-
-  const notifySuccess = () => {
-    toast.success(`😠 Thành công`, {
-      position: 'top-right',
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
-  };
+  
 
   const submitHandle = (values: any, { setSubmitting, setFieldError }: any) => {
     onModify(values)
@@ -298,7 +281,7 @@ function ProductionPlanCrud({
 
           if (step === '0') {
             submitHandle(updateValue, { setSubmitting, setFieldError });
-          } else if (step === '1') {
+          } else if (step === '1' && currentTab !== '2') {
             // if (!updateValue.step || updateValue.step !== '1') {
             //   updateValue.step = '1';
             // }
@@ -311,7 +294,6 @@ function ProductionPlanCrud({
                     setErrorMsg(undefined);
                     refreshData();
                     history.push(homePage || GetHomePage(window.location.pathname));
-
                   })
                   .catch(error => {
                     setSubmitting(false);
@@ -324,7 +306,20 @@ function ProductionPlanCrud({
                 setErrorMsg(error.data || error.response.data);
                 notify(error.data || error.response.data);
               });
-          } 
+          } else if (step === '1' && currentTab === '2') {
+            approveFollow(updateValue)
+              .then(res => {
+                notifySuccess();
+                setErrorMsg(undefined);
+                refreshData();
+                history.push(homePage || GetHomePage(window.location.pathname));
+              })
+              .catch(error => {
+                setSubmitting(false);
+                setErrorMsg(error.data || error.response.data);
+                notify(error.data || error.response.data);
+              });
+          }
         }}>
         {({ handleSubmit, setFieldValue, values }) => (
           <>
