@@ -41,7 +41,8 @@ function ModifyEntityPage<T>({
   handleChangeTag,
   values,
   tagData,
-  entityForEdit
+  entityForEdit,
+  errors
 }: {
   modifyModel: any;
   // title: string;
@@ -59,7 +60,8 @@ function ModifyEntityPage<T>({
   handleChangeTag?: any;
   values?: any;
   tagData?: any;
-  entityForEdit?: any
+  entityForEdit?: any;
+  errors?: any
 }) {
   const intl = useIntl();
   // const initForm = generateInitForm(modifyModel);

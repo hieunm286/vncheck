@@ -62,7 +62,7 @@ export const modifyModel: ProductTypeModifyModelDetail[] = [
         placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
         label: 'Album 1',
       },
-      image2: {
+      avatar: {
         type: 'image',
         placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
         label: 'Album 2',

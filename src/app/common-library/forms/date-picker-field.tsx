@@ -20,7 +20,7 @@ import {deCapitalizeFirstLetter} from "../helpers/common-function";
 const getFieldCSSClasses = (touched: any, errors: any) => {
   const classes = ['form-control'];
   
-  if (touched && errors) classes.push('is-invalid');
+  if (errors) classes.push('is-invalid');
   
   if (touched && !errors) classes.push('is-valid');
   
@@ -117,6 +117,8 @@ export function DatePickerField({...props}: any) {
   const intl = useIntl();
   const timestamp = new Date();
   const inverseOffset = moment(timestamp).utcOffset() * -1;
+  console.log(errors)
+  console.log(field.name)
   return (
     <>
       <div className={props.isHorizontal && 'row'}>
@@ -137,7 +139,7 @@ export function DatePickerField({...props}: any) {
                       disabled={props.disabled}
                       value={field.value ? moment(field.value).add(inverseOffset,'m') : null}
           />
-          {getError(errors, field.name) && getTouched(touched, field.name) ? (
+          {getError(errors, field.name) ? (
             <div className="invalid-datepicker-feedback text-danger" style={{fontSize: '0.9rem'}}>
               Vui lòng chọn
               {
