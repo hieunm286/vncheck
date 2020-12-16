@@ -4,6 +4,7 @@ import { useField, useFormikContext } from 'formik';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { DefaultPagination } from '../common-consts/const';
 import { fetchAllUser } from '../../pages/account/_redux/user-action';
+import { deCapitalizeFirstLetter } from '../helpers/common-function';
 
 const { Option } = Select;
 
@@ -20,7 +21,7 @@ const getDefautltTag = (data: any) => {
 const getFieldCSSClasses = (touched: any, errors: any) => {
   const classes = ['form-control'];
 
-  if (touched && errors) classes.push('is-invalid');
+  if (errors) classes.push('is-invalid');
 
   if (touched && !errors) classes.push('is-valid');
 
@@ -173,7 +174,9 @@ function TagInput({
               option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
             }
             disabled={disabled}
-            className={`${getError(errors, name) ? 'border border-danger rounded' : ''}`}
+            className={`${getTouched(touched, name) && getError(errors, name) ? 'border border-danger rounded' : ''}`}
+            // className={'default-behave ' + getFieldCSSClasses(getTouched(touched, name), getError(errors, name))}
+
             >
             {entities && entities.map((item: any, key: any) => (
               <Option key={item._id} value={item._id}>
@@ -186,7 +189,7 @@ function TagInput({
               Vui lòng chọn
               {
                 // errors[field.name]?.toString()
-                label
+                '\u00A0' + deCapitalizeFirstLetter(label)
               }
             </div>
           ) : (

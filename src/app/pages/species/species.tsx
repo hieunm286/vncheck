@@ -89,7 +89,7 @@ const moduleName = 'PRODUCT_TYPE.MODULE_NAME';
 const deleteDialogTitle = 'PRODUCT_TYPE.DELETE_DIALOG.TITLE';
 const createTitle = 'PRODUCT_TYPE.CREATE.TITLE';
 const updateTitle = 'PRODUCT_TYPE.UPDATE.TITLE';
-const homeURL = `${window.location.pathname}`;
+const homeURL = `/species`;
 
 export const GenerateCode = (data: any[]) => {
   const lastEntity = data[data.length - 1].code;

@@ -121,6 +121,8 @@ const diff = (obj1: any, obj2: any) => {
   return diffs;
 };
 
+const validField = ['']
+
 function ProductionPlanCrud({
   entity,
   onModify,
@@ -321,11 +323,12 @@ function ProductionPlanCrud({
               });
           }
         }}>
-        {({ handleSubmit, setFieldValue, values }) => (
+        {({ handleSubmit, setFieldValue, values, errors }) => (
           <>
             <Form className="form form-label-right">
               {Object.keys(formPart).map(key => (
-                <Card key={key}>
+                <Card key={key} className={formPart[key].keyField &&
+                  errors[formPart[key].keyField] ? 'border border-danger' : ''}>
                   {formPart[key].header && (
                     <CardHeader
                       title={
@@ -354,12 +357,16 @@ function ProductionPlanCrud({
                       search={search}
                       setSearch={setSearch}
                       tagData={tagData}
+                      errors={errors}
                     />
                     {errorMsg && (
                       <div className="text-right mt-5">
                         <span className="text-danger">{errorMsg}</span>
                       </div>
                     )}
+                    { formPart[key].keyField &&
+                      errors[formPart[key].keyField] && <span className="text-danger">Vui lòng nhập đúng thứ tự các bước</span>
+                    }
                   </CardBody>
                   {allFormButton.type === 'inside' &&
                     key === Object.keys(formPart)[Object.keys(formPart).length - 1] && (

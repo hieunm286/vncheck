@@ -116,7 +116,6 @@ function CustomImageUpload({
       </div>
       <div className={getClassName(labelWidth, false)}>
         <ImageUploading
-          className={(errors[name] && touched[name]) ? 'is-invalid' : ''}
           multiple
           value={imagess}
           onChange={(imageList: any, addUpdateIndex: any) =>

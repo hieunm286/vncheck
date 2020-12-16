@@ -264,21 +264,7 @@ console.log(search)
                         />
                       </div>
                     );
-                  case 'image':
-                    return (
-                      <div className="mt-3" key={key}>
-                        <CustomImageUpload
-                          images={images[key]}
-                          onChange={(imageList: any, addUpdateIndex: any) => {
-                            onChange(imageList, addUpdateIndex, key);
-                          }}
-                          label={value.data[key].label}
-                          labelWidth={4}
-                          isHorizontal={true}
-                          required={value.data[key].required}
-                        />
-                      </div>
-                    );
+                 
                     case 'boolean':
                       return (
                         <div className="mt-3" key={`${key}`}>

@@ -353,7 +353,13 @@ export const modifyModel3: any[] = [
             required: true,
             disabled: true,
           },
-          expectedQuantity: {
+          
+        },
+      },
+      harvesting: {
+        type: 'object',
+        data: {
+          quantity: {
             type: 'number',
             placeholder: 'Mã gieo giống',
             required: true,
@@ -598,22 +604,27 @@ export const formPart: any = {
   },
   form_3: {
     title: '',
+    keyField: 'harvesting',
     modifyModel: modifyModel3,
   },
   form_4: {
     title: '',
+    keyField: 'preliminaryTreatment',
     modifyModel: modifyModel4,
   },
   form_5: {
     title: '',
+    keyField: 'cleaning',
     modifyModel: modifyModel5,
   },
   form_6: {
     title: '',
+    keyField: 'packing',
     modifyModel: modifyModel6,
   },
   form_7: {
     title: '',
+    keyField: 'preservation',
     modifyModel: modifyModel7,
   },
 };
