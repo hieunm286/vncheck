@@ -93,10 +93,10 @@ export const agencySchema = Yup.object<AgencyModel>().shape({
     .required(intl.formatMessage({id: 'AGENCY.VALIDATION.TAX_ID.REQUIRED'}))
     .matches(/[0-9]*/, intl.formatMessage({id: 'AGENCY.VALIDATION.TAX_ID.NUMBER_ONLY'}))
     .max(100, intl.formatMessage({id: 'AGENCY.VALIDATION.TAX_ID.MAX_LENGTH_EXCEEDED'})),
-  image: Yup.array()
-    .nullable()
-    .required(intl.formatMessage({id: 'AGENCY.VALIDATION.AGENCY_IMAGE.REQUIRED'}))
-    .test('is-correct-file', intl.formatMessage({id: 'AGENCY.VALIDATION.AGENCY_IMAGE.REQUIRED'}), (files: any) => {return checkIfFilesAreCorrectType(files)}),
+  // image: Yup.array()
+  //   .nullable()
+  //   .required(intl.formatMessage({id: 'AGENCY.VALIDATION.AGENCY_IMAGE.REQUIRED'}))
+  //   .test('is-correct-file', intl.formatMessage({id: 'AGENCY.VALIDATION.AGENCY_IMAGE.REQUIRED'}), (files: any) => {return checkIfFilesAreCorrectType(files)}),
 
 
   username: Yup.string()
@@ -122,10 +122,10 @@ export const agencySchema = Yup.object<AgencyModel>().shape({
   roleName: Yup.string()
     .required(intl.formatMessage({id: 'AGENCY.VALIDATION.ROLE_NAME.REQUIRED'}))
     .nullable(),
-  avatar: Yup.array()
-    .nullable()
-    .required(intl.formatMessage({id: 'AGENCY.VALIDATION.AVATAR.REQUIRED'}))
-    .test('is-correct-file', intl.formatMessage({id: 'AGENCY.VALIDATION.AVATAR.REQUIRED'}), (files: any) => {return checkIfFilesAreCorrectType(files)}),
+  // avatar: Yup.array()
+  //   .nullable()
+  //   .required(intl.formatMessage({id: 'AGENCY.VALIDATION.AVATAR.REQUIRED'}))
+  //   .test('is-correct-file', intl.formatMessage({id: 'AGENCY.VALIDATION.AVATAR.REQUIRED'}), (files: any) => {return checkIfFilesAreCorrectType(files)}),
 });
 
 function checkIfFilesAreCorrectType(files: any): boolean {
