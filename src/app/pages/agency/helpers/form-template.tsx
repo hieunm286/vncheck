@@ -504,7 +504,20 @@ const FormTemplate = ({
               />
             );
           case 'image':
+            console.log(key)
             return (
+              <Field name={key}>
+              {({
+                field, // { name, value, onChange, onBlur }
+                form: { touched, errors }, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
+                meta,
+              } : {
+                field: any;
+                form: any;
+                meta: any;
+              }
+              ) => 
+              (
               <div className="mt-3" key={key}>
                 <CustomImageUpload
                   images={images[key]}
@@ -515,7 +528,10 @@ const FormTemplate = ({
                   name={key}
                 />
               </div>
-            );
+            )
+            }
+            </Field>)
+            ;
           case 'boolean':
             return (
               <div className="mt-3" key={`${key}`}>

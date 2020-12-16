@@ -79,6 +79,7 @@ function EntityCrudPageAgency({
     if (code) {
       get(code).then((res: { data: any }) => {
         const entity = convertToForm(res.data);
+        console.log(entity)
         setEntityForEdit(ConvertStatusToBoolean(entity));
       });
     }

@@ -4,6 +4,7 @@ import { ModifyModel, SearchModel } from "../../../common-library/common-types/c
 import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import { AgencyModel } from "../agency.model";
+import validDataUrl from 'valid-data-url';
 
 
 import { createIntl, createIntlCache } from 'react-intl';
@@ -91,7 +92,10 @@ export const agencySchema = Yup.object<AgencyModel>().shape({
   taxId: Yup.string()
     .required(intl.formatMessage({id: 'AGENCY.VALIDATION.TAX_ID.REQUIRED'}))
     .max(100, intl.formatMessage({id: 'AGENCY.VALIDATION.TAX_ID.MAX_LENGTH_EXCEEDED'})),
-  // image: Yup.string().required(intl.formatMessage({id: 'AGENCY.VALIDATION.AGENCY_CODE.REQUIRED'})),
+  image: Yup.array()
+    .nullable()
+    .required(intl.formatMessage({id: 'AGENCY.VALIDATION.AGENCY_IMAGE.REQUIRED'}))
+    .test('is-correct-file', intl.formatMessage({id: 'AGENCY.VALIDATION.AGENCY_IMAGE.REQUIRED'}), (files: any) => {return checkIfFilesAreCorrectType(files)}),
 
 
   username: Yup.string()
@@ -115,8 +119,26 @@ export const agencySchema = Yup.object<AgencyModel>().shape({
   roleName: Yup.string()
     .required(intl.formatMessage({id: 'AGENCY.VALIDATION.ROLE_NAME.REQUIRED'}))
     .nullable(),
-  // avatar: Yup.string().required(intl.formatMessage({id: 'AGENCY.VALIDATION.AVATAR.REQUIRED'})),
+  avatar: Yup.array()
+    .nullable()
+    .required(intl.formatMessage({id: 'AGENCY.VALIDATION.AVATAR.REQUIRED'}))
+    .test('is-correct-file', intl.formatMessage({id: 'AGENCY.VALIDATION.AVATAR.REQUIRED'}), (files: any) => {return checkIfFilesAreCorrectType(files)}),
 });
+
+function checkIfFilesAreCorrectType(files: any): boolean {
+  let valid = false
+  if (files) {
+    files.map((file : any) => {
+      // if (!['application/pdf', 'image/jpeg', 'image/png'].includes(file.type)) {
+      //   valid = false
+      // }
+      if(file.data_url && validDataUrl(file.data_url)) {
+        valid = true
+      }
+    })
+  }
+  return valid
+}
 
 export const oldModifyModel: ModifyModel = {
   code: {
