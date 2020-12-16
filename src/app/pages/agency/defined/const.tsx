@@ -64,10 +64,10 @@ export const agencySchema = Yup.object<AgencyModel>().shape({
   // agencyAddress: Yup.string().required('Vui lòng nhập tên đơn vị'),
   // phoneNumber: Yup.string().required('Vui lòng nhập số điện thoại'),
 
-  code: Yup.string()
-    .required(intl.formatMessage({id: 'AGENCY.VALIDATION.AGENCY_CODE.REQUIRED'}))
-    // .max(255, intl.formatMessage({id: 'AGENCY.VALIDATION.AGENCY_CODE.MAX_LENGTH_EXCEEDED'}))
-    ,
+  // code: Yup.string()
+  //   .required(intl.formatMessage({id: 'AGENCY.VALIDATION.AGENCY_CODE.REQUIRED'}))
+  //   // .max(255, intl.formatMessage({id: 'AGENCY.VALIDATION.AGENCY_CODE.MAX_LENGTH_EXCEEDED'}))
+  //   ,
   name: Yup.string()
     .required(intl.formatMessage({id: 'AGENCY.VALIDATION.AGENCY_NAME.REQUIRED'}))
     .max(255, intl.formatMessage({id: 'AGENCY.VALIDATION.AGENCY_NAME.MAX_LENGTH_EXCEEDED'})),

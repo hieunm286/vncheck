@@ -665,12 +665,12 @@ const FormTemplate = ({
             );
           
           case 'TreeSelect':
-            console.log(modifyModel.data[key])
             return treeData ? (
               <div className="mt-3" key={key}>
                 <CustomeTreeSelect
                   label={modifyModel.data[key].label}
                   placeholder={modifyModel.data[key].placeholder}
+                  required={modifyModel.data[key].required}
                   labelWidth={4}
                   data={treeData}
                   value={treeSelectValue}
