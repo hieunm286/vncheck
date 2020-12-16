@@ -121,7 +121,7 @@ export const initAgency: AgencyModel = {
     //   isDefault: true,
     // }
   ],
-  status: true,
+  status: false,
   taxId: "",
   // storeLevel: {label: 'label',value: 'value'},
   storeLevel: null,
@@ -133,7 +133,7 @@ export const initAgency: AgencyModel = {
   ownerPhoneNumber: "",
   email: "",
   birthDay: null,
-  gender: "1",
+  gender: "-1",
   roleName: null,
   phoneNumber: "",
 
