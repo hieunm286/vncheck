@@ -29,6 +29,9 @@ import { addInitField, initProductPlanForm } from './defined/const';
 import ProductionPlanModal from './production-plan-modal';
 
 const diff = (obj1: any, obj2: any) => {
+  console.log(obj1);
+  console.log(obj2);
+
   if (!obj2 || Object.prototype.toString.call(obj2) !== '[object Object]') {
     return obj1;
   }
@@ -263,9 +266,9 @@ function ProductionPlanCrud({
           setErrorMsg(undefined);
 
           if (entityForEdit) {
-            const diffValue = diff(entityForEdit, values);
-
-            const clValue = { ...values }
+            const diffValue = diff(addInitField(entityForEdit, initProductPlanForm), values);
+            console.log(diffValue);
+            const clValue = { ...values };
 
             if (
               diffValue.packing &&
@@ -298,7 +301,7 @@ function ProductionPlanCrud({
             validField.forEach(keys => {
               const cvLeader: any[] = [];
               const cvTechnical: any[] = [];
-              
+
               if (clValue[keys] && clValue[keys].leader) {
                 clValue[keys].leader.forEach((value: any) => {
                   if (value.user) {
@@ -318,18 +321,31 @@ function ProductionPlanCrud({
 
                 clValue[keys].technical = cvTechnical;
               }
-            })
+            });
 
             validField.forEach(keys => {
-              
-
               Object.keys(clValue[keys]).forEach(cKey => {
                 if (diffValue[keys] && !diffValue[keys][cKey] && validNested.includes(cKey)) {
                   diffValue[keys][cKey] = clValue[keys][cKey];
                 }
               });
+            });
 
-              
+            validField.forEach(keys => {
+              if (diffValue[keys]) {
+                Object.keys(diffValue[keys]).forEach(cKey => {
+                  if (
+                    !diffValue[keys][cKey] ||
+                    (_.isArray(diffValue[keys][cKey]) && diffValue[keys][cKey].length === 0)
+                  ) {
+                    delete diffValue[keys][cKey];
+                  }
+                });
+
+                if (_.isEmpty(diffValue[keys])) {
+                  delete diffValue[keys];
+                }
+              }
             });
 
             updateValue = { _id: values._id, ...diffValue };

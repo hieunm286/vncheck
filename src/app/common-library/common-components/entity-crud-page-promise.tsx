@@ -87,29 +87,7 @@ function EntityCrudPagePromise({
   const history = useHistory();
   const [entityForEdit, setEntityForEdit] = useState(entity);
 
-  
-
-  const ConvertImage = (entity: any) => {
-    const cv = { ...entity };
-
-    if (entity.image) {
-      toDataURL('http://localhost:2999/' + entity.image.path)
-        .then(dataUrl  => {
-          const url = { data_url: dataUrl };
-          console.log(url);
-          cv.images = [url];
-
-          return cv
-        })
-        .catch(error => {
-          console.log(error); // Logs an error if there was one
-        });
-    }
-
-    return cv;
-  };
-
-  const [images, setImages] = useState(entity && entity.image ? ConvertImage(entity) : initForm);
+  const [images, setImages] = useState(initForm);
   const [imageRootArr, setImageRootArr] = useState<any>([]);
 
   const [tagArr, setTagArr] = useState(initForm);
@@ -128,6 +106,25 @@ function EntityCrudPagePromise({
 
   console.log(images);
 
+  
+  const ConvertImage = (entity: any) => {
+    const cv = { ...entity };
+
+    if (entity.image) {
+      toDataURL('http://localhost:2999/' + entity.image.path)
+        .then(dataUrl  => {
+          const url = { data_url: dataUrl };
+          console.log(url);
+          cv.images = [url];
+
+          setImages(cv)
+        })
+        .catch(error => {
+          console.log(error); // Logs an error if there was one
+        });
+    }
+  };
+
   useEffect(() => {
     if (code) {
       get(code).then((res: { data: any }) => {
@@ -135,6 +132,8 @@ function EntityCrudPagePromise({
           ? ConvertSelectSearch(res.data, autoFill.searchSelectField)
           : ConvertSelectSearch(res.data);
         setEntityForEdit(convert);
+        // setImages(convert.image ? ConvertImage(convert) : initForm)
+        ConvertImage(res.data)
         setSearch(res.data);
       });
     }
@@ -201,7 +200,7 @@ function EntityCrudPagePromise({
                   <CardBody>
                     <ModifyEntityPage
                       entityForEdit={entityForEdit}
-                      images={images}
+                      images={images || []}
                       modifyModel={formPart[key].modifyModel as any}
                       column={formPart[key].modifyModel.length}
                       title={formPart[key].title}
