@@ -388,6 +388,27 @@ function AgencyPage() {
     setError(error.response.data || error.message || JSON.stringify(error))
     notify(intl.formatMessage({id: error.response.data || error.message || JSON.stringify(error)}));
   }
+
+  const [treeData, setTreeData] = useState<any>();
+  
+  const treeLoadOptions = async (getAll: (t:any)=> any) => {
+    const queryProps: any = {};
+    // queryProps[keyField] = search;
+    // queryProps =
+  
+    const entities = await getAll({});
+    return entities.data;
+  };
+  
+  useEffect(() => {
+    treeLoadOptions(StoreLevelService.GetAll) // treeLoadOptions(modifyModel.data['storeLevel'].service)
+      .then((res: any) => {
+        // console.log(res);
+        // console.log(DataExample)
+        const treeData = ConvertToTreeNode(res);
+        setTreeData(treeData);
+      });
+  }, []);
   
 
   return (
@@ -433,6 +454,7 @@ function AgencyPage() {
               setFilterProps({})
             }}
             searchModel={agencySearchModel}
+            treeData={treeData}
             initValue={{
               code: '',
               lot: '',
