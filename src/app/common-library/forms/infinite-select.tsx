@@ -36,7 +36,7 @@ export function InfiniteSelect({
                                  refs,
                                  changeId,
                                  isHorizontal,
-                                 isDisabled,
+                                 disabled,
                                  validationMessage,
                                  required,
                                  ...props
@@ -51,7 +51,7 @@ export function InfiniteSelect({
   refs?: boolean;
   changeId?: boolean;
   isHorizontal?: boolean;
-  isDisabled?: boolean;
+  disabled?: boolean;
   validationMessage?: string;
   required?: boolean;
 }) {
@@ -64,13 +64,15 @@ export function InfiniteSelect({
     <>
       <div className={isHorizontal ? 'row' : ''}>
         <div className={isHorizontal ? 'col-xl-4 col-md-4 col-12' : ''}>
-          <label className={isHorizontal ? 'mb-0 input-label mt-2' : ''}>{label} {required ?
-            <span className="text-danger">*</span> : <></>}</label>
+          <label className={isHorizontal ? 'mb-0 input-label mt-2' : ''}>
+            {label}
+            {required ? <span className="text-danger">*</span> : <></>}
+          </label>
         </div>
         <div className={isHorizontal ? `col-xl-7 col-md-8 col-12` : ''}>
           <CustomAsyncPaginate
             value={value}
-            isDisabled={isDisabled}
+            isDisabled={disabled}
             loadOptions={loadOptions}
             onChange={(val: any) => {
               setValue(val);

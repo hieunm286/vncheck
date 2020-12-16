@@ -27,7 +27,6 @@ const deleteDialogTitle = 'SHIPPING_AGENCY.DELETE_DIALOG.TITLE';
 const deleteDialogBodyTitle = 'SHIPPING_AGENCY.DELETE_DIALOG.BODY_TITLE';
 const createTitle = 'SHIPPING_AGENCY.CREATE.TITLE';
 const updateTitle = 'SHIPPING_AGENCY.UPDATE.TITLE';
-const homeURL = `${window.location.pathname}`
 
 function ShippingAgency() {
   const intl = useIntl();
@@ -293,7 +292,6 @@ function ShippingAgency() {
         title={detailDialogTitle}
         entity={detailEntity}
         onClose={() => {
-          setError('');
           setShowDetail(false);
         }}
         show={showDetail}
@@ -308,8 +306,7 @@ function ShippingAgency() {
         onHide={() => {
           setShowDelete(false);
         }}
-        title={deleteDialogTitle}
-        bodyTitle={deleteDialogBodyTitle}
+        moduleName={moduleName}
       />
       <DeleteManyEntitiesDialog
         moduleName={moduleName}
@@ -329,6 +326,7 @@ function ShippingAgency() {
             entity={createEntity}
             onModify={add}
             title={createTitle}
+            moduleName={moduleName}
             code={null}
             get={() => null}
             formPart={formPart}
@@ -339,7 +337,6 @@ function ShippingAgency() {
             //     field: 'code',
             //     data: GenerateCode(data)
             // }}
-            homePage={homeURL}
           />
         </Route>
         <Route path={`/shipping-agency/:code`}>
@@ -357,16 +354,13 @@ function ShippingAgency() {
               entity={editEntity}
               onModify={update}
               title={updateTitle}
-              //  modifyModel={modifyModel}
-              reduxModel="purchaseOrder"
-              code={match && match.params.code}
+              moduleName={moduleName}
+              code={match?.params.code}
               get={ShippingAgencyService.GetById}
               formPart={formPart}
               allFormField={allFormField}
               allFormButton={allFormButton}
               //   validation={ProductTypeSchema}
-              homePage={homeURL}
-            
             />
           )}
         </Route>
@@ -402,8 +396,6 @@ function ShippingAgency() {
             setPaginationParams={setPaginationProps}
             isShowId={true}
           />
-          
-          {/* <MasterTreeStructure /> */}
         </Route>
       </Switch>
     </Fragment>

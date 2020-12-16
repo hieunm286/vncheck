@@ -627,7 +627,6 @@ function PurchaseOrder() {
             onModify={add}
             title={createTitle}
             //  modifyModel={modifyModel}
-            reduxModel="purchaseOrder"
             code={null}
             get={() => null}
             formPart={formPart}

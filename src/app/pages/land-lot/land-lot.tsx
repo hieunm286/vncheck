@@ -331,24 +331,20 @@ function LandLot() {
     // },
   ];
   
-  const purchaseOrderSearchModel: SearchModel = {
+  const searchModel: SearchModel = {
     code: {
       type: 'string',
-      placeholder: 'LAND_LOT.MASTER.PLACEHOLDER.CODE',
       label: 'LAND_LOT.MASTER.HEADER.CODE',
-      onSearch: GetAll,
       keyField: 'code',
     },
     lot: {
       type: 'SearchSelect',
-      placeholder: 'LAND_LOT.MASTER.PLACEHOLDER.LOT_CODE',
       label: 'LAND_LOT.MASTER.HEADER.LOT_CODE',
       onSearch: GetAll,
       keyField: 'lot',
     },
     subLot: {
       type: 'SearchSelect',
-      placeholder: 'LAND_LOT.MASTER.PLACEHOLDER.SUB_LOT_CODE',
       label: 'LAND_LOT.MASTER.HEADER.SUB_LOT_CODE',
       onSearch: GetAll,
       keyField: 'subLot',
@@ -397,8 +393,6 @@ function LandLot() {
       data: {
         code: {
           type: 'string',
-          // placeholder: intl.formatMessage({ id: 'LAND_LOT.EDIT.PLACEHOLDER.CODE' }),
-          placeholder: '',
           label: intl.formatMessage({id: 'LAND_LOT.MASTER.HEADER.CODE'}),
           required: true,
           disabled: true,
@@ -611,15 +605,12 @@ function LandLot() {
               setPaginationProps(DefaultPagination)
               setFilterProps(value)
             }}
-            searchModel={purchaseOrderSearchModel}
-            stringOnChange={stringOnChange}
-            searchSelectOnChange={searchSelectOnChange}
+            searchModel={searchModel}
             initValue={{
               code: '',
               lot: '',
               subLot: '',
             }}
-            customSearchSelectLoadOption={landLotSearchSelectLoadOption}
           />
           <MasterBody
             title={bodyTitle}
