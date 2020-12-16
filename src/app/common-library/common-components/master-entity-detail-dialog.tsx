@@ -42,7 +42,7 @@ export function MasterEntityDetailDialog({
       
       <MasterEntityDetail data={entity} renderInfo={renderInfo}/>
       <Modal.Footer className="border-top-0">
-        <button type="button" onClick={onClose} className="btn btn-outline-primary">
+        <button type="button" onClick={onClose} className="btn btn-outline-primary fixed-btn-width">
           <CancelOutlinedIcon style={iconStyle}/>
           {intl.formatMessage({id: 'COMMON_COMPONENT.DETAIL_DIALOG.CLOSE_BTN'})}
         </button>

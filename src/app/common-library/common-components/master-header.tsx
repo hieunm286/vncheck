@@ -566,23 +566,18 @@ export function MasterHeader<T>({
               </div>
               
               <div className="row no-gutters">
-                <div className="mr-5 fixed-btn-width">
-                  <button className="btn btn-primary w-100" type="submit">
+                  <button className="btn btn-primary mr-8 fixed-btn-width" type="submit">
                     <SearchIcon style={iconStyle}/>
                     {intl.formatMessage({id: 'COMMON_COMPONENT.MASTER_HEADER.SEARCH_BTN'})}
                   </button>
-                </div>
-                
-                <div className="mr-5 fixed-btn-width">
                   <button
-                    className="btn btn-outline-primary w-100"
+                    className="btn btn-outline-primary fixed-btn-width"
                     type="reset"
                     onClick={() => handleResetForm(resetForm)}>
                     <SVG src={ToAbsoluteUrl('/media/svg/vncheck/reset-filter.svg')}
                          style={iconStyle}/>
                     {intl.formatMessage({id: 'COMMON_COMPONENT.MASTER_HEADER.RESET_FILTER_BTN'})}
                   </button>
-                </div>
               </div>
             </form>
           )}
