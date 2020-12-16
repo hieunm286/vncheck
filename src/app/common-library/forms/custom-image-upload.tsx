@@ -53,6 +53,8 @@ function CustomImageUpload({
 }: ImageUploadPros) {
   const { errors, touched, setFieldValue } = useFormikContext<any>();
 
+  console.log(images)
+
   const [imageData, setImageData] = useState<{ data_url: any; exif: any }[]>([]);
   const [imagess, setImagess] = useState(images || []);
 

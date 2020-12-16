@@ -201,10 +201,14 @@ function ModifyEntityPage<T>({
                 <></>
               );
             case 'image':
+              console.log(images)
+              console.log(images.images)
+              console.log(images[key])
+
               return (
                 <div className="mt-3" key={key}>
                   <CustomImageUpload
-                    images={images[key]}
+                    images={images ? images[key] : []}
                     // onChange={(imageList: any, addUpdateIndex: any) => {
                     //   onChange(imageList, addUpdateIndex, key);
                     // }}
