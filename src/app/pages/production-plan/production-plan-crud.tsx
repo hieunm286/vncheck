@@ -413,7 +413,7 @@ function ProductionPlanCrud({
               ))}
             </Form>
             {errorMsg && (
-                      <div className="text-right mt-5">
+                      <div className="text-left mt-5">
                         <span className="text-danger">{intl.formatMessage({ id: errorMsg })}</span>
                       </div>
                     )}
