@@ -454,7 +454,7 @@ function ProductionPlan() {
       dataField: 'process',
       text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.STATUS' })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
-        <span>{row.process === '1' ? 'Hoàn thành' : 'Chưa hoàn thành'}</span>
+        <span>{row.process === '7' ? 'Hoàn thành' : 'Chưa hoàn thành'}</span>
       ),
       ...SortColumn,
       classes: 'text-center',

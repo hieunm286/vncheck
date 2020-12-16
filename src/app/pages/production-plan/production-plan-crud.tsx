@@ -359,11 +359,7 @@ function ProductionPlanCrud({
                       tagData={tagData}
                       errors={errors}
                     />
-                    {errorMsg && (
-                      <div className="text-right mt-5">
-                        <span className="text-danger">{errorMsg}</span>
-                      </div>
-                    )}
+                    
                     { formPart[key].keyField &&
                       errors[formPart[key].keyField] && <span className="text-danger">Vui lòng nhập đúng thứ tự các bước</span>
                     }
@@ -416,6 +412,11 @@ function ProductionPlanCrud({
                 </Card>
               ))}
             </Form>
+            {errorMsg && (
+                      <div className="text-right mt-5">
+                        <span className="text-danger">{intl.formatMessage({ id: errorMsg })}</span>
+                      </div>
+                    )}
             {allFormButton.type === 'outside' && (
               <div className="text-right mb-5 mr-20">
                 {Object.keys(allFormButton.data).map(keyss => {
