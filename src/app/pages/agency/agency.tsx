@@ -114,32 +114,35 @@ function AgencyPage() {
       dataField: 'ordinal',
       text: 'STT',
       formatter: (cell: any, row: any, rowIndex: number) => (
-        <p>{rowIndex + 1 + ((paginationProps.page ?? 0) - 1) * (paginationProps.limit ?? 0)}</p>
+        <React.Fragment>{rowIndex + 1 + ((paginationProps.page ?? 0) - 1) * (paginationProps.limit ?? 0)}</React.Fragment>
       ),
-      style: {paddingTop: 20},
-    },    {
-      dataField: 'name',
-      text: `${intl.formatMessage({id: 'PURCHASE_ORDER.MASTER.HEADER.NAME.LABEL'})}`,
-      ...SortColumn
+      // style: {paddingTop: 20},
     },
     {
       dataField: 'code',
-      text: `${intl.formatMessage({id: 'PURCHASE_ORDER.MASTER.TABLE.CODE_COLUMN'})}`,
+      text: `${intl.formatMessage({id: 'AGENCY.MASTER.TABLE.CODE_COLUMN'})}`,
+      ...SortColumn
+    },
+    {
+      dataField: 'name',
+      text: `${intl.formatMessage({id: 'AGENCY.MASTER.TABLE.NAME_COLUMN'})}`,
+      ...SortColumn
+    },
+    {
+      dataField: 'storeLevel',
+      text: `${intl.formatMessage({id: 'AGENCY.MASTER.TABLE.STORE_LEVEL_COLUMN'})}`,
+      formatter: (cell: any, row: any, rowIndex: number) => (
+        <React.Fragment>{row.storeLevel.name}</React.Fragment>
+      ),
       ...SortColumn
     },
     {
       dataField: 'address',
-      text: `${intl.formatMessage({id: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS_COLUMN'})}`,
+      text: `${intl.formatMessage({id: 'AGENCY.MASTER.TABLE.AGENCY_ADDRESS_COLUMN'})}`,
       formatter: (cell: any, row: any, rowIndex: number) => {
         return (
-        <p>{row.address.district + ',' + row.address.city + ',' + row.address.state}</p> )
+        <React.Fragment>{row.address.district + ',' + row.address.city + ',' + row.address.state}</React.Fragment> )
       },
-      ...SortColumn
-    },
-    
-    {
-      dataField: 'phone',
-      text: `${intl.formatMessage({id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN'})}`,
       ...SortColumn
     },
     {
