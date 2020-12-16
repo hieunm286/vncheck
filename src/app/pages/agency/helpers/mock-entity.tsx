@@ -67,7 +67,7 @@ export const mockAgency: AgencyModel = {
   detailAddress: "Số 2 ngõ 219 Trung Kính",
   district: "Yên Hoà",
   city: "Cầu Giấy",
-  state: null,
+  state: "Hà Nội",
 
 }
 
