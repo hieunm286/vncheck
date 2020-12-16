@@ -166,7 +166,7 @@ function EntityCrudPage({
                 <Card key={key}>
                   {formPart[key].header && (
                     <CardHeader title={(
-                      <div onClick={() => history.goBack()}>
+                      <div onClick={() => history.goBack()} className={'cursor-pointer'}>
                         <ArrowBackIosIcon/>
                         {intl
                           .formatMessage({id: formPart[key].header}, {moduleName: intl.formatMessage({id: moduleName})})

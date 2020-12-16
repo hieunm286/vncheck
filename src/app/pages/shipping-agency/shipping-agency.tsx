@@ -25,8 +25,9 @@ const detailDialogTitle = 'SHIPPING_AGENCY.DETAIL_DIALOG.TITLE';
 const moduleName = 'SHIPPING_AGENCY.MODULE_NAME';
 const deleteDialogTitle = 'SHIPPING_AGENCY.DELETE_DIALOG.TITLE';
 const deleteDialogBodyTitle = 'SHIPPING_AGENCY.DELETE_DIALOG.BODY_TITLE';
-const createTitle = 'SHIPPING_AGENCY.CREATE.TITLE';
-const updateTitle = 'SHIPPING_AGENCY.UPDATE.TITLE';
+const createTitle = 'PRODUCT_TYPE.CREATE.TITLE';
+const updateTitle = 'PURCHASE_ORDER.UPDATE.TITLE';
+const homeURL = `${window.location.pathname}`
 
 function ShippingAgency() {
   const intl = useIntl();
@@ -188,7 +189,7 @@ function ShippingAgency() {
       label: 'SHIPPING_AGENCY.MASTER.SEARCH.CODE',
     },
     name: {
-      type: 'string',
+      type: 'number',
       label: 'SHIPPING_AGENCY.MASTER.SEARCH.NAME',
     },
     phone: {
@@ -306,7 +307,8 @@ function ShippingAgency() {
         onHide={() => {
           setShowDelete(false);
         }}
-        moduleName={moduleName}
+        title={deleteDialogTitle}
+        bodyTitle={deleteDialogBodyTitle}
       />
       <DeleteManyEntitiesDialog
         moduleName={moduleName}
@@ -326,7 +328,6 @@ function ShippingAgency() {
             entity={createEntity}
             onModify={add}
             title={createTitle}
-            moduleName={moduleName}
             code={null}
             get={() => null}
             formPart={formPart}
@@ -354,8 +355,8 @@ function ShippingAgency() {
               entity={editEntity}
               onModify={update}
               title={updateTitle}
-              moduleName={moduleName}
-              code={match?.params.code}
+              //  modifyModel={modifyModel}
+              code={match && match.params.code}
               get={ShippingAgencyService.GetById}
               formPart={formPart}
               allFormField={allFormField}
@@ -396,6 +397,8 @@ function ShippingAgency() {
             setPaginationParams={setPaginationProps}
             isShowId={true}
           />
+          
+          {/* <MasterTreeStructure /> */}
         </Route>
       </Switch>
     </Fragment>

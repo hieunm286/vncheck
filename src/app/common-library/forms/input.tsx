@@ -16,20 +16,18 @@ export function Input({
   field, // { name, value, onChange, onBlur }
   form: { touched, errors }, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
   label,
-  withFeedbackLabel,
+  // withFeedbackLabel,
   withValidation,
-  customFeedbackLabel,
+  // customFeedbackLabel,
   isHorizontal,
   type = 'text',
   ...props
 }: any) {
-  const { setFieldValue } = useFormikContext<any>();
-  const [values, setValue] = React.useState(null);
   return (
     <>
       <div className={isHorizontal && 'd-flex mt-3'}>
         {label && (
-          <label className={isHorizontal && 'w-50 justify-content-center align-self-center'}>
+          <label className={isHorizontal && 'w-100 justify-content-center align-self-center'}>
             {label}
           </label>
         )}
@@ -42,6 +40,7 @@ export function Input({
           }
           min={type === 'number' ? 0 : undefined}
           {...field}
+          value={field.value??''}
           {...props}
         />
       </div>
