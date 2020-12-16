@@ -32,6 +32,7 @@ export interface AgencyModel {
   // shippingAddress: string;
   shippingAddress: Array<
     {
+      _id: any;
       address: string;
       state: string;
       city: string;

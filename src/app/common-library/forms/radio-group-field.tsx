@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FormControlLabel, Radio, RadioGroup } from "@material-ui/core";
 import { useField, useFormikContext } from "formik";
 import { Button } from "react-bootstrap";
@@ -38,6 +38,17 @@ export const FormikRadioGroup = ({
   const intl = useIntl();
 
   const [addressesState, setAddressesState] = useState<any>((addresses && addresses.length) ? addresses.find((addr: any) => addr.isDefault === true)._id : '');
+
+
+  useEffect(() => {
+    if(addresses && addresses.length) {
+      console.log(addresses)
+      const defaultID = addresses.find((addr: any) => addr.isDefault === true)._id;
+      console.log(defaultID)
+      setAddressesState(defaultID);
+    }
+  }, []);
+
   const handleAddressChange = (e : any) => {
     setAddressesState(e.target.value);
     let defaultAddress = values.shippingAddress.find((addr: any) => { return addr._id === e.target.value});
@@ -47,6 +58,7 @@ export const FormikRadioGroup = ({
     setFieldValue('defaultShippingAddress', getShippingAddress(defaultAddress));
   }
   
+  console.log(addressesState)
   return (
     <React.Fragment>
       <RadioGroup aria-label={ariaLabel} name={name} value={addressesState} onChange={(e: any) => handleAddressChange(e)}>

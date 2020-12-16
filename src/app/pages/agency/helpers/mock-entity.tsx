@@ -34,6 +34,7 @@ export const mockAgency: AgencyModel = {
   // shippingAddress: "",
   shippingAddress: [
     {
+      _id: "1",
       address: "Số 2 ngõ 219 Trung Kính",
       district: "Yên Hòa",
       city: "Cầu Giấy",
@@ -41,6 +42,7 @@ export const mockAgency: AgencyModel = {
       isDefault: false,
     },
     {
+      _id: "2",
       address: "abz",
       district: "Bình Liêu",
       city: "Bình Liêu",
