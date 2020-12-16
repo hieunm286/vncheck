@@ -380,5 +380,21 @@
   "SHIPPING_AGENCY.DETAIL_DIALOG.OWNER.EMAIL": "Email",
   "SHIPPING_AGENCY.CREATE.TITLE": "Điện thoại liên hệ",
 
-  "SHIPPING_AGENCY.UPDATE.TITLE": "Điện thoại liên hệ"
+  "SHIPPING_AGENCY.UPDATE.TITLE": "Điện thoại liên hệ",
+
+  "VALIDATE.ERROR.INVALID_START_TIME": "Ngày bắt đầu không hợp lệ",
+  "VALIDATE.ERROR.MISSING_START_TIME": "Vui lòng nhập ngày bắt đầu",
+  "VALIDATE.ERROR.START_TIME_MUST_LESS_THAN_END_TIME": "Ngày bắt đầu phải nhỏ hơn ngày kết thúc",
+  "VALIDATE.ERROR.INVALID_QUANTITY": "Số lượng không hợp lệ",
+  "VALIDATE.ERROR.INVALID_ESTIMATED_TIME": "Ngày dự kiến không hợp lệ (phải lớn hơn thời gian hiện tại, v.v...)",
+  "VALIDATE.ERROR.INVALID_ESTIMATED_START_TIME": "Thời gian bắt đầu dự kiến không hợp lệ (phải lớn hơn thời gian hiện tại, v.v...)",
+  "VALIDATE.ERROR.INVALID_ESTIMATED_END_TIME": "Thời gian kết thúc dự kiến không hợp lệ (phải lớn hơn thời gian hiện tại, v.v...)",
+  "VALIDATE.ERROR.ESTIMATED_START_TIME_MUST_BEFORE_ESTIMATED_END_TIME": "Thời gian bắt đầu phải nhỏ hơn thời gian kết thúc",
+  "VALIDATE.ERROR.START_TIME_MUST_GREATER_THAN_NOW": "Thời gian bắt đầu phải lớn hơn hiện tại",
+  "VALIDATE.ERROR.END_TIME_MUST_BE_GREATER_THAN_NOW": "Thời gian kết thúc phải lớn hơn hiện tại",
+  "VALIDATE.ERROR.START_TIME_MUST_BEFORE_END_TIME": "Thời gian đầu phải nhỏ hơn thời gian kết thúc",
+  "VALIDATE.ERROR.INVALID_ESTIMATED_EXPIRE_TIME_START": "Hạn sử dụng bắt đầu phải lớn hơn hiện tại",
+  "VALIDATE.ERROR.INVALID_ESTIMATED_EXPIRE_TIME_END": "Hạn sử dụng kết thúc phải lớn hơn hiện tại",
+  "VALIDATE.ERROR.ESTIMATED_EXPIRE_START_TIME_MUST_BEFORE_ESTIMATED_EXPIRE_END_TIME": "Hạn sử dụng bắt đầu phải nhỏ hơn hạn sử dụng kết thúc"
+
 }
