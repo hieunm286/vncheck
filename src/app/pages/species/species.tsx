@@ -392,13 +392,9 @@ function Species() {
             }}
             onReset={() => {
               setPaginationProps(DefaultPagination)
-              setFilterProps(undefined)
+              setFilterProps({})
             }}
             searchModel={productTypeSearchModel}
-            initValue={{
-              code: '',
-              name: '',
-            }}
           />
           <MasterBody
             title={bodyTitle}

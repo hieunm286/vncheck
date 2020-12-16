@@ -1,5 +1,5 @@
 import {isArray, isEmpty} from 'lodash';
-import {useCallback, useState} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import {useDispatch} from 'react-redux';
 import {DefaultPagination} from '../common-consts/const';
 import {
@@ -12,7 +12,7 @@ import {
   UpdateProps,
 } from '../common-types/common-type';
 import {diff} from 'deep-object-diff';
-import { ToastContainer, toast } from 'react-toastify';
+import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 export const CapitalizeFirstLetter = (string: string) => {
@@ -304,12 +304,14 @@ export function InitMasterProps<T>({
   const [showDeleteMany, setShowDeleteMany] = useState(false);
   const [trigger, setTrigger] = useState(false);
   const [paginationProps, setPaginationProps] = useState(DefaultPagination);
-  const [filterProps, setFilterProps] = useState();
+  const [filterProps, setFilterProps] = useState({});
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);
   const [spinning, setSpinning] = useState(false)
   const [error, setError] = useState('')
-  
+  useEffect(() => {
+    setError('');
+  }, [showDetail, showDeleteMany, showDelete])
   const dispatch = useDispatch();
   
   const getAll = useCallback(
@@ -349,7 +351,7 @@ export function InitMasterProps<T>({
     setSelectedEntities([]);
     setLoading(false);
     setSpinning(false);
-    setFilterProps(undefined);
+    setFilterProps({});
     setError('')
   };
   

@@ -26,6 +26,7 @@ export function ConfirmDialog<T>({
     <Modal
       show={isShow}
       onHide={onHide}
+      size="lg"
       aria-labelledby="example-modal-sizes-title-lg"
       dialogClassName="modal-detail">
       {loading && <ModalProgressBar />}

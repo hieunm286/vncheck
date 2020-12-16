@@ -120,32 +120,54 @@ input {
   letter-spacing: 0.1rem;
 }
 
-.modal-detail {
-  .modal-content {
+.modal-detail{
+  .modal-content{
+    padding: 35px;
+  }
+  .modal-body{
+    padding: 0 0 0 0 !important;
+  }
+  &.modal-lg {
     width: 1000px;
+    .modal-content {
+      .detail-dialog-subtitle {
+        font-weight: 600;
+        padding-bottom: 25px;
+        margin-bottom: 0;
+        text-transform: uppercase;
+      }
 
-    .detail-dialog-subtitle {
-      font-weight: 600;
-      padding-bottom: 32px;
-      margin-bottom: 0;
-    }
-
-    .detail-dialog-row-info {
-      padding-bottom: 32px;
+      .detail-dialog-row-info {
+        padding-bottom: 32px;
+      }
     }
   }
+  &.modal-sm {
+    max-width: 500px;
+    width: 500px;
+    .modal-content {
+      .detail-dialog-subtitle {
+        font-weight: 600;
+        padding-bottom: 32px;
+        margin-bottom: 0;
+      }
 
+      .detail-dialog-row-info {
+        padding-bottom: 32px;
+      }
+    }
+  }
 }
 
 .modal-delete {
+  width: 500px;
   .modal-content {
-    width: 500px;
   }
 }
 
 .modal-delete-many {
+  width: 500px;
   .modal-content {
-    width: 500px;
   }
 }
 
@@ -244,6 +266,7 @@ html, body {
 
   .card-header {
     padding: 35px 0 25px 0;
+    border-bottom: 1px solid #DADADA;
   }
 
   &.master-header-card .card-body {
@@ -263,6 +286,7 @@ html, body {
   margin-bottom: 0;
   .master-header-search-input-margin {
     margin-bottom: 25px;
+    margin-right: 50px;
   }
 }
 //.card.card-custom > .card-body

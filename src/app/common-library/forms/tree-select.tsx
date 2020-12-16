@@ -3,6 +3,7 @@ import { TreeSelect } from 'antd';
 import { useField, useFormikContext } from 'formik';
 import './tree-select.scss'
 import SelectDropDownIcon from './select-drop-down-icon';
+import { FieldFeedbackLabel } from './field-feedback-label';
 
 const getClassName = (labelWidth: number | null | undefined, labelStart: boolean) => {
   const classes: string[] = [];
@@ -31,6 +32,35 @@ const getClassName = (labelWidth: number | null | undefined, labelStart: boolean
 
   return classes.join(' ');
 };
+
+const getError = (error: any, fieldName: string) => {
+  if (fieldName.indexOf('.') === -1) {
+    return error[fieldName]
+  }
+
+  const arrName = fieldName.split('.')
+
+  if (arrName.length === 3) {
+    return error[arrName[0]] ? error[arrName[0]][arrName[1]][arrName[2]] : ''
+  }
+
+  return error[arrName[0]] ? error[arrName[0]][arrName[1]] : ''
+}
+
+const getTouched = (touched: any, fieldName: string) => {
+  if (fieldName.indexOf('.') === -1) {
+    return touched[fieldName]
+  }
+
+  const arrName = fieldName.split('.')
+
+  if (arrName.length === 3) {
+    return touched[arrName[0]] ? touched[arrName[0]][arrName[1]][arrName[2]] : ''
+  }
+
+  return touched[arrName[0]] ? touched[arrName[0]][arrName[1]] : ''
+}
+
 
 function CustomeTreeSelect(
   { label, 
@@ -74,8 +104,14 @@ function CustomeTreeSelect(
               onChange(val);
               setFieldValue(name, val);
             }}
-            className="ant-tree-select-custom"
+            className={(errors[name] && touched[name]) ? 'is-invalid ant-tree-select-custom' : 'ant-tree-select-custom'}
           />
+          {
+            // console.log(touched)
+            (errors[name] && touched[name]) && (
+              <div className="invalid-feedback">{errors[name]}</div>
+            )
+          }
         </div>
       </div>
     </>

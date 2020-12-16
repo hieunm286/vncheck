@@ -8,7 +8,7 @@ import {iconStyle} from '../common-consts/const';
 import {ModalProgressBar} from '../modal-progress-bar';
 import {CapitalizeFirstLetter} from '../helpers/common-function';
 
-export function   DeleteEntityDialog<T>({
+export function DeleteEntityDialog<T>({
                                         isShow,
                                         entity,
                                         onHide,
@@ -25,14 +25,55 @@ export function   DeleteEntityDialog<T>({
                                       }: DeleteDialogProps<T>) {
   const intl = useIntl();
   
-  return (
+  return (<><Modal
+    show={isShow && (error === '')}
+    onHide={onHide}
+    aria-labelledby="example-modal-sizes-title-lg"
+    dialogClassName="modal-delete">
+    <Modal.Header className="border-bottom-0" closeButton>
+      <Modal.Title id="example-modal-sizes-title-lg" className="text-primary">
+        {intl
+          .formatMessage({id: title}, {moduleName: intl.formatMessage({id: moduleName})})
+          .toUpperCase()}
+      </Modal.Title>
+    </Modal.Header>
+    <Modal.Body>
+      {!loading && (
+        <>
+          {CapitalizeFirstLetter(
+            intl.formatMessage(
+              {id: bodyTitle},
+              {moduleName: intl.formatMessage({id: moduleName})},
+            ),
+          )}
+          {' ' + intl.formatMessage(
+            {id: confirmMessage},
+            {moduleName: intl.formatMessage({id: moduleName})},
+          )}
+        </>
+      )}
+      {loading && <span className={'ml-1'}>{intl.formatMessage({id: deletingMessage})}</span>}
+    </Modal.Body>
+    
+    <Modal.Footer className="border-top-0">
+      <button type="button" className="btn btn-primary mr-lg-8 fixed-btn-width"
+              onClick={e => onDelete(entity)}>
+        {/*<DeleteIcon style={iconStyle}/>*/}
+        {loading ? (<div className="spinner spinner-sm spinner-darker-white">
+          <span className={'ml-6'}>{intl.formatMessage({id: deleteBtn})}</span>
+        </div>) : intl.formatMessage({id: deleteBtn})}
+      </button>
+      <button type="button" onClick={onHide} className="btn btn-outline-primary fixed-btn-width">
+        <CancelOutlinedIcon style={iconStyle}/>
+        {intl.formatMessage({id: cancelBtn})}
+      </button>
+    </Modal.Footer>
+  </Modal>
     <Modal
-      show={isShow}
+      show={isShow && (error !== '')}
       onHide={onHide}
       aria-labelledby="example-modal-sizes-title-lg"
       dialogClassName="modal-delete">
-      {loading && <ModalProgressBar/>}
-      
       <Modal.Header className="border-bottom-0" closeButton>
         <Modal.Title id="example-modal-sizes-title-lg" className="text-primary">
           {intl
@@ -41,39 +82,13 @@ export function   DeleteEntityDialog<T>({
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        {!loading && error === '' && (
-          <>
-            {CapitalizeFirstLetter(
-              intl.formatMessage(
-                {id: bodyTitle},
-                {moduleName: intl.formatMessage({id: moduleName})},
-              ),
-            )}
-            {' ' + intl.formatMessage(
-              {id: confirmMessage},
-              {moduleName: intl.formatMessage({id: moduleName})},
-            )}
-          </>
-        )}
-        {loading && <span className={'ml-1'}>{intl.formatMessage({id: deletingMessage})}</span>}
-        {!loading && error !== '' && (
-          <>
-            {typeof error === 'string' ? (<p className='text-danger'>{intl.formatMessage({id: error})}</p>) : error}
-          </>
-        )}
+        {error !== '' && typeof error === 'string' ? (<p className='text-danger'>{intl.formatMessage({id: error})}</p>) : error}
       </Modal.Body>
-      
       <Modal.Footer className="border-top-0">
-        <button type="button" className="btn btn-primary mr-lg-8 fixed-btn-width" onClick={e => onDelete(entity)}>
-          {/*<DeleteIcon style={iconStyle}/>*/}
-          {intl.formatMessage({id: deleteBtn})}
-        </button>
-        
         <button type="button" onClick={onHide} className="btn btn-outline-primary fixed-btn-width">
           <CancelOutlinedIcon style={iconStyle}/>
           {intl.formatMessage({id: cancelBtn})}
         </button>
       </Modal.Footer>
-    </Modal>
-  );
+    </Modal></>)
 }

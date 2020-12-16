@@ -73,16 +73,13 @@ export function MasterBody<T>({
       {title && <CardHeader title={intl.formatMessage({id: title}).toUpperCase()}/>}
       <CardBody>
         <div className="row no-gutters mb-10">
-          <div className="mr-5 fixed-btn-width">
-            <button type="button" className="btn btn-primary w-100" onClick={onCreate}>
+            <button type="button" className="btn btn-primary fixed-btn-width mr-8" onClick={onCreate}>
               <AddIcon style={iconStyle}/>
               {intl.formatMessage({id: 'COMMON_COMPONENT.MASTER_BODY.HEADER.ADD_BTN'})}
             </button>
-          </div>
-          <div className="mr-5 fixed-btn-width">
             <button
               type="button"
-              className="btn btn-outline-primary w-100"
+              className="btn btn-outline-primary fixed-btn-width"
               onClick={() => {
                 onSelectMany(selectedEntities);
                 onDeleteMany();
@@ -90,7 +87,6 @@ export function MasterBody<T>({
               <DeleteOutlineOutlinedIcon style={iconStyle}/>
               {intl.formatMessage({id: 'COMMON_COMPONENT.MASTER_BODY.HEADER.DELETE_BTN'})}
             </button>
-          </div>
         </div>
         
         <MasterTable
