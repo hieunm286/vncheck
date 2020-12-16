@@ -568,9 +568,13 @@ function ProductionPlan() {
       formatExtraData: {
         intl,
         onShowDetail: (entity: any) => {
-          setEditEntity(entity);
-          setVersionTitle('Kế hoạch số' + entity._id);
-          history.push(`${window.location.pathname}/${entity._id}`);
+          ProductionPlanService.GetHistory(entity).then(res => {
+            console.log(res.data)
+            history.push({
+              pathname: '/production-plan/' + entity._id + '/history',
+              state: res.data.history,
+            });
+          });
         },
         onEdit: (entity: any) => {
           ProductionPlanService.GetById(entity._id).then(res => {
@@ -736,10 +740,12 @@ function ProductionPlan() {
                 updateProcess(entity)
                 .then(ress => {
                   refreshData();
+                  setCurrentTab('2')
                   history.push('/production-plan');
                 })
                 .catch(error => {});
               } else {
+                setCurrentTab('2')
                 history.push('/production-plan');
               }
               
@@ -799,29 +805,29 @@ function ProductionPlan() {
       ...SortColumn,
       classes: 'text-center',
     },
-    createBy: {
-      dataField: 'createBy',
+    createdBy: {
+      dataField: 'productPlan.createdBy',
       text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.VERSION_CREATEBY' })}`,
 
       ...SortColumn,
       classes: 'text-center',
     },
 
-    createDate: {
-      dataField: 'createDate',
+    createdAt: {
+      dataField: 'createdAt',
       text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.VERSION_CREATEDATE' })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
-        <span>{new Intl.DateTimeFormat('en-GB').format(row.createDate)}</span>
+        <span>{new Intl.DateTimeFormat('en-GB').format(new Date(row.createdAt))}</span>
       ),
       ...SortColumn,
       classes: 'text-center',
       headerClasses: 'text-center',
     },
-    approveDate: {
-      dataField: 'approveDate',
+    confirmationDate: {
+      dataField: 'productPlan.confirmationDate',
       text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.VERSION_APPROVEDATE' })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
-        <p>{new Intl.DateTimeFormat('en-GB').format(row.approveDate)}</p>
+        <span>{new Intl.DateTimeFormat('en-GB').format(new Date(row.productPlan.confirmationDate))}</span>
       ),
       ...SortColumn,
       classes: 'text-center',
@@ -835,6 +841,7 @@ function ProductionPlan() {
           className="btn btn-icon btn-light btn-hover-primary btn-sm visibility"
           onClick={() => {
             // ProductionPlanService.GetById(row._id).then(res => {
+            //   setEditEntity(res.data);
             //   history.push({
             //     pathname: '/production-plan/plan-view/' + row._id,
             //     state: res.data,
@@ -842,7 +849,7 @@ function ProductionPlan() {
             // });
             history.push({
               pathname: '/production-plan/plan-view/' + row._id,
-              // state: res.data,
+              state: row.productPlan,
             });
           }}>
           <span className="svg-icon svg-icon-md svg-icon-primary">
@@ -904,11 +911,11 @@ function ProductionPlan() {
             </>
           )}
         </Route>
-        <Route exact path={`/production-plan/:code`}>
+        <Route exact path={`/production-plan/:code/history`}>
           {({ history, match }) => (
             <ProductionPlanVersion
               title={match && match.params.code}
-              data={versionData}
+              data={history.location.state}
               total={versionData.length}
               versionColumns={versionColumns}
               loading={loading}

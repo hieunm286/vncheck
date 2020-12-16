@@ -20,7 +20,7 @@ interface MasterDataVersion {
 
 interface VersionProp {
   title: string;
-  data: MasterDataVersion[];
+  data: any;
   total: number;
   loading: boolean;
   paginationParams: any;
@@ -43,7 +43,7 @@ function ProductionPlanVersion({ title, data, paginationParams, setPaginationPar
       <CardHeader title={<><span onClick={() => history.goBack()}><ArrowBackIosIcon /></span> {'KẾ HOẠCH SỐ ' + title.toUpperCase()}</>} />
       <CardBody>
         <MasterTable
-          entities={data as any}
+          entities={data || []}
           columns={versionColumns as any}
           total={total}
           loading={loading}
