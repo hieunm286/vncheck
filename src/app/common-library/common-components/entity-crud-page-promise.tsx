@@ -103,15 +103,12 @@ function EntityCrudPagePromise({
     // newTag.push(value);
     // setTagArr({ ...tagArr, [key]: newTag });
   }
-
-  console.log(images);
-
   
   const ConvertImage = (entity: any) => {
     const cv = { ...entity };
 
     if (entity.image) {
-      toDataURL('http://localhost:2999/' + entity.image.path)
+      toDataURL('/' + entity.image.path)
         .then(dataUrl  => {
           const url = { data_url: dataUrl };
           console.log(url);
