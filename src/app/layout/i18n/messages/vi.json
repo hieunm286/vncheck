@@ -255,6 +255,7 @@
   "AGENCY.VALIDATION.ADDRESS.REQUIRED": "Vui lòng nhập địa chỉ chi tiết",
   "AGENCY.VALIDATION.PHONE_NUMBER.REQUIRED": "Vui lòng nhập số điện thoại đơn vị bán hàng",
   "AGENCY.VALIDATION.TAX_ID.REQUIRED": "Vui lòng nhập mã số thuế",
+  "AGENCY.VALIDATION.TAX_ID.NUMBER_ONLY": "Mã số thuế chỉ bao gồm các chữ số",
   "AGENCY.VALIDATION.USER_NAME.REQUIRED": "Vui lòng nhập tên đăng nhập",
   "AGENCY.VALIDATION.OWNER_NAME.REQUIRED": "Vui lòng nhập tên chủ đơn vị bán hàng",
   "AGENCY.VALIDATION.OWNER_PHONE_NUMBER.REQUIRED": "Vui lòng nhập số điện thoại chủ đơn vị bán hàng",

@@ -569,7 +569,7 @@ const FormTemplate = ({
             (<></>);
           
           case 'option':
-            return values.gender ? (
+            return values.gender !== undefined ? (
               <div className="mt-3" key={`${key}`}>
                 <Field
                   name={key}

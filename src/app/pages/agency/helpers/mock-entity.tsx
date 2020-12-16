@@ -133,7 +133,7 @@ export const initAgency: AgencyModel = {
   ownerPhoneNumber: "",
   email: "",
   birthDay: null,
-  gender: "-1",
+  gender: null,
   roleName: null,
   phoneNumber: "",
 

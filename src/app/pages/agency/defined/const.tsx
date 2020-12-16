@@ -91,6 +91,7 @@ export const agencySchema = Yup.object<AgencyModel>().shape({
     .required(intl.formatMessage({id: 'AGENCY.VALIDATION.PHONE_NUMBER.REQUIRED'})),
   taxId: Yup.string()
     .required(intl.formatMessage({id: 'AGENCY.VALIDATION.TAX_ID.REQUIRED'}))
+    .matches(/[0-9]*/, intl.formatMessage({id: 'AGENCY.VALIDATION.TAX_ID.NUMBER_ONLY'}))
     .max(100, intl.formatMessage({id: 'AGENCY.VALIDATION.TAX_ID.MAX_LENGTH_EXCEEDED'})),
   image: Yup.array()
     .nullable()
@@ -111,8 +112,10 @@ export const agencySchema = Yup.object<AgencyModel>().shape({
   email: Yup.string()
     .required(intl.formatMessage({id: 'AGENCY.VALIDATION.EMAIL.REQUIRED'}))
     .max(255, intl.formatMessage({id: 'AGENCY.VALIDATION.EMAIL.MAX_LENGTH_EXCEEDED'})),
-  // gender: Yup.string()
-  //   .required(intl.formatMessage({id: 'AGENCY.VALIDATION.GENDER.REQUIRED'})),
+  gender: Yup.string()
+    .matches(/[01]/, intl.formatMessage({id: 'AGENCY.VALIDATION.GENDER.REQUIRED'}))
+    .required(intl.formatMessage({id: 'AGENCY.VALIDATION.GENDER.REQUIRED'}))
+    .nullable(),
   birthDay: Yup.date()
     .required(intl.formatMessage({id: 'AGENCY.VALIDATION.BIRTHDAY.REQUIRED'}))
     .nullable(),

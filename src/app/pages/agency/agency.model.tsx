@@ -19,7 +19,7 @@ export interface AgencyModel {
     },
     email: string;
     fullName: string;
-    gender: string;
+    gender: string | null;
     phone: string;
     role: {
       name: string;
@@ -50,7 +50,7 @@ export interface AgencyModel {
   ownerPhoneNumber?: string;
   email?: string;
   birthDay?: Date | null,
-  gender?: string;
+  gender?: string | null;
   roleName?: object | null;
   phoneNumber?: string;
   detailAddress?: string;
