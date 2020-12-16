@@ -483,6 +483,7 @@ const FormTemplate = ({
                   labelWidth={4}
                   type="Datetime"
                   required={modifyModel.data[key].required}
+                  checkTouched={true}
                 />
               </div>
             );

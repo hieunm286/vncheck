@@ -27,6 +27,16 @@ const getFieldCSSClasses = (touched: any, errors: any) => {
   return classes.join(' ');
 };
 
+const getFieldCSSClasses2 = (touched: any, errors: any) => {
+  const classes = ['form-control'];
+  
+  if (touched && errors) classes.push('is-invalid');
+  
+  if (touched && !errors) classes.push('is-valid');
+  
+  return classes.join(' ');
+};
+
 const getField = (field: any, fieldName: string) => {
   if (fieldName.indexOf('.') === -1) {
     return field.name[fieldName]
@@ -127,7 +137,7 @@ export function DatePickerField({...props}: any) {
         </div>
         <div className={props.isHorizontal && getClassName(props.labelWidth, false)}>
           <DatePicker picker="date"
-                      className={'default-behave ' + getFieldCSSClasses(getTouched(touched, field.name), getError(errors, field.name))}
+                      className={'default-behave ' + props.checkTouched ? getFieldCSSClasses2(getTouched(touched, field.name), getError(errors, field.name)) : getFieldCSSClasses(getTouched(touched, field.name), getError(errors, field.name))}
                       locale={locale}
                       placeholder={intl.formatMessage({id: props.placeholder ?? 'COMMON_COMPONENT.DATEPICKER.PLACEHOLDER'})}
                       format={"DD/MM/yyyy"}
@@ -139,7 +149,19 @@ export function DatePickerField({...props}: any) {
                       disabled={props.disabled}
                       value={field.value ? moment(field.value).add(inverseOffset,'m') : null}
           />
-          {getError(errors, field.name) ? (
+          {!props.checkTouched && getError(errors, field.name) ? (
+            <div className="invalid-datepicker-feedback text-danger" style={{fontSize: '0.9rem'}}>
+              Vui lòng chọn
+              {
+                // errors[field.name]?.toString()
+                '\u00A0' + deCapitalizeFirstLetter(props.label)
+              }
+            </div>
+          ) : (
+            <div className="feedback">
+            </div>
+          )}
+          {props.checkTouched === true && getError(errors, field.name) && getTouched(touched, field.name) ? (
             <div className="invalid-datepicker-feedback text-danger" style={{fontSize: '0.9rem'}}>
               Vui lòng chọn
               {
