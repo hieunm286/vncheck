@@ -14,14 +14,13 @@ import exifr from 'exifr';
 import { AxiosResponse } from 'axios';
 // import { diff } from 'deep-diff';
 
-
 import { useIntl } from 'react-intl';
 import {
   ConvertSelectSearch,
   generateInitForm,
   GetHomePage,
   notifySuccess,
-  notify
+  notify,
 } from '../../common-library/helpers/common-function';
 import { Card, CardBody, CardHeader } from '../../common-library/card';
 import ModifyEntityPage from '../../common-library/common-components/modify-entity-page';
@@ -121,7 +120,7 @@ const diff = (obj1: any, obj2: any) => {
   return diffs;
 };
 
-const validField = ['']
+const validField = [''];
 
 function ProductionPlanCrud({
   entity,
@@ -208,8 +207,6 @@ function ProductionPlanCrud({
       });
     }
   }, [code]);
-
-  
 
   const submitHandle = (values: any, { setSubmitting, setFieldError }: any) => {
     onModify(values)
@@ -327,8 +324,13 @@ function ProductionPlanCrud({
           <>
             <Form className="form form-label-right">
               {Object.keys(formPart).map(key => (
-                <Card key={key} className={formPart[key].keyField &&
-                  errors[formPart[key].keyField] ? 'border border-danger' : ''}>
+                <Card
+                  key={key}
+                  className={
+                    formPart[key].keyField && errors[formPart[key].keyField]
+                      ? 'border border-danger'
+                      : ''
+                  }>
                   {formPart[key].header && (
                     <CardHeader
                       title={
@@ -339,7 +341,7 @@ function ProductionPlanCrud({
                             }>
                             <ArrowBackIosIcon />
                           </a>
-                          {entityForEdit
+                          {entityForEdit && currentTab !== '0'
                             ? `CHỈNH SỬA ${formPart[key].header}`
                             : `TẠO ${formPart[key].header} MỚI`}
                         </>
@@ -359,10 +361,10 @@ function ProductionPlanCrud({
                       tagData={tagData}
                       errors={errors}
                     />
-                    
-                    { formPart[key].keyField &&
-                      errors[formPart[key].keyField] && <span className="text-danger">Vui lòng nhập đúng thứ tự các bước</span>
-                    }
+
+                    {formPart[key].keyField && errors[formPart[key].keyField] && (
+                      <span className="text-danger">Vui lòng nhập đúng thứ tự các bước</span>
+                    )}
                   </CardBody>
                   {allFormButton.type === 'inside' &&
                     key === Object.keys(formPart)[Object.keys(formPart).length - 1] && (
@@ -413,10 +415,10 @@ function ProductionPlanCrud({
               ))}
             </Form>
             {errorMsg && (
-                      <div className="text-left mt-5">
-                        <span className="text-danger">{intl.formatMessage({ id: errorMsg })}</span>
-                      </div>
-                    )}
+              <div className="text-left mt-5">
+                <span className="text-danger">{intl.formatMessage({ id: errorMsg })}</span>
+              </div>
+            )}
             {allFormButton.type === 'outside' && (
               <div className="text-right mb-5 mr-20">
                 {Object.keys(allFormButton.data).map(keyss => {
