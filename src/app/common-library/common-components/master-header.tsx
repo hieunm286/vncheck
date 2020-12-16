@@ -19,6 +19,7 @@ import DISTRICT_LIST from '../../../_metronic/AdministrativeDivision/district.js
 
 import './master-header.css';
 import CustomeTreeSelect from '../forms/tree-select';
+import _ from 'lodash';
 
 export function MasterHeader<T>({
                                   title,
@@ -221,7 +222,7 @@ export function MasterHeader<T>({
                       }
                     }}
                     component={Input}
-                    placeholder={intl.formatMessage({ id: data[key].placeholder })}
+                    placeholder={_.isString(data[key].placeholder) ? intl.formatMessage({ id: data[key].placeholder }) : 'Nhập'}
                     label={
                       typeof data[key].label === 'string'
                         ? intl.formatMessage({ id: data[key].label })
