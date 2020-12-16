@@ -47,7 +47,7 @@ export const FormikRadioGroup = ({
         setAddressesState(defaultAddress._id);
       }
     }
-  }, []);
+  }, [addresses.length]);
 
   const handleAddressChange = (e : any) => {
     setAddressesState(e.target.value);
@@ -63,7 +63,7 @@ export const FormikRadioGroup = ({
       <RadioGroup aria-label={ariaLabel} name={name} value={addressesState} onChange={(e: any) => handleAddressChange(e)}>
       <Element name="test7" className="element" id="containerElement" style={{
             position: 'relative',
-            height: '200px',
+            maxHeight: '200px',
             padding: '0px 40px 0px 2px',
             overflowY: 'scroll',
             overflowX: 'hidden',
