@@ -42,9 +42,7 @@ export const FormikRadioGroup = ({
 
   useEffect(() => {
     if(addresses && addresses.length) {
-      console.log(addresses)
       const defaultID = addresses.find((addr: any) => addr.isDefault === true)._id;
-      console.log(defaultID)
       setAddressesState(defaultID);
     }
   }, []);
@@ -58,7 +56,6 @@ export const FormikRadioGroup = ({
     setFieldValue('defaultShippingAddress', getShippingAddress(defaultAddress));
   }
   
-  console.log(addressesState)
   return (
     <React.Fragment>
       <RadioGroup aria-label={ariaLabel} name={name} value={addressesState} onChange={(e: any) => handleAddressChange(e)}>
@@ -86,14 +83,19 @@ export const FormikRadioGroup = ({
               }
               }><EditIcon /></Button>
           </div>
-          <div className="col-md-1 col-12">
-            <Button type="button" variant="primary" onClick={(e: any) => {
-              if(handleDeleteButton && setShippingAddressEntity) 
-                handleDeleteButton(true);
-                setShippingAddressEntity(key)
-              }
-              }><DeleteIcon /></Button>
-          </div>
+          {
+            entity.isDefault === false ? (
+            <div className="col-md-1 col-12">
+              <Button type="button" variant="primary" onClick={(e: any) => {
+                if(handleDeleteButton && setShippingAddressEntity) 
+                  handleDeleteButton(true);
+                  setShippingAddressEntity(key)
+                }
+                }><DeleteIcon /></Button>
+            </div>
+            ) : (<></>)
+          }
+          
           </React.Fragment>
         </div>
         ))}

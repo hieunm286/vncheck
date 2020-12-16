@@ -272,6 +272,9 @@
 
   "UPDATE.ERROR.AGENCY.UPDATE_AGENCY_ERROR": "Lỗi sửa đơn vị bán hàng",
 
+  "SHIPPING_ADDRESS.MODULE_NAME": "địa chỉ giao hàng",
+  "DELETE.ERROR.SHIPPING_ADDRESS.SHIPPING_ADDRESS_IN_USE": "không thể xóa {moduleName} mặc định",
+
 
 
   "LAND_LOT.MASTER.BODY.TITLE": "DANH SÁCH LÔ THỬA",

@@ -39,13 +39,11 @@ function ModifyShippingAddressDialogForm<T>({
 
   const [search, setSearch] = useState<any>(entity);
 
-  console.log(search)
 
   const onChange = (imageList: any, addUpdateIndex: any, key: any) => {
     const imageArray = getOnlyFile(imageList);
 
     const newArr = getNewImage(imageRootArr, imageArray);
-    console.log(key);
     newArr.forEach((file, index) => {
       uploadImage(file)
         .then(res => {
@@ -60,14 +58,12 @@ function ModifyShippingAddressDialogForm<T>({
     setImageRootArr(imageArray);
   };
 
-  console.log(modifyModel)
   return (
     <Formik
       enableReinitialize={true}
       initialValues={entity}
       validationSchema={validation}
       onSubmit={values => {
-        console.log(values)
         if (entity._id) {
           const updateValue = diff(entity, values);
           if (entity.isDefault || entity.isDefault === false) {
@@ -95,17 +91,6 @@ function ModifyShippingAddressDialogForm<T>({
             <Form className="form form-label-right">
               {Object.keys(formPart).map(key => (
                 <React.Fragment key={key}>
-                  {/* <ModifyEntityPageAgency
-                    images={images}
-                    onChange={(imageList: any, addUpdateIndex: any, key: any) => {
-                      onChange(imageList, addUpdateIndex, key);
-                    }}
-                    modifyModel={formPart[key].modifyModel as any}
-                    column={formPart[key].modifyModel.length}
-                    title={formPart[key].title}
-                    search={search}
-                    setSearch={setSearch}
-                  /> */}
                 <FormTemplate 
                   formValues={values}
                   images={images}
