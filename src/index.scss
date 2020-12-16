@@ -11,7 +11,7 @@
 @import "./app/layout/sass/themes/layout/brand/dark.scss";
 @import "./app/layout/sass/themes/layout/aside/dark.scss";
 @import '~antd/dist/antd.css';
-
+@import "const";
 // Header themes
 // Light
 //@import "./_metronic/_assets/sass/themes/layout/header/base/light.scss";
@@ -49,7 +49,7 @@
 }
 
 .text-primary {
-  color: $primary!important;
+  color: $primary !important;
 }
 
 .example-highlight > pre {
@@ -120,32 +120,54 @@ input {
   letter-spacing: 0.1rem;
 }
 
-.modal-detail {
-  .modal-content {
+.modal-detail{
+  .modal-content{
+    padding: 35px;
+  }
+  .modal-body{
+    padding: 0 0 0 0 !important;
+  }
+  &.modal-lg {
     width: 1000px;
+    .modal-content {
+      .detail-dialog-subtitle {
+        font-weight: 600;
+        padding-bottom: 25px;
+        margin-bottom: 0;
+        text-transform: uppercase;
+      }
 
-    .detail-dialog-subtitle {
-      font-weight: 600;
-      padding-bottom: 32px;
-      margin-bottom: 0;
-    }
-
-    .detail-dialog-row-info {
-      padding-bottom: 32px;
+      .detail-dialog-row-info {
+        padding-bottom: 32px;
+      }
     }
   }
+  &.modal-sm {
+    max-width: 500px;
+    width: 500px;
+    .modal-content {
+      .detail-dialog-subtitle {
+        font-weight: 600;
+        padding-bottom: 32px;
+        margin-bottom: 0;
+      }
 
+      .detail-dialog-row-info {
+        padding-bottom: 32px;
+      }
+    }
+  }
 }
 
 .modal-delete {
+  width: 500px;
   .modal-content {
-    width: 500px;
   }
 }
 
 .modal-delete-many {
+  width: 500px;
   .modal-content {
-    width: 500px;
   }
 }
 
@@ -156,7 +178,7 @@ input {
   }
 
   .modal-title {
-    font-size: 18px !important;
+    font-size: $large-font-size !important;
     font-weight: 700 !important;
   }
 
@@ -210,42 +232,61 @@ input {
   position: absolute;
 }
 
-//
-//.input-search-select {
-//  border: 1px solid #E4E6EF !important;
-//  border-radius: 0.42rem;
-//
-//  :focus {
-//    border-color: #0fc35c !important;
-//    outline-color: #0fc35c !important;
-//    box-shadow: 0 0 0 1px transparent !important;
-//
-//
-//  }
-//
-//  div:focus {
-//    border-color: #0fc35c !important;
-//    outline-color: #0fc35c !important;
-//    box-shadow: 0 0 0 1px transparent !important;
-//  }
-//
-//  :hover {
-//    border-color: transparent !important;
-//
-//    > div {
-//      border-color: transparent !important;
-//    }
-//  }
-//
-//
-//  * {
-//    border-color: transparent !important;
-//  }
-//}
+.input-search-select {
+  font-size: $defaut-font-size;
+}
 
-.master-card-header{
-  .card-label{
-    font-size:18px !important;
-    font-weight:700 !important;
+
+html, body {
+  font-size: $defaut-font-size !important;
+}
+
+.ant-tabs-tab {
+  font-size: $defaut-font-size;
+}
+
+.ant-tabs {
+  font-size: $defaut-font-size;
+}
+
+.form-group {
+  label {
+    font-size: $defaut-font-size;
   }
 }
+
+.form-control {
+  input {
+    font-size: $defaut-font-size;
+  }
+}
+
+.card-custom {
+  padding: 0 60px;
+
+  .card-header {
+    padding: 35px 0 25px 0;
+    border-bottom: 1px solid #DADADA;
+  }
+
+  &.master-header-card .card-body {
+    padding: 25px 0 !important;
+  }
+
+  &.master-body-card .card-body {
+    padding: 25px 0 50px 0 !important;
+  }
+
+  .card-label {
+    font-size: $large-font-size !important;
+    font-weight: 700 !important;
+  }
+}
+.master-header-search-margin{
+  margin-bottom: 0;
+  .master-header-search-input-margin {
+    margin-bottom: 25px;
+    margin-right: 50px;
+  }
+}
+//.card.card-custom > .card-body

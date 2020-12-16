@@ -1,6 +1,7 @@
 //
 // Bootstrap Datetimepicker
 //
+@import "../../../../../const.scss";
 
 
 .bootstrap-datetimepicker-widget {
@@ -31,7 +32,7 @@
                         color: $dark-75;
                         font-weight: 500;
                         display: table-cell;
-                        font-size: 1rem;
+                        font-size: $defaut-font-size;
 
                         &:hover {
                             color: $primary;
@@ -66,7 +67,7 @@
                 tr {
                     td,
                     th {
-                        font-size: 1rem;
+                        font-size: $defaut-font-size;
                         width: $cell-size;
                         height: $cell-size;
                         padding: 0;
@@ -138,7 +139,7 @@
                 tr {
                     td,
                     th {
-                        font-size: 1rem;
+                        font-size: $defaut-font-size;
                         width: $cell-size;
                         height: $cell-size;
                         padding: 0;
@@ -232,7 +233,7 @@
 
                     .timepicker-minute,
                     .timepicker-hour {
-                        font-size: 1rem;
+                        font-size: $defaut-font-size;
                         color: $dark-50;
                         font-weight: 400;
                     }
@@ -258,7 +259,7 @@
                     width: $cell-size;
                     line-height: $cell-size;
 
-                    font-size: 1rem;
+                    font-size: $defaut-font-size;
                     font-weight: 400;
                     color: $dark-50;
 

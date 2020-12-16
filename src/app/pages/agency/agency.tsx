@@ -430,7 +430,7 @@ function AgencyPage() {
             }}
             onReset={() => {
               setPaginationProps(DefaultPagination)
-              setFilterProps(undefined)
+              setFilterProps({})
             }}
             searchModel={agencySearchModel}
             initValue={{

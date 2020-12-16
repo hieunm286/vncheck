@@ -9,9 +9,9 @@
 $header-bg: get($layout-themes, light);
 $header-shadow: 0px 0px 40px 0px rgba(82,63,105, 0.1);
 
-$menu-link-bg-hover: rgba(#4d5995, 0.06);
+$menu-link-bg-hover: $primary;
 $menu-link-bg-active: $menu-link-bg-hover;
-$menu-link-color: #6c7293;
+$menu-link-color: $primary;
 $menu-link-color-hover: $primary;
 $menu-link-color-active: $primary;
 

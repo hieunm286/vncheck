@@ -4,6 +4,7 @@ import { Card, CardBody } from '../../common-library/card';
 import { MasterTable } from '../../common-library/common-components/master-table';
 import { PaginationProps } from 'react-bootstrap';
 import './style/production-plan.scss'
+import { DefaultPagination } from '../../common-library/common-consts/const';
 
 const { TabPane } = Tabs;
 
@@ -13,17 +14,20 @@ function ProductionPlanBody({
   tabData,
   setCurrentTab,
   currentTab,
-  setEntities
+  setEntities,
+  setPaginationProps
 }: {
   tabData: any[],
   setCurrentTab: (tab: string | undefined) => void;
   currentTab: string | undefined;
   setEntities: (el: any) => void;
+  setPaginationProps: (el: any) => void;
 }) {
 
   function callback(key: string | undefined) {
     setCurrentTab(key)
     setEntities([])
+    setPaginationProps(DefaultPagination)
   }
   
 

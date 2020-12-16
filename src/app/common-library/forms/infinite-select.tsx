@@ -9,12 +9,12 @@ const style = {
   borderRadius: 5
 }
 
-const getCSSClasses= (errorName: any, isTouched: any) : string => {
-  const classes : string[] = [];
-
+const getCSSClasses = (errorName: any, isTouched: any): string => {
+  const classes: string[] = [];
+  
   // classes.push('form-control')
-  if(isTouched) {
-    if(errorName) {
+  if (isTouched) {
+    if (errorName) {
       classes.push('is-invalid');
       classes.push('border-danger');
     } else {
@@ -65,7 +65,8 @@ export function InfiniteSelect({
     <>
       <div className={isHorizontal ? 'row' : ''}>
         <div className={isHorizontal ? 'col-xl-4 col-md-4 col-12' : ''}>
-          <label className={isHorizontal ? 'mb-0 input-label mt-2' : ''}>{label} {required ? <span className="text-danger">*</span> : <></>}</label>
+          <label className={isHorizontal ? 'mb-0 input-label mt-2' : ''}>{label} {required ?
+            <span className="text-danger">*</span> : <></>}</label>
         </div>
         <div className={isHorizontal ? `col-xl-7 col-md-8 col-12` : ''}>
           <CustomAsyncPaginate
@@ -77,7 +78,7 @@ export function InfiniteSelect({
               onChange(val);
               setFieldValue(name, changeId === true ? val : refs ? val.value : val.label);
             }}
-            placeholder={intl.formatMessage({id: placeholder})}
+            placeholder={intl.formatMessage({id: placeholder ?? 'COMMON_COMPONENT.INFINITE_SELECT.PLACEHOLDER'})}
             name={name}
             additional={additional}
             styles={{
@@ -89,10 +90,11 @@ export function InfiniteSelect({
                   borderColor: "#E4E6EF",
                   borderRadius: "0.42rem",
                   borderWidth: "1px",
-                  minHeight:"2.3rem",
+                  minHeight: "2.3rem",
                   fontFamily: "SVN-Gilroy, Roboto, Poppins, Helvetica, sans-serif",
                   ":hover": {borderColor: "#0fc35c"},
-                  ":focus": {borderColor: "#0fc35c"}
+                  ":focus": {borderColor: "#0fc35c"},
+                  fontSize: "12px"
                 }
               },
               valueContainer: (base, props1) => {
@@ -100,37 +102,49 @@ export function InfiniteSelect({
                   ...base,
                   paddingLeft: "1rem",
                   fontFamily: "SVN-Gilroy, Roboto, Poppins, Helvetica, sans-serif",
+                  fontSize: "12px"
                 }
-              }, menuList: (base, props1) => {
+              },
+              menuList: (base, props1) => {
                 // console.log(props1);
                 return {
                   ...base,
                   fontFamily: "SVN-Gilroy, Roboto, Poppins, Helvetica, sans-serif",
+                  fontSize: "12px"
                 }
-              }, singleValue: (base, props1) => {
+              },
+              singleValue: (base, props1) => {
                 return {
                   ...base,
                   fontFamily: "SVN-Gilroy, Roboto, Poppins, Helvetica, sans-serif",
+                  fontSize: "12px"
                 }
               },
-              placeholder: (styles) => { return {...styles,color:"#B5B5C3"}},
-              option: (styles,{data, isDisabled,isFocused, isSelected}) => { return {...styles}},
-         }}
+              dropdownIndicator: (base, props1) => {
+                return {...base, padding: "0.41rem 0px !important", color: "#B5B5C3"}
+              },
+              placeholder: (styles) => {
+                return {...styles, color: "#B5B5C3", fontSize: "12px"}
+              },
+              option: (styles, {data, isDisabled, isFocused, isSelected}) => {
+                return {...styles}
+              },
+            }}
             // className={`${errors[name] ? 'border-danger' : 'input-search-select'}`}
             className={getCSSClasses(errors[name], touched[name])}
           />
           {errors[name] && touched[name] ? (
-              <div className="invalid-feedback invalid-datepicker-feedback text-danger" style={{fontSize: '0.9rem'}}>
-                {
-                  // validationMessage ? intl.formatMessage({id: validationMessage}) : 'Vui lòng chọn ' + deCapitalizeFirstLetter(label)
-                  errors[name] ? errors[name] : 'Vui lòng chọn ' + deCapitalizeFirstLetter(label)
-                }
-              </div>
-            ) : (
-              <div className="feedback">
-                {/* Please enter <b>{props.label}</b> in 'mm/dd/yyyy' format */}
-              </div>
-            )}
+            <div className="invalid-feedback invalid-datepicker-feedback text-danger" style={{fontSize: '0.9rem'}}>
+              {
+                // validationMessage ? intl.formatMessage({id: validationMessage}) : 'Vui lòng chọn ' + deCapitalizeFirstLetter(label)
+                errors[name] ? errors[name] : 'Vui lòng chọn ' + deCapitalizeFirstLetter(label)
+              }
+            </div>
+          ) : (
+            <div className="feedback">
+              {/* Please enter <b>{props.label}</b> in 'mm/dd/yyyy' format */}
+            </div>
+          )}
         </div>
       </div>
     </>

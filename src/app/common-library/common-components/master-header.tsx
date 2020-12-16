@@ -34,7 +34,7 @@ export function MasterHeader<T>({
   title: string;
   initValue?: any;
   onSearch: (data: any) => void;
-  onReset?: () => void;
+  onReset?: (data?: any) => void;
   stringOnChange?: (
     e: ChangeEvent<HTMLInputElement>,
     searchM: any,
@@ -199,27 +199,28 @@ export function MasterHeader<T>({
   };
   
   return (
-    <Card>
-      <CardHeader className={'master-card-header'} title={intl.formatMessage({id: title}).toUpperCase()}/>
+    <Card className={'master-header-card'}>
+      <CardHeader title={intl.formatMessage({id: title}).toUpperCase()}/>
       
       <CardBody>
         <Formik
           initialValues={initValue}
           onSubmit={values => {
-            onSearch(values);
+            onSearch({...values});
           }}
           onReset={data => {
+            onSearch({});
             if (onReset) {
-              onReset();
+              onReset(data);
             }
           }}>
           {({values, handleSubmit, handleBlur, handleChange, setFieldValue, resetForm}) => (
             <form onSubmit={handleSubmit} className="form form-label-right">
-              <div className="form-group row">
+              <div className="form-group row master-header-search-margin">
                 {searchModel ? (
                   Object.keys(searchM).map(key => {
                     const name = searchM[key].customName ?? key;
-                    const className = searchM[key].className ?? "col-xxl-2 col-md-3 mt-md-5 mt-5";
+                    const className = searchM[key].className ?? "col-xxl-2 col-md-3 master-header-search-input-margin";
                     switch (searchM[key].type) {
                       case 'string':
                         return (
@@ -246,8 +247,8 @@ export function MasterHeader<T>({
                                 }
                               }}
                               component={Input}
-                              placeholder={intl.formatMessage({id: searchM[key].placeholder})}
-                              label={typeof searchM[key].label === 'string' ? intl.formatMessage({id: searchM[key].label}): searchM[key].label}
+                              placeholder={intl.formatMessage({id: searchM[key].placeholder ?? 'COMMON_COMPONENT.INPUT.PLACEHOLDER'})}
+                              label={typeof searchM[key].label === 'string' ? intl.formatMessage({id: searchM[key].label}) : searchM[key].label}
                               withFeedbackLabel={true}
                             />
                           </div>
@@ -260,8 +261,8 @@ export function MasterHeader<T>({
                               name={name}
                               type="number"
                               component={Input}
-                              placeholder={intl.formatMessage({id: searchM[key].placeholder})}
-                              label={intl.formatMessage({id: searchM[key].label})}
+                              placeholder={intl.formatMessage({id: searchM[key].placeholder ?? 'COMMON_COMPONENT.INPUT.PLACEHOLDER'})}
+                              label={typeof searchM[key].label === 'string' ? intl.formatMessage({id: searchM[key].label}) : searchM[key].label}
                               withFeedbackLabel={true}
                             />
                           </div>
@@ -271,8 +272,9 @@ export function MasterHeader<T>({
                         return (
                           <div className={className} key={`master_header${key}`}>
                             <DatePickerField
+                              {...searchM[key]}
                               name={name}
-                              label={typeof searchM[key].label === 'string' ? intl.formatMessage({id: searchM[key].label}): searchM[key].label}
+                              label={typeof searchM[key].label === 'string' ? intl.formatMessage({id: searchM[key].label}) : searchM[key].label}
                             />
                           </div>
                         );
@@ -565,24 +567,18 @@ export function MasterHeader<T>({
               </div>
               
               <div className="row no-gutters">
-                <div className="mr-5 fixed-btn-width">
-                  <button className="btn btn-primary w-100" type="submit">
-                    <SearchIcon style={iconStyle}/>
-                    {intl.formatMessage({id: 'COMMON_COMPONENT.MASTER_HEADER.SEARCH_BTN'})}
-                  </button>
-                </div>
-                
-                <div className="mr-5 fixed-btn-width">
-                  <button
-                    className="btn btn-outline-primary w-100"
-                    type="reset"
-                    onClick={() => handleResetForm(resetForm)}>
-                    <SVG src={ToAbsoluteUrl('/media/svg/vncheck/reset-filter.svg')}
-                         style={iconStyle}/>
-                    &nbsp;
-                    {intl.formatMessage({id: 'COMMON_COMPONENT.MASTER_HEADER.RESET_FILTER_BTN'})}
-                  </button>
-                </div>
+                <button className="btn btn-primary mr-8 fixed-btn-width" type="submit">
+                  <SearchIcon style={iconStyle}/>
+                  {intl.formatMessage({id: 'COMMON_COMPONENT.MASTER_HEADER.SEARCH_BTN'})}
+                </button>
+                <button
+                  className="btn btn-outline-primary fixed-btn-width"
+                  type="reset"
+                  onClick={() => handleResetForm(resetForm)}>
+                  <SVG src={ToAbsoluteUrl('/media/svg/vncheck/reset-filter.svg')}
+                       style={iconStyle}/>
+                  {intl.formatMessage({id: 'COMMON_COMPONENT.MASTER_HEADER.RESET_FILTER_BTN'})}
+                </button>
               </div>
             </form>
           )}

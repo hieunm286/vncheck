@@ -2,6 +2,7 @@
 // Dropzone
 //
 
+@import "../../../../../const.scss";
 
 // Base
 .dropzone {
@@ -26,7 +27,7 @@
     .dropzone-msg-desc {
         color:  $text-muted;
         font-weight: 400;
-		font-size: 1rem;
+		font-size: $defaut-font-size;
 	}
 
     .dz-preview {

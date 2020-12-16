@@ -14,25 +14,25 @@ import exifr from 'exifr';
 import { AxiosResponse } from 'axios';
 // import { diff } from 'deep-diff';
 
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+
 import { useIntl } from 'react-intl';
 import {
   ConvertSelectSearch,
   generateInitForm,
   GetHomePage,
+  notifySuccess,
+  notify
 } from '../../common-library/helpers/common-function';
 import { Card, CardBody, CardHeader } from '../../common-library/card';
 import ModifyEntityPage from '../../common-library/common-components/modify-entity-page';
 import _ from 'lodash';
 import { addInitField, initProductPlanForm } from './defined/const';
+import ProductionPlanModal from './production-plan-modal';
 
 const diff = (obj1: any, obj2: any) => {
-
   if (!obj2 || Object.prototype.toString.call(obj2) !== '[object Object]') {
     return obj1;
   }
-
 
   let diffs: any = {};
   let key;
@@ -140,6 +140,10 @@ function ProductionPlanCrud({
   tagData,
   step,
   onApprove,
+  updateProcess,
+  sendRequest,
+  approveFollow,
+  currentTab,
 }: {
   // modifyModel: ModifyModel;
   title: string;
@@ -159,6 +163,10 @@ function ProductionPlanCrud({
   tagData?: any;
   step: string;
   onApprove: (data: any) => Promise<AxiosResponse<any>>;
+  updateProcess: (data: any) => Promise<AxiosResponse<any>>;
+  sendRequest: (data: any) => Promise<AxiosResponse<any>>;
+  approveFollow: (data: any) => Promise<AxiosResponse<any>>;
+  currentTab: string | undefined;
 }) {
   const intl = useIntl();
   const initForm = autoFill
@@ -179,6 +187,8 @@ function ProductionPlanCrud({
   const [errorMsg, setErrorMsg] = useState<string | undefined>();
   const [search, setSearch] = useState<any>(initForm);
 
+  const [confirmModal, setConfirmModal] = useState(false);
+  const [noticeModal, setNoticeModal] = useState(false);
   function handleChangeTag(value: string, key?: string) {
     // const newTag: string[] = [...tagArr];
     // newTag.push(value);
@@ -197,37 +207,16 @@ function ProductionPlanCrud({
     }
   }, [code]);
 
-  const notify = (error: string) => {
-    toast.error(`😠 ${error}`, {
-      position: 'top-right',
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
-  };
-
-  const notifySuccess = () => {
-    toast.success(`😠 Thành công`, {
-      position: 'top-right',
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
-  };
+  
 
   const submitHandle = (values: any, { setSubmitting, setFieldError }: any) => {
     onModify(values)
       .then((res: any) => {
-        history.push(homePage || GetHomePage(window.location.pathname));
+        setNoticeModal(true);
         notifySuccess();
         setErrorMsg(undefined);
         refreshData();
+        history.push(homePage || GetHomePage(window.location.pathname));
       })
       .catch(error => {
         setSubmitting(false);
@@ -236,26 +225,53 @@ function ProductionPlanCrud({
       });
   };
 
-  console.log(entityForEdit)
-  console.log(initForm)
+  console.log(entityForEdit);
+  console.log(initForm);
 
   return (
     <>
+      <ProductionPlanModal
+        show={confirmModal}
+        mode="confirm"
+        title="ĐÓNG"
+        body="Kế hoạch này sẽ không được lưu"
+        onClose={() => {
+          setConfirmModal(false);
+        }}
+        onConfirm={() => {
+          history.push(homePage || GetHomePage(window.location.pathname));
+        }}
+      />
+      <ProductionPlanModal
+        show={noticeModal}
+        mode="notice"
+        title="abc"
+        body="xyz"
+        onClose={() => {
+          setNoticeModal(false);
+        }}
+        // onConfirm={() => {
+        //   history.push(homePage || GetHomePage(window.location.pathname));
+        // }}
+      />
       <Formik
         enableReinitialize={true}
         initialValues={addInitField(entityForEdit, initProductPlanForm) || initForm}
         // initialValues={initForm}
         validationSchema={validation}
         onSubmit={(values, { setSubmitting, setFieldError }) => {
-
           let updateValue: any;
           setErrorMsg(undefined);
 
           if (entityForEdit) {
             const diffValue = diff(entityForEdit, values);
 
-            if (diffValue.packing && _.isObject(diffValue.packing.packing) && !diffValue.packing.packing.label) {
-              delete diffValue.packing
+            if (
+              diffValue.packing &&
+              _.isObject(diffValue.packing.packing) &&
+              !diffValue.packing.packing.label
+            ) {
+              delete diffValue.packing;
             }
 
             updateValue = { _id: values._id, ...diffValue };
@@ -263,19 +279,40 @@ function ProductionPlanCrud({
             updateValue = { ...values };
           }
 
-
-          if (step === "0") {
+          if (step === '0') {
             submitHandle(updateValue, { setSubmitting, setFieldError });
-          } else if (step === "1") {
-   
-            if (!updateValue.step || updateValue.step !== "1") {
-              updateValue.step = "1"
-            }
-            submitHandle(updateValue, { setSubmitting, setFieldError });
-          } else if (step === "2") {
-            onApprove(values)
+          } else if (step === '1' && currentTab !== '2') {
+            // if (!updateValue.step || updateValue.step !== '1') {
+            //   updateValue.step = '1';
+            // }
+            // submitHandle(updateValue, { setSubmitting, setFieldError });
+            onModify(updateValue)
+              .then((res: any) => {
+                sendRequest(entityForEdit)
+                  .then(ress => {
+                    notifySuccess();
+                    setErrorMsg(undefined);
+                    refreshData();
+                    history.push(homePage || GetHomePage(window.location.pathname));
+                  })
+                  .catch(error => {
+                    setSubmitting(false);
+                    setErrorMsg(error.data || error.response.data);
+                    notify(error.data || error.response.data);
+                  });
+              })
+              .catch(error => {
+                setSubmitting(false);
+                setErrorMsg(error.data || error.response.data);
+                notify(error.data || error.response.data);
+              });
+          } else if (step === '1' && currentTab === '2') {
+            approveFollow(updateValue)
               .then(res => {
-                submitHandle(updateValue, { setSubmitting, setFieldError });
+                notifySuccess();
+                setErrorMsg(undefined);
+                refreshData();
+                history.push(homePage || GetHomePage(window.location.pathname));
               })
               .catch(error => {
                 setSubmitting(false);
@@ -418,13 +455,17 @@ function ProductionPlanCrud({
                       );
                     case 'link-button':
                       return (
-                        <Link to={allFormButton['data'][keyss].linkto} key={keyss}>
-                          <button
-                            type={allFormButton['data'][keyss].type}
-                            className={allFormButton['data'][keyss].className}>
-                            {allFormButton['data'][keyss].icon} {allFormButton['data'][keyss].label}
-                          </button>
-                        </Link>
+                        // <Link to={allFormButton['data'][keyss].linkto} key={keyss}>
+                        <button
+                          type={allFormButton['data'][keyss].type}
+                          className={allFormButton['data'][keyss].className}
+                          key={keyss}
+                          onClick={() => {
+                            setConfirmModal(true);
+                          }}>
+                          {allFormButton['data'][keyss].icon} {allFormButton['data'][keyss].label}
+                        </button>
+                        // </Link>
                       );
                   }
                 })}

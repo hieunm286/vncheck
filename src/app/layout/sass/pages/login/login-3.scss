@@ -72,7 +72,7 @@
 
     					.wizard-desc {
     						color: $text-muted;
-                            font-size: $font-size-lg;
+                            font-size: $large-font-size;
                             font-weight: 500;
     					}
     				}
@@ -209,7 +209,7 @@
 // Tablet & Mobile Modes
 @include media-breakpoint-down(md) {
     .login.login-3 {
-        .login-aside {            
+        .login-aside {
             .aside-img {
                 min-height: 500px !important;
                 background-size: 500px;

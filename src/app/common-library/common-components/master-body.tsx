@@ -1,14 +1,12 @@
 import React, {Fragment} from 'react';
 import {Card, CardBody, CardHeader} from '../card';
 import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined';
+import AddIcon from '@material-ui/icons/Add';
 import {useIntl} from 'react-intl';
 import {iconStyle} from '../common-consts/const';
 import {MasterTable} from './master-table';
 import {PaginationProps} from '../common-types/common-type';
 import {ColumnDescription} from 'react-bootstrap-table-next';
-import {Link} from 'react-router-dom';
-import MasterTreeStructure from './master-tree-structure';
-import MasterGoogleMap from './master-google-map';
 
 export interface BasicUnitDataProps {
   showModal: any;
@@ -71,19 +69,17 @@ export function MasterBody<T>({
     : columns;
   
   return (
-    <Card>
-      {title && <CardHeader className={'master-card-header'} title={intl.formatMessage({id: title}).toUpperCase()}/>}
+    <Card className={'master-body-card'} >
+      {title && <CardHeader title={intl.formatMessage({id: title}).toUpperCase()}/>}
       <CardBody>
         <div className="row no-gutters mb-10">
-          <div className="mr-5 fixed-btn-width">
-            <button type="button" className="btn btn-primary w-100" onClick={onCreate}>
-              + {intl.formatMessage({id: 'COMMON_COMPONENT.MASTER_BODY.HEADER.ADD_BTN'})}
+            <button type="button" className="btn btn-primary fixed-btn-width mr-8" onClick={onCreate}>
+              <AddIcon style={iconStyle}/>
+              {intl.formatMessage({id: 'COMMON_COMPONENT.MASTER_BODY.HEADER.ADD_BTN'})}
             </button>
-          </div>
-          <div className="mr-5 fixed-btn-width">
             <button
               type="button"
-              className="btn btn-outline-primary w-100"
+              className="btn btn-outline-primary fixed-btn-width"
               onClick={() => {
                 onSelectMany(selectedEntities);
                 onDeleteMany();
@@ -91,7 +87,6 @@ export function MasterBody<T>({
               <DeleteOutlineOutlinedIcon style={iconStyle}/>
               {intl.formatMessage({id: 'COMMON_COMPONENT.MASTER_BODY.HEADER.DELETE_BTN'})}
             </button>
-          </div>
         </div>
         
         <MasterTable

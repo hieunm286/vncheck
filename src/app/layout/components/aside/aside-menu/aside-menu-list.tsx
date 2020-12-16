@@ -3,7 +3,7 @@ import React, { Fragment, ReactElement } from 'react';
 import { useLocation } from 'react-router';
 import { NavLink } from 'react-router-dom';
 import { useIntl } from 'react-intl';
-import '../aside.css';
+import '../aside.scss';
 import { CheckIsActive } from '../../../../common-library/helpers/router-helpers';
 import { MenuItemModel } from './menu-item-model';
 import { MenuItems } from './aside-menu-data';

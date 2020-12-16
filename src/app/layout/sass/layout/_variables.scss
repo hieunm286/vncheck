@@ -1,6 +1,7 @@
 //
 // Layout Config
 //
+@import "../../../../const.scss";
 
 // Root Font Sizes
 $root-font-size:                                    13px; // Root font size for desktop mode
@@ -110,7 +111,7 @@ $header-menu-config: (
 
 						// Text
 						text: (
-							font-size: 1rem,
+							font-size: $defaut-font-size,
 							font-weight: 400,
 							font-transform:	initial
 						),
@@ -192,7 +193,7 @@ $header-menu-config: (
 
 								// Text
 								text: (
-									font-size: 1rem,
+									font-size: $defaut-font-size,
 									font-weight: 400,
 									font-transform:	initial
 								),
@@ -489,7 +490,7 @@ $header-menu-config: (
 									// Icon
 									icon: (
 										font-color:	(
-											default: #494b74,
+											default: $primary,
 											here: $primary,
 											active: $primary,
 											hover: $primary
@@ -500,7 +501,7 @@ $header-menu-config: (
 									bullet:	(
 										dot: (
 											bg-color: (
-												default: #494b74,
+												default: $primary,
 												here: $primary,
 												active: $primary,
 												hover: $primary
@@ -508,7 +509,7 @@ $header-menu-config: (
 										),
 										line: (
 											bg-color: (
-												default: #494b74,
+												default: $primary,
 												here: $primary,
 												active: $primary,
 												hover: $primary
@@ -529,7 +530,7 @@ $header-menu-config: (
 									// Arrow
 									arrow: (
 										font-color:	(
-											default: #494b74,
+											default: $primary,
 											here: $primary,
 											active: $primary,
 											hover: $primary
@@ -541,7 +542,7 @@ $header-menu-config: (
 								column: (
 									// Separator
 									separator: (
-										border: 1px solid rgba(#494b74, 0.25)
+										border: 1px solid rgba($primary, 0.25)
 									),
 
 									// Heading
@@ -550,7 +551,7 @@ $header-menu-config: (
 										caption: (
 											// Icon
 											icon: (
-												font-color:	#494b74
+												font-color:	$primary
 											),
 
 											// Text
@@ -691,7 +692,7 @@ $header-menu-config: (
 
 									// Text
 									text:	(
-										font-size: 1rem,
+										font-size: $defaut-font-size,
 										font-weight: 400,
 										font-transform:	initial
 									),
@@ -804,7 +805,7 @@ $header-menu-config: (
 								// Icon
 								icon: (
 									font-color:	(
-										default: #494b74,
+										default: $primary,
 										open: $primary,
 										here: $primary,
 										active: $primary,
@@ -893,7 +894,7 @@ $header-menu-config: (
 										// Icon
 										icon:	(
 											font-color:	(
-												default: #494b74,
+												default: $primary,
 												open: $primary,
 												here: $primary,
 												active: $primary,
@@ -1288,7 +1289,7 @@ $aside-menu-config: (
 
 						// Text
 						text:	(
-							font-size: 1rem,
+							font-size: $defaut-font-size,
 							font-weight: 400,
 							font-transform:	initial
 						),
@@ -1355,7 +1356,7 @@ $aside-menu-config: (
 
 								// Text
 								text:	(
-									font-size: 1rem,
+									font-size: $defaut-font-size,
 									font-weight: 400,
 									font-transform:	initial
 								),
@@ -1576,7 +1577,7 @@ $aside-menu-config: (
 
 								// Text
 								text:	(
-									font-size: 1rem,
+									font-size: $defaut-font-size,
 									font-weight: 400,
 									font-transform:	initial
 								),
@@ -1663,7 +1664,7 @@ $aside-menu-config: (
 							// Icon
 							icon: (
 								font-color:	(
-									default: #494b74,
+									default: $primary,
 									open: $primary,
 									here: $primary,
 									active: $primary,
@@ -1756,7 +1757,7 @@ $aside-menu-config: (
 									// Icon
 									icon:	(
 										font-color:	(
-											default: #494b74,
+											default: $primary,
 											open: $primary,
 											here: $primary,
 											active: $primary,

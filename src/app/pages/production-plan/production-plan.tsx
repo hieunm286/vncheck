@@ -39,6 +39,7 @@ import { fetchAllUser } from '../account/_redux/user-action';
 import * as Yup from 'yup';
 import Visibility from '@material-ui/icons/Visibility';
 import clsx from 'clsx';
+import _ from 'lodash';
 
 const headerTitle = 'PRODUCT_TYPE.MASTER.HEADER.TITLE';
 const bodyTitle = 'PRODUCT_TYPE.MASTER.BODY.TITLE';
@@ -165,10 +166,25 @@ function ProductionPlan() {
   }, [dispatch]);
 
   useEffect(() => {
-    getAll({ ...(filterProps as any), step: currentTab });
+    if (currentTab === '0') {
+      getAll({ ...(filterProps as any), step: "0" });
+    } else if (currentTab === "1") {
+      getAll({ ...(filterProps as any), step: "0", confirmationStatus: "1" });
+    } else if (currentTab === "2") {
+      getAll({ ...(filterProps as any), step: "1", confirmationStatus: "2" });
+    }
+
   }, [paginationProps, trigger, filterProps, currentTab]);
 
   const columns = {
+    _id: {
+      dataField: '_id',
+      text: 'STT',
+      formatter: (cell: any, row: any, rowIndex: number) => (
+        <p>{rowIndex + 1 + ((paginationProps.page ?? 0) - 1) * (paginationProps.limit ?? 0)}</p>
+      ),
+      style: { paddingTop: 20 },
+    },
     seeding: {
       dataField: 'seeding.code',
       text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.SEEDING_CODE' })}`,
@@ -224,7 +240,7 @@ function ProductionPlan() {
             ProductionPlanService.GetById(row._id).then(res => {
               setEditEntity(res.data);
               history.push({
-                pathname: '/production-plan/new/' + row._id,
+                pathname: '/production-plan/' + row._id + '/new',
                 state: res.data,
               });
             });
@@ -239,6 +255,14 @@ function ProductionPlan() {
   };
 
   const columns2 = {
+    _id: {
+      dataField: '_id',
+      text: 'STT',
+      formatter: (cell: any, row: any, rowIndex: number) => (
+        <p>{rowIndex + 1 + ((paginationProps.page ?? 0) - 1) * (paginationProps.limit ?? 0)}</p>
+      ),
+      style: { paddingTop: 20 },
+    },
     code: {
       dataField: 'code',
       text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.CODE' })}`,
@@ -297,9 +321,9 @@ function ProductionPlan() {
       text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.APPROVE_STATUS' })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
         <span>
-          {row.confirmationStatus === '1' && 'Đã duyệt'}
-          {row.confirmationStatus === '0' && 'Chờ duyệt'}
-          {row.confirmationStatus === '2' && 'Từ chối'}
+          {row.confirmationStatus === '1' && 'Chờ duyệt'}
+          {row.confirmationStatus === '2' && 'Đã duyệt'}
+          {row.confirmationStatus === '3' && 'Từ chối'}
         </span>
       ),
       ...SortColumn,
@@ -386,7 +410,7 @@ function ProductionPlan() {
       dataField: 'process',
       text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.STATUS' })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
-        <span>{row.process === '1' ? 'Hoàn thành' : 'Chưa hoàn thành'}</span>
+        <span>{row.process !== '1' ? 'Hoàn thành' : 'Chưa hoàn thành'}</span>
       ),
       ...SortColumn,
       classes: 'text-center',
@@ -408,7 +432,7 @@ function ProductionPlan() {
           ProductionPlanService.GetById(entity._id).then(res => {
             setEditEntity(res.data);
             history.push({
-              pathname: '/production-plan/new/' + entity._id,
+              pathname: '/production-plan/' + entity._id + '/new',
               state: res.data,
             });
           });
@@ -460,7 +484,7 @@ function ProductionPlan() {
     data: {
       sendRequest: {
         role: 'special',
-        type: 'submit',
+        type: 'button',
         linkto: undefined,
         className: 'btn btn-primary mr-5 pl-8 pr-8',
         label: 'Gửi duyệt',
@@ -473,7 +497,7 @@ function ProductionPlan() {
       },
       save: {
         role: 'submit',
-        type: 'submit',
+        type: 'button',
         linkto: undefined,
         className: 'btn btn-outline-primary mr-5 pl-8 pr-8',
         label: 'Lưu',
@@ -495,20 +519,90 @@ function ProductionPlan() {
     },
   };
 
+  const allFormButton2: any = {
+    type: 'outside',
+    data: {
+      sendRequest: {
+        role: 'special',
+        type: 'button',
+        linkto: undefined,
+        className: 'btn btn-primary mr-5 pl-8 pr-8',
+        label: 'Gửi duyệt',
+        icon: <SaveOutlinedIcon />,
+        onClick: () => {
+          // setNoticeModal(true);
+          setStep('1');
+          setSubmit(true);
+        },
+      },
+      cancel: {
+        role: 'link-button',
+        type: 'button',
+        linkto: '/production-plan',
+        className: 'btn btn-outline-primary mr-2 pl-8 pr-8',
+        label: 'Hủy',
+        icon: <CancelOutlinedIcon />,
+      },
+    },
+  };
+
+  
+  const sendRequest = (entity: any) => {
+    const data = { confirmationStatus: '1' };
+    return ProductionPlanService.Approve(entity, data);
+  }; 
+
+  const approve = (entity: any) => {
+    const data = { confirmationStatus: '2' };
+    return ProductionPlanService.Approve(entity, data);
+  };
+
+  const updateProcess = (entity: any) => {
+    const newProcess = _.toString((_.toInteger(entity.process) + 1))
+    const data = { process: newProcess }
+    return ProductionPlanService.UpdateProcess(entity, data)
+  }
+
+  const refuse = (entity: any) => {
+    const data = { confirmationStatus: '3' };
+    return ProductionPlanService.Approve(entity, data);
+  }
+
+  const approveFollow = (entity: any) => {
+    // const data = { ...entity, confirmationStatus: '1' }
+    return ProductionPlanService.Approve(entity, entity);
+  }
+
+
   const adminAllFormButton: any = {
     type: 'outside',
     data: {
       approve: {
         role: 'special',
-        type: 'submit',
+        type: 'button',
         linkto: undefined,
         className: 'btn btn-primary mr-5 pl-8 pr-8',
         label: 'Phê duyệt',
         icon: <SaveOutlinedIcon />,
-        onClick: () => {
+        onClick: (entity: any) => {
           // setNoticeModal(true);
           // setSubmit(true)
           setStep('2');
+          approve(entity).then(res => {
+            updateProcess(entity)
+              .then(ress => {
+      
+                refreshData();
+                history.push('/production-plan');
+
+              })
+              .catch(error => {
+              
+              });
+          })
+          .catch(error => {
+           
+          });
         },
       },
       refuse: {
@@ -518,9 +612,13 @@ function ProductionPlan() {
         className: 'btn btn-outline-primary mr-5 pl-8 pr-8',
         label: 'Từ chối',
         icon: <SaveOutlinedIcon />,
-        onClick: () => {
-          // setNoticeModal(true);
-          // setSubmit(true)
+        onClick: (entity: any) => {
+          refuse(entity).then(res => {
+            refreshData();
+            history.push('/production-plan');
+          }).catch(error => {
+            console.log(error)
+          });
         },
       },
       save: {
@@ -533,7 +631,7 @@ function ProductionPlan() {
           ProductionPlanService.GetById(entity._id).then(res => {
             setEditEntity(res.data);
             history.push({
-              pathname: '/production-plan/new/' + entity._id,
+              pathname: '/production-plan/' + entity._id + '/new',
               state: res.data,
             });
           });
@@ -615,19 +713,10 @@ function ProductionPlan() {
     },
   };
 
-  const approve = (entity: any) => {
-    const data = { confirmationStatus: '1' };
-    return ProductionPlanService.Approve(entity, data);
-  };
-
-  const requestApprove = (entity: any) => {
-    const data = {};
-  };
-
   return (
     <React.Fragment>
       <Switch>
-        <Route path="/production-plan/new/:id">
+        <Route path="/production-plan/:id/new">
           {({ history, match }) => (
             <>
               {/* <ProductionPlanModal
@@ -650,7 +739,7 @@ function ProductionPlan() {
                 get={code => ProductionPlanService.GetById(code)}
                 formPart={formPart}
                 allFormField={allFormField}
-                allFormButton={allFormButton}
+                allFormButton={currentTab !== '2' ? allFormButton : allFormButton2}
                 validation={ProductPlantSchema}
                 autoFill={{
                   field: '',
@@ -659,11 +748,15 @@ function ProductionPlan() {
                     { field: 'packing', ref: { prop: 'packing', key: 'packing.weight' } },
                   ],
                 }}
+                currentTab={currentTab}
                 refreshData={refreshData}
                 homePage={homeURL}
                 tagData={tagData}
                 step={step}
                 onApprove={approve}
+                updateProcess={updateProcess}
+                sendRequest={sendRequest}
+                approveFollow={approveFollow}
               />
             </>
           )}
@@ -686,7 +779,7 @@ function ProductionPlan() {
         <Route exact path="/production-plan/seeding/:code">
           {({ history, match }) => (
             <MasterEntityDetailPage
-              entity={detailEntity}
+              entity={history.location.state}
               renderInfo={SeedingDetailDialog}
               code={match && match.params.code}
               get={code => ProductionPlanService.GetById(code)}
@@ -739,7 +832,7 @@ function ProductionPlan() {
             }}
             onReset={() => {
               setPaginationProps(DefaultPagination);
-              setFilterProps(undefined);
+              setFilterProps({});
             }}
             searchModel={currentTab == '0' ? productPlanSearchModel1 : productPlanSearchModel2}
           />
@@ -748,6 +841,7 @@ function ProductionPlan() {
             currentTab={currentTab}
             setCurrentTab={setCurrentTab}
             setEntities={setEntities}
+            setPaginationProps={setPaginationProps}
             // spinning={spinning}
           />
         </Route>

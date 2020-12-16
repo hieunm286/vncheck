@@ -127,7 +127,8 @@ export function MasterEntityDetailPage({
                       type={allFormButton['data'][keyss].type}
                       onClick={() => {
                         // handleSubmit();
-                        allFormButton['data'][keyss].onClick();
+                        allFormButton['data'][keyss].onClick(entityDetail);
+
                       }}
                       className={allFormButton['data'][keyss].className}
                       key={keyss}>

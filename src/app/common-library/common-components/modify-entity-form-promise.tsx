@@ -9,7 +9,7 @@ import { MainInput } from '../forms/main-input';
 import { DefaultPagination, iconStyle } from '../common-consts/const';
 import { ModifyModel } from '../common-types/common-type';
 import CustomImageUpload from '../forms/custom-image-upload';
-import { getNewImage, getOnlyFile } from '../helpers/common-function';
+import { getNewImage, getOnlyFile, notify, notifySuccess } from '../helpers/common-function';
 import { Card, CardBody, CardHeader } from '../card';
 import { uploadImage } from '../../pages/purchase-order/purchase-order.service';
 import ModifyEntityPage from './modify-entity-page';
@@ -62,32 +62,8 @@ function ModifyEntityFormPromise<T>({
     setImageRootArr(imageArray);
   };
 
-  const notify = (error: string) => {
-    toast.error(`😠 ${error}`, {
-      position: 'top-right',
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
-  };
-
-  const notifySuccess = () => {
-    toast.success(`😠 Thành công`, {
-      position: 'top-right',
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
-  };
-
   const submitHandle = (values: any, { setSubmitting, setFieldError }: any) => {
-    onModify({...entity,...values})
+    onModify(values)
       .then((res: any) => {
         onHide();
         notifySuccess();
@@ -110,14 +86,18 @@ function ModifyEntityFormPromise<T>({
         let updateValue;
         setErrorMsg(undefined);
 
+        console.log(entity)
+        console.log(values)
+
         if (entity._id) {
           const diffValue = diff(entity, values);
+          console.log(diffValue)
           updateValue = { _id: values._id, ...diffValue };
         } else {
           updateValue = { ...values };
         }
 
-        submitHandle(updateValue, { setSubmitting, setFieldError });
+        submitHandle(values, { setSubmitting, setFieldError });
       }}>
       {({ handleSubmit }) => (
         <>

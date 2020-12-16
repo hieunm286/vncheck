@@ -1,7 +1,7 @@
-import { isArray } from 'lodash';
-import { useCallback, useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { DefaultPagination } from '../common-consts/const';
+import {isArray, isEmpty} from 'lodash';
+import {useCallback, useState} from 'react';
+import {useDispatch} from 'react-redux';
+import {DefaultPagination} from '../common-consts/const';
 import {
   CountProps,
   CreateProps,
@@ -9,12 +9,11 @@ import {
   DeleteProps,
   GetAllProps,
   GetProps,
-  ModifyModel,
   UpdateProps,
 } from '../common-types/common-type';
-import EXIF from 'exif-js';
-import { isEmpty } from 'lodash';
-import { diff } from 'deep-object-diff';
+import {diff} from 'deep-object-diff';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const CapitalizeFirstLetter = (string: string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
@@ -26,7 +25,7 @@ export const deCapitalizeFirstLetter = (string: string) => {
 
 export const generateInitForm = (modifyModel: any, initField?: string, initData?: string) => {
   const initValue = {} as any;
-
+  
   Object.keys(modifyModel).map(key => {
     if (modifyModel[key].type === 'string') {
       initValue[key] = '';
@@ -38,11 +37,9 @@ export const generateInitForm = (modifyModel: any, initField?: string, initData?
       initValue[key] = null;
     } else if (modifyModel[key].type === 'image') {
       initValue[key] = []
-    } 
-    else if (modifyModel[key].type === 'boolean') {
+    } else if (modifyModel[key].type === 'boolean') {
       initValue[key] = true
-    } 
-    else if (modifyModel[key].type === 'radioGroup') {
+    } else if (modifyModel[key].type === 'radioGroup') {
       initValue[key] = [];
     } else if (modifyModel[key].type === 'display') {
       initValue[key] = '';
@@ -52,10 +49,10 @@ export const generateInitForm = (modifyModel: any, initField?: string, initData?
       initValue[key] = '';
     } else if (modifyModel[key].type === 'districtSelect') {
       initValue[key] = '';
-    }  else if (modifyModel[key].type === 'option') {
+    } else if (modifyModel[key].type === 'option') {
       key === 'gender' ? initValue[key] = '1' : initValue[key] = '0' // male gender
-    } 
-    // else {
+    }
+      // else {
     //   initValue[key] = '';
     else if (modifyModel[key].type === 'object') {
       // initValue[key] = {}
@@ -71,7 +68,7 @@ export const generateInitForm = (modifyModel: any, initField?: string, initData?
     }
     
   });
-
+  
   if (initField && initData) {
     initValue[initField] = initData;
   }
@@ -81,39 +78,39 @@ export const generateInitForm = (modifyModel: any, initField?: string, initData?
 
 export const getOnlyFile = (arr: any[]) => {
   const fileArray: any[] = [];
-
+  
   arr.forEach(values => {
     fileArray.push(values.file);
   });
-
+  
   return fileArray;
 };
 
 export const getOnlyBase64 = (arr: any[]) => {
   const base64Array: any[] = [];
-
+  
   arr.forEach(values => {
     base64Array.push(values.data_url);
   });
-
+  
   return base64Array;
 };
 
 export const getNewImage = (prevArr: any[], currentArr: any[]) => {
   const newArr: any[] = [];
-
+  
   if (prevArr.length === 0) {
     return currentArr;
   }
-
+  
   currentArr.forEach((curEl: any) => {
     const index = prevArr.findIndex(prevEl => isEmpty(diff(curEl, prevEl)) === true);
-
+    
     if (index === -1) {
       newArr.push(curEl);
     }
   });
-
+  
   return newArr;
 };
 
@@ -130,17 +127,17 @@ export const ConvertToTreeNode = (data: any) => {
         key: childValue._id,
       })),
     };
-
+    
     treeData.push(treeNode);
   });
-
+  
   return treeData;
 };
 
 export const GenerateAllFormField = (...params: any) => {
-
+  
   let fieldForm: any = {};
-
+  
   params.forEach((value: any) => {
     if (isArray(value)) {
       // fieldForm = {...fieldForm, ...Object.assign({}, ...value)}
@@ -149,18 +146,18 @@ export const GenerateAllFormField = (...params: any) => {
       })
     }
   })
-
+  
   return fieldForm;
 }
 
 export const GetHomePage = (url: string) => {
-
+  
   const index = url.lastIndexOf('/')
-
+  
   if (index === -1) return window.location.pathname;
-
+  
   const homeURL: string = url.slice(0, index)
-
+  
   return homeURL;
 }
 
@@ -168,69 +165,69 @@ export const getField = (field: any, fieldName: string) => {
   if (fieldName.indexOf('.') === -1) {
     return field[fieldName]
   }
-
+  
   const arrName = fieldName.split('.')
-
+  
   if (!field[arrName[0]]) return;
-
+  
   let fields: any = field[arrName[0]]
-
+  
   arrName.forEach((el: string, key: number) => {
     if (key > 0) {
       if (fields[el]) {
         fields = fields[el]
-      } 
+      }
     }
     
   })
-
+  
   return fields
 }
 
 export const getFieldV2 = (field: any, fieldName: string[]) => {
-
+  
   if (!field[fieldName[0]]) return;
-
+  
   let fields: any = field[fieldName[0]]
-
+  
   fieldName.forEach((el: string, key: number) => {
     if (key > 0) {
       if (fields[el]) {
         fields = fields[el]
-      } 
+      }
     }
     
   })
-
+  
   return fields
 }
+
 interface FieldProp {
   field: string;
   ref?: { prop: string, key: string }
 }
 
 export const ConvertSelectSearch = (entity: any, keyField?: FieldProp[]) => {
-
+  
   if (!entity) return;
-
+  
   const convertEntity = {...entity};
-
+  
   if (keyField && keyField.length > 0) {
-
-    keyField.forEach(({ field, ref }: FieldProp) => {
+    
+    keyField.forEach(({field, ref}: FieldProp) => {
       if (ref && (!ref.prop || ref.prop === '')) {
-        convertEntity[field] = { label: getField(convertEntity[field], ref.key), value: entity._id }
-      } else
-      if (ref && convertEntity[ref.prop]) {
-        convertEntity[field][ref.prop] = { label: getField(convertEntity[ref.prop], ref.key), value: entity._id }
+        convertEntity[field] = {label: getField(convertEntity[field], ref.key), value: convertEntity[field]._id}
+      } else if (ref && convertEntity[ref.prop]) {
+        convertEntity[field][ref.prop] = {label: getField(convertEntity[ref.prop], ref.key), value: entity._id}
       } else {
-      convertEntity[field] = { label: convertEntity[field], value: entity._id }
+        convertEntity[field] = {label: convertEntity[field], value: entity._id}
       }
     })
-
+    
     return convertEntity;
   }
-
+  
   return convertEntity;
 }
 
@@ -253,15 +250,39 @@ export const ConvertStatusToString = (data: any) => {
   return typeof data.status === 'boolean' ? {...data, status: data.status ? "1" : "0"} : data;
 }
 
+export const notify = (error: string) => {
+  toast.error(`😠 ${error}`, {
+    position: 'top-right',
+    autoClose: 3000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+  });
+};
+
+export const notifySuccess = () => {
+  toast.success(`😠 Thành công`, {
+    position: 'top-right',
+    autoClose: 3000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+  });
+};
+
 export function InitMasterProps<T>({
-  getAllServer,
-  countServer,
-  getServer,
-  createServer,
-  updateServer,
-  deleteServer,
-  deleteManyServer,
-}: {
+                                     getAllServer,
+                                     countServer,
+                                     getServer,
+                                     createServer,
+                                     updateServer,
+                                     deleteServer,
+                                     deleteManyServer,
+                                   }: {
   getAllServer: GetAllProps<T>;
   getServer: GetProps<T>;
   countServer: CountProps<T>;
@@ -283,18 +304,18 @@ export function InitMasterProps<T>({
   const [showDeleteMany, setShowDeleteMany] = useState(false);
   const [trigger, setTrigger] = useState(false);
   const [paginationProps, setPaginationProps] = useState(DefaultPagination);
-  const [filterProps, setFilterProps] = useState();
+  const [filterProps, setFilterProps] = useState({});
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);
   const [spinning, setSpinning] = useState(false)
   const [error, setError] = useState('')
-
+  
   const dispatch = useDispatch();
-
+  
   const getAll = useCallback(
     (filterProps?) => {
       setLoading(true);
-      getAllServer({ paginationProps, queryProps: filterProps })
+      getAllServer({paginationProps, queryProps: filterProps})
         .then(getAllResponse => {
           // countServer(filterProps).then(countResponse => {
           //   setEntities(getAllResponse.data);
@@ -303,9 +324,9 @@ export function InitMasterProps<T>({
           // });
           const data: any = getAllResponse.data
           setEntities(data.data ? data.data : data);
-            setLoading(false);
-            setSpinning(false)
-            setTotal(data.paging ? data.paging.total : 5);
+          setLoading(false);
+          setSpinning(false);
+          setTotal(data.paging ? data.paging.total : 5);
         })
         .catch(error => {
           console.log(error);
@@ -314,9 +335,9 @@ export function InitMasterProps<T>({
           setLoading(false);
         });
     },
-    [paginationProps],
+    [getAllServer, paginationProps],
   );
-
+  
   const refreshData = () => {
     // setPaginationProps({ ...paginationProps, page: 1 });
     setTrigger(!trigger);
@@ -328,7 +349,7 @@ export function InitMasterProps<T>({
     setSelectedEntities([]);
     setLoading(false);
     setSpinning(false);
-    setFilterProps(undefined);
+    setFilterProps({});
     setError('')
   };
   
@@ -339,28 +360,28 @@ export function InitMasterProps<T>({
       setLoading(false);
     });
   };
-
-  const deleteMany = () => {
+  
+  const deleteMany = (entities?: T[]) => {
     setLoading(true);
-    deleteManyServer(selectedEntities)
+    deleteManyServer(entities ?? selectedEntities)
       .then(refreshData)
       .catch(error => {
         setError(error.message || error.response.data || JSON.stringify(error))
         setLoading(false);
       });
   };
-
+  
   const get = (entity: T, ModelSlice?: any) => {
     getServer(entity)
       .then(res => {
         setDetailEntity(res.data);
         setEditEntity(res.data);
-
+        
         if (ModelSlice) {
-          const { actions } = ModelSlice;
+          const {actions} = ModelSlice;
           const editEntity = res.data;
-
-          dispatch(actions.entityFetched({ editEntity }));
+          
+          dispatch(actions.entityFetched({editEntity}));
         }
       })
       .catch(error => {
@@ -377,7 +398,7 @@ export function InitMasterProps<T>({
         setLoading(false);
       });
   };
-
+  
   const add = (entity: T) => {
     setLoading(true);
     createServer(entity)
@@ -387,25 +408,25 @@ export function InitMasterProps<T>({
         setLoading(false);
       });
   };
-
+  
   const updatePromise = (entity: T) => {
     return updateServer(entity)
-      
+    
   };
-
+  
   const addPromise = (entity: T) => {
     return createServer(entity)
-      
+    
   };
-
+  
   const deletePromise = (entity: T) => {
     return deleteServer(entity)
   }
-
+  
   const deleteManyPromise = () => {
     return deleteManyServer(selectedEntities)
   }
-
+  
   return {
     entities,
     setEntities,
