@@ -265,6 +265,8 @@ function ProductionPlanCrud({
           if (entityForEdit) {
             const diffValue = diff(entityForEdit, values);
 
+            const clValue = { ...values }
+
             if (
               diffValue.packing &&
               _.isObject(diffValue.packing.packing) &&
@@ -272,6 +274,63 @@ function ProductionPlanCrud({
             ) {
               delete diffValue.packing;
             }
+
+            const validField = [
+              'harvesting',
+              'preliminaryTreatment',
+              'cleaning',
+              'packing',
+              'preservation',
+            ];
+
+            const validNested = [
+              'estimatedTime',
+              'estimatedQuantity',
+              'technical',
+              'leader',
+              'estimatedExpireTimeStart',
+              'estimatedExpireTimeEnd',
+              'packing',
+              'estimatedStartTime',
+              'estimatedEndTime',
+            ];
+
+            validField.forEach(keys => {
+              const cvLeader: any[] = [];
+              const cvTechnical: any[] = [];
+              
+              if (clValue[keys] && clValue[keys].leader) {
+                clValue[keys].leader.forEach((value: any) => {
+                  if (value.user) {
+                    cvLeader.push(value.user._id);
+                  }
+                });
+
+                clValue[keys].leader = cvLeader;
+              }
+
+              if (clValue[keys] && clValue[keys].technical) {
+                clValue[keys].technical.forEach((value: any) => {
+                  if (value.user) {
+                    cvTechnical.push(value.user._id);
+                  }
+                });
+
+                clValue[keys].technical = cvTechnical;
+              }
+            })
+
+            validField.forEach(keys => {
+              
+
+              Object.keys(clValue[keys]).forEach(cKey => {
+                if (diffValue[keys] && !diffValue[keys][cKey] && validNested.includes(cKey)) {
+                  diffValue[keys][cKey] = clValue[keys][cKey];
+                }
+              });
+
+              
+            });
 
             updateValue = { _id: values._id, ...diffValue };
           } else {
