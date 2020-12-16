@@ -267,6 +267,16 @@
   "AGENCY.VALIDATION.OWNER_NAME.MAX_LENGTH_EXCEEDED": "Tên chủ đơn vị bán hàng không được vượt quá 255 ký tự",
   "AGENCY.VALIDATION.OWNWER_PHONE_NUMBER.WRONG_EXACT_LENGTH": "Số điện thoại phải đúng chính xác 10 ký tự",
   "AGENCY.VALIDATION.EMAIL.MAX_LENGTH_EXCEEDED": "Địa chỉ thư điện tử không được vượt quá 255 ký tự",
+  "AGENCY.VALIDATION.AVATAR.REQUIRED": "Vui lòng chọn ảnh đại diện",
+  "AGENCY.VALIDATION.AGENCY_IMAGE.REQUIRED": "Vui lòng chọn ảnh đơn vị bán hàng",
+
+  "UPDATE.ERROR.AGENCY.UPDATE_AGENCY_ERROR": "Lỗi sửa đơn vị bán hàng",
+
+  "SHIPPING_ADDRESS.MODULE_NAME": "địa chỉ giao hàng",
+  "DELETE.ERROR.SHIPPING_ADDRESS.SHIPPING_ADDRESS_IN_USE": "không thể xóa {moduleName} mặc định",
+
+
+
   "LAND_LOT.MASTER.BODY.TITLE": "DANH SÁCH LÔ THỬA",
   "LAND_LOT.MASTER.HEADER.TITLE": "Bộ lọc",
   "LAND_LOT.MASTER.HEADER.CODE": "Mã lô thửa",

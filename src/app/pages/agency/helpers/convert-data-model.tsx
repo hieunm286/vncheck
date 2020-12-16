@@ -1,7 +1,7 @@
 import { getShippingAddress } from '../../../common-library/forms/radio-group-field';
 
 export const convertToForm = (entity: any) => {
-  return {...entity, 
+  const _entity = {...entity, 
     storeLevel: entity.storeLevel._id,
     state: entity.address.state,
     city: entity.address.city,
@@ -16,9 +16,13 @@ export const convertToForm = (entity: any) => {
     birthDay: entity.owner.birthDay, // entity.owner.birthDay && Date.parse(entity.owner.birthDay),
     roleName: {label: entity.owner.role.name, value: entity.owner.role._id},
     status: entity.status,
-    defaultShippingAddress: getShippingAddress(entity.shippingAddress.find((addr: any) => {return addr.isDefault === true}))
+    defaultShippingAddress: getShippingAddress(entity.shippingAddress.find((addr: any) => {return addr.isDefault === true})),
     // avatar: , 
+    avatar: entity.owner.image || {},
+    image: entity.images || [],
   };
+  delete _entity.images
+  return _entity;
 }
 
 export const convertToServer = (entity: any) => {
@@ -56,10 +60,12 @@ export const convertToServer = (entity: any) => {
       gender: entity.gender || '',
       // birthDay: entity.birthDay && entity.birthDay.toString()  || '',
       birthDay: entity.birthDay,
-      role: entity.roleName,
+      role: entity.roleName.value,
       // roleId: (entity.roleName && entity.roleName.value) ? entity.roleName.value : '',
+      image: entity.avatar[0]
     },
     status: entity.status,
+    images: entity.image,
   };
 
   delete _entity.state;

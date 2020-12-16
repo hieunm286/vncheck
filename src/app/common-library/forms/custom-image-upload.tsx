@@ -12,7 +12,7 @@ interface ImageUploadPros {
   labelWidth: number;
   isHorizontal: boolean;
   required?: boolean;
-  name?: string;
+  name: string;
 }
 
 const getClassName = (labelWidth: number | null | undefined, labelStart: boolean) => {
@@ -51,7 +51,7 @@ function CustomImageUpload({
   required,
   name,
 }: ImageUploadPros) {
-  const { setFieldValue } = useFormikContext<any>();
+  const { errors, touched, setFieldValue } = useFormikContext<any>();
 
   const [imageData, setImageData] = useState<{ data_url: any; exif: any }[]>([]);
   const [imagess, setImagess] = useState(images || []);
@@ -116,6 +116,7 @@ function CustomImageUpload({
       </div>
       <div className={getClassName(labelWidth, false)}>
         <ImageUploading
+          className={(errors[name] && touched[name]) ? 'is-invalid' : ''}
           multiple
           value={imagess}
           onChange={(imageList: any, addUpdateIndex: any) =>
@@ -138,7 +139,8 @@ function CustomImageUpload({
             dragProps,
           }) => (
             // write your building UI
-            <div className="d-flex flex-wrap upload__image-wrapper">
+            <>
+            <div className={(errors[name] && touched[name]) ? "is-invalid d-flex flex-wrap upload__image-wrapper" : "d-flex flex-wrap upload__image-wrapper"}>
               {imageList.map((image, index) => (
                 <div key={index} className="image-item imagePreview">
                   <img src={image['data_url']} alt="" width="100" height="100" />
@@ -180,6 +182,12 @@ function CustomImageUpload({
                 </svg>
               </button>
             </div>
+            {
+              (errors[name] && touched[name]) ? (
+                <div className="invalid-feedback">{errors[name]}</div>
+              ) : <></>
+            }
+            </>
           )}
         </ImageUploading>
       </div>

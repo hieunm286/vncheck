@@ -1,5 +1,5 @@
 export interface AgencyModel {
-  _id: string;
+  _id?: string;
   code: string;
   name: string;
   // address: string;
@@ -23,7 +23,7 @@ export interface AgencyModel {
     phone: string;
     role: {
       name: string;
-      _id: string;
+      _id?: string;
       level: number;
       scope: string;
     }
@@ -32,6 +32,7 @@ export interface AgencyModel {
   // shippingAddress: string;
   shippingAddress: Array<
     {
+      _id: any;
       address: string;
       state: string;
       city: string;
@@ -41,21 +42,21 @@ export interface AgencyModel {
   >;
   status: boolean;
   taxId: string;
-  storeLevel: object | string;
+  storeLevel: object | string | null;
 
   username?: string;
   fullName?: string;
   ownerName?: string;
   ownerPhoneNumber?: string;
   email?: string;
-  birthDay?: Date,
+  birthDay?: Date | null,
   gender?: string;
-  roleName?: object;
+  roleName?: object | null;
   phoneNumber?: string;
   detailAddress?: string;
-  district?: string;
-  city?: string;
-  state?: string;
+  district?: string | null;
+  city?: string | null;
+  state?: string | null;
   
 
 }
