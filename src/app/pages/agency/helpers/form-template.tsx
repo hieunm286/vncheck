@@ -86,7 +86,7 @@ const FormTemplate = ({
   const [ cityValues, setCityValues ] = useState<any>([]);
   const [ districtValues, setDistrictValues ] = useState<any>([]);
 
-  const [ treeSelectValue, setTreeSelectValue ] = useState<any>('');
+  const [ treeSelectValue, setTreeSelectValue ] = useState<any>(null);
   const [ treeData, setTreeData ] = useState<any>([]);
 
   const intl = useIntl();
@@ -312,6 +312,7 @@ const FormTemplate = ({
                   </div>
                   <div className={'col-md-8 col-xl-7 col-12'}>
                     <Select
+                      placeholder={intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'})}
                       suffixIcon={<SelectDropDownIcon />}
                       defaultValue={selectedState.value}
                       onChange={(value: any) => {
@@ -363,6 +364,7 @@ const FormTemplate = ({
                   </div>
                   <div className={'col-md-8 col-xl-7 col-12'}>
                     <Select
+                        placeholder={intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'})}
                         suffixIcon={<SelectDropDownIcon />}
                         defaultValue={selectedCity.value}
                         onChange={(value: any) => {
@@ -411,6 +413,7 @@ const FormTemplate = ({
                   </div>
                     <div className={'col-md-8 col-xl-7 col-12'}>
                       <Select
+                          placeholder={intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'})}
                           suffixIcon={<SelectDropDownIcon />}
                           defaultValue={values.district}
                           onChange={(value: any) => {
@@ -661,6 +664,7 @@ const FormTemplate = ({
             );
           
           case 'TreeSelect':
+            console.log(modifyModel.data[key])
             return treeData ? (
               <div className="mt-3" key={key}>
                 <CustomeTreeSelect
