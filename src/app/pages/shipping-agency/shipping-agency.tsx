@@ -189,7 +189,7 @@ function ShippingAgency() {
       label: 'SHIPPING_AGENCY.MASTER.SEARCH.CODE',
     },
     name: {
-      type: 'number',
+      type: 'string',
       label: 'SHIPPING_AGENCY.MASTER.SEARCH.NAME',
     },
     phone: {
