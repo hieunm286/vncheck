@@ -34,7 +34,7 @@ export function MasterHeader<T>({
   title: string;
   initValue?: any;
   onSearch: (data: any) => void;
-  onReset?: () => void;
+  onReset?: (data?: any) => void;
   stringOnChange?: (
     e: ChangeEvent<HTMLInputElement>,
     searchM: any,
@@ -199,18 +199,19 @@ export function MasterHeader<T>({
   };
   
   return (
-    <Card className={'master-header-card'} >
+    <Card className={'master-header-card'}>
       <CardHeader title={intl.formatMessage({id: title}).toUpperCase()}/>
       
       <CardBody>
         <Formik
           initialValues={initValue}
           onSubmit={values => {
-            onSearch(values);
+            onSearch({...values});
           }}
           onReset={data => {
+            onSearch({});
             if (onReset) {
-              onReset();
+              onReset(data);
             }
           }}>
           {({values, handleSubmit, handleBlur, handleChange, setFieldValue, resetForm}) => (
@@ -566,18 +567,18 @@ export function MasterHeader<T>({
               </div>
               
               <div className="row no-gutters">
-                  <button className="btn btn-primary mr-8 fixed-btn-width" type="submit">
-                    <SearchIcon style={iconStyle}/>
-                    {intl.formatMessage({id: 'COMMON_COMPONENT.MASTER_HEADER.SEARCH_BTN'})}
-                  </button>
-                  <button
-                    className="btn btn-outline-primary fixed-btn-width"
-                    type="reset"
-                    onClick={() => handleResetForm(resetForm)}>
-                    <SVG src={ToAbsoluteUrl('/media/svg/vncheck/reset-filter.svg')}
-                         style={iconStyle}/>
-                    {intl.formatMessage({id: 'COMMON_COMPONENT.MASTER_HEADER.RESET_FILTER_BTN'})}
-                  </button>
+                <button className="btn btn-primary mr-8 fixed-btn-width" type="submit">
+                  <SearchIcon style={iconStyle}/>
+                  {intl.formatMessage({id: 'COMMON_COMPONENT.MASTER_HEADER.SEARCH_BTN'})}
+                </button>
+                <button
+                  className="btn btn-outline-primary fixed-btn-width"
+                  type="reset"
+                  onClick={() => handleResetForm(resetForm)}>
+                  <SVG src={ToAbsoluteUrl('/media/svg/vncheck/reset-filter.svg')}
+                       style={iconStyle}/>
+                  {intl.formatMessage({id: 'COMMON_COMPONENT.MASTER_HEADER.RESET_FILTER_BTN'})}
+                </button>
               </div>
             </form>
           )}

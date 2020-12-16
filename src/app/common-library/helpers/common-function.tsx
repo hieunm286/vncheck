@@ -278,7 +278,7 @@ export function InitMasterProps<T>({
   const [showDeleteMany, setShowDeleteMany] = useState(false);
   const [trigger, setTrigger] = useState(false);
   const [paginationProps, setPaginationProps] = useState(DefaultPagination);
-  const [filterProps, setFilterProps] = useState();
+  const [filterProps, setFilterProps] = useState({});
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);
   const [spinning, setSpinning] = useState(false)
@@ -323,7 +323,7 @@ export function InitMasterProps<T>({
     setSelectedEntities([]);
     setLoading(false);
     setSpinning(false);
-    setFilterProps(undefined);
+    setFilterProps({});
     setError('')
   };
   

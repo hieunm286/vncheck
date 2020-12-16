@@ -381,7 +381,7 @@ function ShippingAgency() {
             }}
             onReset={() => {
               setPaginationProps(DefaultPagination);
-              setFilterProps(undefined);
+              setFilterProps({});
             }}
             searchModel={searchModel}
           />

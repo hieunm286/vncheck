@@ -798,7 +798,7 @@ function ProductionPlan() {
             }}
             onReset={() => {
               setPaginationProps(DefaultPagination);
-              setFilterProps(undefined);
+              setFilterProps({});
             }}
             searchModel={currentTab == '0' ? productPlanSearchModel1 : productPlanSearchModel2}
           />

@@ -369,13 +369,9 @@ function ProductPackaging() {
             }}
             onReset={() => {
               setPaginationProps(DefaultPagination)
-              setFilterProps(undefined)
+              setFilterProps({})
             }}
             searchModel={productTypeSearchModel}
-            initValue={{
-              code: '',
-              species: '',
-            }}
           />
           <MasterBody
             title={bodyTitle}

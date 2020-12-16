@@ -1,38 +1,38 @@
-import React, { Fragment, useEffect, useState } from 'react';
-import { useIntl } from 'react-intl';
-import { Count, Create, Delete, DeleteMany, Get, GetAll, Update } from './land-lot.service';
-import { LandLotModel } from './land-lot.model';
-import { NormalColumn, SortColumn, StatusValue } from '../../common-library/common-consts/const';
-import { MasterHeader } from '../../common-library/common-components/master-header';
-import { MasterEntityDetailDialog } from '../../common-library/common-components/master-entity-detail-dialog';
-import { MasterBody } from '../../common-library/common-components/master-body';
+import React, {Fragment, useEffect, useState} from 'react';
+import {useIntl} from 'react-intl';
+import {Count, Create, Delete, DeleteMany, Get, GetAll, Update} from './land-lot.service';
+import {LandLotModel} from './land-lot.model';
+import {NormalColumn, SortColumn, StatusValue} from '../../common-library/common-consts/const';
+import {MasterHeader} from '../../common-library/common-components/master-header';
+import {MasterEntityDetailDialog} from '../../common-library/common-components/master-entity-detail-dialog';
+import {MasterBody} from '../../common-library/common-components/master-body';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import IndeterminateCheckBoxIcon from '@material-ui/icons/IndeterminateCheckBox';
-import { ActionsColumnFormatter } from '../../common-library/common-components/actions-column-formatter';
-import { DeleteEntityDialogPromise } from '../../common-library/common-components/delete-entity-dialog-promise';
+import {ActionsColumnFormatter} from '../../common-library/common-components/actions-column-formatter';
+import {DeleteEntityDialogPromise} from '../../common-library/common-components/delete-entity-dialog-promise';
 import DeleteManyEntitiesDialogPromise from '../../common-library/common-components/delete-many-dialog-promise';
 import ModifyEntityDialog from './helpers/modify-entity-dialog';
-import { ModifyModel, SearchModel } from '../../common-library/common-types/common-type';
+import {ModifyModel, SearchModel} from '../../common-library/common-types/common-type';
 import {
   GenerateAllFormField,
   InitMasterProps,
 } from '../../common-library/helpers/common-function';
 import * as AgencyService from '../purchase-order/agency.service';
 import * as LandLotService from './land-lot.service';
-import { Switch, Route, Redirect, useHistory } from 'react-router-dom';
+import {Switch, Route, Redirect, useHistory} from 'react-router-dom';
 import ModifyEntityPage from '../../common-library/common-components/modify-entity-page';
 import ImageUploading from 'react-images-uploading';
 import EntityCrudPage from '../../common-library/common-components/entity-crud-page';
 import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
-import { isArray, isNull } from 'lodash';
+import {isArray, isNull} from 'lodash';
 
 import * as Yup from 'yup';
-import { stringOnChange, searchSelectOnChange } from './helpers/autofill';
-import { genCharArray, genNumberArray } from './helpers/modify-entity-page-land-lot';
-import { DefaultPagination } from '../../common-library/common-consts/const';
-import { toast } from 'react-toastify';
-import { NotifyDialog } from '../../common-library/common-components/notify-dialog';
+import {stringOnChange, searchSelectOnChange} from './helpers/autofill';
+import {genCharArray, genNumberArray} from './helpers/modify-entity-page-land-lot';
+import {DefaultPagination} from '../../common-library/common-consts/const';
+import {toast} from 'react-toastify';
+import {NotifyDialog} from '../../common-library/common-components/notify-dialog';
 
 const DataExample: any = [
   {
@@ -133,9 +133,9 @@ function LandLot() {
     getAllServer: GetAll,
     updateServer: Update,
   });
-
-  const [ showNotifyDialog, setShowNotifyDialog ] = useState<boolean>(false);
-
+  
+  const [showNotifyDialog, setShowNotifyDialog] = useState<boolean>(false);
+  
   const moduleName = 'LAND_LOT.MODULE_NAME';
   const headerTitle = 'LAND_LOT.MASTER.HEADER.TITLE';
   const bodyTitle = 'LAND_LOT.MASTER.BODY.TITLE';
@@ -143,11 +143,11 @@ function LandLot() {
   const updateTitle = 'LAND_LOT.EDIT.TITLE';
   const viewTitle = 'LAND_LOT.VIEW.TITLE';
   const history = useHistory();
-
+  
   const deleteSuccess = () => {
     refreshData();
   }
-
+  
   const deleteFail = (error: any) => {
     setError(error.message || error.response.data || JSON.stringify(error))
     setLoading(false);
@@ -155,31 +155,31 @@ function LandLot() {
     setShowDeleteMany(false);
     setShowNotifyDialog(true);
   }
-
+  
   const PurchaseOrderSchema = Yup.object().shape({
-  // code: Yup.string().required('abc'),
-  lot: Yup.string()
-    .required(intl.formatMessage({id:'LAND_LOT.EDIT.VALIDATION.LOT_CODE_EMPTY'}))
-    .matches(/[a-zA-Z]/u, {
-      message: intl.formatMessage({id: 'LAND_LOT.EDIT.VALIDATION.LOT_CODE_WRONG_FORMAT'})
-    }).nullable(),
-  subLot: Yup.string()
-    .required(intl.formatMessage({id: 'LAND_LOT.EDIT.VALIDATION.SUB_LOT_CODE_EMPTY'}))
-    .matches(/[0-9]+/u, {
-      message: intl.formatMessage({id: 'LAND_LOT.EDIT.VALIDATION.SUB_LOT_CODE_WRONG_FORMAT'})
-    }).nullable()
+    // code: Yup.string().required('abc'),
+    lot: Yup.string()
+      .required(intl.formatMessage({id: 'LAND_LOT.EDIT.VALIDATION.LOT_CODE_EMPTY'}))
+      .matches(/[a-zA-Z]/u, {
+        message: intl.formatMessage({id: 'LAND_LOT.EDIT.VALIDATION.LOT_CODE_WRONG_FORMAT'})
+      }).nullable(),
+    subLot: Yup.string()
+      .required(intl.formatMessage({id: 'LAND_LOT.EDIT.VALIDATION.SUB_LOT_CODE_EMPTY'}))
+      .matches(/[0-9]+/u, {
+        message: intl.formatMessage({id: 'LAND_LOT.EDIT.VALIDATION.SUB_LOT_CODE_WRONG_FORMAT'})
+      }).nullable()
     // .test('len', intl.formatMessage({id: 'LAND_LOT.EDIT.VALIDATION.SUB_LOT_CODE_WRONG_FORMAT_LENGTH'}), (val: any) => val.length === 2),
-});
-
+  });
+  
   useEffect(() => {
     getAll(filterProps);
-
+    
   }, [paginationProps, trigger, filterProps]);
   //TODO: change fields to get data from server
   const columns = {
     code: {
       dataField: 'code',
-      text: `${intl.formatMessage({ id: 'LAND_LOT.MASTER.HEADER.CODE' })}`,
+      text: `${intl.formatMessage({id: 'LAND_LOT.MASTER.HEADER.CODE'})}`,
       formatter: (cell: any, row: any, rowIndex: any) => {
         return (<Fragment>{row.lot + row.subLot}</Fragment>);
       },
@@ -187,13 +187,13 @@ function LandLot() {
     },
     lot: {
       dataField: 'lot',
-      text: `${intl.formatMessage({ id: 'LAND_LOT.MASTER.HEADER.LOT_CODE' })}`,
+      text: `${intl.formatMessage({id: 'LAND_LOT.MASTER.HEADER.LOT_CODE'})}`,
       ...SortColumn,
     },
-
+    
     subLot: {
       dataField: 'subLot',
-      text: `${intl.formatMessage({ id: 'LAND_LOT.MASTER.HEADER.SUB_LOT_CODE' })}`,
+      text: `${intl.formatMessage({id: 'LAND_LOT.MASTER.HEADER.SUB_LOT_CODE'})}`,
       ...SortColumn,
     },
     // status: {
@@ -209,7 +209,7 @@ function LandLot() {
     // },
     action: {
       dataField: 'action',
-      text: `${intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.ACTION_COLUMN' })}`,
+      text: `${intl.formatMessage({id: 'PURCHASE_ORDER.MASTER.TABLE.ACTION_COLUMN'})}`,
       formatter: ActionsColumnFormatter,
       formatExtraData: {
         intl,
@@ -235,10 +235,10 @@ function LandLot() {
         },
       },
       ...NormalColumn,
-      style: { minWidth: '130px' },
+      style: {minWidth: '130px'},
     },
   };
-
+  
   const notify = (error: string) => {
     toast.error(`😠 ${error}`, {
       position: 'top-right',
@@ -250,54 +250,54 @@ function LandLot() {
       progress: undefined,
     });
   };
-
+  
   useEffect(() => {
     if (error !== '') {
       notify(intl.formatMessage({id: error}));
     }
   }, [error]);
-
+  
   const landLotSearchSelectLoadOption = async (
     search: string,
     prevOptions: any,
-    { page }: any,
+    {page}: any,
     service: any,
     keyField: string,
     key: string,
   ) => {
     const queryProps: any = {};
     queryProps[keyField] = search;
-
+    
     const paginationProps = {
       ...DefaultPagination,
       page: page,
     };
-
-
+    
+    
     // const entities = await service.GetAll({ queryProps, paginationProps });
     // const count = await service.Count({ queryProps });
-
+    
     // const hasMore = prevOptions.length < count.data - (DefaultPagination.limit ?? 0);
-
+    
     // setSearchTerm({ ...searchTerm, [key]: search });
-
+    
     // const data = [...new Set(dataT)];
     let data = [];
-
-    if(key === "lot") {
+    
+    if (key === "lot") {
       data = genCharArray('A', 'Z'); // ["a", ..., "z"]
-    } else if(key === "subLot") {
+    } else if (key === "subLot") {
       data = genNumberArray(0, 99);
     } else {
       data = [];
     }
     return {
       options: data
-        .filter((value: string)  => {
+        .filter((value: string) => {
           return value.startsWith(search.toString().toUpperCase());
         })
         .map((value: any) => {
-          return { label: value, value: value };
+          return {label: value, value: value};
         }),
       hasMore: false,
       additional: {
@@ -305,18 +305,20 @@ function LandLot() {
       },
     };
   };
-
+  
   const masterEntityDetailDialog = [
     {
       data: {
-        code: { title: 'LAND_LOT.MASTER.HEADER.CODE',
-        formatter: (data: any, fields = ['lot', 'subLot']) => {
-          return fields.map(field => {
-            return data[field];
-          }).join("");
-        }},
-        lot: { title: 'LAND_LOT.MASTER.HEADER.LOT_CODE' },
-        subLot: { title: 'LAND_LOT.MASTER.HEADER.SUB_LOT_CODE' },
+        code: {
+          title: 'LAND_LOT.MASTER.HEADER.CODE',
+          formatter: (data: any, fields = ['lot', 'subLot']) => {
+            return fields.map(field => {
+              return data[field];
+            }).join("");
+          }
+        },
+        lot: {title: 'LAND_LOT.MASTER.HEADER.LOT_CODE'},
+        subLot: {title: 'LAND_LOT.MASTER.HEADER.SUB_LOT_CODE'},
       },
     },
     // {
@@ -328,7 +330,7 @@ function LandLot() {
     //   },
     // },
   ];
-
+  
   const purchaseOrderSearchModel: SearchModel = {
     code: {
       type: 'string',
@@ -388,7 +390,7 @@ function LandLot() {
     //   data: ConvertToTreeNode(DataExample),
     // },
   };
-
+  
   const modifyModel = [
     {
       title: '',
@@ -397,15 +399,15 @@ function LandLot() {
           type: 'string',
           // placeholder: intl.formatMessage({ id: 'LAND_LOT.EDIT.PLACEHOLDER.CODE' }),
           placeholder: '',
-          label: intl.formatMessage({ id: 'LAND_LOT.MASTER.HEADER.CODE' }),
+          label: intl.formatMessage({id: 'LAND_LOT.MASTER.HEADER.CODE'}),
           required: true,
           disabled: true,
         },
         lot: {
           type: 'SearchSelect',
-          placeholder: intl.formatMessage({ id: 'LAND_LOT.MASTER.PLACEHOLDER.LOT_CODE' }),
+          placeholder: intl.formatMessage({id: 'LAND_LOT.MASTER.PLACEHOLDER.LOT_CODE'}),
           required: true,
-          label: intl.formatMessage({ id: 'LAND_LOT.MASTER.HEADER.LOT_CODE' }),
+          label: intl.formatMessage({id: 'LAND_LOT.MASTER.HEADER.LOT_CODE'}),
         },
         subLot: {
           type: 'SearchSelect',
@@ -413,7 +415,7 @@ function LandLot() {
             id: 'LAND_LOT.MASTER.PLACEHOLDER.SUB_LOT_CODE',
           }),
           required: true,
-          label: intl.formatMessage({ id: 'LAND_LOT.MASTER.HEADER.SUB_LOT_CODE' }),
+          label: intl.formatMessage({id: 'LAND_LOT.MASTER.HEADER.SUB_LOT_CODE'}),
         },
         // image: {
         //   type: 'image',
@@ -464,7 +466,7 @@ function LandLot() {
     //   },
     // },
   ];
-
+  
   const formPart: any = {
     form_1: {
       title: '',
@@ -476,13 +478,13 @@ function LandLot() {
     //   modifyModel: modifyModel_2,
     // },
   };
-
+  
   const allFormField: any = {
     ...GenerateAllFormField(
       modifyModel,
     ),
   };
-
+  
   const allFormButton: any = {
     save: {
       role: 'submit',
@@ -490,7 +492,7 @@ function LandLot() {
       linkto: undefined,
       className: 'btn btn-primary mr-2',
       label: 'Lưu',
-      icon: <SaveOutlinedIcon />,
+      icon: <SaveOutlinedIcon/>,
     },
     cancel: {
       role: 'link-button',
@@ -498,7 +500,7 @@ function LandLot() {
       linkto: '/land-lot',
       className: 'btn btn-outline-primary mr-2',
       label: 'Hủy',
-      icon: <CancelOutlinedIcon />,
+      icon: <CancelOutlinedIcon/>,
     },
     test: {
       role: 'button',
@@ -506,15 +508,15 @@ function LandLot() {
       linkto: undefined,
       className: 'btn btn-outline-primary',
       label: 'Test',
-      icon: <CancelOutlinedIcon />,
+      icon: <CancelOutlinedIcon/>,
     },
   };
-
+  
   const location = {
     latitude: 21.027763,
     longitude: 105.83416,
   };
-
+  
   return (
     <Fragment>
       <MasterEntityDetailDialog
@@ -555,12 +557,12 @@ function LandLot() {
         deleteSuccess={deleteSuccess}
         deleteFail={deleteFail}
       />
-      <NotifyDialog 
+      <NotifyDialog
         isShow={showNotifyDialog}
         onHide={() => {
-            setShowNotifyDialog(false);
-            setError(''); 
-          }
+          setShowNotifyDialog(false);
+          setError('');
+        }
         }
         // title={intl.formatMessage({id: 'LAND_LOT.DELETE.TITLE'}).toUpperCase()}
         moduleName='LAND_LOT.MODULE_NAME'
@@ -597,12 +599,18 @@ function LandLot() {
         refreshData={refreshData}
       />
       <Switch>
-        <Redirect from="/land-lot/edit" to="/land-lot" />
+        <Redirect from="/land-lot/edit" to="/land-lot"/>
         <Route path="/land-lot">
           <MasterHeader
             title={headerTitle}
-            onReset={() => {setFilterProps(undefined)}}
-            onSearch={setFilterProps}
+            onReset={() => {
+              setPaginationProps(DefaultPagination);
+              setFilterProps({})
+            }}
+            onSearch={(value) => {
+              setPaginationProps(DefaultPagination)
+              setFilterProps(value)
+            }}
             searchModel={purchaseOrderSearchModel}
             stringOnChange={stringOnChange}
             searchSelectOnChange={searchSelectOnChange}
@@ -610,12 +618,6 @@ function LandLot() {
               code: '',
               lot: '',
               subLot: '',
-              // agencyAddress: '',
-              // agency: null,
-              // date: '',
-              // count: 1,
-              // tree: undefined,
-              // tree2: undefined,
             }}
             customSearchSelectLoadOption={landLotSearchSelectLoadOption}
           />
@@ -638,9 +640,9 @@ function LandLot() {
             setPaginationParams={setPaginationProps}
             isShowId={true}
           />
-
+          
           {/* <MasterGoogleMap location={location} /> */}
-
+          
           {/* <MasterMap /> */}
         </Route>
       </Switch>
