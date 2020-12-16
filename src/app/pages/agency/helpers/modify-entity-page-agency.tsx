@@ -10,6 +10,8 @@ import {
 } from '../../../common-library/helpers/common-function';
 import { DeleteEntityDialog } from '../../../common-library/common-components/delete-entity-dialog';
 import ModifyEntityDialog from '../../../common-library/common-components/modify-entity-dialog';
+import ModifyShippingAddressDialog from './modify-shipping-address-dialog';
+import { NotifyDialog } from '../../../common-library/common-components/notify-dialog';
 
 
 function ModifyEntityPageAgency<T>({
@@ -39,7 +41,12 @@ function ModifyEntityPageAgency<T>({
   const [entities, setEntities] = useState<T[]>([]);
   const [deleteEntity, setDeleteEntity] = useState<T>(null as any);
   const [editEntity, setEditEntity] = useState(values && values.shippingAddress);
-  const [createEntity, setCreateEntity] = useState<T | null>(null as any);
+  const [createEntity, setCreateEntity] = useState<any>({
+    state: null,
+    city: null,
+    district: null,
+    isDefault: false
+  });
   const [selectedEntities, setSelectedEntities] = useState<T[]>([]);
   const [detailEntity, setDetailEntity] = useState<T>(null as any);
   const [showDelete, setShowDelete] = useState(false);
@@ -48,6 +55,8 @@ function ModifyEntityPageAgency<T>({
   const [showDetail, setShowDetail] = useState(false);
   const [entityNumber, setEntityNumber] = useState(0);
   const { setFieldValue, errors, touched } = useFormikContext<any>();
+
+  const [ showNotifyDialog, setShowNotifyDialog ] = useState<boolean>(false);
 
   const getShippingAddress = (entityNumber: number) => {
     return new Promise((resolve, reject) => {
@@ -168,15 +177,21 @@ function ModifyEntityPageAgency<T>({
   const deleteFn = (entity: any) => {
     getShippingAddressesSync()
     .then((shippingAddresses: any) => {
-      setFieldValue('shippingAddress', shippingAddresses.filter((addr: any) => {
+      if(entity.isDefault === false) {
+        setFieldValue('shippingAddress', shippingAddresses.filter((addr: any) => {
+            return entity._id !== addr._id;
+          })
+        );
+        values.shippingAddress = values.shippingAddress.filter((addr: any) => {
           return entity._id !== addr._id;
-        })
-      );
-      values.shippingAddress = values.shippingAddress.filter((addr: any) => {
-        return entity._id !== addr._id;
-      });
-      setDeleteEntity(entity);
-      setShowDelete(false);
+        });
+        setDeleteEntity(entity);
+        setShowDelete(false);
+      } else {
+        setShowDelete(false);
+        setShowNotifyDialog(true);
+      }
+   
     });
   };
 
@@ -281,7 +296,7 @@ function ModifyEntityPageAgency<T>({
         }
       </div>
 
-      <ModifyEntityDialog
+      <ModifyShippingAddressDialog
         modifyModel={modifyModelAddress}
         isShow={showEdit}
         entity={editEntity}
@@ -296,7 +311,7 @@ function ModifyEntityPageAgency<T>({
         }}
       />
 
-      <ModifyEntityDialog
+      <ModifyShippingAddressDialog
         modifyModel={modifyModelAddress}
         isShow={showCreate}
         entity={createEntity}
@@ -320,6 +335,13 @@ function ModifyEntityPageAgency<T>({
         onHide={() => {
           setShowDelete(false);
         }}
+      />
+
+      <NotifyDialog
+        isShow={showNotifyDialog}
+        onHide={() => setShowNotifyDialog(false)}
+        moduleName='SHIPPING_ADDRESS.MODULE_NAME'
+        notifyMessage='DELETE.ERROR.SHIPPING_ADDRESS.SHIPPING_ADDRESS_IN_USE'
       />
     </>
   );

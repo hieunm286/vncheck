@@ -59,12 +59,157 @@ const versionData = [
   },
 ];
 
+const GetValidate = (
+  harvesting?: any,
+  preliminaryTreatment?: any,
+  cleaning?: any,
+  packing?: any,
+  preservation?: any,
+) => {
+  if (harvesting) {
+    return (
+      (harvesting.technical.length > 0 && harvesting.leader.length > 0) ||
+      (harvesting.technical.length === 0 && harvesting.leader.length === 0)
+    );
+  }
+  if (harvesting && preliminaryTreatment) {
+    return (
+      (harvesting.technical.length > 0 &&
+        harvesting.leader.length > 0 &&
+        preliminaryTreatment.estimatedTime) ||
+      (harvesting.technical.length === 0 && harvesting.leader.length === 0)
+    );
+  }
+};
+
 const ProductPlantSchema = Yup.object().shape({
-  harvesting: Yup.object().shape(halfValidate),
-  preliminaryTreatment: Yup.object().shape(validate),
-  cleaning: Yup.object().shape(validate),
-  packing: Yup.object().shape(packingValidate),
-  preservation: Yup.object().shape(preservationValidate),
+  harvesting: Yup.object()
+    .shape(halfValidate)
+    .test('oneOfRequired', 'Vui lòng nhập đầy đủ theo thứ tự', function(values: any) {
+      console.log(this.parent.harvesting);
+      console.log(values);
+      if (values.technical.length === 0 || values.leader.length === 0) {
+        if (
+          this.parent.preliminaryTreatment.technical.length > 0 ||
+          this.parent.preliminaryTreatment.leader.length > 0 ||
+          this.parent.preliminaryTreatment.estimatedTime ||
+          this.parent.preliminaryTreatment.estimatedQuantity > 0 ||
+          this.parent.preliminaryTreatment.estimatedQuantity
+        ) {
+          return false;
+        }
+      }
+      return true;
+    }),
+  preliminaryTreatment: Yup.object()
+    .shape(validate)
+    .test('oneOfRequired', 'Vui lòng nhập đầy đủ theo thứ tự', function(values: any) {
+      console.log(this.parent.harvesting);
+      console.log(values);
+      if (
+        values.technical.length === 0 ||
+        values.leader.length === 0 ||
+        !values.estimatedTime ||
+        values.estimatedQuantity === 0 ||
+        !values.estimatedQuantity
+      ) {
+        if (
+          this.parent.cleaning.technical.length > 0 ||
+          this.parent.cleaning.leader.length > 0 ||
+          this.parent.cleaning.estimatedTime ||
+          this.parent.cleaning.estimatedQuantity > 0 ||
+          this.parent.cleaning.estimatedQuantity
+        ) {
+          return false;
+        }
+      }
+      return true;
+    }),
+  cleaning: Yup.object()
+    .shape(validate)
+    .test('oneOfRequired', 'Vui lòng nhập đầy đủ theo thứ tự', function(values: any) {
+      console.log(this.parent.preliminaryTreatment);
+      console.log(values);
+
+      if (
+        // this.parent.harvesting.technical.length === 0 ||
+        // this.parent.harvesting.leader.length === 0 ||
+        values.technical.length === 0 ||
+        values.leader.length === 0 ||
+        !values.estimatedTime ||
+        values.estimatedQuantity === 0 ||
+        !values.estimatedQuantity
+      ) {
+        if (
+          this.parent.packing.estimatedTime ||
+          this.parent.packing.estimatedExpireTimeStart ||
+          this.parent.packing.estimatedExpireTimeEnd ||
+          this.parent.packing.packing ||
+            (_.isObject(this.parent.packing.packing) && this.parent.packing.packing.label) ||
+          this.parent.packing.estimatedQuantity || this.parent.packing.estimatedQuantity > 0 ||
+          this.parent.packing.technical.length > 0 ||
+          this.parent.packing.leader.length > 0
+        ) {
+          return false;
+        }
+        // else if (
+        //   values.estimatedTime ||
+        //   values.estimatedQuantity ||
+        //   values.estimatedQuantity > 0 ||
+        //   values.technical.length > 0 ||
+        //   values.leader.length > 0
+        // ) {
+        //   return false;
+        // }
+        // return true;
+      }
+      return true;
+    }),
+  packing: Yup.object()
+    .shape(packingValidate)
+    .test('oneOfRequired', 'Vui lòng nhập đầy đủ theo thứ tự', function(values: any) {
+      console.log(this.parent.packing);
+      console.log(values);
+
+      if (
+        // this.parent.harvesting.technical.length === 0 ||
+        // this.parent.harvesting.leader.length === 0 ||
+        // this.parent.preliminaryTreatment.technical.length === 0 ||
+        // this.parent.preliminaryTreatment.leader.length === 0 ||
+        // !this.parent.preliminaryTreatment.estimatedTime ||
+        // this.parent.preliminaryTreatment.estimatedQuantity === 0 ||
+        // !this.parent.preliminaryTreatment.estimatedQuantity ||
+        !values.estimatedTime ||
+        !values.estimatedExpireTimeStart ||
+        !values.estimatedExpireTimeEnd ||
+        !values.packing || (_.isObject(values.packing) && !values.packing.label) ||
+        !values.estimatedQuantity || values.estimatedQuantity === 0 ||
+        values.technical.length === 0 ||
+        values.leader.length === 0
+      ) {
+        if (
+          this.parent.preservation.estimatedStartTime ||
+          this.parent.preservation.estimatedEndTime > 0 ||
+          this.parent.preservation.technical.length > 0
+        ) {
+          return true;
+        }
+        //  else if (
+        //   values.estimatedTime ||
+        //   values.estimatedQuantity ||
+        //   values.estimatedQuantity > 0 ||
+        //   values.technical.length > 0 ||
+        //   values.leader.length > 0
+        // ) {
+        //   return false;
+        // }
+        // return true;
+      }
+      return true;
+    }),
+  preservation: Yup.object()
+    .shape(preservationValidate)
+    
 
   // cleaning: Yup.object().shape({
   //   technical: Yup.array().typeError('Type err'),
@@ -122,7 +267,7 @@ function ProductionPlan() {
     get,
     deleteMany,
     deleteFn,
-    getAll,  
+    getAll,
     refreshData,
   } = InitMasterProps<ProductionPlanModel>({
     getServer: ProductionPlanService.Get,
@@ -145,7 +290,7 @@ function ProductionPlan() {
   const [submit, setSubmit] = useState(false);
 
   const [step, setStep] = useState('0');
-  
+
   const { authState } = useSelector(
     (state: any) => ({
       authState: state.auth,
@@ -156,7 +301,7 @@ function ProductionPlan() {
 
   // const userData = currentState.entities;
 
-  console.log(spinning)
+  console.log(spinning);
 
   const dispatch = useDispatch();
 
@@ -167,13 +312,12 @@ function ProductionPlan() {
 
   useEffect(() => {
     if (currentTab === '0') {
-      getAll({ ...(filterProps as any), step: "0" });
-    } else if (currentTab === "1") {
-      getAll({ ...(filterProps as any), step: "0", confirmationStatus: "1" });
-    } else if (currentTab === "2") {
-      getAll({ ...(filterProps as any), step: "1", confirmationStatus: "2" });
+      getAll({ ...(filterProps as any), step: '0' });
+    } else if (currentTab === '1') {
+      getAll({ ...(filterProps as any), step: '0', confirmationStatus: '1' });
+    } else if (currentTab === '2') {
+      getAll({ ...(filterProps as any), step: '1', confirmationStatus: '2' });
     }
-
   }, [paginationProps, trigger, filterProps, currentTab]);
 
   const columns = {
@@ -310,7 +454,7 @@ function ProductionPlan() {
       dataField: 'process',
       text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.STATUS' })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
-        <span>{row.process === '1' ? 'Hoàn thành' : 'Chưa hoàn thành'}</span>
+        <span>{row.process === '7' ? 'Hoàn thành' : 'Chưa hoàn thành'}</span>
       ),
       ...SortColumn,
       classes: 'text-center',
@@ -546,11 +690,10 @@ function ProductionPlan() {
     },
   };
 
-  
   const sendRequest = (entity: any) => {
     const data = { confirmationStatus: '1' };
     return ProductionPlanService.Approve(entity, data);
-  }; 
+  };
 
   const approve = (entity: any) => {
     const data = { confirmationStatus: '2' };
@@ -558,21 +701,20 @@ function ProductionPlan() {
   };
 
   const updateProcess = (entity: any) => {
-    const newProcess = _.toString((_.toInteger(entity.process) + 1))
-    const data = { process: newProcess }
-    return ProductionPlanService.UpdateProcess(entity, data)
-  }
+    const newProcess = _.toString(_.toInteger(entity.process) + 1);
+    const data = { process: newProcess };
+    return ProductionPlanService.UpdateProcess(entity, data);
+  };
 
   const refuse = (entity: any) => {
     const data = { confirmationStatus: '3' };
     return ProductionPlanService.Approve(entity, data);
-  }
+  };
 
   const approveFollow = (entity: any) => {
     // const data = { ...entity, confirmationStatus: '1' }
     return ProductionPlanService.Approve(entity, entity);
-  }
-
+  };
 
   const adminAllFormButton: any = {
     type: 'outside',
@@ -588,21 +730,16 @@ function ProductionPlan() {
           // setNoticeModal(true);
           // setSubmit(true)
           setStep('2');
-          approve(entity).then(res => {
-            updateProcess(entity)
-              .then(ress => {
-      
-                refreshData();
-                history.push('/production-plan');
-
-              })
-              .catch(error => {
-              
-              });
-          })
-          .catch(error => {
-           
-          });
+          approve(entity)
+            .then(res => {
+              updateProcess(entity)
+                .then(ress => {
+                  refreshData();
+                  history.push('/production-plan');
+                })
+                .catch(error => {});
+            })
+            .catch(error => {});
         },
       },
       refuse: {
@@ -613,12 +750,14 @@ function ProductionPlan() {
         label: 'Từ chối',
         icon: <SaveOutlinedIcon />,
         onClick: (entity: any) => {
-          refuse(entity).then(res => {
-            refreshData();
-            history.push('/production-plan');
-          }).catch(error => {
-            console.log(error)
-          });
+          refuse(entity)
+            .then(res => {
+              refreshData();
+              history.push('/production-plan');
+            })
+            .catch(error => {
+              console.log(error);
+            });
         },
       },
       save: {
@@ -635,9 +774,8 @@ function ProductionPlan() {
               state: res.data,
             });
           });
-        }
+        },
       },
-      
     },
   };
 

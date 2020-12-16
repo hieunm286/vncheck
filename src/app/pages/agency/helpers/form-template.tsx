@@ -63,11 +63,11 @@ const FormTemplate = ({
   // useEffect(() => {
   //   setSearch(formValues);
   // }, [formValues]);
-  // useEffect(() => {
-  //   if(formValues.roleName) {
-  //     setSearchSelect(formValues.roleName);
-  //   }
-  // }, [])
+  useEffect(() => {
+    if(formValues && formValues.roleName) {
+      setSearchSelect(formValues.roleName);
+    }
+  }, [formValues])
 
   
 
@@ -86,7 +86,7 @@ const FormTemplate = ({
   const [ cityValues, setCityValues ] = useState<any>([]);
   const [ districtValues, setDistrictValues ] = useState<any>([]);
 
-  const [ treeSelectValue, setTreeSelectValue ] = useState<any>('');
+  const [ treeSelectValue, setTreeSelectValue ] = useState<any>(null);
   const [ treeData, setTreeData ] = useState<any>([]);
 
   const intl = useIntl();
@@ -95,8 +95,6 @@ const FormTemplate = ({
   useEffect(() => {
     treeLoadOptions(StoreLevelService) // treeLoadOptions(modifyModel.data['storeLevel'].service)
     .then((res: any) => {
-      // console.log(res);
-      // console.log(DataExample)
       const treeData = ConvertToTreeNode(res);
       setTreeData(treeData)
     });
@@ -131,39 +129,65 @@ const FormTemplate = ({
   // },[selectedState]);
 
   useEffect(() => {
-    if(values.state) {
+    if (values.state === undefined) {
+      setSelectedState({
+        value: undefined, 
+        key: undefined
+      });
+    }
+    if(values.state !== undefined && values.state !== null) {
       setSelectedState({
         value: values.state, 
         key: getCodeFromName(Object.values(STATE_LIST), values.state)
       });
-      // setFieldValue('city', '')
-      // setFieldValue('district', '')
-    } else {
-      setSelectedState({key: '', value: intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'})})
-      // setFieldValue('city', intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'}));
-      //                     setFieldValue('district', intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'}));
+    }
+    if (values.state === null) {
+      setSelectedState({
+        value: null, 
+        key: null
+      });
     }
   },[values.state]);
 
   useEffect(() => {
-    if(values.city) {
+    if(values.city !== undefined && values.city !== null) {
       setSelectedCity({
         value: values.city, 
         key: getCodeFromName(Object.values(CITY_LIST).filter((city: any) => { return city.parent_code === selectedState.key }), values.city)
       });
-    } else {
-      setSelectedCity({key: '', value: intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'})})
+    }
+    if (values.city === undefined) {
+      setSelectedCity({
+        value: undefined, 
+        key: undefined
+      });
+    }
+    if (values.city === null) {
+      setSelectedCity({
+        value: null, 
+        key: null
+      });
     }
   },[selectedState]);
 
   useEffect(() => {
-    if(values.district) {
+    if(values.district !== undefined && values.district !== null) {
       setSelectedDistrict({
         value: values.district, 
         key: getCodeFromName(Object.values(DISTRICT_LIST).filter((district: any) => { return district.parent_code === selectedCity.key }), values.district)
       });
-    } else {
-      setSelectedDistrict({key: '', value: intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'})})
+    }
+    if (values.district === undefined) {
+      setSelectedDistrict({
+        value: undefined, 
+        key: undefined
+      });
+    }
+    if (values.district === null) {
+      setSelectedDistrict({
+        value: null, 
+        key: null
+      });
     }
   },[selectedCity]);
 
@@ -262,7 +286,7 @@ const FormTemplate = ({
             const withFeedbackLabel = true;
             const placeholder = modifyModel.data[key].placeholder
             const required = modifyModel.data[key].required;
-            return selectedState && selectedState.key && selectedState.value && (
+            return (selectedState.value || (selectedState.key === null && selectedState.value === null)) && (
               <div className="mt-3" key={`${key}`}>
                 <div className="row">
                   
@@ -288,6 +312,7 @@ const FormTemplate = ({
                   </div>
                   <div className={'col-md-8 col-xl-7 col-12'}>
                     <Select
+                      placeholder={intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'})}
                       suffixIcon={<SelectDropDownIcon />}
                       defaultValue={selectedState.value}
                       onChange={(value: any) => {
@@ -314,7 +339,6 @@ const FormTemplate = ({
                       }
                     </Select>
                       {
-                        // console.log(touched)
                         (errors[key] && touched[key]) && (
                           <div className="invalid-feedback">{errors[key]}</div>
                         )
@@ -328,7 +352,7 @@ const FormTemplate = ({
             );
 
           case 'citySelect':
-            return selectedCity && selectedCity.key && selectedCity.value && (
+            return (selectedCity.value || (selectedCity.key === null && selectedCity.value === null)) && (
               <div className="mt-3" key={`${key}`}>
                 <div className="row">
                   <div className={'col-md-4 col-xl-4 col-12'}>
@@ -340,6 +364,7 @@ const FormTemplate = ({
                   </div>
                   <div className={'col-md-8 col-xl-7 col-12'}>
                     <Select
+                        placeholder={intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'})}
                         suffixIcon={<SelectDropDownIcon />}
                         defaultValue={selectedCity.value}
                         onChange={(value: any) => {
@@ -352,7 +377,7 @@ const FormTemplate = ({
                           setFieldValue('district', intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'}));
                         }
                       }
-                      className={(errors[key] && touched[key]) ? 'is-invalid form-control' : ''}
+                      className={(errors[key] && touched[key]) ? 'is-invalid' : ''}
                       >
                       <Option children='' value={intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'})} hidden></Option>
                       {(selectedState && selectedState.key) ?
@@ -376,7 +401,7 @@ const FormTemplate = ({
             );
 
           case 'districtSelect':
-            return selectedDistrict && selectedDistrict.key && selectedDistrict.value && (
+            return (selectedDistrict.value || (selectedDistrict.key === null && selectedDistrict.value === null)) && (
               <div className="mt-3" key={`${key}`}>
                 <div className="row">
                   <div className={'col-md-4 col-xl-4 col-12 '}>
@@ -388,6 +413,7 @@ const FormTemplate = ({
                   </div>
                     <div className={'col-md-8 col-xl-7 col-12'}>
                       <Select
+                          placeholder={intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'})}
                           suffixIcon={<SelectDropDownIcon />}
                           defaultValue={values.district}
                           onChange={(value: any) => {
@@ -399,7 +425,7 @@ const FormTemplate = ({
                             // setFieldValue('district', e.target.value);
                           }
                         }
-                        className={(errors[key] && touched[key]) ? 'is-invalid form-control' : ''}
+                        className={(errors[key] && touched[key]) ? 'is-invalid' : ''}
                         >
                         <Option children='' value={intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'})} hidden></Option>
                         {(selectedCity && selectedCity.key) ?
@@ -460,6 +486,7 @@ const FormTemplate = ({
                   labelWidth={4}
                   type="Datetime"
                   required={modifyModel.data[key].required}
+                  checkTouched={true}
                 />
               </div>
             );
@@ -478,19 +505,32 @@ const FormTemplate = ({
             );
           case 'image':
             return (
+              <Field name={key}>
+              {({
+                field, // { name, value, onChange, onBlur }
+                form: { touched, errors }, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
+                meta,
+              } : {
+                field: any;
+                form: any;
+                meta: any;
+              }
+              ) => 
+              (
               <div className="mt-3" key={key}>
                 <CustomImageUpload
                   images={images[key]}
-                  onChange={(imageList: any, addUpdateIndex: any) => {
-                    onChange(imageList, addUpdateIndex, key);
-                  }}
                   label={modifyModel.data[key].label}
                   labelWidth={4}
                   isHorizontal={true}
                   required={modifyModel.data[key].required}
+                  name={key}
                 />
               </div>
-            );
+            )
+            }
+            </Field>)
+            ;
           case 'boolean':
             return (
               <div className="mt-3" key={`${key}`}>
@@ -591,7 +631,7 @@ const FormTemplate = ({
 
           case 'SearchSelect':
             // setTouched({[key]: true})
-            return values[key] && (
+            return searchSelect && (
               <div className="mt-3" key={key}>
                 <InfiniteSelect
                   changeId
@@ -599,14 +639,7 @@ const FormTemplate = ({
                   isHorizontal={true}
                   value={searchSelect} // value={search[key]}
                   onChange={(value: any) => {
-                    //setSearchSelect({value: value.value, label: value.label}); // setSearch({ ...search, [key]: value });
                     setSearchSelect(value);
-                    // values.roleName = value;
-
-                    // setSearchTerm({
-                    //   ...searchTerm,
-                    //   [key]: searchM[key].ref ? value.value : value.label,
-                    // });
                   }}
                   loadOptions={(search: string, prevOptions: any, { page }: any) => {
                       // setSearchSelect(values[key])
@@ -632,7 +665,8 @@ const FormTemplate = ({
             );
           
           case 'TreeSelect':
-            return treeSelectValue ? (
+            console.log(modifyModel.data[key])
+            return treeData ? (
               <div className="mt-3" key={key}>
                 <CustomeTreeSelect
                   label={modifyModel.data[key].label}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FormControlLabel, Radio, RadioGroup } from "@material-ui/core";
 import { useField, useFormikContext } from "formik";
 import { Button } from "react-bootstrap";
@@ -37,7 +37,18 @@ export const FormikRadioGroup = ({
 
   const intl = useIntl();
 
-  const [addressesState, setAddressesState] = useState<any>((addresses && addresses.length) ? addresses.find((addr: any) => addr.isDefault === true)._id : '');
+  const [addressesState, setAddressesState] = useState<any>('');
+
+
+  useEffect(() => {
+    if(addresses && addresses.length) {
+      const defaultAddress = addresses.find((addr: any) => addr.isDefault === true);
+      if(defaultAddress) {
+        setAddressesState(defaultAddress._id);
+      }
+    }
+  }, []);
+
   const handleAddressChange = (e : any) => {
     setAddressesState(e.target.value);
     let defaultAddress = values.shippingAddress.find((addr: any) => { return addr._id === e.target.value});
@@ -74,14 +85,19 @@ export const FormikRadioGroup = ({
               }
               }><EditIcon /></Button>
           </div>
-          <div className="col-md-1 col-12">
-            <Button type="button" variant="primary" onClick={(e: any) => {
-              if(handleDeleteButton && setShippingAddressEntity) 
-                handleDeleteButton(true);
-                setShippingAddressEntity(key)
-              }
-              }><DeleteIcon /></Button>
-          </div>
+          {
+            entity.isDefault === false ? (
+            <div className="col-md-1 col-12">
+              <Button type="button" variant="primary" onClick={(e: any) => {
+                if(handleDeleteButton && setShippingAddressEntity) 
+                  handleDeleteButton(true);
+                  setShippingAddressEntity(key)
+                }
+                }><DeleteIcon /></Button>
+            </div>
+            ) : (<></>)
+          }
+          
           </React.Fragment>
         </div>
         ))}

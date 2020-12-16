@@ -2,7 +2,7 @@ import React, { useEffect, Fragment, useState } from "react";
 import {useIntl} from 'react-intl';
 
 
-import {InitMasterProps} from "../../common-library/helpers/common-function-promise";
+import {GetHomePage, InitMasterProps} from "../../common-library/helpers/common-function";
 
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import IndeterminateCheckBoxIcon from '@material-ui/icons/IndeterminateCheckBox';
@@ -33,10 +33,12 @@ import { Switch, Route, Redirect, useHistory } from 'react-router-dom';
 import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import { convertToServer } from "./helpers/convert-data-model";
-import { mockAgency } from "./helpers/mock-entity";
+import { mockAgency, initAgency } from "./helpers/mock-entity";
 import { agencySearchModel, allFormButton, agencySchema, masterEntityDetailDialog } from './defined/const';
 import * as StoreLevelService from '../multilevel-sale/multilevel-sale.service';
 import * as RoleService from './helpers/role.service';
+import { ToastContainer, toast } from 'react-toastify';
+
 
 
 function AgencyPage() {
@@ -77,7 +79,11 @@ function AgencyPage() {
     setLoading,
     error,
     setError,
-    add, update, get, deleteMany, deleteFn, getAll, refreshData
+    add, update, get, deleteMany, deleteFn, getAll, refreshData,
+    addPromise,
+    updatePromise,
+    deletePromise,
+    deleteManyPromise,
   } = InitMasterProps<AgencyModel>({
     getServer: Get,
     countServer: Count,
@@ -151,12 +157,12 @@ function AgencyPage() {
         intl,
         onShowDetail: (entity: AgencyModel) => {
           get(entity)
-            .then(res => {
-              setDetailEntity(res.data);
-            })
-            .catch(error => {
-              console.log(error);
-            });
+            // .then(res => {
+            //   setDetailEntity(res.data);
+            // })
+            // .catch(error => {
+            //   console.log(error);
+            // });
           setShowDetail(true);
         },
         onDelete: (entity: AgencyModel) => {
@@ -344,6 +350,44 @@ function AgencyPage() {
   const allFormField: any = {
     ...GenerateAllFormField(modifyModel)
   };
+
+  const notify = (error: string) => {
+    toast.error(`😠 ${error}`, {
+      position: 'top-right',
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+  };
+
+  const notifySuccess = () => {
+    toast.success(`😠 Thành công`, {
+      position: 'top-right',
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+  };
+
+  const crudSuccess = () => {
+    refreshData();
+    notifySuccess();
+    history.push(GetHomePage(window.location.pathname));
+    history.push('/agency')
+    // history.goBack()
+
+  }
+
+  const crudFail = (error: any) => {
+    setError(error.response.data || error.message || JSON.stringify(error))
+    notify(intl.formatMessage({id: error.response.data || error.message || JSON.stringify(error)}));
+  }
   
 
   return (
@@ -374,7 +418,7 @@ function AgencyPage() {
       />
 
       <Switch>
-        {/* <Redirect from="/purchase-order/edit" to="/purchase-order" /> */}
+        {/* <Redirect from="/agency/:code" to="/agency" /> */}
         <Route path="/agency" exact={true}>
           {/* <MasterHeader title={headerTitle} onSearch={setFilterProps} searchModel={purchaseOrderSearchModel} */}
               {/* initValue={filterProps}/> */}
@@ -386,7 +430,7 @@ function AgencyPage() {
             }}
             onReset={() => {
               setPaginationProps(DefaultPagination)
-              setFilterProps(undefined)
+              setFilterProps({})
             }}
             searchModel={agencySearchModel}
             initValue={{
@@ -410,8 +454,8 @@ function AgencyPage() {
             title={bodyTitle}
             onCreate={() => {
               setEditEntity(null);
-              // setCreateEntity(mockAgency);
-              setCreateEntity(null)
+              setCreateEntity(initAgency);
+              // setCreateEntity(mockAgency)
               history.push('/agency/new');// setShowCreate(true);
             }}
             onDeleteMany={() => setShowDeleteMany(true)}
@@ -430,8 +474,9 @@ function AgencyPage() {
             <EntityCrudPageAgency
               entity={createEntity}
               onModify={(values) => {
-                add(ConvertStatusToString(convertToServer(values)))
+                return addPromise(ConvertStatusToString(convertToServer(values)))
               }}
+              onClickReturn={refreshData}
               // title={updateTitle}
               //  modifyModel={modifyModel}
               // reduxModel="purchaseOrder"
@@ -441,6 +486,8 @@ function AgencyPage() {
               allFormField={allFormField}
               allFormButton={allFormButton}
               validation={agencySchema}
+              crudSuccess={crudSuccess}
+              crudFail={crudFail}
             />
           )}
         </Route>
@@ -449,14 +496,17 @@ function AgencyPage() {
             <EntityCrudPageAgency
               entity={editEntity}
               onModify={(values) => {
-                update(ConvertStatusToString(convertToServer(values)))
+                return updatePromise(ConvertStatusToString(convertToServer(values)))
               }}
+              onClickReturn={refreshData}
               code={match && match.params.code}
               get={AgencyService.GetById}
               formPart={formPart}
               allFormField={allFormField}
               allFormButton={allFormButton}
               validation={agencySchema}
+              crudSuccess={crudSuccess}
+              crudFail={crudFail}
             />
           )}
         </Route>
