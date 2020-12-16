@@ -178,8 +178,8 @@ function EntityCrudPage({
                             <ArrowBackIosIcon />
                           </a>
                           {entityForEdit
-                            ? `CHỈNH SỬA ${formPart[key].header}`
-                            : `THÊM MỚI ${formPart[key].header}`}
+                            ? `CHỈNH SỬA ${formPart[key].header}`.toUpperCase()
+                            : `Tạo mới ${formPart[key].header}`.toUpperCase()}
                         </>
                       }
                     />

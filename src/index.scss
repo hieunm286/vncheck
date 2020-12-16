@@ -159,11 +159,6 @@ input {
   }
 }
 
-.btn{
-  width: 100px;
-  height: 34px;
-}
-
 .modal-delete {
   width: 500px;
   .modal-content {
@@ -271,6 +266,7 @@ html, body {
 
   .card-header {
     padding: 35px 0 25px 0;
+    border-bottom: 1px solid #DADADA;
   }
 
   &.master-header-card .card-body {
@@ -290,6 +286,7 @@ html, body {
   margin-bottom: 0;
   .master-header-search-input-margin {
     margin-bottom: 25px;
+    margin-right: 50px;
   }
 }
 //.card.card-custom > .card-body
