@@ -60,7 +60,8 @@ export const modifyModel: ProductTypeModifyModelDetail[] = [
       images: {
         type: 'image',
         placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
-        label: 'Album 1',
+        label: 'PRODUCT_TYPE.MASTER.IMAGE',
+        multiple: false
       },
       // avatar: {
       //   type: 'image',

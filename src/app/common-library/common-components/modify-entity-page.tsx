@@ -201,7 +201,7 @@ function ModifyEntityPage<T>({
                 <></>
               );
             case 'image':
-              console.log(images)
+              console.log(images.barcode)
               console.log(images.images)
               console.log(images[key])
 
@@ -217,6 +217,7 @@ function ModifyEntityPage<T>({
                     isHorizontal={true}
                     required={value.data[key].required}
                     name={prevKey !== '' ? `${prevKey}.${key}` : key}
+                    multiple={value.data[key].multiple}
                   />
                 </div>
               );
