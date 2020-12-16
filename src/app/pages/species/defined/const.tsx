@@ -57,16 +57,16 @@ export const modifyModel: ProductTypeModifyModelDetail[] = [
         required: true,
         label: 'PRODUCT_TYPE.MASTER.TABLE.BARCODE_COLUMN',
       },
-      image: {
+      images: {
         type: 'image',
         placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
         label: 'Album 1',
       },
-      avatar: {
-        type: 'image',
-        placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
-        label: 'Album 2',
-      },
+      // avatar: {
+      //   type: 'image',
+      //   placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
+      //   label: 'Album 2',
+      // },
     },
   },
   {

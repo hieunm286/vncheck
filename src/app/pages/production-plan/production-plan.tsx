@@ -144,8 +144,8 @@ const ProductPlantSchema = Yup.object().shape({
           this.parent.packing.estimatedTime ||
           this.parent.packing.estimatedExpireTimeStart ||
           this.parent.packing.estimatedExpireTimeEnd ||
-          this.parent.packing.packing ||
-            (_.isObject(this.parent.packing.packing) && this.parent.packing.packing.label) ||
+          // this.parent.packing.packing ||
+          // (_.isObject(this.parent.packing.packing)) ||
           this.parent.packing.estimatedQuantity || this.parent.packing.estimatedQuantity > 0 ||
           this.parent.packing.technical.length > 0 ||
           this.parent.packing.leader.length > 0
