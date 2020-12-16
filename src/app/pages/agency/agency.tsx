@@ -112,7 +112,7 @@ function AgencyPage() {
   const columns = [
     {
       dataField: 'ordinal',
-      text: '#',
+      text: 'STT',
       formatter: (cell: any, row: any, rowIndex: number) => (
         <p>{rowIndex + 1 + ((paginationProps.page ?? 0) - 1) * (paginationProps.limit ?? 0)}</p>
       ),
