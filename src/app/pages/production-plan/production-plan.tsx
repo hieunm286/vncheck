@@ -732,12 +732,17 @@ function ProductionPlan() {
           setStep('2');
           approve(entity)
             .then(res => {
-              updateProcess(entity)
+              if (currentTab !== '1') {
+                updateProcess(entity)
                 .then(ress => {
                   refreshData();
                   history.push('/production-plan');
                 })
                 .catch(error => {});
+              } else {
+                history.push('/production-plan');
+              }
+              
             })
             .catch(error => {});
         },
