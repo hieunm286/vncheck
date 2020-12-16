@@ -27,13 +27,14 @@ export const agencySearchModel: SearchModel = {
     keyField: 'name'
   }, 
   storeLevel: {
-    type: 'TreeSelect',
+    type: 'tree-select',
     placeholder: 'AGENCY.EDIT.PLACEHOLDER.SELL_GOOD_LEVEL',
     label: 'AGENCY.EDIT.LABEL.SELL_GOOD_LEVEL',
     keyField: 'name'
   }, 
   address: {
     type: 'nested',
+    label: '',
     data: {
       state: {
         type: 'string',

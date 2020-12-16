@@ -266,33 +266,32 @@ function PurchaseOrder() {
 
   const purchaseOrderSearchModel: SearchModel = {
     code: {
-      type: 'SearchSelect',
+      type: 'search-select',
       placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.PLACEHOLDER',
       label: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
       onSearch: GetAll,
       keyField: 'code',
     },
     agencyAddress: {
-      type: 'SearchSelect',
+      type: 'search-select',
       placeholder: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS_COLUMN',
       label: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS_COLUMN',
       onSearch: GetAll,
       keyField: 'agencyAddress',
     },
     date: {
-      type: 'Datetime',
+      type: 'date-time',
       placeholder: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS_COLUMN',
       label: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS_COLUMN',
       onSearch: GetAll,
       keyField: 'agencyAddress',
     },
     agency: {
-      type: 'SearchSelect',
+      type: 'search-select',
       placeholder: 'PURCHASE_ORDER.MASTER.HEADER.NAME.PLACEHOLDER',
       label: 'PURCHASE_ORDER.MASTER.HEADER.NAME.LABEL',
       onSearch: AgencyService.GetAll,
       keyField: 'name',
-      ref: true,
     },
     count: {
       type: 'number',
@@ -302,14 +301,14 @@ function PurchaseOrder() {
       keyField: 'count',
     },
     tree: {
-      type: 'TreeSelect',
+      type: 'tree-select',
       placeholder: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS_COLUMN',
       label: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS_COLUMN',
       keyField: 'code',
       data: ConvertToTreeNode(DataExample),
     },
     tree2: {
-      type: 'TreeSelect',
+      type: 'tree-select',
       placeholder: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS_COLUMN',
       label: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS_COLUMN',
       keyField: 'code',
@@ -419,13 +418,13 @@ function PurchaseOrder() {
       title: '',
       data: {
         time: {
-          type: 'Datetime',
+          type: 'date-time',
           placeholder: 'Thời gian thu hoạch',
           label: 'Thời gian thu hoạch',
           required: true,
         },
         time2: {
-          type: 'Datetime',
+          type: 'date-time',
           placeholder: 'Thời gian thu hoạch2',
           label: 'Thời gian thu hoạch2',
         },

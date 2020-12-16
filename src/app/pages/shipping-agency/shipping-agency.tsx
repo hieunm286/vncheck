@@ -204,24 +204,19 @@ function ShippingAgency() {
       data: {
         code: {
           type: 'string',
-          placeholder: '',
-          label: intl.formatMessage({id: 'PRODUCT_TYPE.MASTER.TABLE.CODE_COLUMN'}),
+          label: 'PRODUCT_TYPE.MASTER.TABLE.CODE_COLUMN',
           required: true,
           disabled: true,
         },
         name: {
           type: 'string',
-          placeholder: intl.formatMessage({id: 'PRODUCT_TYPE.MASTER.TABLE.NAME_COLUMN'}),
           required: true,
-          label: intl.formatMessage({id: 'PRODUCT_TYPE.MASTER.TABLE.NAME_COLUMN'}),
+          label: 'PRODUCT_TYPE.MASTER.TABLE.CODE_COLUMN',
         },
         barcode: {
           type: 'string',
-          placeholder: intl.formatMessage({
-            id: 'PRODUCT_TYPE.MASTER.TABLE.BARCODE_COLUMN',
-          }),
           required: true,
-          label: intl.formatMessage({id: 'PRODUCT_TYPE.MASTER.TABLE.BARCODE_COLUMN'}),
+          label: 'PRODUCT_TYPE.MASTER.TABLE.CODE_COLUMN',
         },
         image: {
           type: 'image',
@@ -371,10 +366,6 @@ function ShippingAgency() {
             onSearch={(value) => {
               setPaginationProps(DefaultPagination)
               setFilterProps(value)
-            }}
-            onReset={() => {
-              setPaginationProps(DefaultPagination);
-              setFilterProps({});
             }}
             searchModel={searchModel}
           />

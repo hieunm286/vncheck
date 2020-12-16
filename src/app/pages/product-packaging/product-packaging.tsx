@@ -186,7 +186,7 @@ function ProductPackaging() {
       header: 'THÔNG TIN 1',
       data: {
         code: { title: 'PRODUCT_PACKAGING.MASTER.DETAIL_DIALOG.CODE' },
-        species: { title: 'PRODUCT_PACKAGING.MASTER.DETAIL_DIALOG.NAME', ref: true, refField: 'name' },
+        species: { title: 'PRODUCT_PACKAGING.MASTER.DETAIL_DIALOG.NAME', refField: 'name' },
         weight: { title: 'PRODUCT_PACKAGING.MASTER.DETAIL_DIALOG.GRAM' },
       },
     },
@@ -201,12 +201,11 @@ function ProductPackaging() {
       keyField: 'code',
     },
     species: {
-      type: 'SearchSelect',
+      type: 'search-select',
       placeholder: 'COMMON_COMPONENT.SELECT.PLACEHOLDER',
       label: 'PRODUCT_PACKAGING.MASTER.TABLE.NAME_COLUMN',
       onSearch: ProductTypeService.GetAll,
       keyField: 'name',
-      ref: true
     },
   };
 
@@ -222,7 +221,7 @@ function ProductPackaging() {
           disabled: true,
         },
         species: {
-          type: 'SearchSelect',
+          type: 'search-select',
           placeholder: 'COMMON_COMPONENT.SELECT.PLACEHOLDER',
           required: true,
           label: 'PRODUCT_PACKAGING.MASTER.TABLE.NAME_COLUMN',
@@ -366,10 +365,6 @@ function ProductPackaging() {
             onSearch={(value) => {
               setPaginationProps(DefaultPagination)
               setFilterProps(value)
-            }}
-            onReset={() => {
-              setPaginationProps(DefaultPagination)
-              setFilterProps({})
             }}
             searchModel={productTypeSearchModel}
           />

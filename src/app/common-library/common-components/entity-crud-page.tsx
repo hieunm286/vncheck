@@ -26,14 +26,6 @@ import EXIF from 'exif-js';
 import {isEmpty} from 'lodash';
 import exifr from 'exifr'
 
-
-const DeepObject = (obj1: any, obj2: any) => {
-  const updateValue = diff(obj1, obj2);
-  console.log(updateValue)
-  const a = isEmpty(updateValue)
-  console.log(a);
-}
-
 function EntityCrudPage({
                           entity,
                           onModify,
@@ -162,18 +154,19 @@ function EntityCrudPage({
         {({handleSubmit, setFieldValue}) => (
           <>
             <Form className="form form-label-right">
-              {Object.keys(formPart).map(key => (
+              {Object.keys(formPart).map((key, index) => (
                 <Card key={key}>
                   {formPart[key].header && (
-                    <CardHeader title={(
-                      <div onClick={() => history.goBack()} className={'cursor-pointer'}>
+                    <CardHeader title={index == 0 ?
+                      (<a onClick={() => history.goBack()} className={'cursor-pointer'}>
                         <ArrowBackIosIcon/>
                         {intl
-                          .formatMessage({id: formPart[key].header}, {moduleName: intl.formatMessage({id: moduleName})})
+                          .formatMessage({id: title}, {moduleName: intl.formatMessage({id: moduleName})})
                           .toUpperCase()}
                         entityForEdit ? `CHỈNH SỬA ${formPart[key].header}`.toUpperCase()
                         : `Tạo mới ${formPart[key].header}`.toUpperCase()
-                      </div>)}
+                      </a>) : (<>{intl.formatMessage({id: formPart[key].header}, {moduleName: intl.formatMessage({id: moduleName})})
+                        .toUpperCase()}</>)}
                     />
                   )}
                   <CardBody>
@@ -230,7 +223,7 @@ function EntityCrudPage({
                 </Card>
               ))}
             </Form>
-            {/* 
+            {/*
             <button type="submit" onClick={() => handleSubmit()} className="btn btn-primary mr-2">
               <SaveOutlinedIcon style={iconStyle} /> Lưu
             </button>

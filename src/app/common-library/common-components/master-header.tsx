@@ -18,156 +18,29 @@ import CITY_LIST from '../../../_metronic/AdministrativeDivision/city.json';
 import DISTRICT_LIST from '../../../_metronic/AdministrativeDivision/district.json';
 
 import './master-header.css';
-import CustomeTreeSelect from '../forms/tree-select';
+import {InputDateTime, InputNumber, InputSearchSelect, InputString} from "./common-input";
 
 export function MasterHeader<T>({
                                   title,
                                   onSearch,
                                   searchModel,
                                   initValue = {},
-                                  onReset,
+                                  // onReset,
                                 }: {
   searchModel: SearchModel;
   title: string;
   initValue?: any;
   onSearch: (data: any) => void;
-  onReset?: (data?: any) => void;
+  // onReset?: (data?: any) => void;
 }) {
   const intl = useIntl();
   
-  const searchM: any = {...searchModel};
-  
-  const [search, setSearch] = useState<any>(initValue);
-  
-  // let _disabled: any = {};
-  // Object.keys(initValue).forEach(field => {
-  //   _disabled = {..._disabled, [field]: false};
-  // });
-  // _disabled.subLot = true;
-  
-  // const [isDisabled, setIsDisabled] = useState<any>(_disabled);
-  
-  // const [treeValue, setTreeValue] = useState();
-  
   const handleResetForm = (resetForm: any) => {
     resetForm();
-    // onSearch(initValue);
-    setSearch(initValue);
-    // reset disable
-    // let _disabled = {};
-    // Object.keys(initValue).forEach(field => {
-    //   _disabled = {..._disabled, [field]: false};
-    // });
-    // setIsDisabled(_disabled);
   };
-  // const loadOptions = async (search: string, prevOptions: any, service: any, keyField: string) => {
-  //   return new Promise<{ options: { label: string; value: string }[]; hasMore: boolean }>(
-  //     resolve => {
-  //       const queryProps: any = {};
-  //       queryProps[keyField] = search;
-  //       service.GetAll({ queryProps, paginationProps }).then((res: { data: any[] }) => {
-  //         service.Count({ queryProps: { code: search } }).then((c: any) => {
-  //           const hasMore = prevOptions.length < c.data - (DefaultPagination.limit ?? 0);
-  //           console.log(hasMore);
-  //           console.log(prevOptions);
-  //           setPaginationProps({
-  //             ...paginationProps,
-  //             page: (paginationProps.page ?? 0) + 1,
-  //           });
-  //           resolve({
-  //             options: res.data.map(e => {
-  //               return { label: e[keyField], value: e[keyField] };
-  //             }),
-  //             hasMore: hasMore,
-  //           });
-  //         });
-  //       });
-  //     },
-  //   );
-  // };
-  
-  // const [ search, setSearch ] = useState<any>(formValues);
-  
-  // const [address, setAddress] = useState<any>({
-  //   state: {key: '', value: ''},
-  //   city: {key: '', value: ''},
-  //   district: {key: '', value: ''},
-  // });
-  //
-  // const [selectedState, setSelectedState] = useState<any>({key: '', value: ''});
-  // const [selectedCity, setSelectedCity] = useState<any>({key: '', value: ''});
-  // const [selectedDistrict, setSelectedDistrict] = useState<any>({key: '', value: ''});
-  //
-  // const [stateValues, setStateValues] = useState<any>();
-  // const [cityValues, setCityValues] = useState<any>();
-  // const [districtValues, setDistrictValues] = useState<any>();
-  //
-  const [treeSelectValue, setTreeSelectValue] = useState<any>();
-  const [treeData, setTreeData] = useState<any>();
-  
-  // const treeLoadOptions = async (getAll: (t:any)=> any) => {
-  //   const queryProps: any = {};
-  //   // queryProps[keyField] = search;
-  //   // queryProps =
-  //
-  //   const entities = await getAll({});
-  //   return entities.data;
-  // };
-  
-  // useEffect(() => {
-  //   treeLoadOptions(StoreLevelService) // treeLoadOptions(modifyModel.data['storeLevel'].service)
-  //     .then((res: any) => {
-  //       // console.log(res);
-  //       // console.log(DataExample)
-  //       const treeData = ConvertToTreeNode(res);
-  //       setTreeData(treeData);
-  //     });
-  // }, []);
-  
-  const loadOptions = async (
-    search: string,
-    prevOptions: any,
-    {page}: any,
-    {onSearch, keyField, key}: { onSearch: (t: any) => any; keyField: string; key: string },
-    {
-      onFetch,
-      onCount,
-    }: {
-      onFetch?: (props: any) => Promise<AxiosResponse<any>>;
-      onCount?: (props: any) => Promise<AxiosResponse<any>>;
-    },
-  ) => {
-    const queryProps: any = {};
-    queryProps[keyField] = search;
-    
-    const paginationProps = {
-      ...DefaultPagination,
-      page: page,
-    };
-    
-    const entities = await onSearch({queryProps, paginationProps});
-    
-    // const count = onCount ? await onCount({ queryProps }) : await service.Count({ queryProps });
-    const count = entities.data.paging.total;
-    const hasMore = prevOptions.length < count - (DefaultPagination.limit ?? 0);
-    
-    const data = [...new Set(entities.data.data)];
-    
-    return {
-      options: data.map((e: any) => {
-        return {label: e[keyField], value: e._id};
-      }),
-      hasMore: hasMore,
-      additional: {
-        page: page + 1,
-      },
-    };
-  };
-  
   return (
     <Card className={'master-header-card'}>
       <CardHeader title={intl.formatMessage({id: title}).toUpperCase()}/>
-      
       <CardBody>
         <Formik
           initialValues={initValue}
@@ -176,105 +49,76 @@ export function MasterHeader<T>({
           }}
           onReset={data => {
             onSearch({});
-            if (onReset) {
-              onReset(data);
-            }
+            // if (onReset) {
+            //   onReset(data);
+            // }
           }}>
           {({values, handleSubmit, handleBlur, handleChange, setFieldValue, resetForm}) => (
             <form onSubmit={handleSubmit} className="form form-label-right">
               <div className="form-group row master-header-search-margin">
                 {searchModel ? (
-                  Object.keys(searchM).map(key => {
-                    const name = searchM[key].customName ?? key;
-                    const className = searchM[key].className ?? "col-xxl-2 col-md-3 master-header-search-input-margin";
-                    switch (searchM[key].type) {
+                  Object.keys(searchModel).map(key => {
+                    switch (searchModel[key].type) {
                       case 'string':
                         return (
-                          <div className={className} key={`master_header${key}`}>
-                            <Field
-                              name={name}
-                              disabled={searchM[key].isDisabled ?? false}
-                              onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                                handleChange(e);
-                              }}
-                              component={Input}
-                              placeholder={intl.formatMessage({id: searchM[key].placeholder ?? 'COMMON_COMPONENT.INPUT.PLACEHOLDER'})}
-                              label={typeof searchM[key].label === 'string' ? intl.formatMessage({id: searchM[key].label}) : searchM[key].label}
-                            />
-                          </div>
+                          <InputString
+                            className={"col-xxl-2 col-md-3 master-header-search-input-margin"}
+                            name={key}
+                            {...searchModel[key]}
+                            key={`master_header${key}`}/>
                         );
                       case 'number':
                         return (
-                          <div className={className} key={`master_header${key}`}>
-                            <Field
-                              name={name}
-                              disabled={searchM[key].isDisabled ?? false}
-                              type="number"
-                              component={Input}
-                              placeholder={intl.formatMessage({id: searchM[key].placeholder ?? 'COMMON_COMPONENT.INPUT.PLACEHOLDER'})}
-                              label={typeof searchM[key].label === 'string' ? intl.formatMessage({id: searchM[key].label}) : searchM[key].label}
-                            />
-                          </div>
+                          <InputNumber
+                            className={"col-xxl-2 col-md-3 master-header-search-input-margin"}
+                            name={key}
+                            {...searchModel[key]}
+                            key={`master_header${key}`}/>
                         );
-                      case 'Datetime':
+                      case 'date-time':
                         return (
-                          <div className={className} key={`master_header${key}`}>
-                            <DatePickerField
-                              {...searchM[key]}
-                              name={name}
-                              disabled={searchM[key].isDisabled ?? false}
-                              label={typeof searchM[key].label === 'string' ? intl.formatMessage({id: searchM[key].label}) : searchM[key].label}
-                            />
-                          </div>
+                          <InputDateTime
+                            className={"col-xxl-2 col-md-3 master-header-search-input-margin"}
+                            name={key}
+                            {...searchModel[key]}
+                            key={`master_header${key}`}
+                          />
                         );
-                      case 'SearchSelect':
+                      case 'search-select':
+                        if (searchModel[key].onSearch === undefined || searchModel[key].onSearch === null) return;
+                        if (!searchModel[key].keyField) return;
+                        const t = (t: any) => {
+                        
+                        };
                         return (
-                          <div className={className} key={key}>
-                            <InfiniteSelect
-                              disabled={searchM[key].isDisabled ?? false}
-                              label={intl.formatMessage({id: searchM[key].label})}
-                              isHorizontal={false}
-                              value={search[key]}
-                              onChange={(value: any) => {
-                                setSearch({...search, [key]: value});
-                              }}
-                              loadOptions={(search: string, prevOptions: any, {page}: any) => {
-                                return loadOptions(
-                                  search,
-                                  prevOptions,
-                                  {page},
-                                  {
-                                    onSearch: searchM[key].onSearch,
-                                    keyField: searchM[key].keyField,
-                                    key: key,
-                                  },
-                                  {},
-                                );
-                              }}
-                              refs={searchM[key].ref}
-                              additional={{
-                                page: DefaultPagination.page,
-                              }}
-                              name={name}
-                              placeholder={searchM[key].placeholder}
-                            />
-                          </div>
+                          <InputSearchSelect
+                            className={"col-xxl-2 col-md-3 master-header-search-input-margin"}
+                            name={key}
+                            {...searchModel[key]}
+                            onSearch={searchModel[key].onSearch ?? t}
+                            keyField={searchModel[key].keyField ?? ''}
+                            key={`master_header${key}`}
+                            // onChange={(value: any) => {
+                            //   setSearch({...search, [key]: value});
+                            // }}
+                            additional={{
+                              page: DefaultPagination.page,
+                            }}
+                          />
                         );
-                      
-                      case 'TreeSelect':
-                        return (
-                          <div className={className} key={key}>
-                            <CustomeTreeSelect
-                              label={intl.formatMessage({id: searchM[key].label})}
-                              disabled={searchM[key].isDisabled ?? false}
-                              placeholder={intl.formatMessage({id: searchM[key].placeholder})}
-                              data={treeData}
-                              value={treeSelectValue}
-                              onChange={(value: any) => setSearch({...search, [key]: value})}
-                              name={name}
-                            />
-                          </div>
-                        );
+                      //
+                      // case 'TreeSelect':
+                      //   return (
+                      //       <CustomeTreeSelect
+                      //         label={intl.formatMessage({id: searchM[key].label})}
+                      //         disabled={searchM[key].isDisabled ?? false}
+                      //         placeholder={intl.formatMessage({id: searchM[key].placeholder})}
+                      //         data={treeData}
+                      //         value={treeSelectValue}
+                      //         onChange={(value: any) => setSearch({...search, [key]: value})}
+                      //         name={key}
+                      //       />
+                      //   );
                       //
                       // case 'stateSelect':
                       //   // const stateValues = Object.values(STATE_LIST).map((state: any) => {return {value: state.name, key: state.code}});

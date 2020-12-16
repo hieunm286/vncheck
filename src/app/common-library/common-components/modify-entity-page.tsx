@@ -204,7 +204,7 @@ function ModifyEntityPage<T>({
               return (
                 <div className="mt-3" key={key}>
                   <CustomImageUpload
-                    images={images[key]}
+                    value={images[key]}
                     // onChange={(imageList: any, addUpdateIndex: any) => {
                     //   onChange(imageList, addUpdateIndex, key);
                     // }}
@@ -300,7 +300,6 @@ function ModifyEntityPage<T>({
                         key,
                       )
                     }
-                    refs={value.data[key].ref}
                     additional={{
                       page: DefaultPagination.page,
                     }}

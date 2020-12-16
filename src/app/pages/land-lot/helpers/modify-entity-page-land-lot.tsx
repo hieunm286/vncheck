@@ -383,7 +383,6 @@ console.log(search)
                                   key,
                                 )
                               }
-                              refs={value.data[key].ref}
                               additional={{
                                 page: DefaultPagination.page,
                               }}

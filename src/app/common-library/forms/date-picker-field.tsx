@@ -108,27 +108,14 @@ const getClassName = (labelWidth: number | null | undefined, labelStart: boolean
       classes.push('col-12');
     }
   }
-  
   return classes.join(' ');
 };
-
-// export function ExampleCustomInput({value, onClick}: { value: any, onClick: any }) {
-//   return (
-//     <div className="form-group">
-//       <input type="text" className="form-control" value={value} onClick={onClick}/>
-//       <FontAwesomeIcon icon={faCalendarAlt} onClick={onClick}/>
-//     </div>
-//   );
-// }
 
 export function DatePickerField({...props}: any) {
   const {setFieldValue, errors, touched} = useFormikContext<any>();
   const [field] = useField(props);
-  const intl = useIntl();
   const timestamp = new Date();
   const inverseOffset = moment(timestamp).utcOffset() * -1;
-  console.log(errors)
-  console.log(field.name)
   return (
     <>
       <div className={props.isHorizontal && 'row'}>
@@ -139,21 +126,20 @@ export function DatePickerField({...props}: any) {
           <DatePicker picker="date"
                       className={'default-behave ' + props.checkTouched ? getFieldCSSClasses2(getTouched(touched, field.name), getError(errors, field.name)) : getFieldCSSClasses(getTouched(touched, field.name), getError(errors, field.name))}
                       locale={locale}
-                      placeholder={intl.formatMessage({id: props.placeholder ?? 'COMMON_COMPONENT.DATEPICKER.PLACEHOLDER'})}
-                      format={"DD/MM/yyyy"}
+                      {...props}
+                      format={props.format ?? "DD/MM/yyyy"}
                       onChange={(val: Moment | null, dateString: string) => {
                         setFieldValue(field.name, val);
                         if (val) setFieldValue(field.name, moment(val).add(val.utcOffset(), 'm').utc().toISOString());
                         else setFieldValue(field.name, undefined);
                       }}
-                      disabled={props.disabled}
-                      value={field.value ? moment(field.value).add(inverseOffset,'m') : null}
+                      value={field.value ? moment(field.value).add(inverseOffset, 'm') : null}
+          
           />
           {!props.checkTouched && getError(errors, field.name) ? (
             <div className="invalid-datepicker-feedback text-danger" style={{fontSize: '0.9rem'}}>
               Vui lòng chọn
               {
-                // errors[field.name]?.toString()
                 '\u00A0' + deCapitalizeFirstLetter(props.label)
               }
             </div>
@@ -165,13 +151,11 @@ export function DatePickerField({...props}: any) {
             <div className="invalid-datepicker-feedback text-danger" style={{fontSize: '0.9rem'}}>
               Vui lòng chọn
               {
-                // errors[field.name]?.toString()
                 '\u00A0' + deCapitalizeFirstLetter(props.label)
               }
             </div>
           ) : (
             <div className="feedback">
-              {/* Please enter <b>{props.label}</b> in 'mm/dd/yyyy' format */}
             </div>
           )}
         </div>
