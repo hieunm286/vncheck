@@ -1,21 +1,13 @@
 import React, {ChangeEvent, useState} from 'react';
 import {useIntl} from 'react-intl';
-import {Field, Formik} from 'formik';
+import {Formik} from 'formik';
 import SearchIcon from '@material-ui/icons/Search';
-import {Input} from '../forms/input';
 import {Card, CardBody, CardHeader} from '../card';
 import SVG from 'react-inlinesvg';
 import {ToAbsoluteUrl} from '../helpers/assets-helpers';
 import {SearchModel} from '../common-types/common-type';
 // import InfiniteScroll from 'react-infinite-scroll-component';
-import {AxiosResponse} from 'axios';
 import {DefaultPagination, iconStyle} from '../common-consts/const';
-import {InfiniteSelect} from '../forms/infinite-select';
-import {DatePickerField} from '../forms/date-picker-field';
-// import InfiniteSelect from '../forms/infinite-select';
-import STATE_LIST from '../../../_metronic/AdministrativeDivision/state.json';
-import CITY_LIST from '../../../_metronic/AdministrativeDivision/city.json';
-import DISTRICT_LIST from '../../../_metronic/AdministrativeDivision/district.json';
 
 import './master-header.css';
 import {InputDateTime, InputNumber, InputSearchSelect, InputString} from "./common-input";
@@ -25,14 +17,11 @@ export function MasterHeader<T>({
                                   onSearch,
                                   searchModel,
                                   initValue = {},
-                                  // onReset,
-                                  treeData
                                 }: {
   searchModel: SearchModel;
   title: string;
   initValue?: any;
   onSearch: (data: any) => void;
-  // onReset?: (data?: any) => void;
 }) {
   const intl = useIntl();
   
