@@ -25,8 +25,8 @@ const detailDialogTitle = 'SHIPPING_AGENCY.DETAIL_DIALOG.TITLE';
 const moduleName = 'SHIPPING_AGENCY.MODULE_NAME';
 const deleteDialogTitle = 'SHIPPING_AGENCY.DELETE_DIALOG.TITLE';
 const deleteDialogBodyTitle = 'SHIPPING_AGENCY.DELETE_DIALOG.BODY_TITLE';
-const createTitle = 'PRODUCT_TYPE.CREATE.TITLE';
-const updateTitle = 'PURCHASE_ORDER.UPDATE.TITLE';
+const createTitle = 'SHIPPING_AGENCY.CREATE.TITLE';
+const updateTitle = 'SHIPPING_AGENCY.UPDATE.TITLE';
 const homeURL = `${window.location.pathname}`
 
 function ShippingAgency() {
@@ -306,7 +306,6 @@ function ShippingAgency() {
         loading={loading}
         error={error}
         onHide={() => {
-          setError('');
           setShowDelete(false);
         }}
         title={deleteDialogTitle}
@@ -320,7 +319,6 @@ function ShippingAgency() {
         onDelete={deleteMany}
         error={error}
         onHide={() => {
-          setError('');
           setShowDeleteMany(false);
         }}
       />
