@@ -256,6 +256,9 @@ html, body {
 }
 
 .form-control {
+
+  font-size: $defaut-font-size ;
+  
   input {
     font-size: $defaut-font-size;
   }
