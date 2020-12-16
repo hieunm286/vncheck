@@ -31,31 +31,25 @@ export const agencySearchModel: SearchModel = {
     placeholder: 'AGENCY.EDIT.PLACEHOLDER.SELL_GOOD_LEVEL',
     label: 'AGENCY.EDIT.LABEL.SELL_GOOD_LEVEL',
     keyField: 'name'
-  }, 
-  address: {
-    type: 'nested',
-    label: '',
-    data: {
-      state: {
-        type: 'string',
-        placeholder: 'AGENCY.EDIT.PLACEHOLDER.STATE',
-        label: 'AGENCY.EDIT.LABEL.STATE',
-      },
-      city: {
-        type: 'string',
-        placeholder: 'AGENCY.EDIT.PLACEHOLDER.CITY',
-        label: 'AGENCY.EDIT.LABEL.CITY',
-        keyField: 'name'
-      },
-      district: {
-        type: 'string',
-        placeholder: 'AGENCY.EDIT.PLACEHOLDER.DISTRICT',
-        label: 'AGENCY.EDIT.LABEL.DISTRICT',
-        keyField: 'name'
-      }
-    }
-  }, 
-  
+  },
+  state: {
+    type: 'string',
+    placeholder: 'AGENCY.EDIT.PLACEHOLDER.STATE',
+    label: 'AGENCY.EDIT.LABEL.STATE',
+    name: 'address.state',
+  },
+  city: {
+    type: 'string',
+    placeholder: 'AGENCY.EDIT.PLACEHOLDER.CITY',
+    label: 'AGENCY.EDIT.LABEL.CITY',
+    name: 'address.city',
+  },
+  district: {
+    type: 'string',
+    placeholder: 'AGENCY.EDIT.PLACEHOLDER.DISTRICT',
+    label: 'AGENCY.EDIT.LABEL.DISTRICT',
+    name: 'address.district',
+  }
 };
 
 

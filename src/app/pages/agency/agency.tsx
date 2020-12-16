@@ -112,34 +112,37 @@ function AgencyPage() {
   const columns = [
     {
       dataField: 'ordinal',
-      text: '#',
+      text: 'STT',
       formatter: (cell: any, row: any, rowIndex: number) => (
-        <p>{rowIndex + 1 + ((paginationProps.page ?? 0) - 1) * (paginationProps.limit ?? 0)}</p>
+        <React.Fragment>{rowIndex + 1 + ((paginationProps.page ?? 0) - 1) * (paginationProps.limit ?? 0)}</React.Fragment>
       ),
-      style: {paddingTop: 20},
-    },    {
-      dataField: 'name',
-      text: `${intl.formatMessage({id: 'PURCHASE_ORDER.MASTER.HEADER.NAME.LABEL'})}`,
-      ...SortColumn
+      // style: {paddingTop: 20},
     },
     {
       dataField: 'code',
-      text: `${intl.formatMessage({id: 'PURCHASE_ORDER.MASTER.TABLE.CODE_COLUMN'})}`,
+      text: `${intl.formatMessage({id: 'AGENCY.MASTER.TABLE.CODE_COLUMN'})}`,
+      ...SortColumn
+    },
+    {
+      dataField: 'name',
+      text: `${intl.formatMessage({id: 'AGENCY.MASTER.TABLE.NAME_COLUMN'})}`,
+      ...SortColumn
+    },
+    {
+      dataField: 'storeLevel',
+      text: `${intl.formatMessage({id: 'AGENCY.MASTER.TABLE.STORE_LEVEL_COLUMN'})}`,
+      formatter: (cell: any, row: any, rowIndex: number) => (
+        <React.Fragment>{row.storeLevel.name}</React.Fragment>
+      ),
       ...SortColumn
     },
     {
       dataField: 'address',
-      text: `${intl.formatMessage({id: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS_COLUMN'})}`,
+      text: `${intl.formatMessage({id: 'AGENCY.MASTER.TABLE.AGENCY_ADDRESS_COLUMN'})}`,
       formatter: (cell: any, row: any, rowIndex: number) => {
         return (
-        <p>{row.address.district + ',' + row.address.city + ',' + row.address.state}</p> )
+        <React.Fragment>{row.address.district + ',' + row.address.city + ',' + row.address.state}</React.Fragment> )
       },
-      ...SortColumn
-    },
-    
-    {
-      dataField: 'phone',
-      text: `${intl.formatMessage({id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN'})}`,
       ...SortColumn
     },
     {
@@ -388,6 +391,27 @@ function AgencyPage() {
     setError(error.response.data || error.message || JSON.stringify(error))
     notify(intl.formatMessage({id: error.response.data || error.message || JSON.stringify(error)}));
   }
+
+  const [treeData, setTreeData] = useState<any>();
+  
+  const treeLoadOptions = async (getAll: (t:any)=> any) => {
+    const queryProps: any = {};
+    // queryProps[keyField] = search;
+    // queryProps =
+  
+    const entities = await getAll({});
+    return entities.data;
+  };
+  
+  useEffect(() => {
+    treeLoadOptions(StoreLevelService.GetAll) // treeLoadOptions(modifyModel.data['storeLevel'].service)
+      .then((res: any) => {
+        // console.log(res);
+        // console.log(DataExample)
+        const treeData = ConvertToTreeNode(res);
+        setTreeData(treeData);
+      });
+  }, []);
   
 
   return (
@@ -429,6 +453,7 @@ function AgencyPage() {
               setFilterProps(value)
             }}
             searchModel={agencySearchModel}
+            treeData={treeData}
             initValue={{
               code: '',
               lot: '',

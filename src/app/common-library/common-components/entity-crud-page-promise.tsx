@@ -76,7 +76,22 @@ function EntityCrudPagePromise({
   const history = useHistory();
   const [entityForEdit, setEntityForEdit] = useState(entity);
 
-  const [images, setImages] = useState(initForm);
+  const ConvertImage = (entity: any) => {
+    const cv = { ...entity }
+
+    if (entity.image) {
+
+      // const imageURL = URL.createObjectURL(entity.image.path);
+
+      const dataURL = { data_url: entity.image.imageURL };
+
+      cv.images = [dataURL]
+    }
+
+    return cv
+  }
+
+  const [images, setImages] = useState(entity && entity.image ? ConvertImage(entity) : initForm);
   const [imageRootArr, setImageRootArr] = useState<any>([]);
 
   const [tagArr, setTagArr] = useState(initForm);
@@ -92,6 +107,8 @@ function EntityCrudPagePromise({
     // newTag.push(value);
     // setTagArr({ ...tagArr, [key]: newTag });
   }
+
+  console.log(images)
 
   useEffect(() => {
     if (code) {
@@ -140,7 +157,7 @@ function EntityCrudPagePromise({
             updateValue = { ...values };
           }
 
-          submitHandle(updateValue, { setSubmitting, setFieldError });
+          submitHandle(values, { setSubmitting, setFieldError });
         }}>
         {({ handleSubmit, setFieldValue, values }) => (
           <>

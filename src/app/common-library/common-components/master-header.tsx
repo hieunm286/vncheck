@@ -26,6 +26,7 @@ export function MasterHeader<T>({
                                   searchModel,
                                   initValue = {},
                                   // onReset,
+                                  treeData
                                 }: {
   searchModel: SearchModel;
   title: string;
