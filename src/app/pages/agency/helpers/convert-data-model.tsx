@@ -58,8 +58,10 @@ export const convertToServer = (entity: any) => {
       birthDay: entity.birthDay,
       role: entity.roleName.value,
       // roleId: (entity.roleName && entity.roleName.value) ? entity.roleName.value : '',
+      image: entity.avatar[0]
     },
     status: entity.status,
+    images: entity.image,
   };
 
   delete _entity.state;
