@@ -24,9 +24,9 @@ function DeleteManyDialog<T>({
                              }: DeleteManyDialogProps<T>) {
   const intl = useIntl();
   
-  return (
+  return (<>
     <Modal
-      show={isShow}
+      show={isShow && (error === '')}
       onHide={onHide}
       aria-labelledby="example-modal-sizes-title-lg"
       dialogClassName="modal-delete-many">
@@ -41,8 +41,7 @@ function DeleteManyDialog<T>({
       </Modal.Header>
       <Modal.Body>
         {selectedEntities && selectedEntities.length > 0 ? (
-          !loading &&
-          error === '' && (
+          !loading && (
             <>
               {CapitalizeFirstLetter(
                 intl.formatMessage(
@@ -65,11 +64,6 @@ function DeleteManyDialog<T>({
           </>
         )}
         {loading && <span className={'ml-1'}>{intl.formatMessage({id: deletingMessage})}</span>}
-        {!loading && error !== '' && (
-          <>
-            {typeof error === 'string' ? (<p className='text-danger'>{intl.formatMessage({id: error})}</p>) : error}
-          </>
-        )}
       </Modal.Body>
       <Modal.Footer className="border-top-0">
         {selectedEntities && selectedEntities.length > 0 &&
@@ -87,7 +81,35 @@ function DeleteManyDialog<T>({
         </button>
       </Modal.Footer>
     </Modal>
-  );
+    <Modal
+      show={isShow && (error !== '')}
+      onHide={onHide}
+      aria-labelledby="example-modal-sizes-title-lg"
+      dialogClassName="modal-delete-many">
+      {/*begin::Loading*/}
+      {/*end::Loading*/}
+      <Modal.Header className="border-bottom-0" closeButton>
+        <Modal.Title id="example-modal-sizes-title-lg" className="text-primary">
+          {intl
+            .formatMessage({id: title}, {moduleName: intl.formatMessage({id: moduleName})})
+            .toUpperCase()}
+        </Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        {!loading && error !== '' && (
+          <>
+            {typeof error === 'string' ? (<p className='text-danger'>{intl.formatMessage({id: error})}</p>) : error}
+          </>
+        )}
+      </Modal.Body>
+      <Modal.Footer className="border-top-0">
+        <button type="button" onClick={onHide} className="btn btn-outline-primary fixed-btn-width">
+          <CancelOutlinedIcon style={iconStyle}/>
+          {intl.formatMessage({id: cancelBtn})}
+        </button>
+      </Modal.Footer>
+    </Modal>
+  </>);
 }
 
 export default DeleteManyDialog;
