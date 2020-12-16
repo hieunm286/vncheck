@@ -454,8 +454,8 @@ function AgencyPage() {
             title={bodyTitle}
             onCreate={() => {
               setEditEntity(null);
-              // setCreateEntity(initAgency);
-              setCreateEntity(mockAgency)
+              setCreateEntity(initAgency);
+              // setCreateEntity(mockAgency)
               history.push('/agency/new');// setShowCreate(true);
             }}
             onDeleteMany={() => setShowDeleteMany(true)}

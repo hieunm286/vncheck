@@ -33,22 +33,22 @@ export const mockAgency: AgencyModel = {
   phone: "2819470127",
   // shippingAddress: "",
   shippingAddress: [
-    {
-      _id: "1",
-      address: "Số 2 ngõ 219 Trung Kính",
-      district: "Yên Hòa",
-      city: "Cầu Giấy",
-      state: "Hà Nội",
-      isDefault: false,
-    },
-    {
-      _id: "2",
-      address: "abz",
-      district: "Bình Liêu",
-      city: "Bình Liêu",
-      state: "Quảng Ninh",
-      isDefault: true,
-    }
+    // {
+    //   _id: "1",
+    //   address: "Số 2 ngõ 219 Trung Kính",
+    //   district: "Yên Hòa",
+    //   city: "Cầu Giấy",
+    //   state: "Hà Nội",
+    //   isDefault: false,
+    // },
+    // {
+    //   _id: "2",
+    //   address: "abz",
+    //   district: "Bình Liêu",
+    //   city: "Bình Liêu",
+    //   state: "Quảng Ninh",
+    //   isDefault: true,
+    // }
   ],
   status: false,
   taxId: "29849247809278329",
@@ -121,7 +121,7 @@ export const initAgency: AgencyModel = {
     //   isDefault: true,
     // }
   ],
-  status: false,
+  status: true,
   taxId: "",
   // storeLevel: {label: 'label',value: 'value'},
   storeLevel: null,

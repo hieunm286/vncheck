@@ -37,13 +37,15 @@ export const FormikRadioGroup = ({
 
   const intl = useIntl();
 
-  const [addressesState, setAddressesState] = useState<any>((addresses && addresses.length) ? addresses.find((addr: any) => addr.isDefault === true)._id : '');
+  const [addressesState, setAddressesState] = useState<any>('');
 
 
   useEffect(() => {
     if(addresses && addresses.length) {
-      const defaultID = addresses.find((addr: any) => addr.isDefault === true)._id;
-      setAddressesState(defaultID);
+      const defaultAddress = addresses.find((addr: any) => addr.isDefault === true);
+      if(defaultAddress) {
+        setAddressesState(defaultAddress._id);
+      }
     }
   }, []);
 
