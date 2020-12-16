@@ -95,8 +95,6 @@ const FormTemplate = ({
   useEffect(() => {
     treeLoadOptions(StoreLevelService) // treeLoadOptions(modifyModel.data['storeLevel'].service)
     .then((res: any) => {
-      // console.log(res);
-      // console.log(DataExample)
       const treeData = ConvertToTreeNode(res);
       setTreeData(treeData)
     });
@@ -288,7 +286,6 @@ const FormTemplate = ({
             const withFeedbackLabel = true;
             const placeholder = modifyModel.data[key].placeholder
             const required = modifyModel.data[key].required;
-            console.log(selectedState)
             return (selectedState.value || (selectedState.key === null && selectedState.value === null)) && (
               <div className="mt-3" key={`${key}`}>
                 <div className="row">
@@ -341,7 +338,6 @@ const FormTemplate = ({
                       }
                     </Select>
                       {
-                        // console.log(touched)
                         (errors[key] && touched[key]) && (
                           <div className="invalid-feedback">{errors[key]}</div>
                         )
@@ -504,7 +500,6 @@ const FormTemplate = ({
               />
             );
           case 'image':
-            console.log(key)
             return (
               <Field name={key}>
               {({
@@ -640,15 +635,7 @@ const FormTemplate = ({
                   isHorizontal={true}
                   value={searchSelect} // value={search[key]}
                   onChange={(value: any) => {
-                    //setSearchSelect({value: value.value, label: value.label}); // setSearch({ ...search, [key]: value });
-                    console.log(value)
                     setSearchSelect(value);
-                    // values.roleName = value;
-
-                    // setSearchTerm({
-                    //   ...searchTerm,
-                    //   [key]: searchM[key].ref ? value.value : value.label,
-                    // });
                   }}
                   loadOptions={(search: string, prevOptions: any, { page }: any) => {
                       // setSearchSelect(values[key])

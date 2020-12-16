@@ -79,7 +79,6 @@ function EntityCrudPageAgency({
     if (code) {
       get(code).then((res: { data: any }) => {
         const entity = convertToForm(res.data);
-        console.log(entity)
         setEntityForEdit(ConvertStatusToBoolean(entity));
       });
     }
@@ -94,7 +93,6 @@ function EntityCrudPageAgency({
   }
 
   const addInitField = (nullableEntity: any, compensateField: any) => {
-    console.log(nullableEntity)
     const newEntity = {...nullableEntity};
     Object.keys(compensateField).map((field: string) => {
       if(!newEntity[field]) {
@@ -121,9 +119,6 @@ function EntityCrudPageAgency({
         }}>
         {({ values, handleSubmit, errors }) => (
           <>
-          {
-            console.log(errors)
-          }
             <Form className="form form-label-right">
               {Object.keys(formParts).map(key => (
                 <Card key={key}>

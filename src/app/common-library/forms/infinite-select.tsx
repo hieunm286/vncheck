@@ -59,7 +59,6 @@ export function InfiniteSelect({
   const [values, setValue] = React.useState(null);
   const CustomAsyncPaginate = withAsyncPaginate(AtlaskitSelect);
   const intl = useIntl();
-  console.log(value)
   
   return (
     <>

@@ -81,8 +81,6 @@ function CustomeTreeSelect(
     width: width,
   };
   const { setFieldValue, errors, touched } = useFormikContext<any>();
-  console.log(errors)
-  console.log(touched)
 
   return (
     <>
