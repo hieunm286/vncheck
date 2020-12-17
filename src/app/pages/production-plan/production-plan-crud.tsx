@@ -211,7 +211,7 @@ function ProductionPlanCrud({
     }
   }, [code]);
 
-  const submitHandle = (values: any, { setSubmitting, setFieldError }: any) => {
+  const submitHandle = (values: any, curValues: any, { setSubmitting, setFieldError, resetForm }: any) => {
     onModify(values)
       .then((res: any) => {
         setNoticeModal(true);
@@ -226,9 +226,6 @@ function ProductionPlanCrud({
         notify(error.data || error.response.data);
       });
   };
-
-  console.log(entityForEdit);
-  console.log(initForm);
 
   return (
     <>
@@ -261,7 +258,7 @@ function ProductionPlanCrud({
         initialValues={addInitField(entityForEdit, initProductPlanForm) || initForm}
         // initialValues={initForm}
         validationSchema={validation}
-        onSubmit={(values, { setSubmitting, setFieldError }) => {
+        onSubmit={(values, { setSubmitting, setFieldError, resetForm }) => {
           let updateValue: any;
           setErrorMsg(undefined);
 
@@ -353,8 +350,10 @@ function ProductionPlanCrud({
             updateValue = { ...values };
           }
 
+          console.log(values)
+
           if (step === '0') {
-            submitHandle(updateValue, { setSubmitting, setFieldError });
+            submitHandle(updateValue, values, { setSubmitting, setFieldError, resetForm });
           } else if (step === '1' && currentTab !== '2') {
             // if (!updateValue.step || updateValue.step !== '1') {
             //   updateValue.step = '1';

@@ -132,8 +132,8 @@ export function DatePickerField({...props}: any) {
   return (
     <>
       <div className={props.isHorizontal && 'row'}>
-        <div className={props.isHorizontal && getClassName(props.labelWidth, true)}>
-          {props.label && <label>{props.label}</label>}
+        <div className={props.isHorizontal && getClassName(props.labelWidth, true) + ' mt-2'}>
+          {props.label && <label>{props.label}</label>} {props.required && <span className="text-danger">*</span>}
         </div>
         <div className={props.isHorizontal && getClassName(props.labelWidth, false)}>
           <DatePicker picker="date"
@@ -153,9 +153,11 @@ export function DatePickerField({...props}: any) {
             <div className="invalid-datepicker-feedback text-danger" style={{fontSize: '0.9rem'}}>
               Vui lòng chọn
               {
+                // getError(errors, field.name) + 
                 // errors[field.name]?.toString()
-                '\u00A0' + deCapitalizeFirstLetter(props.label)
+                '\u00A0' + deCapitalizeFirstLetter(props.label) + '\u00A0'
               }
+              hợp lệ
             </div>
           ) : (
             <div className="feedback">

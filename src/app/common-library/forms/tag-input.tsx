@@ -124,6 +124,7 @@ function TagInput({
   disabled,
   tagData,
   root,
+  placeholder = "Chọn",
   ...props
 }: any) {
 
@@ -164,7 +165,7 @@ function TagInput({
             mode="multiple"
             style={{ width: '100%' }}
             defaultValue={getDefautltTag(data) || []}
-            placeholder="Tags Mode"
+            placeholder={placeholder}
             onChange={(value: any) => {
                 handleChange(value);
                 setFieldValue(name, value);

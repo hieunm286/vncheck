@@ -352,7 +352,7 @@ function ModifyEntityPage<T>({
                     isHorizontal={true}
                     name={prevKey !== '' ? `${prevKey}.${key}` : key}
                     handleChange={handleChangeTag}
-                    isRequired
+                    isRequired={value.data[key].required || false}
                     labelWidth={4}
                     disabled={value.data[key].disabled}
                     data={isArray(defaultTag) ? defaultTag : []}
