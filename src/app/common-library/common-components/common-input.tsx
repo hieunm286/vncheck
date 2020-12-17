@@ -177,8 +177,7 @@ export const InputSearchSelect = ({label, placeholder, onSearch, keyField, onDis
                       loadOptions={loadOptions}
                       additional={{
                         page: DefaultPagination.page,
-                      }}
-      />
+                      }}/>
     </div>
   );
 }

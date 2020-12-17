@@ -50,8 +50,8 @@ export function InfiniteSelect({
 }) {
   const {setFieldValue, errors, touched} = useFormikContext<any>();
   const CustomAsyncPaginate = withAsyncPaginate(AtlaskitSelect);
-  const styles = useMemo(() => {
-    const t: StylesConfig = {
+  const styles = useMemo((): StylesConfig => {
+    return {
       control: (base, props1) => {
         // console.log("control", base, props1)
         return {
@@ -100,7 +100,6 @@ export function InfiniteSelect({
         return {...styles}
       },
     }
-    return t;
   }, []);
   return (
     <>
@@ -114,12 +113,13 @@ export function InfiniteSelect({
         <div className={isHorizontal ? `col-xl-7 col-md-8 col-12` : ''}>
           <CustomAsyncPaginate
             className={getCSSClasses(errors[name], touched[name])}
+            // name={name}
             {...props}
             loadOptions={loadOptions}
-            onChange={({label,value}: any, action) => {
-              console.log(value,label,action);
+            onChange={({label, value}: any, action) => {
+              console.log(value, label, action);
               onChange && onChange(value[selectField], value);
-              setFieldValue(name, label);
+              setFieldValue(name, value);
             }}
             styles={styles}
             // className={`${errors[name] ? 'border-danger' : 'input-search-select'}`}

@@ -24,8 +24,10 @@ export function MasterHeader<T>({
   onSearch: (data: any) => void;
 }) {
   const intl = useIntl();
+  const [search, setSearch] = useState<any>(initValue);
   
   const handleResetForm = (resetForm: any) => {
+    setSearch(initValue);
     resetForm();
   };
   return (
@@ -84,16 +86,14 @@ export function MasterHeader<T>({
                           <InputSearchSelect
                             className={"col-xxl-2 col-md-3 master-header-search-input-margin"}
                             name={key}
+                            value={search[key]}
                             {...searchModel[key]}
+                            onChange={(e:any)=>{
+                              setSearch({...search, [key]: e});
+                            }}
                             onSearch={searchModel[key].onSearch ?? t}
                             keyField={searchModel[key].keyField ?? ''}
                             key={`master_header${key}`}
-                            // onChange={(value: any) => {
-                            //   setSearch({...search, [key]: value});
-                            // }}
-                            additional={{
-                              page: DefaultPagination.page,
-                            }}
                           />
                         );
                       //

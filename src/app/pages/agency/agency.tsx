@@ -453,7 +453,6 @@ function AgencyPage() {
               setFilterProps(value)
             }}
             searchModel={agencySearchModel}
-            treeData={treeData}
             initValue={{
               code: '',
               lot: '',
