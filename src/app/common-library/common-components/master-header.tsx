@@ -24,10 +24,10 @@ export function MasterHeader<T>({
   onSearch: (data: any) => void;
 }) {
   const intl = useIntl();
-  const [search, setSearch] = useState<any>(initValue);
-  
+  const [resetSearchSelect, triggerResetSearch] = useState<any>();
+  const defaultClassName = "col-xxl-2 col-md-3 master-header-search-input-margin";
   const handleResetForm = (resetForm: any) => {
-    setSearch(initValue);
+    triggerResetSearch(null);
     resetForm();
   };
   return (
@@ -54,7 +54,7 @@ export function MasterHeader<T>({
                       case 'string':
                         return (
                           <InputString
-                            className={"col-xxl-2 col-md-3 master-header-search-input-margin"}
+                            className={defaultClassName}
                             name={key}
                             {...searchModel[key]}
                             key={`master_header${key}`}/>
@@ -62,7 +62,7 @@ export function MasterHeader<T>({
                       case 'number':
                         return (
                           <InputNumber
-                            className={"col-xxl-2 col-md-3 master-header-search-input-margin"}
+                            className={defaultClassName}
                             name={key}
                             {...searchModel[key]}
                             key={`master_header${key}`}/>
@@ -70,7 +70,7 @@ export function MasterHeader<T>({
                       case 'date-time':
                         return (
                           <InputDateTime
-                            className={"col-xxl-2 col-md-3 master-header-search-input-margin"}
+                            className={defaultClassName}
                             name={key}
                             {...searchModel[key]}
                             key={`master_header${key}`}
@@ -84,12 +84,12 @@ export function MasterHeader<T>({
                         };
                         return (
                           <InputSearchSelect
-                            className={"col-xxl-2 col-md-3 master-header-search-input-margin"}
+                            className={defaultClassName}
                             name={key}
-                            value={search[key]}
+                            value={resetSearchSelect}
                             {...searchModel[key]}
                             onChange={(e:any)=>{
-                              setSearch({...search, [key]: e});
+                              // setSearch({...search, [key]: e});
                             }}
                             onSearch={searchModel[key].onSearch ?? t}
                             keyField={searchModel[key].keyField ?? ''}

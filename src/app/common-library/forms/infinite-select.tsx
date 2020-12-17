@@ -1,4 +1,4 @@
-import React, {ReactElement, useMemo} from 'react';
+import React, {ReactElement, useContext, useEffect, useMemo, useState} from 'react';
 import {withAsyncPaginate} from 'react-select-async-paginate';
 import {useFormikContext} from 'formik';
 import {deCapitalizeFirstLetter} from '../helpers/common-function'
@@ -25,6 +25,7 @@ const getCSSClasses = (errorName: any, isTouched: any): string => {
 export function InfiniteSelect({
                                  name,
                                  label,
+                                 value,
                                  loadOptions,
                                  onChange,
                                  required,
@@ -50,6 +51,10 @@ export function InfiniteSelect({
 }) {
   const {setFieldValue, errors, touched} = useFormikContext<any>();
   const CustomAsyncPaginate = withAsyncPaginate(AtlaskitSelect);
+  const [innerValue, setValue] = useState<any>();
+  useEffect(() => {
+    setValue(value)
+  }, [value]);
   const styles = useMemo((): StylesConfig => {
     return {
       control: (base, props1) => {
@@ -115,11 +120,12 @@ export function InfiniteSelect({
             className={getCSSClasses(errors[name], touched[name])}
             // name={name}
             {...props}
+            value={innerValue}
             loadOptions={loadOptions}
-            onChange={({label, value}: any, action) => {
-              console.log(value, label, action);
-              onChange && onChange(value[selectField], value);
-              setFieldValue(name, value);
+            onChange={(value: any, action) => {
+              onChange && onChange(value.value, value.entity);
+              setValue(value)
+              setFieldValue(name, value.value);
             }}
             styles={styles}
             // className={`${errors[name] ? 'border-danger' : 'input-search-select'}`}

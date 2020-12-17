@@ -135,11 +135,15 @@ export const InputTag = ({label, placeholder, className, ...props}: {
 }
 
 
-export const InputSearchSelect = ({label, placeholder, onSearch, keyField, onDisplayOptions, className, ...props}: {
+export const InputSearchSelect = ({
+                                    label, placeholder, onSearch, keyField,
+                                    onDisplayOptions, className, selectField = '_id', ...props
+                                  }: {
   name: string,
   label: string | ReactElement,
   onSearch: (searchQueryObject: any) => any,
   keyField: string,
+  selectField?: string,
   onDisplayOptions?: (props: any) => ReactElement
   required?: boolean,
   disabled?: boolean,
@@ -160,7 +164,7 @@ export const InputSearchSelect = ({label, placeholder, onSearch, keyField, onDis
       const data = [...new Set(entities.data.data)];
       return {
         options: data.map((e: any) => {
-          return {label: (onDisplayOptions ? onDisplayOptions(e) : e[keyField]), value: e};
+          return {label: (onDisplayOptions ? onDisplayOptions(e) : e[keyField]), value: e[selectField], entity: e};
         }),
         hasMore: hasMore,
         additional: {
@@ -172,6 +176,7 @@ export const InputSearchSelect = ({label, placeholder, onSearch, keyField, onDis
     <div className={className}>
       <InfiniteSelect {...props}
                       keyField={keyField}
+                      selectField={selectField}
                       placeholder={intl.formatMessage({id: placeholder ?? DefaultPlaceholder["search-select"]})}
                       label={typeof label === 'string' ? intl.formatMessage({id: label}) : label}
                       loadOptions={loadOptions}
