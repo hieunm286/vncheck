@@ -85,7 +85,15 @@ function EntityCrudPageAgency({
   }, [code]);
 
   const handleModify = (values: any) => {
-    onModify(values)
+    const _values = {
+      ...values,
+      shippingAddress: values.shippingAddress.map((addr: any) => {
+        const _addr = addr;
+        delete _addr._id;
+        return _addr;
+      })
+    }
+    onModify(_values)
       .then(crudSuccess)
       .catch((error: any) => crudFail(error))
     
