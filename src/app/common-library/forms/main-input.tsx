@@ -80,6 +80,7 @@ interface MainInputState {
   width: any;
   type: any;
   disabled?: boolean;
+  required?: boolean;
 }
 
 export function MainInput({
@@ -94,6 +95,7 @@ export function MainInput({
   width,
   type = 'text',
   disabled,
+  required,
   ...props
 }: MainInputState) {
   const styleLabe = {
@@ -112,8 +114,8 @@ export function MainInput({
       <div className={isHorizontal && 'row'}>
         <div className={isHorizontal && getClassName(labelWidth, true)}>
           {label && (
-            <label style={width && styleLabe} className={isHorizontal && 'mb-0 input-label mt-2'}>
-              {label} {withFeedbackLabel && <span className="text-danger">*</span>}
+            <label className={isHorizontal && 'mb-0 mt-2'}>
+              {label} {required && <span className="text-danger">*</span>}
             </label>
           )}
         </div>

@@ -535,6 +535,7 @@ const FormTemplate = ({
                   isHorizontal={true}
                   required={modifyModel.data[key].required}
                   name={key}
+                  multiple={true}
                 />
               </div>
             )

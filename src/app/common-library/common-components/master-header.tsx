@@ -139,7 +139,6 @@ export function MasterHeader<T>({
   const [districtValues, setDistrictValues] = useState<any>();
   
   const [treeSelectValue, setTreeSelectValue] = useState<any>();
- 
   
   const loadOptions = async (
     search: string,
@@ -180,364 +179,6 @@ export function MasterHeader<T>({
       },
     };
   };
-
-  const renderForm = (
-    data: any,
-    prevKey: string,
-    values: any,
-    handleChange: (e: React.ChangeEvent<any>) => void,
-    setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void,
-  ): any => {
-    return (
-      <>
-        {Object.keys(data).map(key => {
-          const name = data[key].customName ?? prevKey !== '' ? `${prevKey}.${key}` : key;
-          const className = data[key].className ?? 'col-xxl-2 col-md-3 mt-md-5 mt-5';
-          switch (data[key].type) {
-            case 'string':
-              return (
-                <div className={className} key={`${key}`}>
-                  <Field
-                    name={name}
-                    // value={search[key]}
-                    disabled={isDisabled ? isDisabled[key] : false}
-                    onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                      if (stringOnChange) {
-                        console.log('1')
-                        stringOnChange(
-                          e,
-                          data,
-                          search,
-                          setSearch,
-                          key,
-                          handleChange,
-                          setFieldValue,
-                          setIsDisabled,
-                          isDisabled,
-                        );
-                      } else {
-                        console.log('2')
-                        handleChange(e);
-                      }
-                    }}
-                    component={Input}
-                    placeholder={intl.formatMessage({ id: data[key].placeholder })}
-                    label={
-                      typeof data[key].label === 'string'
-                        ? intl.formatMessage({ id: data[key].label })
-                        : data[key].label
-                    }
-                    withFeedbackLabel={true}
-                  />
-                </div>
-              );
-
-            case 'nested':
-              return (
-                renderForm(data[key].data, (prevKey ? `${prevKey}.${key}` : key), values, handleChange, setFieldValue)
-              );
-
-            case 'number':
-              return (
-                <div className={className} key={`${key}`}>
-                  <Field
-                    name={name}
-                    type="number"
-                    component={Input}
-                    placeholder={intl.formatMessage({ id: data[key].placeholder })}
-                    label={intl.formatMessage({ id: data[key].label })}
-                    withFeedbackLabel={true}
-                  />
-                </div>
-              );
-
-            case 'Datetime':
-              return (
-                <div className={className} key={`${key}`}>
-                  <DatePickerField
-                    name={name}
-                    label={
-                      typeof data[key].label === 'string'
-                        ? intl.formatMessage({ id: data[key].label })
-                        : data[key].label
-                    }
-                  />
-                </div>
-              );
-
-            case 'SearchSelect':
-              return (
-                <div className={className} key={key}>
-                  <InfiniteSelect
-                    isDisabled={isDisabled ? isDisabled[key] : false}
-                    label={intl.formatMessage({ id: data[key].label })}
-                    isHorizontal={false}
-                    value={search[key]}
-                    onChange={(value: any) => {
-                      if (searchSelectOnChange) {
-                        searchSelectOnChange(
-                          value,
-                          values,
-                          data,
-                          search,
-                          setSearch,
-                          key,
-                          handleChange,
-                          setFieldValue,
-                          setIsDisabled,
-                          isDisabled,
-                        );
-                      } else {
-                        setSearch({ ...search, [key]: value });
-                      }
-                    }}
-                    loadOptions={(search: string, prevOptions: any, { page }: any) => {
-                      if (customSearchSelectLoadOption) {
-                        return customSearchSelectLoadOption(
-                          search,
-                          prevOptions,
-                          { page },
-                          data[key].onSearch,
-                          data[key].keyField,
-                          key,
-                        );
-                      } else {
-                        return loadOptions(
-                          search,
-                          prevOptions,
-                          { page },
-                          {
-                            onSearch: data[key].onSearch,
-                            keyField: data[key].keyField,
-                            key: key,
-                          },
-                          {},
-                        );
-                      }
-                    }}
-                    refs={data[key].ref}
-                    additional={{
-                      page: DefaultPagination.page,
-                    }}
-                    name={name}
-                    placeholder={data[key].placeholder}
-                  />
-                </div>
-              );
-
-            case 'TreeSelect':
-              return (
-                <div className={className} key={key}>
-                  <CustomeTreeSelect
-                    label={intl.formatMessage({ id: data[key].label })}
-                    placeholder={intl.formatMessage({ id: data[key].placeholder })}
-                    data={treeData || []}
-                    value={treeSelectValue}
-                    onChange={(value: any) => setSearch({ ...search, [key]: value })}
-                    name={name}
-                  />
-                </div>
-              );
-
-            case 'stateSelect':
-              // const stateValues = Object.values(STATE_LIST).map((state: any) => {return {value: state.name, key: state.code}});
-              const labelWidth = 4;
-              const isHorizontal = false;
-              const stateLabel = intl.formatMessage({ id: data[key].label });
-              const withFeedbackLabelState = true;
-              // const placeholder = modifyModel.data[key].placeholder
-              // const required = modifyModel.data[key].required;
-              return (
-                <div className={className} key={`${key}`}>
-                  {stateLabel && (
-                    <label
-                    // className={'mb-0 input-label mt-2'}
-                    >
-                      {stateLabel}{' '}
-                      {withFeedbackLabelState && <span className="text-danger">*</span>}
-                    </label>
-                  )}
-                  <select
-                    onChange={(e: any) => {
-                      const selectedIndex = e.target.options.selectedIndex;
-                      const key = e.target.options[selectedIndex].getAttribute('data-code');
-                      setSelectedState({ value: e.target.value, key: key });
-                      setSelectedCity({ value: '', key: '' });
-                      setSelectedDistrict({ value: '', key: '' });
-                      setFieldValue('state', e.target.value);
-                    }}
-                    className={'form-control'}>
-                    <option hidden>
-                      {intl.formatMessage({ id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER' })}
-                    </option>
-                    {1 ? (
-                      Object.values(STATE_LIST).map((state: any) => {
-                        return (
-                          <option key={state.code} data-code={state.code} value={state.name}>
-                            {state.name}
-                          </option>
-                        );
-                      })
-                    ) : (
-                      <></>
-                    )}
-                  </select>
-                  {/* <Field
-                              name={key}
-                              type="number"
-                              value={selectedState.value}
-                              children={stateValues}
-                              onChange={(e: any) => {
-                                  const selectedIndex = e.target.options.selectedIndex;
-                                  const key = e.target.options[selectedIndex].getAttribute('data-code')
-                                  setSelectedState({value: e.target.value, key: key}
-                                  )
-                                }
-                              }
-                              component={SelectField}
-                              isHorizontal
-                              withFeedbackLabel
-                              labelWidth={4}
-                              placeholder={value.data[key].placeholder}
-                              label={value.data[key].label}
-                              required={value.data[key].required}
-                            /> */}
-                </div>
-              );
-
-            case 'citySelect':
-              const cityLabel = intl.formatMessage({ id: data[key].label });
-              const withFeedbackLabelCity = true;
-              return (
-                <div className={className} key={`${key}`}>
-                  {cityLabel && (
-                    <label
-                    // className={'mb-0 input-label mt-2'}
-                    >
-                      {cityLabel} {<span className="text-danger">*</span>}
-                    </label>
-                  )}
-                  <select
-                    onChange={(e: any) => {
-                      const selectedIndex = e.target.options.selectedIndex;
-                      const key = e.target.options[selectedIndex].getAttribute('data-code');
-                      setSelectedCity({ value: e.target.value, key: key });
-                      setSelectedDistrict({ value: '', key: '' });
-                      setFieldValue('city', e.target.value);
-                    }}
-                    className={'form-control'}>
-                    <option hidden>
-                      {intl.formatMessage({ id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER' })}
-                    </option>
-                    {1 ? (
-                      Object.values(CITY_LIST)
-                        .filter((city: any) => {
-                          return city.parent_code === selectedState.key;
-                        })
-                        .map((city: any) => {
-                          return (
-                            <option key={city.code} data-code={city.code} value={city.name}>
-                              {city.name}
-                            </option>
-                          );
-                        })
-                    ) : (
-                      <></>
-                    )}
-                  </select>
-                  {/* <Field
-                                name={key}
-                                type="number"
-                                value={selectedCity.value}
-                                children={cityValues}
-                                onChange={(e: any) => {
-                                  const selectedIndex = e.target.options.selectedIndex;
-                                  const key = e.target.options[selectedIndex].getAttribute('data-code')
-                                  setSelectedCity({value: e.target.value, key: key}
-                                    )
-                                  }
-                                }
-                                component={SelectField}
-                                isHorizontal
-                                withFeedbackLabel
-                                labelWidth={4}
-                                placeholder={value.data[key].placeholder}
-                                label={value.data[key].label}
-                                required={value.data[key].required}
-                              /> */}
-                </div>
-              );
-
-            case 'districtSelect':
-              const districtLabel = intl.formatMessage({ id: data[key].label });
-              const withFeedbackLabelDistrict = true;
-              return (
-                <div className={className} key={`${key}`}>
-                  {districtLabel && (
-                    <label
-                    // className={'mb-0 input-label mt-2'}
-                    >
-                      {districtLabel} {<span className="text-danger">*</span>}
-                    </label>
-                  )}
-                  <select
-                    onChange={(e: any) => {
-                      const selectedIndex = e.target.options.selectedIndex;
-                      const key = e.target.options[selectedIndex].getAttribute('data-code');
-                      setSelectedDistrict({ value: e.target.value, key: key });
-                      setFieldValue('district', e.target.value);
-                    }}
-                    className={'form-control'}>
-                    <option hidden>
-                      {intl.formatMessage({ id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER' })}
-                    </option>
-                    {1 ? (
-                      Object.values(DISTRICT_LIST)
-                        .filter((district: any) => {
-                          return district.parent_code === selectedCity.key;
-                        })
-                        .map((district: any) => {
-                          return (
-                            <option
-                              key={district.code}
-                              data-code={district.code}
-                              value={district.name}>
-                              {district.name}
-                            </option>
-                          );
-                        })
-                    ) : (
-                      <></>
-                    )}
-                  </select>
-                  {/* <Field
-                                name={key}
-                                type="number"
-                                value={selectedDistrict.value}
-                                children={districtValues}
-                                onChange={(e: any) => {
-                                  const selectedIndex = e.target.options.selectedIndex;
-                                  const key = e.target.options[selectedIndex].getAttribute('data-code')
-                                  setSelectedDistrict({value: e.target.value, key: key}
-                                    )
-                                  }
-                                }
-                                component={SelectField}
-                                isHorizontal
-                                withFeedbackLabel
-                                labelWidth={4}
-                                placeholder={value.data[key].placeholder}
-                                label={value.data[key].label}
-                                required={value.data[key].required}
-                              /> */}
-                </div>
-              );
-          }
-          return <></>;
-        })}
-      </>
-    );
-  };
   
   return (
     <Card className={'master-header-card'}>
@@ -558,12 +199,356 @@ export function MasterHeader<T>({
           {({values, handleSubmit, handleBlur, handleChange, setFieldValue, resetForm}) => (
             <form onSubmit={handleSubmit} className="form form-label-right">
               <div className="form-group row master-header-search-margin">
-                {searchModel ? (<>{renderForm(searchM, '', values, handleChange , setFieldValue)}</>) : (
+                {searchModel ? (
+                  Object.keys(searchM).map(key => {
+                    const name = searchM[key].customName ?? key;
+                    const className = searchM[key].className ?? "col-xxl-2 col-md-3 master-header-search-input-margin";
+                    switch (searchM[key].type) {
+                      case 'string':
+                        return (
+                          <div className={className} key={`master_header${key}`}>
+                            <Field
+                              name={name}
+                              // value={search[key]}
+                              disabled={isDisabled ? isDisabled[key] : false}
+                              onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                                if (stringOnChange) {
+                                  stringOnChange(
+                                    e,
+                                    searchM,
+                                    search,
+                                    setSearch,
+                                    key,
+                                    handleChange,
+                                    setFieldValue,
+                                    setIsDisabled,
+                                    isDisabled,
+                                  );
+                                } else {
+                                  handleChange(e);
+                                }
+                              }}
+                              component={Input}
+                              placeholder={intl.formatMessage({id: searchM[key].placeholder ?? 'COMMON_COMPONENT.INPUT.PLACEHOLDER'})}
+                              label={typeof searchM[key].label === 'string' ? intl.formatMessage({id: searchM[key].label}) : searchM[key].label}
+                              withFeedbackLabel={true}
+                            />
+                          </div>
+                        );
+                      
+                      case 'number':
+                        return (
+                          <div className={className} key={`master_header${key}`}>
+                            <Field
+                              name={name}
+                              type="number"
+                              component={Input}
+                              placeholder={intl.formatMessage({id: searchM[key].placeholder ?? 'COMMON_COMPONENT.INPUT.PLACEHOLDER'})}
+                              label={typeof searchM[key].label === 'string' ? intl.formatMessage({id: searchM[key].label}) : searchM[key].label}
+                              withFeedbackLabel={true}
+                            />
+                          </div>
+                        );
+                      
+                      case 'Datetime':
+                        return (
+                          <div className={className} key={`master_header${key}`}>
+                            <DatePickerField
+                              {...searchM[key]}
+                              name={name}
+                              label={typeof searchM[key].label === 'string' ? intl.formatMessage({id: searchM[key].label}) : searchM[key].label}
+                            />
+                          </div>
+                        );
+                      
+                      case 'SearchSelect':
+                        return (
+                          <div className={className} key={key}>
+                            <InfiniteSelect
+                              isDisabled={isDisabled ? isDisabled[key] : false}
+                              label={intl.formatMessage({id: searchM[key].label})}
+                              isHorizontal={false}
+                              value={search[key]}
+                              onChange={(value: any) => {
+                                if (searchSelectOnChange) {
+                                  searchSelectOnChange(
+                                    value,
+                                    values,
+                                    searchM,
+                                    search,
+                                    setSearch,
+                                    key,
+                                    handleChange,
+                                    setFieldValue,
+                                    setIsDisabled,
+                                    isDisabled,
+                                  );
+                                } else {
+                                  setSearch({...search, [key]: value});
+                                }
+                              }}
+                              loadOptions={(search: string, prevOptions: any, {page}: any) => {
+                                if (customSearchSelectLoadOption) {
+                                  return customSearchSelectLoadOption(
+                                    search,
+                                    prevOptions,
+                                    {page},
+                                    searchM[key].onSearch,
+                                    searchM[key].keyField,
+                                    key,
+                                  );
+                                } else {
+                                  return loadOptions(
+                                    search,
+                                    prevOptions,
+                                    {page},
+                                    {
+                                      onSearch: searchM[key].onSearch,
+                                      keyField: searchM[key].keyField,
+                                      key: key,
+                                    },
+                                    {},
+                                  );
+                                }
+                              }}
+                              refs={searchM[key].ref}
+                              additional={{
+                                page: DefaultPagination.page,
+                              }}
+                              name={name}
+                              placeholder={searchM[key].placeholder}
+                            />
+                          </div>
+                        );
+                      
+                      case 'TreeSelect':
+                        return (
+                          <div className={className} key={key}>
+                            <CustomeTreeSelect
+                              label={intl.formatMessage({id: searchM[key].label})}
+                              placeholder={intl.formatMessage({id: searchM[key].placeholder})}
+                              data={treeData || []}
+                              value={treeSelectValue}
+                              onChange={(value: any) => setSearch({...search, [key]: value})}
+                              name={name}
+                            />
+                          </div>
+                        );
+                      
+                      case 'stateSelect':
+                        // const stateValues = Object.values(STATE_LIST).map((state: any) => {return {value: state.name, key: state.code}});
+                        const labelWidth = 4;
+                        const isHorizontal = false;
+                        const stateLabel = intl.formatMessage({id: searchM[key].label});
+                        const withFeedbackLabelState = true;
+                        // const placeholder = modifyModel.data[key].placeholder
+                        // const required = modifyModel.data[key].required;
+                        return (
+                          <div className={className} key={`${key}`}>
+                            {stateLabel && (
+                              <label
+                                // className={'mb-0 input-label mt-2'}
+                              >
+                                {stateLabel}{' '}
+                                {withFeedbackLabelState && <span className="text-danger">*</span>}
+                              </label>
+                            )}
+                            <select
+                              onChange={(e: any) => {
+                                const selectedIndex = e.target.options.selectedIndex;
+                                const key = e.target.options[selectedIndex].getAttribute(
+                                  'data-code',
+                                );
+                                setSelectedState({value: e.target.value, key: key});
+                                setSelectedCity({value: '', key: ''});
+                                setSelectedDistrict({value: '', key: ''});
+                                setFieldValue('state', e.target.value);
+                              }}
+                              className={'form-control'}>
+                              <option hidden>
+                                {intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'})}
+                              </option>
+                              {1 ? (
+                                Object.values(STATE_LIST).map((state: any) => {
+                                  return (
+                                    <option
+                                      key={state.code}
+                                      data-code={state.code}
+                                      value={state.name}>
+                                      {state.name}
+                                    </option>
+                                  );
+                                })
+                              ) : (
+                                <></>
+                              )}
+                            </select>
+                            {/* <Field
+                              name={key}
+                              type="number"
+                              value={selectedState.value}
+                              children={stateValues}
+                              onChange={(e: any) => {
+                                  const selectedIndex = e.target.options.selectedIndex;
+                                  const key = e.target.options[selectedIndex].getAttribute('data-code')
+                                  setSelectedState({value: e.target.value, key: key}
+                                  )
+                                }
+                              }
+                              component={SelectField}
+                              isHorizontal
+                              withFeedbackLabel
+                              labelWidth={4}
+                              placeholder={value.data[key].placeholder}
+                              label={value.data[key].label}
+                              required={value.data[key].required}
+                            /> */}
+                          </div>
+                        );
+                      
+                      case 'citySelect':
+                        const cityLabel = intl.formatMessage({id: searchM[key].label});
+                        const withFeedbackLabelCity = true;
+                        return (
+                          <div className={className} key={`${key}`}>
+                            {cityLabel && (
+                              <label
+                                // className={'mb-0 input-label mt-2'}
+                              >
+                                {cityLabel} {<span className="text-danger">*</span>}
+                              </label>
+                            )}
+                            <select
+                              onChange={(e: any) => {
+                                const selectedIndex = e.target.options.selectedIndex;
+                                const key = e.target.options[selectedIndex].getAttribute(
+                                  'data-code',
+                                );
+                                setSelectedCity({value: e.target.value, key: key});
+                                setSelectedDistrict({value: '', key: ''});
+                                setFieldValue('city', e.target.value);
+                              }}
+                              className={'form-control'}>
+                              <option hidden>
+                                {intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'})}
+                              </option>
+                              {1 ? (
+                                Object.values(CITY_LIST)
+                                  .filter((city: any) => {
+                                    return city.parent_code === selectedState.key;
+                                  })
+                                  .map((city: any) => {
+                                    return (
+                                      <option
+                                        key={city.code}
+                                        data-code={city.code}
+                                        value={city.name}>
+                                        {city.name}
+                                      </option>
+                                    );
+                                  })
+                              ) : (
+                                <></>
+                              )}
+                            </select>
+                            {/* <Field
+                                name={key}
+                                type="number"
+                                value={selectedCity.value}
+                                children={cityValues}
+                                onChange={(e: any) => {
+                                  const selectedIndex = e.target.options.selectedIndex;
+                                  const key = e.target.options[selectedIndex].getAttribute('data-code')
+                                  setSelectedCity({value: e.target.value, key: key}
+                                    )
+                                  }
+                                }
+                                component={SelectField}
+                                isHorizontal
+                                withFeedbackLabel
+                                labelWidth={4}
+                                placeholder={value.data[key].placeholder}
+                                label={value.data[key].label}
+                                required={value.data[key].required}
+                              /> */}
+                          </div>
+                        );
+                      
+                      case 'districtSelect':
+                        const districtLabel = intl.formatMessage({id: searchM[key].label});
+                        const withFeedbackLabelDistrict = true;
+                        return (
+                          <div className={className} key={`${key}`}>
+                            {districtLabel && (
+                              <label
+                                // className={'mb-0 input-label mt-2'}
+                              >
+                                {districtLabel} {<span className="text-danger">*</span>}
+                              </label>
+                            )}
+                            <select
+                              onChange={(e: any) => {
+                                const selectedIndex = e.target.options.selectedIndex;
+                                const key = e.target.options[selectedIndex].getAttribute(
+                                  'data-code',
+                                );
+                                setSelectedDistrict({value: e.target.value, key: key});
+                                setFieldValue('district', e.target.value);
+                              }}
+                              className={'form-control'}>
+                              <option hidden>
+                                {intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'})}
+                              </option>
+                              {1 ? (
+                                Object.values(DISTRICT_LIST)
+                                  .filter((district: any) => {
+                                    return district.parent_code === selectedCity.key;
+                                  })
+                                  .map((district: any) => {
+                                    return (
+                                      <option
+                                        key={district.code}
+                                        data-code={district.code}
+                                        value={district.name}>
+                                        {district.name}
+                                      </option>
+                                    );
+                                  })
+                              ) : (
+                                <></>
+                              )}
+                            </select>
+                            {/* <Field
+                                name={key}
+                                type="number"
+                                value={selectedDistrict.value}
+                                children={districtValues}
+                                onChange={(e: any) => {
+                                  const selectedIndex = e.target.options.selectedIndex;
+                                  const key = e.target.options[selectedIndex].getAttribute('data-code')
+                                  setSelectedDistrict({value: e.target.value, key: key}
+                                    )
+                                  }
+                                }
+                                component={SelectField}
+                                isHorizontal
+                                withFeedbackLabel
+                                labelWidth={4}
+                                placeholder={value.data[key].placeholder}
+                                label={value.data[key].label}
+                                required={value.data[key].required}
+                              /> */}
+                          </div>
+                        );
+                    }
+                    return <></>;
+                  })
+                ) : (
                   <></>
                 )}
               </div>
               
-              <div className="row no-gutters mt-5">
+              <div className="row no-gutters">
                 <button className="btn btn-primary mr-8 fixed-btn-width" type="submit">
                   <SearchIcon style={iconStyle}/>
                   {intl.formatMessage({id: 'COMMON_COMPONENT.MASTER_HEADER.SEARCH_BTN'})}

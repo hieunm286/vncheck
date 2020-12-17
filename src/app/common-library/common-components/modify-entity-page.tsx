@@ -202,10 +202,14 @@ function ModifyEntityPage<T>({
             //     <></>
             //   );
             case 'image':
+              console.log(images.barcode)
+              console.log(images.images)
+              console.log(images[key])
+
               return (
                 <div className="mt-3" key={key}>
                   <CustomImageUpload
-                    images={images[key]}
+                    images={images ? images[key] : []}
                     // onChange={(imageList: any, addUpdateIndex: any) => {
                     //   onChange(imageList, addUpdateIndex, key);
                     // }}
@@ -214,6 +218,7 @@ function ModifyEntityPage<T>({
                     isHorizontal={true}
                     required={value.data[key].required}
                     name={prevKey !== '' ? `${prevKey}.${key}` : key}
+                    multiple={value.data[key].multiple}
                   />
                 </div>
               );
@@ -348,7 +353,7 @@ function ModifyEntityPage<T>({
                     isHorizontal={true}
                     name={prevKey !== '' ? `${prevKey}.${key}` : key}
                     handleChange={handleChangeTag}
-                    isRequired
+                    isRequired={value.data[key].required || false}
                     labelWidth={4}
                     disabled={value.data[key].disabled}
                     data={isArray(defaultTag) ? defaultTag : []}

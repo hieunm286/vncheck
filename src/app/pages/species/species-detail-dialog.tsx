@@ -13,12 +13,13 @@ export function MasterEntityDetail({
   convertFunctions?: { [V: string]: (input: any) => string };
 }) {
   const intl = useIntl();
+  console.log(data)
   return data ? (
     <Modal.Body>
       {renderInfo.map((value: any, key: any) => (
         <div key={key} className="mt-5 row">
           <div className="col-5 d-flex justify-content-center align-items-center">
-            <img src={data.imageURL} alt="rau" className="border border-primary p-5" width="150px" height="150px" />
+            <img src={data.image ? data.image.path : ''} alt="rau" className="border border-primary p-5" width="150px" height="150px" />
           </div>
           <div className="col-7">
           {Object.keys(value.data).map((dataKey: any) => (

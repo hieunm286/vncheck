@@ -124,6 +124,7 @@ function TagInput({
   disabled,
   tagData,
   root,
+  placeholder = "Chọn",
   ...props
 }: any) {
 
@@ -153,7 +154,7 @@ function TagInput({
       <div className={isHorizontal && 'row'}>
         <div className={isHorizontal && getClassName(labelWidth, true)}>
           {label && (
-            <label className={isHorizontal && 'mb-0 input-label mt-2'}>
+            <label className={isHorizontal && 'mb-0 mt-2'}>
               {label} {isRequired && <span className="text-danger">*</span>}
             </label>
           )}
@@ -164,7 +165,7 @@ function TagInput({
             mode="multiple"
             style={{ width: '100%' }}
             defaultValue={getDefautltTag(data) || []}
-            placeholder="Tags Mode"
+            placeholder={placeholder}
             onChange={(value: any) => {
                 handleChange(value);
                 setFieldValue(name, value);

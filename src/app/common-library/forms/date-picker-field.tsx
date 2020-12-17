@@ -156,9 +156,11 @@ export function DatePickerField({...props}: any) {
             <div className="invalid-datepicker-feedback text-danger" style={{fontSize: '0.9rem'}}>
               Vui lòng chọn
               {
+                // getError(errors, field.name) + 
                 // errors[field.name]?.toString()
-                '\u00A0' + deCapitalizeFirstLetter(props.label)
+                '\u00A0' + deCapitalizeFirstLetter(props.label) + '\u00A0'
               }
+              hợp lệ
             </div>
           ) : (
             <div className="feedback">
