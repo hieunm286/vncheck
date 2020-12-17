@@ -80,6 +80,9 @@ function EntityCrudPageAgency({
       get(code).then((res: { data: any }) => {
         const entity = convertToForm(res.data);
         setEntityForEdit(ConvertStatusToBoolean(entity));
+        if(entity.image && entity.avatar) {
+          setImages({image: entity.image, avatar: entity.avatar})
+        }
       });
     }
   }, [code]);

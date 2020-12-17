@@ -1,4 +1,5 @@
 import { getShippingAddress } from '../../../common-library/forms/radio-group-field';
+import { GetImage } from '../agency.service';
 
 export const convertToForm = (entity: any) => {
   const _entity = {...entity, 
@@ -22,8 +23,43 @@ export const convertToForm = (entity: any) => {
     image: entity.images || [],
   };
   delete _entity.images
+
+  let images : Array<any> = []
+  if(_entity && _entity.image) {
+    console.log('oc cho')
+    _entity.image.map((image: any) => {
+      GetImage(image.path).then((res: any) => {
+        let base64 = 'data:image/png;base64,' + Buffer.from(res, 'binary').toString('base64');
+        let file = dataURLtoFile(base64, image.path.split('/')[1])
+        images.push({data_url: base64, file: file});
+
+      })
+    })
+  }
+
+  _entity.image = images;
+
+  console.log(_entity)
+
+  
   return _entity;
 }
+
+function dataURLtoFile(dataurl: any, filename: any) {
+  
+  var arr = dataurl.split(','),
+      mime = arr[0].match(/:(.*?);/)[1],
+      bstr = atob(arr[1]), 
+      n = bstr.length, 
+      u8arr = new Uint8Array(n);
+      
+  while(n--){
+      u8arr[n] = bstr.charCodeAt(n);
+  }
+  
+  return new File([u8arr], filename, {type:mime});
+}
+
 
 export const convertToServer = (entity: any) => {
   console.log(entity.detailAddress)
