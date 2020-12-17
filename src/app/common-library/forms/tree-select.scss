@@ -6,7 +6,7 @@
     }
 
     .ant-select-selector {
-        height: calc(1.5em + 1.3rem + 0.5px) !important;
+        min-height: calc(1.5em + 1.3rem + 1.5px) !important;
     }
 
     span.ant-select-selection-placeholder {
@@ -37,7 +37,7 @@
     }
 
     .ant-select-selector {
-        height: calc(1.5em + 1.3rem + 0.5px) !important;
+        min-height: calc(1.5em + 1.3rem + 1.5px) !important;
     }
     
 }
