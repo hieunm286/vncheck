@@ -1,4 +1,4 @@
-import React, {Fragment, useEffect} from 'react';
+import React, {Fragment, useEffect, useMemo} from 'react';
 import {useIntl} from 'react-intl';
 import {DefaultPagination, NormalColumn, SortColumn} from '../../common-library/common-consts/const';
 import {MasterHeader} from '../../common-library/common-components/master-header';
@@ -89,60 +89,62 @@ function ShippingAgency() {
     getAll(filterProps);
   }, [paginationProps, trigger, filterProps, getAll]);
   
-  const columns = {
-    code: {
-      dataField: 'code',
-      text: `${intl.formatMessage({id: 'SHIPPING_AGENCY.MASTER.TABLE.CODE_COLUMN'})}`,
-      ...SortColumn,
-      align: 'center',
-    },
-    name: {
-      dataField: 'name',
-      text: `${intl.formatMessage({id: 'SHIPPING_AGENCY.MASTER.TABLE.NAME_COLUMN'})}`,
-      ...SortColumn,
-      align: 'center',
-    },
-    phone: {
-      dataField: 'phone',
-      text: `${intl.formatMessage({id: 'SHIPPING_AGENCY.MASTER.TABLE.PHONE_COLUMN'})}`,
-      ...SortColumn,
-      align: 'center',
-    },
-    status: {
-      dataField: 'status',
-      text: `${intl.formatMessage({id: 'SHIPPING_AGENCY.MASTER.TABLE.STATUS_COLUMN'})}`,
-      formatter: TickColumnFormatter,
-      ...SortColumn,
-      align: 'center',
-    },
-    action: {
-      dataField: 'action',
-      text: `${intl.formatMessage({id: 'SHIPPING_AGENCY.MASTER.TABLE.ACTION_COLUMN'})}`,
-      formatter: ActionsColumnFormatter,
-      formatExtraData: {
-        intl,
-        onShowDetail: (entity: ShippingAgencyModel) => {
-          get(entity);
-          setShowDetail(true);
-          setDetailEntity(entity);
-        },
-        onDelete: (entity: ShippingAgencyModel) => {
-          setDeleteEntity(entity);
-          setShowDelete(true);
-        },
-        onEdit: (entity: ShippingAgencyModel) => {
-          get(entity);
-          // setShowEdit(true);
-          setEditEntity(entity);
-          history.push(`${window.location.pathname}/${entity._id}`);
-        },
+  const columns = useMemo(() => {
+    return {
+      code: {
+        dataField: 'code',
+        text: `${intl.formatMessage({id: 'SHIPPING_AGENCY.MASTER.TABLE.CODE_COLUMN'})}`,
+        ...SortColumn,
+        align: 'center',
       },
-      ...NormalColumn,
-      style: {minWidth: '130px'},
-    },
-  };
+      name: {
+        dataField: 'name',
+        text: `${intl.formatMessage({id: 'SHIPPING_AGENCY.MASTER.TABLE.NAME_COLUMN'})}`,
+        ...SortColumn,
+        align: 'center',
+      },
+      phone: {
+        dataField: 'phone',
+        text: `${intl.formatMessage({id: 'SHIPPING_AGENCY.MASTER.TABLE.PHONE_COLUMN'})}`,
+        ...SortColumn,
+        align: 'center',
+      },
+      status: {
+        dataField: 'status',
+        text: `${intl.formatMessage({id: 'SHIPPING_AGENCY.MASTER.TABLE.STATUS_COLUMN'})}`,
+        formatter: TickColumnFormatter,
+        ...SortColumn,
+        align: 'center',
+      },
+      action: {
+        dataField: 'action',
+        text: `${intl.formatMessage({id: 'SHIPPING_AGENCY.MASTER.TABLE.ACTION_COLUMN'})}`,
+        formatter: ActionsColumnFormatter,
+        formatExtraData: {
+          intl,
+          onShowDetail: (entity: ShippingAgencyModel) => {
+            get(entity);
+            setShowDetail(true);
+            setDetailEntity(entity);
+          },
+          onDelete: (entity: ShippingAgencyModel) => {
+            setDeleteEntity(entity);
+            setShowDelete(true);
+          },
+          onEdit: (entity: ShippingAgencyModel) => {
+            get(entity);
+            // setShowEdit(true);
+            setEditEntity(entity);
+            history.push(`${window.location.pathname}/${entity._id}`);
+          },
+        },
+        ...NormalColumn,
+        style: {minWidth: '130px'},
+      },
+    }
+  }, []);
   
-  const masterEntityDetailDialog = [
+  const masterEntityDetailDialog = useMemo(() => [
     {
       header: 'SHIPPING_AGENCY.DETAIL_DIALOG.SHIPPING.SUBTITLE',
       className: 'col-7',
@@ -181,7 +183,7 @@ function ShippingAgency() {
         },
       },
     },
-  ];
+  ], []);
   
   const searchModel: SearchModel = {
     code: {
@@ -198,7 +200,7 @@ function ShippingAgency() {
     },
   };
   
-  const modifyModel: any[] = [
+  const modifyModel: any[] = useMemo(() => [
     {
       title: 'THÔNG TIN CHUNG',
       data: {
@@ -218,38 +220,46 @@ function ShippingAgency() {
           required: true,
           label: 'PRODUCT_TYPE.MASTER.TABLE.CODE_COLUMN',
         },
-        image: {
-          type: 'image',
-          placeholder: intl.formatMessage({id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL'}),
-          label: 'Album 1',
-        },
+        // image: {
+        //   type: 'image',
+        //   placeholder: intl.formatMessage({id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL'}),
+        //   label: 'Album 1',
+        // },
       },
     },
-    {
-      title: 'THÔNG TIN VÒNG ĐỜI',
-      data: {
-        growingDays: {
-          type: 'number',
-          placeholder: intl.formatMessage({id: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW'}),
-          label: intl.formatMessage({id: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW'}),
-        },
-        plantingDays: {
-          type: 'number',
-          placeholder: intl.formatMessage({id: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.PLANTING'}),
-          label: intl.formatMessage({id: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.PLANTING'}),
-        },
-        expiryDays: {
-          type: 'number',
-          placeholder: intl.formatMessage({
-            id: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.EXPIRY',
-          }),
-          label: intl.formatMessage({id: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.EXPIRY'}),
-        },
-      },
-    },
-  ];
+    // {
+    //   title: 'THÔNG TIN VÒNG ĐỜI',
+    //   data: {
+    //     growingDays: {
+    //       type: 'number',
+    //       placeholder: intl.formatMessage({id: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW'}),
+    //       label: intl.formatMessage({id: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW'}),
+    //     },
+    //     plantingDays: {
+    //       type: 'number',
+    //       placeholder: intl.formatMessage({id: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.PLANTING'}),
+    //       label: intl.formatMessage({id: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.PLANTING'}),
+    //     },
+    //     expiryDays: {
+    //       type: 'number',
+    //       placeholder: intl.formatMessage({
+    //         id: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.EXPIRY',
+    //       }),
+    //       label: intl.formatMessage({id: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.EXPIRY'}),
+    //     },
+    //   },
+    // },
+  ], []);
   
   const formPart: any = {
+    header: "SHIPPING_AGENCY.CREATE.HEADER",
+    // form: [
+    //   {
+    //     title: '',
+    //     modifyModel: modifyModel,
+    //     header: 'ĐƠN HÀNG',
+    //   }
+    // ],
     form_1: {
       title: '',
       modifyModel: modifyModel,
@@ -263,7 +273,7 @@ function ShippingAgency() {
     ),
   };
   
-  const allFormButton: any = {
+  const modifyButtonPage: any = {
     save: {
       role: 'submit',
       type: 'submit',
@@ -284,50 +294,18 @@ function ShippingAgency() {
   
   return (
     <Fragment>
-      <MasterEntityDetailDialog
-        title={detailDialogTitle}
-        entity={detailEntity}
-        onClose={() => {
-          setShowDetail(false);
-        }}
-        show={showDetail}
-        size={'lg'}
-        renderInfo={masterEntityDetailDialog}/>
-      <DeleteEntityDialog
-        entity={deleteEntity}
-        onDelete={deleteFn}
-        isShow={showDelete}
-        loading={loading}
-        error={error}
-        onHide={() => {
-          setShowDelete(false);
-        }}
-        title={deleteDialogTitle}
-        bodyTitle={deleteDialogBodyTitle}
-      />
-      <DeleteManyEntitiesDialog
-        moduleName={moduleName}
-        selectedEntities={selectedEntities}
-        loading={loading}
-        isShow={showDeleteMany}
-        onDelete={deleteMany}
-        error={error}
-        onHide={() => {
-          setShowDeleteMany(false);
-        }}
-      />
-      
       <Switch>
         <Route path="/shipping-agency/new">
           <EntityCrudPage
             entity={createEntity}
+            moduleName={moduleName}
             onModify={add}
             title={createTitle}
             code={null}
             get={() => null}
-            formPart={formPart}
+            models={formPart}
             allFormField={allFormField}
-            allFormButton={allFormButton}
+            allFormButton={modifyButtonPage}
             // validation={ProductTypeSchema}
             // autoFill={{
             //     field: 'code',
@@ -350,12 +328,13 @@ function ShippingAgency() {
               entity={editEntity}
               onModify={update}
               title={updateTitle}
+              moduleName={moduleName}
               //  modifyModel={modifyModel}
               code={match && match.params.code}
               get={ShippingAgencyService.GetById}
-              formPart={formPart}
+              models={formPart}
               allFormField={allFormField}
-              allFormButton={allFormButton}
+              allFormButton={modifyButtonPage}
               //   validation={ProductTypeSchema}
             />
           )}
@@ -392,6 +371,38 @@ function ShippingAgency() {
           {/* <MasterTreeStructure /> */}
         </Route>
       </Switch>
+      <MasterEntityDetailDialog
+        title={detailDialogTitle}
+        entity={detailEntity}
+        onClose={() => {
+          setShowDetail(false);
+        }}
+        show={showDetail}
+        size={'lg'}
+        renderInfo={masterEntityDetailDialog}/>
+      <DeleteEntityDialog
+        entity={deleteEntity}
+        onDelete={deleteFn}
+        isShow={showDelete}
+        loading={loading}
+        error={error}
+        onHide={() => {
+          setShowDelete(false);
+        }}
+        title={deleteDialogTitle}
+        bodyTitle={deleteDialogBodyTitle}
+      />
+      <DeleteManyEntitiesDialog
+        moduleName={moduleName}
+        selectedEntities={selectedEntities}
+        loading={loading}
+        isShow={showDeleteMany}
+        onDelete={deleteMany}
+        error={error}
+        onHide={() => {
+          setShowDeleteMany(false);
+        }}
+      />
     </Fragment>
   );
 }

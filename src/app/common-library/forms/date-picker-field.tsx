@@ -120,7 +120,7 @@ export function DatePickerField({...props}: any) {
     <>
       <div className={props.isHorizontal && 'row'}>
         <div className={props.isHorizontal && getClassName(props.labelWidth, true)}>
-          {props.label && <label>{props.label}</label>}
+          {props.label && <label>{props.label}</label>} {props.required && <span className="text-danger">*</span>}
         </div>
         <div className={props.isHorizontal && getClassName(props.labelWidth, false)}>
           <DatePicker picker="date"

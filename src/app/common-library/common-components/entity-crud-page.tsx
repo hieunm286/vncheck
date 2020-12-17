@@ -25,15 +25,17 @@ import {diff} from 'deep-object-diff';
 import EXIF from 'exif-js';
 import {isEmpty} from 'lodash';
 import exifr from 'exifr'
+import {Modal} from "react-bootstrap";
+import {MasterEntityDetail} from "./master-entity-detail-dialog";
 
 function EntityCrudPage({
                           entity,
                           onModify,
                           title = 'COMMON_COMPONENT.CREATE_UPDATE.TITLE',
-                          moduleName = 'COMMON_COMPONENT.DELETE_DIALOG.MODULE_NAME',
+                          moduleName = 'COMMON_COMPONENT.CREATE_UPDATE.MODULE_NAME',
                           code,
                           get,
-                          formPart,
+                          models,
                           allFormField,
                           allFormButton,
                           validation,
@@ -46,7 +48,7 @@ function EntityCrudPage({
   onModify: (values: any) => void;
   code: string | null;
   get: (code: string) => any | null;
-  formPart: any;
+  models: any;
   allFormField: any;
   allFormButton: any;
   validation?: any;
@@ -56,7 +58,7 @@ function EntityCrudPage({
   const initForm = autoFill
     ? generateInitForm(allFormField, autoFill.field, autoFill.data)
     : generateInitForm(allFormField);
-  //   const modifyM = { ...modifyModel } as any;
+  const {header, ...formPart} = models;
   const history = useHistory();
   const [entityForEdit, setEntityForEdit] = useState(entity);
   
@@ -154,21 +156,22 @@ function EntityCrudPage({
         {({handleSubmit, setFieldValue}) => (
           <>
             <Form className="form form-label-right">
-              {Object.keys(formPart).map((key, index) => (
+              {Object.keys(formPart).map((key, index,keys) => (
                 <Card key={key}>
-                  {formPart[key].header && (
-                    <CardHeader title={index == 0 ?
-                      (<a onClick={() => history.goBack()} className={'cursor-pointer'}>
-                        <ArrowBackIosIcon/>
-                        {intl
-                          .formatMessage({id: title}, {moduleName: intl.formatMessage({id: moduleName})})
-                          .toUpperCase()}
-                        entityForEdit ? `CHỈNH SỬA ${formPart[key].header}`.toUpperCase()
-                        : `Tạo mới ${formPart[key].header}`.toUpperCase()
-                      </a>) : (<>{intl.formatMessage({id: formPart[key].header}, {moduleName: intl.formatMessage({id: moduleName})})
-                        .toUpperCase()}</>)}
+                    <CardHeader className={'border-bottom-0'}
+                                title={index == 0 ? (
+                                  <a onClick={() => history.goBack()}
+                                     className={'cursor-pointer text-primary font-weight-boldest'}>
+                                    <ArrowBackIosIcon/>
+                                    {intl
+                                      .formatMessage({id: title}, {moduleName: intl.formatMessage({id: moduleName})})
+                                      .toUpperCase()}
+                                  </a>) : (
+                                  <>{intl.formatMessage(
+                                    {id: header},
+                                    {moduleName: intl.formatMessage({id: moduleName})})
+                                    .toUpperCase()}</>)}
                     />
-                  )}
                   <CardBody>
                     <ModifyEntityPage
                       images={images}
@@ -181,7 +184,7 @@ function EntityCrudPage({
                       handleChangeTag={handleChangeTag}
                     />
                   </CardBody>
-                  {key === Object.keys(formPart)[Object.keys(formPart).length - 1] && (
+                  {(index == keys.length - 1)&& (
                     <div className="text-right mb-5 mr-5" key={key}>
                       {Object.keys(allFormButton).map(keyss => {
                         switch (allFormButton[keyss].role) {

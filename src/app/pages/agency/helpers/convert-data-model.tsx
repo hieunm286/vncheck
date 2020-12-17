@@ -58,6 +58,7 @@ export const convertToServer = (entity: any) => {
       phone: entity.ownerPhoneNumber || '',
       email: entity.email,
       gender: entity.gender || '',
+      avatar: entity.avatar,
       // birthDay: entity.birthDay && entity.birthDay.toString()  || '',
       birthDay: entity.birthDay,
       role: entity.roleName.value,
@@ -68,6 +69,12 @@ export const convertToServer = (entity: any) => {
     images: entity.image,
   };
 
+  
+  if(_entity.images.length === 0) delete _entity.images;
+  if(_entity.owner.avatar.length === 0) delete _entity.owner.avatar;
+
+  delete _entity.avatar;
+  delete _entity.image;
   delete _entity.state;
   delete _entity.city;
   delete _entity.district;

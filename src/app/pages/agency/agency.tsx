@@ -193,7 +193,8 @@ function AgencyPage() {
           type: 'string',
           placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.AGENCY_CODE' }),
           label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.AGENCY_CODE' }),
-          disabled: editEntity,
+          // disabled: editEntity,
+          disabled: true
         },
         name: {
           type: 'string',
@@ -213,21 +214,25 @@ function AgencyPage() {
           label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.SELL_GOOD_LEVEL' }), 
           service: StoreLevelService,
           keyField: 'name',
+          required: true,
         },
         state: {
           type: 'stateSelect',
           placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.STATE' }),
           label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.STATE' }), 
+          required: true,
         },
         city: {
           type: 'citySelect',
           placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.CITY' }),
           label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.CITY' }), 
+          required: true,
         },
         district: {
           type: 'districtSelect',
           placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.DISTRICT' }),
           label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.DISTRICT' }), 
+          required: true,
         },
         detailAddress: {
           type: 'string',
@@ -289,18 +294,21 @@ function AgencyPage() {
           type: 'option',
           placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.GENDER' }),
           label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.GENDER' }),
+          required: true,
         },
         birthDay: {
           type: 'date-time',
           placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.BIRTH_DAY' }),
           label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.BIRTH_DAY' }),
+          required: true,
         },
         roleName: {
           type: 'search-select',
           placeholder: 'AGENCY.EDIT.PLACEHOLDER.ROLE_NAME',
           label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.ROLE_NAME' }),
           service: RoleService,
-          keyField: 'name'
+          keyField: 'name',
+          required: true,
         },
         avatar: {
           type: 'image',
