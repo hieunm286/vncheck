@@ -32,6 +32,7 @@ import {
   InputString,
   InputTag
 } from "./common-input";
+import _ from 'lodash';
 
 function ModifyEntityPage<T>({
                                modifyModel,
@@ -39,6 +40,9 @@ function ModifyEntityPage<T>({
                                column,
                                entityForEdit,
                                mode = 'horizontal',
+                               tagData,
+                               search,
+                              setSearch,
                                errors
                              }: {
   modifyModel: ModifyModel;
@@ -68,7 +72,7 @@ function ModifyEntityPage<T>({
     return (
       <>
         {Object.keys(data).map(key => {
-          const input = data[key];
+          const input = data[key] as any;
           switch (input.type) {
             case 'string':
               return (
@@ -85,6 +89,7 @@ function ModifyEntityPage<T>({
                   className={defaultClassName}
                   name={prevKey !== '' ? `${prevKey}.${key}` : key}
                   mode={mode}
+                  disabled={input.process && _.parseInt(input.process, 10) <= _.parseInt(entityForEdit.process, 10)}
                   {...input}
                   key={`modify-page-${key}`}/>
               );
@@ -95,6 +100,7 @@ function ModifyEntityPage<T>({
                   className={defaultClassName}
                   name={prevKey !== '' ? `${prevKey}.${key}` : key}
                   mode={mode}
+                  disabled={input.process && _.parseInt(input.process, 10) <= _.parseInt(entityForEdit.process, 10)}
                   {...input}
                   key={`modify-page-${key}`}/>
               );
@@ -141,18 +147,21 @@ function ModifyEntityPage<T>({
                   key={`modify-page-${key}`}
                 />
               );
-            // case 'tag':
-            //   const defaultTag = (getField(entityForEdit, prevKey ? `${prevKey}.${key}` : key))
-            //   return (
-            //     <InputTag
-            //       className={defaultClassName}
-            //       name={prevKey !== '' ? `${prevKey}.${key}` : key}
-            //       mode={mode}
-            //       defaultTag={defaultTag}
-            //       {...input}
-            //       key={`modify-page-${key}`}
-            //     />
-            //   );
+
+            case 'tag':
+              const defaultTag = (getField(entityForEdit, prevKey ? `${prevKey}.${key}` : key))
+              return (
+                <InputTag
+                  className={defaultClassName}
+                  name={prevKey !== '' ? `${prevKey}.${key}` : key}
+                  mode={mode}
+                  defaultTag={defaultTag}
+                  tagData={tagData}
+                  disabled={input.process && _.parseInt(input.process, 10) <= _.parseInt(entityForEdit.process, 10)}
+                  {...input}
+                  key={`modify-page-${key}`}
+                />
+              );
             case 'object':
               return (<>{renderForm(input.data, prevKey ? `${prevKey}.${key}` : key)}</>);
             //
@@ -160,9 +169,9 @@ function ModifyEntityPage<T>({
             //   return (
             //     <div className="mt-3" key={key}>
             //       <InfiniteSelectV2
-            //         label={intl.formatMessage({id: value.data[key].label})}
+            //         label={intl.formatMessage({id: input.label})}
             //         isHorizontal={true}
-            //         value={value.data[key].fillField ? search[key][value.data[key].fillField] : search[key]}
+            //         value={input.fillField ? search[key][input.fillField] : search[key]}
             //         onChange={(value: any) => {
             //           setSearch({...search, [key]: value});
             //           // setSearchTerm({
@@ -170,16 +179,16 @@ function ModifyEntityPage<T>({
             //           //   [key]: searchM[key].ref ? value.value : value.label,
             //           // });
             //         }}
-            //         service={value.data[key].service}
-            //         keyField={value.data[key].keyField}
-            //         dataField={entityForEdit[value.data[key].rootField][value.data[key].keyField]}
-            //         display={value.data[key].display}
-            //         refs={value.data[key].ref}
+            //         service={input.service}
+            //         keyField={input.keyField}
+            //         dataField={entityForEdit[input.rootField][input.keyField]}
+            //         display={input.display}
+            //         refs={input.ref}
             //         additional={{
             //           page: DefaultPagination.page,
             //         }}
             //         name={prevKey !== '' ? `${prevKey}.${key}` : key}
-            //         placeholder={intl.formatMessage({id: value.data[key].placeholder})}
+            //         placeholder={intl.formatMessage({id: input.placeholder})}
             //       />
             //     </div>
             //   );
@@ -242,9 +251,9 @@ function ModifyEntityPage<T>({
             //             isHorizontal
             //             withFeedbackLabel
             //             labelWidth={4}
-            //             placeholder={intl.formatMessage({id: value.data[key].placeholder})}
-            //             label={intl.formatMessage({id: value.data[key].label})}
-            //             required={value.data[key].required}
+            //             placeholder={intl.formatMessage({id: input.placeholder})}
+            //             label={intl.formatMessage({id: input.label})}
+            //             required={input.required}
             //           />
             //         </div>
             //       );

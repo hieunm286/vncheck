@@ -215,14 +215,12 @@ function ProductPackaging() {
       data: {
         code: {
           type: 'string',
-          placeholder: '',
           label: 'PRODUCT_PACKAGING.MASTER.TABLE.CODE_COLUMN',
           required: true,
           disabled: true,
         },
         species: {
           type: 'search-select',
-          placeholder: 'COMMON_COMPONENT.SELECT.PLACEHOLDER',
           required: true,
           label: 'PRODUCT_PACKAGING.MASTER.TABLE.NAME_COLUMN',
           service: ProductTypeService,
@@ -231,7 +229,6 @@ function ProductPackaging() {
         },
         weight: {
           type: 'string',
-          placeholder: 'COMMON_COMPONENT.INPUT.PLACEHOLDER',
           
           required: true,
           label: 'PRODUCT_PACKAGING.MASTER.TABLE.GRAM_COLUMN',

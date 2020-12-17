@@ -312,11 +312,11 @@ function ProductionPlan() {
 
   useEffect(() => {
     if (currentTab === '0') {
-      getAll({ ...(filterProps as any), step: '0' });
+      getAll({ ...(filterProps as any), step: '0', isMaster: true });
     } else if (currentTab === '1') {
-      getAll({ ...(filterProps as any), step: '0', confirmationStatus: '1' });
+      getAll({ ...(filterProps as any), step: '0', confirmationStatus: '1,3' });
     } else if (currentTab === '2') {
-      getAll({ ...(filterProps as any), step: '1', confirmationStatus: '2' });
+      getAll({ ...(filterProps as any), step: '1', confirmationStatus: '2', isMaster: true });
     }
   }, [paginationProps, trigger, filterProps, currentTab]);
 
@@ -554,7 +554,7 @@ function ProductionPlan() {
       dataField: 'process',
       text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.STATUS' })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
-        <span>{row.process !== '1' ? 'Hoàn thành' : 'Chưa hoàn thành'}</span>
+        <span>{row.process === '7' ? 'Hoàn thành' : 'Chưa hoàn thành'}</span>
       ),
       ...SortColumn,
       classes: 'text-center',
@@ -806,7 +806,7 @@ function ProductionPlan() {
       classes: 'text-center',
     },
     createdBy: {
-      dataField: 'productPlan.createdBy',
+      dataField: 'productPlan.createdBy.lastName',
       text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.VERSION_CREATEBY' })}`,
 
       ...SortColumn,
@@ -817,7 +817,7 @@ function ProductionPlan() {
       dataField: 'createdAt',
       text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.VERSION_CREATEDATE' })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
-        <span>{new Intl.DateTimeFormat('en-GB').format(new Date(row.createdAt))}</span>
+        <span>{row.createdAt ? new Intl.DateTimeFormat('en-GB').format(new Date(row.createdAt)) : "Không có thông tin"}</span>
       ),
       ...SortColumn,
       classes: 'text-center',
@@ -827,7 +827,7 @@ function ProductionPlan() {
       dataField: 'productPlan.confirmationDate',
       text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.VERSION_APPROVEDATE' })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
-        <span>{new Intl.DateTimeFormat('en-GB').format(new Date(row.productPlan.confirmationDate))}</span>
+        <span>{row.productPlan.confirmationDate ? new Intl.DateTimeFormat('en-GB').format(new Date(row.productPlan.confirmationDate)) : "Không có thông tin"}</span>
       ),
       ...SortColumn,
       classes: 'text-center',
@@ -848,7 +848,7 @@ function ProductionPlan() {
             //   });
             // });
             history.push({
-              pathname: '/production-plan/plan-view/' + row._id,
+              pathname: '/production-plan/plan-view/' + row.productPlan._id,
               state: row.productPlan,
             });
           }}>
@@ -967,7 +967,7 @@ function ProductionPlan() {
               onClose={() => {
                 setShowDetail(false);
               }}
-              allFormButton={username === 'admin' && adminAllFormButton}
+              allFormButton={currentTab === '1' && username === 'admin' && adminAllFormButton }
               mode="split"
               title={`CHI TIẾT KẾ HOẠCH`}
             />

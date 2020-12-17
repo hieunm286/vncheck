@@ -198,6 +198,7 @@ export type _CommonProps = {
   required?: boolean;
   disabled?: boolean;
   value?: any;
+  process?: string;
   [T: string]: any;
 }
 export type GetAllProps<T> = ({

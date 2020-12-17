@@ -167,7 +167,7 @@ function TagInput({
             defaultValue={getDefautltTag(data) || []}
             placeholder={placeholder}
             onChange={(value: any) => {
-                handleChange(value);
+                // handleChange(value);
                 setFieldValue(name, value);
             }}
             optionFilterProp="children"

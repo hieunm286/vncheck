@@ -388,14 +388,14 @@ export const modifyModel3: any[] = [
             placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
             label: 'Nhân viên kỹ thuật thu hoạch',
             required: true,
-
+            process: '2'
           },
           leader: {
             type: 'tag',
             placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
             label: 'Tổ trưởng thu hoạch',
             required: true,
-
+            process: '2'
           },
         },
       },
@@ -414,11 +414,13 @@ export const modifyModel4: ModifyModel = [
             type: 'date-time',
             placeholder: 'Mã gieo giống',
             label: 'Thời gian sơ chế (dự kiến)',
+            process: '3'
           },
           estimatedQuantity: {
             type: 'number',
             placeholder: 'Mã gieo giống',
             label: 'Sản lượng sau sơ chế dự kiến (kg)',
+            process: '3'
           },
         },
       },
@@ -434,11 +436,13 @@ export const modifyModel4: ModifyModel = [
             type: 'tag',
             placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
             label: 'Nhân viên kỹ thuật sơ chế',
+            process: '3'
           },
           leader: {
             type: 'tag',
             placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
             label: 'Tổ trưởng sơ chế',
+            process: '3'
           },
         },
       },
@@ -457,11 +461,13 @@ export const modifyModel5: ModifyModel = [
             type: 'date-time',
             placeholder: 'Mã gieo giống',
             label: 'Thời gian làm sạch (dự kiến)',
+            process: '4'
           },
           estimatedQuantity: {
             type: 'number',
             placeholder: 'Mã gieo giống',
             label: 'Sản lượng sau làm sạch dự kiến (kg)',
+            process: '4'
           },
         },
       },
@@ -478,12 +484,14 @@ export const modifyModel5: ModifyModel = [
             placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
             label: 'Nhân viên kỹ thuật làm sạch',
             root: 'cleaning',
+            process: '4'
           },
           leader: {
             type: 'tag',
             placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
             label: 'Tổ trưởng làm sạch',
             root: 'cleaning',
+            process: '4'
           },
         },
       },
@@ -502,16 +510,19 @@ export const modifyModel6: ModifyModel = [
             type: 'date-time',
             placeholder: 'Mã gieo giống',
             label: 'Thời gian đóng gói (dự kiến)',
+            process: '5'
           },
           estimatedExpireTimeStart: {
             type: 'date-time',
             placeholder: 'Hạn sử dụng',
             label: 'Hạn sử dụng bắt đầu (dự kiến)',
+            process: '5'
           },
           estimatedExpireTimeEnd: {
             type: 'date-time',
             placeholder: 'Hạn sử dụng',
             label: 'Hạn sử dụng kết thúc (dự kiến)',
+            process: '5'
           },
           // packing: {
           //   type: 'search-select',
@@ -537,16 +548,19 @@ export const modifyModel6: ModifyModel = [
             type: 'number',
             placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
             label: 'Số lượng đóng gói dự kiến ',
+            process: '5'
           },
           technical: {
             type: 'tag',
             placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.PLANTING',
             label: 'KCS',
+            process: '5'
           },
           leader: {
             type: 'tag',
             placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.PLANTING',
             label: 'Tổ trưởng đóng gói',
+            process: '5'
           },
         },
       },
@@ -565,11 +579,13 @@ export const modifyModel7: ModifyModel = [
             type: 'date-time',
             placeholder: 'Mã gieo giống',
             label: 'Thời gian bắt đầu bảo quản (dự kiến)',
+            process: '6'
           },
           estimatedEndTime: {
             type: 'date-time',
             placeholder: 'Mã gieo giống',
             label: 'Thời gian kết thúc bảo quản (dự kiến)',
+            process: '6'
           },
         },
       },
@@ -585,6 +601,7 @@ export const modifyModel7: ModifyModel = [
             type: 'tag',
             placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
             label: 'Nhân viên kỹ thuật bảo quản',
+            process: '6'
           },
         },
       },

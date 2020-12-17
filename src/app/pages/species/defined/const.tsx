@@ -40,26 +40,22 @@ export const modifyModel: ProductTypeModifyModelDetail[] = [
     data: {
       code: {
         type: 'string',
-        placeholder: '',
         label: 'PRODUCT_TYPE.MASTER.TABLE.CODE_COLUMN',
         required: true,
         disabled: true,
       },
       name: {
         type: 'string',
-        placeholder: 'PRODUCT_TYPE.MASTER.TABLE.NAME_COLUMN',
         required: true,
         label: 'PRODUCT_TYPE.MASTER.TABLE.NAME_COLUMN',
       },
       barcode: {
         type: 'string',
-        placeholder: 'PRODUCT_TYPE.MASTER.TABLE.BARCODE_COLUMN',
         required: true,
         label: 'PRODUCT_TYPE.MASTER.TABLE.BARCODE_COLUMN',
       },
       images: {
         type: 'image',
-        placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
         label: 'PRODUCT_TYPE.MASTER.IMAGE',
         multiple: false
       },
@@ -75,17 +71,14 @@ export const modifyModel: ProductTypeModifyModelDetail[] = [
     data: {
       growingDays: {
         type: 'number',
-        placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
         label: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
       },
       plantingDays: {
         type: 'number',
-        placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.PLANTING',
         label: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.PLANTING',
       },
       expiryDays: {
         type: 'number',
-        placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.EXPIRY',
         label: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.EXPIRY',
       },
     },
