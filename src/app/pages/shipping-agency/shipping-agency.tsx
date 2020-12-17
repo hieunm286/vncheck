@@ -251,7 +251,7 @@ function ShippingAgency() {
     // },
   ], []);
   
-  const formPart: any = {
+  const models: any = {
     header: "SHIPPING_AGENCY.CREATE.HEADER",
     // form: [
     //   {
@@ -263,7 +263,6 @@ function ShippingAgency() {
     form_1: {
       title: '',
       modifyModel: modifyModel,
-      header: 'ĐƠN HÀNG',
     },
   };
   
@@ -303,7 +302,7 @@ function ShippingAgency() {
             title={createTitle}
             code={null}
             get={() => null}
-            models={formPart}
+            models={models}
             allFormField={allFormField}
             allFormButton={modifyButtonPage}
             // validation={ProductTypeSchema}
@@ -332,7 +331,7 @@ function ShippingAgency() {
               //  modifyModel={modifyModel}
               code={match && match.params.code}
               get={ShippingAgencyService.GetById}
-              models={formPart}
+              models={models}
               allFormField={allFormField}
               allFormButton={modifyButtonPage}
               //   validation={ProductTypeSchema}

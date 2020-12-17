@@ -15,7 +15,7 @@ import { ActionsColumnFormatter } from '../../common-library/common-components/a
 
 import { DefaultPagination, NormalColumn, SortColumn } from '../../common-library/common-consts/const';
 
-import {ModifyModel, SearchModel} from "../../common-library/common-types/common-type";
+import {OldModifyModel, SearchModel} from "../../common-library/common-types/common-type";
 
 import { DeleteEntityDialog } from "../../common-library/common-components/delete-entity-dialog";
 import DeleteManyEntitiesDialog from '../../common-library/common-components/delete-many-dialog';

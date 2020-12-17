@@ -426,7 +426,7 @@ function ProductionPlanCrud({
                     <ModifyEntityPage
                       entityForEdit={entityForEdit}
                       images={images}
-                      modifyModel={formPart[key].modifyModel as any}
+                      modifyModel={formPart[key].modifyModel}
                       column={formPart[key].modifyModel.length}
                       title={formPart[key].title}
                       handleChangeTag={handleChangeTag}

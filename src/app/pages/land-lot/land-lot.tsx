@@ -12,7 +12,7 @@ import {ActionsColumnFormatter} from '../../common-library/common-components/act
 import {DeleteEntityDialogPromise} from '../../common-library/common-components/delete-entity-dialog-promise';
 import DeleteManyEntitiesDialogPromise from '../../common-library/common-components/delete-many-dialog-promise';
 import ModifyEntityDialog from './helpers/modify-entity-dialog';
-import {ModifyModel, SearchModel} from '../../common-library/common-types/common-type';
+import {OldModifyModel, SearchModel} from '../../common-library/common-types/common-type';
 import {
   GenerateAllFormField,
   InitMasterProps,

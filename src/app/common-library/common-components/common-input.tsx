@@ -8,6 +8,7 @@ import {SwitchField} from "../forms/switch-field";
 import {InfiniteSelect} from "../forms/infinite-select";
 import TagInput from "../forms/tag-input";
 import React, {ReactElement, useCallback, useMemo} from "react";
+import _ from "lodash";
 
 const DefaultPlaceholder = {
   'string': 'COMMON_COMPONENT.INPUT.PLACEHOLDER',
@@ -30,7 +31,7 @@ export const InputNumber = ({label, placeholder, ...props}: {
   const intl = useIntl();
   return (<Field component={MainInput}
                  placeholder={intl.formatMessage({id: placeholder ?? DefaultPlaceholder.number})}
-                 label={typeof label === 'string' ? intl.formatMessage({id: label}) : label}
+                 label={_.isString(label) ? intl.formatMessage({id: label}) : label}
                  type='number'
                  {...props}
   />)
@@ -50,7 +51,7 @@ export const InputString = ({label, placeholder, className, ...props}: {
       <Field {...props}
              component={MainInput}
              placeholder={intl.formatMessage({id: placeholder ?? DefaultPlaceholder.string})}
-             label={typeof label === 'string' ? intl.formatMessage({id: label}) : label}
+             label={_.isString(label) ? intl.formatMessage({id: label}) : label}
              type={'text'}
       />
     </div>
@@ -71,7 +72,7 @@ export const InputDateTime = ({label, placeholder, className, ...props}: {
     <div className={className}>
       <DatePickerField {...props}
                        placeholder={intl.formatMessage({id: placeholder ?? DefaultPlaceholder["date-time"]})}
-                       label={typeof label === 'string' ? intl.formatMessage({id: label}) : label}
+                       label={_.isString(label) ? intl.formatMessage({id: label}) : label}
       
       />
     </div>
@@ -92,7 +93,7 @@ export const InputBoolean = ({label, placeholder, className, ...props}: {
       <Field {...props}
              component={SwitchField}
              placeholder={intl.formatMessage({id: placeholder ?? DefaultPlaceholder.boolean})}
-             label={typeof label === 'string' ? intl.formatMessage({id: label}) : label}
+             label={_.isString(label) ? intl.formatMessage({id: label}) : label}
       /></div>
   );
 }
@@ -108,13 +109,13 @@ export const InputImage = ({label, className, ...props}: {
   return (
     <div className={className}>
       <CustomImageUpload  {...props}
-                          label={typeof label === 'string' ? intl.formatMessage({id: label}) : label}
+                          label={_.isString(label) ? intl.formatMessage({id: label}) : label}
       /></div>
   );
 }
 export const InputTag = ({label, placeholder, className, ...props}: {
   name: string,
-  label: string,
+  label: string | ReactElement,
   required?: boolean,
   disabled?: boolean,
   placeholder?: string, [X: string]: any
@@ -123,8 +124,8 @@ export const InputTag = ({label, placeholder, className, ...props}: {
   return (
     <div className={className}>
       <TagInput {...props}
-                label={intl.formatMessage({id: label})}
-                placeholder={intl.formatMessage({id: placeholder ?? DefaultPlaceholder.tag})}
+                label={_.isString(label) ? intl.formatMessage({id: label}) : label}
+                placeholder={intl.formatMessage({id: placeholder ?? DefaultPlaceholder.boolean})}
         // handleChange={handleChangeTag}
         // data={isArray(defaultTag) ? defaultTag : []}
         // tagData={tagData}
@@ -178,7 +179,7 @@ export const InputSearchSelect = ({
                       keyField={keyField}
                       selectField={selectField}
                       placeholder={intl.formatMessage({id: placeholder ?? DefaultPlaceholder["search-select"]})}
-                      label={typeof label === 'string' ? intl.formatMessage({id: label}) : label}
+                      label={_.isString(label) ? intl.formatMessage({id: label}) : label}
                       loadOptions={loadOptions}
                       additional={{
                         page: DefaultPagination.page,

@@ -19,6 +19,57 @@ export const CapitalizeFirstLetter = (string: string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
 };
 
+export const GetTouched = (touched: any, fieldName: string) => {
+  if (fieldName.indexOf('.') === -1) {
+    return touched[fieldName]
+  }
+  
+  const arrName = fieldName.split('.')
+  
+  if (arrName.length === 3) {
+    return touched[arrName[0]] ? touched[arrName[0]][arrName[1]][arrName[2]] : ''
+  }
+  
+  return touched[arrName[0]] ? touched[arrName[0]][arrName[1]] : ''
+}
+export const GetFieldCSSClasses = (touched: any, errors: any) => {
+  const classes = ['form-control'];
+  
+  if (touched && errors) classes.push('is-invalid');
+  
+  if (touched && !errors) classes.push('is-valid');
+  
+  return classes.join(' ');
+};
+
+export const GetClassName = (labelWidth: number | null | undefined, labelStart: boolean) => {
+  const classes: string[] = [];
+  
+  if (labelStart) {
+    if (labelWidth) {
+      classes.push(`col-xl-${labelWidth}`);
+      classes.push(`col-md-${labelWidth}`);
+      classes.push('col-12');
+    } else {
+      classes.push(`col-xl-4`);
+      classes.push(`col-md-4`);
+      classes.push('col-12');
+    }
+  } else {
+    if (labelWidth) {
+      classes.push(`col-xl-${12 - labelWidth - 1}`);
+      classes.push(`col-md-${12 - labelWidth}`);
+      classes.push('col-12');
+    } else {
+      classes.push(`col-xl-7`);
+      classes.push(`col-md-8`);
+      classes.push('col-12');
+    }
+  }
+  
+  return classes.join(' ');
+};
+
 export const deCapitalizeFirstLetter = (string: string) => {
   return string.charAt(0).toLowerCase() + string.slice(1);
 };

@@ -7,7 +7,7 @@ import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import * as Yup from 'yup';
 import { MainInput } from '../forms/main-input';
 import { DefaultPagination, iconStyle } from '../common-consts/const';
-import { ModifyModel } from '../common-types/common-type';
+import { OldModifyModel } from '../common-types/common-type';
 import CustomImageUpload from '../forms/custom-image-upload';
 import { getNewImage, getOnlyFile, notify, notifySuccess } from '../helpers/common-function';
 import { Card, CardBody, CardHeader } from '../card';
@@ -31,7 +31,7 @@ function ModifyEntityFormPromise<T>({
   entity: any;
   onHide: () => void;
   onModify: (values: any) => Promise<AxiosResponse<any>>;
-  modifyModel: ModifyModel;
+  modifyModel: OldModifyModel;
   formPart: any;
   validation: any;
   refreshData: () => any;

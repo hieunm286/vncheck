@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {ModifyModel} from '../common-types/common-type';
+import React, {ReactElement, useCallback, useEffect, useState} from 'react';
+import {_ModifyModelType, ModifyModel, ModifyPart, OldModifyModel} from '../common-types/common-type';
 import {useIntl} from 'react-intl';
 import {generateInitForm, getField, getNewImage, getOnlyFile} from '../helpers/common-function';
 import {Field, Form, Formik} from 'formik';
@@ -23,29 +23,26 @@ import {FormikRadioGroup} from '../forms/radio-group-field';
 import {SwitchField} from '../forms/switch-field';
 import {InfiniteSelectV2} from '../forms/infinite-select-v2';
 import {isArray} from 'lodash';
-import {InputString} from "./common-input";
+import {
+  InputBoolean,
+  InputDateTime,
+  InputImage,
+  InputNumber,
+  InputSearchSelect,
+  InputString,
+  InputTag
+} from "./common-input";
 
 function ModifyEntityPage<T>({
-                               // entity,
-                               // onModify,
-                               // title,
                                modifyModel,
-                               // reduxModel,
-                               // code,
-                               // get,
-                               images,
-                               onChange,
                                title,
                                column,
-                               search,
-                               setSearch,
-                               handleChangeTag,
-                               values,
-                               tagData,
                                entityForEdit,
+                               mode = 'horizontal',
                                errors
                              }: {
-  modifyModel: any;
+  modifyModel: ModifyModel;
+  mode?: 'horizontal' | 'vertical'
   // title: string;
   // entity: T;
   // onModify: (values: any) => void;
@@ -66,117 +63,40 @@ function ModifyEntityPage<T>({
 }) {
   const intl = useIntl();
   // const initForm = generateInitForm(modifyModel);
-  const modifyM = {...modifyModel} as any;
-  
-  const loadOptions = async (
-    search: string,
-    prevOptions: any,
-    {page}: any,
-    service: any,
-    keyField: string,
-    key: string,
-  ) => {
-    const queryProps: any = {};
-    queryProps[keyField] = search;
-    
-    const paginationProps = {
-      ...DefaultPagination,
-      page: page,
-    };
-    
-    const entities = await service.GetAll({queryProps, paginationProps});
-    // const count = onCount ? await onCount({ queryProps }) : await service.Count({ queryProps });
-    const count = entities.data.paging.total;
-    const hasMore = prevOptions.length < count - (DefaultPagination.limit ?? 0);
-    
-    const data = [...new Set(entities.data.data)];
-    
-    return {
-      options: data.map((e: any) => {
-        return {label: e[keyField], value: e._id};
-      }),
-      hasMore: hasMore,
-      additional: {
-        page: page + 1,
-      },
-    };
-  };
   const defaultClassName = 'mt-3';
-  const renderForm = (value: any, prevKey: string) => {
+  const renderForm = useCallback((data: _ModifyModelType, prevKey: string): ReactElement => {
     return (
       <>
-        {Object.keys(value.data).map(key => {
-          
-          switch (value.data[key].type) {
+        {Object.keys(data).map(key => {
+          const input = data[key];
+          switch (input.type) {
             case 'string':
               return (
                 <InputString
                   className={defaultClassName}
-                  name={key}
-                  {...value.data[key]}
+                  name={prevKey !== '' ? `${prevKey}.${key}` : key}
+                  {...input}
+                  mode={mode}
                   key={`modify-page-${key}`}/>
               );
             case 'number':
               return (
-                <div className="mt-3" key={`${key}`}>
-                  <Field
-                    name={prevKey !== '' ? `${prevKey}.${key}` : key}
-                    type="number"
-                    component={MainInput}
-                    isHorizontal
-                    withFeedbackLabel
-                    labelWidth={4}
-                    placeholder={intl.formatMessage({id: value.data[key].placeholder})}
-                    label={intl.formatMessage({id: value.data[key].label})}
-                    required={value.data[key].required}
-                    disabled={value.data[key].disabled}
-                  />
-                </div>
+                <InputNumber
+                  className={defaultClassName}
+                  name={prevKey !== '' ? `${prevKey}.${key}` : key}
+                  mode={mode}
+                  {...input}
+                  key={`modify-page-${key}`}/>
               );
-            // handle shippingAddress
-            case 'array':
-              const shippingAddresses = values[key];
-              return shippingAddresses
-                ? shippingAddresses.map((el: any, innerKey: any) => {
-                  return (
-                    <div className="mt-3" key={`${innerKey}`}>
-                      <Field
-                        name={key}
-                        value={
-                          shippingAddresses[innerKey].address +
-                          ', ' +
-                          shippingAddresses[innerKey].district +
-                          ', ' +
-                          shippingAddresses[innerKey].city +
-                          ', ' +
-                          shippingAddresses[innerKey].state
-                        }
-                        component={MainInput}
-                        isHorizontal
-                        withFeedbackLabel
-                        labelWidth={4}
-                        placeholder={intl.formatMessage({id: value.data[key].placeholder})}
-                        label={intl.formatMessage({id: value.data[key].label})}
-                        required={value.data[key].required}
-                      />
-                    </div>
-                  );
-                })
-                : console.log(shippingAddresses);
-              break;
-            case 'Datetime':
+            
+            case 'date-time':
               return (
-                <div className="mt-3" key={key}>
-                  <DatePickerField
-                    name={prevKey !== '' ? `${prevKey}.${key}` : key}
-                    isHorizontal
-                    label={intl.formatMessage({id: value.data[key].label})}
-                    labelWidth={4}
-                    type="Datetime"
-                    required={value.data[key].required}
-                    disabled={value.data[key].disabled}
-                  />
-                </div>
+                <InputDateTime
+                  className={defaultClassName}
+                  name={prevKey !== '' ? `${prevKey}.${key}` : key}
+                  mode={mode}
+                  {...input}
+                  key={`modify-page-${key}`}/>
               );
             // case 'radioGroup':
             //   const _shippingAddresses = values['shippingAddress'];
@@ -185,173 +105,91 @@ function ModifyEntityPage<T>({
             //       ariaLabel="defaultShippingAddress"
             //       name="defaultShippingAddress"
             //       addresses={_shippingAddresses}
-
+            
             //     />
             //   ) : (
             //     <></>
             //   );
             case 'image':
               return (
-                <div className="mt-3" key={key}>
-                  <CustomImageUpload
-                    value={images ? images[key] : []}
-                    // onChange={(imageList: any, addUpdateIndex: any) => {
-                    //   onChange(imageList, addUpdateIndex, key);
-                    // }}
-                    label={intl.formatMessage({id: value.data[key].label})}
-                    labelWidth={4}
-                    isHorizontal={true}
-                    required={value.data[key].required}
-                    name={prevKey !== '' ? `${prevKey}.${key}` : key}
-                    multiple={value.data[key].multiple}
-                  />
-                </div>
-              );
+                <InputImage
+                  className={defaultClassName}
+                  name={prevKey !== '' ? `${prevKey}.${key}` : key}
+                  mode={mode}
+                  {...input}
+                  key={`modify-page-${key}`}
+                />
+              )
+                ;
             case 'boolean':
               return (
-                <div className="mt-3" key={`${key}`}>
-                  <Field
-                    name={prevKey !== '' ? `${prevKey}.${key}` : key}
-                    component={SwitchField}
-                    isHorizontal
-                    withFeedbackLabel
-                    labelWidth={4}
-                    placeholder={intl.formatMessage({id: value.data[key].placeholder})}
-                    label={intl.formatMessage({id: value.data[key].label})}
-                    required={value.data[key].required}
-                  />
-                </div>
+                <InputBoolean
+                  className={defaultClassName}
+                  name={prevKey !== '' ? `${prevKey}.${key}` : key}
+                  mode={mode}
+                  {...input}
+                  key={`modify-page-${key}`}
+                />
               );
-            
+            case 'search-select':
+              return (
+                <InputSearchSelect
+                  className={defaultClassName}
+                  name={prevKey !== '' ? `${prevKey}.${key}` : key}
+                  mode={mode}
+                  {...input}
+                  key={`modify-page-${key}`}
+                />
+              );
+            // case 'tag':
+            //   const defaultTag = (getField(entityForEdit, prevKey ? `${prevKey}.${key}` : key))
+            //   return (
+            //     <InputTag
+            //       className={defaultClassName}
+            //       name={prevKey !== '' ? `${prevKey}.${key}` : key}
+            //       mode={mode}
+            //       defaultTag={defaultTag}
+            //       {...input}
+            //       key={`modify-page-${key}`}
+            //     />
+            //   );
             case 'object':
-              return (
-                <div className="mt-3" key={key}>
-                  {renderForm(value.data[key], prevKey ? `${prevKey}.${key}` : key)}
-                  {/* {Object.keys(value.data[key].data).map(childKey => {
-                          console.log(value.data[key].data[childKey].type)
-                          switch (value.data[key].data[childKey].type) {
-                            case 'string':
-                              return (
-                                <div className="mt-3" key={childKey}>
-                                  <Field
-                                    name={`${key}.${childKey}`}
-                                    component={MainInput}
-                                    placeholder={intl.formatMessage({ id: value.data[key].data[childKey].placeholder })}
-                                    withFeedbackLabel
-                                    labelWidth={4}
-                                    isHorizontal
-                                    label={intl.formatMessage({ id: value.data[key].data[childKey].placeholder })}
-                                    disabled={value.data[key].data[childKey].disabled}
-                                    required={value.data[key].data[childKey].required}
-                                  />
-                                </div>
-                              );
-                            case 'number':
-                              return (
-                                <div className="mt-3" key={`${childKey}`}>
-                                  <Field
-                                    name={`${key}.${childKey}`}
-                                    type="number"
-                                    component={MainInput}
-                                    isHorizontal
-                                    withFeedbackLabel
-                                    labelWidth={4}
-                                    placeholder={intl.formatMessage({ id: value.data[key].data[childKey].placeholder })}
-                                    label={intl.formatMessage({ id: value.data[key].data[childKey].placeholder })}
-                                    required={value.data[key].data[childKey].required}
-                                  />
-                                </div>
-                              );
-                          }
-                        })} */}
-                </div>
-              );
-            
-            case 'SearchSelect':
-              return (
-                <div className="mt-3" key={key}>
-                  <InfiniteSelect
-                    label={intl.formatMessage({id: value.data[key].label})}
-                    isHorizontal={true}
-                    value={search[key]}
-                    onChange={(value: any) => {
-                      setSearch({...search, [key]: value});
-                      // setSearchTerm({
-                      //   ...searchTerm,
-                      //   [key]: searchM[key].ref ? value.value : value.label,
-                      // });
-                    }}
-                    loadOptions={(search: string, prevOptions: any, {page}: any) =>
-                      loadOptions(
-                        search,
-                        prevOptions,
-                        {page},
-                        value.data[key].service,
-                        value.data[key].keyField,
-                        key,
-                      )
-                    }
-                    additional={{
-                      page: DefaultPagination.page,
-                    }}
-                    name={prevKey !== '' ? `${prevKey}.${key}` : key}
-                    placeholder={intl.formatMessage({id: value.data[key].placeholder})}
-                  />
-                </div>
-              );
-            
-            case 'SearchSelectV2':
-              return (
-                <div className="mt-3" key={key}>
-                  <InfiniteSelectV2
-                    label={intl.formatMessage({id: value.data[key].label})}
-                    isHorizontal={true}
-                    value={value.data[key].fillField ? search[key][value.data[key].fillField] : search[key]}
-                    onChange={(value: any) => {
-                      setSearch({...search, [key]: value});
-                      // setSearchTerm({
-                      //   ...searchTerm,
-                      //   [key]: searchM[key].ref ? value.value : value.label,
-                      // });
-                    }}
-                    service={value.data[key].service}
-                    keyField={value.data[key].keyField}
-                    dataField={entityForEdit[value.data[key].rootField][value.data[key].keyField]}
-                    display={value.data[key].display}
-                    refs={value.data[key].ref}
-                    additional={{
-                      page: DefaultPagination.page,
-                    }}
-                    name={prevKey !== '' ? `${prevKey}.${key}` : key}
-                    placeholder={intl.formatMessage({id: value.data[key].placeholder})}
-                  />
-                </div>
-              );
-            
-            case 'tag':
-              const defaultTag = (getField(entityForEdit, prevKey ? `${prevKey}.${key}` : key))
-              return (
-                <div className="mt-3" key={key}>
-                  <TagInput
-                    label={intl.formatMessage({id: value.data[key].label})}
-                    isHorizontal={true}
-                    name={prevKey !== '' ? `${prevKey}.${key}` : key}
-                    handleChange={handleChangeTag}
-                    isRequired={value.data[key].required || false}
-                    labelWidth={4}
-                    disabled={value.data[key].disabled}
-                    data={isArray(defaultTag) ? defaultTag : []}
-                    tagData={tagData}
-                    root={value.data[key].root}
-                  />
-                </div>
-              );
+              return (<>{renderForm(input.data, prevKey ? `${prevKey}.${key}` : key)}</>);
+            //
+            // case 'SearchSelectV2':
+            //   return (
+            //     <div className="mt-3" key={key}>
+            //       <InfiniteSelectV2
+            //         label={intl.formatMessage({id: value.data[key].label})}
+            //         isHorizontal={true}
+            //         value={value.data[key].fillField ? search[key][value.data[key].fillField] : search[key]}
+            //         onChange={(value: any) => {
+            //           setSearch({...search, [key]: value});
+            //           // setSearchTerm({
+            //           //   ...searchTerm,
+            //           //   [key]: searchM[key].ref ? value.value : value.label,
+            //           // });
+            //         }}
+            //         service={value.data[key].service}
+            //         keyField={value.data[key].keyField}
+            //         dataField={entityForEdit[value.data[key].rootField][value.data[key].keyField]}
+            //         display={value.data[key].display}
+            //         refs={value.data[key].ref}
+            //         additional={{
+            //           page: DefaultPagination.page,
+            //         }}
+            //         name={prevKey !== '' ? `${prevKey}.${key}` : key}
+            //         placeholder={intl.formatMessage({id: value.data[key].placeholder})}
+            //       />
+            //     </div>
+            //   );
+            //
             
             case 'gallery':
               return (
                 <div className="mt-3" key={key}>
                   <ImgGallery
-                    label={intl.formatMessage({id: value.data[key].label})}
+                    label={intl.formatMessage({id: input.label as any})}
                     labelWidth={4}
                     name={prevKey !== '' ? `${prevKey}.${key}` : key}
                     isHorizontal
@@ -382,12 +220,43 @@ function ModifyEntityPage<T>({
                   />
                 </div>
               );
+            // handle shippingAddress
+            // case 'array':
+            //   const shippingAddresses = values[key];
+            //   return shippingAddresses
+            //     ? shippingAddresses.map((el: any, innerKey: any) => {
+            //       return (
+            //         <div className="mt-3" key={`${innerKey}`}>
+            //           <Field
+            //             name={key}
+            //             value={
+            //               shippingAddresses[innerKey].address +
+            //               ', ' +
+            //               shippingAddresses[innerKey].district +
+            //               ', ' +
+            //               shippingAddresses[innerKey].city +
+            //               ', ' +
+            //               shippingAddresses[innerKey].state
+            //             }
+            //             component={MainInput}
+            //             isHorizontal
+            //             withFeedbackLabel
+            //             labelWidth={4}
+            //             placeholder={intl.formatMessage({id: value.data[key].placeholder})}
+            //             label={intl.formatMessage({id: value.data[key].label})}
+            //             required={value.data[key].required}
+            //           />
+            //         </div>
+            //       );
+            //     })
+            //     : console.log(shippingAddresses);
+            //   break;
           }
-          return <></>;
+          return (<></>);
         })}
       </>
     );
-  };
+  }, []);
   
   return (
     // <Card>
@@ -406,10 +275,10 @@ function ModifyEntityPage<T>({
       {title && <h6 className="text-primary">{title.toUpperCase()}</h6>}
       <div className={(column ? column : 1) > 1 ? 'row' : ''}>
         {modifyModel &&
-        modifyModel.map((value: any, key: any) => (
-          <div className={`col-md-${12 / (column ? column : 1)} col-12`} key={key}>
+        modifyModel.map((value, index) => (
+          <div className={`col-md-${12 / (column ? column : 1)} col-12`} key={`meg-${index}`}>
             {value.title && <h6 className="text-primary">{value.title.toUpperCase()}</h6>}
-            {renderForm(value, '')}
+            {renderForm(value.data, '')}
           </div>
         ))}
       </div>

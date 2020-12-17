@@ -11,7 +11,7 @@ import { MasterBody } from '../../common-library/common-components/master-body';
 import { ActionsColumnFormatter } from '../../common-library/common-components/actions-column-formatter';
 import { DeleteEntityDialog } from '../../common-library/common-components/delete-entity-dialog';
 import DeleteManyEntitiesDialog from '../../common-library/common-components/delete-many-dialog';
-import { ModifyModel, SearchModel } from '../../common-library/common-types/common-type';
+import { OldModifyModel, SearchModel } from '../../common-library/common-types/common-type';
 import {
   GenerateAllFormField,
   InitMasterProps,

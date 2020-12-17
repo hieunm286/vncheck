@@ -17,7 +17,7 @@ import { ActionsColumnFormatter } from '../../common-library/common-components/a
 import { DeleteEntityDialog } from '../../common-library/common-components/delete-entity-dialog';
 import DeleteManyEntitiesDialog from '../../common-library/common-components/delete-many-dialog';
 import ModifyEntityDialog from '../../common-library/common-components/modify-entity-dialog';
-import { ModifyModel, SearchModel } from '../../common-library/common-types/common-type';
+import { OldModifyModel, SearchModel } from '../../common-library/common-types/common-type';
 import {
   ConvertToTreeNode,
   GenerateAllFormField,

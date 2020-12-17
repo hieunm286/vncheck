@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Modal } from 'react-bootstrap';
 import ModifyEntityDialogForm from './modify-entity-dialog-form';
 import { useIntl } from 'react-intl';
-import { ModifyModel } from '../../../common-library/common-types/common-type';
+import { OldModifyModel } from '../../../common-library/common-types/common-type';
 import { ConvertSelectSearch, generateInitForm } from '../../../common-library/helpers/common-function';
 import { DefaultPagination } from '../../../common-library/common-consts/const';
 import { AxiosResponse } from 'axios';

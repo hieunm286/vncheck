@@ -154,19 +154,20 @@ export interface ActionColumnProps<T> {
   // editTitle: string;
   // deleteTitle: string;
 }
+
 export type InputType = 'string' | 'number' | 'date-time' | 'search-select' | 'file' | 'tree-select' | 'nested';
 export type SearchModel = {
   [T: string]: {
     type: InputType;
     placeholder?: string;
-    label: string| ReactElement;
+    label: string | ReactElement;
     keyField?: string;
     onSearch?: (t: any) => any;
     data?: any;
     name?: string;
   };
 };
-export type ModifyModel = {
+export type OldModifyModel = {
   [T: string]: {
     type: InputType;
     placeholder: string;
@@ -175,6 +176,30 @@ export type ModifyModel = {
   };
 };
 
+export type ModifyModel = ModifyPart[];
+
+export type ModifyPart = {
+  title: string;
+  data: _ModifyModelType;
+}
+
+export type _ModifyModelType = {
+  [T: string]: (
+    {
+      type: 'string' | 'date-time' | 'number' | 'boolean' | 'tag' | 'gallery';
+    } & _CommonProps)
+    | { type: 'object', data: _ModifyModelType }
+    | ({ type: 'image', value: any } & _CommonProps)
+    | ({ type: 'search-select', onSearch: () => void, keyField: string } & _CommonProps)
+}
+export type _CommonProps = {
+  label: string | ReactElement;
+  placeholder?: string;
+  required?: boolean;
+  disabled?: boolean;
+  value?: any;
+  [T: string]: any;
+}
 export type GetAllProps<T> = ({
                                 queryProps,
                                 sortList,

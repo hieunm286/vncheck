@@ -9,7 +9,7 @@ import {
   DeleteProps,
   GetAllProps,
   GetProps,
-  ModifyModel,
+  OldModifyModel,
   UpdateProps,
 } from '../../../common-library/common-types/common-type';
 

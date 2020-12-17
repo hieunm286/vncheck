@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
-import { ModifyModel } from '../../../common-library/common-types/common-type'
+import { OldModifyModel } from '../../../common-library/common-types/common-type'
 import { generateInitForm, getNewImage, getOnlyFile } from '../../../common-library/helpers/common-function';
 import { Field, Form, Formik, useFormikContext } from 'formik';
 import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
