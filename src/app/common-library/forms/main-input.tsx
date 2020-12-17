@@ -1,20 +1,20 @@
 import React from 'react';
 import './custom.css';
-import { FieldFeedbackLabel } from './field-feedback-label';
+import {FieldFeedbackLabel} from './field-feedback-label';
 
 const getFieldCSSClasses = (touched: any, errors: any) => {
   const classes = ['form-control'];
-
+  
   if (touched && errors) classes.push('is-invalid');
-
+  
   if (touched && !errors) classes.push('is-valid');
-
+  
   return classes.join(' ');
 };
 
 const getClassName = (labelWidth: number | null | undefined, labelStart: boolean) => {
   const classes: string[] = [];
-
+  
   if (labelStart) {
     if (labelWidth) {
       classes.push(`col-xl-${labelWidth}`);
@@ -36,7 +36,7 @@ const getClassName = (labelWidth: number | null | undefined, labelStart: boolean
       classes.push('col-12');
     }
   }
-
+  
   return classes.join(' ');
 };
 
@@ -44,13 +44,13 @@ const getError = (error: any, fieldName: string) => {
   if (fieldName.indexOf('.') === -1) {
     return error[fieldName]
   }
-
+  
   const arrName = fieldName.split('.')
-
+  
   if (arrName.length === 3) {
     return error[arrName[0]] ? error[arrName[0]][arrName[1]][arrName[2]] : ''
   }
-
+  
   return error[arrName[0]] ? error[arrName[0]][arrName[1]] : ''
 }
 
@@ -58,13 +58,13 @@ const getTouched = (touched: any, fieldName: string) => {
   if (fieldName.indexOf('.') === -1) {
     return touched[fieldName]
   }
-
+  
   const arrName = fieldName.split('.')
-
+  
   if (arrName.length === 3) {
     return touched[arrName[0]] ? touched[arrName[0]][arrName[1]][arrName[2]] : ''
   }
-
+  
   return touched[arrName[0]] ? touched[arrName[0]][arrName[1]] : ''
 }
 
@@ -79,34 +79,35 @@ interface MainInputState {
   labelWidth: any;
   width: any;
   type: any;
+  value: any;
   disabled?: boolean;
 }
 
 export function MainInput({
-  field, // { name, value, onChange, onBlur }
-  form: { touched, errors }, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
-  label,
-  withFeedbackLabel,
-  withValidation,
-  customFeedbackLabel,
-  isHorizontal,
-  labelWidth,
-  width,
-  type = 'text',
-  disabled,
-  ...props
-}: MainInputState) {
+                            field, // { name, value, onChange, onBlur }
+                            form: {touched, errors}, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
+                            label,
+                            withFeedbackLabel,
+                            withValidation,
+                            customFeedbackLabel,
+                            isHorizontal,
+                            labelWidth,
+                            width,
+                            type = 'text',
+                            disabled,
+                            ...props
+                          }: MainInputState) {
   const styleLabe = {
     width: width,
   };
-
+  
   const styleInput = {
     marginRight: 0,
   };
-
+  
   // console.log(errors)
   // console.log(touched)
-
+  
   return (
     <>
       <div className={isHorizontal && 'row'}>
@@ -117,7 +118,7 @@ export function MainInput({
             </label>
           )}
         </div>
-
+        
         <div className={isHorizontal && getClassName(labelWidth, false)}>
           <input
             type={type}
@@ -125,16 +126,17 @@ export function MainInput({
             className={
               ['text', 'email', 'file', 'image', 'number'].includes(type)
                 ? withFeedbackLabel
-                  ? getFieldCSSClasses(getTouched(touched, field.name), getError(errors, field.name))
-                  : 'form-control'
+                ? getFieldCSSClasses(getTouched(touched, field.name), getError(errors, field.name))
+                : 'form-control'
                 : ''
             }
             min={type === 'number' ? 0 : undefined}
             disabled={disabled}
+            // value={field.value ?? ''}
             {...field}
             {...props}
           />
-
+          
           {withFeedbackLabel && (
             <FieldFeedbackLabel
               error={getError(errors, field.name)}
