@@ -13,7 +13,7 @@ interface ImageUploadPros {
   isHorizontal?: boolean;
   required?: boolean;
   name: string;
-  multiple: boolean;
+  multiple?: boolean;
 }
 
 const getClassName = (labelWidth: number | null | undefined, labelStart: boolean) => {
