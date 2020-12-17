@@ -81,22 +81,24 @@ interface MainInputState {
   type: any;
   value: any;
   disabled?: boolean;
+  required?: boolean;
 }
 
 export function MainInput({
-                            field, // { name, value, onChange, onBlur }
-                            form: {touched, errors}, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
-                            label,
-                            withFeedbackLabel,
-                            withValidation,
-                            customFeedbackLabel,
-                            isHorizontal,
-                            labelWidth,
-                            width,
-                            type = 'text',
-                            disabled,
-                            ...props
-                          }: MainInputState) {
+  field, // { name, value, onChange, onBlur }
+  form: { touched, errors }, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
+  label,
+  withFeedbackLabel,
+  withValidation,
+  customFeedbackLabel,
+  isHorizontal,
+  labelWidth,
+  width,
+  type = 'text',
+  disabled,
+  required,
+  ...props
+}: MainInputState) {
   const styleLabe = {
     width: width,
   };
@@ -113,8 +115,8 @@ export function MainInput({
       <div className={isHorizontal && 'row'}>
         <div className={isHorizontal && getClassName(labelWidth, true)}>
           {label && (
-            <label style={width && styleLabe} className={isHorizontal && 'mb-0 input-label mt-2'}>
-              {label} {withFeedbackLabel && <span className="text-danger">*</span>}
+            <label className={isHorizontal && 'mb-0 mt-2'}>
+              {label} {required && <span className="text-danger">*</span>}
             </label>
           )}
         </div>
@@ -132,7 +134,6 @@ export function MainInput({
             }
             min={type === 'number' ? 0 : undefined}
             disabled={disabled}
-            // value={field.value ?? ''}
             {...field}
             {...props}
           />

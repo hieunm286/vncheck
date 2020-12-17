@@ -1,13 +1,13 @@
-import {SearchModel} from '../../../common-library/common-types/common-type';
-import {GenerateAllFormField} from '../../../common-library/helpers/common-function';
+import { SearchModel } from '../../../common-library/common-types/common-type';
+import { GenerateAllFormField } from '../../../common-library/helpers/common-function';
 import * as ProductPackagingService from '../../product-packaging/product-packaging.service';
 import * as SpeciesService from '../../species/species.service';
 import * as Yup from 'yup';
 
 import '../style/production-plan.scss';
 import _ from 'lodash';
-import React, {Fragment} from 'react';
-import {useIntl} from "react-intl";
+import React, { Fragment } from 'react';
+import { useIntl } from 'react-intl';
 
 export const headerTitle = 'PRODUCT_TYPE.MASTER.HEADER.TITLE';
 export const bodyTitle = 'PRODUCT_TYPE.MASTER.BODY.TITLE';
@@ -16,10 +16,10 @@ export const deleteDialogTitle = 'PRODUCT_TYPE.DELETE_DIALOG.TITLE';
 export const createTitle = 'PRODUCT_TYPE.CREATE.TITLE';
 export const updateTitle = 'PURCHASE_ORDER.UPDATE.TITLE';
 export const homeURL = `${window.location.pathname}`;
-const Fix = ({title}: { title: string }) => {
+const Fix = ({ title }: { title: string }) => {
   const intl = useIntl();
-  return (<div style={{minWidth:174}}>{intl.formatMessage({id: title})}</div>);
-}
+  return <div style={{ minWidth: 174 }}>{intl.formatMessage({ id: title })}</div>;
+};
 export const productPlanSearchModel1: SearchModel = {
   seedingCode: {
     type: 'string',
@@ -104,6 +104,7 @@ export const modifyModel: any[] = [
                 type: 'string',
                 placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
                 label: 'Giấy chứng nhận giống',
+                required: true,
                 disabled: true,
               },
             },
@@ -115,12 +116,13 @@ export const modifyModel: any[] = [
                 type: 'string',
                 placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
                 label: 'Hóa đơn mua hàng',
+                required: true,
                 disabled: true,
               },
             },
           },
           seedingTime: {
-            type: 'string',
+            type: 'date-time',
             placeholder: 'PRODUCT_TYPE.MASTER.TABLE.BARCODE_COLUMN',
             required: true,
             label: 'Thời gian gieo',
@@ -138,7 +140,7 @@ export const modifyModel: any[] = [
               },
             },
           },
-          
+
           // bill: {
           //   type: 'string',
           //   placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
@@ -158,10 +160,11 @@ export const modifyModel: any[] = [
             disabled: true,
           },
           estimatedPlantingTime: {
-            type: 'string',
+            type: 'date-time',
             placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
             label: 'Thời gian trồng',
             disabled: true,
+            required: true,
           },
           landLot: {
             type: 'object',
@@ -177,7 +180,7 @@ export const modifyModel: any[] = [
           },
         },
       },
-      
+
       // plantTime: {
       //   type: 'string',
       //   placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
@@ -200,12 +203,14 @@ export const modifyModel: any[] = [
                 placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.PLANTING',
                 label: 'Tên chủng loại',
                 disabled: true,
+                required: true,
               },
               barcode: {
                 type: 'string',
                 placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.PLANTING',
                 label: 'GTIN',
                 disabled: true,
+                required: true,
               },
             },
           },
@@ -214,12 +219,14 @@ export const modifyModel: any[] = [
             placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.EXPIRY',
             label: 'Diện tích gieo ươm',
             disabled: true,
+            required: true,
           },
           numberOfSeed: {
             type: 'string',
             placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.EXPIRY',
             label: 'Số cây con giống',
             disabled: true,
+            required: true,
           },
           farmLocation: {
             type: 'object',
@@ -229,6 +236,7 @@ export const modifyModel: any[] = [
                 placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
                 label: 'Địa chỉ farm giống',
                 disabled: true,
+                required: true,
               },
             },
           },
@@ -242,12 +250,14 @@ export const modifyModel: any[] = [
             placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.EXPIRY',
             label: 'Diện tích gieo trồng',
             disabled: true,
+            required: true,
           },
           numberOfPlants: {
             type: 'string',
             placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.EXPIRY',
             label: 'Số cây con trồng',
             disabled: true,
+            required: true,
           },
           farmLocation: {
             type: 'object',
@@ -257,6 +267,7 @@ export const modifyModel: any[] = [
                 placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
                 label: 'Địa chỉ farm trồng',
                 disabled: true,
+                required: true,
               },
             },
           },
@@ -351,7 +362,6 @@ export const modifyModel3: any[] = [
             required: true,
             disabled: true,
           },
-          
         },
       },
       harvesting: {
@@ -378,11 +388,15 @@ export const modifyModel3: any[] = [
             type: 'tag',
             placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
             label: 'Nhân viên kỹ thuật thu hoạch',
+            required: true,
+
           },
           leader: {
             type: 'tag',
             placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
             label: 'Tổ trưởng thu hoạch',
+            required: true,
+
           },
         },
       },
@@ -401,12 +415,10 @@ export const modifyModel4: any[] = [
             type: 'date-time',
             placeholder: 'Mã gieo giống',
             label: 'Thời gian sơ chế (dự kiến)',
-            required: true,
           },
           estimatedQuantity: {
             type: 'number',
             placeholder: 'Mã gieo giống',
-            required: true,
             label: 'Sản lượng sau sơ chế dự kiến (kg)',
           },
         },
@@ -446,12 +458,10 @@ export const modifyModel5: any[] = [
             type: 'date-time',
             placeholder: 'Mã gieo giống',
             label: 'Thời gian làm sạch (dự kiến)',
-            required: true,
           },
           estimatedQuantity: {
             type: 'number',
             placeholder: 'Mã gieo giống',
-            required: true,
             label: 'Sản lượng sau làm sạch dự kiến (kg)',
           },
         },
@@ -493,24 +503,20 @@ export const modifyModel6: any[] = [
             type: 'date-time',
             placeholder: 'Mã gieo giống',
             label: 'Thời gian đóng gói (dự kiến)',
-            required: true,
           },
           estimatedExpireTimeStart: {
             type: 'date-time',
             placeholder: 'Hạn sử dụng',
             label: 'Hạn sử dụng bắt đầu (dự kiến)',
-            required: true,
           },
           estimatedExpireTimeEnd: {
             type: 'date-time',
             placeholder: 'Hạn sử dụng',
             label: 'Hạn sử dụng kết thúc (dự kiến)',
-            required: true,
           },
           packing: {
             type: 'SearchSelectV2',
             placeholder: 'Quy cách',
-            required: true,
             label: 'Quy cách đóng gói',
             service: ProductPackagingService,
             keyField: 'species',
@@ -560,13 +566,11 @@ export const modifyModel7: any[] = [
             type: 'date-time',
             placeholder: 'Mã gieo giống',
             label: 'Thời gian bắt đầu bảo quản (dự kiến)',
-            required: true,
           },
           estimatedEndTime: {
             type: 'date-time',
             placeholder: 'Mã gieo giống',
             label: 'Thời gian kết thúc bảo quản (dự kiến)',
-            required: true,
           },
         },
       },
@@ -1003,7 +1007,7 @@ export const masterEntityDetailDialog2 = [
           title: 'Địa chỉ farm trồng',
           keyField: 'planting.farmLocation.[coordinates]',
         },
-      ]
+      ],
     ],
   },
   {
@@ -1019,7 +1023,7 @@ export const masterEntityDetailDialog2 = [
           type: 'array',
           title: 'Tổ trưởng gieo giống',
           keyField: 'seeding.leader',
-          target: 'fullName'
+          target: 'fullName',
         },
       ],
       [
@@ -1032,9 +1036,9 @@ export const masterEntityDetailDialog2 = [
           type: 'array',
           title: 'Tổ trưởng gieo trồng',
           keyField: 'planting.leader',
-          target: 'fullName'
+          target: 'fullName',
         },
-      ]
+      ],
     ],
   },
   {
@@ -1057,15 +1061,15 @@ export const masterEntityDetailDialog2 = [
           type: 'array',
           title: 'Nhân viên kĩ thuật thu hoạch',
           keyField: 'harvesting.technical',
-          target: 'user.lastName'
+          target: 'user.lastName',
         },
         {
           type: 'array',
           title: 'Tổ trưởng thu hoạch',
           keyField: 'harvesting.leader',
-          target: 'user.lastName'
+          target: 'user.lastName',
         },
-      ]
+      ],
     ],
   },
   {
@@ -1088,15 +1092,15 @@ export const masterEntityDetailDialog2 = [
           type: 'array',
           title: 'Nhân viên kĩ thuật sơ chế',
           keyField: 'preliminaryTreatment.technical',
-          target: 'user.lastName'
+          target: 'user.lastName',
         },
         {
           type: 'array',
           title: 'Tổ trưởng sơ chế',
           keyField: 'preliminaryTreatment.leader',
-          target: 'user.lastName'
+          target: 'user.lastName',
         },
-      ]
+      ],
     ],
   },
   {
@@ -1119,15 +1123,15 @@ export const masterEntityDetailDialog2 = [
           type: 'array',
           title: 'Nhân viên kĩ thuật làm sạch',
           keyField: 'cleaning.technical',
-          target: 'user.lastName'
+          target: 'user.lastName',
         },
         {
           type: 'array',
           title: 'Tổ trưởng làm sạch',
           keyField: 'cleaning.leader',
-          target: 'user.lastName'
+          target: 'user.lastName',
         },
-      ]
+      ],
     ],
   },
   {
@@ -1165,15 +1169,15 @@ export const masterEntityDetailDialog2 = [
           type: 'array',
           title: 'KCS',
           keyField: 'packing.technical',
-          target: 'user.lastName'
+          target: 'user.lastName',
         },
         {
           type: 'array',
           title: 'Tổ trưởng đóng gói',
           keyField: 'packing.leader',
-          target: 'user.lastName'
+          target: 'user.lastName',
         },
-      ]
+      ],
     ],
   },
   {
@@ -1196,54 +1200,54 @@ export const masterEntityDetailDialog2 = [
           type: 'array',
           title: 'Nhân viên kĩ thuật bảo quản',
           keyField: 'preservation.technical',
-          target: 'user.lastName'
+          target: 'user.lastName',
         },
-      ]
+      ],
     ],
   },
 ];
 
 export const addInitField = (obj1: any, obj2: any) => {
-  const rs = {...obj1};
-  
+  const rs = { ...obj1 };
+
   Object.keys(obj2).forEach(key => {
     if (rs[key]) {
       Object.keys(obj2[key]).forEach(keys => {
         if (!rs[key][keys]) {
-          rs[key][keys] = obj2[key][keys]
+          rs[key][keys] = obj2[key][keys];
         }
-      })
+      });
     }
-  })
-  
-  return rs
-}
+  });
+
+  return rs;
+};
 
 export const initProductPlanForm = {
   preliminaryTreatment: {
     estimatedTime: null,
-    estimatedQuantity: undefined
+    estimatedQuantity: undefined,
   },
   cleaning: {
     estimatedTime: null,
-    estimatedQuantity: undefined
+    estimatedQuantity: undefined,
   },
   packing: {
     estimatedTime: null,
     estimatedExpireTimeStart: null,
     estimatedExpireTimeEnd: null,
-    estimatedQuantity: undefined
+    estimatedQuantity: undefined,
   },
   preservation: {
     estimatedStartTime: null,
-    estimatedEndTime: null
-  }
-}
+    estimatedEndTime: null,
+  },
+};
 
 export const halfValidate = {
   estimatedHarvestTime: Yup.mixed(),
   expectedQuantity: Yup.number(),
-  technical: Yup.array().test('oneOfRequired', 'Nhập hết vào', function (value: any) {
+  technical: Yup.array().test('oneOfRequired', 'Nhập hết vào', function(value: any) {
     return (
       (this.parent.leader.length > 0 &&
         this.parent.expectedQuantity > 0 &&
@@ -1256,7 +1260,7 @@ export const halfValidate = {
       value.length > 0
     );
   }),
-  leader: Yup.array().test('oneOfRequired', 'Nhập hết vào', function (value: any) {
+  leader: Yup.array().test('oneOfRequired', 'Nhập hết vào', function(value: any) {
     return (
       (this.parent.technical.length > 0 &&
         this.parent.estimatedQuantity > 0 &&
@@ -1271,21 +1275,27 @@ export const halfValidate = {
   }),
 };
 
+export const CompareDate = (date1: Date, date2: Date) => {
+  if (!_.isDate(date1) || !_.isDate(date2)) return false;
+  return date1.getTime() > date2.getTime();
+};
+
 export const validate = {
-  estimatedTime: Yup.mixed().test('oneOfRequired', 'Nhập hết vào', function (value: any) {
+  estimatedTime: Yup.mixed().test('oneOfRequired', 'Nhập hết vào', function(value: any) {
     return (
       (this.parent.leader.length > 0 &&
         this.parent.technical.length > 0 &&
         this.parent.estimatedQuantity > 0 &&
-        value) ||
+        value &&
+        CompareDate(new Date(value), new Date())) ||
       ((!this.parent.leader || this.parent.leader.length === 0) &&
         (!this.parent.technical || this.parent.technical.length === 0) &&
         (!this.parent.estimatedQuantity || this.parent.estimatedQuantity === 0) &&
         !value) ||
-      value
+      (value && CompareDate(new Date(value), new Date()))
     );
   }),
-  estimatedQuantity: Yup.number().test('oneOfRequired', 'Nhập hết vào', function (value: any) {
+  estimatedQuantity: Yup.number().test('oneOfRequired', 'Nhập hết vào', function(value: any) {
     return (
       (this.parent.leader.length > 0 &&
         this.parent.technical.length > 0 &&
@@ -1298,7 +1308,8 @@ export const validate = {
       (value && value > 0)
     );
   }),
-  technical: Yup.array().test('oneOfRequired', 'Nhập hết vào', function (value: any) {
+  technical: Yup.array().test('oneOfRequired', 'Nhập hết vào', function(value: any) {
+    console.log(value);
     return (
       (this.parent.leader.length > 0 &&
         this.parent.estimatedQuantity > 0 &&
@@ -1311,7 +1322,7 @@ export const validate = {
       value.length > 0
     );
   }),
-  leader: Yup.array().test('oneOfRequired', 'Nhập hết vào', function (value: any) {
+  leader: Yup.array().test('oneOfRequired', 'Nhập hết vào', function(value: any) {
     return (
       (this.parent.technical.length > 0 &&
         this.parent.estimatedQuantity > 0 &&
@@ -1327,7 +1338,7 @@ export const validate = {
 };
 
 export const packingValidate = {
-  estimatedTime: Yup.mixed().test('oneOfRequired', 'Nhập hết vào', function (value: any) {
+  estimatedTime: Yup.mixed().test('oneOfRequired', 'Nhập hết vào', function(value: any) {
     return (
       (this.parent.leader.length > 0 &&
         this.parent.technical.length > 0 &&
@@ -1337,7 +1348,8 @@ export const packingValidate = {
         this.parent.packing &&
         _.isString(this.parent.packing) &&
         this.parent.packing !== '' &&
-        value) ||
+        value &&
+        CompareDate(new Date(value), new Date())) ||
       ((!this.parent.leader || this.parent.leader.length === 0) &&
         (!this.parent.technical || this.parent.technical.length === 0) &&
         !this.parent.packing.label &&
@@ -1346,11 +1358,11 @@ export const packingValidate = {
         (!this.parent.estimatedExpireTimeStart || this.parent.estimatedExpireTimeStart === '') &&
         (!this.parent.estimatedExpireTimeEnd || this.parent.estimatedExpireTimeEnd === '') &&
         !value) ||
-      value
+      (value && CompareDate(new Date(value), new Date()))
     );
   }),
-  
-  estimatedExpireTimeStart: Yup.mixed().test('oneOfRequired', 'Nhập hết vào', function (value: any) {
+
+  estimatedExpireTimeStart: Yup.mixed().test('oneOfRequired', 'Nhập hết vào', function(value: any) {
     return (
       (this.parent.leader.length > 0 &&
         this.parent.technical.length > 0 &&
@@ -1360,7 +1372,9 @@ export const packingValidate = {
         this.parent.packing &&
         _.isString(this.parent.packing) &&
         this.parent.packing !== '' &&
-        value) ||
+        value &&
+          CompareDate(new Date(value), new Date()) &&
+          CompareDate(new Date(this.parent.estimatedExpireTimeEnd), new Date(value))) ||
       ((!this.parent.leader || this.parent.leader.length === 0) &&
         (!this.parent.technical || this.parent.technical.length === 0) &&
         !this.parent.packing.label &&
@@ -1369,11 +1383,13 @@ export const packingValidate = {
         (!this.parent.estimatedTime || this.parent.estimatedTime === '') &&
         (!this.parent.estimatedExpireTimeEnd || this.parent.estimatedExpireTimeEnd === '') &&
         !value) ||
-      value
+      (value &&
+        CompareDate(new Date(value), new Date()) &&
+        CompareDate(new Date(this.parent.estimatedExpireTimeEnd), new Date(value)))
     );
   }),
-  
-  estimatedExpireTimeEnd: Yup.mixed().test('oneOfRequired', 'Nhập hết vào', function (value: any) {
+
+  estimatedExpireTimeEnd: Yup.mixed().test('oneOfRequired', 'Nhập hết vào', function(value: any) {
     return (
       (this.parent.leader.length > 0 &&
         this.parent.technical.length > 0 &&
@@ -1383,7 +1399,9 @@ export const packingValidate = {
         this.parent.packing &&
         _.isString(this.parent.packing) &&
         this.parent.packing !== '' &&
-        value) ||
+        value &&
+          CompareDate(new Date(value), new Date()) &&
+          CompareDate(new Date(value), new Date(this.parent.estimatedExpireTimeStart))) ||
       ((!this.parent.leader || this.parent.leader.length === 0) &&
         (!this.parent.technical || this.parent.technical.length === 0) &&
         !this.parent.packing.label &&
@@ -1392,11 +1410,13 @@ export const packingValidate = {
         (!this.parent.estimatedExpireTimeStart || this.parent.estimatedExpireTimeStart === '') &&
         (!this.parent.estimatedTime || this.parent.estimatedTime === '') &&
         !value) ||
-      value
+      (value &&
+        CompareDate(new Date(value), new Date()) &&
+        CompareDate(new Date(value), new Date(this.parent.estimatedExpireTimeStart)))
     );
   }),
-  
-  packing: Yup.mixed().test('oneOfRequired', 'Nhập hết vào', function (value: any) {
+
+  packing: Yup.mixed().test('oneOfRequired', 'Nhập hết vào', function(value: any) {
     console.log(value);
     return (
       (this.parent.leader.length > 0 &&
@@ -1405,7 +1425,8 @@ export const packingValidate = {
         this.parent.estimatedTime &&
         this.parent.estimatedExpireTimeStart &&
         this.parent.estimatedExpireTimeEnd &&
-        (value && _.isString(value))) ||
+        value &&
+        _.isString(value)) ||
       ((!this.parent.leader || this.parent.leader.length === 0) &&
         (!this.parent.technical || this.parent.technical.length === 0) &&
         !this.parent.estimatedTime &&
@@ -1413,11 +1434,12 @@ export const packingValidate = {
         !this.parent.estimatedExpireTimeEnd &&
         (!this.parent.estimatedQuantity || this.parent.estimatedQuantity === 0) &&
         !value.label) ||
-      ((value && _.isString(value)) || (!_.isString(value) && value.label))
+      (value && _.isString(value)) ||
+      (!_.isString(value) && value.label)
     );
   }),
-  
-  estimatedQuantity: Yup.number().test('oneOfRequired', 'Nhập hết vào', function (value: any) {
+
+  estimatedQuantity: Yup.number().test('oneOfRequired', 'Nhập hết vào', function(value: any) {
     return (
       (this.parent.leader.length > 0 &&
         this.parent.technical.length > 0 &&
@@ -1439,7 +1461,7 @@ export const packingValidate = {
       (value && value > 0)
     );
   }),
-  technical: Yup.array().test('oneOfRequired', 'Nhập hết vào', function (value: any) {
+  technical: Yup.array().test('oneOfRequired', 'Nhập hết vào', function(value: any) {
     return (
       (this.parent.leader.length > 0 &&
         this.parent.estimatedQuantity > 0 &&
@@ -1461,7 +1483,7 @@ export const packingValidate = {
       value.length > 0
     );
   }),
-  leader: Yup.array().test('oneOfRequired', 'Nhập hết vào', function (value: any) {
+  leader: Yup.array().test('oneOfRequired', 'Nhập hết vào', function(value: any) {
     return (
       (this.parent.technical.length > 0 &&
         this.parent.estimatedQuantity > 0 &&
@@ -1486,25 +1508,37 @@ export const packingValidate = {
 };
 
 export const preservationValidate = {
-  estimatedStartTime: Yup.mixed().test('oneOfRequired', 'Nhập hết vào', function (value: any) {
+  estimatedStartTime: Yup.mixed().test('oneOfRequired', 'Nhập hết vào', function(value: any) {
     return (
-      (this.parent.technical.length > 0 && this.parent.estimatedEndTime && value) ||
+      (this.parent.technical.length > 0 &&
+        this.parent.estimatedEndTime &&
+        value &&
+          CompareDate(new Date(value), new Date()) &&
+          CompareDate(new Date(this.parent.estimatedEndTime), new Date(value))) ||
       ((!this.parent.technical || this.parent.technical.length === 0) &&
         !this.parent.estimatedEndTime &&
         !value) ||
-      value
+      (value &&
+        CompareDate(new Date(value), new Date()) &&
+        CompareDate(new Date(this.parent.estimatedEndTime), new Date(value)))
     );
   }),
-  estimatedEndTime: Yup.mixed().test('oneOfRequired', 'Nhập hết vào', function (value: any) {
+  estimatedEndTime: Yup.mixed().test('oneOfRequired', 'Nhập hết vào', function(value: any) {
     return (
-      (this.parent.technical.length > 0 && this.parent.estimatedStartTime && value) ||
+      (this.parent.technical.length > 0 &&
+        this.parent.estimatedStartTime &&
+        value &&
+          CompareDate(new Date(value), new Date()) &&
+          CompareDate(new Date(value), new Date(this.parent.estimatedStartTime))) ||
       ((!this.parent.technical || this.parent.technical.length === 0) &&
         !this.parent.estimatedStartTime &&
         !value) ||
-      value
+      (value &&
+        CompareDate(new Date(value), new Date()) &&
+        CompareDate(new Date(value), new Date(this.parent.estimatedStartTime)))
     );
   }),
-  technical: Yup.array().test('oneOfRequired', 'Nhập hết vào', function (value: any) {
+  technical: Yup.array().test('oneOfRequired', 'Nhập hết vào', function(value: any) {
     return (
       (this.parent.estimatedStartTime && this.parent.estimatedEndTime && value.length > 0) ||
       (!this.parent.estimatedStartTime &&

@@ -13,6 +13,7 @@ interface ImageUploadPros {
   isHorizontal?: boolean;
   required?: boolean;
   name: string;
+  multiple: boolean;
 }
 
 const getClassName = (labelWidth: number | null | undefined, labelStart: boolean) => {
@@ -50,6 +51,7 @@ function CustomImageUpload({
                              isHorizontal,
                              required,
                              name,
+                             multiple
                            }: ImageUploadPros) {
   const {errors, touched, setFieldValue} = useFormikContext<any>();
   
@@ -103,7 +105,13 @@ function CustomImageUpload({
       setFieldValue(name, imageData)
     }
   }, [imageData])
-  
+
+  useEffect(() => {
+    if (value) {
+      setImagess(value)
+    }
+  }, [value])
+
   return (
     <div className={isHorizontal ? 'row' : ''}>
       <div className={getClassName(labelWidth, true)}>
@@ -116,7 +124,7 @@ function CustomImageUpload({
       </div>
       <div className={getClassName(labelWidth, false)}>
         <ImageUploading
-          multiple
+          multiple={multiple}
           value={imagess}
           onChange={(imageList: any, addUpdateIndex: any) => {
             if (name) {

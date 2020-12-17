@@ -142,6 +142,7 @@ export function DatePickerField({...props}: any) {
               {
                 '\u00A0' + deCapitalizeFirstLetter(props.label)
               }
+              hợp lệ
             </div>
           ) : (
             <div className="feedback">

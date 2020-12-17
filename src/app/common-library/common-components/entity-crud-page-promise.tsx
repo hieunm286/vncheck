@@ -29,9 +29,20 @@ import EXIF from 'exif-js';
 import { isEmpty } from 'lodash';
 import exifr from 'exifr';
 import { AxiosResponse } from 'axios';
-
+import imageToBase64 from 'image-to-base64';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
+// const prefix = ''
+
+const toDataURL = (url: string) => fetch(url)
+  .then(response => response.blob())
+  .then(blob => new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.onloadend = () => resolve(reader.result)
+    reader.onerror = reject
+    reader.readAsDataURL(blob)
+  }))
 
 function EntityCrudPagePromise({
   entity,
@@ -49,7 +60,7 @@ function EntityCrudPagePromise({
   homePage,
   asyncError,
   refreshData,
-  tagData
+  tagData,
 }: {
   // modifyModel: ModifyModel;
   title: string;
@@ -66,7 +77,7 @@ function EntityCrudPagePromise({
   homePage?: string;
   asyncError?: string;
   refreshData: () => void;
-  tagData?: any
+  tagData?: any;
 }) {
   const intl = useIntl();
   const initForm = autoFill
@@ -76,22 +87,7 @@ function EntityCrudPagePromise({
   const history = useHistory();
   const [entityForEdit, setEntityForEdit] = useState(entity);
 
-  const ConvertImage = (entity: any) => {
-    const cv = { ...entity }
-
-    if (entity.image) {
-
-      // const imageURL = URL.createObjectURL(entity.image.path);
-
-      const dataURL = { data_url: entity.image.imageURL };
-
-      cv.images = [dataURL]
-    }
-
-    return cv
-  }
-
-  const [images, setImages] = useState(entity && entity.image ? ConvertImage(entity) : initForm);
+  const [images, setImages] = useState(initForm);
   const [imageRootArr, setImageRootArr] = useState<any>([]);
 
   const [tagArr, setTagArr] = useState(initForm);
@@ -107,15 +103,35 @@ function EntityCrudPagePromise({
     // newTag.push(value);
     // setTagArr({ ...tagArr, [key]: newTag });
   }
+  
+  const ConvertImage = (entity: any) => {
+    const cv = { ...entity };
 
-  console.log(images)
+    if (entity.image) {
+      toDataURL('/' + entity.image.path)
+        .then(dataUrl  => {
+          const url = { data_url: dataUrl };
+          console.log(url);
+          cv.images = [url];
+
+          setImages(cv)
+        })
+        .catch(error => {
+          console.log(error); // Logs an error if there was one
+        });
+    }
+  };
 
   useEffect(() => {
     if (code) {
       get(code).then((res: { data: any }) => {
-        const convert = (autoFill ? ConvertSelectSearch(res.data, autoFill.searchSelectField) : ConvertSelectSearch(res.data))
+        const convert = autoFill
+          ? ConvertSelectSearch(res.data, autoFill.searchSelectField)
+          : ConvertSelectSearch(res.data);
         setEntityForEdit(convert);
-        setSearch(res.data)
+        // setImages(convert.image ? ConvertImage(convert) : initForm)
+        ConvertImage(res.data)
+        setSearch(res.data);
       });
     }
   }, [code]);
@@ -124,7 +140,7 @@ function EntityCrudPagePromise({
     onModify(values)
       .then((res: any) => {
         history.push(homePage || GetHomePage(window.location.pathname));
-        notifySuccess()
+        notifySuccess();
         setErrorMsg(undefined);
         refreshData();
       })
@@ -137,15 +153,12 @@ function EntityCrudPagePromise({
 
   return (
     <>
-      
       <Formik
         enableReinitialize={true}
         initialValues={entityForEdit || initForm}
         // initialValues={initForm}
         validationSchema={validation}
         onSubmit={(values, { setSubmitting, setFieldError }) => {
-
-
           let updateValue;
           setErrorMsg(undefined);
 
@@ -168,7 +181,10 @@ function EntityCrudPagePromise({
                     <CardHeader
                       title={
                         <>
-                          <a onClick={() => history.push(homePage || GetHomePage(window.location.pathname))}>
+                          <a
+                            onClick={() =>
+                              history.push(homePage || GetHomePage(window.location.pathname))
+                            }>
                             <ArrowBackIosIcon />
                           </a>
                           {entityForEdit
@@ -181,7 +197,7 @@ function EntityCrudPagePromise({
                   <CardBody>
                     <ModifyEntityPage
                       entityForEdit={entityForEdit}
-                      images={images}
+                      images={images || []}
                       modifyModel={formPart[key].modifyModel as any}
                       column={formPart[key].modifyModel.length}
                       title={formPart[key].title}
@@ -196,88 +212,95 @@ function EntityCrudPagePromise({
                       </div>
                     )}
                   </CardBody>
-                  {allFormButton.type === 'inside' && key === Object.keys(formPart)[Object.keys(formPart).length - 1] && (
-                    <div className="text-right mb-5 mr-20" key={key}>
-                      {Object.keys(allFormButton.data).map(keyss => {
-                        switch (allFormButton['data'][keyss].role) {
-                          case 'submit':
-                            return (
-                              <button
-                                formNoValidate
-                                type={allFormButton['data'][keyss].type}
-                                className={allFormButton['data'][keyss].className}
-                                key={keyss}>
-                                {allFormButton['data'][keyss].icon} {allFormButton['data'][keyss].label}
-                              </button>
-                            );
+                  {allFormButton.type === 'inside' &&
+                    key === Object.keys(formPart)[Object.keys(formPart).length - 1] && (
+                      <div className="text-right mb-5 mr-20" key={key}>
+                        {Object.keys(allFormButton.data).map(keyss => {
+                          switch (allFormButton['data'][keyss].role) {
+                            case 'submit':
+                              return (
+                                <button
+                                  formNoValidate
+                                  type={allFormButton['data'][keyss].type}
+                                  className={allFormButton['data'][keyss].className}
+                                  key={keyss}>
+                                  {allFormButton['data'][keyss].icon}{' '}
+                                  {allFormButton['data'][keyss].label}
+                                </button>
+                              );
 
-                          case 'button':
-                            return (
-                              <button
-                                type={allFormButton['data'][keyss].type}
-                                className={allFormButton['data'][keyss].className}
-                                key={keyss}
-                                onClick={() => {allFormButton['data'][keyss].onClick()}}
-                                >
-                                {allFormButton['data'][keyss].icon} {allFormButton['data'][keyss].label}
-                              </button>
-                            );
-                          case 'link-button':
-                            return (
-                              <Link to={allFormButton['data'][keyss].linkto} key={keyss}>
+                            case 'button':
+                              return (
                                 <button
                                   type={allFormButton['data'][keyss].type}
-                                  className={allFormButton['data'][keyss].className}>
-                                  {allFormButton['data'][keyss].icon} {allFormButton['data'][keyss].label}
+                                  className={allFormButton['data'][keyss].className}
+                                  key={keyss}
+                                  onClick={() => {
+                                    allFormButton['data'][keyss].onClick();
+                                  }}>
+                                  {allFormButton['data'][keyss].icon}{' '}
+                                  {allFormButton['data'][keyss].label}
                                 </button>
-                              </Link>
-                            );
-                        }
-                      })}
-                    </div>
-                  )}
+                              );
+                            case 'link-button':
+                              return (
+                                <Link to={allFormButton['data'][keyss].linkto} key={keyss}>
+                                  <button
+                                    type={allFormButton['data'][keyss].type}
+                                    className={allFormButton['data'][keyss].className}>
+                                    {allFormButton['data'][keyss].icon}{' '}
+                                    {allFormButton['data'][keyss].label}
+                                  </button>
+                                </Link>
+                              );
+                          }
+                        })}
+                      </div>
+                    )}
                 </Card>
               ))}
             </Form>
             {allFormButton.type === 'outside' && (
-                    <div className="text-right mb-5 mr-20">
-                      {Object.keys(allFormButton.data).map(keyss => {
-                        switch (allFormButton['data'][keyss].role) {
-                          case 'submit':
-                            return (
-                              <button
-                                type={allFormButton['data'][keyss].type}
-                                onClick={() => handleSubmit()}
-                                className={allFormButton['data'][keyss].className}
-                                key={keyss}>
-                                {allFormButton['data'][keyss].icon} {allFormButton['data'][keyss].label}
-                              </button>
-                            );
+              <div className="text-right mb-5 mr-20">
+                {Object.keys(allFormButton.data).map(keyss => {
+                  switch (allFormButton['data'][keyss].role) {
+                    case 'submit':
+                      return (
+                        <button
+                          type={allFormButton['data'][keyss].type}
+                          onClick={() => handleSubmit()}
+                          className={allFormButton['data'][keyss].className}
+                          key={keyss}>
+                          {allFormButton['data'][keyss].icon} {allFormButton['data'][keyss].label}
+                        </button>
+                      );
 
-                          case 'button':
-                            return (
-                              <button
-                                type={allFormButton['data'][keyss].type}
-                                className={allFormButton['data'][keyss].className}
-                                key={keyss}
-                                onClick={() => {allFormButton['data'][keyss].onClick()}}>
-                                {allFormButton['data'][keyss].icon} {allFormButton['data'][keyss].label}
-                              </button>
-                            );
-                          case 'link-button':
-                            return (
-                              <Link to={allFormButton['data'][keyss].linkto} key={keyss}>
-                                <button
-                                  type={allFormButton['data'][keyss].type}
-                                  className={allFormButton['data'][keyss].className}>
-                                  {allFormButton['data'][keyss].icon} {allFormButton['data'][keyss].label}
-                                </button>
-                              </Link>
-                            );
-                        }
-                      })}
-                    </div>
-                  )}
+                    case 'button':
+                      return (
+                        <button
+                          type={allFormButton['data'][keyss].type}
+                          className={allFormButton['data'][keyss].className}
+                          key={keyss}
+                          onClick={() => {
+                            allFormButton['data'][keyss].onClick();
+                          }}>
+                          {allFormButton['data'][keyss].icon} {allFormButton['data'][keyss].label}
+                        </button>
+                      );
+                    case 'link-button':
+                      return (
+                        <Link to={allFormButton['data'][keyss].linkto} key={keyss}>
+                          <button
+                            type={allFormButton['data'][keyss].type}
+                            className={allFormButton['data'][keyss].className}>
+                            {allFormButton['data'][keyss].icon} {allFormButton['data'][keyss].label}
+                          </button>
+                        </Link>
+                      );
+                  }
+                })}
+              </div>
+            )}
           </>
         )}
       </Formik>

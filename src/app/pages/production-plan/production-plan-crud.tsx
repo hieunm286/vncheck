@@ -29,6 +29,9 @@ import { addInitField, initProductPlanForm } from './defined/const';
 import ProductionPlanModal from './production-plan-modal';
 
 const diff = (obj1: any, obj2: any) => {
+  console.log(obj1);
+  console.log(obj2);
+
   if (!obj2 || Object.prototype.toString.call(obj2) !== '[object Object]') {
     return obj1;
   }
@@ -208,7 +211,7 @@ function ProductionPlanCrud({
     }
   }, [code]);
 
-  const submitHandle = (values: any, { setSubmitting, setFieldError }: any) => {
+  const submitHandle = (values: any, curValues: any, { setSubmitting, setFieldError, resetForm }: any) => {
     onModify(values)
       .then((res: any) => {
         setNoticeModal(true);
@@ -223,9 +226,6 @@ function ProductionPlanCrud({
         notify(error.data || error.response.data);
       });
   };
-
-  console.log(entityForEdit);
-  console.log(initForm);
 
   return (
     <>
@@ -258,12 +258,14 @@ function ProductionPlanCrud({
         initialValues={addInitField(entityForEdit, initProductPlanForm) || initForm}
         // initialValues={initForm}
         validationSchema={validation}
-        onSubmit={(values, { setSubmitting, setFieldError }) => {
+        onSubmit={(values, { setSubmitting, setFieldError, resetForm }) => {
           let updateValue: any;
           setErrorMsg(undefined);
 
           if (entityForEdit) {
-            const diffValue = diff(entityForEdit, values);
+            const diffValue = diff(addInitField(entityForEdit, initProductPlanForm), values);
+            console.log(diffValue);
+            const clValue = { ...values };
 
             if (
               diffValue.packing &&
@@ -273,13 +275,85 @@ function ProductionPlanCrud({
               delete diffValue.packing;
             }
 
+            const validField = [
+              'harvesting',
+              'preliminaryTreatment',
+              'cleaning',
+              'packing',
+              'preservation',
+            ];
+
+            const validNested = [
+              'estimatedTime',
+              'estimatedQuantity',
+              'technical',
+              'leader',
+              'estimatedExpireTimeStart',
+              'estimatedExpireTimeEnd',
+              'packing',
+              'estimatedStartTime',
+              'estimatedEndTime',
+            ];
+
+            validField.forEach(keys => {
+              const cvLeader: any[] = [];
+              const cvTechnical: any[] = [];
+
+              if (clValue[keys] && clValue[keys].leader) {
+                clValue[keys].leader.forEach((value: any) => {
+                  if (value.user) {
+                    cvLeader.push(value.user._id);
+                  }
+                });
+
+                clValue[keys].leader = cvLeader;
+              }
+
+              if (clValue[keys] && clValue[keys].technical) {
+                clValue[keys].technical.forEach((value: any) => {
+                  if (value.user) {
+                    cvTechnical.push(value.user._id);
+                  }
+                });
+
+                clValue[keys].technical = cvTechnical;
+              }
+            });
+
+            validField.forEach(keys => {
+              Object.keys(clValue[keys]).forEach(cKey => {
+                if (diffValue[keys] && !diffValue[keys][cKey] && validNested.includes(cKey)) {
+                  diffValue[keys][cKey] = clValue[keys][cKey];
+                }
+              });
+            });
+
+            validField.forEach(keys => {
+              if (diffValue[keys]) {
+                Object.keys(diffValue[keys]).forEach(cKey => {
+                  if (
+                    !diffValue[keys][cKey] ||
+                    (_.isArray(diffValue[keys][cKey]) && diffValue[keys][cKey].length === 0)
+                  ) {
+                    delete diffValue[keys][cKey];
+                  }
+                });
+
+                if (_.isEmpty(diffValue[keys])) {
+                  delete diffValue[keys];
+                }
+              }
+            });
+
             updateValue = { _id: values._id, ...diffValue };
           } else {
             updateValue = { ...values };
           }
 
+          console.log(values)
+
           if (step === '0') {
-            submitHandle(updateValue, { setSubmitting, setFieldError });
+            submitHandle(updateValue, values, { setSubmitting, setFieldError, resetForm });
           } else if (step === '1' && currentTab !== '2') {
             // if (!updateValue.step || updateValue.step !== '1') {
             //   updateValue.step = '1';
