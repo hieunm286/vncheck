@@ -70,7 +70,7 @@ export const mockAgency: AgencyModel = {
   district: "Yên Hoà",
   city: "Cầu Giấy",
   state: "Hà Nội",
-
+  avatar: ['']
 }
 
 export const initAgency: AgencyModel = {
@@ -141,5 +141,6 @@ export const initAgency: AgencyModel = {
   district: null,
   city: null,
   state: null,
+  avatar: ['']
 
 }

@@ -57,6 +57,7 @@ export interface AgencyModel {
   district?: string | null;
   city?: string | null;
   state?: string | null;
+  avatar?: Array<any>;
   
 
 }

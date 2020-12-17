@@ -91,6 +91,12 @@ function EntityCrudPageAgency({
         const _addr = addr;
         delete _addr._id;
         return _addr;
+      }),
+      avatar: values.avatar.filter((image: any) => {
+        return image.data_url;
+      }),
+      image: values.image.filter((image: any) => {
+        return image.data_url;
       })
     }
     onModify(_values)
