@@ -325,11 +325,11 @@ function AgencyPage() {
           placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
           label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
         },
-        defaultShippingAddress: {
-          type: 'display',
-          placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.DEFAULT_SHIPPING_ADDRESS' }),
-          label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.DEFAULT_SHIPPING_ADDRESS' }),
-        }
+        // defaultShippingAddress: {
+        //   type: 'display',
+        //   placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.DEFAULT_SHIPPING_ADDRESS' }),
+        //   label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.DEFAULT_SHIPPING_ADDRESS' }),
+        // }
       }
     }
   ];
@@ -338,7 +338,8 @@ function AgencyPage() {
     form_1: {
       // title: 'Thông tin đơn vị bán hàng',
       modifyModel: modifyModel,
-      // header: 'THÔNG TIN ĐƠN VỊ BÁN HÀNG',
+      editHeader: 'CHỈNH SỬA THÔNG TIN ĐƠN VỊ BÁN HÀNG',
+      createHeader: 'TẠO ĐƠN VỊ BÁN HÀNG MỚI',
     },
     // form_2: {
     //   title: 'Thông tin quản trị',
@@ -401,6 +402,7 @@ function AgencyPage() {
   }
 
   const [treeData, setTreeData] = useState<any>();
+  const [treeSelectValue, setTreeSelectValue] = useState<any>();
   
   const treeLoadOptions = async (getAll: (t:any)=> any) => {
     const queryProps: any = {};
@@ -421,6 +423,10 @@ function AgencyPage() {
       });
   }, []);
   
+  const customResetForm = (setTreeSelectValue: any) => {
+    console.log('hi')
+    setTreeSelectValue('hoho');
+  }
 
   return (
     <Fragment>
@@ -463,9 +469,12 @@ function AgencyPage() {
             onReset={() => {
               setPaginationProps(DefaultPagination)
               setFilterProps({})
+              setTreeSelectValue(null);
             }}
             searchModel={agencySearchModel}
             treeData={treeData}
+            treeSelectValue={treeSelectValue}
+            setTreeSelectValue={setTreeSelectValue}
             initValue={{
               code: '',
               lot: '',

@@ -8,6 +8,8 @@ import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { Element } from 'react-scroll';
 import StyledRadio from "./StyledRadio";
+import { ToAbsoluteUrl } from "../helpers/assets-helpers";
+import SVG from 'react-inlinesvg';
 
 
 
@@ -68,11 +70,12 @@ export const FormikRadioGroup = ({
       <Element name="test7" className="element" id="containerElement" style={{
             position: 'relative',
             maxHeight: '200px',
-            padding: '0px 40px 0px 2px',
+            padding: '0px 0px 0px 2px',
             overflowY: 'scroll',
             overflowX: 'hidden',
             width: '100%',
-            marginBottom: 0,
+            marginBottom: '5px',
+            marginTop: '5px',
           }}>
         {addresses.map((entity : any, key: any) => (
         <div className="mt-3 row" key={key}>
@@ -80,7 +83,7 @@ export const FormikRadioGroup = ({
           <div className="col-md-10 col-12">
             <FormControlLabel name="defaultShippingAddress" value={entity._id} control={<StyledRadio />} label={getShippingAddress(entity)} />
           </div>
-          <div className="col-md-1 col-12">
+          {/* <div className="col-md-1 col-12">
             <Button type="button" variant="primary" onClick={(e: any) => {
                 if(handleEditButton && setShippingAddressEntity) {
                   handleEditButton(true);
@@ -96,7 +99,41 @@ export const FormikRadioGroup = ({
                 setShippingAddressEntity(key)
               }
               }><DeleteIcon /></Button>
-          </div>
+          </div> */}
+
+          <a
+            // title={intl.formatMessage({id: 'COMMON_COMPONENT.MASTER_BODY.TABLE.EDIT_BTN'})}
+            className="btn btn-icon btn-light btn-hover-primary btn-sm mx-1"
+            onClick={() => {
+              if(handleEditButton && setShippingAddressEntity) {
+                handleEditButton(true);
+                setShippingAddressEntity(key);
+              }
+            }
+          }>
+            <span className="svg-icon svg-icon-md svg-icon-primary">
+              <SVG
+                src={ToAbsoluteUrl('/media/svg/icons/Communication/Write.svg')}
+                title={intl.formatMessage({id: 'COMMON_COMPONENT.MASTER_BODY.TABLE.EDIT_BTN'})}
+              />
+            </span>
+          </a>
+          <a
+            // title={intl.formatMessage({id: 'COMMON_COMPONENT.MASTER_BODY.TABLE.DELETE_BTN'})}
+            className="btn btn-icon btn-light btn-hover-primary btn-sm visibility"
+            onClick={() => {
+              if(handleDeleteButton && setShippingAddressEntity) {
+                handleDeleteButton(true);
+                setShippingAddressEntity(key)
+              }
+            }
+          }>
+            <span className="svg-icon svg-icon-md svg-icon-primary">
+              <span className="svg-icon svg-icon-md svg-icon-primary">
+                <DeleteIcon className="text-primary eye"/>
+              </span>
+            </span>
+          </a>
           
           </React.Fragment>
         </div>

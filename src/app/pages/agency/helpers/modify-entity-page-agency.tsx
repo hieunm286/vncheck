@@ -286,6 +286,7 @@ function ModifyEntityPageAgency<T>({
                   modifyModel={modifyModel[1]}
                   column={column}
                 />
+                <div className={'mt-2'}></div>
                 <FormTemplate 
                   formValues={values}
                   images={images}

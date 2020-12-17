@@ -30,7 +30,7 @@ export const agencySearchModel: SearchModel = {
     type: 'TreeSelect',
     placeholder: 'AGENCY.EDIT.PLACEHOLDER.SELL_GOOD_LEVEL',
     label: 'AGENCY.EDIT.LABEL.SELL_GOOD_LEVEL',
-    keyField: 'name'
+    keyField: 'storeLevel'
   }, 
   state: {
     type: 'string',
@@ -239,7 +239,7 @@ export const allFormButton: any = {
     role: 'submit',
     type: 'submit',
     linkto: undefined,
-    className: 'btn btn-primary mr-2',
+    className: 'btn btn-primary mr-2 fixed-btn-width',
     label: intl.formatMessage({id: 'AGENCY.EDIT.BUTTON.SAVE'}),
     icon: <SaveOutlinedIcon />,
   },
@@ -247,7 +247,7 @@ export const allFormButton: any = {
     role: 'popupButton',
     type: 'button',
     // linkto: '/agency',
-    className: 'btn btn-outline-primary mr-2',
+    className: 'btn btn-outline-primary mr-2 fixed-btn-width',
     label: intl.formatMessage({id: 'AGENCY.EDIT.BUTTON.CANCEL'}),
     icon: <CancelOutlinedIcon />,
   },

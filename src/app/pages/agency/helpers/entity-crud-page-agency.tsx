@@ -130,14 +130,14 @@ function EntityCrudPageAgency({
             <Form className="form form-label-right">
               {Object.keys(formParts).map(key => (
                 <Card key={key}>
-                  {formParts[key].header && (
+                  {formParts[key].createHeader && formParts[key].editHeader && (
                     <CardHeader
                       title={
                         <>
                           <a onClick={() => history.goBack()}>
                             <ArrowBackIosIcon />
                           </a>
-                          {entityForEdit ? `CHỈNH SỬA ${formParts[key].header}` : `THÊM MỚI ${formParts[key].header}`}
+                          {(entityForEdit && entityForEdit.code) ? `${formParts[key].editHeader}` : `${formParts[key].createHeader}`}
                         </>
                       }
                     />
