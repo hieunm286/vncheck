@@ -39,7 +39,7 @@ function ModifyEntityPageAgency<T>({
   const modifyM = { ...modifyModel } as any;
 
   const [entities, setEntities] = useState<T[]>([]);
-  const [deleteEntity, setDeleteEntity] = useState<T>(null as any);
+  const [deleteEntity, setDeleteEntity] = useState<T>();
   const [editEntity, setEditEntity] = useState(values && values.shippingAddress);
   const [createEntity, setCreateEntity] = useState<any>({
     state: null,
@@ -53,7 +53,7 @@ function ModifyEntityPageAgency<T>({
   const [showEdit, setShowEdit] = useState(false);
   const [showCreate, setShowCreate] = useState(false);
   const [showDetail, setShowDetail] = useState(false);
-  const [entityNumber, setEntityNumber] = useState(0);
+  const [entityNumber, setEntityNumber] = useState(-1);
   const { setFieldValue, errors, touched } = useFormikContext<any>();
 
   const [ showNotifyDialog, setShowNotifyDialog ] = useState<boolean>(false);
@@ -177,20 +177,27 @@ function ModifyEntityPageAgency<T>({
   const deleteFn = (entity: any) => {
     getShippingAddressesSync()
     .then((shippingAddresses: any) => {
-      if(entity.isDefault === false) {
-        setFieldValue('shippingAddress', shippingAddresses.filter((addr: any) => {
+      const deleteAddr = shippingAddresses.find((addr: any) => addr._id === entity._id);
+      shippingAddresses = shippingAddresses.filter((addr: any) => {
             return entity._id !== addr._id;
-          })
-        );
-        values.shippingAddress = values.shippingAddress.filter((addr: any) => {
-          return entity._id !== addr._id;
-        });
-        setDeleteEntity(entity);
-        setShowDelete(false);
+          });
+      const lastIdx = shippingAddresses.length - 1;
+      const currentDefault = currentAddress > lastIdx ? lastIdx : currentAddress;
+      if(currentDefault <= -1) {
+        setCurrentAddress(currentDefault);
       } else {
-        setShowDelete(false);
-        setShowNotifyDialog(true);
+        setCurrentAddress(currentDefault);
+        shippingAddresses[currentDefault].isDefault = true;
       }
+      for(let i = deleteAddr._id; i <= lastIdx - 1; i++) {
+        shippingAddresses[i]._id --;
+      }
+      setFieldValue('shippingAddress', shippingAddresses);
+      values.shippingAddress = shippingAddresses
+      setDeleteEntity(entity);
+      setShowDelete(false);
+
+      
    
     });
   };
@@ -223,7 +230,7 @@ function ModifyEntityPageAgency<T>({
     getShippingAddressesSync()
     .then((shippingAddresses: any) => {
         // setEntityNumber(shippingAddresses.length + 1);
-        const _entity = {...entity, _id: (shippingAddresses.length + 1).toString(), isDefault: shippingAddresses.length === 0 ? true : false};
+        const _entity = {...entity, _id: (shippingAddresses.length), isDefault: shippingAddresses.length === 0 ? true : false};
         shippingAddresses.push(_entity);
         setFieldValue('shippingAddress', shippingAddresses);
         // values.shippingAddress.push(_entity);
@@ -239,12 +246,15 @@ function ModifyEntityPageAgency<T>({
   },[]);
 
   useEffect(() => {
-    getShippingAddressSync(entityNumber)
+    getShippingAddressesSync()
     .then((res: any) => {
-      setEditEntity(res);
-      setDeleteEntity(res);
+      setEditEntity(res[entityNumber]);
+      setDeleteEntity(res[entityNumber]);
     });
   }, [entityNumber]);
+
+  
+  const [currentAddress, setCurrentAddress] = useState<any>('');
 
   return (
     <>
@@ -289,6 +299,8 @@ function ModifyEntityPageAgency<T>({
                   handleDeleteButton={setShowDelete}
                   handleAddButton={setShowCreate}
                   setShippingAddressEntity={setEntityNumber}
+                  currentAddress={currentAddress}
+                  setCurrentAddress={setCurrentAddress}
                 />
               </div>
             </>
@@ -335,6 +347,8 @@ function ModifyEntityPageAgency<T>({
         onHide={() => {
           setShowDelete(false);
         }}
+        loading={false}
+        error=''
       />
 
       <NotifyDialog

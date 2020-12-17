@@ -37,6 +37,8 @@ const FormTemplate = ({
   handleDeleteButton,
   setShippingAddressEntity,
   formValues,
+  currentAddress,
+  setCurrentAddress,
 }: {
   modifyModel: any;
   images?: any;
@@ -49,6 +51,8 @@ const FormTemplate = ({
   handleDeleteButton?: any;
   setShippingAddressEntity?: any;
   formValues?: any;
+  currentAddress?: any;
+  setCurrentAddress?: any;
 }) => {
 
   const { touched, errors, values, setFieldValue } = useFormikContext<any>();
@@ -491,7 +495,11 @@ const FormTemplate = ({
               </div>
             );
           case 'radioGroup':
-            const _shippingAddresses = formValues['shippingAddress'] ? formValues['shippingAddress'] : [];
+            const _shippingAddresses = formValues['shippingAddress'] ? formValues['shippingAddress'].map((addr: any, key: number) => {
+              return {...addr, _id: key};
+            })
+            : [];
+            formValues['shippingAddress'] = _shippingAddresses;
             return (
               <FormikRadioGroup
                 handleAddButton={handleAddButton}
@@ -501,6 +509,8 @@ const FormTemplate = ({
                 ariaLabel='defaultShippingAddress'
                 name='defaultShippingAddress'
                 addresses={_shippingAddresses}
+                currentAddress={currentAddress}
+                setCurrentAddress={setCurrentAddress}
               />
             );
           case 'image':
