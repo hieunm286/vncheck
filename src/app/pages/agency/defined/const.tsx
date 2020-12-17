@@ -93,7 +93,7 @@ export const agencySchema = Yup.object<AgencyModel>().shape({
     .required(intl.formatMessage({id: 'AGENCY.VALIDATION.PHONE_NUMBER.REQUIRED'})),
   taxId: Yup.string()
     .required(intl.formatMessage({id: 'AGENCY.VALIDATION.TAX_ID.REQUIRED'}))
-    .matches(/[0-9]*/, intl.formatMessage({id: 'AGENCY.VALIDATION.TAX_ID.NUMBER_ONLY'}))
+    .matches(/[0-9]+/, intl.formatMessage({id: 'AGENCY.VALIDATION.TAX_ID.NUMBER_ONLY'}))
     .max(100, intl.formatMessage({id: 'AGENCY.VALIDATION.TAX_ID.MAX_LENGTH_EXCEEDED'})),
   // image: Yup.array()
   //   .nullable()
