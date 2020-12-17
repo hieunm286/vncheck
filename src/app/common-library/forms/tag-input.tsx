@@ -120,7 +120,7 @@ function TagInput({
   name,
   isHorizontal,
   labelWidth,
-  isRequired,
+  required,
   disabled,
   tagData,
   root,
@@ -154,8 +154,8 @@ function TagInput({
       <div className={isHorizontal && 'row'}>
         <div className={isHorizontal && getClassName(labelWidth, true)}>
           {label && (
-            <label className={isHorizontal && 'mb-0 mt-2'}>
-              {label} {isRequired && <span className="text-danger">*</span>}
+            <label className={isHorizontal && 'mb-0 input-label mt-2'}>
+              {label} {required && <span className="text-danger">*</span>}
             </label>
           )}
         </div>

@@ -529,7 +529,7 @@ const FormTemplate = ({
               (
               <div className="mt-3" key={key}>
                 <CustomImageUpload
-                  images={images[key]}
+                  value={images[key]}
                   label={modifyModel.data[key].label}
                   labelWidth={4}
                   isHorizontal={true}
@@ -645,7 +645,6 @@ const FormTemplate = ({
             return searchSelect && (
               <div className="mt-3" key={key}>
                 <InfiniteSelect
-                  changeId
                   label={modifyModel.data[key].label}
                   isHorizontal={true}
                   value={searchSelect} // value={search[key]}
@@ -664,7 +663,6 @@ const FormTemplate = ({
                       )
                     }
                   }
-                  refs={modifyModel.data[key].ref}
                   additional={{
                     page: DefaultPagination.page,
                   }}

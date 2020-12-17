@@ -154,22 +154,21 @@ export interface ActionColumnProps<T> {
   // editTitle: string;
   // deleteTitle: string;
 }
-
+export type InputType = 'string' | 'number' | 'date-time' | 'search-select' | 'file' | 'tree-select' | 'nested';
 export type SearchModel = {
   [T: string]: {
-    type: 'string' | 'number' | 'Datetime' | 'SearchSelect' | 'file' | 'TreeSelect' | 'Search' | 'stateSelect' | 'citySelect' | 'districtSelect' | 'nested';
+    type: InputType;
     placeholder?: string;
-    label?: string| ReactElement;
+    label: string| ReactElement;
     keyField?: string;
     onSearch?: (t: any) => any;
-    ref?: boolean;
     data?: any;
-    customName?: string;
+    name?: string;
   };
 };
 export type ModifyModel = {
   [T: string]: {
-    type: 'string' | 'number' | 'Datetime' | 'SearchSelect' | 'file' | 'image' | 'TreeSelect' | 'object';
+    type: InputType;
     placeholder: string;
     label: string;
     disabled?: boolean;

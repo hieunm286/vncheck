@@ -1,4 +1,4 @@
-import React, {Fragment, useEffect} from 'react';
+import React, {Fragment, useEffect, useMemo} from 'react';
 import {useIntl} from 'react-intl';
 import {DefaultPagination, NormalColumn, SortColumn} from '../../common-library/common-consts/const';
 import {MasterHeader} from '../../common-library/common-components/master-header';
@@ -25,8 +25,8 @@ const detailDialogTitle = 'SHIPPING_AGENCY.DETAIL_DIALOG.TITLE';
 const moduleName = 'SHIPPING_AGENCY.MODULE_NAME';
 const deleteDialogTitle = 'SHIPPING_AGENCY.DELETE_DIALOG.TITLE';
 const deleteDialogBodyTitle = 'SHIPPING_AGENCY.DELETE_DIALOG.BODY_TITLE';
-const createTitle = 'SHIPPING_AGENCY.CREATE.TITLE';
-const updateTitle = 'SHIPPING_AGENCY.UPDATE.TITLE';
+const createTitle = 'PRODUCT_TYPE.CREATE.TITLE';
+const updateTitle = 'PURCHASE_ORDER.UPDATE.TITLE';
 const homeURL = `${window.location.pathname}`
 
 function ShippingAgency() {
@@ -89,60 +89,62 @@ function ShippingAgency() {
     getAll(filterProps);
   }, [paginationProps, trigger, filterProps, getAll]);
   
-  const columns = {
-    code: {
-      dataField: 'code',
-      text: `${intl.formatMessage({id: 'SHIPPING_AGENCY.MASTER.TABLE.CODE_COLUMN'})}`,
-      ...SortColumn,
-      align: 'center',
-    },
-    name: {
-      dataField: 'name',
-      text: `${intl.formatMessage({id: 'SHIPPING_AGENCY.MASTER.TABLE.NAME_COLUMN'})}`,
-      ...SortColumn,
-      align: 'center',
-    },
-    phone: {
-      dataField: 'phone',
-      text: `${intl.formatMessage({id: 'SHIPPING_AGENCY.MASTER.TABLE.PHONE_COLUMN'})}`,
-      ...SortColumn,
-      align: 'center',
-    },
-    status: {
-      dataField: 'status',
-      text: `${intl.formatMessage({id: 'SHIPPING_AGENCY.MASTER.TABLE.STATUS_COLUMN'})}`,
-      formatter: TickColumnFormatter,
-      ...SortColumn,
-      align: 'center',
-    },
-    action: {
-      dataField: 'action',
-      text: `${intl.formatMessage({id: 'SHIPPING_AGENCY.MASTER.TABLE.ACTION_COLUMN'})}`,
-      formatter: ActionsColumnFormatter,
-      formatExtraData: {
-        intl,
-        onShowDetail: (entity: ShippingAgencyModel) => {
-          get(entity);
-          setShowDetail(true);
-          setDetailEntity(entity);
-        },
-        onDelete: (entity: ShippingAgencyModel) => {
-          setDeleteEntity(entity);
-          setShowDelete(true);
-        },
-        onEdit: (entity: ShippingAgencyModel) => {
-          get(entity);
-          // setShowEdit(true);
-          setEditEntity(entity);
-          history.push(`${window.location.pathname}/${entity._id}`);
-        },
+  const columns = useMemo(() => {
+    return {
+      code: {
+        dataField: 'code',
+        text: `${intl.formatMessage({id: 'SHIPPING_AGENCY.MASTER.TABLE.CODE_COLUMN'})}`,
+        ...SortColumn,
+        align: 'center',
       },
-      ...NormalColumn,
-      style: {minWidth: '130px'},
-    },
-  };
+      name: {
+        dataField: 'name',
+        text: `${intl.formatMessage({id: 'SHIPPING_AGENCY.MASTER.TABLE.NAME_COLUMN'})}`,
+        ...SortColumn,
+        align: 'center',
+      },
+      phone: {
+        dataField: 'phone',
+        text: `${intl.formatMessage({id: 'SHIPPING_AGENCY.MASTER.TABLE.PHONE_COLUMN'})}`,
+        ...SortColumn,
+        align: 'center',
+      },
+      status: {
+        dataField: 'status',
+        text: `${intl.formatMessage({id: 'SHIPPING_AGENCY.MASTER.TABLE.STATUS_COLUMN'})}`,
+        formatter: TickColumnFormatter,
+        ...SortColumn,
+        align: 'center',
+      },
+      action: {
+        dataField: 'action',
+        text: `${intl.formatMessage({id: 'SHIPPING_AGENCY.MASTER.TABLE.ACTION_COLUMN'})}`,
+        formatter: ActionsColumnFormatter,
+        formatExtraData: {
+          intl,
+          onShowDetail: (entity: ShippingAgencyModel) => {
+            get(entity);
+            setShowDetail(true);
+            setDetailEntity(entity);
+          },
+          onDelete: (entity: ShippingAgencyModel) => {
+            setDeleteEntity(entity);
+            setShowDelete(true);
+          },
+          onEdit: (entity: ShippingAgencyModel) => {
+            get(entity);
+            // setShowEdit(true);
+            setEditEntity(entity);
+            history.push(`${window.location.pathname}/${entity._id}`);
+          },
+        },
+        ...NormalColumn,
+        style: {minWidth: '130px'},
+      },
+    }
+  }, []);
   
-  const masterEntityDetailDialog = [
+  const masterEntityDetailDialog = useMemo(() => [
     {
       header: 'SHIPPING_AGENCY.DETAIL_DIALOG.SHIPPING.SUBTITLE',
       className: 'col-7',
@@ -181,7 +183,7 @@ function ShippingAgency() {
         },
       },
     },
-  ];
+  ], []);
   
   const searchModel: SearchModel = {
     code: {
@@ -198,63 +200,66 @@ function ShippingAgency() {
     },
   };
   
-  const modifyModel: any[] = [
+  const modifyModel: any[] = useMemo(() => [
     {
       title: 'THÔNG TIN CHUNG',
       data: {
         code: {
           type: 'string',
-          placeholder: '',
-          label: intl.formatMessage({id: 'PRODUCT_TYPE.MASTER.TABLE.CODE_COLUMN'}),
+          label: 'PRODUCT_TYPE.MASTER.TABLE.CODE_COLUMN',
           required: true,
           disabled: true,
         },
         name: {
           type: 'string',
-          placeholder: intl.formatMessage({id: 'PRODUCT_TYPE.MASTER.TABLE.NAME_COLUMN'}),
           required: true,
-          label: intl.formatMessage({id: 'PRODUCT_TYPE.MASTER.TABLE.NAME_COLUMN'}),
+          label: 'PRODUCT_TYPE.MASTER.TABLE.CODE_COLUMN',
         },
         barcode: {
           type: 'string',
-          placeholder: intl.formatMessage({
-            id: 'PRODUCT_TYPE.MASTER.TABLE.BARCODE_COLUMN',
-          }),
           required: true,
-          label: intl.formatMessage({id: 'PRODUCT_TYPE.MASTER.TABLE.BARCODE_COLUMN'}),
+          label: 'PRODUCT_TYPE.MASTER.TABLE.CODE_COLUMN',
         },
-        image: {
-          type: 'image',
-          placeholder: intl.formatMessage({id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL'}),
-          label: 'Album 1',
-        },
+        // image: {
+        //   type: 'image',
+        //   placeholder: intl.formatMessage({id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL'}),
+        //   label: 'Album 1',
+        // },
       },
     },
-    {
-      title: 'THÔNG TIN VÒNG ĐỜI',
-      data: {
-        growingDays: {
-          type: 'number',
-          placeholder: intl.formatMessage({id: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW'}),
-          label: intl.formatMessage({id: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW'}),
-        },
-        plantingDays: {
-          type: 'number',
-          placeholder: intl.formatMessage({id: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.PLANTING'}),
-          label: intl.formatMessage({id: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.PLANTING'}),
-        },
-        expiryDays: {
-          type: 'number',
-          placeholder: intl.formatMessage({
-            id: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.EXPIRY',
-          }),
-          label: intl.formatMessage({id: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.EXPIRY'}),
-        },
-      },
-    },
-  ];
+    // {
+    //   title: 'THÔNG TIN VÒNG ĐỜI',
+    //   data: {
+    //     growingDays: {
+    //       type: 'number',
+    //       placeholder: intl.formatMessage({id: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW'}),
+    //       label: intl.formatMessage({id: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW'}),
+    //     },
+    //     plantingDays: {
+    //       type: 'number',
+    //       placeholder: intl.formatMessage({id: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.PLANTING'}),
+    //       label: intl.formatMessage({id: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.PLANTING'}),
+    //     },
+    //     expiryDays: {
+    //       type: 'number',
+    //       placeholder: intl.formatMessage({
+    //         id: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.EXPIRY',
+    //       }),
+    //       label: intl.formatMessage({id: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.EXPIRY'}),
+    //     },
+    //   },
+    // },
+  ], []);
   
   const formPart: any = {
+    header: "SHIPPING_AGENCY.CREATE.HEADER",
+    // form: [
+    //   {
+    //     title: '',
+    //     modifyModel: modifyModel,
+    //     header: 'ĐƠN HÀNG',
+    //   }
+    // ],
     form_1: {
       title: '',
       modifyModel: modifyModel,
@@ -268,7 +273,7 @@ function ShippingAgency() {
     ),
   };
   
-  const allFormButton: any = {
+  const modifyButtonPage: any = {
     save: {
       role: 'submit',
       type: 'submit',
@@ -289,11 +294,87 @@ function ShippingAgency() {
   
   return (
     <Fragment>
+      <Switch>
+        <Route path="/shipping-agency/new">
+          <EntityCrudPage
+            entity={createEntity}
+            moduleName={moduleName}
+            onModify={add}
+            title={createTitle}
+            code={null}
+            get={() => null}
+            models={formPart}
+            allFormField={allFormField}
+            allFormButton={modifyButtonPage}
+            // validation={ProductTypeSchema}
+            // autoFill={{
+            //     field: 'code',
+            //     data: GenerateCode(data)
+            // }}
+          />
+        </Route>
+        <Route path={`/shipping-agency/:code`}>
+          {({history, match}) => (
+            // <ModifyEntityPage
+            //   entity={editEntity}
+            //   onModify={update}
+            //   title={updateTitle}
+            //   modifyModel={modifyModel}
+            //   reduxModel="purchaseOrder"
+            //   code={match && match.params.code}
+            //   get={PurchaseOrderService.GetById}
+            // />
+            <EntityCrudPage
+              entity={editEntity}
+              onModify={update}
+              title={updateTitle}
+              moduleName={moduleName}
+              //  modifyModel={modifyModel}
+              code={match && match.params.code}
+              get={ShippingAgencyService.GetById}
+              models={formPart}
+              allFormField={allFormField}
+              allFormButton={modifyButtonPage}
+              //   validation={ProductTypeSchema}
+            />
+          )}
+        </Route>
+        <Route path="/shipping-agency">
+          <MasterHeader
+            title={headerTitle}
+            onSearch={(value) => {
+              setPaginationProps(DefaultPagination)
+              setFilterProps(value)
+            }}
+            searchModel={searchModel}
+          />
+          <MasterBody
+            title={tableTitle}
+            onCreate={() => {
+              setCreateEntity(null);
+              setEditEntity(null);
+              // setShowCreate(true);
+              history.push(`${window.location.pathname}/new`);
+            }}
+            onDeleteMany={() => setShowDeleteMany(true)}
+            selectedEntities={selectedEntities}
+            onSelectMany={setSelectedEntities}
+            entities={entities}
+            total={total}
+            columns={columns as any}
+            loading={loading}
+            paginationParams={paginationProps}
+            setPaginationParams={setPaginationProps}
+            isShowId={true}
+          />
+          
+          {/* <MasterTreeStructure /> */}
+        </Route>
+      </Switch>
       <MasterEntityDetailDialog
         title={detailDialogTitle}
         entity={detailEntity}
         onClose={() => {
-          setError('');
           setShowDetail(false);
         }}
         show={showDetail}
@@ -322,90 +403,6 @@ function ShippingAgency() {
           setShowDeleteMany(false);
         }}
       />
-      
-      <Switch>
-        <Route path="/shipping-agency/new">
-          <EntityCrudPage
-            entity={createEntity}
-            onModify={add}
-            title={createTitle}
-            code={null}
-            get={() => null}
-            formPart={formPart}
-            allFormField={allFormField}
-            allFormButton={allFormButton}
-            // validation={ProductTypeSchema}
-            // autoFill={{
-            //     field: 'code',
-            //     data: GenerateCode(data)
-            // }}
-            homePage={homeURL}
-          />
-        </Route>
-        <Route path={`/shipping-agency/:code`}>
-          {({history, match}) => (
-            // <ModifyEntityPage
-            //   entity={editEntity}
-            //   onModify={update}
-            //   title={updateTitle}
-            //   modifyModel={modifyModel}
-            //   reduxModel="purchaseOrder"
-            //   code={match && match.params.code}
-            //   get={PurchaseOrderService.GetById}
-            // />
-            <EntityCrudPage
-              entity={editEntity}
-              onModify={update}
-              title={updateTitle}
-              //  modifyModel={modifyModel}
-              reduxModel="purchaseOrder"
-              code={match && match.params.code}
-              get={ShippingAgencyService.GetById}
-              formPart={formPart}
-              allFormField={allFormField}
-              allFormButton={allFormButton}
-              //   validation={ProductTypeSchema}
-              homePage={homeURL}
-            
-            />
-          )}
-        </Route>
-        <Route path="/shipping-agency">
-          <MasterHeader
-            title={headerTitle}
-            onSearch={(value) => {
-              setPaginationProps(DefaultPagination)
-              setFilterProps(value)
-            }}
-            onReset={() => {
-              setPaginationProps(DefaultPagination);
-              setFilterProps({});
-            }}
-            searchModel={searchModel}
-          />
-          <MasterBody
-            title={tableTitle}
-            onCreate={() => {
-              setCreateEntity(null);
-              setEditEntity(null);
-              // setShowCreate(true);
-              history.push(`${window.location.pathname}/new`);
-            }}
-            onDeleteMany={() => setShowDeleteMany(true)}
-            selectedEntities={selectedEntities}
-            onSelectMany={setSelectedEntities}
-            entities={entities}
-            total={total}
-            columns={columns as any}
-            loading={loading}
-            paginationParams={paginationProps}
-            setPaginationParams={setPaginationProps}
-            isShowId={true}
-          />
-          
-          {/* <MasterTreeStructure /> */}
-        </Route>
-      </Switch>
     </Fragment>
   );
 }

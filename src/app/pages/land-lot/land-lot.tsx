@@ -331,42 +331,37 @@ function LandLot() {
     // },
   ];
   
-  const purchaseOrderSearchModel: SearchModel = {
+  const searchModel: SearchModel = {
     code: {
       type: 'string',
-      placeholder: 'LAND_LOT.MASTER.PLACEHOLDER.CODE',
       label: 'LAND_LOT.MASTER.HEADER.CODE',
-      onSearch: GetAll,
       keyField: 'code',
     },
     lot: {
-      type: 'SearchSelect',
-      placeholder: 'LAND_LOT.MASTER.PLACEHOLDER.LOT_CODE',
+      type: 'search-select',
       label: 'LAND_LOT.MASTER.HEADER.LOT_CODE',
       onSearch: GetAll,
       keyField: 'lot',
     },
     subLot: {
-      type: 'SearchSelect',
-      placeholder: 'LAND_LOT.MASTER.PLACEHOLDER.SUB_LOT_CODE',
+      type: 'search-select',
       label: 'LAND_LOT.MASTER.HEADER.SUB_LOT_CODE',
       onSearch: GetAll,
       keyField: 'subLot',
     },
     // date: {
-    //   type: 'Datetime',
+    //   type: 'date-time',
     //   placeholder: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS_COLUMN',
     //   label: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS_COLUMN',
     // //   service: LandLotService,
     //   keyField: 'agencyAddress',
     // },
     // agency: {
-    //   type: 'SearchSelect',
+    //   type: 'search-select',
     //   placeholder: 'PURCHASE_ORDER.MASTER.HEADER.NAME.PLACEHOLDER',
     //   label: 'PURCHASE_ORDER.MASTER.HEADER.NAME.LABEL',
     // //   service: AgencyService,
     //   keyField: 'name',
-    //   ref: true,
     // },
     // count: {
     //   type: 'number',
@@ -376,14 +371,14 @@ function LandLot() {
     //   keyField: 'count',
     // },
     // tree: {
-    //   type: 'TreeSelect',
+    //   type: 'tree-select',
     //   placeholder: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS_COLUMN',
     //   label: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS_COLUMN',
     //   keyField: 'code',
     //   data: ConvertToTreeNode(DataExample),
     // },
     // tree2: {
-    //   type: 'TreeSelect',
+    //   type: 'tree-select',
     //   placeholder: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS_COLUMN',
     //   label: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS_COLUMN',
     //   keyField: 'code',
@@ -397,20 +392,18 @@ function LandLot() {
       data: {
         code: {
           type: 'string',
-          // placeholder: intl.formatMessage({ id: 'LAND_LOT.EDIT.PLACEHOLDER.CODE' }),
-          placeholder: '',
           label: intl.formatMessage({id: 'LAND_LOT.MASTER.HEADER.CODE'}),
           required: true,
           disabled: true,
         },
         lot: {
-          type: 'SearchSelect',
+          type: 'search-select',
           placeholder: intl.formatMessage({id: 'LAND_LOT.MASTER.PLACEHOLDER.LOT_CODE'}),
           required: true,
           label: intl.formatMessage({id: 'LAND_LOT.MASTER.HEADER.LOT_CODE'}),
         },
         subLot: {
-          type: 'SearchSelect',
+          type: 'search-select',
           placeholder: intl.formatMessage({
             id: 'LAND_LOT.MASTER.PLACEHOLDER.SUB_LOT_CODE',
           }),
@@ -603,23 +596,16 @@ function LandLot() {
         <Route path="/land-lot">
           <MasterHeader
             title={headerTitle}
-            onReset={() => {
-              setPaginationProps(DefaultPagination);
-              setFilterProps({})
-            }}
             onSearch={(value) => {
               setPaginationProps(DefaultPagination)
               setFilterProps(value)
             }}
-            searchModel={purchaseOrderSearchModel}
-            stringOnChange={stringOnChange}
-            searchSelectOnChange={searchSelectOnChange}
+            searchModel={searchModel}
             initValue={{
               code: '',
               lot: '',
               subLot: '',
             }}
-            customSearchSelectLoadOption={landLotSearchSelectLoadOption}
           />
           <MasterBody
             title={bodyTitle}

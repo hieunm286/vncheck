@@ -202,14 +202,14 @@ function AgencyPage() {
           label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.AGENCY_NAME' }),
         },
         // storeLevel: {
-        //   type: 'SearchSelect',
+        //   type: 'search-select',
         //   placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.SELL_GOOD_LEVEL' }),
         //   label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.SELL_GOOD_LEVEL' }), 
         //   service: StoreLevelService,
         //   keyField: 'name'
         // },
         storeLevel: {
-          type: 'TreeSelect',
+          type: 'tree-select',
           placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.SELL_GOOD_LEVEL' }),
           label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.SELL_GOOD_LEVEL' }), 
           service: StoreLevelService,
@@ -297,13 +297,13 @@ function AgencyPage() {
           required: true,
         },
         birthDay: {
-          type: 'Datetime',
+          type: 'date-time',
           placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.BIRTH_DAY' }),
           label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.BIRTH_DAY' }),
           required: true,
         },
         roleName: {
-          type: 'SearchSelect',
+          type: 'search-select',
           placeholder: 'AGENCY.EDIT.PLACEHOLDER.ROLE_NAME',
           label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.ROLE_NAME' }),
           service: RoleService,
@@ -460,12 +460,7 @@ function AgencyPage() {
               setPaginationProps(DefaultPagination)
               setFilterProps(value)
             }}
-            onReset={() => {
-              setPaginationProps(DefaultPagination)
-              setFilterProps({})
-            }}
             searchModel={agencySearchModel}
-            treeData={treeData}
             initValue={{
               code: '',
               lot: '',

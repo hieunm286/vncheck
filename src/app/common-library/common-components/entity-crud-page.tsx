@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, {Fragment, useEffect, useState} from 'react';
 import ModifyEntityPage from './modify-entity-page';
-import { ModifyModel } from '../common-types/common-type';
-import { useIntl } from 'react-intl';
+import {ModifyModel} from '../common-types/common-type';
+import {useIntl} from 'react-intl';
 import {
   generateInitForm,
   GetHomePage,
@@ -9,97 +9,86 @@ import {
   getOnlyFile,
   getOnlyBase64
 } from '../helpers/common-function';
-import { Field, Form, Formik } from 'formik';
+import {Field, Form, Formik} from 'formik';
 import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import * as Yup from 'yup';
-import { MainInput } from '../forms/main-input';
-import { iconStyle } from '../common-consts/const';
-import { Link, useHistory } from 'react-router-dom';
+import {MainInput} from '../forms/main-input';
+import {iconStyle} from '../common-consts/const';
+import {Link, useHistory} from 'react-router-dom';
 import ImageUploading from 'react-images-uploading';
 import CustomImageUpload from '../forms/custom-image-upload';
-import { uploadImage } from '../../pages/purchase-order/purchase-order.service';
-import { Card, CardBody, CardHeader } from '../card';
+import {uploadImage} from '../../pages/purchase-order/purchase-order.service';
+import {Card, CardBody, CardHeader} from '../card';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import { diff } from 'deep-object-diff';
+import {diff} from 'deep-object-diff';
 import EXIF from 'exif-js';
-import { isEmpty } from 'lodash';
+import {isEmpty} from 'lodash';
 import exifr from 'exifr'
-
-
-const DeepObject = (obj1: any, obj2: any) => {
-  const updateValue = diff(obj1, obj2);
-  console.log(updateValue)
-  const a = isEmpty(updateValue)
-  console.log(a);
-}
+import {Modal} from "react-bootstrap";
+import {MasterEntityDetail} from "./master-entity-detail-dialog";
 
 function EntityCrudPage({
-  entity,
-  onModify,
-  title,
-  // modifyModel,
-  reduxModel,
-  code,
-  get,
-  formPart,
-  allFormField,
-  allFormButton,
-  validation,
-  autoFill,
-  asyncError,
-  homePage,
-}: {
+                          entity,
+                          onModify,
+                          title = 'COMMON_COMPONENT.CREATE_UPDATE.TITLE',
+                          moduleName = 'COMMON_COMPONENT.CREATE_UPDATE.MODULE_NAME',
+                          code,
+                          get,
+                          models,
+                          allFormField,
+                          allFormButton,
+                          validation,
+                          autoFill,
+                        }: {
   // modifyModel: ModifyModel;
-  title: string;
+  title?: string;
+  moduleName?: string;
   entity: any;
   onModify: (values: any) => void;
-  reduxModel?: string;
   code: string | null;
   get: (code: string) => any | null;
-  formPart: any;
+  models: any;
   allFormField: any;
   allFormButton: any;
   validation?: any;
   autoFill?: any;
-  asyncError?: string;
-  homePage?: string;
 }) {
   const intl = useIntl();
   const initForm = autoFill
     ? generateInitForm(allFormField, autoFill.field, autoFill.data)
     : generateInitForm(allFormField);
-  //   const modifyM = { ...modifyModel } as any;
+  const {header, ...formPart} = models;
   const history = useHistory();
   const [entityForEdit, setEntityForEdit] = useState(entity);
-
+  
   const [images, setImages] = useState(initForm);
   const [imageRootArr, setImageRootArr] = useState<any>([]);
-
+  
   const [tagArr, setTagArr] = useState(initForm);
-
+  
   const [imageData, setImageData] = useState<{ data_url: any; exif: any }[]>([])
-
+  
   const ImageMeta = (file: any) => {
     if (!file) return '';
-
+    
     file.forEach((item: any) => {
       exifr.parse(item.file).then(res => {
         const image = {
           data_url: item.data_url,
           exif: res
         }
-
+        
         const data: any[] = []
         data.push(image)
         console.log(image)
         setImageData(prevImages => ([...prevImages, ...data]))
-
+        
       })
     })
   };
   
- 
+  
   const onChange = (imageList: any, addUpdateIndex: any, key: any, setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => void) => {
     const imageArray = getOnlyFile(imageList);
     const base64Array = getOnlyBase64(imageList);
@@ -110,21 +99,21 @@ function EntityCrudPage({
     //   ImageMeta(file.file) 
     // });
     ImageMeta(newArr)
-
+    
     setFieldValue(key, imageData)
     
     // data for submit
-    setImages({ ...images, [key]: imageList });
+    setImages({...images, [key]: imageList});
     setImageRootArr(base64Array);
-
+    
   };
-
+  
   function handleChangeTag(value: string, key?: string) {
     // const newTag: string[] = [...tagArr];
     // newTag.push(value);
     // setTagArr({ ...tagArr, [key]: newTag });
   }
- 
+  
   useEffect(() => {
     if (code) {
       get(code).then((res: { data: any }) => {
@@ -132,19 +121,18 @@ function EntityCrudPage({
       });
     }
   }, [code]);
-
+  
   return (
     <>
       <Formik
         enableReinitialize={true}
-        initialValues={entityForEdit || initForm}
-        // initialValues={initForm}
+        initialValues={entityForEdit ?? initForm}
         validationSchema={validation}
         onSubmit={values => {
           console.log(values);
           if (entityForEdit) {
             const updateValue = diff(entityForEdit, values);
-            onModify({ _id: values._id, ...updateValue });
+            onModify({_id: values._id, ...updateValue});
           } else {
             onModify({...values, imageData});
           }
@@ -165,25 +153,25 @@ function EntityCrudPage({
           // }
           history.push(GetHomePage(window.location.pathname));
         }}>
-        {({ handleSubmit, setFieldValue }) => (
+        {({handleSubmit, setFieldValue}) => (
           <>
             <Form className="form form-label-right">
-              {Object.keys(formPart).map(key => (
+              {Object.keys(formPart).map((key, index,keys) => (
                 <Card key={key}>
-                  {formPart[key].header && (
-                    <CardHeader
-                      title={
-                        <>
-                          <a onClick={() => history.goBack()}>
-                            <ArrowBackIosIcon />
-                          </a>
-                          {entityForEdit
-                            ? `CHỈNH SỬA ${formPart[key].header}`.toUpperCase()
-                            : `Tạo mới ${formPart[key].header}`.toUpperCase()}
-                        </>
-                      }
+                    <CardHeader className={'border-bottom-0'}
+                                title={index == 0 ? (
+                                  <a onClick={() => history.goBack()}
+                                     className={'cursor-pointer text-primary font-weight-boldest'}>
+                                    <ArrowBackIosIcon/>
+                                    {intl
+                                      .formatMessage({id: title}, {moduleName: intl.formatMessage({id: moduleName})})
+                                      .toUpperCase()}
+                                  </a>) : (
+                                  <>{intl.formatMessage(
+                                    {id: header},
+                                    {moduleName: intl.formatMessage({id: moduleName})})
+                                    .toUpperCase()}</>)}
                     />
-                  )}
                   <CardBody>
                     <ModifyEntityPage
                       images={images}
@@ -196,7 +184,7 @@ function EntityCrudPage({
                       handleChangeTag={handleChangeTag}
                     />
                   </CardBody>
-                  {key === Object.keys(formPart)[Object.keys(formPart).length - 1] && (
+                  {(index == keys.length - 1)&& (
                     <div className="text-right mb-5 mr-5" key={key}>
                       {Object.keys(allFormButton).map(keyss => {
                         switch (allFormButton[keyss].role) {
@@ -211,7 +199,7 @@ function EntityCrudPage({
                                 {allFormButton[keyss].icon} {allFormButton[keyss].label}
                               </button>
                             );
-
+                          
                           case 'button':
                             return (
                               <button
@@ -238,7 +226,7 @@ function EntityCrudPage({
                 </Card>
               ))}
             </Form>
-            {/* 
+            {/*
             <button type="submit" onClick={() => handleSubmit()} className="btn btn-primary mr-2">
               <SaveOutlinedIcon style={iconStyle} /> Lưu
             </button>

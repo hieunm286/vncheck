@@ -30,16 +30,15 @@ export const productPlanSearchModel1: SearchModel = {
     label: 'PRODUCTION_PLAN.PLANT_CODE',
   },
   species: {
-    type: 'SearchSelect',
+    type: 'search-select',
     label: 'PRODUCTION_PLAN.SPECIES_NAME',
     onSearch: SpeciesService.GetAll,
     keyField: 'name',
-    ref: true,
   },
   estimatedHarvestTime: {
-    type: 'Datetime',
-    customName: 'planting.estimatedHarvestTime',
-    label: <Fix title={'PRODUCTION_PLAN.HARVEST_DATE'} />,
+    type: 'date-time',
+    name: 'planting.estimatedHarvestTime',
+    label: <Fix title={'PRODUCTION_PLAN.HARVEST_DATE'}/>,
   },
 };
 
@@ -63,16 +62,15 @@ export const productPlanSearchModel2: SearchModel = {
     keyField: 'growCode',
   },
   species: {
-    type: 'SearchSelect',
+    type: 'search-select',
     label: 'PRODUCTION_PLAN.SPECIES_NAME',
     placeholder: 'PRODUCTION_PLAN.INPUT',
     onSearch: SpeciesService.GetAll,
     keyField: 'name',
-    ref: true,
   },
   estimatedHarvestTime: {
-    type: 'Datetime',
-    customName: 'planting.estimatedHarvestTime',
+    type: 'date-time',
+    name: 'planting.estimatedHarvestTime',
     label: 'PRODUCTION_PLAN.HARVEST_DATE',
     placeholder: 'PRODUCTION_PLAN.INPUT',
   },
@@ -124,7 +122,7 @@ export const modifyModel: any[] = [
             },
           },
           seedingTime: {
-            type: 'Datetime',
+            type: 'date-time',
             placeholder: 'PRODUCT_TYPE.MASTER.TABLE.BARCODE_COLUMN',
             required: true,
             label: 'Thời gian gieo',
@@ -162,7 +160,7 @@ export const modifyModel: any[] = [
             disabled: true,
           },
           estimatedPlantingTime: {
-            type: 'Datetime',
+            type: 'date-time',
             placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
             label: 'Thời gian trồng',
             disabled: true,
@@ -358,7 +356,7 @@ export const modifyModel3: any[] = [
         type: 'object',
         data: {
           estimatedHarvestTime: {
-            type: 'Datetime',
+            type: 'date-time',
             placeholder: '',
             label: 'Thời gian thu hoạch (dự kiến)',
             required: true,
@@ -414,7 +412,7 @@ export const modifyModel4: any[] = [
         type: 'object',
         data: {
           estimatedTime: {
-            type: 'Datetime',
+            type: 'date-time',
             placeholder: 'Mã gieo giống',
             label: 'Thời gian sơ chế (dự kiến)',
           },
@@ -457,7 +455,7 @@ export const modifyModel5: any[] = [
         type: 'object',
         data: {
           estimatedTime: {
-            type: 'Datetime',
+            type: 'date-time',
             placeholder: 'Mã gieo giống',
             label: 'Thời gian làm sạch (dự kiến)',
           },
@@ -502,17 +500,17 @@ export const modifyModel6: any[] = [
         type: 'object',
         data: {
           estimatedTime: {
-            type: 'Datetime',
+            type: 'date-time',
             placeholder: 'Mã gieo giống',
             label: 'Thời gian đóng gói (dự kiến)',
           },
           estimatedExpireTimeStart: {
-            type: 'Datetime',
+            type: 'date-time',
             placeholder: 'Hạn sử dụng',
             label: 'Hạn sử dụng bắt đầu (dự kiến)',
           },
           estimatedExpireTimeEnd: {
-            type: 'Datetime',
+            type: 'date-time',
             placeholder: 'Hạn sử dụng',
             label: 'Hạn sử dụng kết thúc (dự kiến)',
           },
@@ -525,7 +523,6 @@ export const modifyModel6: any[] = [
             rootField: 'seeding',
             fillField: 'packing',
             display: 'weight',
-            ref: true,
           },
         },
       },
@@ -566,12 +563,12 @@ export const modifyModel7: any[] = [
         type: 'object',
         data: {
           estimatedStartTime: {
-            type: 'Datetime',
+            type: 'date-time',
             placeholder: 'Mã gieo giống',
             label: 'Thời gian bắt đầu bảo quản (dự kiến)',
           },
           estimatedEndTime: {
-            type: 'Datetime',
+            type: 'date-time',
             placeholder: 'Mã gieo giống',
             label: 'Thời gian kết thúc bảo quản (dự kiến)',
           },

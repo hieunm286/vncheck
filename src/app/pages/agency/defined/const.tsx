@@ -27,36 +27,29 @@ export const agencySearchModel: SearchModel = {
     keyField: 'name'
   }, 
   storeLevel: {
-    type: 'TreeSelect',
+    type: 'tree-select',
     placeholder: 'AGENCY.EDIT.PLACEHOLDER.SELL_GOOD_LEVEL',
     label: 'AGENCY.EDIT.LABEL.SELL_GOOD_LEVEL',
     keyField: 'name'
-  }, 
+  },
   state: {
     type: 'string',
     placeholder: 'AGENCY.EDIT.PLACEHOLDER.STATE',
     label: 'AGENCY.EDIT.LABEL.STATE',
-    customName: 'address.state',
+    name: 'address.state',
   },
   city: {
     type: 'string',
     placeholder: 'AGENCY.EDIT.PLACEHOLDER.CITY',
     label: 'AGENCY.EDIT.LABEL.CITY',
-    customName: 'address.city',
+    name: 'address.city',
   },
   district: {
     type: 'string',
     placeholder: 'AGENCY.EDIT.PLACEHOLDER.DISTRICT',
     label: 'AGENCY.EDIT.LABEL.DISTRICT',
-    customName: 'address.district',
+    name: 'address.district',
   }
-  // address: {
-  //   type: 'nested',
-  //   data: {
-      
-  //   }
-  // }, 
-  
 };
 
 

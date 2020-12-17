@@ -19,9 +19,9 @@ export const convertToForm = (entity: any) => {
     defaultShippingAddress: getShippingAddress(entity.shippingAddress.find((addr: any) => {return addr.isDefault === true})),
     // avatar: , 
     avatar: entity.owner.image || {},
-    image: entity.images || [],
+    image: entity.value || [],
   };
-  delete _entity.images
+  delete _entity.value
   return _entity;
 }
 
