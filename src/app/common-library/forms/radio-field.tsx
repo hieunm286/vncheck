@@ -144,7 +144,8 @@ export function RadioField({
             //   {...field}
             // />
             <React.Fragment>
-            <RadioGroup name={name} value={values.gender} onChange={(e: any) => handleGenderChange(e)} {...props} {...field}>
+            <RadioGroup name={name} value={values.gender} onChange={(e: any) => handleGenderChange(e)} {...props} {...field} 
+              className={(errors[field.name] && touched[field.name]) ? 'is-invalid' : ''}>
                 <div className="row no-gutters">
                   <FormControlLabel name={name} value="1" control={<StyledRadio />} label={intl.formatMessage({id: 'AGENCY.EDIT.LABEL.OWNER_GENDER_MALE'})} />
                   <FormControlLabel name={name} value="0" control={<StyledRadio />} label={intl.formatMessage({id: 'AGENCY.EDIT.LABEL.OWNER_GENDER_FEMALE'})} />
@@ -152,9 +153,11 @@ export function RadioField({
             </RadioGroup>
             </React.Fragment>
           }
-      {/* {touched[field.name] && errors[field.name] && (
-        <React.Fragment>{errors[field.name]}</React.Fragment>
-      )} */}
+          {/* {touched[field.name] && errors[field.name] && (
+            <div className="invalid-feedback">
+              {errors[field.name]}
+            </div>
+          )} */}
           
 
           {withFeedbackLabel && (

@@ -132,8 +132,11 @@ export function DatePickerField({...props}: any) {
   return (
     <>
       <div className={props.isHorizontal && 'row'}>
-        <div className={props.isHorizontal && getClassName(props.labelWidth, true) + ' mt-2'}>
-          {props.label && <label>{props.label}</label>} {props.required && <span className="text-danger">*</span>}
+        <div className={props.isHorizontal && getClassName(props.labelWidth, true)}>
+          {props.label && 
+          <label className={props.isHorizontal ? 'mb-0 input-label mt-2' : ''}>{props.label}
+            {props.required ? <span className="text-danger"> *</span> : <></>}
+          </label>}
         </div>
         <div className={props.isHorizontal && getClassName(props.labelWidth, false)}>
           <DatePicker picker="date"

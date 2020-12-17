@@ -189,17 +189,18 @@ function ModifyEntityPage<T>({
                   />
                 </div>
               );
-            case 'radioGroup':
-              const _shippingAddresses = values['shippingAddress'];
-              return _shippingAddresses ? (
-                <FormikRadioGroup
-                  ariaLabel="defaultShippingAddress"
-                  name="defaultShippingAddress"
-                  addresses={_shippingAddresses}
-                />
-              ) : (
-                <></>
-              );
+            // case 'radioGroup':
+            //   const _shippingAddresses = values['shippingAddress'];
+            //   return _shippingAddresses ? (
+            //     <FormikRadioGroup
+            //       ariaLabel="defaultShippingAddress"
+            //       name="defaultShippingAddress"
+            //       addresses={_shippingAddresses}
+
+            //     />
+            //   ) : (
+            //     <></>
+            //   );
             case 'image':
               console.log(images.barcode)
               console.log(images.images)

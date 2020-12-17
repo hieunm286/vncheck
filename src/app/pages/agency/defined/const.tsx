@@ -66,10 +66,10 @@ export const agencySchema = Yup.object<AgencyModel>().shape({
   // agencyAddress: Yup.string().required('Vui lòng nhập tên đơn vị'),
   // phoneNumber: Yup.string().required('Vui lòng nhập số điện thoại'),
 
-  code: Yup.string()
-    .required(intl.formatMessage({id: 'AGENCY.VALIDATION.AGENCY_CODE.REQUIRED'}))
-    // .max(255, intl.formatMessage({id: 'AGENCY.VALIDATION.AGENCY_CODE.MAX_LENGTH_EXCEEDED'}))
-    ,
+  // code: Yup.string()
+  //   .required(intl.formatMessage({id: 'AGENCY.VALIDATION.AGENCY_CODE.REQUIRED'}))
+  //   // .max(255, intl.formatMessage({id: 'AGENCY.VALIDATION.AGENCY_CODE.MAX_LENGTH_EXCEEDED'}))
+  //   ,
   name: Yup.string()
     .required(intl.formatMessage({id: 'AGENCY.VALIDATION.AGENCY_NAME.REQUIRED'}))
     .max(255, intl.formatMessage({id: 'AGENCY.VALIDATION.AGENCY_NAME.MAX_LENGTH_EXCEEDED'})),
@@ -93,11 +93,12 @@ export const agencySchema = Yup.object<AgencyModel>().shape({
     .required(intl.formatMessage({id: 'AGENCY.VALIDATION.PHONE_NUMBER.REQUIRED'})),
   taxId: Yup.string()
     .required(intl.formatMessage({id: 'AGENCY.VALIDATION.TAX_ID.REQUIRED'}))
+    .matches(/[0-9]*/, intl.formatMessage({id: 'AGENCY.VALIDATION.TAX_ID.NUMBER_ONLY'}))
     .max(100, intl.formatMessage({id: 'AGENCY.VALIDATION.TAX_ID.MAX_LENGTH_EXCEEDED'})),
-  image: Yup.array()
-    .nullable()
-    .required(intl.formatMessage({id: 'AGENCY.VALIDATION.AGENCY_IMAGE.REQUIRED'}))
-    .test('is-correct-file', intl.formatMessage({id: 'AGENCY.VALIDATION.AGENCY_IMAGE.REQUIRED'}), (files: any) => {return checkIfFilesAreCorrectType(files)}),
+  // image: Yup.array()
+  //   .nullable()
+  //   .required(intl.formatMessage({id: 'AGENCY.VALIDATION.AGENCY_IMAGE.REQUIRED'}))
+  //   .test('is-correct-file', intl.formatMessage({id: 'AGENCY.VALIDATION.AGENCY_IMAGE.REQUIRED'}), (files: any) => {return checkIfFilesAreCorrectType(files)}),
 
 
   username: Yup.string()
@@ -113,18 +114,20 @@ export const agencySchema = Yup.object<AgencyModel>().shape({
   email: Yup.string()
     .required(intl.formatMessage({id: 'AGENCY.VALIDATION.EMAIL.REQUIRED'}))
     .max(255, intl.formatMessage({id: 'AGENCY.VALIDATION.EMAIL.MAX_LENGTH_EXCEEDED'})),
-  // gender: Yup.string()
-  //   .required(intl.formatMessage({id: 'AGENCY.VALIDATION.GENDER.REQUIRED'})),
+  gender: Yup.string()
+    .matches(/[01]/, intl.formatMessage({id: 'AGENCY.VALIDATION.GENDER.REQUIRED'}))
+    .required(intl.formatMessage({id: 'AGENCY.VALIDATION.GENDER.REQUIRED'}))
+    .nullable(),
   birthDay: Yup.date()
     .required(intl.formatMessage({id: 'AGENCY.VALIDATION.BIRTHDAY.REQUIRED'}))
     .nullable(),
   roleName: Yup.string()
     .required(intl.formatMessage({id: 'AGENCY.VALIDATION.ROLE_NAME.REQUIRED'}))
     .nullable(),
-  avatar: Yup.array()
-    .nullable()
-    .required(intl.formatMessage({id: 'AGENCY.VALIDATION.AVATAR.REQUIRED'}))
-    .test('is-correct-file', intl.formatMessage({id: 'AGENCY.VALIDATION.AVATAR.REQUIRED'}), (files: any) => {return checkIfFilesAreCorrectType(files)}),
+  // avatar: Yup.array()
+  //   .nullable()
+  //   .required(intl.formatMessage({id: 'AGENCY.VALIDATION.AVATAR.REQUIRED'}))
+  //   .test('is-correct-file', intl.formatMessage({id: 'AGENCY.VALIDATION.AVATAR.REQUIRED'}), (files: any) => {return checkIfFilesAreCorrectType(files)}),
 });
 
 function checkIfFilesAreCorrectType(files: any): boolean {
