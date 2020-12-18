@@ -200,6 +200,7 @@ function AgencyPage() {
           type: 'string',
           placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.AGENCY_NAME' }),
           label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.AGENCY_NAME' }),
+          required: true,
         },
         // storeLevel: {
         //   type: 'SearchSelect',
@@ -238,6 +239,7 @@ function AgencyPage() {
           type: 'string',
           placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.AGENCY_ADDRESS' }),
           label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.AGENCY_ADDRESS' }),
+          required: true,
         },
         status: {
           type: 'boolean',
@@ -248,11 +250,13 @@ function AgencyPage() {
           type: 'string',
           placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
           label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
+          required: true,
         },
         taxId: {
           type: 'string',
           placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.TAX_ID' }),
           label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.TAX_ID' }),
+          required: true,
         },
         image: {
           type: 'image',
@@ -274,21 +278,25 @@ function AgencyPage() {
           placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.USERNAME' }),
           label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.USERNAME' }),
           disabled: !!editEntity,
+          required: true,
         },
         ownerName: {
           type: 'string',
           placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.NAME' }),
           label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.NAME' }),
+          required: true,
         },
         ownerPhoneNumber: {
           type: 'string',
           placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.OWNER_PHONE' }),
           label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.OWNER_PHONE' }),
+          required: true,
         },
         email: {
           type: 'string',
           placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.EMAIL' }),
           label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.EMAIL' }),
+          required: true,
         },
         gender: {
           type: 'option',

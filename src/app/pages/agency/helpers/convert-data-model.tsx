@@ -109,6 +109,8 @@ export const convertToServer = (entity: any) => {
   if(_entity.images.length === 0) delete _entity.images;
   if(_entity.owner.avatar.length === 0) delete _entity.owner.avatar;
 
+  delete _entity.code;
+  
   delete _entity.avatar;
   delete _entity.image;
   delete _entity.state;
