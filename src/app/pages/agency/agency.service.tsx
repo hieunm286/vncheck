@@ -12,6 +12,7 @@ import {
 import { AgencyModel } from './agency.model';
 
 export const API_URL = API_BASE_URL + '/agency';
+export const API_IMAGE_URL = 'http://localhost:2999';
 
 export const Create: CreateProps<AgencyModel> = (data: AgencyModel) => {
   return axios.post(API_URL, data);
@@ -73,3 +74,11 @@ export const DeleteMany: DeleteManyProps<AgencyModel> = (entities: AgencyModel[]
     data: { listAgencies: entities },
   });
 };
+
+export const GetImage = (imagePath: string) => {
+  const headers = {
+    'Access-Control-Allow-Origin': '*',
+    'Accept': '*/*'
+	}
+  return axios.get(`${API_IMAGE_URL}/${imagePath}`, {headers: headers, responseType: 'arraybuffer'});
+}

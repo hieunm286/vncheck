@@ -75,6 +75,7 @@ function CustomeTreeSelect(
     isHorizontal,
     labelWidth,
     width,
+    required,
     ...props }
   : any) {  
   const styleLabe = {
@@ -88,7 +89,7 @@ function CustomeTreeSelect(
         <div className={isHorizontal && getClassName(labelWidth, true)}>
           {label && (
             <label style={width && styleLabe} className={isHorizontal && 'mb-0 input-label mt-2'}>
-              {label} {withFeedbackLabel && <span className="text-danger">*</span>}
+              {label} {required && <span className="text-danger">*</span>}
             </label>
           )}
         </div>

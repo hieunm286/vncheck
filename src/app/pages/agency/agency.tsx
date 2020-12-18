@@ -193,12 +193,14 @@ function AgencyPage() {
           type: 'string',
           placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.AGENCY_CODE' }),
           label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.AGENCY_CODE' }),
-          disabled: editEntity,
+          // disabled: editEntity,
+          disabled: true
         },
         name: {
           type: 'string',
           placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.AGENCY_NAME' }),
           label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.AGENCY_NAME' }),
+          required: true,
         },
         // storeLevel: {
         //   type: 'SearchSelect',
@@ -213,26 +215,31 @@ function AgencyPage() {
           label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.SELL_GOOD_LEVEL' }), 
           service: StoreLevelService,
           keyField: 'name',
+          required: true,
         },
         state: {
           type: 'stateSelect',
           placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.STATE' }),
           label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.STATE' }), 
+          required: true,
         },
         city: {
           type: 'citySelect',
           placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.CITY' }),
           label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.CITY' }), 
+          required: true,
         },
         district: {
           type: 'districtSelect',
           placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.DISTRICT' }),
           label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.DISTRICT' }), 
+          required: true,
         },
         detailAddress: {
           type: 'string',
           placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.AGENCY_ADDRESS' }),
           label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.AGENCY_ADDRESS' }),
+          required: true,
         },
         status: {
           type: 'boolean',
@@ -243,11 +250,13 @@ function AgencyPage() {
           type: 'string',
           placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
           label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
+          required: true,
         },
         taxId: {
           type: 'string',
           placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.TAX_ID' }),
           label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.TAX_ID' }),
+          required: true,
         },
         image: {
           type: 'image',
@@ -269,38 +278,45 @@ function AgencyPage() {
           placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.USERNAME' }),
           label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.USERNAME' }),
           disabled: !!editEntity,
+          required: true,
         },
         ownerName: {
           type: 'string',
           placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.NAME' }),
           label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.NAME' }),
+          required: true,
         },
         ownerPhoneNumber: {
           type: 'string',
           placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.OWNER_PHONE' }),
           label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.OWNER_PHONE' }),
+          required: true,
         },
         email: {
           type: 'string',
           placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.EMAIL' }),
           label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.EMAIL' }),
+          required: true,
         },
         gender: {
           type: 'option',
           placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.GENDER' }),
           label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.GENDER' }),
+          required: true,
         },
         birthDay: {
           type: 'Datetime',
           placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.BIRTH_DAY' }),
           label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.BIRTH_DAY' }),
+          required: true,
         },
         roleName: {
           type: 'SearchSelect',
           placeholder: 'AGENCY.EDIT.PLACEHOLDER.ROLE_NAME',
           label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.ROLE_NAME' }),
           service: RoleService,
-          keyField: 'name'
+          keyField: 'name',
+          required: true,
         },
         avatar: {
           type: 'image',
@@ -317,11 +333,11 @@ function AgencyPage() {
           placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
           label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
         },
-        defaultShippingAddress: {
-          type: 'display',
-          placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.DEFAULT_SHIPPING_ADDRESS' }),
-          label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.DEFAULT_SHIPPING_ADDRESS' }),
-        }
+        // defaultShippingAddress: {
+        //   type: 'display',
+        //   placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.DEFAULT_SHIPPING_ADDRESS' }),
+        //   label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.DEFAULT_SHIPPING_ADDRESS' }),
+        // }
       }
     }
   ];
@@ -330,7 +346,8 @@ function AgencyPage() {
     form_1: {
       // title: 'Thông tin đơn vị bán hàng',
       modifyModel: modifyModel,
-      // header: 'THÔNG TIN ĐƠN VỊ BÁN HÀNG',
+      editHeader: 'CHỈNH SỬA THÔNG TIN ĐƠN VỊ BÁN HÀNG',
+      createHeader: 'TẠO ĐƠN VỊ BÁN HÀNG MỚI',
     },
     // form_2: {
     //   title: 'Thông tin quản trị',
@@ -393,6 +410,7 @@ function AgencyPage() {
   }
 
   const [treeData, setTreeData] = useState<any>();
+  const [treeSelectValue, setTreeSelectValue] = useState<any>();
   
   const treeLoadOptions = async (getAll: (t:any)=> any) => {
     const queryProps: any = {};
@@ -413,6 +431,10 @@ function AgencyPage() {
       });
   }, []);
   
+  const customResetForm = (setTreeSelectValue: any) => {
+    console.log('hi')
+    setTreeSelectValue('hoho');
+  }
 
   return (
     <Fragment>
@@ -455,9 +477,12 @@ function AgencyPage() {
             onReset={() => {
               setPaginationProps(DefaultPagination)
               setFilterProps({})
+              setTreeSelectValue(null);
             }}
             searchModel={agencySearchModel}
             treeData={treeData}
+            treeSelectValue={treeSelectValue}
+            setTreeSelectValue={setTreeSelectValue}
             initValue={{
               code: '',
               lot: '',

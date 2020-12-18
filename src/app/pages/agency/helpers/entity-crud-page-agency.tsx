@@ -80,12 +80,29 @@ function EntityCrudPageAgency({
       get(code).then((res: { data: any }) => {
         const entity = convertToForm(res.data);
         setEntityForEdit(ConvertStatusToBoolean(entity));
+        if(entity.image && entity.avatar) {
+          setImages({image: entity.image, avatar: entity.avatar})
+        }
       });
     }
   }, [code]);
 
   const handleModify = (values: any) => {
-    onModify(values)
+    const _values = {
+      ...values,
+      shippingAddress: values.shippingAddress.map((addr: any) => {
+        const _addr = addr;
+        delete _addr._id;
+        return _addr;
+      }),
+      avatar: values.avatar.filter((image: any) => {
+        return image.data_url;
+      }),
+      image: values.image.filter((image: any) => {
+        return image.data_url;
+      })
+    }
+    onModify(_values)
       .then(crudSuccess)
       .catch((error: any) => crudFail(error))
     
@@ -122,14 +139,14 @@ function EntityCrudPageAgency({
             <Form className="form form-label-right">
               {Object.keys(formParts).map(key => (
                 <Card key={key}>
-                  {formParts[key].header && (
+                  {formParts[key].createHeader && formParts[key].editHeader && (
                     <CardHeader
                       title={
                         <>
                           <a onClick={() => history.goBack()}>
                             <ArrowBackIosIcon />
                           </a>
-                          {entityForEdit ? `CHỈNH SỬA ${formParts[key].header}` : `THÊM MỚI ${formParts[key].header}`}
+                          {(entityForEdit && entityForEdit.code) ? `${formParts[key].editHeader}` : `${formParts[key].createHeader}`}
                         </>
                       }
                     />

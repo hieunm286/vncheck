@@ -29,7 +29,9 @@ export function MasterHeader<T>({
                                   searchSelectOnChange,
                                   customSearchSelectLoadOption,
                                   onReset,
-                                  treeData
+                                  treeData,
+                                  treeSelectValue,
+                                  setTreeSelectValue,
                                 }: {
   searchModel: SearchModel;
   title: string;
@@ -37,6 +39,8 @@ export function MasterHeader<T>({
   onSearch: (data: any) => void;
   onReset?: (data?: any) => void;
   treeData?: any;
+  treeSelectValue?: any;
+  setTreeSelectValue?: any;
   stringOnChange?: (
     e: ChangeEvent<HTMLInputElement>,
     searchM: any,
@@ -138,7 +142,7 @@ export function MasterHeader<T>({
   const [cityValues, setCityValues] = useState<any>();
   const [districtValues, setDistrictValues] = useState<any>();
   
-  const [treeSelectValue, setTreeSelectValue] = useState<any>();
+
   
   const loadOptions = async (
     search: string,
@@ -329,7 +333,7 @@ export function MasterHeader<T>({
                               placeholder={intl.formatMessage({id: searchM[key].placeholder})}
                               data={treeData || []}
                               value={treeSelectValue}
-                              onChange={(value: any) => setSearch({...search, [key]: value})}
+                              onChange={(value: any) => {setSearch({...search, [key]: value}); setTreeSelectValue(value) }}
                               name={name}
                             />
                           </div>
