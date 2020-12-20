@@ -131,8 +131,6 @@ function MultilevelSale() {
     setShowDetail,
     showDeleteMany,
     setShowDeleteMany,
-    trigger,
-    setTrigger,
     paginationProps,
     setPaginationProps,
     filterProps,
@@ -174,7 +172,7 @@ function MultilevelSale() {
 
   useEffect(() => {
     getAll(filterProps);
-  }, [trigger, filterProps]);
+  }, [ filterProps]);
 
   useEffect(() => {
     setAgencyLoading(true)

@@ -344,7 +344,6 @@ export function InitMasterProps<T>({
   const [showCreate, setShowCreate] = useState(false);
   const [showDetail, setShowDetail] = useState(false);
   const [showDeleteMany, setShowDeleteMany] = useState(false);
-  const [trigger, setTrigger] = useState(false);
   const [paginationProps, setPaginationProps] = useState(DefaultPagination);
   const [filterProps, setFilterProps] = useState({});
   const [total, setTotal] = useState(0);
@@ -411,7 +410,6 @@ export function InitMasterProps<T>({
   
   const refreshData = useCallback(() => {
     // setPaginationProps({ ...paginationProps, page: 1 });
-    setTrigger(!trigger);
     setShowDelete(false);
     setShowDetail(false);
     setShowEdit(false);
@@ -483,7 +481,6 @@ export function InitMasterProps<T>({
       .catch(error => {
         setError({error: error.message || error.response.data || JSON.stringify(error)});
         setLoading(false);
-        notifySuccess();
         throw error;
       });
   }, []);
@@ -526,8 +523,6 @@ export function InitMasterProps<T>({
     setShowDetail,
     showDeleteMany,
     setShowDeleteMany,
-    trigger,
-    setTrigger,
     paginationProps,
     setPaginationProps,
     filterProps,

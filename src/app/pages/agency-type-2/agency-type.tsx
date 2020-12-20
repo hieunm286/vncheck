@@ -48,8 +48,6 @@ function AgencyType() {
     setShowDetail,
     showDeleteMany,
     setShowDeleteMany,
-    trigger,
-    setTrigger,
     paginationProps,
     setPaginationProps,
     filterProps,
@@ -71,7 +69,7 @@ function AgencyType() {
 
   useEffect(() => {
     getAll(filterProps);
-  }, [paginationProps, trigger, filterProps]);
+  }, [paginationProps, filterProps]);
 
 
   console.log(entities);

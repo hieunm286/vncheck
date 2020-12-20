@@ -56,8 +56,6 @@ function ShippingAgency() {
     setShowDetail,
     showDeleteMany,
     setShowDeleteMany,
-    trigger,
-    setTrigger,
     paginationProps,
     setPaginationProps,
     filterProps,
@@ -87,7 +85,7 @@ function ShippingAgency() {
   
   useEffect(() => {
     getAll(filterProps);
-  }, [paginationProps, trigger, filterProps, getAll]);
+  }, [paginationProps, filterProps, getAll]);
   
   const columns = useMemo(() => {
     return {

@@ -67,8 +67,6 @@ function AgencyPage() {
     setShowDetail,
     showDeleteMany,
     setShowDeleteMany,
-    trigger,
-    setTrigger,
     paginationProps,
     setPaginationProps,
     filterProps,
@@ -94,7 +92,7 @@ function AgencyPage() {
     getAll(filterProps);
     // setEntities(mock_entities);
     // setEntities([{}]);
-  }, [paginationProps, trigger, filterProps]);
+  }, [paginationProps, filterProps]);
 
   const history = useHistory();
 

@@ -13,7 +13,6 @@ function ModifyEntityDialog<T>({
                                  moduleName = 'COMMON_COMPONENT.DETAIL_DIALOG.MODULE_NAME',
                                  formPart,
                                  validation,
-                                 autoFill,
                                  allFormField
                                }: {
   title: string;
@@ -29,14 +28,10 @@ function ModifyEntityDialog<T>({
   size?: 'sm' | 'lg';
   allFormButton?: any;
   validation?: any;
-  autoFill?: any;
   homePage?: string;
   error?: { error: string };
 }) {
   const intl = useIntl();
-  const initForm = autoFill
-    ? generateInitForm(allFormField, autoFill.field, autoFill.data)
-    : generateInitForm(allFormField);
   return (
     <Modal
       size={size}
@@ -56,7 +51,7 @@ function ModifyEntityDialog<T>({
       <ModifyEntityDialogForm
         modifyForm={formPart}
         validation={validation}
-        entity={entity || initForm}
+        entity={entity}
         onHide={onHide}
         onModify={onModify}
       />

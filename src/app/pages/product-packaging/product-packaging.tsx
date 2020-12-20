@@ -68,8 +68,6 @@ function ProductPackaging() {
     setShowDetail,
     showDeleteMany,
     setShowDeleteMany,
-    trigger,
-    setTrigger,
     paginationProps,
     setPaginationProps,
     filterProps,
@@ -99,7 +97,7 @@ function ProductPackaging() {
 
   useEffect(() => {
     getAll(filterProps);
-  }, [paginationProps, trigger, filterProps]);
+  }, [paginationProps, filterProps]);
 
   const columns = {
     code: {
