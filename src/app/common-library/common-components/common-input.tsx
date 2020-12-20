@@ -1,15 +1,15 @@
-import {useIntl} from 'react-intl';
-import {DefaultPagination} from '../common-consts/const';
-import {Field} from 'formik';
-import {MainInput} from '../forms/main-input';
-import {DatePickerField} from '../forms/date-picker-field';
+import { useIntl } from 'react-intl';
+import { DefaultPagination } from '../common-consts/const';
+import { Field } from 'formik';
+import { MainInput } from '../forms/main-input';
+import { DatePickerField } from '../forms/date-picker-field';
 import CustomImageUpload from '../forms/custom-image-upload';
-import {SwitchField} from '../forms/switch-field';
-import {InfiniteSelect} from '../forms/infinite-select';
+import { SwitchField } from '../forms/switch-field';
+import { InfiniteSelect } from '../forms/infinite-select';
 import TagInput from '../forms/tag-input';
-import React, {ReactElement, useCallback, useMemo} from 'react';
+import React, { ReactElement, useCallback, useMemo } from 'react';
 import _ from 'lodash';
-import {InfiniteSelectV2} from '../forms/infinite-select-v2';
+import { InfiniteSelectV2 } from '../forms/infinite-select-v2';
 
 const DefaultPlaceholder = {
   string: 'COMMON_COMPONENT.INPUT.PLACEHOLDER',
@@ -23,147 +23,155 @@ const DefaultPlaceholder = {
 };
 
 export type InputStringType = {
-  name: string,
-  className?: string,
-  label: string | ReactElement,
+  name: string;
+  className?: string;
+  label: string | ReactElement;
   required?: boolean | ((values: any) => boolean);
   disabled?: boolean | ((values: any) => boolean);
-  
-  mode?: 'horizontal' | 'vertical',
-  placeholder?: string, [X: string]: any
-}
-export type InputNumberType = {
-  name: string,
-  className?: string,
-  label: string | ReactElement,
-  required?: boolean | ((values: any) => boolean);
-  disabled?: boolean | ((values: any) => boolean);
-  mode?: 'horizontal' | 'vertical',
-  placeholder?: string, [X: string]: any
-}
-export type InputDateTimeType = {
-  name: string,
-  label: string | ReactElement,
-  className?: string,
-  required?: boolean | ((values: any) => boolean);
-  disabled?: boolean | ((values: any) => boolean);
-  mode?: 'horizontal' | 'vertical',
-  placeholder?: string, [X: string]: any
-}
-export type InputBooleanType = {
-  name: string,
-  label: string | ReactElement,
-  className?: string,
-  required?: boolean | ((values: any) => boolean);
-  disabled?: boolean | ((values: any) => boolean);
-  mode?: 'horizontal' | 'vertical',
-  placeholder?: string, [X: string]: any
-}
-export type InputSearchSelectType = {
-  name: string,
-  label: string | ReactElement,
-  onSearch: (searchQueryObject: any) => any,
-  keyField?: string,
-  selectField?: string,
-  onDisplayOptions?: (props: any) => ReactElement
-  required?: boolean | ((values: any) => boolean);
-  disabled?: boolean | ((values: any) => boolean);
-  mode?: 'horizontal' | 'vertical',
-  placeholder?: string, [X: string]: any
-}
-export type InputTagType = {
-  name: string,
-  label: string | ReactElement,
-  required?: boolean | ((values: any) => boolean);
-  disabled?: boolean | ((values: any) => boolean);
-  mode?: 'horizontal' | 'vertical',
-  placeholder?: string, [X: string]: any
-}
-export type InputImageType = {
-  name: string,
-  value: any,
-  label: string | ReactElement,
-  required?: boolean | ((values: any) => boolean);
-  disabled?: boolean | ((values: any) => boolean);
-  mode?: 'horizontal' | 'vertical',
-  [X: string]: any
-}
-export const InputNumber = ({label, placeholder, className, ...props}: InputNumberType) => {
-  const intl = useIntl();
-  return (
-    <div className={className}>
-      <Field {...props}
-             component={MainInput}
-             placeholder={intl.formatMessage({id: placeholder ?? DefaultPlaceholder.number})}
-             label={_.isString(label) ? intl.formatMessage({id: label}) : label}
-             type='number'
-             {...props}
-      />
-    </div>
-  )
-}
 
-export const InputString = ({label, placeholder, className, ...props}: InputStringType) => {
+  mode?: 'horizontal' | 'vertical';
+  placeholder?: string;
+  [X: string]: any;
+};
+export type InputNumberType = {
+  name: string;
+  className?: string;
+  label: string | ReactElement;
+  required?: boolean | ((values: any) => boolean);
+  disabled?: boolean | ((values: any) => boolean);
+  mode?: 'horizontal' | 'vertical';
+  placeholder?: string;
+  [X: string]: any;
+};
+export type InputDateTimeType = {
+  name: string;
+  label: string | ReactElement;
+  className?: string;
+  required?: boolean | ((values: any) => boolean);
+  disabled?: boolean | ((values: any) => boolean);
+  mode?: 'horizontal' | 'vertical';
+  placeholder?: string;
+  [X: string]: any;
+};
+export type InputBooleanType = {
+  name: string;
+  label: string | ReactElement;
+  className?: string;
+  required?: boolean | ((values: any) => boolean);
+  disabled?: boolean | ((values: any) => boolean);
+  mode?: 'horizontal' | 'vertical';
+  placeholder?: string;
+  [X: string]: any;
+};
+export type InputSearchSelectType = {
+  name: string;
+  label: string | ReactElement;
+  onSearch: (searchQueryObject: any) => any;
+  keyField?: string;
+  selectField?: string;
+  onDisplayOptions?: (props: any) => ReactElement;
+  required?: boolean | ((values: any) => boolean);
+  disabled?: boolean | ((values: any) => boolean);
+  mode?: 'horizontal' | 'vertical';
+  placeholder?: string;
+  [X: string]: any;
+};
+export type InputTagType = {
+  name: string;
+  label: string | ReactElement;
+  required?: boolean | ((values: any) => boolean);
+  disabled?: boolean | ((values: any) => boolean);
+  mode?: 'horizontal' | 'vertical';
+  placeholder?: string;
+  [X: string]: any;
+};
+export type InputImageType = {
+  name: string;
+  value: any;
+  label: string | ReactElement;
+  required?: boolean | ((values: any) => boolean);
+  disabled?: boolean | ((values: any) => boolean);
+  mode?: 'horizontal' | 'vertical';
+  [X: string]: any;
+};
+export const InputNumber = ({ label, placeholder, className, ...props }: InputNumberType) => {
   const intl = useIntl();
   return (
     <div className={className}>
       <Field
         {...props}
         component={MainInput}
-        placeholder={intl.formatMessage({id: placeholder ?? DefaultPlaceholder.string})}
-        label={_.isString(label) ? intl.formatMessage({id: label}) : label}
+        placeholder={intl.formatMessage({ id: placeholder ?? DefaultPlaceholder.number })}
+        label={_.isString(label) ? intl.formatMessage({ id: label }) : label}
+        type="number"
+        {...props}
+      />
+    </div>
+  );
+};
+
+export const InputString = ({ label, placeholder, className, ...props }: InputStringType) => {
+  const intl = useIntl();
+  return (
+    <div className={className}>
+      <Field
+        {...props}
+        component={MainInput}
+        placeholder={intl.formatMessage({ id: placeholder ?? DefaultPlaceholder.string })}
+        label={_.isString(label) ? intl.formatMessage({ id: label }) : label}
         type={'text'}
       />
     </div>
   );
 };
 
-
-export const InputDateTime = ({label, placeholder, className, ...props}: InputDateTimeType) => {
+export const InputDateTime = ({ label, placeholder, className, ...props }: InputDateTimeType) => {
   const intl = useIntl();
   return (
     <div className={className}>
       <DatePickerField
         {...props}
-        placeholder={intl.formatMessage({id: placeholder ?? DefaultPlaceholder['date-time']})}
-        label={_.isString(label) ? intl.formatMessage({id: label}) : label}
+        placeholder={intl.formatMessage({ id: placeholder ?? DefaultPlaceholder['date-time'] })}
+        label={_.isString(label) ? intl.formatMessage({ id: label }) : label}
       />
     </div>
   );
 };
 
-export const InputBoolean = ({label, placeholder, className, ...props}: InputBooleanType) => {
+export const InputBoolean = ({ label, placeholder, className, ...props }: InputBooleanType) => {
   const intl = useIntl();
   return (
     <div className={className}>
       <Field
         {...props}
         component={SwitchField}
-        placeholder={intl.formatMessage({id: placeholder ?? DefaultPlaceholder.boolean})}
-        label={_.isString(label) ? intl.formatMessage({id: label}) : label}
+        placeholder={intl.formatMessage({ id: placeholder ?? DefaultPlaceholder.boolean })}
+        label={_.isString(label) ? intl.formatMessage({ id: label }) : label}
       />
     </div>
   );
-}
-export const InputImage = ({label, className, ...props}: InputImageType) => {
+};
+export const InputImage = ({ label, className, value, ...props }: InputImageType) => {
   const intl = useIntl();
+  console.log(value)
   return (
     <div className={className}>
-      {/*<CustomImageUpload*/}
-      {/*  {...props}*/}
-      {/*  label={_.isString(label) ? intl.formatMessage({id: label}) : label}*/}
-      {/*/>*/}
+      <CustomImageUpload
+        value={value}
+        {...props}
+        label={_.isString(label) ? intl.formatMessage({ id: label }) : label}
+      />
     </div>
   );
-}
-export const InputTag = ({label, placeholder, className, ...props}: InputTagType) => {
+};
+export const InputTag = ({ label, placeholder, className, ...props }: InputTagType) => {
   const intl = useIntl();
   return (
     <div className={className}>
       <TagInput
         {...props}
-        label={_.isString(label) ? intl.formatMessage({id: label}) : label}
-        placeholder={intl.formatMessage({id: placeholder ?? DefaultPlaceholder.boolean})}
+        label={_.isString(label) ? intl.formatMessage({ id: label }) : label}
+        placeholder={intl.formatMessage({ id: placeholder ?? DefaultPlaceholder.boolean })}
         // handleChange={handleChangeTag}
         data={[]}
         tagData={[]}
@@ -173,19 +181,31 @@ export const InputTag = ({label, placeholder, className, ...props}: InputTagType
 };
 
 export const InputSearchSelect = ({
-                                    name,
-                                    label, placeholder, onSearch, keyField,
-                                    onDisplayOptions, className, selectField, ...props
-                                  }: InputSearchSelectType) => {
+  name,
+  label,
+  placeholder,
+  onSearch,
+  keyField,
+  onDisplayOptions,
+  className,
+  selectField,
+  ...props
+}: InputSearchSelectType) => {
   const intl = useIntl();
-  const loadOptions = useCallback(async (search: string, prevOptions: any, {page}: any) => {
+  const loadOptions = useCallback(async (search: string, prevOptions: any, { page }: any) => {
     const queryProps: any = {};
-    queryProps[name] = search;
+    if (keyField) {
+      queryProps[keyField] = search;
+    } else {
+      queryProps[name] = search;
+    }
     const paginationProps = {
-      ...DefaultPagination, sortBy: keyField,
+      ...DefaultPagination,
+      sortBy: keyField,
       page,
     };
-    const entities = await onSearch({queryProps, paginationProps});
+    console.log(queryProps)
+    const entities = await onSearch({ queryProps, paginationProps });
     const count = entities.data.paging.total;
     const hasMore = prevOptions.length < count - (DefaultPagination.limit ?? 0);
     const data = [...new Set(entities.data.data)];
@@ -204,8 +224,8 @@ export const InputSearchSelect = ({
         name={name}
         keyField={keyField}
         selectField={selectField}
-        placeholder={intl.formatMessage({id: placeholder ?? DefaultPlaceholder['search-select']})}
-        label={_.isString(label) ? intl.formatMessage({id: label}) : label}
+        placeholder={intl.formatMessage({ id: placeholder ?? DefaultPlaceholder['search-select'] })}
+        label={_.isString(label) ? intl.formatMessage({ id: label }) : label}
         loadOptions={loadOptions}
         additional={{
           page: DefaultPagination.page,

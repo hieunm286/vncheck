@@ -356,10 +356,10 @@ function MultilevelSale() {
         onHide={() => {
           setShowCreate(false);
         }}
-        autoFill={{
-          field: '',
-          data: null,
-        }}
+        // autoFill={{
+        //   field: '',
+        //   data: null,
+        // }}
         code={null}
         get={() => null}
         formPart={formPart}
