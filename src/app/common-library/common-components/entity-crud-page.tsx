@@ -1,6 +1,5 @@
 import React, {Fragment, useEffect, useState} from 'react';
 import ModifyEntityPage from './modify-entity-page';
-import {OldModifyModel} from '../common-types/common-type';
 import {useIntl} from 'react-intl';
 import {
   generateInitForm,
@@ -10,24 +9,11 @@ import {
   getOnlyBase64
 } from '../helpers/common-function';
 import {Field, Form, Formik} from 'formik';
-import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
-import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
-import * as Yup from 'yup';
-import {MainInput} from '../forms/main-input';
-import {iconStyle} from '../common-consts/const';
 import {Link, useHistory} from 'react-router-dom';
-import ImageUploading from 'react-images-uploading';
-import CustomImageUpload from '../forms/custom-image-upload';
-import {uploadImage} from '../../pages/purchase-order/purchase-order.service';
 import {Card, CardBody, CardHeader} from '../card';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import {diff} from 'deep-object-diff';
-import EXIF from 'exif-js';
-import {isEmpty} from 'lodash';
 import exifr from 'exifr'
-import {Modal} from "react-bootstrap";
-import {MasterEntityDetail} from "./master-entity-detail-dialog";
-import { ConvertSelectSearch } from '../../pages/land-lot/helpers/common-function-land-lot';
 
 const toDataURL = (url: string) => fetch(url)
   .then(response => response.blob())
@@ -155,10 +141,10 @@ function EntityCrudPage({
   useEffect(() => {
     if (code) {
       get(code).then((res: { data: any }) => {
-        const convert = autoFill
-          ? ConvertSelectSearch(res.data, autoFill.searchSelectField)
-          : ConvertSelectSearch(res.data);
-        setEntityForEdit(convert);
+        // const convert = autoFill
+        //   ? ConvertSelectSearch(res.data, autoFill.searchSelectField)
+        //   : ConvertSelectSearch(res.data);
+        setEntityForEdit(res.data);
         // setImages(convert.image ? ConvertImage(convert) : initForm)
         ConvertImage(res.data)
         // setSearch(res.data);

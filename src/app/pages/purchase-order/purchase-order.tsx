@@ -144,8 +144,6 @@ function PurchaseOrder() {
     setShowDetail,
     showDeleteMany,
     setShowDeleteMany,
-    trigger,
-    setTrigger,
     paginationProps,
     setPaginationProps,
     filterProps,
@@ -181,7 +179,7 @@ function PurchaseOrder() {
 
   useEffect(() => {
     getAll(filterProps);
-  }, [paginationProps, trigger, filterProps]);
+  }, [paginationProps, filterProps]);
 
   const columns = {
     code: {
