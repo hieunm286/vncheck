@@ -243,6 +243,8 @@ function ModifyEntityPage<T>({
       </>
     );
   }, [images]);
+
+  console.log(modifyModel)
   
   return (
     <>
