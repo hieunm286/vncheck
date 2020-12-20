@@ -85,7 +85,7 @@ function ShippingAgency() {
   
   useEffect(() => {
     getAll(filterProps);
-  }, [paginationProps, filterProps, getAll]);
+  }, [paginationProps, filterProps]);
   
   const columns = useMemo(() => {
     return {
@@ -130,7 +130,7 @@ function ShippingAgency() {
             setShowDelete(true);
           },
           onEdit: (entity: ShippingAgencyModel) => {
-            get(entity);
+            // get(entity);
             // setShowEdit(true);
             setEditEntity(entity);
             history.push(`${window.location.pathname}/${entity._id}`);

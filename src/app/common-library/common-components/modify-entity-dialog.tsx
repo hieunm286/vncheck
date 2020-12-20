@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import {Modal} from 'react-bootstrap';
 import ModifyEntityDialogForm from './modify-entity-dialog-form';
 import {useIntl} from 'react-intl';
-import { generateInitForm } from '../helpers/common-function';
 function ModifyEntityDialog<T>({
                                  show,
                                  onHide,
@@ -24,7 +23,7 @@ function ModifyEntityDialog<T>({
   code?: string | null;
   get?: (code: string) => any | null;
   formPart?: any;
-  allFormField: any;
+  allFormField?: any;
   size?: 'sm' | 'lg';
   allFormButton?: any;
   validation?: any;

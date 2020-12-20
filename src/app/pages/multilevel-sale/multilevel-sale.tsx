@@ -388,10 +388,6 @@ function MultilevelSale() {
         // allFormButton={allFormButton}
         // validation={ProductPackagingSchema}
         error={error}
-        autoFill={{
-          field: 'code',
-          data: GenerateCode(data),
-        }}
         homePage={homeURL}
       />
       <MultiLevelSaleBody

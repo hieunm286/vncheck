@@ -82,8 +82,7 @@ function LandLot() {
   const createTitle = 'LAND_LOT.CREATE.TITLE';
   const updateTitle = 'LAND_LOT.EDIT.TITLE';
   const viewTitle = 'LAND_LOT.VIEW.TITLE';
-  const PurchaseOrderSchema = Yup.object().shape({
-    // code: Yup.string().required('abc'),
+  const validateSchema = Yup.object().shape({
     lot: Yup.string()
       .required(intl.formatMessage({id: 'LAND_LOT.EDIT.VALIDATION.LOT_CODE_EMPTY'}))
       .matches(/[a-zA-Z]/u, {
@@ -101,8 +100,7 @@ function LandLot() {
     getAll(filterProps);
     
   }, [paginationProps, filterProps]);
-  //TODO: change fields to get data from server
-  const columns = {
+  const columns = useMemo(() => ({
     code: {
       dataField: 'code',
       text: `${intl.formatMessage({id: 'LAND_LOT.MASTER.HEADER.CODE'})}`,
@@ -144,9 +142,9 @@ function LandLot() {
       ...NormalColumn,
       style: {minWidth: '130px'},
     },
-  };
+  }), []);
   
-  const masterEntityDetailDialog: RenderInfoDetailDialog = [
+  const masterEntityDetailDialog: RenderInfoDetailDialog = useMemo((): RenderInfoDetailDialog => [
     {
       data: {
         code: {title: 'LAND_LOT.MASTER.HEADER.CODE'},
@@ -155,7 +153,7 @@ function LandLot() {
       },
       titleClassName: 'col-3'
     },
-  ];
+  ], []);
   
   const initSearchModel = useMemo<SearchModel>(() => (
     {
@@ -318,24 +316,22 @@ function LandLot() {
       />
       <ModifyEntityDialog
         formPart={formPart}
-        allFormField={allFormField}
         show={showCreate}
         entity={createEntity}
         onModify={add}
         title={createTitle}
-        validation={PurchaseOrderSchema}
+        validation={validateSchema}
         onHide={() => {
           setShowCreate(false);
         }}
       />
       <ModifyEntityDialog
         formPart={formPart}
-        allFormField={allFormField}
         show={showEdit}
         entity={editEntity}
         onModify={update}
         title={updateTitle}
-        validation={PurchaseOrderSchema}
+        validation={validateSchema}
         onHide={() => {
           setShowEdit(false);
         }}
