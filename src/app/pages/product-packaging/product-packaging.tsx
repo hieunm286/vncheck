@@ -193,9 +193,9 @@ function ProductPackaging() {
           type: 'search-select',
           required: true,
           label: 'PRODUCT_PACKAGING.MASTER.TABLE.NAME_COLUMN',
-          service: ProductTypeService,
+          onSearch: ProductTypeService.GetAll,
           keyField: 'name',
-          ref: true
+          refs: true
         },
         weight: {
           type: 'string',
@@ -274,7 +274,13 @@ function ProductPackaging() {
       <ModifyEntityDialog
         show={showCreate}
         entity={createEntity}
-        onModify={add}
+        onModify={(entity: ProductPackagingModel) => {
+          let cvEntity = { ...entity }
+          if (_.isObject(entity)) {
+            cvEntity.species = entity.species._id
+          }
+          add(cvEntity)
+        }}
         title={createTitle}
         onHide={() => {
           setShowCreate(false);
@@ -286,22 +292,21 @@ function ProductPackaging() {
         allFormButton={allFormButton}
         validation={ProductPackagingSchema}
         error={error}
-        autoFill={{
-          field: '',
-          data: null,
-        }}
+        // autoFill={{
+        //   field: '',
+        //   data: null,
+        // }}
         homePage={homeURL}
       />
       <ModifyEntityDialog
         show={showEdit}
         entity={editEntity}
-        onModify={(entity: any) => {
-          const cv = { ...entity }
-          console.log(cv)
-          if (_.isObject(cv.species)) {
-            cv.species = entity.species.value
+        onModify={(entity: ProductPackagingModel) => {
+          let cvEntity = { ...entity }
+          if (_.isObject(entity)) {
+            cvEntity.species = entity.species._id
           }
-          return update(cv)
+          update(cvEntity)
         }}
         title={updateTitle}
         onHide={() => {

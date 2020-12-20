@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {Modal} from 'react-bootstrap';
 import ModifyEntityDialogForm from './modify-entity-dialog-form';
 import {useIntl} from 'react-intl';
+import { generateInitForm } from '../helpers/common-function';
 function ModifyEntityDialog<T>({
                                  show,
                                  onHide,
@@ -12,6 +13,8 @@ function ModifyEntityDialog<T>({
                                  moduleName = 'COMMON_COMPONENT.DETAIL_DIALOG.MODULE_NAME',
                                  formPart,
                                  validation,
+                                 autoFill,
+                                 allFormField
                                }: {
   title: string;
   show: boolean;
@@ -31,9 +34,9 @@ function ModifyEntityDialog<T>({
   error?: { error: string };
 }) {
   const intl = useIntl();
-  // const initForm = autoFill
-  //   ? generateInitForm(allFormField, autoFill.field, autoFill.data)
-  //   : generateInitForm(allFormField);
+  const initForm = autoFill
+    ? generateInitForm(allFormField, autoFill.field, autoFill.data)
+    : generateInitForm(allFormField);
   return (
     <Modal
       size={size}
@@ -53,7 +56,7 @@ function ModifyEntityDialog<T>({
       <ModifyEntityDialogForm
         modifyForm={formPart}
         validation={validation}
-        entity={entity}
+        entity={entity || initForm}
         onHide={onHide}
         onModify={onModify}
       />

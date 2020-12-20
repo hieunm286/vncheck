@@ -34,7 +34,7 @@ export const productTypeSearchModel: SearchModel = {
 };
 
 
-export const modifyModel: ModifyModel = [
+export const modifyModel: any = [
   {
     title: 'THÔNG TIN CHUNG',
     data: {
@@ -56,7 +56,7 @@ export const modifyModel: ModifyModel = [
       },
       images: {
         type: 'image',
-        value: null,
+        // value: null,
         label: 'PRODUCT_TYPE.MASTER.IMAGE',
         multiple: false
       },

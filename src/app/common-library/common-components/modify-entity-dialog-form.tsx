@@ -58,12 +58,13 @@ function ModifyEntityDialogForm<T>({
     <Formik
       // enableReinitialize={true}
       initialValues={entity}
-      validationSchema={validation}
+      // validationSchema={validation}
       onSubmit={values => {
         // if (entity._id) {
         //   const updateValue = diff(entity, values);
         //   onModify({_id: values._id, ...updateValue});
         // } else {
+          console.log(values)
           onModify({...entity, ...values, __v:undefined});
         // }
         onHide();

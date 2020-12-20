@@ -3,6 +3,7 @@ import './custom.css';
 import {FieldFeedbackLabel} from './field-feedback-label';
 import {GetClassName, GetError, GetFieldCSSClasses, GetTouched} from "../helpers/common-function";
 import {useFormikContext} from "formik";
+import { truncate } from 'lodash';
 
 
 interface MainInputState {
@@ -26,7 +27,7 @@ export function MainInput({
                             field, // { name, value, onChange, onBlur }
                             form: {touched, errors}, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
                             label,
-                            withFeedbackLabel,
+                            withFeedbackLabel = true,
                             withValidation,
                             customFeedbackLabel,
                             mode,
@@ -41,7 +42,12 @@ export function MainInput({
   const styleInput = {
     marginRight: 0,
   };
-  const {setFieldValue, values} = useFormikContext<any>();
+  const {setFieldValue, values, handleChange, setTouched, handleBlur} = useFormikContext<any>();
+  
+  console.log(errors)
+  console.log(GetError(errors, field.name))
+  console.log(touched)
+  console.log(GetTouched(touched, field.name))
   return (
     <>
       <div className={mode === 'horizontal' ? 'row' : ''}>
@@ -68,10 +74,26 @@ export function MainInput({
             {...field}
             {...props}
             onChange={(e) => {
+              handleChange(e)
               onChange && onChange(e, {setFieldValue, values})
+              // setTouched(field.name, true)
+            }}
+            onBlur={(e) => {
+              handleBlur(e)
             }}
           
           />
+{/* 
+          { GetError(errors, field.name) && 
+             <div className="invalid-feedback">
+             <FormattedMessage id={error}></FormattedMessage>
+             {GetError(errors, field.name)}
+           </div>
+          <span className="text-danger">
+            {GetError(errors, field.name)}
+          </span>
+           
+          } */}
           
           {withFeedbackLabel && (
             <FieldFeedbackLabel

@@ -27,6 +27,16 @@ import {isEmpty} from 'lodash';
 import exifr from 'exifr'
 import {Modal} from "react-bootstrap";
 import {MasterEntityDetail} from "./master-entity-detail-dialog";
+import { ConvertSelectSearch } from '../../pages/land-lot/helpers/common-function-land-lot';
+
+const toDataURL = (url: string) => fetch(url)
+  .then(response => response.blob())
+  .then(blob => new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.onloadend = () => resolve(reader.result)
+    reader.onerror = reject
+    reader.readAsDataURL(blob)
+  }))
 
 function EntityCrudPage({
                           entity,
@@ -113,11 +123,45 @@ function EntityCrudPage({
     // newTag.push(value);
     // setTagArr({ ...tagArr, [key]: newTag });
   }
+
+  const ConvertImage = (entity: any) => {
+    const cv = { ...entity };
+
+    if (entity.image) {
+      toDataURL('/' + entity.image.path)
+        .then(dataUrl  => {
+          const url = { data_url: dataUrl };
+          console.log(url);
+          cv.images = [url];
+
+          setImages(cv)
+        })
+        .catch(error => {
+          console.log(error); // Logs an error if there was one
+        });
+    }
+  };
+
+  console.log(images)
   
+  // useEffect(() => {
+  //   if (code) {
+  //     get(code).then((res: { data: any }) => {
+  //       setEntityForEdit(res.data);
+  //     });
+  //   }
+  // }, [code]);
+
   useEffect(() => {
     if (code) {
       get(code).then((res: { data: any }) => {
-        setEntityForEdit(res.data);
+        const convert = autoFill
+          ? ConvertSelectSearch(res.data, autoFill.searchSelectField)
+          : ConvertSelectSearch(res.data);
+        setEntityForEdit(convert);
+        // setImages(convert.image ? ConvertImage(convert) : initForm)
+        ConvertImage(res.data)
+        // setSearch(res.data);
       });
     }
   }, [code]);
@@ -126,9 +170,9 @@ function EntityCrudPage({
     <>
       <Formik
         enableReinitialize={true}
-        initialValues={entityForEdit ?? initForm}
+        initialValues={entityForEdit || initForm}
         validationSchema={validation}
-        onSubmit={values => {
+        onSubmit={(values, { setSubmitting }) => {
           console.log(values);
           if (entityForEdit) {
             const updateValue = diff(entityForEdit, values);
@@ -184,38 +228,42 @@ function EntityCrudPage({
                       handleChangeTag={handleChangeTag}
                     />
                   </CardBody>
-                  {(index == keys.length - 1)&& (
+                  {(
                     <div className="text-right mb-5 mr-5" key={key}>
-                      {Object.keys(allFormButton).map(keyss => {
-                        switch (allFormButton[keyss].role) {
+                      {Object.keys(allFormButton.data).map(keyss => {
+                        switch (allFormButton.data[keyss].role) {
                           case 'submit':
+                            console.log(allFormButton[keyss])
+
                             return (
                               <button
                                 formNoValidate
-                                type={allFormButton[keyss].type}
-                                className={allFormButton[keyss].className}
+                                type={allFormButton.data[keyss].type}
+                                className={allFormButton.data[keyss].className}
                                 key={keyss}
                                 onClick={() => handleSubmit()}>
-                                {allFormButton[keyss].icon} {allFormButton[keyss].label}
+                                {allFormButton.data[keyss].icon} {allFormButton.data[keyss].label}
                               </button>
                             );
                           
                           case 'button':
+                            console.log(allFormButton.data[keyss])
+
                             return (
                               <button
-                                type={allFormButton[keyss].type}
-                                className={allFormButton[keyss].className}
+                                type={allFormButton.data[keyss].type}
+                                className={allFormButton.data[keyss].className}
                                 key={keyss}>
-                                {allFormButton[keyss].icon} {allFormButton[keyss].label}
+                                {allFormButton.data[keyss].icon} {allFormButton.data[keyss].label}
                               </button>
                             );
                           case 'link-button':
                             return (
-                              <Link to={allFormButton[keyss].linkto} key={keyss}>
+                              <Link to={allFormButton.data[keyss].linkto} key={keyss}>
                                 <button
-                                  type={allFormButton[keyss].type}
-                                  className={allFormButton[keyss].className}>
-                                  {allFormButton[keyss].icon} {allFormButton[keyss].label}
+                                  type={allFormButton.data[keyss].type}
+                                  className={allFormButton.data[keyss].className}>
+                                  {allFormButton.data[keyss].icon} {allFormButton.data[keyss].label}
                                 </button>
                               </Link>
                             );

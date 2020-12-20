@@ -11,9 +11,10 @@ interface ImageUploadPros {
   onChange?: any;
   labelWidth?: number;
   isHorizontal?: boolean;
-  required?: boolean;
+  required?: boolean | ((values: any) => boolean);
   name: string;
   multiple?: boolean;
+  mode?: "horizontal" | "vertical" | undefined
 }
 
 const getClassName = (labelWidth: number | null | undefined, labelStart: boolean) => {
@@ -25,8 +26,8 @@ const getClassName = (labelWidth: number | null | undefined, labelStart: boolean
       classes.push(`col-md-${labelWidth}`);
       classes.push('col-12');
     } else {
-      classes.push(`col-xl-3`);
-      classes.push(`col-md-3`);
+      classes.push(`col-xl-4`);
+      classes.push(`col-md-4`);
       classes.push('col-12');
     }
   } else {
@@ -51,7 +52,8 @@ function CustomImageUpload({
                              isHorizontal,
                              required,
                              name,
-                             multiple
+                             multiple,
+                             mode
                            }: ImageUploadPros) {
   const {errors, touched, setFieldValue} = useFormikContext<any>();
   
@@ -113,10 +115,10 @@ function CustomImageUpload({
   }, [value])
 
   return (
-    <div className={isHorizontal ? 'row' : ''}>
+    <div className={mode === 'horizontal' ? 'row' : ''}>
       <div className={getClassName(labelWidth, true)}>
         {typeof label === 'string' ? (
-          <label className={isHorizontal ? 'mb-0 select-label mt-2' : ''}>
+          <label className={mode === 'horizontal' ? 'mb-0 select-label mt-2' : ''}>
             {label}
             {required && <span className="text-danger"> *</span>}
           </label>
@@ -134,7 +136,8 @@ function CustomImageUpload({
           }
           }
           maxNumber={69}
-          dataURLKey="data_url">
+          dataURLKey="data_url"
+          >
           {({
               imageList,
               onImageUpload,

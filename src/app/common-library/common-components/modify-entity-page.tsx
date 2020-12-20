@@ -41,6 +41,7 @@ function ModifyEntityPage<T>({
                                entity,
                                mode = 'horizontal',
                                tagData,
+                               images
                              }: {
   modifyModel: ModifyModel;
   mode?: 'horizontal' | 'vertical'
@@ -102,12 +103,14 @@ function ModifyEntityPage<T>({
             //     <></>
             //   );
             case 'image':
+              console.log(images)
               return (
                 <InputImage
                   className={defaultClassName}
                   name={prevKey !== '' ? `${prevKey}.${key}` : key}
                   mode={mode}
                   {...input}
+                  value={images[key] || []}
                   key={`modify-page-${key}`}
                 />
               )
@@ -239,7 +242,9 @@ function ModifyEntityPage<T>({
         })}
       </>
     );
-  }, []);
+  }, [images]);
+
+  console.log(modifyModel)
   
   return (
     <>

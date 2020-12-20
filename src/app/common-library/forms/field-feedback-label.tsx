@@ -10,8 +10,8 @@ interface FeedBackProps {
 }
 
 const inputLabel = ({ label, touched, error, customFeedbackLabel }: FeedBackProps) => {
-// console.log('touced:' + touched)
-//   console.log('err:' + error)
+  // console.log('touced:' + touched)
+  //   console.log('err:' + error)
 
   if (touched && error) {
     return (
@@ -66,6 +66,9 @@ export function FieldFeedbackLabel({
   switch (type) {
     case 'text':
       return inputLabel({ label, touched, error, customFeedbackLabel });
+    case 'string':
+      return inputLabel({ label, touched, error, customFeedbackLabel });
+
     case 'email':
       return inputLabel({ label, touched, error, customFeedbackLabel });
     case 'password':

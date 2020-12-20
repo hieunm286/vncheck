@@ -25,6 +25,7 @@ import SpeciesDetailDialog from './species-detail-dialog';
 
 import 'react-toastify/dist/ReactToastify.css';
 import {allFormField, masterEntityDetailDialog, models, productTypeSearchModel} from './defined/const';
+import _ from 'lodash';
 
 const headerTitle = 'PRODUCT_TYPE.MASTER.HEADER.TITLE';
 const bodyTitle = 'PRODUCT_TYPE.MASTER.BODY.TITLE';
@@ -53,28 +54,6 @@ export const GenerateCode = (data: any[]) => {
   }
   return `00${lastIndex + 1}`;
 };
-
-const ProductTypeSchema = Yup.object().shape({
-  name: Yup.string().required('Tên chủng loại không được để trống'),
-  barcode: Yup.string()
-    .required('GTIN không được để trống')
-    .max(10, 'Vui lòng nhập tối đa 10 ký tự')
-    .matches(/^[0-9]+$/u, {
-      message: 'GTIN không hợp lệ. GTIN không chứa chữ cái và ký tự đặc biệt',
-    }),
-  growingDays: Yup.number()
-    .required('Số ngày gieo giống không được để trống')
-    .min(1, 'Số ngày không được ít hơn 1 nha')
-    .typeError('Vui lòng nhập số'),
-  plantingDays: Yup.number()
-    .required('Số ngày gieo trồng không được để trống')
-    .min(1, 'KSố ngày không được ít hơn 1 nha')
-    .typeError('Vui lòng nhập số'),
-  expiryDays: Yup.number()
-    .required('Hạn sử dụng không được để trống')
-    .min(1, 'Số ngày không được ít hơn 1 nha')
-    .typeError('Vui lòng nhập số'),
-});
 
 function Species() {
   const intl = useIntl();
@@ -183,6 +162,47 @@ function Species() {
       style: {minWidth: '130px'},
     },
   };
+
+  const ProductTypeSchema = Yup.object().shape({
+    name: Yup.string().required('Tên chủng loại không được để trống').matches(/^[aAàÀảẢãÃáÁạẠăĂằẰẳẲẵẴắẮặẶâÂầẦẩẨẫẪấẤậẬbBcCdDđĐeEèÈẻẺẽẼéÉẹẸêÊềỀểỂễỄếẾệỆfFgGhHiIìÌỉỈĩĨíÍịỊjJkKlLmMnNoOòÒỏỎõÕóÓọỌôÔồỒổỔỗỖốỐộỘơƠờỜởỞỡỠớỚợỢpPqQrRsStTuUùÙủỦũŨúÚụỤưƯừỪửỬữỮứỨựỰvVwWxXyYỳỲỷỶỹỸýÝỵỴzZ ]+$/u, {
+      message: 'Tên không hợp lệ. Tên không chứa số và ký tự đặc biệt',
+    }).test('Exists validate', 'Tên chủng loại đã tồn tại', function (value) {
+      if (editEntity) {
+        const validArr = entities.filter(item => item._id !== editEntity._id)
+        const index = validArr.findIndex(el => el.name === value)
+        return index === -1
+      }
+
+      const index = entities.findIndex(el => el.name === value)
+      return index === -1
+    }),
+    barcode: Yup.string()
+      .required('GTIN không được để trống')
+      .max(10, 'Vui lòng nhập tối đa 10 ký tự')
+      .matches(/^[0-9]+$/u, {
+        message: 'GTIN không hợp lệ. GTIN không chứa chữ cái và ký tự đặc biệt',
+      }).test('Exists validate', 'GTIN đã tồn tại', function (value) {
+        if (editEntity) {
+          const validArr = entities.filter(item => item._id !== editEntity._id)
+          const index = validArr.findIndex(el => el.barcode === value)
+          return index === -1
+        }
+        const index = entities.findIndex(el => el.barcode === value)
+        return index === -1
+      }),
+    growingDays: Yup.number()
+      .required('Số ngày gieo giống không được để trống')
+      .min(1, 'Số ngày không được ít hơn 1 nha')
+      .typeError('Vui lòng nhập số'),
+    plantingDays: Yup.number()
+      .required('Số ngày gieo trồng không được để trống')
+      .min(1, 'KSố ngày không được ít hơn 1 nha')
+      .typeError('Vui lòng nhập số'),
+    expiryDays: Yup.number()
+      .required('Hạn sử dụng không được để trống')
+      .min(1, 'Số ngày không được ít hơn 1 nha')
+      .typeError('Vui lòng nhập số'),
+  });
   
   const allFormButton: any = {
     type: 'inside',
