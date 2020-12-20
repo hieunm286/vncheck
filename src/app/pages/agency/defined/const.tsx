@@ -1,6 +1,6 @@
 import React, { useEffect, Fragment, useState } from "react";
 import * as Yup from "yup";
-import { ModifyModel, SearchModel } from "../../../common-library/common-types/common-type";
+import { OldModifyModel, SearchModel } from "../../../common-library/common-types/common-type";
 import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import { AgencyModel } from "../agency.model";
@@ -138,7 +138,7 @@ function checkIfFilesAreCorrectType(files: any): boolean {
   return valid
 }
 
-export const oldModifyModel: ModifyModel = {
+export const oldModifyModel: OldModifyModel = {
   code: {
     type: 'string',
     placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.PLACEHOLDER',

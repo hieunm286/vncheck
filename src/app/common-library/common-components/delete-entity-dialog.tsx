@@ -21,12 +21,12 @@ export function DeleteEntityDialog<T>({
                                         cancelBtn = 'COMMON_COMPONENT.DELETE_DIALOG.CANCEL_BTN',
                                         moduleName = 'COMMON_COMPONENT.DELETE_DIALOG.MODULE_NAME',
                                         loading,
-                                        error,
+                                        error = {error: ''},
                                       }: DeleteDialogProps<T>) {
   const intl = useIntl();
   
   return (<><Modal
-    show={isShow && (error === '')}
+    show={isShow && (error.error === '')}
     onHide={onHide}
     aria-labelledby="example-modal-sizes-title-lg"
     dialogClassName="modal-delete">
@@ -70,7 +70,7 @@ export function DeleteEntityDialog<T>({
     </Modal.Footer>
   </Modal>
     <Modal
-      show={isShow && (error !== '')}
+      show={isShow && (error.error !== '')}
       onHide={onHide}
       aria-labelledby="example-modal-sizes-title-lg"
       dialogClassName="modal-delete">
@@ -82,7 +82,8 @@ export function DeleteEntityDialog<T>({
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        {error !== '' && typeof error === 'string' ? (<p className='text-danger'>{intl.formatMessage({id: error})}</p>) : error}
+        {error.error !== '' && typeof error.error === 'string' ? (
+          <p className='text-danger'>{intl.formatMessage({id: error.error})}</p>) : error.error}
       </Modal.Body>
       <Modal.Footer className="border-top-0">
         <button type="button" onClick={onHide} className="btn btn-outline-primary fixed-btn-width">

@@ -5,7 +5,7 @@ import {
   CreateProps,
   DeleteManyProps,
   DeleteProps,
-  GetAllProps,
+  GetAllPropsServer,
   GetProps,
   SearchModel,
   UpdateProps,
@@ -22,7 +22,7 @@ export const Create: CreateProps<ProductPackagingModel> = (data: ProductPackagin
   return axios.post(API_URL, data);
 };
 
-export const GetAll: GetAllProps<ProductPackagingModel> = ({
+export const GetAll: GetAllPropsServer<ProductPackagingModel> = ({
   queryProps,
   sortList,
   paginationProps,

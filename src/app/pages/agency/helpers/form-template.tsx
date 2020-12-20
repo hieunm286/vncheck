@@ -646,7 +646,7 @@ const FormTemplate = ({
               <div className="mt-3" key={key}>
                 <InfiniteSelect
                   label={modifyModel.data[key].label}
-                  isHorizontal={true}
+                  mode={'horizontal'}
                   value={searchSelect} // value={search[key]}
                   onChange={(value: any) => {
                     setSearchSelect(value);
@@ -669,7 +669,7 @@ const FormTemplate = ({
                   name={key}
                   placeholder={modifyModel.data[key].placeholder}
                   required={modifyModel.data[key].required}
-                />
+                 keyField={'aa'}/>
               </div>
             );
           

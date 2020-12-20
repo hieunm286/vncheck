@@ -15,11 +15,11 @@ import { ActionsColumnFormatter } from '../../common-library/common-components/a
 
 import { NormalColumn, SortColumn } from '../../common-library/common-consts/const';
 
-import {ModifyModel, SearchModel} from "../../common-library/common-types/common-type";
+import {OldModifyModel, SearchModel} from "../../common-library/common-types/common-type";
 import { DeleteEntityDialog } from "../../common-library/common-components/delete-entity-dialog";
 import ModifyEntityDialog from "../../common-library/common-components/modify-entity-dialog";
 import { MasterEntityDetailDialog } from "../../common-library/common-components/master-entity-detail-dialog";
-import DeleteManyEntitiesDialog from '../../common-library/common-components/delete-many-dialog';
+import DeleteManyEntitiesDialog from '../../common-library/common-components/delete-many-entities-dialog';
 import * as Yup from "yup";
 
 function AgencyType() {
@@ -155,7 +155,7 @@ function AgencyType() {
     },
   };
 
-  const modifyModel: ModifyModel = {
+  const modifyModel: OldModifyModel = {
     code: {
       type: 'string',
       placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.PLACEHOLDER',
@@ -251,7 +251,7 @@ function AgencyType() {
         show={showDetail}
         entity={detailEntity}
         renderInfo={masterEntityDetailDialog}
-        onClose={() => {
+        onHide={() => {
           setShowDetail(false);
         }}
       />

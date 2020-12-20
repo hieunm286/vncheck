@@ -5,7 +5,7 @@ import {
   CreateProps,
   DeleteManyProps,
   DeleteProps,
-  GetAllProps,
+  GetAllPropsServer,
   GetProps,
   UpdateProps,
 } from '../../common-library/common-types/common-type';
@@ -31,7 +31,7 @@ const convertAddress = (address: any) => {
   return convertURL
 }
 
-export const GetAll: GetAllProps<AgencyModel> = ({ queryProps, sortList, paginationProps }) => {
+export const GetAll: GetAllPropsServer<AgencyModel> = ({ queryProps, sortList, paginationProps }) => {
   const convertQuery = { ...queryProps }
   if (queryProps && queryProps.address) {
     delete convertQuery.address

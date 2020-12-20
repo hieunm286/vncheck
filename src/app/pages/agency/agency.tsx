@@ -15,10 +15,10 @@ import { ActionsColumnFormatter } from '../../common-library/common-components/a
 
 import { DefaultPagination, NormalColumn, SortColumn } from '../../common-library/common-consts/const';
 
-import {ModifyModel, SearchModel} from "../../common-library/common-types/common-type";
+import {OldModifyModel, SearchModel} from "../../common-library/common-types/common-type";
 
 import { DeleteEntityDialog } from "../../common-library/common-components/delete-entity-dialog";
-import DeleteManyEntitiesDialog from '../../common-library/common-components/delete-many-dialog';
+import DeleteManyEntitiesDialog from '../../common-library/common-components/delete-many-entities-dialog';
 import ModifyEntityDialog from '../../common-library/common-components/modify-entity-dialog';
 import { MasterEntityDetailDialog } from '../../common-library/common-components/master-entity-detail-dialog';
 import * as Yup from "yup";
@@ -80,10 +80,6 @@ function AgencyPage() {
     error,
     setError,
     add, update, get, deleteMany, deleteFn, getAll, refreshData,
-    addPromise,
-    updatePromise,
-    deletePromise,
-    deleteManyPromise,
   } = InitMasterProps<AgencyModel>({
     getServer: Get,
     countServer: Count,
@@ -501,9 +497,7 @@ function AgencyPage() {
           {({ history, match }) => (
             <EntityCrudPageAgency
               entity={createEntity}
-              onModify={(values) => {
-                return addPromise(ConvertStatusToString(convertToServer(values)))
-              }}
+              onModify={add}
               onClickReturn={refreshData}
               // title={updateTitle}
               //  modifyModel={modifyModel}
@@ -523,9 +517,7 @@ function AgencyPage() {
           {({ history, match }) => (
             <EntityCrudPageAgency
               entity={editEntity}
-              onModify={(values) => {
-                return updatePromise(ConvertStatusToString(convertToServer(values)))
-              }}
+              onModify={update}
               onClickReturn={refreshData}
               code={match && match.params.code}
               get={AgencyService.GetById}

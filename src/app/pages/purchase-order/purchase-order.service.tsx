@@ -5,7 +5,7 @@ import {
   CreateProps,
   DeleteManyProps,
   DeleteProps,
-  GetAllProps,
+  GetAllPropsServer,
   GetProps,
   SearchModel,
   UpdateProps,
@@ -21,7 +21,7 @@ export const Create: CreateProps<PurchaseOrderModel> = (data: PurchaseOrderModel
   return axios.post(API_URL, data);
 };
 
-export const GetAll: GetAllProps<PurchaseOrderModel> = ({
+export const GetAll: GetAllPropsServer<PurchaseOrderModel> = ({
   queryProps,
   sortList,
   paginationProps,

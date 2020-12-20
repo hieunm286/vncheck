@@ -1,20 +1,16 @@
-import axios from 'axios';
-import { API_BASE_URL } from '../../common-library/common-consts/enviroment';
+import axios, {AxiosResponse} from 'axios';
+import {API_BASE_URL} from '../../common-library/common-consts/enviroment';
 import {
   CountProps,
   CreateProps,
   DeleteManyProps,
   DeleteProps,
-  GetAllProps,
+  GetAllPropsServer,
   GetProps,
   SearchModel,
   UpdateProps,
 } from '../../common-library/common-types/common-type';
-import { LandLotModel, LandLotSearchModel } from './land-lot.model';
-import { purchaseOrderSlice, callTypes } from './land-lot.redux';
-import AxiosResponse from "axios";
-import LandLot from './land-lot';
-import { entities } from './helpers/mock';
+import {LandLotModel, LandLotSearchModel} from './land-lot.model';
 
 export const API_URL = API_BASE_URL + '/land-lot';
 
@@ -24,22 +20,58 @@ export const Create: CreateProps<LandLotModel> = (data: LandLotModel) => {
   return axios.post(API_URL, data);
 };
 
-export const GetAll: GetAllProps<LandLotModel> = ({
-  queryProps,
-  sortList,
-  paginationProps,
-}) => {
+export const GetAll: GetAllPropsServer<LandLotModel> = ({
+                                                          queryProps,
+                                                          sortList,
+                                                          paginationProps,
+                                                        }) => {
   return axios.get(`${API_URL}`, {
-    params: { ...queryProps, ...paginationProps, sortList },
+    params: {...queryProps, ...paginationProps, sortList},
     // paramsSerializer: ParamsSerializer
   });
 };
-
+const AtoZ = Array('Z'.charCodeAt(0) - 'A'.charCodeAt(0)).fill(null).map((x, i) => {
+  return String.fromCharCode('A'.charCodeAt(0) + i);
+})
+export const GetLots = ({queryProps}: any): Promise<any> => {
+  return new Promise((resolve, reject) => {
+    const data = AtoZ.filter((val, index, arr) => {
+      return val.indexOf(queryProps.lot.toUpperCase()) > -1;
+    })
+    resolve({
+      code: 200,
+      data: {
+        data: data,
+        paging: {page: 1, limit: 100, total: data.length}
+      },
+      success: true
+    })
+  })
+}
+const From1to100 = Array(99).fill(null).map((x, i) => {
+  return (i + 1 + 1000).toString().substr(2);
+})
+export const GetSubLots = ({queryProps}: any): Promise<any> => {
+  return new Promise((resolve, reject) => {
+    console.log(queryProps);
+    const data = From1to100.filter((val, index, arr) => {
+      return val.indexOf(queryProps.subLot.toUpperCase()) > -1;
+    })
+    resolve({
+      code: 200,
+      data: {
+        data: data,
+        paging: {page: 1, limit: 100, total: data.length}
+      },
+      success: true
+    })
+  })
+}
 export const Count: CountProps<LandLotModel> = ({
-  queryProps,
-  sortList,
-  paginationProps,
-}) => {
+                                                  queryProps,
+                                                  sortList,
+                                                  paginationProps,
+                                                }) => {
   return axios.get(`${API_URL}/count`);
 };
 
@@ -56,14 +88,13 @@ export const Update: UpdateProps<LandLotModel> = (entity: LandLotModel) => {
 
 export const DeleteMany: DeleteManyProps<LandLotModel> = (entities: LandLotModel[]) => {
   return axios.delete(`${API_URL}/bulk`, {
-    data: { listLandLot: entities.map(entity => entity._id) },
+    data: {listLandLot: entities.map(entity => entity._id)},
   });
 };
 
 export const Delete: DeleteProps<LandLotModel> = (entity: LandLotModel) => {
   return axios.delete(`${API_URL}/${entity._id}`);
 };
-
 
 
 export const uploadImage = (image: any) => {

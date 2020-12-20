@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { Modal } from 'react-bootstrap';
 import ModifyEntityDialogForm from './modify-entity-dialog-form';
 import { useIntl } from 'react-intl';
-import { ModifyModel } from '../../../common-library/common-types/common-type';
-import { ConvertSelectSearch, generateInitForm } from '../../../common-library/helpers/common-function';
+import { OldModifyModel } from '../../../common-library/common-types/common-type';
+import { generateInitForm } from '../../../common-library/helpers/common-function';
 import { DefaultPagination } from '../../../common-library/common-consts/const';
 import { AxiosResponse } from 'axios';
 
@@ -94,7 +94,7 @@ function ModifyEntityDialog<T>({
         modifyModel={modifyModel}
         formPart={formPart}
         validation={validation}
-        entity={(autoFill ? ConvertSelectSearch(entity, autoFill.searchSelectField) : ConvertSelectSearch(entity)) || initForm}
+        entity={entity}
         onHide={onHide}
         onModify={onModify}
         refreshData={refreshData}

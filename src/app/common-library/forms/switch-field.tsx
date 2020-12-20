@@ -100,16 +100,7 @@ export function SwitchField({
   const styleLabe = {
     width: width,
   };
-
-  const styleInput = {
-    marginRight: 0,
-  };
-
-  // console.log(errors)
-  // console.log(touched)
-
   const { values, setFieldValue } = useFormikContext<any>();
-
   return (
     <>
       <div className={isHorizontal && 'row'}>

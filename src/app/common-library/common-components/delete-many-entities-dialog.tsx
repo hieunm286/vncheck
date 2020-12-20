@@ -6,7 +6,7 @@ import {CapitalizeFirstLetter} from '../helpers/common-function';
 import {iconStyle} from "../common-consts/const";
 import CancelOutlinedIcon from "@material-ui/icons/CancelOutlined";
 
-function DeleteManyDialog<T>({
+function DeleteManyEntitiesDialog<T>({
                                selectedEntities,
                                isShow,
                                onHide,
@@ -20,13 +20,13 @@ function DeleteManyDialog<T>({
                                cancelBtn = 'COMMON_COMPONENT.DELETE_MANY_DIALOG.CANCEL_BTN',
                                moduleName = 'COMMON_COMPONENT.DELETE_MANY_DIALOG.MODULE_NAME',
                                loading,
-                               error,
+                               error = {error:''},
                              }: DeleteManyDialogProps<T>) {
   const intl = useIntl();
   
   return (<>
     <Modal
-      show={isShow && (error === '')}
+      show={isShow && (error.error === '')}
       onHide={onHide}
       aria-labelledby="example-modal-sizes-title-lg"
       dialogClassName="modal-delete-many">
@@ -82,7 +82,7 @@ function DeleteManyDialog<T>({
       </Modal.Footer>
     </Modal>
     <Modal
-      show={isShow && (error !== '')}
+      show={isShow && (error.error !== '')}
       onHide={onHide}
       aria-labelledby="example-modal-sizes-title-lg"
       dialogClassName="modal-delete-many">
@@ -96,9 +96,9 @@ function DeleteManyDialog<T>({
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        {!loading && error !== '' && (
+        {!loading && error.error !== '' && (
           <>
-            {typeof error === 'string' ? (<p className='text-danger'>{intl.formatMessage({id: error})}</p>) : error}
+            {typeof error.error === 'string' ? (<p className='text-danger'>{intl.formatMessage({id: error.error})}</p>) : error}
           </>
         )}
       </Modal.Body>
@@ -112,4 +112,4 @@ function DeleteManyDialog<T>({
   </>);
 }
 
-export default DeleteManyDialog;
+export default DeleteManyEntitiesDialog;

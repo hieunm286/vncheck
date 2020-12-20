@@ -5,7 +5,7 @@ import {
   CreateProps,
   DeleteManyProps,
   DeleteProps,
-  GetAllProps,
+  GetAllPropsServer,
   GetProps,
   SearchModel,
   UpdateProps,
@@ -35,7 +35,7 @@ export const Create: CreateProps<LandLotModel> = (data: LandLotModel) => {
   });
 };
 
-export const GetAll: GetAllProps<LandLotModel> = ({
+export const GetAll: GetAllPropsServer<LandLotModel> = ({
   queryProps,
   sortList,
   paginationProps,

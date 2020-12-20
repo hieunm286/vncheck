@@ -5,53 +5,25 @@ import { MasterHeader } from '../../common-library/common-components/master-head
 import { MasterBody } from '../../common-library/common-components/master-body';
 import { ActionsColumnFormatter } from '../../common-library/common-components/actions-column-formatter';
 import { DeleteEntityDialog } from '../../common-library/common-components/delete-entity-dialog';
-import DeleteManyEntitiesDialog from '../../common-library/common-components/delete-many-dialog';
-import ModifyEntityDialog from '../../common-library/common-components/modify-entity-dialog';
-import { ModifyModel, SearchModel } from '../../common-library/common-types/common-type';
+import DeleteManyEntitiesDialog from '../../common-library/common-components/delete-many-entities-dialog';
+import { OldModifyModel, SearchModel } from '../../common-library/common-types/common-type';
 import {
-  ConvertToTreeNode,
   GenerateAllFormField,
   InitMasterProps,
 } from '../../common-library/helpers/common-function';
 import { Switch, Route, Redirect, useHistory } from 'react-router-dom';
-import ModifyEntityPage from '../../common-library/common-components/modify-entity-page';
-import ImageUploading from 'react-images-uploading';
-import EntityCrudPage from '../../common-library/common-components/entity-crud-page';
 import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
-import { isArray, isNull } from 'lodash';
-import MasterGoogleMap from '../../common-library/common-components/master-google-map';
 import * as Yup from 'yup';
 import { ProductPackagingModel } from './product-packaging.model';
 import * as ProductPackagingService from './product-packaging.service';
 import ProductPackagingDetailDialog from './product-packaging-detail-dialog';
 import { GenerateCode } from '../species/species';
 import * as ProductTypeService from '../species/species.service';
-import ModifyEntityDialogPromise from '../../common-library/common-components/modify-entity-dialog-promise';
 import {GetAll} from "./product-packaging.service";
 import _ from 'lodash';
+import ModifyEntityDialog from "../../common-library/common-components/modify-entity-dialog";
 
-
-const data: any = [
-  {
-    _id: 'abc',
-    code: '000001',
-    name: 'Rau muống',
-    gram: 200,
-  },
-  {
-    _id: 'abcd',
-    code: '000003',
-    name: 'Rau cải',
-    gram: 300,
-  },
-  {
-    _id: 'abce',
-    code: '000004',
-    name: 'Rau muống',
-    gram: 400,
-  },
-];
 
 const headerTitle = 'PRODUCT_PACKAGING.MASTER.HEADER.TITLE';
 const bodyTitle = 'PRODUCT_PACKAGING.MASTER.BODY.TITLE';
@@ -110,8 +82,6 @@ function ProductPackaging() {
     setError,
     add,
     update,
-    addPromise,
-    updatePromise,
     get,
     deleteMany,
     deleteFn,
@@ -215,14 +185,12 @@ function ProductPackaging() {
       data: {
         code: {
           type: 'string',
-          placeholder: '',
           label: 'PRODUCT_PACKAGING.MASTER.TABLE.CODE_COLUMN',
           required: true,
           disabled: true,
         },
         species: {
           type: 'search-select',
-          placeholder: 'COMMON_COMPONENT.SELECT.PLACEHOLDER',
           required: true,
           label: 'PRODUCT_PACKAGING.MASTER.TABLE.NAME_COLUMN',
           service: ProductTypeService,
@@ -231,7 +199,6 @@ function ProductPackaging() {
         },
         weight: {
           type: 'string',
-          placeholder: 'COMMON_COMPONENT.INPUT.PLACEHOLDER',
           
           required: true,
           label: 'PRODUCT_PACKAGING.MASTER.TABLE.GRAM_COLUMN',
@@ -304,12 +271,11 @@ function ProductPackaging() {
           setShowDeleteMany(false);
         }}
       />
-      <ModifyEntityDialogPromise
-        isShow={showCreate}
+      <ModifyEntityDialog
+        show={showCreate}
         entity={createEntity}
-        onModify={addPromise}
+        onModify={add}
         title={createTitle}
-        modifyModel={modifyModel}
         onHide={() => {
           setShowCreate(false);
         }}
@@ -325,10 +291,9 @@ function ProductPackaging() {
           data: null,
         }}
         homePage={homeURL}
-        refreshData={refreshData}
       />
-      <ModifyEntityDialogPromise
-        isShow={showEdit}
+      <ModifyEntityDialog
+        show={showEdit}
         entity={editEntity}
         onModify={(entity: any) => {
           const cv = { ...entity }
@@ -336,10 +301,9 @@ function ProductPackaging() {
           if (_.isObject(cv.species)) {
             cv.species = entity.species.value
           }
-          return updatePromise(cv)
+          return update(cv)
         }}
         title={updateTitle}
-        modifyModel={modifyModel}
         onHide={() => {
           setShowEdit(false);
         }}
@@ -356,7 +320,6 @@ function ProductPackaging() {
           searchSelectField: [{ field: 'species', ref: { prop: '', key: 'name' } }],
         }}
         homePage={homeURL}
-        refreshData={refreshData}
       />
       <Switch>
         <Route path="/product-packaging">

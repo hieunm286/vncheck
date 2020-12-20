@@ -5,7 +5,7 @@ import {
   CreateProps,
   DeleteManyProps,
   DeleteProps,
-  GetAllProps,
+  GetAllPropsServer,
   GetProps,
   SearchModel,
   UpdateProps,
@@ -22,7 +22,7 @@ export const Create: CreateProps<SpeciesModel> = (data: SpeciesModel) => {
   return axios.post(API_URL, data);
 };
 
-export const GetAll: GetAllProps<SpeciesModel> = ({
+export const GetAll: GetAllPropsServer<SpeciesModel> = ({
   queryProps,
   sortList,
   paginationProps,

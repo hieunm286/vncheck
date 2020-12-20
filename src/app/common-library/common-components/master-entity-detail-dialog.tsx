@@ -4,13 +4,14 @@ import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import {useIntl} from 'react-intl';
 import {iconStyle} from "../common-consts/const";
 import {getField} from "../helpers/common-function";
+import {RenderInfoDetailDialog} from "../common-types/common-type";
 
 export function MasterEntityDetailDialog({
                                            title = 'COMMON_COMPONENT.DETAIL_DIALOG.HEADER_TITLE',
                                            moduleName = 'COMMON_COMPONENT.DETAIL_DIALOG.MODULE_NAME',
                                            show,
                                            entity,
-                                           onClose,
+                                           onHide,
                                            renderInfo,
                                            size = 'sm'
                                          }: {
@@ -19,7 +20,7 @@ export function MasterEntityDetailDialog({
   show: boolean;
   entity: any;
   renderInfo: any;
-  onClose: () => void;
+  onHide: () => void;
   size?: 'sm' | 'lg';
 }) {
   const intl = useIntl();
@@ -27,7 +28,7 @@ export function MasterEntityDetailDialog({
     <Modal
       size={size}
       show={show}
-      onHide={onClose}
+      onHide={onHide}
       aria-labelledby="example-modal-sizes-title-lg"
       dialogClassName="modal-detail"
       // style={{width}}
@@ -42,7 +43,7 @@ export function MasterEntityDetailDialog({
       
       <MasterEntityDetail data={entity} renderInfo={renderInfo}/>
       <Modal.Footer className="border-top-0">
-        <button type="button" onClick={onClose} className="btn btn-outline-primary fixed-btn-width">
+        <button type="button" onClick={onHide} className="btn btn-outline-primary fixed-btn-width">
           <CancelOutlinedIcon style={iconStyle}/>
           {intl.formatMessage({id: 'COMMON_COMPONENT.DETAIL_DIALOG.CLOSE_BTN'})}
         </button>
@@ -56,7 +57,7 @@ export function MasterEntityDetail({
                                      renderInfo,
                                      convertFunctions = {},
                                    }: {
-  renderInfo: any[];
+  renderInfo: RenderInfoDetailDialog;
   data: any;
   convertFunctions?: { [V: string]: (input: any) => string };
 }) {

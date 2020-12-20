@@ -29,32 +29,29 @@ export function InfiniteSelect({
                                  loadOptions,
                                  onChange,
                                  required,
-                                 isHorizontal,
                                  keyField,
-                                 selectField = '_id',
+                                 disabled,
+                                 selectField,
                                  validationMessage,
-                                 ...props
+                                 mode, ...props
                                }: {
   label: string | ReactElement;
   loadOptions: any;
   selectField?: string;
   keyField?: string;
+  mode?: 'horizontal' | 'vertical',
   value?: any;
-  onChange?: (value: any, entity: any) => any;
-  placeholder?: any;
+  onChange?: (value: { value: any, entity: any }, props: { setFieldValue: ((name: string, value: any) => void), values: any }) => any;
+  placeholder?: string;
   name: string;
   additional?: any;
-  isHorizontal?: boolean;
-  disabled?: boolean;
   validationMessage?: string;
-  required?: boolean;
+  required?: boolean | ((values: any) => boolean);
+  disabled?: boolean | ((values: any) => boolean);
+  
 }) {
-  const {setFieldValue, errors, touched} = useFormikContext<any>();
+  const {setFieldValue, errors, touched, values} = useFormikContext<any>();
   const CustomAsyncPaginate = withAsyncPaginate(AtlaskitSelect);
-  const [innerValue, setValue] = useState<any>();
-  useEffect(() => {
-    setValue(value)
-  }, [value]);
   const styles = useMemo((): StylesConfig => {
     return {
       control: (base, props1) => {
@@ -106,28 +103,35 @@ export function InfiniteSelect({
       },
     }
   }, []);
+  console.log(keyField);
+  console.log(selectField);
   return (
     <>
-      <div className={isHorizontal ? 'row' : ''}>
-        <div className={isHorizontal ? 'col-xl-4 col-md-4 col-12' : ''}>
-          <label className={isHorizontal ? 'mb-0 input-label mt-2' : ''}>
+      <div className={mode === 'horizontal' ? 'row' : ''}>
+        <div className={mode === 'horizontal' ? 'col-xl-4 col-md-4 col-12' : ''}>
+          <label className={mode === 'horizontal' ? 'mb-0 input-label mt-2' : ''}>
             {label}
             {required ? <span className="text-danger">*</span> : <></>}
           </label>
         </div>
-        <div className={isHorizontal ? `col-xl-7 col-md-8 col-12` : ''}>
+        <div className={mode === 'horizontal' ? `col-xl-7 col-md-8 col-12` : ''}>
           <CustomAsyncPaginate
             className={getCSSClasses(errors[name], touched[name])}
-            // name={name}
             {...props}
-            value={innerValue}
+            value={selectField? [values[name][selectField]] : [values[name]]}
+            getOptionValue={option => {
+              return selectField ? option[selectField] : option
+            }}
+            getOptionLabel={option => {
+              return keyField ? option[keyField] : option
+            }}
             loadOptions={loadOptions}
             onChange={(value: any, action) => {
-              onChange && onChange(value.value, value.entity);
-              setValue(value)
-              setFieldValue(name, value.value);
+              setFieldValue(name, value);
+              onChange && onChange(value, {setFieldValue, values});
             }}
             styles={styles}
+            isDisabled={disabled ? typeof disabled === 'boolean' ? disabled : disabled(values) : disabled}
             // className={`${errors[name] ? 'border-danger' : 'input-search-select'}`}
           />
           {errors[name] && touched[name] ? (

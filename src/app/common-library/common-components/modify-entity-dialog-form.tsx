@@ -1,78 +1,74 @@
-import React, { useState } from 'react';
-import { Modal } from 'react-bootstrap';
-import { Field, Form, Formik } from 'formik';
-import { useIntl } from 'react-intl';
+import React, {useState} from 'react';
+import {Modal} from 'react-bootstrap';
+import {Field, Form, Formik} from 'formik';
+import {useIntl} from 'react-intl';
 import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import * as Yup from 'yup';
-import { MainInput } from '../forms/main-input';
-import { DefaultPagination, iconStyle } from '../common-consts/const';
-import { ModifyModel } from '../common-types/common-type';
+import {MainInput} from '../forms/main-input';
+import {DefaultPagination, iconStyle} from '../common-consts/const';
+import {ModifyForm, ModifyModel, OldModifyModel} from '../common-types/common-type';
 import CustomImageUpload from '../forms/custom-image-upload';
-import { getNewImage, getOnlyFile } from '../helpers/common-function';
-import { Card, CardBody, CardHeader } from '../card';
-import { uploadImage } from '../../pages/purchase-order/purchase-order.service';
+import {getNewImage, getOnlyFile} from '../helpers/common-function';
+import {Card, CardBody, CardHeader} from '../card';
+import {uploadImage} from '../../pages/purchase-order/purchase-order.service';
 import ModifyEntityPage from './modify-entity-page';
-import { diff } from 'deep-object-diff';
+import {diff} from 'deep-object-diff';
 
 function ModifyEntityDialogForm<T>({
-  entity,
-  onHide,
-  onModify,
-  modifyModel,
-  formPart,
-  validation,
-}: {
-  entity: any;
+                                     entity = {},
+                                     onHide,
+                                     onModify,
+                                     modifyForm,
+                                     validation,
+                                   }: {
+  entity?: any;
   onHide: () => void;
   onModify: (values: any) => void;
-  modifyModel: ModifyModel;
-  formPart: any;
+  modifyForm: ModifyForm;
   validation: any;
 }) {
   const intl = useIntl();
-  
   const [images, setImages] = useState(entity);
   const [imageRootArr, setImageRootArr] = useState<any>([]);
-
-  const [search, setSearch] = useState<any>(entity);
-
-
-  const onChange = (imageList: any, addUpdateIndex: any, key: any) => {
-    const imageArray = getOnlyFile(imageList);
-
-    const newArr = getNewImage(imageRootArr, imageArray);
-
-    newArr.forEach((file, index) => {
-      uploadImage(file)
-        .then(res => {
-          // console.log('update: ' + index);
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    });
-    // data for submit
-    setImages({ ...images, [key]: imageList });
-    setImageRootArr(imageArray);
-  };
-
+  
+  // const [search, setSearch] = useState<any>(entity);
+  //
+  //
+  // const onChange = (imageList: any, addUpdateIndex: any, key: any) => {
+  //   const imageArray = getOnlyFile(imageList);
+  //
+  //   const newArr = getNewImage(imageRootArr, imageArray);
+  //
+  //   newArr.forEach((file, index) => {
+  //     uploadImage(file)
+  //       .then(res => {
+  //         // console.log('update: ' + index);
+  //       })
+  //       .catch(err => {
+  //         console.log(err);
+  //       });
+  //   });
+  //   // data for submit
+  //   setImages({...images, [key]: imageList});
+  //   setImageRootArr(imageArray);
+  // };
+  console.log(entity);
   return (
     <Formik
-      enableReinitialize={true}
+      // enableReinitialize={true}
       initialValues={entity}
       validationSchema={validation}
       onSubmit={values => {
-        if (entity._id) {
-          const updateValue = diff(entity, values);
-          onModify({ _id: values._id, ...updateValue });
-        } else {
-          onModify(values)
-        } 
-
+        // if (entity._id) {
+        //   const updateValue = diff(entity, values);
+        //   onModify({_id: values._id, ...updateValue});
+        // } else {
+          onModify({...entity, ...values, __v:undefined});
+        // }
         onHide();
       }}>
-      {({ handleSubmit }) => (
+      {({handleSubmit}) => (
         <>
           <Modal.Body className="overlay overlay-block cursor-default">
             {/* {actionsLoading && (
@@ -81,90 +77,30 @@ function ModifyEntityDialogForm<T>({
                         </div>
                     )} */}
             <Form className="form form-label-right">
-              {Object.keys(formPart).map(key => (
+              {Object.keys(modifyForm).map(key => (
                 <React.Fragment key={key}>
-                  {/* {formPart[key].header && (
-                      title={
-                        <>
-                          <a onClick={() => history.goBack()}>
-                            <ArrowBackIosIcon />
-                          </a>
-                          {entityForEdit
-                            ? `CHỈNH SỬA ${formPart[key].header}`
-                            : `THÊM MỚI ${formPart[key].header}`}
-                        </>
-                      }
-                    
-                  )} */}
                   <ModifyEntityPage
                     images={images}
                     onChange={(imageList: any, addUpdateIndex: any, key: any) => {
-                      onChange(imageList, addUpdateIndex, key);
+                      // onChange(imageList, addUpdateIndex, key);
                     }}
-                    modifyModel={formPart[key].modifyModel as any}
-                    column={formPart[key].modifyModel.length}
-                    title={formPart[key].title}
-                    search={search}
-                    setSearch={setSearch}
+                    entity={entity}
+                    modifyModel={modifyForm[key].modifyModel}
+                    column={modifyForm[key].modifyModel.length}
+                    title={modifyForm[key].title}
                   />
                 </React.Fragment>
               ))}
             </Form>
-            {/* <Form className="form form-label-right">
-              {modifyModel ? (
-                Object.keys(modifyM).map(key => {
-                  switch (modifyM[key].type) {
-                    case 'string':
-                      return (
-                        <div className="mt-3" key={key}>
-                          <Field
-                            name={key}
-                            component={MainInput}
-                            placeholder={intl.formatMessage({
-                              id: modifyM[key].placeholder,
-                            })}
-                            withFeedbackLabel
-                            labelWidth={4}
-                            isHorizontal
-                            label={intl.formatMessage({
-                              id: modifyM[key].label,
-                            })}
-                          />
-                        </div>
-                      );
-                    case 'number':
-                      return <></>;
-                    case 'Datetime':
-                      return <></>;
-                    case 'image':
-                      return (
-                        <div className="mt-3" key={key}>
-                          <CustomImageUpload
-                            images={images}
-                            onChange={onChange}
-                            label={intl.formatMessage({
-                              id: modifyM[key].label,
-                            })}
-                            labelWidth={4}
-                            isHorizontal={true}
-                            required={modifyM[key].required}
-                          />
-                        </div>
-                      );
-                  }
-                  return <></>;
-                })
-              ) : (
-                <></>
-              )}
-            </Form> */}
           </Modal.Body>
-          <Modal.Footer>
-            <button type="submit" onClick={() => handleSubmit()} className="btn btn-primary">
-              <SaveOutlinedIcon style={iconStyle} /> Lưu
+          <Modal.Footer className="border-top-0 pt-10">
+            <button type="submit" onClick={() => handleSubmit()} className="btn btn-primary fixed-btn-width">
+              <SaveOutlinedIcon style={iconStyle}/>
+              {intl.formatMessage({id: 'COMMON_COMPONENT.MODIFY_DIALOG.SAVE_BTN'})}
             </button>
-            <button type="button" onClick={onHide} className="btn btn-outline-primary">
-              <CancelOutlinedIcon style={iconStyle} /> Hủy
+            <button type="button" onClick={onHide} className="btn btn-outline-primary fixed-btn-width">
+              <CancelOutlinedIcon style={iconStyle}/>
+              {intl.formatMessage({id: 'COMMON_COMPONENT.MODIFY_DIALOG.CLOSE_BTN'})}
             </button>
           </Modal.Footer>
         </>

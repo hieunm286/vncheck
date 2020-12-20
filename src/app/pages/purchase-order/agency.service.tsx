@@ -5,7 +5,7 @@ import {
   CreateProps,
   DeleteManyProps,
   DeleteProps,
-  GetAllProps,
+  GetAllPropsServer,
   GetProps,
   UpdateProps,
 } from '../../common-library/common-types/common-type';
@@ -18,7 +18,7 @@ export const Create: CreateProps<PurchaseOrderModel> = (data: PurchaseOrderModel
   return axios.post(API_URL, data);
 };
 
-export const GetAll: GetAllProps<AgencyModel> = ({ queryProps, sortList, paginationProps }) => {
+export const GetAll: GetAllPropsServer<AgencyModel> = ({ queryProps, sortList, paginationProps }) => {
   return axios.get(`${API_URL}`, {
     params: { ...queryProps, ...paginationProps, sortList },
     // paramsSerializer: ParamsSerializer

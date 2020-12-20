@@ -262,7 +262,7 @@ var KTOffcanvas = function(elementId, options) {
     /**
      * Set to show the canvas
      */
-    the.isShow = function() {
+    the.show = function() {
         return Plugin.show();
     };
 

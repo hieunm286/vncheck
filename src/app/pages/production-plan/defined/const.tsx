@@ -1,4 +1,4 @@
-import { SearchModel } from '../../../common-library/common-types/common-type';
+import {ModifyModel, SearchModel} from '../../../common-library/common-types/common-type';
 import { GenerateAllFormField } from '../../../common-library/helpers/common-function';
 import * as ProductPackagingService from '../../product-packaging/product-packaging.service';
 import * as SpeciesService from '../../species/species.service';
@@ -8,6 +8,7 @@ import '../style/production-plan.scss';
 import _ from 'lodash';
 import React, { Fragment } from 'react';
 import { useIntl } from 'react-intl';
+import {ProductPackagingModel} from "../../product-packaging/product-packaging.model";
 
 export const headerTitle = 'PRODUCT_TYPE.MASTER.HEADER.TITLE';
 export const bodyTitle = 'PRODUCT_TYPE.MASTER.BODY.TITLE';
@@ -76,7 +77,7 @@ export const productPlanSearchModel2: SearchModel = {
   },
 };
 
-export const modifyModel: any[] = [
+export const modifyModel: ModifyModel = [
   {
     title: 'THÔNG TIN CHUNG',
     data: {
@@ -123,7 +124,7 @@ export const modifyModel: any[] = [
           },
           seedingTime: {
             type: 'date-time',
-            placeholder: 'PRODUCT_TYPE.MASTER.TABLE.BARCODE_COLUMN',
+            // placeholder: 'PRODUCT_TYPE.MASTER.TABLE.BARCODE_COLUMN',
             required: true,
             label: 'Thời gian gieo',
             disabled: true,
@@ -161,7 +162,7 @@ export const modifyModel: any[] = [
           },
           estimatedPlantingTime: {
             type: 'date-time',
-            placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
+            // placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
             label: 'Thời gian trồng',
             disabled: true,
             required: true,
@@ -277,7 +278,7 @@ export const modifyModel: any[] = [
   },
 ];
 
-export const modifyModel2: any[] = [
+export const modifyModel2: ModifyModel = [
   {
     title: 'THÔNG TIN QUẢN TRỊ',
     data: {
@@ -357,7 +358,6 @@ export const modifyModel3: any[] = [
         data: {
           estimatedHarvestTime: {
             type: 'date-time',
-            placeholder: '',
             label: 'Thời gian thu hoạch (dự kiến)',
             required: true,
             disabled: true,
@@ -389,14 +389,14 @@ export const modifyModel3: any[] = [
             placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
             label: 'Nhân viên kỹ thuật thu hoạch',
             required: true,
-
+            process: '2'
           },
           leader: {
             type: 'tag',
             placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
             label: 'Tổ trưởng thu hoạch',
             required: true,
-
+            process: '2'
           },
         },
       },
@@ -404,7 +404,7 @@ export const modifyModel3: any[] = [
   },
 ];
 
-export const modifyModel4: any[] = [
+export const modifyModel4: ModifyModel = [
   {
     title: 'THÔNG TIN SƠ CHẾ',
     data: {
@@ -415,11 +415,13 @@ export const modifyModel4: any[] = [
             type: 'date-time',
             placeholder: 'Mã gieo giống',
             label: 'Thời gian sơ chế (dự kiến)',
+            process: '3'
           },
           estimatedQuantity: {
             type: 'number',
             placeholder: 'Mã gieo giống',
             label: 'Sản lượng sau sơ chế dự kiến (kg)',
+            process: '3'
           },
         },
       },
@@ -435,11 +437,13 @@ export const modifyModel4: any[] = [
             type: 'tag',
             placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
             label: 'Nhân viên kỹ thuật sơ chế',
+            process: '3'
           },
           leader: {
             type: 'tag',
             placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
             label: 'Tổ trưởng sơ chế',
+            process: '3'
           },
         },
       },
@@ -447,7 +451,7 @@ export const modifyModel4: any[] = [
   },
 ];
 
-export const modifyModel5: any[] = [
+export const modifyModel5: ModifyModel = [
   {
     title: 'THÔNG TIN LÀM SẠCH',
     data: {
@@ -458,11 +462,13 @@ export const modifyModel5: any[] = [
             type: 'date-time',
             placeholder: 'Mã gieo giống',
             label: 'Thời gian làm sạch (dự kiến)',
+            process: '4'
           },
           estimatedQuantity: {
             type: 'number',
             placeholder: 'Mã gieo giống',
             label: 'Sản lượng sau làm sạch dự kiến (kg)',
+            process: '4'
           },
         },
       },
@@ -479,12 +485,14 @@ export const modifyModel5: any[] = [
             placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
             label: 'Nhân viên kỹ thuật làm sạch',
             root: 'cleaning',
+            process: '4'
           },
           leader: {
             type: 'tag',
             placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
             label: 'Tổ trưởng làm sạch',
             root: 'cleaning',
+            process: '4'
           },
         },
       },
@@ -492,7 +500,7 @@ export const modifyModel5: any[] = [
   },
 ];
 
-export const modifyModel6: any[] = [
+export const modifyModel6: ModifyModel = [
   {
     title: 'THÔNG TIN ĐÓNG GÓI',
     data: {
@@ -503,26 +511,30 @@ export const modifyModel6: any[] = [
             type: 'date-time',
             placeholder: 'Mã gieo giống',
             label: 'Thời gian đóng gói (dự kiến)',
+            process: '5'
           },
           estimatedExpireTimeStart: {
             type: 'date-time',
             placeholder: 'Hạn sử dụng',
             label: 'Hạn sử dụng bắt đầu (dự kiến)',
+            process: '5'
           },
           estimatedExpireTimeEnd: {
             type: 'date-time',
             placeholder: 'Hạn sử dụng',
             label: 'Hạn sử dụng kết thúc (dự kiến)',
+            process: '5'
           },
           packing: {
-            type: 'SearchSelectV2',
+            type: 'search-select',
             placeholder: 'Quy cách',
             label: 'Quy cách đóng gói',
-            service: ProductPackagingService,
-            keyField: 'species',
-            rootField: 'seeding',
-            fillField: 'packing',
-            display: 'weight',
+            onSearch: ProductPackagingService.GetAll,
+            keyField: 'weight',
+            // onDisplayOptions: (e:ProductPackagingModel)=> e.species.weight,
+            // rootField: 'seeding',
+            // fillField: 'packing',
+            // display: 'weight',
           },
         },
       },
@@ -538,16 +550,19 @@ export const modifyModel6: any[] = [
             type: 'number',
             placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
             label: 'Số lượng đóng gói dự kiến ',
+            process: '5'
           },
           technical: {
             type: 'tag',
             placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.PLANTING',
             label: 'KCS',
+            process: '5'
           },
           leader: {
             type: 'tag',
             placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.PLANTING',
             label: 'Tổ trưởng đóng gói',
+            process: '5'
           },
         },
       },
@@ -555,7 +570,7 @@ export const modifyModel6: any[] = [
   },
 ];
 
-export const modifyModel7: any[] = [
+export const modifyModel7: ModifyModel = [
   {
     title: 'THÔNG TIN BẢO QUẢN',
     data: {
@@ -566,11 +581,13 @@ export const modifyModel7: any[] = [
             type: 'date-time',
             placeholder: 'Mã gieo giống',
             label: 'Thời gian bắt đầu bảo quản (dự kiến)',
+            process: '6'
           },
           estimatedEndTime: {
             type: 'date-time',
             placeholder: 'Mã gieo giống',
             label: 'Thời gian kết thúc bảo quản (dự kiến)',
+            process: '6'
           },
         },
       },
@@ -586,6 +603,7 @@ export const modifyModel7: any[] = [
             type: 'tag',
             placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
             label: 'Nhân viên kỹ thuật bảo quản',
+            process: '6'
           },
         },
       },
@@ -593,7 +611,7 @@ export const modifyModel7: any[] = [
   },
 ];
 
-export const formPart: any = {
+export const formPart = {
   form_1: {
     title: '',
     modifyModel: modifyModel,

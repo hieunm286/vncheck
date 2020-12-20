@@ -334,14 +334,14 @@ function MultilevelSale() {
         onDelete={onDeleteAgency}
         isShow={showdeleteAgency}
         loading={agencyLoading}
-        error={errorAgency}
+        error={{error:errorAgency}}
         onHide={() => {
           setShowDeleteAgency(false);
         }}
         title={deleteDialogTitle}
       />
       <ModifyEntityDialog
-        isShow={showCreate}
+        show={showCreate}
         entity={createEntity}
         onModify={values => {
           console.log(values);
@@ -353,7 +353,6 @@ function MultilevelSale() {
           }
         }}
         title={createTitle}
-        modifyModel={modifyModel}
         onHide={() => {
           setShowCreate(false);
         }}
@@ -370,7 +369,7 @@ function MultilevelSale() {
         homePage={homeURL}
       />
       <ModifyEntityDialog
-        isShow={showEdit}
+        show={showEdit}
         entity={editEntity}
         onModify={values => {
           console.log(values);
@@ -381,7 +380,6 @@ function MultilevelSale() {
           }
         }}
         title={updateTitle}
-        modifyModel={modifyModel}
         onHide={() => {
           setShowEdit(false);
         }}
@@ -414,7 +412,7 @@ function MultilevelSale() {
           setShowEdit(true);
         }}
         onDelete={(entity: any) => {
-          setError('')
+          setError({error:''})
           setDeleteEntity(entity);
           setShowDelete(true);
         }}

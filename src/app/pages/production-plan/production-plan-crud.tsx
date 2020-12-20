@@ -16,11 +16,8 @@ import { AxiosResponse } from 'axios';
 
 import { useIntl } from 'react-intl';
 import {
-  ConvertSelectSearch,
   generateInitForm,
   GetHomePage,
-  notifySuccess,
-  notify,
 } from '../../common-library/helpers/common-function';
 import { Card, CardBody, CardHeader } from '../../common-library/card';
 import ModifyEntityPage from '../../common-library/common-components/modify-entity-page';
@@ -202,10 +199,10 @@ function ProductionPlanCrud({
   useEffect(() => {
     if (code) {
       get(code).then((res: { data: any }) => {
-        const convert = autoFill
-          ? ConvertSelectSearch(res.data, autoFill.searchSelectField)
-          : ConvertSelectSearch(res.data);
-        setEntityForEdit(convert);
+        // const convert = autoFill
+        //   ? ConvertSelectSearch(res.data, autoFill.searchSelectField)
+        //   : ConvertSelectSearch(res.data);
+        setEntityForEdit(res.data);
         setSearch(res.data);
       });
     }
@@ -215,7 +212,6 @@ function ProductionPlanCrud({
     onModify(values)
       .then((res: any) => {
         setNoticeModal(true);
-        notifySuccess();
         setErrorMsg(undefined);
         refreshData();
         history.push(homePage || GetHomePage(window.location.pathname));
@@ -223,7 +219,6 @@ function ProductionPlanCrud({
       .catch(error => {
         setSubmitting(false);
         setErrorMsg(error.data || error.response.data);
-        notify(error.data || error.response.data);
       });
   };
 
@@ -363,7 +358,6 @@ function ProductionPlanCrud({
               .then((res: any) => {
                 sendRequest(entityForEdit)
                   .then(ress => {
-                    notifySuccess();
                     setErrorMsg(undefined);
                     refreshData();
                     history.push(homePage || GetHomePage(window.location.pathname));
@@ -371,18 +365,15 @@ function ProductionPlanCrud({
                   .catch(error => {
                     setSubmitting(false);
                     setErrorMsg(error.data || error.response.data);
-                    notify(error.data || error.response.data);
                   });
               })
               .catch(error => {
                 setSubmitting(false);
                 setErrorMsg(error.data || error.response.data);
-                notify(error.data || error.response.data);
               });
           } else if (step === '1' && currentTab === '2') {
             approveFollow(updateValue)
               .then(res => {
-                notifySuccess();
                 setErrorMsg(undefined);
                 refreshData();
                 history.push(homePage || GetHomePage(window.location.pathname));
@@ -390,7 +381,6 @@ function ProductionPlanCrud({
               .catch(error => {
                 setSubmitting(false);
                 setErrorMsg(error.data || error.response.data);
-                notify(error.data || error.response.data);
               });
           }
         }}>
@@ -424,14 +414,12 @@ function ProductionPlanCrud({
                   )}
                   <CardBody>
                     <ModifyEntityPage
-                      entityForEdit={entityForEdit}
+                      entity={entityForEdit}
                       images={images}
-                      modifyModel={formPart[key].modifyModel as any}
+                      modifyModel={formPart[key].modifyModel}
                       column={formPart[key].modifyModel.length}
                       title={formPart[key].title}
                       handleChangeTag={handleChangeTag}
-                      search={search}
-                      setSearch={setSearch}
                       tagData={tagData}
                       errors={errors}
                     />

@@ -15,9 +15,9 @@ import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import IndeterminateCheckBoxIcon from '@material-ui/icons/IndeterminateCheckBox';
 import { ActionsColumnFormatter } from '../../common-library/common-components/actions-column-formatter';
 import { DeleteEntityDialog } from '../../common-library/common-components/delete-entity-dialog';
-import DeleteManyEntitiesDialog from '../../common-library/common-components/delete-many-dialog';
+import DeleteManyEntitiesDialog from '../../common-library/common-components/delete-many-entities-dialog';
 import ModifyEntityDialog from '../../common-library/common-components/modify-entity-dialog';
-import { ModifyModel, SearchModel } from '../../common-library/common-types/common-type';
+import { OldModifyModel, SearchModel } from '../../common-library/common-types/common-type';
 import {
   ConvertToTreeNode,
   GenerateAllFormField,
@@ -561,7 +561,7 @@ function PurchaseOrder() {
         show={showDetail}
         entity={detailEntity}
         renderInfo={masterEntityDetailDialog}
-        onClose={() => {
+        onHide={() => {
           setShowDetail(false);
         }}
       />
@@ -596,7 +596,7 @@ function PurchaseOrder() {
         }}
       />*/}
       <ModifyEntityDialog
-        isShow={showEdit}
+        show={showEdit}
         entity={editEntity}
         onModify={update}
         title={updateTitle}

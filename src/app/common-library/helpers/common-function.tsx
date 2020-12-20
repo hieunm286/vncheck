@@ -7,16 +7,81 @@ import {
   CreateProps,
   DeleteManyProps,
   DeleteProps,
-  GetAllProps,
+  GetAllPropsServer,
   GetProps,
   UpdateProps,
 } from '../common-types/common-type';
 import {diff} from 'deep-object-diff';
 import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import {useIntl} from "react-intl";
 
 export const CapitalizeFirstLetter = (string: string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
+};
+
+export const GetError = (error: any, fieldName: string) => {
+  if (fieldName.indexOf('.') === -1) {
+    return error[fieldName]
+  }
+  
+  const arrName = fieldName.split('.')
+  
+  if (arrName.length === 3) {
+    return error[arrName[0]] ? error[arrName[0]][arrName[1]][arrName[2]] : ''
+  }
+  
+  return error[arrName[0]] ? error[arrName[0]][arrName[1]] : ''
+}
+export const GetTouched = (touched: any, fieldName: string) => {
+  if (fieldName.indexOf('.') === -1) {
+    return touched[fieldName]
+  }
+  
+  const arrName = fieldName.split('.')
+  
+  if (arrName.length === 3) {
+    return touched[arrName[0]] ? touched[arrName[0]][arrName[1]][arrName[2]] : ''
+  }
+  
+  return touched[arrName[0]] ? touched[arrName[0]][arrName[1]] : ''
+}
+export const GetFieldCSSClasses = (touched: any, errors: any) => {
+  const classes = ['form-control'];
+  
+  if (touched && errors) classes.push('is-invalid');
+  
+  if (touched && !errors) classes.push('is-valid');
+  
+  return classes.join(' ');
+};
+
+export const GetClassName = (labelWidth: number | null | undefined, labelStart: boolean) => {
+  const classes: string[] = [];
+  
+  if (labelStart) {
+    if (labelWidth) {
+      classes.push(`col-xl-${labelWidth}`);
+      classes.push(`col-md-${labelWidth}`);
+      classes.push('col-12');
+    } else {
+      classes.push(`col-xl-4`);
+      classes.push(`col-md-4`);
+      classes.push('col-12');
+    }
+  } else {
+    if (labelWidth) {
+      classes.push(`col-xl-${12 - labelWidth - 1}`);
+      classes.push(`col-md-${12 - labelWidth}`);
+      classes.push('col-12');
+    } else {
+      classes.push(`col-xl-7`);
+      classes.push(`col-md-8`);
+      classes.push('col-12');
+    }
+  }
+  
+  return classes.join(' ');
 };
 
 export const deCapitalizeFirstLetter = (string: string) => {
@@ -207,29 +272,29 @@ interface FieldProp {
   ref?: { prop: string, key: string }
 }
 
-export const ConvertSelectSearch = (entity: any, keyField?: FieldProp[]) => {
-  
-  if (!entity) return;
-  
-  const convertEntity = {...entity};
-  
-  if (keyField && keyField.length > 0) {
-    
-    keyField.forEach(({field, ref}: FieldProp) => {
-      if (ref && (!ref.prop || ref.prop === '')) {
-        convertEntity[field] = {label: getField(convertEntity[field], ref.key), value: convertEntity[field]._id}
-      } else if (ref && convertEntity[ref.prop]) {
-        convertEntity[field][ref.prop] = {label: getField(convertEntity[ref.prop], ref.key), value: entity._id}
-      } else {
-        convertEntity[field] = {label: convertEntity[field], value: entity._id}
-      }
-    })
-    
-    return convertEntity;
-  }
-  
-  return convertEntity;
-}
+// export const ConvertSelectSearch = (entity: any, keyField?: FieldProp[]) => {
+//
+//   if (!entity) return;
+//
+//   const convertEntity = {...entity};
+//
+//   if (keyField && keyField.length > 0) {
+//
+//     keyField.forEach(({field, ref}: FieldProp) => {
+//       if (ref && (!ref.prop || ref.prop === '')) {
+//         convertEntity[field] = {label: getField(convertEntity[field], ref.key), value: convertEntity[field]._id}
+//       } else if (ref && convertEntity[ref.prop]) {
+//         convertEntity[field][ref.prop] = {label: getField(convertEntity[ref.prop], ref.key), value: entity._id}
+//       } else {
+//         convertEntity[field] = {label: convertEntity[field], value: entity._id}
+//       }
+//     })
+//
+//     return convertEntity;
+//   }
+//
+//   return convertEntity;
+// }
 
 // export const ExportFieldOfSelectSearch = (formPart: any) => {
 //   const fieldArr = [];
@@ -250,30 +315,6 @@ export const ConvertStatusToString = (data: any) => {
   return typeof data.status === 'boolean' ? {...data, status: data.status ? "1" : "0"} : data;
 }
 
-export const notify = (error: string) => {
-  toast.error(`😠 ${error}`, {
-    position: 'top-right',
-    autoClose: 3000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-  });
-};
-
-export const notifySuccess = () => {
-  toast.success(`😠 Thành công`, {
-    position: 'top-right',
-    autoClose: 3000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-  });
-};
-
 export function InitMasterProps<T>({
                                      getAllServer,
                                      countServer,
@@ -283,7 +324,7 @@ export function InitMasterProps<T>({
                                      deleteServer,
                                      deleteManyServer,
                                    }: {
-  getAllServer: GetAllProps<T>;
+  getAllServer: GetAllPropsServer<T>;
   getServer: GetProps<T>;
   countServer: CountProps<T>;
   createServer: CreateProps<T>;
@@ -291,10 +332,11 @@ export function InitMasterProps<T>({
   deleteServer: DeleteProps<T>;
   deleteManyServer: DeleteManyProps<T>;
 }) {
+  const intl = useIntl();
   const [entities, setEntities] = useState<T[]>([]);
   const [deleteEntity, setDeleteEntity] = useState<T>(null as any);
-  const [editEntity, setEditEntity] = useState<T | null>(null as any);
-  const [createEntity, setCreateEntity] = useState<T | null>(null as any);
+  const [editEntity, setEditEntity] = useState<T | null>({} as any);
+  const [createEntity, setCreateEntity] = useState<T | null>({} as any);
   const [selectedEntities, setSelectedEntities] = useState<T[]>([]);
   const [detailEntity, setDetailEntity] = useState<T>(null as any);
   const [showDelete, setShowDelete] = useState(false);
@@ -308,16 +350,42 @@ export function InitMasterProps<T>({
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);
   const [spinning, setSpinning] = useState(false)
-  const [error, setError] = useState('')
+  const [error, setError] = useState({error: ''});
+  const notifyError = useCallback((error: string) => {
+    toast.error(intl.formatMessage({id: error ?? 'COMMON_COMPONENT.TOAST.DEFAULT_ERROR'}), {
+      position: 'top-right',
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+  }, []);
+  const notifySuccess = useCallback((message?: string) => {
+    toast.success(intl.formatMessage({id: message ?? 'COMMON_COMPONENT.TOAST.DEFAULT_SUCCESS'}), {
+      position: 'top-right',
+      autoClose: 2000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+  }, []);
   useEffect(() => {
-    setError('');
+    setError({error: ''});
   }, [showDetail, showDeleteMany, showDelete])
   const dispatch = useDispatch();
-  
+  useEffect(() => {
+    if (error.error !== '') {
+      notifyError(error.error);
+    }
+  }, [error]);
   const getAll = useCallback(
     (filterProps?) => {
       setLoading(true);
-      getAllServer({paginationProps, queryProps: filterProps})
+      return getAllServer({paginationProps, queryProps: filterProps})
         .then(getAllResponse => {
           // countServer(filterProps).then(countResponse => {
           //   setEntities(getAllResponse.data);
@@ -329,18 +397,19 @@ export function InitMasterProps<T>({
           setLoading(false);
           setSpinning(false);
           setTotal(data.paging ? data.paging.total : 5);
+          notifySuccess();
         })
         .catch(error => {
-          console.log(error);
-          setError(error.message)
+          setError({error: error.message || error.response.data || JSON.stringify(error)});
           setSpinning(false)
           setLoading(false);
+          throw error;
         });
     },
     [getAllServer, paginationProps],
   );
   
-  const refreshData = () => {
+  const refreshData = useCallback(() => {
     // setPaginationProps({ ...paginationProps, page: 1 });
     setTrigger(!trigger);
     setShowDelete(false);
@@ -352,82 +421,87 @@ export function InitMasterProps<T>({
     setLoading(false);
     setSpinning(false);
     setFilterProps({});
-    setError('')
-  };
+    setError({error: ''})
+  }, []);
   
-  const deleteFn = (entity: T) => {
+  const deleteFn = useCallback((entity: T) => {
     setLoading(true);
-    deleteServer(entity).then(refreshData).catch(error => {
-      setError(error.message || error.response.data || JSON.stringify(error))
-      setLoading(false);
-    });
-  };
-  
-  const deleteMany = (entities?: T[]) => {
-    setLoading(true);
-    deleteManyServer(entities ?? selectedEntities)
-      .then(refreshData)
+    return deleteServer(entity)
+      .then((e) => {
+        refreshData();
+        notifySuccess('COMMON_COMPONENT.TOAST.DELETE_SUCCESS');
+        return e;
+      })
       .catch(error => {
-        setError(error.message || error.response.data || JSON.stringify(error))
+        setError({error: error.message || error.response.data || JSON.stringify(error)});
         setLoading(false);
+        throw error;
       });
-  };
+  }, []);
   
-  const get = (entity: T, ModelSlice?: any) => {
-    getServer(entity)
+  const deleteMany = useCallback((entities?: T[]) => {
+    setLoading(true);
+    return deleteManyServer(entities ?? selectedEntities)
+      .then((e) => {
+        refreshData();
+        notifySuccess('COMMON_COMPONENT.TOAST.DELETE_SUCCESS');
+        return e;
+      })
+      .catch(error => {
+        setError({error: error.message || error.response.data || JSON.stringify(error)});
+        setLoading(false);
+        throw error;
+      });
+  }, []);
+  
+  const get = useCallback((entity: T, ModelSlice?: any) => {
+    return getServer(entity)
       .then(res => {
         setDetailEntity(res.data);
         setEditEntity(res.data);
-        
         if (ModelSlice) {
           const {actions} = ModelSlice;
           const editEntity = res.data;
-          
           dispatch(actions.entityFetched({editEntity}));
         }
+        notifySuccess('COMMON_COMPONENT.TOAST.GET_SUCCESS');
+        return res;
       })
       .catch(error => {
-        console.log(error);
-        setError(error.message)
+        setError({error: error.message || error.response.data || JSON.stringify(error)});
+        throw error;
       });
-  };
-  const update = (entity: T) => {
+  }, []);
+  const update = useCallback((entity: T) => {
     setLoading(true);
-    updateServer(entity)
-      .then(refreshData)
-      .catch(error => {
-        setError(error.message || JSON.stringify(error))
-        setLoading(false);
-      });
-  };
-  
-  const add = (entity: T) => {
-    setLoading(true);
-    createServer(entity)
-      .then(refreshData)
-      .catch(error => {
-        setError(error.message || JSON.stringify(error))
-        setLoading(false);
-      });
-  };
-  
-  const updatePromise = (entity: T) => {
     return updateServer(entity)
-    
-  };
+      .then((e) => {
+        refreshData();
+        notifySuccess('COMMON_COMPONENT.TOAST.UPDATE_SUCCESS');
+        return e;
+      })
+      .catch(error => {
+        setError({error: error.message || error.response.data || JSON.stringify(error)});
+        setLoading(false);
+        notifySuccess();
+        throw error;
+      });
+  }, []);
   
-  const addPromise = (entity: T) => {
+  const add = useCallback((entity: T) => {
+    setLoading(true);
     return createServer(entity)
-    
-  };
-  
-  const deletePromise = (entity: T) => {
-    return deleteServer(entity)
-  }
-  
-  const deleteManyPromise = () => {
-    return deleteManyServer(selectedEntities)
-  }
+      .then((e) => {
+        refreshData();
+        notifySuccess('COMMON_COMPONENT.TOAST.ADD_SUCCESS');
+        return e;
+      })
+      .catch(error => {
+        setError({error: error.message || error.response.data || JSON.stringify(error)});
+        setLoading(false);
+        throw error;
+      });
+  }, []);
   
   return {
     entities,
@@ -466,11 +540,8 @@ export function InitMasterProps<T>({
     setError,
     add,
     update,
-    addPromise,
-    updatePromise,
-    deletePromise,
-    deleteManyPromise,
     get,
+    intl,
     spinning,
     setSpinning,
     deleteMany,
@@ -479,18 +550,3 @@ export function InitMasterProps<T>({
     refreshData,
   };
 }
-
-// export const ParamsSerializer = (params: { sortList: SortProps, [t: string]: any }): string => {
-//   console.log(111);
-//   const orderParams = Object.keys(params.sortList).reduce((pre, current, i) => {
-//     return {
-//       sortBy: pre.sortBy + (i == 0 ? '' : ',') + current,
-//       sortType: pre.sortType + (i == 0 ? '' : ',') + params.sortList[current]
-//     }
-//   }, {sortBy: '', sortType: ''});
-//   const res = Object.entries({
-//     ...params,
-//     sortList: undefined, ...orderParams
-//   }).map(([key, value]) => `${key}=${value}`).join('&');
-//   return res;
-// }

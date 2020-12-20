@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Modal } from 'react-bootstrap';
 import { useIntl } from 'react-intl';
-import { ModifyModel } from '../../../common-library/common-types/common-type';
-import { ConvertSelectSearch, generateInitForm } from '../../../common-library/helpers/common-function';
+import { OldModifyModel } from '../../../common-library/common-types/common-type';
+import {  generateInitForm } from '../../../common-library/helpers/common-function';
 import { DefaultPagination } from '../../../common-library/common-consts/const';
 import ModifyShippingAddressDialogForm from './modify-shipping-address-dialog-form';
 
@@ -57,7 +57,7 @@ function ModifyShippingAddressDialog<T>({
         modifyModel={modifyModel}
         formPart={formPart}
         validation={validation}
-        entity={(autoFill ? ConvertSelectSearch(entity, autoFill.searchSelectField) : ConvertSelectSearch(entity)) || initForm}
+        entity={entity}
         onHide={onHide}
         onModify={onModify}
       />

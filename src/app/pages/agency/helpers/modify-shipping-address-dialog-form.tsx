@@ -7,7 +7,7 @@ import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import * as Yup from 'yup';
 import { MainInput } from '../../../common-library/forms/main-input';
 import { DefaultPagination, iconStyle } from '../../../common-library/common-consts/const';
-import { ModifyModel } from '../../../common-library/common-types/common-type';
+import { OldModifyModel } from '../../../common-library/common-types/common-type';
 import CustomImageUpload from '../../../common-library/forms/custom-image-upload';
 import { getNewImage, getOnlyFile } from '../../../common-library/helpers/common-function';
 import { Card, CardBody, CardHeader } from '../../../common-library/card';
@@ -28,7 +28,7 @@ function ModifyShippingAddressDialogForm<T>({
   entity: any;
   onHide: () => void;
   onModify: (values: any) => void;
-  modifyModel: ModifyModel;
+  modifyModel: OldModifyModel;
   formPart: any;
   validation: any;
 }) {

@@ -1,87 +1,30 @@
-import React, { Fragment, useEffect } from 'react';
-import { useIntl } from 'react-intl';
+import React, {Fragment, useEffect} from 'react';
+import {useIntl} from 'react-intl';
 import {
   DefaultPagination,
   NormalColumn,
   SortColumn,
   StatusValue,
 } from '../../common-library/common-consts/const';
-import { MasterHeader } from '../../common-library/common-components/master-header';
-import { MasterBody } from '../../common-library/common-components/master-body';
-import { ActionsColumnFormatter } from '../../common-library/common-components/actions-column-formatter';
-import { DeleteEntityDialog } from '../../common-library/common-components/delete-entity-dialog';
-import DeleteManyEntitiesDialog from '../../common-library/common-components/delete-many-dialog';
-import { ModifyModel, SearchModel } from '../../common-library/common-types/common-type';
+import {MasterHeader} from '../../common-library/common-components/master-header';
+import {MasterBody} from '../../common-library/common-components/master-body';
+import {ActionsColumnFormatter} from '../../common-library/common-components/actions-column-formatter';
+import {DeleteEntityDialog} from '../../common-library/common-components/delete-entity-dialog';
+import DeleteManyEntitiesDialog from '../../common-library/common-components/delete-many-entities-dialog';
 import {
-  GenerateAllFormField,
   InitMasterProps,
 } from '../../common-library/helpers/common-function';
-import { Switch, Route, useHistory } from 'react-router-dom';
+import {Switch, Route, useHistory} from 'react-router-dom';
 import EntityCrudPage from '../../common-library/common-components/entity-crud-page';
 import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import * as Yup from 'yup';
-import { SpeciesModel, ProductTypeModifyModelDetail } from './species.model';
+import {SpeciesModel} from './species.model';
 import * as ProductTypeService from './species.service';
 import SpeciesDetailDialog from './species-detail-dialog';
-import EntityCrudPagePromise from '../../common-library/common-components/entity-crud-page-promise';
 
-import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { allFormField, formPart, masterEntityDetailDialog, productTypeSearchModel } from './defined/const';
-
-const data: any = [
-  {
-    _id: 'abc',
-    code: '000001',
-    name: 'Rau muống',
-    barcode: '8930000001',
-    imageURL: 'https://product.hstatic.net/1000191320/product/rau-cai-chip_master.jpg',
-    growingDays: 15,
-    plantingDays: 30,
-    expiryDays: 30,
-  },
-  {
-    _id: 'abcd',
-    code: '000003',
-    name: 'Rau cải',
-    barcode: '8930000003',
-    imageURL: 'https://product.hstatic.net/1000191320/product/rau-cai-chip_master.jpg',
-    growingDays: 15,
-    plantingDays: 30,
-    expiryDays: 60,
-  },
-  {
-    _id: 'abce',
-    code: '000004',
-    name: 'Rau muống',
-    barcode: '8930000004',
-    imageURL: 'https://product.hstatic.net/1000191320/product/rau-cai-chip_master.jpg',
-    growingDays: 15,
-    plantingDays: 30,
-    expiryDays: 17,
-  },
-  {
-    _id: 'abcf',
-    code: '000005',
-    name: 'Rau muống',
-    barcode: '8930000005',
-    imageURL: 'https://product.hstatic.net/1000191320/product/rau-cai-chip_master.jpg',
-    growingDays: 15,
-    plantingDays: 30,
-    expiryDays: 19,
-  },
-  {
-    _id: 'abdacf',
-    code: '000009',
-    name: 'Rau cần',
-    barcode: '8930000009',
-    imageURL: 'https://product.hstatic.net/1000191320/product/rau-cai-chip_master.jpg',
-    growingDays: 15,
-    plantingDays: 30,
-    expiryDays: 19,
-  },
-];
+import {allFormField, masterEntityDetailDialog, models, productTypeSearchModel} from './defined/const';
 
 const headerTitle = 'PRODUCT_TYPE.MASTER.HEADER.TITLE';
 const bodyTitle = 'PRODUCT_TYPE.MASTER.BODY.TITLE';
@@ -89,7 +32,6 @@ const moduleName = 'PRODUCT_TYPE.MODULE_NAME';
 const deleteDialogTitle = 'PRODUCT_TYPE.DELETE_DIALOG.TITLE';
 const createTitle = 'PRODUCT_TYPE.CREATE.TITLE';
 const updateTitle = 'PRODUCT_TYPE.UPDATE.TITLE';
-const homeURL = `/species`;
 
 export const GenerateCode = (data: any[]) => {
   const lastEntity = data[data.length - 1].code;
@@ -99,9 +41,9 @@ export const GenerateCode = (data: any[]) => {
       break;
     }
   }
-
+  
   const lastIndex = parseInt(lastEntity.slice(i));
-
+  
   if (lastIndex < 9) {
     return `00000${lastIndex + 1}`;
   } else if (lastIndex < 99) {
@@ -136,7 +78,7 @@ const ProductTypeSchema = Yup.object().shape({
 
 function Species() {
   const intl = useIntl();
-
+  
   const history = useHistory();
   const {
     entities,
@@ -175,8 +117,6 @@ function Species() {
     setError,
     add,
     update,
-    addPromise,
-    updatePromise,
     get,
     deleteMany,
     deleteFn,
@@ -191,35 +131,35 @@ function Species() {
     getAllServer: ProductTypeService.GetAll,
     updateServer: ProductTypeService.Update,
   });
-
+  
   useEffect(() => {
     getAll(filterProps);
   }, [paginationProps, trigger, filterProps]);
-
+  
   const columns = {
     code: {
       dataField: 'code',
-      text: `${intl.formatMessage({ id: 'PRODUCT_TYPE.MASTER.TABLE.CODE_COLUMN' })}`,
+      text: `${intl.formatMessage({id: 'PRODUCT_TYPE.MASTER.TABLE.CODE_COLUMN'})}`,
       ...SortColumn,
       classes: 'text-center',
     },
     name: {
       dataField: 'name',
-      text: `${intl.formatMessage({ id: 'PRODUCT_TYPE.MASTER.TABLE.NAME_COLUMN' })}`,
+      text: `${intl.formatMessage({id: 'PRODUCT_TYPE.MASTER.TABLE.NAME_COLUMN'})}`,
       ...SortColumn,
       classes: 'text-center',
     },
-
+    
     barcode: {
       dataField: 'barcode',
-      text: `${intl.formatMessage({ id: 'PRODUCT_TYPE.MASTER.TABLE.BARCODE_COLUMN' })}`,
+      text: `${intl.formatMessage({id: 'PRODUCT_TYPE.MASTER.TABLE.BARCODE_COLUMN'})}`,
       ...SortColumn,
       classes: 'text-center',
       headerClasses: 'text-center',
     },
     action: {
       dataField: 'action',
-      text: `${intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.ACTION_COLUMN' })}`,
+      text: `${intl.formatMessage({id: 'PURCHASE_ORDER.MASTER.TABLE.ACTION_COLUMN'})}`,
       formatter: ActionsColumnFormatter,
       formatExtraData: {
         intl,
@@ -240,10 +180,10 @@ function Species() {
         },
       },
       ...NormalColumn,
-      style: { minWidth: '130px' },
+      style: {minWidth: '130px'},
     },
   };
-
+  
   const allFormButton: any = {
     type: 'inside',
     data: {
@@ -253,7 +193,7 @@ function Species() {
         linkto: undefined,
         className: 'btn btn-primary mr-5 pl-8 pr-8',
         label: 'Lưu',
-        icon: <SaveOutlinedIcon />,
+        icon: <SaveOutlinedIcon/>,
       },
       cancel: {
         role: 'link-button',
@@ -261,42 +201,10 @@ function Species() {
         linkto: '/species',
         className: 'btn btn-outline-primary mr-2 pl-8 pr-8',
         label: 'Hủy',
-        icon: <CancelOutlinedIcon />,
+        icon: <CancelOutlinedIcon/>,
       },
     },
   };
-
-  const notify = () => {
-    toast.error(`😠 ${error}`, {
-      position: 'top-right',
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
-  };
-
-  useEffect(() => {
-    if (error !== '') {
-      // store.addNotification({
-      //   title: 'Error!',
-      //   message: error,
-      //   type: 'danger',
-      //   insert: 'top',
-      //   container: 'top-center',
-      //   animationIn: ['animate__animated', 'animate__fadeIn'],
-      //   animationOut: ['animate__animated', 'animate__fadeOut'],
-      //   dismiss: {
-      //     duration: 5000,
-      //     onScreen: true,
-      //   },
-      // });
-      notify();
-    }
-  }, [error]);
-
   return (
     <Fragment>
       {/* <ReactNotification /> */}
@@ -332,17 +240,17 @@ function Species() {
           setShowDeleteMany(false);
         }}
       />
-
+      
       <Switch>
         <Route path="/species/new">
-          <EntityCrudPagePromise
+          <EntityCrudPage
             entity={createEntity}
-            onModify={addPromise}
+            onModify={add}
             title={createTitle}
             // reduxModel="purchaseOrder"
             code={null}
             get={() => null}
-            formPart={formPart}
+            models={models}
             allFormField={allFormField}
             allFormButton={allFormButton}
             validation={ProductTypeSchema}
@@ -350,12 +258,10 @@ function Species() {
             //   field: 'code',
             //   data: GenerateCode(data),
             // }}
-            refreshData={refreshData}
-            homePage={homeURL}
           />
         </Route>
         <Route path={`/species/:code`}>
-          {({ history, match }) => (
+          {({history, match}) => (
             // <ModifyEntityPage
             //   entity={editEntity}
             //   onModify={update}
@@ -365,21 +271,16 @@ function Species() {
             //   code={match && match.params.code}
             //   get={PurchaseOrderService.GetById}
             // />
-            <EntityCrudPagePromise
+            <EntityCrudPage
               entity={editEntity}
-              onModify={updatePromise}
+              onModify={update}
               title={updateTitle}
-              //  modifyModel={modifyModel}
-              reduxModel="purchaseOrder"
               code={match && match.params.code}
               get={ProductTypeService.GetById}
-              formPart={formPart}
+              models={models}
               allFormField={allFormField}
               allFormButton={allFormButton}
               validation={ProductTypeSchema}
-              homePage={homeURL}
-              asyncError={error}
-              refreshData={refreshData}
             />
           )}
         </Route>
@@ -411,7 +312,7 @@ function Species() {
             setPaginationParams={setPaginationProps}
             isShowId={true}
           />
-
+          
           {/* <MasterTreeStructure /> */}
         </Route>
       </Switch>

@@ -8,8 +8,8 @@ import {
   TickColumnFormatter
 } from '../../common-library/common-components/actions-column-formatter';
 import {DeleteEntityDialog} from '../../common-library/common-components/delete-entity-dialog';
-import DeleteManyEntitiesDialog from '../../common-library/common-components/delete-many-dialog';
-import {SearchModel} from '../../common-library/common-types/common-type';
+import DeleteManyEntitiesDialog from '../../common-library/common-components/delete-many-entities-dialog';
+import {RenderInfoDetailDialog, SearchModel} from '../../common-library/common-types/common-type';
 import {GenerateAllFormField, InitMasterProps,} from '../../common-library/helpers/common-function';
 import {Route, Switch, useHistory} from 'react-router-dom';
 import EntityCrudPage from '../../common-library/common-components/entity-crud-page';
@@ -144,7 +144,7 @@ function ShippingAgency() {
     }
   }, []);
   
-  const masterEntityDetailDialog = useMemo(() => [
+  const masterEntityDetailDialog: RenderInfoDetailDialog = useMemo(():RenderInfoDetailDialog => [
     {
       header: 'SHIPPING_AGENCY.DETAIL_DIALOG.SHIPPING.SUBTITLE',
       className: 'col-7',
@@ -153,9 +153,9 @@ function ShippingAgency() {
         name: {title: 'SHIPPING_AGENCY.DETAIL_DIALOG.SHIPPING.NAME'},
         address: {
           title: 'SHIPPING_AGENCY.DETAIL_DIALOG.SHIPPING.ADDRESS',
-          formatter: (address: any) => {
+          formatter: (address: any, row: any, rowIndex: number) => {
             const addressString = `${address.district}, ${address.city}, ${address.state}`;
-            return (<>{addressString}</>);
+            return ( <>{addressString}</>);
           }
         },
         phone: {title: 'SHIPPING_AGENCY.DETAIL_DIALOG.SHIPPING.PHONE_NUMBER'},
@@ -173,13 +173,13 @@ function ShippingAgency() {
       data: {
         fullName: {
           title: 'SHIPPING_AGENCY.DETAIL_DIALOG.OWNER.FULL_NAME',
-          keyField: 'owner.fullName'
+          // keyField: 'owner.fullName'
         }, email: {
           title: 'SHIPPING_AGENCY.DETAIL_DIALOG.OWNER.EMAIL',
-          keyField: 'owner.email'
+          // keyField: 'owner.email'
         }, phone: {
           title: 'SHIPPING_AGENCY.DETAIL_DIALOG.OWNER.PHONE_NUMBER',
-          keyField: 'owner.phone'
+          // keyField: 'owner.phone'
         },
       },
     },
@@ -195,7 +195,7 @@ function ShippingAgency() {
       label: 'SHIPPING_AGENCY.MASTER.SEARCH.NAME',
     },
     phone: {
-      type: 'string',
+      type: 'number',
       label: 'SHIPPING_AGENCY.MASTER.SEARCH.PHONE',
     },
   };
@@ -251,7 +251,7 @@ function ShippingAgency() {
     // },
   ], []);
   
-  const formPart: any = {
+  const models: any = {
     header: "SHIPPING_AGENCY.CREATE.HEADER",
     // form: [
     //   {
@@ -263,7 +263,6 @@ function ShippingAgency() {
     form_1: {
       title: '',
       modifyModel: modifyModel,
-      header: 'ĐƠN HÀNG',
     },
   };
   
@@ -303,7 +302,7 @@ function ShippingAgency() {
             title={createTitle}
             code={null}
             get={() => null}
-            models={formPart}
+            models={models}
             allFormField={allFormField}
             allFormButton={modifyButtonPage}
             // validation={ProductTypeSchema}
@@ -332,7 +331,7 @@ function ShippingAgency() {
               //  modifyModel={modifyModel}
               code={match && match.params.code}
               get={ShippingAgencyService.GetById}
-              models={formPart}
+              models={models}
               allFormField={allFormField}
               allFormButton={modifyButtonPage}
               //   validation={ProductTypeSchema}
@@ -373,8 +372,9 @@ function ShippingAgency() {
       </Switch>
       <MasterEntityDetailDialog
         title={detailDialogTitle}
+        moduleName={moduleName}
         entity={detailEntity}
-        onClose={() => {
+        onHide={() => {
           setShowDetail(false);
         }}
         show={showDetail}

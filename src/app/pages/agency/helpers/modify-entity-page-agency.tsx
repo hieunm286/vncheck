@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { useIntl } from 'react-intl';
-import { useFormikContext } from 'formik';
+import React, {useEffect, useState} from 'react';
+import {useIntl} from 'react-intl';
+import {useFormikContext} from 'formik';
 import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import * as Yup from 'yup';
@@ -8,23 +8,23 @@ import FormTemplate from './form-template';
 import {
   GenerateAllFormField
 } from '../../../common-library/helpers/common-function';
-import { DeleteEntityDialog } from '../../../common-library/common-components/delete-entity-dialog';
+import {DeleteEntityDialog} from '../../../common-library/common-components/delete-entity-dialog';
 import ModifyEntityDialog from '../../../common-library/common-components/modify-entity-dialog';
 import ModifyShippingAddressDialog from './modify-shipping-address-dialog';
-import { NotifyDialog } from '../../../common-library/common-components/notify-dialog';
+import {NotifyDialog} from '../../../common-library/common-components/notify-dialog';
 
 
 function ModifyEntityPageAgency<T>({
-  modifyModel,
-  images,
-  onChange,
-  title,
-  column,
-  search,
-  setSearch,
-  handleChangeTag,
-  values,
-}: {
+                                     modifyModel,
+                                     images,
+                                     onChange,
+                                     title,
+                                     column,
+                                     search,
+                                     setSearch,
+                                     handleChangeTag,
+                                     values,
+                                   }: {
   modifyModel: any;
   images?: any;
   onChange?: any;
@@ -36,8 +36,8 @@ function ModifyEntityPageAgency<T>({
   values?: any;
 }) {
   const intl = useIntl();
-  const modifyM = { ...modifyModel } as any;
-
+  const modifyM = {...modifyModel} as any;
+  
   const [entities, setEntities] = useState<T[]>([]);
   const [deleteEntity, setDeleteEntity] = useState<T>();
   const [editEntity, setEditEntity] = useState(values && values.shippingAddress);
@@ -54,13 +54,13 @@ function ModifyEntityPageAgency<T>({
   const [showCreate, setShowCreate] = useState(false);
   const [showDetail, setShowDetail] = useState(false);
   const [entityNumber, setEntityNumber] = useState(-1);
-  const { setFieldValue, errors, touched } = useFormikContext<any>();
-
-  const [ showNotifyDialog, setShowNotifyDialog ] = useState<boolean>(false);
-
+  const {setFieldValue, errors, touched} = useFormikContext<any>();
+  
+  const [showNotifyDialog, setShowNotifyDialog] = useState<boolean>(false);
+  
   const getShippingAddress = (entityNumber: number) => {
     return new Promise((resolve, reject) => {
-      if(values && values.shippingAddress) {
+      if (values && values.shippingAddress) {
         resolve(values.shippingAddress[entityNumber]);
       } else {
         reject((err: any) => {
@@ -69,10 +69,10 @@ function ModifyEntityPageAgency<T>({
       }
     })
   }
-
+  
   const getShippingAddresses = () => {
     return new Promise((resolve, reject) => {
-      if(values && values.shippingAddress) {
+      if (values && values.shippingAddress) {
         resolve(values.shippingAddress);
       } else {
         reject((err: any) => {
@@ -81,14 +81,14 @@ function ModifyEntityPageAgency<T>({
       }
     })
   }
-
+  
   const PurchaseOrderSchema = Yup.object().shape({
     state: Yup.string().required(intl.formatMessage({id: 'AGENCY.EDIT.VALIDATION.SHIPPING_ADDRESS_STATE'})),
     city: Yup.string().required(intl.formatMessage({id: 'AGENCY.EDIT.VALIDATION.SHIPPING_ADDRESS_CITY'})),
     district: Yup.string().required(intl.formatMessage({id: 'AGENCY.EDIT.VALIDATION.SHIPPING_ADDRESS_DISTRICT'})),
     address: Yup.string().required(intl.formatMessage({id: 'AGENCY.EDIT.VALIDATION.SHIPPING_ADDRESS_ADDRESS'})),
   });
-
+  
   const modifyModelAddress = [
     {
       title: '',
@@ -99,7 +99,7 @@ function ModifyEntityPageAgency<T>({
             id: 'AGENCY.EDIT.PLACEHOLDER.SHIPPING_ADDRESS_STATE',
           }),
           required: true,
-          label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.SHIPPING_ADDRESS_STATE' }),
+          label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.SHIPPING_ADDRESS_STATE'}),
         },
         city: {
           type: 'citySelect',
@@ -107,7 +107,7 @@ function ModifyEntityPageAgency<T>({
             id: 'AGENCY.EDIT.PLACEHOLDER.SHIPPING_ADDRESS_CITY',
           }),
           required: true,
-          label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.SHIPPING_ADDRESS_CITY' }),
+          label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.SHIPPING_ADDRESS_CITY'}),
         },
         district: {
           type: 'districtSelect',
@@ -115,7 +115,7 @@ function ModifyEntityPageAgency<T>({
             id: 'AGENCY.EDIT.PLACEHOLDER.SHIPPING_ADDRESS_DISTRICT',
           }),
           required: true,
-          label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.SHIPPING_ADDRESS_DISTRICT' }),
+          label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.SHIPPING_ADDRESS_DISTRICT'}),
         },
         address: {
           type: 'string',
@@ -123,12 +123,12 @@ function ModifyEntityPageAgency<T>({
             id: 'AGENCY.EDIT.PLACEHOLDER.SHIPPING_ADDRESS_ADDRESS',
           }),
           required: true,
-          label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.SHIPPING_ADDRESS_ADDRESS' }),
+          label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.SHIPPING_ADDRESS_ADDRESS'}),
         },
       },
     },
   ];
-
+  
   const createTitle = 'AGENCY.EDIT.HEADER.ADD_NEW_SHIPPING_ADDRESS';
   const updateTitle = 'AGENCY.EDIT.HEADER.EDIT_SHIPPING_ADDRESS';
   const deleteTitle = 'AGENCY.EDIT.HEADER.DELETE_SHIPPING_ADDRESS';
@@ -140,13 +140,13 @@ function ModifyEntityPageAgency<T>({
       header: 'ĐƠN HÀNG',
     },
   }
-
+  
   const allFormField: any = {
     ...GenerateAllFormField(
       modifyModelAddress,
     ),
   };
-
+  
   const allFormButton: any = {
     save: {
       role: 'submit',
@@ -154,7 +154,7 @@ function ModifyEntityPageAgency<T>({
       linkto: undefined,
       className: 'btn btn-primary mr-2',
       label: 'Lưu',
-      icon: <SaveOutlinedIcon />,
+      icon: <SaveOutlinedIcon/>,
     },
     cancel: {
       role: 'link-button',
@@ -162,7 +162,7 @@ function ModifyEntityPageAgency<T>({
       linkto: '/purchase-order',
       className: 'btn btn-outline-primary mr-2',
       label: 'Hủy',
-      icon: <CancelOutlinedIcon />,
+      icon: <CancelOutlinedIcon/>,
     },
     test: {
       role: 'button',
@@ -170,38 +170,37 @@ function ModifyEntityPageAgency<T>({
       linkto: undefined,
       className: 'btn btn-outline-primary',
       label: 'Test',
-      icon: <CancelOutlinedIcon />,
+      icon: <CancelOutlinedIcon/>,
     },
   };
-
+  
   const deleteFn = (entity: any) => {
     getShippingAddressesSync()
-    .then((shippingAddresses: any) => {
-      const deleteAddr = shippingAddresses.find((addr: any) => addr._id === entity._id);
-      shippingAddresses = shippingAddresses.filter((addr: any) => {
-            return entity._id !== addr._id;
-          });
-      const lastIdx = shippingAddresses.length - 1;
-      const currentDefault = currentAddress > lastIdx ? lastIdx : currentAddress;
-      if(currentDefault <= -1) {
-        setCurrentAddress(currentDefault);
-      } else {
-        setCurrentAddress(currentDefault);
-        shippingAddresses[currentDefault].isDefault = true;
-      }
-      for(let i = deleteAddr._id; i <= lastIdx - 1; i++) {
-        shippingAddresses[i]._id --;
-      }
-      setFieldValue('shippingAddress', shippingAddresses);
-      values.shippingAddress = shippingAddresses
-      setDeleteEntity(entity);
-      setShowDelete(false);
-
-      
-   
-    });
+      .then((shippingAddresses: any) => {
+        const deleteAddr = shippingAddresses.find((addr: any) => addr._id === entity._id);
+        shippingAddresses = shippingAddresses.filter((addr: any) => {
+          return entity._id !== addr._id;
+        });
+        const lastIdx = shippingAddresses.length - 1;
+        const currentDefault = currentAddress > lastIdx ? lastIdx : currentAddress;
+        if (currentDefault <= -1) {
+          setCurrentAddress(currentDefault);
+        } else {
+          setCurrentAddress(currentDefault);
+          shippingAddresses[currentDefault].isDefault = true;
+        }
+        for (let i = deleteAddr._id; i <= lastIdx - 1; i++) {
+          shippingAddresses[i]._id--;
+        }
+        setFieldValue('shippingAddress', shippingAddresses);
+        values.shippingAddress = shippingAddresses
+        setDeleteEntity(entity);
+        setShowDelete(false);
+        
+        
+      });
   };
-
+  
   const getShippingAddressSync = async (entityNumber: number) => {
     const shippingAddress = await getShippingAddress(entityNumber);
     return shippingAddress;
@@ -210,52 +209,56 @@ function ModifyEntityPageAgency<T>({
     const shippingAddress = await getShippingAddresses();
     return shippingAddress;
   };
-
-
+  
+  
   const update = (entity: any) => {
     getShippingAddressesSync()
-    .then((shippingAddresses: any) => {
-      setFieldValue('shippingAddress', shippingAddresses.map((addr: any) => {
+      .then((shippingAddresses: any) => {
+        setFieldValue('shippingAddress', shippingAddresses.map((addr: any) => {
+            return entity._id === addr._id ? entity : addr;
+          })
+        )
+        values.shippingAddress = values.shippingAddress.map((addr: any) => {
           return entity._id === addr._id ? entity : addr;
         })
-      )
-      values.shippingAddress = values.shippingAddress.map((addr: any) => {
-        return entity._id === addr._id ? entity : addr;
-      })
-      setEditEntity(entity)
-    });
+        setEditEntity(entity)
+      });
   }
-
+  
   const create = (entity: any) => {
     getShippingAddressesSync()
-    .then((shippingAddresses: any) => {
+      .then((shippingAddresses: any) => {
         // setEntityNumber(shippingAddresses.length + 1);
-        const _entity = {...entity, _id: (shippingAddresses.length), isDefault: shippingAddresses.length === 0 ? true : false};
+        const _entity = {
+          ...entity,
+          _id: (shippingAddresses.length),
+          isDefault: shippingAddresses.length === 0 ? true : false
+        };
         shippingAddresses.push(_entity);
         setFieldValue('shippingAddress', shippingAddresses);
         // values.shippingAddress.push(_entity);
         setCreateEntity(_entity)
-    });
+      });
   }
-
+  
   useEffect(() => {
     getShippingAddressesSync()
-    .then((res: any) => {
-      setEditEntity(res[0])
-    });
-  },[]);
-
+      .then((res: any) => {
+        setEditEntity(res[0])
+      });
+  }, []);
+  
   useEffect(() => {
     getShippingAddressesSync()
-    .then((res: any) => {
-      setEditEntity(res[entityNumber]);
-      setDeleteEntity(res[entityNumber]);
-    });
+      .then((res: any) => {
+        setEditEntity(res[entityNumber]);
+        setDeleteEntity(res[entityNumber]);
+      });
   }, [entityNumber]);
-
+  
   
   const [currentAddress, setCurrentAddress] = useState<any>('');
-
+  
   return (
     <>
       {title && <h6 className="text-primary">{title.toUpperCase()}</h6>}
@@ -264,34 +267,34 @@ function ModifyEntityPageAgency<T>({
           modifyModel && (
             <>
               <div className={`col-md-${12 / (column ? column : 1)} col-12`} key={0}>
-                <FormTemplate 
+                <FormTemplate
                   formValues={values}
                   images={images}
                   onChange={(imageList: any, addUpdateIndex: any, key: any) => {
                     onChange(imageList, addUpdateIndex, key);
-
+                    
                   }}
                   modifyModel={modifyModel[0]}
                   column={column}
                 />
               </div>
               <div className={`col-md-${12 / (column ? column : 1)} col-12`} key={1}>
-                <FormTemplate 
+                <FormTemplate
                   formValues={values}
                   images={images}
                   onChange={(imageList: any, addUpdateIndex: any, key: any) => {
                     onChange(imageList, addUpdateIndex, key);
-
+                    
                   }}
                   modifyModel={modifyModel[1]}
                   column={column}
                 />
-                <FormTemplate 
+                <FormTemplate
                   formValues={values}
                   images={images}
                   onChange={(imageList: any, addUpdateIndex: any, key: any) => {
                     onChange(imageList, addUpdateIndex, key);
-
+                    
                   }}
                   modifyModel={modifyModel[2]}
                   column={column}
@@ -307,7 +310,7 @@ function ModifyEntityPageAgency<T>({
           )
         }
       </div>
-
+      
       <ModifyShippingAddressDialog
         modifyModel={modifyModelAddress}
         isShow={showEdit}
@@ -322,7 +325,7 @@ function ModifyEntityPageAgency<T>({
           setShowEdit(false);
         }}
       />
-
+      
       <ModifyShippingAddressDialog
         modifyModel={modifyModelAddress}
         isShow={showCreate}
@@ -337,7 +340,7 @@ function ModifyEntityPageAgency<T>({
           setShowCreate(false);
         }}
       />
-
+      
       <DeleteEntityDialog
         moduleName={moduleName}
         title={deleteTitle}
@@ -348,9 +351,9 @@ function ModifyEntityPageAgency<T>({
           setShowDelete(false);
         }}
         loading={false}
-        error=''
+        error={{error: ''}}
       />
-
+      
       <NotifyDialog
         isShow={showNotifyDialog}
         onHide={() => setShowNotifyDialog(false)}

@@ -19,13 +19,6 @@ export interface SortProps {
   [t: string]: 'asc' | 'des';
 }
 
-export interface ShowProps {
-  edit: boolean;
-  delete: boolean;
-  detail: boolean;
-  deleteMany: boolean;
-}
-
 export interface DeleteDialogProps<T> {
   isShow: boolean;
   onHide: () => any;
@@ -40,7 +33,7 @@ export interface DeleteDialogProps<T> {
   cancelBtn?: string;
   loading?: boolean;
   deletingMessage?: string;
-  error?: string;
+  error?: { error: string };
 }
 
 export interface DeleteDialogPromiseProps<T> {
@@ -103,7 +96,7 @@ export interface DeleteManyDialogProps<T> {
   deleteBtn?: string;
   cancelBtn?: string;
   loading?: boolean;
-  error?: string;
+  error?: { error: string };
 }
 
 export interface DeleteManyDialogPromiseProps<T> {
@@ -154,19 +147,23 @@ export interface ActionColumnProps<T> {
   // editTitle: string;
   // deleteTitle: string;
 }
+
 export type InputType = 'string' | 'number' | 'date-time' | 'search-select' | 'file' | 'tree-select' | 'nested';
 export type SearchModel = {
   [T: string]: {
     type: InputType;
     placeholder?: string;
-    label: string| ReactElement;
+    label: string | ReactElement;
     keyField?: string;
-    onSearch?: (t: any) => any;
+    disabled?: boolean;
+    selectField?: string;
+    onSearch?: (e: any) => void;
+    onChange?: (value: any, props: { setFieldValue: ((name: string, value: any) => void), values: any }) => any;
     data?: any;
     name?: string;
   };
 };
-export type ModifyModel = {
+export type OldModifyModel = {
   [T: string]: {
     type: InputType;
     placeholder: string;
@@ -174,7 +171,43 @@ export type ModifyModel = {
     disabled?: boolean;
   };
 };
+export type ModifyForm = { [T: string]: { title: string, modifyModel: ModifyModel } };
 
+export type ModifyModel = ModifyPart[];
+
+export type ModifyPart = {
+  title: string;
+  data: _ModifyModelType;
+}
+
+export type _ModifyModelType = {
+  [T: string]: (
+    {
+      type: 'string' | 'date-time' | 'number' | 'boolean' | 'tag' | 'gallery';
+    } & _CommonProps)
+    | { type: 'object', name?: string, data: _ModifyModelType, disabled?: boolean }
+    | ({ type: 'image', value: any } & _CommonProps)
+    | ({ type: 'search-select', onSearch: GetAllPropsServer<any> | GetAllProps<any>, keyField?: string, selectField?: string } & _CommonProps)
+}
+export type _CommonProps = {
+  label: string | ReactElement;
+  placeholder?: string;
+  required?: boolean|((values:any) => boolean);
+  disabled?: boolean|((values:any) => boolean);
+  value?: any;
+  name?: string;
+  [T: string]: any;
+  onChange?: (value: any, props: { setFieldValue: ((name: string, value: any) => void), values: any }) => any;
+}
+export type GetAllPropsServer<T> = ({
+                                      queryProps,
+                                      sortList,
+                                      paginationProps,
+                                    }: {
+  queryProps: any;
+  sortList?: SortProps[];
+  paginationProps?: PaginationProps | PaginationPropsV2;
+}) => (Promise<AxiosResponse<T[]>>);
 export type GetAllProps<T> = ({
                                 queryProps,
                                 sortList,
@@ -183,7 +216,7 @@ export type GetAllProps<T> = ({
   queryProps: any;
   sortList?: SortProps[];
   paginationProps?: PaginationProps | PaginationPropsV2;
-}) => Promise<AxiosResponse<T[]>>;
+}) => (Promise<{ code: number, data: any, success: boolean }>);
 
 export type CountProps<T> = ({
                                queryProps,
@@ -194,7 +227,19 @@ export type CountProps<T> = ({
   sortList?: SortProps[];
   paginationProps?: PaginationProps;
 }) => Promise<AxiosResponse>;
-
+export type RenderInfoDetailDialog = {
+  header?: string;
+  className?: string;
+  data: {
+    [T: string]: {
+      title: string;
+      formatter?: (cellContent: any, row: any, rowIndex: number) => ReactElement;
+      keyField?: string;
+    }
+  },
+  titleClassName?: string;
+  dataClassName?: string;
+}[]
 export type GetProps<T> = (entity: T) => Promise<AxiosResponse>;
 export type UpdateProps<T> = (entity: T) => Promise<AxiosResponse>;
 export type DeleteProps<T> = (entity: T) => Promise<AxiosResponse>;

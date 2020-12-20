@@ -151,7 +151,7 @@ var KTDialog = function(options) {
     /**
      * Show dialog
      */
-    the.isShow = function() {
+    the.show = function() {
         return Plugin.show();
     };
 

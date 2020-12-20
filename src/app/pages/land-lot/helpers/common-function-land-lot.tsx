@@ -7,9 +7,9 @@ import {
   CreateProps,
   DeleteManyProps,
   DeleteProps,
-  GetAllProps,
+  GetAllPropsServer,
   GetProps,
-  ModifyModel,
+  OldModifyModel,
   UpdateProps,
 } from '../../../common-library/common-types/common-type';
 
@@ -164,7 +164,7 @@ export function InitMasterProps<T>({
   deleteServer,
   deleteManyServer,
 }: {
-  getAllServer: GetAllProps<T>;
+  getAllServer: GetAllPropsServer<T>;
   getServer: GetProps<T>;
   countServer: CountProps<T>;
   createServer: CreateProps<T>;

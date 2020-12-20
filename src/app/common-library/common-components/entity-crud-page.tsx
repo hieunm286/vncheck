@@ -1,6 +1,6 @@
 import React, {Fragment, useEffect, useState} from 'react';
 import ModifyEntityPage from './modify-entity-page';
-import {ModifyModel} from '../common-types/common-type';
+import {OldModifyModel} from '../common-types/common-type';
 import {useIntl} from 'react-intl';
 import {
   generateInitForm,

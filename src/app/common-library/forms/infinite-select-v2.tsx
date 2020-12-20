@@ -99,11 +99,7 @@ export function InfiniteSelectV2({
             value={value}
             isDisabled={isDisabled}
             loadOptions={(search: string, prevOptions: any, { page }: any) =>
-              loadOptions ? loadOptions(
-                search,
-                prevOptions,
-                { page },
-              ) : loadOption(
+             loadOption(
                 search,
                 prevOptions,
                 { page },

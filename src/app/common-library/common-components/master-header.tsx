@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useState} from 'react';
+import React, {ChangeEvent, useEffect, useState} from 'react';
 import {useIntl} from 'react-intl';
 import {Formik} from 'formik';
 import SearchIcon from '@material-ui/icons/Search';
@@ -17,17 +17,19 @@ export function MasterHeader<T>({
                                   onSearch,
                                   searchModel,
                                   initValue = {},
+                                  value,
                                 }: {
   searchModel: SearchModel;
   title: string;
   initValue?: any;
+  value?: any;
   onSearch: (data: any) => void;
 }) {
   const intl = useIntl();
-  const [resetSearchSelect, triggerResetSearch] = useState<any>();
+  const [resetSearchSelect, triggerResetSearch] = useState<any>({});
   const defaultClassName = "col-xxl-2 col-md-3 master-header-search-input-margin";
   const handleResetForm = (resetForm: any) => {
-    triggerResetSearch(null);
+    triggerResetSearch({});
     resetForm();
   };
   return (
@@ -44,7 +46,8 @@ export function MasterHeader<T>({
             // if (onReset) {
             //   onReset(data);
             // }
-          }}>
+          }}
+        >
           {({values, handleSubmit, handleBlur, handleChange, setFieldValue, resetForm}) => (
             <form onSubmit={handleSubmit} className="form form-label-right">
               <div className="form-group row master-header-search-margin">
@@ -78,21 +81,14 @@ export function MasterHeader<T>({
                         );
                       case 'search-select':
                         if (searchModel[key].onSearch === undefined || searchModel[key].onSearch === null) return;
-                        if (!searchModel[key].keyField) return;
-                        const t = (t: any) => {
-                        
-                        };
+                        const t: any = (t: any) => null;
                         return (
                           <InputSearchSelect
                             className={defaultClassName}
                             name={key}
-                            value={resetSearchSelect}
+                            value={values[key]}
                             {...searchModel[key]}
-                            onChange={(e:any)=>{
-                              // setSearch({...search, [key]: e});
-                            }}
                             onSearch={searchModel[key].onSearch ?? t}
-                            keyField={searchModel[key].keyField ?? ''}
                             key={`master_header${key}`}
                           />
                         );
