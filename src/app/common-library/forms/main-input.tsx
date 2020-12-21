@@ -14,7 +14,7 @@ interface MainInputState {
   withValidation: any;
   customFeedbackLabel: any;
   mode: 'horizontal' | 'vertical';
-  labelWidth: any;
+  labelWidth: number;
   width: any;
   type: string;
   value: any;

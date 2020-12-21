@@ -32,7 +32,7 @@ function EntityCrudPage({
                           code,
                           get,
                           models,
-                          allFormField,
+                          // allFormField,
                           actions,
                           validation,
                           autoFill,
@@ -45,23 +45,23 @@ function EntityCrudPage({
   code: string | null;
   get: (code: string) => any | null;
   models: any;
-  allFormField: any;
+  // allFormField: any;
   actions: any;
   validation?: any;
   autoFill?: any;
 }) {
   const intl = useIntl();
-  const initForm = autoFill
-    ? generateInitForm(allFormField, autoFill.field, autoFill.entity)
-    : generateInitForm(allFormField);
+  // const initForm = autoFill
+  //   ? generateInitForm(allFormField, autoFill.field, autoFill.data)
+  //   : generateInitForm(allFormField);
   const {header, ...formPart} = models;
   const history = useHistory();
   const [entityForEdit, setEntityForEdit] = useState(entity);
   
-  const [images, setImages] = useState(initForm);
+  // const [images, setImages] = useState(initForm);
   const [imageRootArr, setImageRootArr] = useState<any>([]);
   
-  const [tagArr, setTagArr] = useState(initForm);
+  // const [tagArr, setTagArr] = useState(initForm);
   
   const [imageData, setImageData] = useState<{ data_url: any; exif: any }[]>([])
   
@@ -89,17 +89,17 @@ function EntityCrudPage({
     const imageArray = getOnlyFile(imageList);
     const base64Array = getOnlyBase64(imageList);
     const ImagesData = []
-    const newArr = getNewImage(images[key], imageList);
+    // const newArr = getNewImage(images[key], imageList);
     // console.log(newArr)
     // newArr.forEach((file, index) => {
     //   ImageMeta(file.file) 
     // });
-    ImageMeta(newArr)
+    // ImageMeta(newArr)
     
     setFieldValue(key, imageData)
     
     // data for submit
-    setImages({...images, [key]: imageList});
+    // setImages({...images, [key]: imageList});
     setImageRootArr(base64Array);
     
   };
@@ -120,7 +120,7 @@ function EntityCrudPage({
           console.log(url);
           cv.images = [url];
 
-          setImages(cv)
+          // setImages(cv)
         })
         .catch(error => {
           console.log(error); // Logs an error if there was one
@@ -128,7 +128,7 @@ function EntityCrudPage({
     }
   };
 
-  console.log(images)
+  // console.log(images)
   
   // useEffect(() => {
   //   if (code) {
@@ -156,7 +156,7 @@ function EntityCrudPage({
     <>
       <Formik
         enableReinitialize={true}
-        initialValues={entityForEdit || initForm}
+        initialValues={entityForEdit}
         validationSchema={validation}
         onSubmit={(values, { setSubmitting }) => {
           console.log(values);
@@ -204,12 +204,13 @@ function EntityCrudPage({
                     />
                   <CardBody>
                     <ModifyEntityPage
-                      images={images}
+                      // className={formPart[key].className}
+                      // images={images}
                       onChange={(imageList: any, addUpdateIndex: any, key: any) => {
                         onChange(imageList, addUpdateIndex, key, setFieldValue);
                       }}
                       modifyModel={formPart[key].modifyModel as any}
-                      column={formPart[key].modifyModel.length}
+                      // column={formPart[key].modifyModel.length}
                       title={formPart[key].title}
                       handleChangeTag={handleChangeTag}
                     />

@@ -627,7 +627,7 @@ function PurchaseOrder() {
             code={null}
             get={() => null}
             models={formPart}
-            allFormField={allFormField}
+            // allFormField={allFormField}
             actions={allFormButton}
             validation={PurchaseOrderSchema}
           />

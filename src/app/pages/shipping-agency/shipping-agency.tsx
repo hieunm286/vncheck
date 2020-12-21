@@ -206,6 +206,7 @@ function ShippingAgency() {
   const modifyModel: ModifyModel = useMemo(() => [
     {
       title: 'THÔNG TIN CHUNG',
+      className: 'col-6 pr-xl-15 pr-md-10 pr-5',
       data: {
         code: {
           type: 'string',
@@ -224,6 +225,52 @@ function ShippingAgency() {
           label: 'SHIPPING_AGENCY.MODIFY.CITY',
         },
         district: {
+          type: 'string',
+          required: true,
+          label: 'SHIPPING_AGENCY.MODIFY.DISTRICT',
+        },
+        quater: {
+          type: 'string',
+          required: true,
+          label: 'SHIPPING_AGENCY.MODIFY.DISTRICT',
+        },
+        address: {
+          type: 'string',
+          required: true,
+          label: 'SHIPPING_AGENCY.MODIFY.DISTRICT',
+        },
+      },
+    }, {
+      title: 'THÔNG TIN CHỦ ĐƠN VỊ',
+      className: 'col-6 pl-xl-15 pl-md-10 pl-5',
+      data: {
+        code: {
+          type: 'string',
+          label: 'SHIPPING_AGENCY.MODIFY.CODE',
+          required: true,
+          disabled: true,
+        },
+        name: {
+          type: 'string',
+          required: true,
+          label: 'SHIPPING_AGENCY.MODIFY.NAME',
+        },
+        city: {
+          type: 'string',
+          required: true,
+          label: 'SHIPPING_AGENCY.MODIFY.CITY',
+        },
+        district: {
+          type: 'string',
+          required: true,
+          label: 'SHIPPING_AGENCY.MODIFY.DISTRICT',
+        },
+        quater: {
+          type: 'string',
+          required: true,
+          label: 'SHIPPING_AGENCY.MODIFY.DISTRICT',
+        },
+        address: {
           type: 'string',
           required: true,
           label: 'SHIPPING_AGENCY.MODIFY.DISTRICT',
@@ -250,7 +297,7 @@ function ShippingAgency() {
       role: 'submit',
       type: 'submit',
       linkto: undefined,
-      className: 'btn btn-primary mr-2',
+      className: 'btn btn-primary mr-8 fixed-btn-width',
       label: 'Lưu',
       icon: <SaveOutlinedIcon/>,
     },
@@ -258,7 +305,7 @@ function ShippingAgency() {
       role: 'link-button',
       type: 'button',
       linkto: '/shipping-agency',
-      className: 'btn btn-outline-primary',
+      className: 'btn btn-outline-primary fixed-btn-width',
       label: 'Hủy',
       icon: <CancelOutlinedIcon/>,
     },
@@ -276,7 +323,7 @@ function ShippingAgency() {
             code={null}
             get={() => null}
             models={models}
-            allFormField={allFormField}
+            // allFormField={allFormField}
             actions={actions}
             // validation={ProductTypeSchema}
             // autoFill={{
@@ -305,7 +352,7 @@ function ShippingAgency() {
               code={match && match.params.code}
               get={ShippingAgencyService.GetById}
               models={models}
-              allFormField={allFormField}
+              // allFormField={allFormField}
               actions={actions}
               //   validation={ProductTypeSchema}
             />

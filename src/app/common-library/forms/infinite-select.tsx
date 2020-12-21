@@ -1,7 +1,7 @@
 import React, {ReactElement, useContext, useEffect, useMemo, useState} from 'react';
 import {withAsyncPaginate} from 'react-select-async-paginate';
 import {useFormikContext} from 'formik';
-import {deCapitalizeFirstLetter} from '../helpers/common-function'
+import {deCapitalizeFirstLetter, GetClassName} from '../helpers/common-function'
 import AtlaskitSelect from "@atlaskit/select";
 import {useIntl} from "react-intl";
 import {StylesConfig} from "react-select/src/styles";
@@ -33,6 +33,7 @@ export function InfiniteSelect({
                                  disabled,
                                  selectField,
                                  validationMessage,
+                                 labelWidth,
                                  mode, ...props
                                }: {
   label: string | ReactElement;
@@ -45,6 +46,7 @@ export function InfiniteSelect({
   placeholder?: string;
   name: string;
   additional?: any;
+  labelWidth?:number;
   validationMessage?: string;
   required?: boolean | ((values: any) => boolean);
   disabled?: boolean | ((values: any) => boolean);
@@ -108,13 +110,13 @@ export function InfiniteSelect({
   return (
     <>
       <div className={mode === 'horizontal' ? 'row' : ''}>
-        <div className={mode === 'horizontal' ? 'col-xl-4 col-md-4 col-12' : ''}>
-          <label className={mode === 'horizontal' ? 'mb-0 input-label mt-2' : ''}>
+        <div className={mode === 'horizontal' ? GetClassName(labelWidth, true) : ''}>
+          <label className={mode === 'horizontal' ? 'mb-0 mt-2' : ''}>
             {label}
             {required ? <span className="text-danger">*</span> : <></>}
           </label>
         </div>
-        <div className={mode === 'horizontal' ? `col-xl-7 col-md-8 col-12` : ''}>
+        <div className={mode === 'horizontal' ? GetClassName(labelWidth, false) : ''}>
           <CustomAsyncPaginate
             className={getCSSClasses(errors[name], touched[name])}
             {...props}

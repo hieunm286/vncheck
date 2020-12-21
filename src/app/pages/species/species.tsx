@@ -272,7 +272,7 @@ function Species() {
             code={null}
             get={() => null}
             models={models}
-            allFormField={allFormField}
+            // allFormField={allFormField}
             actions={allFormButton}
             validation={ProductTypeSchema}
             // autoFill={{
@@ -299,7 +299,7 @@ function Species() {
               code={match && match.params.code}
               get={ProductTypeService.GetById}
               models={models}
-              allFormField={allFormField}
+              // allFormField={allFormField}
               actions={allFormButton}
               validation={ProductTypeSchema}
             />
