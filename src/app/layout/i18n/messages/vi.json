@@ -304,6 +304,7 @@
   "LAND_LOT.ERROR.INVALID_LENGTH_SEARCH": "Chỉ nhập tối đa 3 ký tự",
   "LAND_LOT.ERROR.INVALID_LOT_SEARCH": "Vui lòng nhập mã lô từ A->Z",
   "LAND_LOT.ERROR.INVALID_SUB_LOT_SEARCH": "Vui lòng chỉ nhập mã thửa từ 01->99",
+  "UPDATE.ERROR.LAND_LOT.LAND_LOT_IN_USE": "Lô thửa đã tồn tại",
   "CREATE.ERROR.LAND_LOT.LAND_LOT_IN_USE": "Mã lô thửa đã được dùng",
   "DELETE.ERROR.LAND_LOT.LAND_LOT_IN_USE": "Lô thửa đã được sử dụng",
   "VALIDATE_TEST_01": "Vui lòng nhập mã đơn vị",

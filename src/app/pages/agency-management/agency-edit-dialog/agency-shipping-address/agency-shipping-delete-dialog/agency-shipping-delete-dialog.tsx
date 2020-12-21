@@ -34,7 +34,7 @@ export function AgencyShippingDeleteDialog({
         : [];
     shippingAdressArr.splice(rowShippingData.rowIndex, 1);
     
-    if (rowShippingData.data.id == 0 && shippingAdressArr.length > 0) {
+    if (rowShippingData.entity.id == 0 && shippingAdressArr.length > 0) {
       shippingAdressArr[shippingAdressArr.length - 1].id = '0';
     }
     const updateAgency = {

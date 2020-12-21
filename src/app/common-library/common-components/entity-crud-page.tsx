@@ -33,7 +33,7 @@ function EntityCrudPage({
                           get,
                           models,
                           allFormField,
-                          allFormButton,
+                          actions,
                           validation,
                           autoFill,
                         }: {
@@ -46,13 +46,13 @@ function EntityCrudPage({
   get: (code: string) => any | null;
   models: any;
   allFormField: any;
-  allFormButton: any;
+  actions: any;
   validation?: any;
   autoFill?: any;
 }) {
   const intl = useIntl();
   const initForm = autoFill
-    ? generateInitForm(allFormField, autoFill.field, autoFill.data)
+    ? generateInitForm(allFormField, autoFill.field, autoFill.entity)
     : generateInitForm(allFormField);
   const {header, ...formPart} = models;
   const history = useHistory();
@@ -216,40 +216,39 @@ function EntityCrudPage({
                   </CardBody>
                   {(
                     <div className="text-right mb-5 mr-5" key={key}>
-                      {Object.keys(allFormButton.data).map(keyss => {
-                        switch (allFormButton.data[keyss].role) {
+                      {Object.keys(actions).map(keyss => {
+                        switch (actions[keyss].role) {
                           case 'submit':
-                            console.log(allFormButton[keyss])
-
+                            console.log(actions[keyss])
                             return (
                               <button
                                 formNoValidate
-                                type={allFormButton.data[keyss].type}
-                                className={allFormButton.data[keyss].className}
+                                type={actions[keyss].type}
+                                className={actions[keyss].className}
                                 key={keyss}
                                 onClick={() => handleSubmit()}>
-                                {allFormButton.data[keyss].icon} {allFormButton.data[keyss].label}
+                                {actions[keyss].icon} {actions[keyss].label}
                               </button>
                             );
                           
                           case 'button':
-                            console.log(allFormButton.data[keyss])
+                            console.log(actions[keyss])
 
                             return (
                               <button
-                                type={allFormButton.data[keyss].type}
-                                className={allFormButton.data[keyss].className}
+                                type={actions[keyss].type}
+                                className={actions[keyss].className}
                                 key={keyss}>
-                                {allFormButton.data[keyss].icon} {allFormButton.data[keyss].label}
+                                {actions[keyss].icon} {actions[keyss].label}
                               </button>
                             );
                           case 'link-button':
                             return (
-                              <Link to={allFormButton.data[keyss].linkto} key={keyss}>
+                              <Link to={actions[keyss].linkto} key={keyss}>
                                 <button
-                                  type={allFormButton.data[keyss].type}
-                                  className={allFormButton.data[keyss].className}>
-                                  {allFormButton.data[keyss].icon} {allFormButton.data[keyss].label}
+                                  type={actions[keyss].type}
+                                  className={actions[keyss].className}>
+                                  {actions[keyss].icon} {actions[keyss].label}
                                 </button>
                               </Link>
                             );

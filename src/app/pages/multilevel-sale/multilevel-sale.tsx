@@ -178,7 +178,7 @@ function MultilevelSale() {
     setAgencyLoading(true)
     MultilevelSaleService.GetAgency({ agencyParams, paginationProps })
       .then(res => {
-        setAgency(res.data.data);
+        setAgency(res.data.entity);
         setAgencyTotal(res.data.paging.total);
         setAgencyLoading(false)
         setErrorAgency('')

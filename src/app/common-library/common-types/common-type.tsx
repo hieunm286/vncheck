@@ -192,8 +192,8 @@ export type _ModifyModelType = {
 export type _CommonProps = {
   label: string | ReactElement;
   placeholder?: string;
-  required?: boolean|((values:any) => boolean);
-  disabled?: boolean|((values:any) => boolean);
+  required?: boolean | ((values: any) => boolean);
+  disabled?: boolean | ((values: any) => boolean);
   value?: any;
   name?: string;
   [T: string]: any;
@@ -232,7 +232,7 @@ export type RenderInfoDetailDialog = {
   className?: string;
   data: {
     [T: string]: {
-      title: string;
+      title?: string;
       formatter?: (cellContent: any, row: any, rowIndex: number) => ReactElement;
       keyField?: string;
     }

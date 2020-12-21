@@ -41,11 +41,11 @@ const NewShippingAddressSchema = Yup.object().shape({
 
 export function AgencyShippingEditForm({saveAgency, agency, actionsLoading, onHide}: any) {
   const [administrativeDivision, setAdministrativeDivision] = useState({
-    state: agency.data.state ? getCodeFromName(Object.values(STATE_LIST), agency.data.state) : '',
-    city: getCodeFromName(Object.values(CITY_LIST), agency.data.city),
-    district: getCodeFromName(Object.values(DISTRICT_LIST), agency.data.district),
-    address: agency.data.address,
-    id: agency.data.id,
+    state: agency.entity.state ? getCodeFromName(Object.values(STATE_LIST), agency.entity.state) : '',
+    city: getCodeFromName(Object.values(CITY_LIST), agency.entity.city),
+    district: getCodeFromName(Object.values(DISTRICT_LIST), agency.entity.district),
+    address: agency.entity.address,
+    id: agency.entity.id,
   });
   
   // const handleChange = event => {

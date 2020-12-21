@@ -215,12 +215,12 @@ const FormTemplate = ({
 
     if(!service) console.error('search select with undefined service')
     const entities = await service.GetAll({ queryProps, paginationProps });
-    const count = entities.data.length;
+    const count = entities.entity.length;
 
     const hasMore = prevOptions.length < count - (DefaultPagination.limit ?? 0);
 
     return {
-      options: entities.data.map((e: any) => {
+      options: entities.entity.map((e: any) => {
         return { label: e[keyField], value: e._id };
       }),
       hasMore: false,
@@ -241,27 +241,27 @@ const FormTemplate = ({
     const entities = await service.GetAll(
       {}
     );
-    return entities.data;
+    return entities.entity;
   };
 
   return (
     <>
     {modifyModel && modifyModel.title && <h6 className="text-primary">{modifyModel.title.toUpperCase()}</h6>}
-      {modifyModel && modifyModel.data && Object.keys(modifyModel.data).map(key => {
-        switch (modifyModel.data[key].type) {
+      {modifyModel && modifyModel.entity && Object.keys(modifyModel.entity).map(key => {
+        switch (modifyModel.entity[key].type) {
           case 'string':
             return (
               <div className="mt-3" key={key}>
                 <Field
                   name={key}
                   component={MainInput}
-                  placeholder={modifyModel.data[key].placeholder}
+                  placeholder={modifyModel.entity[key].placeholder}
                   withFeedbackLabel
                   labelWidth={4}
                   isHorizontal
-                  label={modifyModel.data[key].label}
-                  disabled={modifyModel.data[key].disabled}
-                  required={modifyModel.data[key].required}
+                  label={modifyModel.entity[key].label}
+                  disabled={modifyModel.entity[key].disabled}
+                  required={modifyModel.entity[key].required}
                 />
               </div>
             );
@@ -275,9 +275,9 @@ const FormTemplate = ({
                   isHorizontal
                   withFeedbackLabel
                   labelWidth={4}
-                  placeholder={modifyModel.data[key].placeholder}
-                  label={modifyModel.data[key].label}
-                  required={modifyModel.data[key].required}
+                  placeholder={modifyModel.entity[key].placeholder}
+                  label={modifyModel.entity[key].label}
+                  required={modifyModel.entity[key].required}
                 />
               </div>
             );
@@ -286,10 +286,10 @@ const FormTemplate = ({
           case 'stateSelect':
             const labelWidth = 4;
             const isHorizontal = true;
-            const label = modifyModel.data[key].label;
+            const label = modifyModel.entity[key].label;
             const withFeedbackLabel = true;
-            const placeholder = modifyModel.data[key].placeholder
-            const required = modifyModel.data[key].required;
+            const placeholder = modifyModel.entity[key].placeholder
+            const required = modifyModel.entity[key].required;
             return (selectedState.value || (selectedState.key === null && selectedState.value === null)) && (
               <div className="mt-3" key={`${key}`}>
                 <div className="row">
@@ -360,9 +360,9 @@ const FormTemplate = ({
               <div className="mt-3" key={`${key}`}>
                 <div className="row">
                   <div className={'col-md-4 col-xl-4 col-12'}>
-                    {modifyModel.data[key].label && (
+                    {modifyModel.entity[key].label && (
                       <label  className={'mb-0 input-label mt-2'}>
-                        {modifyModel.data[key].label} {<span className="text-danger">*</span>}
+                        {modifyModel.entity[key].label} {<span className="text-danger">*</span>}
                       </label>
                     )}
                   </div>
@@ -409,9 +409,9 @@ const FormTemplate = ({
               <div className="mt-3" key={`${key}`}>
                 <div className="row">
                   <div className={'col-md-4 col-xl-4 col-12 '}>
-                    {modifyModel.data[key].label && (
+                    {modifyModel.entity[key].label && (
                       <label  className={'mb-0 input-label mt-2'}>
-                        {modifyModel.data[key].label} {<span className="text-danger">*</span>}
+                        {modifyModel.entity[key].label} {<span className="text-danger">*</span>}
                       </label>
                     )}
                   </div>
@@ -471,9 +471,9 @@ const FormTemplate = ({
                     isHorizontal
                     withFeedbackLabel
                     labelWidth={4}
-                    placeholder={modifyModel.data[key].placeholder}
-                    label={modifyModel.data[key].label}
-                    required={modifyModel.data[key].required}
+                    placeholder={modifyModel.entity[key].placeholder}
+                    label={modifyModel.entity[key].label}
+                    required={modifyModel.entity[key].required}
                   />
                 </div>
                 )
@@ -486,10 +486,10 @@ const FormTemplate = ({
                 <DatePickerField
                   name={key}
                   isHorizontal
-                  label={modifyModel.data[key].label}
+                  label={modifyModel.entity[key].label}
                   labelWidth={4}
                   type="Datetime"
-                  required={modifyModel.data[key].required}
+                  required={modifyModel.entity[key].required}
                   checkTouched={true}
                 />
               </div>
@@ -530,10 +530,10 @@ const FormTemplate = ({
               <div className="mt-3" key={key}>
                 <CustomImageUpload
                   value={images[key]}
-                  label={modifyModel.data[key].label}
+                  label={modifyModel.entity[key].label}
                   labelWidth={4}
                   isHorizontal={true}
-                  required={modifyModel.data[key].required}
+                  required={modifyModel.entity[key].required}
                   name={key}
                   multiple={true}
                 />
@@ -552,9 +552,9 @@ const FormTemplate = ({
                   isHorizontal
                   withFeedbackLabel
                   labelWidth={4}
-                  placeholder={modifyModel.data[key].placeholder}
-                  label={modifyModel.data[key].label}
-                  required={modifyModel.data[key].required}
+                  placeholder={modifyModel.entity[key].placeholder}
+                  label={modifyModel.entity[key].label}
+                  required={modifyModel.entity[key].required}
                 />
               </div>
             );  
@@ -571,9 +571,9 @@ const FormTemplate = ({
                   isHorizontal
                   withFeedbackLabel
                   labelWidth={4}
-                  placeholder={modifyModel.data[key].placeholder}
-                  label={modifyModel.data[key].label}
-                  required={modifyModel.data[key].required}
+                  placeholder={modifyModel.entity[key].placeholder}
+                  label={modifyModel.entity[key].label}
+                  required={modifyModel.entity[key].required}
                 />
               </div>
             ) :
@@ -588,9 +588,9 @@ const FormTemplate = ({
                   isHorizontal
                   withFeedbackLabel
                   labelWidth={4}
-                  placeholder={modifyModel.data[key].placeholder}
-                  label={modifyModel.data[key].label}
-                  required={modifyModel.data[key].required}
+                  placeholder={modifyModel.entity[key].placeholder}
+                  label={modifyModel.entity[key].label}
+                  required={modifyModel.entity[key].required}
                 />
                 {/* <RadioField 
                   defaultValue={values.gender}
@@ -601,21 +601,21 @@ const FormTemplate = ({
           case 'object':
             return (
               <div className="mt-3" key={key}>
-                {Object.keys(modifyModel.data[key]).map(childKey => {
-                  switch (modifyModel.data[key][childKey].type) {
+                {Object.keys(modifyModel.entity[key]).map(childKey => {
+                  switch (modifyModel.entity[key][childKey].type) {
                     case 'string':
                       return (
                         <div className="mt-3" key={childKey}>
                           <Field
                             name={`${key}.${childKey}`}
                             component={MainInput}
-                            placeholder={modifyModel.data[key][childKey].placeholder}
+                            placeholder={modifyModel.entity[key][childKey].placeholder}
                             withFeedbackLabel
                             labelWidth={4}
                             isHorizontal
-                            label={modifyModel.data[key][childKey].label}
-                            disabled={modifyModel.data[key][childKey].disabled}
-                            required={modifyModel.data[key][childKey].required}
+                            label={modifyModel.entity[key][childKey].label}
+                            disabled={modifyModel.entity[key][childKey].disabled}
+                            required={modifyModel.entity[key][childKey].required}
                           />
                         </div>
                       );
@@ -629,9 +629,9 @@ const FormTemplate = ({
                             isHorizontal
                             withFeedbackLabel
                             labelWidth={4}
-                            placeholder={modifyModel.data[key][childKey].placeholder}
-                            label={modifyModel.data[key][childKey].label}
-                            required={modifyModel.data[key][childKey].required}
+                            placeholder={modifyModel.entity[key][childKey].placeholder}
+                            label={modifyModel.entity[key][childKey].label}
+                            required={modifyModel.entity[key][childKey].required}
                           />
                         </div>
                       );
@@ -645,7 +645,7 @@ const FormTemplate = ({
             return searchSelect && (
               <div className="mt-3" key={key}>
                 <InfiniteSelect
-                  label={modifyModel.data[key].label}
+                  label={modifyModel.entity[key].label}
                   mode={'horizontal'}
                   value={searchSelect} // value={search[key]}
                   onChange={(value: any) => {
@@ -657,8 +657,8 @@ const FormTemplate = ({
                         search,
                         prevOptions,
                         { page },
-                        modifyModel.data[key].service,
-                        modifyModel.data[key].keyField,
+                        modifyModel.entity[key].service,
+                        modifyModel.entity[key].keyField,
                         key,
                       )
                     }
@@ -667,8 +667,8 @@ const FormTemplate = ({
                     page: DefaultPagination.page,
                   }}
                   name={key}
-                  placeholder={modifyModel.data[key].placeholder}
-                  required={modifyModel.data[key].required}
+                  placeholder={modifyModel.entity[key].placeholder}
+                  required={modifyModel.entity[key].required}
                  keyField={'aa'}/>
               </div>
             );
@@ -677,9 +677,9 @@ const FormTemplate = ({
             return treeData ? (
               <div className="mt-3" key={key}>
                 <CustomeTreeSelect
-                  label={modifyModel.data[key].label}
-                  placeholder={modifyModel.data[key].placeholder}
-                  required={modifyModel.data[key].required}
+                  label={modifyModel.entity[key].label}
+                  placeholder={modifyModel.entity[key].placeholder}
+                  required={modifyModel.entity[key].required}
                   labelWidth={4}
                   data={treeData}
                   value={treeSelectValue}
@@ -700,7 +700,7 @@ const FormTemplate = ({
             return (
               <div className="mt-3" key={key}>
                 <TagInput
-                  label={modifyModel.data[key].label}
+                  label={modifyModel.entity[key].label}
                   isHorizontal={true}
                   name={key}
                   handleChange={handleChangeTag}

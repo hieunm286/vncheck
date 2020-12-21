@@ -15,9 +15,9 @@ export function MasterEntityDetail({
   const intl = useIntl();
 
   const getValue = (data: any, dataKey: any, value: any) => {
-    if (value.data[dataKey].ref) {
-      if (data[dataKey] && data[dataKey][value.data[dataKey].refField]) {
-        return <strong>{data[dataKey][value.data[dataKey].refField]}</strong>;
+    if (value.entity[dataKey].ref) {
+      if (data[dataKey] && data[dataKey][value.entity[dataKey].refField]) {
+        return <strong>{data[dataKey][value.entity[dataKey].refField]}</strong>;
       } else {
         return <strong>Không có thông tin nha</strong>;
       }
@@ -30,9 +30,9 @@ export function MasterEntityDetail({
     <Modal.Body>
       {renderInfo.map((value: any, key: any) => (
         <div key={key} className="mt-5">
-          {Object.keys(value.data).map((dataKey: any) => (
+          {Object.keys(value.entity).map((dataKey: any) => (
             <div key={dataKey} className="row mt-5">
-              <div className="col-3">{intl.formatMessage({ id: value.data[dataKey].title })}:</div>
+              <div className="col-3">{intl.formatMessage({ id: value.entity[dataKey].title })}:</div>
               <div className="col-9">
                 
                 {getValue(data, dataKey, value)}

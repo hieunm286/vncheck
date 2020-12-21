@@ -171,7 +171,7 @@ function ProductionPlanCrud({
 }) {
   const intl = useIntl();
   const initForm = autoFill
-    ? generateInitForm(allFormField, autoFill.field, autoFill.data)
+    ? generateInitForm(allFormField, autoFill.field, autoFill.entity)
     : generateInitForm(allFormField);
   //   const modifyM = { ...modifyModel } as any;
   const history = useHistory();
@@ -218,7 +218,7 @@ function ProductionPlanCrud({
       })
       .catch(error => {
         setSubmitting(false);
-        setErrorMsg(error.data || error.response.data);
+        setErrorMsg(error.entity || error.response.entity);
       });
   };
 
@@ -364,12 +364,12 @@ function ProductionPlanCrud({
                   })
                   .catch(error => {
                     setSubmitting(false);
-                    setErrorMsg(error.data || error.response.data);
+                    setErrorMsg(error.entity || error.response.entity);
                   });
               })
               .catch(error => {
                 setSubmitting(false);
-                setErrorMsg(error.data || error.response.data);
+                setErrorMsg(error.entity || error.response.entity);
               });
           } else if (step === '1' && currentTab === '2') {
             approveFollow(updateValue)
@@ -380,7 +380,7 @@ function ProductionPlanCrud({
               })
               .catch(error => {
                 setSubmitting(false);
-                setErrorMsg(error.data || error.response.data);
+                setErrorMsg(error.entity || error.response.entity);
               });
           }
         }}>
@@ -431,7 +431,7 @@ function ProductionPlanCrud({
                   {allFormButton.type === 'inside' &&
                     key === Object.keys(formPart)[Object.keys(formPart).length - 1] && (
                       <div className="text-right mb-5 mr-20" key={key}>
-                        {Object.keys(allFormButton.data).map(keyss => {
+                        {Object.keys(allFormButton.entity).map(keyss => {
                           switch (allFormButton['data'][keyss].role) {
                             case 'submit':
                               return (
@@ -483,7 +483,7 @@ function ProductionPlanCrud({
             )}
             {allFormButton.type === 'outside' && (
               <div className="text-right mb-5 mr-20">
-                {Object.keys(allFormButton.data).map(keyss => {
+                {Object.keys(allFormButton.entity).map(keyss => {
                   switch (allFormButton['data'][keyss].role) {
                     case 'submit':
                       return (
