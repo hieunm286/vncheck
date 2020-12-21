@@ -21,11 +21,12 @@ import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import * as Yup from 'yup';
 import {SpeciesModel} from './species.model';
 import * as ProductTypeService from './species.service';
-import SpeciesDetailDialog from './species-detail-dialog';
 
 import 'react-toastify/dist/ReactToastify.css';
 import {allFormField, masterEntityDetailDialog, models, productTypeSearchModel} from './defined/const';
-import _ from 'lodash';
+import {
+  MasterEntityDetailDialog
+} from "../../common-library/common-components/master-entity-detail-dialog";
 
 const headerTitle = 'PRODUCT_TYPE.MASTER.HEADER.TITLE';
 const bodyTitle = 'PRODUCT_TYPE.MASTER.BODY.TITLE';
@@ -82,8 +83,6 @@ function Species() {
     setShowDetail,
     showDeleteMany,
     setShowDeleteMany,
-    trigger,
-    setTrigger,
     paginationProps,
     setPaginationProps,
     filterProps,
@@ -110,10 +109,10 @@ function Species() {
     getAllServer: ProductTypeService.GetAll,
     updateServer: ProductTypeService.Update,
   });
-  
+  console.log(entities);
   useEffect(() => {
     getAll(filterProps);
-  }, [paginationProps, trigger, filterProps]);
+  }, [paginationProps, filterProps]);
   
   const columns = {
     code: {
@@ -229,13 +228,15 @@ function Species() {
     <Fragment>
       {/* <ReactNotification /> */}
       {/* <ToastContainer /> */}
-      <SpeciesDetailDialog
+      <MasterEntityDetailDialog
         show={showDetail}
         entity={detailEntity}
         renderInfo={masterEntityDetailDialog}
-        onClose={() => {
+        onHide={() => {
           setShowDetail(false);
         }}
+        moduleName={moduleName}
+        size={'lg'}
       />
       <DeleteEntityDialog
         moduleName={moduleName}

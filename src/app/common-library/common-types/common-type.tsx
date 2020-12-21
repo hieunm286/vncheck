@@ -1,5 +1,8 @@
 import {AxiosResponse} from 'axios';
-import {ReactElement} from "react";
+import {CSSProperties, ReactElement} from "react";
+import {IntlShape} from "react-intl";
+import {StylesConfig} from "react-select";
+import {ColumnDescription} from "react-bootstrap-table-next";
 
 export interface PaginationProps {
   limit: number | undefined;
@@ -99,27 +102,6 @@ export interface DeleteManyDialogProps<T> {
   error?: { error: string };
 }
 
-export interface DeleteManyDialogPromiseProps<T> {
-  isShow: boolean;
-  onHide: () => any;
-  onDelete: () => any;
-  selectedEntities: any[];
-  title?: string;
-  moduleName?: string;
-  entity?: T;
-  idProperty?: string;
-  bodyTitle?: string;
-  confirmMessage?: string;
-  noSelectedEntityMessage?: string;
-  deletingMessage?: string;
-  deleteBtn?: string;
-  cancelBtn?: string;
-  loading?: boolean;
-  error?: string;
-  deleteSuccess: any;
-  deleteFail: any;
-}
-
 export interface ActionColumnProps<T> {
   onShowDetail: (entity: T) => void;
   onDelete: (entity: T) => void;
@@ -163,6 +145,10 @@ export type SearchModel = {
     name?: string;
   };
 };
+
+export type MasterBodyColumns = {
+  [T: string]: ColumnDescription
+} | ColumnDescription[];
 export type OldModifyModel = {
   [T: string]: {
     type: InputType;
@@ -195,8 +181,8 @@ export type _ModifyModelType = {
 export type _CommonProps = {
   label: string | ReactElement;
   placeholder?: string;
-  required?: boolean|((values:any) => boolean);
-  disabled?: boolean|((values:any) => boolean);
+  required?: boolean | ((values: any) => boolean);
+  disabled?: boolean | ((values: any) => boolean);
   value?: any;
   name?: string;
   [T: string]: any;
@@ -237,7 +223,7 @@ export type RenderInfoDetailDialog = {
   dataClassName?: string;
   data: {
     [T: string]: {
-      title: string;
+      title?: string;
       formatter?: (cellContent: any, row: any, rowIndex: number) => ReactElement;
       keyField?: string;
     }

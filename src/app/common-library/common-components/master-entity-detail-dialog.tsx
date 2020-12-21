@@ -21,7 +21,7 @@ export function MasterEntityDetailDialog({
   entity: any;
   renderInfo: any;
   onHide: () => void;
-  size?: 'sm' | 'lg';
+  size?: 'sm' | 'lg' | 'xl';
 }) {
   const intl = useIntl();
   return (
@@ -41,7 +41,7 @@ export function MasterEntityDetailDialog({
         </Modal.Title>
       </Modal.Header>
       
-      <MasterEntityDetail data={entity} renderInfo={renderInfo}/>
+      <MasterEntityDetail entity={entity} renderInfo={renderInfo}/>
       <Modal.Footer className="border-top-0">
         <button type="button" onClick={onHide} className="btn btn-outline-primary fixed-btn-width">
           <CancelOutlinedIcon style={iconStyle}/>
@@ -53,31 +53,31 @@ export function MasterEntityDetailDialog({
 }
 
 export function MasterEntityDetail({
-                                     data,
+                                     entity,
                                      renderInfo,
                                      convertFunctions = {},
                                    }: {
   renderInfo: RenderInfoDetailDialog;
-  data: any;
+  entity: any;
   convertFunctions?: { [V: string]: (input: any) => string };
 }) {
   const intl = useIntl();
-  return data ? (
+  return entity ? (
     <Modal.Body>
       <div className={`row`}>
         {renderInfo.map((value: any, key: any) => (
           <div key={key} className={`${value.className ?? 'col-12'}`}>
-            {value.header && <p className="text-primary detail-dialog-subtitle">
+            {value.header && value.header !== '' && <p className="text-primary detail-dialog-subtitle">
               {intl.formatMessage({id: value.header})}
             </p>}
             {Object.keys(value.data).map((dataKey: any) => (
               <div className={`detail-dialog-row-info row`} key={dataKey}>
-                <div className={`${value.titleClassName ?? 'col-4'}`}>
+                {value.data[dataKey].title && value.data[dataKey].title !== '' && <div className={`${value.titleClassName ?? 'col-4'}`}>
                   {intl.formatMessage({id: value.data[dataKey].title})}:
-                </div>
+                </div>}
                 <div className={`${value.dataClassName ?? 'col-8'}`}>
                   {(() => {
-                    const displayData = value.data[dataKey].keyField ? getField(data, value.data[dataKey].keyField) : data[dataKey];
+                    const displayData = value.data[dataKey].keyField ? getField(entity, value.data[dataKey].keyField) : entity[dataKey];
                     return value.data[dataKey].formatter ?
                       (<>{value.data[dataKey].formatter(displayData)}</>)
                       : (<>{displayData}</>)

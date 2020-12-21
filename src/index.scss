@@ -247,6 +247,26 @@ input {
 
 }
 
+.modify-page {
+  .card-header {
+    min-height: 0;
+    padding: 0 0 0 0;
+    border-bottom: 0;
+  }
+
+  .card-body{
+    padding: 0 0 50px 0 !important;
+  }
+
+  .card-title {
+    padding: 35px 0 35px 0;
+    margin: 0!important;
+    font-size: $large-font-size !important;
+    font-weight: 700 !important;
+  }
+}
+
+
 .react-bootstrap-table {
   th {
     outline: none;
@@ -316,10 +336,15 @@ html, body {
 }
 
 .card-custom {
-  padding: 0 60px;
+  padding: 0 50px;
 
-  .card-header {
+  &.master-body-card .card-header {
     padding: 35px 0 25px 0;
+    border-bottom: 1px solid #DADADA;
+  }
+
+  &.master-header-card .card-header {
+    padding: 25px 0 25px 0;
     border-bottom: 1px solid #DADADA;
   }
 

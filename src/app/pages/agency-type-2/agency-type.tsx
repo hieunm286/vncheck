@@ -15,7 +15,7 @@ import { ActionsColumnFormatter } from '../../common-library/common-components/a
 
 import { NormalColumn, SortColumn } from '../../common-library/common-consts/const';
 
-import {OldModifyModel, SearchModel} from "../../common-library/common-types/common-type";
+import {MasterBodyColumns, OldModifyModel, SearchModel} from "../../common-library/common-types/common-type";
 import { DeleteEntityDialog } from "../../common-library/common-components/delete-entity-dialog";
 import ModifyEntityDialog from "../../common-library/common-components/modify-entity-dialog";
 import { MasterEntityDetailDialog } from "../../common-library/common-components/master-entity-detail-dialog";
@@ -48,8 +48,6 @@ function AgencyType() {
     setShowDetail,
     showDeleteMany,
     setShowDeleteMany,
-    trigger,
-    setTrigger,
     paginationProps,
     setPaginationProps,
     filterProps,
@@ -71,7 +69,7 @@ function AgencyType() {
 
   useEffect(() => {
     getAll(filterProps);
-  }, [paginationProps, trigger, filterProps]);
+  }, [paginationProps, filterProps]);
 
 
   console.log(entities);
@@ -81,7 +79,7 @@ function AgencyType() {
   const createTitle = 'PURCHASE_ORDER.CREATE.TITLE';
   const updateTitle = 'PURCHASE_ORDER.UPDATE.TITLE';
 
-  const columns = [
+  const columns : MasterBodyColumns= [
     {
       dataField: 'ordinal',
       text: '#',

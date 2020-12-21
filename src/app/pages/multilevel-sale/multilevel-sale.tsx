@@ -131,8 +131,6 @@ function MultilevelSale() {
     setShowDetail,
     showDeleteMany,
     setShowDeleteMany,
-    trigger,
-    setTrigger,
     paginationProps,
     setPaginationProps,
     filterProps,
@@ -174,13 +172,13 @@ function MultilevelSale() {
 
   useEffect(() => {
     getAll(filterProps);
-  }, [trigger, filterProps]);
+  }, [ filterProps]);
 
   useEffect(() => {
     setAgencyLoading(true)
     MultilevelSaleService.GetAgency({ agencyParams, paginationProps })
       .then(res => {
-        setAgency(res.data.data);
+        setAgency(res.data.entity);
         setAgencyTotal(res.data.paging.total);
         setAgencyLoading(false)
         setErrorAgency('')
@@ -390,10 +388,6 @@ function MultilevelSale() {
         // allFormButton={allFormButton}
         // validation={ProductPackagingSchema}
         error={error}
-        autoFill={{
-          field: 'code',
-          data: GenerateCode(data),
-        }}
         homePage={homeURL}
       />
       <MultiLevelSaleBody

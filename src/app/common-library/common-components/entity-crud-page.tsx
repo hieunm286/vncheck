@@ -1,6 +1,5 @@
 import React, {Fragment, useEffect, useState} from 'react';
 import ModifyEntityPage from './modify-entity-page';
-import {OldModifyModel} from '../common-types/common-type';
 import {useIntl} from 'react-intl';
 import {
   generateInitForm,
@@ -10,24 +9,11 @@ import {
   getOnlyBase64
 } from '../helpers/common-function';
 import {Field, Form, Formik} from 'formik';
-import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
-import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
-import * as Yup from 'yup';
-import {MainInput} from '../forms/main-input';
-import {iconStyle} from '../common-consts/const';
 import {Link, useHistory} from 'react-router-dom';
-import ImageUploading from 'react-images-uploading';
-import CustomImageUpload from '../forms/custom-image-upload';
-import {uploadImage} from '../../pages/purchase-order/purchase-order.service';
 import {Card, CardBody, CardHeader} from '../card';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import {diff} from 'deep-object-diff';
-import EXIF from 'exif-js';
-import {isEmpty} from 'lodash';
 import exifr from 'exifr'
-import {Modal} from "react-bootstrap";
-import {MasterEntityDetail} from "./master-entity-detail-dialog";
-import { ConvertSelectSearch } from '../../pages/land-lot/helpers/common-function-land-lot';
 
 const toDataURL = (url: string) => fetch(url)
   .then(response => response.blob())
@@ -155,10 +141,10 @@ function EntityCrudPage({
   useEffect(() => {
     if (code) {
       get(code).then((res: { data: any }) => {
-        const convert = autoFill
-          ? ConvertSelectSearch(res.data, autoFill.searchSelectField)
-          : ConvertSelectSearch(res.data);
-        setEntityForEdit(convert);
+        // const convert = autoFill
+        //   ? ConvertSelectSearch(res.data, autoFill.searchSelectField)
+        //   : ConvertSelectSearch(res.data);
+        setEntityForEdit(res.data);
         // setImages(convert.image ? ConvertImage(convert) : initForm)
         ConvertImage(res.data)
         // setSearch(res.data);
@@ -201,7 +187,7 @@ function EntityCrudPage({
           <>
             <Form className="form form-label-right">
               {Object.keys(formPart).map((key, index,keys) => (
-                <Card key={key}>
+                <Card key={key} className={'modify-page'}>
                     <CardHeader className={'border-bottom-0'}
                                 title={index == 0 ? (
                                   <a onClick={() => history.goBack()}
@@ -228,50 +214,49 @@ function EntityCrudPage({
                       title={formPart[key].title}
                       handleChangeTag={handleChangeTag}
                     />
-                  </CardBody>
-                  {(
-                    <div className="text-right mb-5 mr-5" key={key}>
-                      {Object.keys(actions).map(keyss => {
-                        switch (actions[keyss].role) {
-                          case 'submit':
-                            console.log(actions[keyss])
-
-                            return (
-                              <button
-                                formNoValidate
-                                type={actions[keyss].type}
-                                className={actions[keyss].className}
-                                key={keyss}
-                                onClick={() => handleSubmit()}>
-                                {actions[keyss].icon} {actions[keyss].label}
-                              </button>
-                            );
-                          
-                          case 'button':
-                            console.log(actions[keyss])
-
-                            return (
-                              <button
-                                type={actions[keyss].type}
-                                className={actions[keyss].className}
-                                key={keyss}>
-                                {actions[keyss].icon} {actions[keyss].label}
-                              </button>
-                            );
-                          case 'link-button':
-                            return (
-                              <Link to={actions[keyss].linkto} key={keyss}>
+                    {(
+                      <div className="text-right mt-10" key={key}>
+                        {Object.keys(actions).map(keyss => {
+                          switch (actions[keyss].role) {
+                            case 'submit':
+                              console.log(actions[keyss])
+                              return (
                                 <button
+                                  formNoValidate
                                   type={actions[keyss].type}
-                                  className={actions[keyss].className}>
+                                  className={actions[keyss].className}
+                                  key={keyss}
+                                  onClick={() => handleSubmit()}>
                                   {actions[keyss].icon} {actions[keyss].label}
                                 </button>
-                              </Link>
-                            );
-                        }
-                      })}
-                    </div>
-                  )}
+                              );
+          
+                            case 'button':
+                              console.log(actions[keyss])
+            
+                              return (
+                                <button
+                                  type={actions[keyss].type}
+                                  className={actions[keyss].className}
+                                  key={keyss}>
+                                  {actions[keyss].icon} {actions[keyss].label}
+                                </button>
+                              );
+                            case 'link-button':
+                              return (
+                                <Link to={actions[keyss].linkto} key={keyss}>
+                                  <button
+                                    type={actions[keyss].type}
+                                    className={actions[keyss].className}>
+                                    {actions[keyss].icon} {actions[keyss].label}
+                                  </button>
+                                </Link>
+                              );
+                          }
+                        })}
+                      </div>
+                    )}
+                  </CardBody>
                 </Card>
               ))}
             </Form>

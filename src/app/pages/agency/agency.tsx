@@ -67,8 +67,6 @@ function AgencyPage() {
     setShowDetail,
     showDeleteMany,
     setShowDeleteMany,
-    trigger,
-    setTrigger,
     paginationProps,
     setPaginationProps,
     filterProps,
@@ -94,7 +92,7 @@ function AgencyPage() {
     getAll(filterProps);
     // setEntities(mock_entities);
     // setEntities([{}]);
-  }, [paginationProps, trigger, filterProps]);
+  }, [paginationProps, filterProps]);
 
   const history = useHistory();
 
@@ -392,8 +390,8 @@ function AgencyPage() {
   }
 
   const crudFail = (error: any) => {
-    setError(error.response.data || error.message || JSON.stringify(error))
-    notify(intl.formatMessage({id: error.response.data || error.message || JSON.stringify(error)}));
+    setError(error.response.entity || error.message || JSON.stringify(error))
+    notify(intl.formatMessage({id: error.response.entity || error.message || JSON.stringify(error)}));
   }
 
   const [treeData, setTreeData] = useState<any>();
@@ -404,7 +402,7 @@ function AgencyPage() {
     // queryProps =
   
     const entities = await getAll({});
-    return entities.data;
+    return entities.entity;
   };
   
   useEffect(() => {

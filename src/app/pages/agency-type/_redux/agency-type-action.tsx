@@ -129,10 +129,10 @@ export const deleteAgencyType = (agencyTypeId: any) => (
       );
     })
     .catch(error => {
-      console.log(error.response.data);
+      console.log(error.response.entity);
       dispatch(
         actions.catchError({
-          error: error.response.data,
+          error: error.response.entity,
           callType: callTypes.action,
         }),
       );
