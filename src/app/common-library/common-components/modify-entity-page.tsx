@@ -103,7 +103,17 @@ function ModifyEntityPage<T>({
             //   ) : (
             //     <></>
             //   );
-            case 'image':
+            case 'boolean':
+              return (
+                <InputBoolean
+                  className={defaultClassName}
+                  name={prevKey !== '' ? `${prevKey}.${key}` : key}
+                  mode={mode}
+                  {...input}
+                  key={`modify-page-${key}`}
+                />
+              );
+              case 'image':
               console.log(images)
               return (
                 <InputImage
@@ -111,11 +121,10 @@ function ModifyEntityPage<T>({
                   name={prevKey !== '' ? `${prevKey}.${key}` : key}
                   mode={mode}
                   {...input}
-                  value={images[key] || []}
+                  value={values[key] || []}
                   key={`modify-page-${key}`}
                 />
-              )
-                ;
+              );
             case 'search-select':
               return (
                 <InputSearchSelect
@@ -253,7 +262,7 @@ function ModifyEntityPage<T>({
       <div className={'row'}>
         {modifyModel &&
         modifyModel.map((value, index) => (
-          <div key={`meg-${index}`} className={value.className?? 'col-12'}>
+          <div key={`meg-${index}`} className={value.className ?? 'col-12'}>
             {value.title && <div className="modify-subtitle text-primary">{value.title.toUpperCase()}</div>}
             {renderForm(value.data, '')}
           </div>

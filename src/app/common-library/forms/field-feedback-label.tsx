@@ -68,7 +68,6 @@ export function FieldFeedbackLabel({
       return inputLabel({ label, touched, error, customFeedbackLabel });
     case 'string':
       return inputLabel({ label, touched, error, customFeedbackLabel });
-
     case 'email':
       return inputLabel({ label, touched, error, customFeedbackLabel });
     case 'password':
