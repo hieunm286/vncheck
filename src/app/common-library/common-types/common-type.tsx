@@ -149,14 +149,7 @@ export type SearchModel = {
 export type MasterBodyColumns = {
   [T: string]: ColumnDescription
 } | ColumnDescription[];
-export type OldModifyModel = {
-  [T: string]: {
-    type: InputType;
-    placeholder: string;
-    label: string;
-    disabled?: boolean;
-  };
-};
+
 export type ModifyForm = { [T: string]: { title: string, modifyModel: ModifyModel } };
 
 export type ModifyModel = ModifyPart[];

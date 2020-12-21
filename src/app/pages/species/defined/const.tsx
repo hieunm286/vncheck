@@ -1,4 +1,9 @@
-import {ModifyModel, RenderInfoDetailDialog, SearchModel} from '../../../common-library/common-types/common-type';
+import {
+  ModifyForm,
+  ModifyModel,
+  RenderInfoDetailDialog,
+  SearchModel
+} from '../../../common-library/common-types/common-type';
 import {GenerateAllFormField, getField} from '../../../common-library/helpers/common-function';
 import {GetAll} from "../species.service";
 import React from "react";
@@ -44,6 +49,7 @@ export const productTypeSearchModel: SearchModel = {
 export const modifyModel: any = [
   {
     title: 'THÔNG TIN CHUNG',
+    className: 'col-6 pr-xl-15 pr-md-10 pr-5',
     data: {
       code: {
         type: 'string',
@@ -76,6 +82,7 @@ export const modifyModel: any = [
   },
   {
     title: 'THÔNG TIN VÒNG ĐỜI',
+    className: 'col-6 pl-xl-15 pl-md-10 pl-5',
     data: {
       growingDays: {
         type: 'number',
@@ -93,9 +100,8 @@ export const modifyModel: any = [
   },
 ];
 
-export const models: any = {
-  header: 'CHỦNG LOẠI',
-  form_1: {
+export const models: ModifyForm = {
+    form_1: {
     title: '',
     modifyModel: modifyModel,
   },

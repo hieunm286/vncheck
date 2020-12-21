@@ -4,17 +4,10 @@ import { Field, Form, Formik } from 'formik';
 import { useIntl } from 'react-intl';
 import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
-import * as Yup from 'yup';
-import { MainInput } from '../../../common-library/forms/main-input';
 import { DefaultPagination, iconStyle } from '../../../common-library/common-consts/const';
-import { OldModifyModel } from '../../../common-library/common-types/common-type';
-import CustomImageUpload from '../../../common-library/forms/custom-image-upload';
 import { getNewImage, getOnlyFile } from '../../../common-library/helpers/common-function';
-import { Card, CardBody, CardHeader } from '../../../common-library/card';
 import { uploadImage } from '../../purchase-order/purchase-order.service';
-import ModifyEntityPage from '../../../common-library/common-components/modify-entity-page';
 import { diff } from 'deep-object-diff';
-import ModifyEntityPageAgency from './modify-entity-page-agency';
 import FormTemplate from './form-template';
 
 function ModifyShippingAddressDialogForm<T>({
@@ -28,7 +21,7 @@ function ModifyShippingAddressDialogForm<T>({
   entity: any;
   onHide: () => void;
   onModify: (values: any) => void;
-  modifyModel: OldModifyModel;
+  modifyModel: any;
   formPart: any;
   validation: any;
 }) {

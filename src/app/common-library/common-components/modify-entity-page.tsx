@@ -1,28 +1,9 @@
 import React, {ReactElement, useCallback, useEffect, useState} from 'react';
-import {_ModifyModelType, ModifyModel, ModifyPart, OldModifyModel} from '../common-types/common-type';
+import {_ModifyModelType, ModifyModel, ModifyPart} from '../common-types/common-type';
 import {useIntl} from 'react-intl';
 import {generateInitForm, getField, getNewImage, getOnlyFile} from '../helpers/common-function';
 import {Field, Form, Formik, useFormikContext} from 'formik';
-import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
-import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
-import * as Yup from 'yup';
-import {MainInput} from '../forms/main-input';
-import {DefaultPagination, iconStyle} from '../common-consts/const';
-import {Link, useHistory} from 'react-router-dom';
-import ImageUploading from 'react-images-uploading';
-import CustomImageUpload from '../forms/custom-image-upload';
-import {uploadImage} from '../../pages/purchase-order/purchase-order.service';
-import {Card, CardBody} from '../card';
-import {DatePickerField} from '../forms/date-picker-field';
-import {Switch} from '@material-ui/core';
-import CheckCircleOutlinedIcon from '@material-ui/icons/CheckCircleOutlined';
-import {InfiniteSelect} from '../forms/infinite-select';
-import TagInput from '../forms/tag-input';
 import ImgGallery from '../forms/image-gallery';
-import {FormikRadioGroup} from '../forms/radio-group-field';
-import {SwitchField} from '../forms/switch-field';
-import {InfiniteSelectV2} from '../forms/infinite-select-v2';
-import {isArray} from 'lodash';
 import {
   InputBoolean,
   InputDateTime,
