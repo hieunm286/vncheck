@@ -15,7 +15,7 @@ export function MasterEntityDetail({
   const intl = useIntl();
 
   const getValue = (data: any, dataKey: any, value: any) => {
-    if (value.data[dataKey].ref) {
+    if (value.data[dataKey].refField) {
       if (data[dataKey] && data[dataKey][value.data[dataKey].refField]) {
         return <strong>{data[dataKey][value.data[dataKey].refField]}</strong>;
       } else {

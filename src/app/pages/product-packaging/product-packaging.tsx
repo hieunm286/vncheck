@@ -331,8 +331,14 @@ function ProductPackaging() {
           <MasterHeader
             title={headerTitle}
             onSearch={(value) => {
+              const cvEntity = { ...value }
+              
+              if (value.species && _.isObject(value.species) ) {
+                cvEntity.species = value.species._id
+              }
+
               setPaginationProps(DefaultPagination)
-              setFilterProps(value)
+              setFilterProps(cvEntity)
             }}
             searchModel={productTypeSearchModel}
           />
