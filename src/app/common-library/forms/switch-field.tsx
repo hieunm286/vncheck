@@ -40,7 +40,7 @@ export function SwitchField({
                 // setTouched(field.name, true)
               }}
               checkedChildren={<CheckOutlined/>}
-              unCheckedChildren={<CloseOutlined/>}
+              // unCheckedChildren={<CloseOutlined/>}
               className={field?.value ? 'bg-primary' : 'bg-dark-o-95'}
             />
           }

@@ -244,6 +244,21 @@ function ShippingAgency() {
           required: true,
           label: 'SHIPPING_AGENCY.MODIFY.STATUS',
         },
+        phoneNumber: {
+          type: 'string',
+          required: true,
+          label: 'SHIPPING_AGENCY.MODIFY.STATUS',
+        },
+        tax: {
+          type: 'string',
+          required: true,
+          label: 'SHIPPING_AGENCY.MODIFY.STATUS',
+        },
+        images: {
+          type: 'image',
+          required: true,
+          label: 'SHIPPING_AGENCY.MODIFY.STATUS',
+        },
       },
     }, {
       title: 'THÔNG TIN CHỦ ĐƠN VỊ',

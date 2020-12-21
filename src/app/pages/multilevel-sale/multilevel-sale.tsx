@@ -18,6 +18,7 @@ import { MultilevelSaleActionColumn } from './multilevel-action-column';
 import ModifyEntityDialog from '../../common-library/common-components/modify-entity-dialog';
 import { GenerateCode } from '../species/species';
 import { DeleteEntityDialog } from '../../common-library/common-components/delete-entity-dialog';
+import {ModifyForm, ModifyModel} from "../../common-library/common-types/common-type";
 
 const data: TreeData[] = [
   {
@@ -178,7 +179,7 @@ function MultilevelSale() {
     setAgencyLoading(true)
     MultilevelSaleService.GetAgency({ agencyParams, paginationProps })
       .then(res => {
-        setAgency(res.data.entity);
+        setAgency(res.data.data);
         setAgencyTotal(res.data.paging.total);
         setAgencyLoading(false)
         setErrorAgency('')
@@ -254,7 +255,7 @@ function MultilevelSale() {
     },
   ];
 
-  const modifyModel = [
+  const modifyModel : ModifyModel = [
     {
       title: '',
       data: {
@@ -282,11 +283,10 @@ function MultilevelSale() {
     },
   ];
 
-  const formPart: any = {
+  const formPart: ModifyForm = {
     form_1: {
-      title: '',
+      title: 'ĐƠN HÀNG',
       modifyModel: modifyModel,
-      header: 'ĐƠN HÀNG',
     },
   };
 
@@ -354,15 +354,10 @@ function MultilevelSale() {
         onHide={() => {
           setShowCreate(false);
         }}
-        // autoFill={{
-        //   field: '',
-        //   data: null,
-        // }}
         code={null}
         get={() => null}
         formPart={formPart}
         allFormField={allFormField}
-        // validation={ProductPackagingSchema}
         error={error}
         homePage={homeURL}
       />
@@ -385,8 +380,6 @@ function MultilevelSale() {
         get={() => null}
         formPart={formPart}
         allFormField={allFormField}
-        // allFormButton={allFormButton}
-        // validation={ProductPackagingSchema}
         error={error}
         homePage={homeURL}
       />

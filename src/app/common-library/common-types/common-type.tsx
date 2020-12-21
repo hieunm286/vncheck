@@ -175,7 +175,7 @@ export type _ModifyModelType = {
       type: 'string' | 'date-time' | 'number' | 'boolean' | 'tag' | 'gallery';
     } & _CommonProps)
     | { type: 'object', name?: string, data: _ModifyModelType, disabled?: boolean }
-    | ({ type: 'image', value: any } & _CommonProps)
+    | ({ type: 'image', value?: any } & _CommonProps)
     | ({ type: 'search-select', onSearch: GetAllPropsServer<any> | GetAllProps<any>, keyField?: string, selectField?: string } & _CommonProps)
 }
 export type _CommonProps = {
