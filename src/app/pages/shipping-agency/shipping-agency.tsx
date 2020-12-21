@@ -9,7 +9,12 @@ import {
 } from '../../common-library/common-components/actions-column-formatter';
 import {DeleteEntityDialog} from '../../common-library/common-components/delete-entity-dialog';
 import DeleteManyEntitiesDialog from '../../common-library/common-components/delete-many-entities-dialog';
-import {RenderInfoDetailDialog, SearchModel} from '../../common-library/common-types/common-type';
+import {
+  ModifyForm,
+  ModifyModel,
+  RenderInfoDetailDialog,
+  SearchModel
+} from '../../common-library/common-types/common-type';
 import {GenerateAllFormField, InitMasterProps,} from '../../common-library/helpers/common-function';
 import {Route, Switch, useHistory} from 'react-router-dom';
 import EntityCrudPage from '../../common-library/common-components/entity-crud-page';
@@ -25,8 +30,8 @@ const detailDialogTitle = 'SHIPPING_AGENCY.DETAIL_DIALOG.TITLE';
 const moduleName = 'SHIPPING_AGENCY.MODULE_NAME';
 const deleteDialogTitle = 'SHIPPING_AGENCY.DELETE_DIALOG.TITLE';
 const deleteDialogBodyTitle = 'SHIPPING_AGENCY.DELETE_DIALOG.BODY_TITLE';
-const createTitle = 'PRODUCT_TYPE.CREATE.TITLE';
-const updateTitle = 'PURCHASE_ORDER.UPDATE.TITLE';
+const createTitle = 'SHIPPING_AGENCY.CREATE.HEADER';
+const updateTitle = 'SHIPPING_AGENCY.CREATE.HEADER';
 const homeURL = `${window.location.pathname}`
 
 function ShippingAgency() {
@@ -198,7 +203,7 @@ function ShippingAgency() {
     },
   };
   
-  const modifyModel: any[] = useMemo(() => [
+  const modifyModel: ModifyModel = useMemo(() => [
     {
       title: 'THÔNG TIN CHUNG',
       data: {
@@ -218,46 +223,11 @@ function ShippingAgency() {
           required: true,
           label: 'PRODUCT_TYPE.MASTER.TABLE.CODE_COLUMN',
         },
-        // image: {
-        //   type: 'image',
-        //   placeholder: intl.formatMessage({id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL'}),
-        //   label: 'Album 1',
-        // },
       },
     },
-    // {
-    //   title: 'THÔNG TIN VÒNG ĐỜI',
-    //   data: {
-    //     growingDays: {
-    //       type: 'number',
-    //       placeholder: intl.formatMessage({id: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW'}),
-    //       label: intl.formatMessage({id: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW'}),
-    //     },
-    //     plantingDays: {
-    //       type: 'number',
-    //       placeholder: intl.formatMessage({id: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.PLANTING'}),
-    //       label: intl.formatMessage({id: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.PLANTING'}),
-    //     },
-    //     expiryDays: {
-    //       type: 'number',
-    //       placeholder: intl.formatMessage({
-    //         id: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.EXPIRY',
-    //       }),
-    //       label: intl.formatMessage({id: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.EXPIRY'}),
-    //     },
-    //   },
-    // },
   ], []);
   
-  const models: any = {
-    header: "SHIPPING_AGENCY.CREATE.HEADER",
-    // form: [
-    //   {
-    //     title: '',
-    //     modifyModel: modifyModel,
-    //     header: 'ĐƠN HÀNG',
-    //   }
-    // ],
+  const models: ModifyForm = {
     form_1: {
       title: '',
       modifyModel: modifyModel,
@@ -302,7 +272,7 @@ function ShippingAgency() {
             get={() => null}
             models={models}
             allFormField={allFormField}
-            allFormButton={modifyButtonPage}
+            actions={modifyButtonPage}
             // validation={ProductTypeSchema}
             // autoFill={{
             //     field: 'code',
@@ -331,7 +301,7 @@ function ShippingAgency() {
               get={ShippingAgencyService.GetById}
               models={models}
               allFormField={allFormField}
-              allFormButton={modifyButtonPage}
+              actions={modifyButtonPage}
               //   validation={ProductTypeSchema}
             />
           )}

@@ -39,7 +39,7 @@ function ModifyShippingAddressDialog<T>({
 }) {
   const intl = useIntl();
   const initForm = autoFill
-    ? generateInitForm(allFormField, autoFill.field, autoFill.data)
+    ? generateInitForm(allFormField, autoFill.field, autoFill.entity)
     : generateInitForm(allFormField);
   const [search, onChange] = useState<any>(initForm);
 

@@ -1,10 +1,22 @@
-import {ModifyModel, SearchModel} from '../../../common-library/common-types/common-type';
+import {ModifyModel, RenderInfoDetailDialog, SearchModel} from '../../../common-library/common-types/common-type';
 import {GenerateAllFormField, getField} from '../../../common-library/helpers/common-function';
 import {GetAll} from "../species.service";
+import React from "react";
 
-export const masterEntityDetailDialog = [
+export const masterEntityDetailDialog: RenderInfoDetailDialog = [
   {
-    header: 'THÔNG TIN 1',
+    data: {
+      image: {
+        formatter: (data) => (
+          <img src={data ? data.path : ''} alt="rau" className="border border-primary" width="200px"
+               height="200px"/>
+        )
+      }
+    },
+    className: 'col-5 d-flex justify-content-center align-items-center ml-10',
+    dataClassName: 'd-flex',
+  },
+  {
     data: {
       code: {title: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.CODE'},
       name: {title: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.NAME'},
@@ -13,23 +25,18 @@ export const masterEntityDetailDialog = [
       plantingDays: {title: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.PLANTING'},
       expiryDays: {title: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.EXPIRY'},
     },
+    className: 'col-6',
   },
 ];
 
 export const productTypeSearchModel: SearchModel = {
   code: {
     type: 'string',
-    placeholder: 'PRODUCT_TYPE.MASTER.TABLE.CODE_COLUMN',
     label: 'PRODUCT_TYPE.MASTER.TABLE.CODE_COLUMN',
-    onSearch: GetAll,
-    keyField: 'code',
   },
   name: {
     type: 'string',
-    placeholder: 'PRODUCT_TYPE.MASTER.TABLE.NAME_COLUMN',
     label: 'PRODUCT_TYPE.MASTER.TABLE.NAME_COLUMN',
-    onSearch: GetAll,
-    keyField: 'name',
   },
 };
 
