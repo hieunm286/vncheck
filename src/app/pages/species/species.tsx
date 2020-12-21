@@ -271,8 +271,8 @@ function Species() {
             code={null}
             get={() => null}
             models={models}
-            allFormField={allFormField}
-            allFormButton={allFormButton}
+            // allFormField={allFormField}
+            actions={allFormButton}
             validation={ProductTypeSchema}
             // autoFill={{
             //   field: 'code',
@@ -298,8 +298,8 @@ function Species() {
               code={match && match.params.code}
               get={ProductTypeService.GetById}
               models={models}
-              allFormField={allFormField}
-              allFormButton={allFormButton}
+              // allFormField={allFormField}
+              actions={allFormButton}
               validation={ProductTypeSchema}
             />
           )}

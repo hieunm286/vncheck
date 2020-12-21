@@ -87,7 +87,6 @@ function ModifyEntityDialogForm<T>({
                     }}
                     entity={entity}
                     modifyModel={modifyForm[key].modifyModel}
-                    column={modifyForm[key].modifyModel.length}
                     title={modifyForm[key].title}
                   />
                 </React.Fragment>

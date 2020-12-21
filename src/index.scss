@@ -120,15 +120,18 @@ input {
   letter-spacing: 0.1rem;
 }
 
-.modal-detail{
-  .modal-content{
+.modal-detail {
+  .modal-content {
     padding: 35px;
   }
-  .modal-body{
+
+  .modal-body {
     padding: 0 0 0 0 !important;
   }
+
   &.modal-lg {
     width: 1000px;
+
     .modal-content {
       .detail-dialog-subtitle {
         font-weight: 600;
@@ -142,9 +145,11 @@ input {
       }
     }
   }
+
   &.modal-sm {
     max-width: 500px;
     width: 500px;
+
     .modal-content {
       .detail-dialog-subtitle {
         font-weight: 600;
@@ -158,15 +163,19 @@ input {
     }
   }
 }
-.modal-modify{
-  .modal-content{
+
+.modal-modify {
+  .modal-content {
     padding: 35px;
   }
-  .modal-body{
+
+  .modal-body {
     padding: 0 0 0 0 !important;
   }
+
   &.modal-lg {
     width: 1000px;
+
     .modal-content {
       .detail-dialog-subtitle {
         font-weight: 600;
@@ -180,9 +189,11 @@ input {
       }
     }
   }
+
   &.modal-sm {
     max-width: 500px;
     width: 500px;
+
     .modal-content {
       .detail-dialog-subtitle {
         font-weight: 600;
@@ -199,12 +210,14 @@ input {
 
 .modal-delete {
   width: 500px;
+
   .modal-content {
   }
 }
 
 .modal-delete-many {
   width: 500px;
+
   .modal-content {
   }
 }
@@ -295,8 +308,8 @@ html, body {
 
 .form-control {
 
-  font-size: $defaut-font-size ;
-  
+  font-size: $defaut-font-size;
+
   input {
     font-size: $defaut-font-size;
   }
@@ -323,11 +336,18 @@ html, body {
     font-weight: 700 !important;
   }
 }
-.master-header-search-margin{
+
+.master-header-search-margin {
   margin-bottom: 0;
+
   .master-header-search-input-margin {
     margin-bottom: 25px;
     margin-right: 50px;
   }
 }
+
+label {
+  display: block;
+}
+
 //.card.card-custom > .card-body

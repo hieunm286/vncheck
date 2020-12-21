@@ -37,18 +37,19 @@ import _ from 'lodash';
 function ModifyEntityPage<T>({
                                modifyModel,
                                title,
-                               column,
                                entity,
+                               // className = '',
                                mode = 'horizontal',
                                tagData,
                                images
                              }: {
+  
   modifyModel: ModifyModel;
   mode?: 'horizontal' | 'vertical'
   images?: any;
   onChange?: any;
   title?: string;
-  column?: number;
+  // className?: string;
   handleChangeTag?: any;
   values?: any;
   tagData?: any;
@@ -243,16 +244,16 @@ function ModifyEntityPage<T>({
       </>
     );
   }, [images]);
-
+  
   console.log(modifyModel)
   
   return (
     <>
       {title && <h6 className="text-primary">{title.toUpperCase()}</h6>}
-      <div className={(column ? column : 1) > 1 ? 'row' : ''}>
+      <div className={'row'}>
         {modifyModel &&
         modifyModel.map((value, index) => (
-          <div className={`col-md-${12 / (column ? column : 1)} col-12`} key={`meg-${index}`}>
+          <div key={`meg-${index}`} className={value.className}>
             {value.title && <h6 className="text-primary">{value.title.toUpperCase()}</h6>}
             {renderForm(value.data, '')}
           </div>

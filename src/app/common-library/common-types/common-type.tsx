@@ -177,6 +177,9 @@ export type ModifyModel = ModifyPart[];
 
 export type ModifyPart = {
   title: string;
+  className?: string;
+  titleClassName?: string;
+  dataClassName?: string;
   data: _ModifyModelType;
 }
 
@@ -230,6 +233,8 @@ export type CountProps<T> = ({
 export type RenderInfoDetailDialog = {
   header?: string;
   className?: string;
+  titleClassName?: string;
+  dataClassName?: string;
   data: {
     [T: string]: {
       title: string;
@@ -237,8 +242,7 @@ export type RenderInfoDetailDialog = {
       keyField?: string;
     }
   },
-  titleClassName?: string;
-  dataClassName?: string;
+
 }[]
 export type GetProps<T> = (entity: T) => Promise<AxiosResponse>;
 export type UpdateProps<T> = (entity: T) => Promise<AxiosResponse>;
