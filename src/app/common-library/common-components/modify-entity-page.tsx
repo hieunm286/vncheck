@@ -58,7 +58,7 @@ function ModifyEntityPage<T>({
 }) {
   const intl = useIntl();
   const {setFieldValue, touched, values} = useFormikContext<any>();
-  const defaultClassName = 'mt-5';
+  const defaultClassName = 'mb-5';
   const renderForm = useCallback((data: _ModifyModelType, prevKey: string): ReactElement => {
     return (
       <>
@@ -253,8 +253,8 @@ function ModifyEntityPage<T>({
       <div className={'row'}>
         {modifyModel &&
         modifyModel.map((value, index) => (
-          <div key={`meg-${index}`} className={value.className}>
-            {value.title && <h6 className="text-primary">{value.title.toUpperCase()}</h6>}
+          <div key={`meg-${index}`} className={value.className?? 'col-12'}>
+            {value.title && <div className="modify-subtitle text-primary">{value.title.toUpperCase()}</div>}
             {renderForm(value.data, '')}
           </div>
         ))}

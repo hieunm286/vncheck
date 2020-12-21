@@ -206,7 +206,7 @@ function ShippingAgency() {
   const modifyModel: ModifyModel = useMemo(() => [
     {
       title: 'THÔNG TIN CHUNG',
-      className: 'col-6',
+      className: 'col-6 pr-xl-15 pr-md-10 pr-5',
       data: {
         code: {
           type: 'string',
@@ -242,7 +242,7 @@ function ShippingAgency() {
       },
     }, {
       title: 'THÔNG TIN CHỦ ĐƠN VỊ',
-      className: 'col-6',
+      className: 'col-6 pl-xl-15 pl-md-10 pl-5',
       data: {
         code: {
           type: 'string',

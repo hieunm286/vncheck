@@ -71,11 +71,11 @@ export const GetClassName = (labelWidth: number | null | undefined, labelStart: 
     }
   } else {
     if (labelWidth) {
-      classes.push(`col-xl-${12 - labelWidth - 1}`);
+      classes.push(`col-xl-${12 - labelWidth}`);
       classes.push(`col-md-${12 - labelWidth}`);
       classes.push('col-12');
     } else {
-      classes.push(`col-xl-7`);
+      classes.push(`col-xl-8`);
       classes.push(`col-md-8`);
       classes.push('col-12');
     }

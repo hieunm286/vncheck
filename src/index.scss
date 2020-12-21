@@ -248,6 +248,7 @@ input {
 }
 
 .modify-page {
+
   .card-header {
     min-height: 0;
     padding: 0 0 0 0;
@@ -256,6 +257,11 @@ input {
 
   .card-body{
     padding: 0 0 50px 0 !important;
+    .modify-subtitle{
+      font-weight: 600;
+      padding-bottom: 30px;
+      margin-bottom: 0;
+    }
   }
 
   .card-title {
