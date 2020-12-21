@@ -245,7 +245,7 @@ function ShippingAgency() {
     ),
   };
   
-  const modifyButtonPage: any = {
+  const actions: any = {
     save: {
       role: 'submit',
       type: 'submit',
@@ -258,7 +258,7 @@ function ShippingAgency() {
       role: 'link-button',
       type: 'button',
       linkto: '/shipping-agency',
-      className: 'btn btn-outline-primary mr-2',
+      className: 'btn btn-outline-primary',
       label: 'Hủy',
       icon: <CancelOutlinedIcon/>,
     },
@@ -277,7 +277,7 @@ function ShippingAgency() {
             get={() => null}
             models={models}
             allFormField={allFormField}
-            actions={modifyButtonPage}
+            actions={actions}
             // validation={ProductTypeSchema}
             // autoFill={{
             //     field: 'code',
@@ -306,7 +306,7 @@ function ShippingAgency() {
               get={ShippingAgencyService.GetById}
               models={models}
               allFormField={allFormField}
-              actions={modifyButtonPage}
+              actions={actions}
               //   validation={ProductTypeSchema}
             />
           )}

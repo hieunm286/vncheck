@@ -187,7 +187,7 @@ function EntityCrudPage({
           <>
             <Form className="form form-label-right">
               {Object.keys(formPart).map((key, index,keys) => (
-                <Card key={key}>
+                <Card key={key} className={'modify-page'}>
                     <CardHeader className={'border-bottom-0'}
                                 title={index == 0 ? (
                                   <a onClick={() => history.goBack()}
@@ -213,49 +213,49 @@ function EntityCrudPage({
                       title={formPart[key].title}
                       handleChangeTag={handleChangeTag}
                     />
-                  </CardBody>
-                  {(
-                    <div className="text-right mb-5 mr-5" key={key}>
-                      {Object.keys(actions).map(keyss => {
-                        switch (actions[keyss].role) {
-                          case 'submit':
-                            console.log(actions[keyss])
-                            return (
-                              <button
-                                formNoValidate
-                                type={actions[keyss].type}
-                                className={actions[keyss].className}
-                                key={keyss}
-                                onClick={() => handleSubmit()}>
-                                {actions[keyss].icon} {actions[keyss].label}
-                              </button>
-                            );
-                          
-                          case 'button':
-                            console.log(actions[keyss])
-
-                            return (
-                              <button
-                                type={actions[keyss].type}
-                                className={actions[keyss].className}
-                                key={keyss}>
-                                {actions[keyss].icon} {actions[keyss].label}
-                              </button>
-                            );
-                          case 'link-button':
-                            return (
-                              <Link to={actions[keyss].linkto} key={keyss}>
+                    {(
+                      <div className="text-right mt-10" key={key}>
+                        {Object.keys(actions).map(keyss => {
+                          switch (actions[keyss].role) {
+                            case 'submit':
+                              console.log(actions[keyss])
+                              return (
                                 <button
+                                  formNoValidate
                                   type={actions[keyss].type}
-                                  className={actions[keyss].className}>
+                                  className={actions[keyss].className}
+                                  key={keyss}
+                                  onClick={() => handleSubmit()}>
                                   {actions[keyss].icon} {actions[keyss].label}
                                 </button>
-                              </Link>
-                            );
-                        }
-                      })}
-                    </div>
-                  )}
+                              );
+          
+                            case 'button':
+                              console.log(actions[keyss])
+            
+                              return (
+                                <button
+                                  type={actions[keyss].type}
+                                  className={actions[keyss].className}
+                                  key={keyss}>
+                                  {actions[keyss].icon} {actions[keyss].label}
+                                </button>
+                              );
+                            case 'link-button':
+                              return (
+                                <Link to={actions[keyss].linkto} key={keyss}>
+                                  <button
+                                    type={actions[keyss].type}
+                                    className={actions[keyss].className}>
+                                    {actions[keyss].icon} {actions[keyss].label}
+                                  </button>
+                                </Link>
+                              );
+                          }
+                        })}
+                      </div>
+                    )}
+                  </CardBody>
                 </Card>
               ))}
             </Form>
