@@ -209,19 +209,24 @@ function ShippingAgency() {
       data: {
         code: {
           type: 'string',
-          label: 'PRODUCT_TYPE.MASTER.TABLE.CODE_COLUMN',
+          label: 'SHIPPING_AGENCY.MODIFY.CODE',
           required: true,
           disabled: true,
         },
         name: {
           type: 'string',
           required: true,
-          label: 'PRODUCT_TYPE.MASTER.TABLE.CODE_COLUMN',
+          label: 'SHIPPING_AGENCY.MODIFY.NAME',
         },
-        barcode: {
+        city: {
           type: 'string',
           required: true,
-          label: 'PRODUCT_TYPE.MASTER.TABLE.CODE_COLUMN',
+          label: 'SHIPPING_AGENCY.MODIFY.CITY',
+        },
+        district: {
+          type: 'string',
+          required: true,
+          label: 'SHIPPING_AGENCY.MODIFY.DISTRICT',
         },
       },
     },

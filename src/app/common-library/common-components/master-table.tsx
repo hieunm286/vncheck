@@ -9,7 +9,7 @@ import {
 import './master-table.scss';
 import { SizePerPageList, SortDefault } from '../common-consts/const';
 import { SelectionCheckbox } from './table-row-selection-helpers';
-import { PaginationProps } from '../common-types/common-type';
+import {MasterBodyColumns, PaginationProps} from '../common-types/common-type';
 import { Pagination } from '../pagination/pagination';
 import isEqual from 'react-fast-compare';
 
@@ -82,7 +82,7 @@ export function MasterTable<T>({
   loading: boolean;
   onSelectMany: (entities: T[]) => void;
   selectedEntities: T[];
-  columns: ColumnDescription[];
+  columns: MasterBodyColumns;
   entities: T[];
   paginationParams: PaginationProps;
   setPaginationParams: (data: PaginationProps) => void;

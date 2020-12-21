@@ -11,6 +11,7 @@ import {Switch, Route, Redirect, useHistory} from 'react-router-dom';
 import * as Yup from 'yup';
 import {DefaultPagination} from '../../common-library/common-consts/const';
 import {
+  MasterBodyColumns,
   ModifyModel,
   ModifyPart,
   RenderInfoDetailDialog,
@@ -100,11 +101,11 @@ function LandLot() {
     getAll(filterProps);
     
   }, [paginationProps, filterProps]);
-  const columns = useMemo(() => ({
+  const columns = useMemo((): MasterBodyColumns => ({
     code: {
       dataField: 'code',
       text: `${intl.formatMessage({id: 'LAND_LOT.MASTER.HEADER.CODE'})}`,
-      formatter: (cell: any, row: any, rowIndex: any) => {
+      formatter: (cell: any, row: any, rowIndex) => {
         return (<Fragment>{row.lot + row.subLot}</Fragment>);
       },
       ...SortColumn,
@@ -120,6 +121,7 @@ function LandLot() {
       ...SortColumn,
     },
     action: {
+      dataField: 'action',
       text: `${intl.formatMessage({id: 'PURCHASE_ORDER.MASTER.TABLE.ACTION_COLUMN'})}`,
       formatter: ActionsColumnFormatter,
       formatExtraData: {
@@ -362,7 +364,7 @@ function LandLot() {
             onSelectMany={setSelectedEntities}
             entities={entities}
             total={total}
-            columns={columns as any}
+            columns={columns}
             loading={loading}
             paginationParams={paginationProps}
             setPaginationParams={setPaginationProps}
