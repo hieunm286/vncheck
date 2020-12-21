@@ -14,6 +14,7 @@ import {Card, CardBody, CardHeader} from '../card';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import {diff} from 'deep-object-diff';
 import exifr from 'exifr'
+import {ModifyForm, ModifyModel} from "../common-types/common-type";
 
 const toDataURL = (url: string) => fetch(url)
   .then(response => response.blob())
@@ -44,7 +45,7 @@ function EntityCrudPage({
   onModify: (values: any) => void;
   code: string | null;
   get: (code: string) => any | null;
-  models: any;
+  models: ModifyForm;
   // allFormField: any;
   actions: any;
   validation?: any;
@@ -54,7 +55,7 @@ function EntityCrudPage({
   // const initForm = autoFill
   //   ? generateInitForm(allFormField, autoFill.field, autoFill.data)
   //   : generateInitForm(allFormField);
-  const {header, ...formPart} = models;
+  const {...formPart} = models;
   const history = useHistory();
   const [entityForEdit, setEntityForEdit] = useState(entity);
   
@@ -198,7 +199,7 @@ function EntityCrudPage({
                                       .toUpperCase()}
                                   </a>) : (
                                   <>{intl.formatMessage(
-                                    {id: header},
+                                    {id: formPart[key].title},
                                     {moduleName: intl.formatMessage({id: moduleName})})
                                     .toUpperCase()}</>)}
                     />

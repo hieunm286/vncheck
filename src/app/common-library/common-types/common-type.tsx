@@ -149,14 +149,7 @@ export type SearchModel = {
 export type MasterBodyColumns = {
   [T: string]: ColumnDescription
 } | ColumnDescription[];
-export type OldModifyModel = {
-  [T: string]: {
-    type: InputType;
-    placeholder: string;
-    label: string;
-    disabled?: boolean;
-  };
-};
+
 export type ModifyForm = { [T: string]: { title: string, modifyModel: ModifyModel } };
 
 export type ModifyModel = ModifyPart[];
@@ -175,7 +168,7 @@ export type _ModifyModelType = {
       type: 'string' | 'date-time' | 'number' | 'boolean' | 'tag' | 'gallery';
     } & _CommonProps)
     | { type: 'object', name?: string, data: _ModifyModelType, disabled?: boolean }
-    | ({ type: 'image', value: any } & _CommonProps)
+    | ({ type: 'image', value?: any } & _CommonProps)
     | ({ type: 'search-select', onSearch: GetAllPropsServer<any> | GetAllProps<any>, keyField?: string, selectField?: string } & _CommonProps)
 }
 export type _CommonProps = {

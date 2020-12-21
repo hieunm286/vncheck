@@ -452,16 +452,11 @@ export function InitMasterProps<T>({
       });
   }, []);
   
-  const get = useCallback((entity: T, ModelSlice?: any) => {
+  const get = useCallback((entity: T) => {
     return getServer(entity)
       .then(res => {
         setDetailEntity(res.data);
         setEditEntity(res.data);
-        if (ModelSlice) {
-          const {actions} = ModelSlice;
-          const editEntity = res.data;
-          dispatch(actions.entityFetched({editEntity}));
-        }
         notifySuccess('COMMON_COMPONENT.TOAST.GET_SUCCESS');
         return res;
       })

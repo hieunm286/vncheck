@@ -480,68 +480,68 @@ function ProductionPlanCrud({
                 <span className="text-danger">{intl.formatMessage({ id: errorMsg })}</span>
               </div>
             )}
-            {allFormButton.type === 'outside' && (
-              <div className="text-right mb-5 mr-20">
-                {Object.keys(allFormButton.entity).map(keyss => {
-                  switch (allFormButton['data'][keyss].role) {
-                    case 'submit':
-                      return (
-                        <button
-                          type={allFormButton['data'][keyss].type}
-                          onClick={() => {
-                            handleSubmit();
-                            allFormButton['data'][keyss].onClick();
-                          }}
-                          className={allFormButton['data'][keyss].className}
-                          key={keyss}>
-                          {allFormButton['data'][keyss].icon} {allFormButton['data'][keyss].label}
-                        </button>
-                      );
-
-                    case 'special':
-                      return (
-                        <button
-                          type={allFormButton['data'][keyss].type}
-                          onClick={() => {
-                            handleSubmit();
-                            allFormButton['data'][keyss].onClick();
-                          }}
-                          className={allFormButton['data'][keyss].className}
-                          key={keyss}>
-                          {allFormButton['data'][keyss].icon} {allFormButton['data'][keyss].label}
-                        </button>
-                      );
-
-                    case 'button':
-                      return (
-                        <button
-                          type={allFormButton['data'][keyss].type}
-                          className={allFormButton['data'][keyss].className}
-                          key={keyss}
-                          onClick={() => {
-                            allFormButton['data'][keyss].onClick();
-                          }}>
-                          {allFormButton['data'][keyss].icon} {allFormButton['data'][keyss].label}
-                        </button>
-                      );
-                    case 'link-button':
-                      return (
-                        // <Link to={allFormButton['data'][keyss].linkto} key={keyss}>
-                        <button
-                          type={allFormButton['data'][keyss].type}
-                          className={allFormButton['data'][keyss].className}
-                          key={keyss}
-                          onClick={() => {
-                            setConfirmModal(true);
-                          }}>
-                          {allFormButton['data'][keyss].icon} {allFormButton['data'][keyss].label}
-                        </button>
-                        // </Link>
-                      );
-                  }
-                })}
-              </div>
-            )}
+            {/*{allFormButton.type === 'outside' && (*/}
+            {/*  <div className="text-right mb-5 mr-20">*/}
+            {/*    {Object.keys(allFormButton.entity).map(keyss => {*/}
+            {/*      switch (allFormButton[keyss].role) {*/}
+            {/*        case 'submit':*/}
+            {/*          return (*/}
+            {/*            <button*/}
+            {/*              type={allFormButton[keyss].type}*/}
+            {/*              onClick={() => {*/}
+            {/*                handleSubmit();*/}
+            {/*                allFormButton[keyss].onClick();*/}
+            {/*              }}*/}
+            {/*              className={allFormButton[keyss].className}*/}
+            {/*              key={keyss}>*/}
+            {/*              {allFormButton[keyss].icon} {allFormButton[keyss].label}*/}
+            {/*            </button>*/}
+            {/*          );*/}
+            
+            {/*        case 'special':*/}
+            {/*          return (*/}
+            {/*            <button*/}
+            {/*              type={allFormButton[keyss].type}*/}
+            {/*              onClick={() => {*/}
+            {/*                handleSubmit();*/}
+            {/*                allFormButton[keyss].onClick();*/}
+            {/*              }}*/}
+            {/*              className={allFormButton[keyss].className}*/}
+            {/*              key={keyss}>*/}
+            {/*              {allFormButton[keyss].icon} {allFormButton[keyss].label}*/}
+            {/*            </button>*/}
+            {/*          );*/}
+            
+            {/*        case 'button':*/}
+            {/*          return (*/}
+            {/*            <button*/}
+            {/*              type={allFormButton[keyss].type}*/}
+            {/*              className={allFormButton[keyss].className}*/}
+            {/*              key={keyss}*/}
+            {/*              onClick={() => {*/}
+            {/*                allFormButton[keyss].onClick();*/}
+            {/*              }}>*/}
+            {/*              {allFormButton[keyss].icon} {allFormButton[keyss].label}*/}
+            {/*            </button>*/}
+            {/*          );*/}
+            {/*        case 'link-button':*/}
+            {/*          return (*/}
+            {/*            // <Link to={allFormButton[keyss].linkto} key={keyss}>*/}
+            {/*            <button*/}
+            {/*              type={allFormButton[keyss].type}*/}
+            {/*              className={allFormButton[keyss].className}*/}
+            {/*              key={keyss}*/}
+            {/*              onClick={() => {*/}
+            {/*                setConfirmModal(true);*/}
+            {/*              }}>*/}
+            {/*              {allFormButton[keyss].icon} {allFormButton[keyss].label}*/}
+            {/*            </button>*/}
+            {/*            // </Link>*/}
+            {/*          );*/}
+            {/*      }*/}
+            {/*    })}*/}
+            {/*  </div>*/}
+            {/*)}*/}
           </>
         )}
       </Formik>

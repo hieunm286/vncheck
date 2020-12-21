@@ -162,7 +162,7 @@ function Species() {
     },
   };
 
-  const ProductTypeSchema = Yup.object().shape({
+  const schema = Yup.object().shape({
     name: Yup.string().required('Tên chủng loại không được để trống').matches(/^[aAàÀảẢãÃáÁạẠăĂằẰẳẲẵẴắẮặẶâÂầẦẩẨẫẪấẤậẬbBcCdDđĐeEèÈẻẺẽẼéÉẹẸêÊềỀểỂễỄếẾệỆfFgGhHiIìÌỉỈĩĨíÍịỊjJkKlLmMnNoOòÒỏỎõÕóÓọỌôÔồỒổỔỗỖốỐộỘơƠờỜởỞỡỠớỚợỢpPqQrRsStTuUùÙủỦũŨúÚụỤưƯừỪửỬữỮứỨựỰvVwWxXyYỳỲỷỶỹỸýÝỵỴzZ ]+$/u, {
       message: 'Tên không hợp lệ. Tên không chứa số và ký tự đặc biệt',
     }).test('Exists validate', 'Tên chủng loại đã tồn tại', function (value) {
@@ -274,7 +274,7 @@ function Species() {
             models={models}
             // allFormField={allFormField}
             actions={allFormButton}
-            validation={ProductTypeSchema}
+            validation={schema}
             // autoFill={{
             //   field: 'code',
             //   data: GenerateCode(data),
@@ -301,7 +301,7 @@ function Species() {
               models={models}
               // allFormField={allFormField}
               actions={allFormButton}
-              validation={ProductTypeSchema}
+              validation={schema}
             />
           )}
         </Route>

@@ -1,17 +1,17 @@
-import React, { useEffect, Fragment, useState } from "react";
+import React, {useEffect, Fragment, useState} from "react";
 import * as Yup from "yup";
-import { OldModifyModel, SearchModel } from "../../../common-library/common-types/common-type";
+import {SearchModel} from "../../../common-library/common-types/common-type";
 import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
-import { AgencyModel } from "../agency.model";
+import {AgencyModel} from "../agency.model";
 import validDataUrl from 'valid-data-url';
 
 
-import { createIntl, createIntlCache } from 'react-intl';
+import {createIntl, createIntlCache} from 'react-intl';
 import viMessage from '../../../layout/i18n/messages/vi.json';
 
 const cache = createIntlCache();
-const intl = createIntl({ locale: 'vi-VN', messages: viMessage, }, cache);
+const intl = createIntl({locale: 'vi-VN', messages: viMessage,}, cache);
 
 export const agencySearchModel: SearchModel = {
   code: {
@@ -19,13 +19,13 @@ export const agencySearchModel: SearchModel = {
     placeholder: 'AGENCY.MASTER.HEADER.AGENCY_CODE.PLACEHOLDER',
     label: 'AGENCY.MASTER.HEADER.AGENCY_CODE.LABEL',
     keyField: 'code'
-  }, 
+  },
   name: {
     type: 'string',
     placeholder: 'AGENCY.MASTER.HEADER.AGENCY_NAME.PLACEHOLDER',
     label: 'AGENCY.MASTER.HEADER.AGENCY_NAME.LABEL',
     keyField: 'name'
-  }, 
+  },
   storeLevel: {
     type: 'tree-select',
     placeholder: 'AGENCY.EDIT.PLACEHOLDER.SELL_GOOD_LEVEL',
@@ -53,12 +53,11 @@ export const agencySearchModel: SearchModel = {
 };
 
 
-
 export const agencySchema = Yup.object<AgencyModel>().shape({
   // code: Yup.string().required('Vui lòng nhập mã đơn vị'),
   // agencyAddress: Yup.string().required('Vui lòng nhập tên đơn vị'),
   // phoneNumber: Yup.string().required('Vui lòng nhập số điện thoại'),
-
+  
   // code: Yup.string()
   //   .required(intl.formatMessage({id: 'AGENCY.VALIDATION.AGENCY_CODE.REQUIRED'}))
   //   // .max(255, intl.formatMessage({id: 'AGENCY.VALIDATION.AGENCY_CODE.MAX_LENGTH_EXCEEDED'}))
@@ -92,8 +91,8 @@ export const agencySchema = Yup.object<AgencyModel>().shape({
   //   .nullable()
   //   .required(intl.formatMessage({id: 'AGENCY.VALIDATION.AGENCY_IMAGE.REQUIRED'}))
   //   .test('is-correct-file', intl.formatMessage({id: 'AGENCY.VALIDATION.AGENCY_IMAGE.REQUIRED'}), (files: any) => {return checkIfFilesAreCorrectType(files)}),
-
-
+  
+  
   username: Yup.string()
     .required(intl.formatMessage({id: 'AGENCY.VALIDATION.USER_NAME.REQUIRED'}))
     .max(255, intl.formatMessage({id: 'AGENCY.VALIDATION.USER_NAME.MAX_LENGTH_EXCEEDED'})),
@@ -102,8 +101,8 @@ export const agencySchema = Yup.object<AgencyModel>().shape({
     .max(255, intl.formatMessage({id: 'AGENCY.VALIDATION.OWNER_NAME.MAX_LENGTH_EXCEEDED'})),
   ownerPhoneNumber: Yup.string()
     .required(intl.formatMessage({id: 'AGENCY.VALIDATION.OWNER_PHONE_NUMBER.REQUIRED'}))
-    // .test('len', 'AGENCY.VALIDATION.OWNWER_PHONE_NUMBER.WRONG_EXACT_LENGTH', (val: any) => {return val.length !== null && val.length !== undefined && val.length === 10 }),
-    ,
+  // .test('len', 'AGENCY.VALIDATION.OWNWER_PHONE_NUMBER.WRONG_EXACT_LENGTH', (val: any) => {return val.length !== null && val.length !== undefined && val.length === 10 }),
+  ,
   email: Yup.string()
     .required(intl.formatMessage({id: 'AGENCY.VALIDATION.EMAIL.REQUIRED'}))
     .max(255, intl.formatMessage({id: 'AGENCY.VALIDATION.EMAIL.MAX_LENGTH_EXCEEDED'})),
@@ -126,11 +125,11 @@ export const agencySchema = Yup.object<AgencyModel>().shape({
 function checkIfFilesAreCorrectType(files: any): boolean {
   let valid = false
   if (files) {
-    files.map((file : any) => {
+    files.map((file: any) => {
       // if (!['application/pdf', 'image/jpeg', 'image/png'].includes(file.type)) {
       //   valid = false
       // }
-      if(file.data_url && validDataUrl(file.data_url)) {
+      if (file.data_url && validDataUrl(file.data_url)) {
         valid = true
       }
     })
@@ -138,7 +137,7 @@ function checkIfFilesAreCorrectType(files: any): boolean {
   return valid
 }
 
-export const oldModifyModel: OldModifyModel = {
+export const oldModifyModel: any = {
   code: {
     type: 'string',
     placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.PLACEHOLDER',
@@ -176,7 +175,7 @@ export const oldModifyModel: OldModifyModel = {
     label: 'AGENCY.MASTER.TABLE.OWNER'
   },
   // shippingAddress: [],
-  shippingAddress:  {
+  shippingAddress: {
     type: 'string',
     placeholder: 'AGENCY.MASTER.TABLE.SHIPING_ADDRESS',
     label: 'AGENCY.MASTER.TABLE.SHIPPING_ADDRESS'
@@ -191,19 +190,19 @@ export const oldModifyModel: OldModifyModel = {
     placeholder: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS_COLUMN',
     label: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS_COLUMN',
   },
-
+  
 };
 
 export const masterEntityDetailDialog = [
   {
     header: 'AGENCY.MASTER.HEADER.AGENCY_INFO',
     data: [
-      { keyField: 'code', title: 'AGENCY.VIEW.LABEL.AGENCY_CODE' },
-      { keyField: 'name', title: 'AGENCY.VIEW.LABEL.AGENCY_NAME' },
-      { keyField: ['address.district', 'address.city', 'address.state'], title: 'AGENCY.VIEW.LABEL.AGENCY_ADDRESS' },
-      { keyField: 'phone', title: 'AGENCY.VIEW.LABEL.PHONE' },
+      {keyField: 'code', title: 'AGENCY.VIEW.LABEL.AGENCY_CODE'},
+      {keyField: 'name', title: 'AGENCY.VIEW.LABEL.AGENCY_NAME'},
+      {keyField: ['address.district', 'address.city', 'address.state'], title: 'AGENCY.VIEW.LABEL.AGENCY_ADDRESS'},
+      {keyField: 'phone', title: 'AGENCY.VIEW.LABEL.PHONE'},
       // { keyField: 'taxId', title: 'AGENCY.VIEW.LABEL.AGENCY_NAME.TAX_ID' },
-      { keyField: 'status', title: 'AGENCY.VIEW.LABEL.AGENCY_NAME.STATUS' },
+      {keyField: 'status', title: 'AGENCY.VIEW.LABEL.AGENCY_NAME.STATUS'},
       // { keyField: 'type.name', title: 'AGENCY_TYPE.MASTER.TABLE.NAME' },
       // { keyField: 'type.code', title: 'AGENCY_TYPE.MASTER.TABLE.CODE' },
     ]
@@ -211,18 +210,18 @@ export const masterEntityDetailDialog = [
   {
     header: 'AGENCY.MASTER.HEADER.AGENCY_OWNER_INFO',
     data: [
-      { keyField: 'owner.username', title: 'AGENCY.VIEW.LABEL.OWNER_NAME' },
-      { keyField: 'owner.email', title: 'AGENCY.VIEW.LABEL.OWNER_EMAIL' },
-      { keyField: 'owner.phone', title: 'AGENCY.VIEW.LABEL.OWNER_PHONE' },
+      {keyField: 'owner.username', title: 'AGENCY.VIEW.LABEL.OWNER_NAME'},
+      {keyField: 'owner.email', title: 'AGENCY.VIEW.LABEL.OWNER_EMAIL'},
+      {keyField: 'owner.phone', title: 'AGENCY.VIEW.LABEL.OWNER_PHONE'},
     ]
   },
   {
     header: 'AGENCY.VIEW.LABEL.SHIPPING_ADDRESS',
     data: [
-      { keyField: 'shippingAddress', title: 'AGENCY.VIEW.LABEL.SHIPPING_ADDRESS' },
+      {keyField: 'shippingAddress', title: 'AGENCY.VIEW.LABEL.SHIPPING_ADDRESS'},
     ]
-  },  
-  
+  },
+
 
 ];
 
@@ -234,7 +233,7 @@ export const allFormButton: any = {
     linkto: undefined,
     className: 'btn btn-primary mr-2',
     label: intl.formatMessage({id: 'AGENCY.EDIT.BUTTON.SAVE'}),
-    icon: <SaveOutlinedIcon />,
+    icon: <SaveOutlinedIcon/>,
   },
   cancel: {
     role: 'popupButton',
@@ -242,7 +241,7 @@ export const allFormButton: any = {
     // linkto: '/agency',
     className: 'btn btn-outline-primary mr-2',
     label: intl.formatMessage({id: 'AGENCY.EDIT.BUTTON.CANCEL'}),
-    icon: <CancelOutlinedIcon />,
+    icon: <CancelOutlinedIcon/>,
   },
 };
 

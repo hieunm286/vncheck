@@ -203,7 +203,7 @@ function ShippingAgency() {
     },
   };
   
-  const modifyModel: ModifyModel = useMemo(() => [
+  const modifyModel = useMemo((): ModifyModel => [
     {
       title: 'THÔNG TIN CHUNG',
       className: 'col-6 pr-xl-15 pr-md-10 pr-5',
@@ -238,6 +238,26 @@ function ShippingAgency() {
           type: 'string',
           required: true,
           label: 'SHIPPING_AGENCY.MODIFY.DISTRICT',
+        },
+        status: {
+          type: 'boolean',
+          required: true,
+          label: 'SHIPPING_AGENCY.MODIFY.STATUS',
+        },
+        phoneNumber: {
+          type: 'string',
+          required: true,
+          label: 'SHIPPING_AGENCY.MODIFY.STATUS',
+        },
+        tax: {
+          type: 'string',
+          required: true,
+          label: 'SHIPPING_AGENCY.MODIFY.STATUS',
+        },
+        images: {
+          type: 'image',
+          required: true,
+          label: 'SHIPPING_AGENCY.MODIFY.STATUS',
         },
       },
     }, {
@@ -281,7 +301,7 @@ function ShippingAgency() {
   
   const models: ModifyForm = {
     form_1: {
-      title: '',
+      title: 'SSDSD',
       modifyModel: modifyModel,
     },
   };

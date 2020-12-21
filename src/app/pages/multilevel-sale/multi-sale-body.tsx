@@ -65,12 +65,12 @@ const MultiLevelSaleBody: React.FC<MultilevelSaleBodyProp> = ({
                         </span>
                       </p>
                       <MasterTreeStructure
-                        data={item.entity}
+                        data={item.data}
                         onCreate={onCreate}
                         onEdit={onEdit}
                         onDelete={onDelete}
                         onFetchAgency={onFetchAgency}
-                        showChildren={showArray_v2({}, item.entity)}
+                        showChildren={showArray_v2({}, item.data)}
                       />
                     </div>
                   </Fragment>
@@ -83,7 +83,7 @@ const MultiLevelSaleBody: React.FC<MultilevelSaleBodyProp> = ({
                       <p style={{ fontWeight: 'bold' }}>{item.title}</p>
 
                       <MasterTable
-                        entities={item.entity}
+                        entities={item.data}
                         columns={item.prop.columns}
                         total={item.prop.total}
                         loading={item.prop.loading}
