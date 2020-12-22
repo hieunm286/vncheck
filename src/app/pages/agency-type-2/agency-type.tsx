@@ -15,7 +15,7 @@ import {ActionsColumnFormatter} from '../../common-library/common-components/act
 
 import {NormalColumn, SortColumn} from '../../common-library/common-consts/const';
 
-import {MasterBodyColumns, ModifyModel, SearchModel} from "../../common-library/common-types/common-type";
+import {MasterBodyColumns, ModifyPanel, SearchModel} from "../../common-library/common-types/common-type";
 import {DeleteEntityDialog} from "../../common-library/common-components/delete-entity-dialog";
 import {MasterEntityDetailDialog} from "../../common-library/common-components/master-entity-detail-dialog";
 import DeleteManyEntitiesDialog from '../../common-library/common-components/delete-many-entities-dialog';

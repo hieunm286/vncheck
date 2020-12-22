@@ -1,18 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Field, Form, Formik } from 'formik';
-import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
-import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
-import * as Yup from 'yup';
 import { Link, useHistory } from 'react-router-dom';
-import ImageUploading from 'react-images-uploading';
-import { uploadImage } from '../../pages/purchase-order/purchase-order.service';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-// import { diff } from 'deep-object-diff';
-import EXIF from 'exif-js';
-import { isEmpty, isEqual } from 'lodash';
-import exifr from 'exifr';
 import { AxiosResponse } from 'axios';
-// import { diff } from 'deep-diff';
 
 import { useIntl } from 'react-intl';
 import {
@@ -20,10 +10,10 @@ import {
   GetHomePage,
 } from '../../common-library/helpers/common-function';
 import { Card, CardBody, CardHeader } from '../../common-library/card';
-import ModifyEntityPage from '../../common-library/common-components/modify-entity-page';
 import _ from 'lodash';
 import { addInitField, initProductPlanForm } from './defined/const';
 import ProductionPlanModal from './production-plan-modal';
+import {ModifyEntityPage} from "../../common-library/common-components/modify-entity-page";
 
 const diff = (obj1: any, obj2: any) => {
   console.log(obj1);
@@ -415,11 +405,8 @@ function ProductionPlanCrud({
                   <CardBody>
                     <ModifyEntityPage
                       entity={entityForEdit}
-                      images={images}
-                      modifyModel={formPart[key].modifyModel}
-                      title={formPart[key].title}
+                      inputGroups={formPart[key].modifyModel}
                       handleChangeTag={handleChangeTag}
-                      tagData={tagData}
                       errors={errors}
                     />
 

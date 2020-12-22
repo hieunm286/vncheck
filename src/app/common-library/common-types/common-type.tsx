@@ -150,27 +150,27 @@ export type MasterBodyColumns = {
   [T: string]: ColumnDescription
 } | ColumnDescription[];
 
-export type ModifyForm = { [T: string]: { title: string, modifyModel: ModifyModel } };
+export type ModifyForm = { _header: string } & Panels;
 
-export type ModifyModel = ModifyPart[];
-
-export type ModifyPart = {
-  title: string;
-  className?: string;
-  titleClassName?: string;
-  dataClassName?: string;
-  data: _ModifyModelType;
+export type Panels = {
+  [T: string]: ModifyPanel | string,
 }
+export type ModifyPanel = { _title: string } & InputGroups;
 
-export type _ModifyModelType = {
-  [T: string]: (
-    {
-      type: 'string' | 'date-time' | 'number' | 'boolean' | 'tag' | 'gallery';
-    } & _CommonProps)
-    | { type: 'object', name?: string, data: _ModifyModelType, disabled?: boolean }
-    | ({ type: 'image', value?: any } & _CommonProps)
-    | ({ type: 'search-select', onSearch: GetAllPropsServer<any> | GetAllProps<any>, keyField?: string, selectField?: string } & _CommonProps)
-}
+export type InputGroups = {
+  [T: string]: ModifyInputGroup | string
+};
+
+
+export type ModifyInputGroup = InputGroupType & {
+  _subTitle: string;
+  _className?: string;
+  _titleClassName?: string;
+  _dataClassName?: string;
+};
+
+export type InputGroupType = { [T: string]: _ModifyModelInput | string }
+
 export type _CommonProps = {
   label: string | ReactElement;
   placeholder?: string;
@@ -181,6 +181,8 @@ export type _CommonProps = {
   [T: string]: any;
   onChange?: (value: any, props: { setFieldValue: ((name: string, value: any) => void), values: any }) => any;
 }
+
+
 export type GetAllPropsServer<T> = ({
                                       queryProps,
                                       sortList,
@@ -190,6 +192,11 @@ export type GetAllPropsServer<T> = ({
   sortList?: SortProps[];
   paginationProps?: PaginationProps | PaginationPropsV2;
 }) => (Promise<AxiosResponse<T[]>>);
+export type _ModifyModelInput =
+  ({ _type: 'object', [S: string]: any })
+  | ({ _type: 'image', value?: any } & _CommonProps)
+  | ({ _type: 'string' | 'date-time' | 'number' | 'boolean' | 'tag' | 'gallery'; } & _CommonProps)
+  | ({ _type: 'search-select', onSearch: GetAllPropsServer<any> | GetAllProps<any>, keyField?: string, selectField?: string } & _CommonProps)
 export type GetAllProps<T> = ({
                                 queryProps,
                                 sortList,
@@ -221,7 +228,7 @@ export type RenderInfoDetailDialog = {
       keyField?: string;
     }
   },
-
+  
 }[]
 export type GetProps<T> = (entity: T) => Promise<AxiosResponse>;
 export type UpdateProps<T> = (entity: T) => Promise<AxiosResponse>;

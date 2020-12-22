@@ -1,6 +1,5 @@
-import React, { Fragment, useEffect, useState } from 'react';
-import ModifyEntityPage from './modify-entity-page';
-import { useIntl } from 'react-intl';
+import React, {Fragment, useEffect, useState} from 'react';
+import {useIntl} from 'react-intl';
 import {
   generateInitForm,
   GetHomePage,
@@ -12,9 +11,11 @@ import { Field, Form, Formik } from 'formik';
 import { Link, useHistory } from 'react-router-dom';
 import { Card, CardBody, CardHeader } from '../card';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import { diff } from 'deep-object-diff';
-import exifr from 'exifr';
-import { ModifyForm, ModifyModel } from '../common-types/common-type';
+import {diff} from 'deep-object-diff';
+import exifr from 'exifr'
+import {ModifyForm, ModifyPanel} from "../common-types/common-type";
+import _ from "lodash";
+import {ModifyEntityPage} from "./modify-entity-page";
 
 const toDataURL = (url: string) =>
   fetch(url)
@@ -30,26 +31,25 @@ const toDataURL = (url: string) =>
     );
 
 function EntityCrudPage({
-  entity,
-  onModify,
-  title = 'COMMON_COMPONENT.CREATE_UPDATE.TITLE',
-  moduleName = 'COMMON_COMPONENT.CREATE_UPDATE.MODULE_NAME',
-  code,
-  get,
-  models,
-  // allFormField,
-  actions,
-  validation,
-  autoFill,
-}: {
+                          entity,
+                          onModify,
+                          // header = 'COMMON_COMPONENT.CREATE_UPDATE.TITLE',
+                          moduleName = 'COMMON_COMPONENT.CREATE_UPDATE.MODULE_NAME',
+                          code,
+                          get,
+                          formModel,
+                          // allFormField,
+                          actions,
+                          validation,
+                          autoFill,
+                        }: {
   // modifyModel: ModifyModel;
-  title?: string;
   moduleName?: string;
   entity: any;
   onModify: (values: any) => void;
   code: string | null;
   get: (code: string) => any | null;
-  models: ModifyForm;
+  formModel: ModifyForm;
   // allFormField: any;
   actions: any;
   validation?: any;
@@ -59,19 +59,15 @@ function EntityCrudPage({
   // const initForm = autoFill
   //   ? generateInitForm(allFormField, autoFill.field, autoFill.data)
   //   : generateInitForm(allFormField);
-  const { ...formPart } = models;
   const history = useHistory();
   const [entityForEdit, setEntityForEdit] = useState(entity);
-
-  // const [images, setImages] = useState(initForm);
+  const {_header, ...modifyPanels} = formModel;
   const [imageRootArr, setImageRootArr] = useState<any>([]);
 
   // const [tagArr, setTagArr] = useState(initForm);
-
-  const [imageData, setImageData] = useState<{ data_url: any; exif: any }[]>([]);
-
-  console.log(entityForEdit);
-
+  
+  const [imageData, setImageData] = useState<{ data_url: any; exif: any }[]>([])
+  
   const ImageMeta = (file: any) => {
     if (!file) return '';
 
@@ -198,93 +194,78 @@ function EntityCrudPage({
         {({ handleSubmit, setFieldValue }) => (
           <>
             <Form className="form form-label-right">
-              {Object.keys(formPart).map((key, index, keys) => (
-                <Card key={key} className={'modify-page'}>
-                  <CardHeader
-                    className={'border-bottom-0'}
-                    title={
-                      index == 0 ? (
-                        <a
-                          onClick={() => history.goBack()}
-                          className={'cursor-pointer text-primary font-weight-boldest'}>
-                          <ArrowBackIosIcon />
-                          {intl
-                            .formatMessage(
-                              { id: title },
-                              { moduleName: intl.formatMessage({ id: moduleName }) },
-                            )
-                            .toUpperCase()}
-                        </a>
-                      ) : (
-                        <>
-                          {intl
-                            .formatMessage(
-                              { id: formPart[key].title },
-                              { moduleName: intl.formatMessage({ id: moduleName }) },
-                            )
-                            .toUpperCase()}
-                        </>
-                      )
-                    }
-                  />
-                  <CardBody>
-                    <ModifyEntityPage
-                      modifyModel={formPart[key]}
-                      // title={formPart[key].title}
-                      // className={formPart[key].className}
-                      // images={images}
-                      // onChange={(imageList: any, addUpdateIndex: any, key: any) => {
-                      //   onChange(imageList, addUpdateIndex, key, setFieldValue);
-                      // }}
-                      // column={formPart[key].modifyModel.length}
-                      // entity={entityForEdit}
-                      // handleChangeTag={handleChangeTag}
+              {Object.keys(modifyPanels).map((key, index,keys) => {
+                const val = modifyPanels[key];
+                if(_.isString(val)) throw new Error('Sử dụng sai cách ' + key);
+                const {_title, ...panel} = val;
+                return (
+                  <Card key={key} className={'modify-page'}>
+                    <CardHeader className={'border-bottom-0'}
+                                title={index == 0 ? (
+                                  <a onClick={() => history.goBack()}
+                                     className={'cursor-pointer text-primary font-weight-boldest'}>
+                                    <ArrowBackIosIcon/>
+                                    {intl
+                                      .formatMessage({id: _header}, {moduleName: intl.formatMessage({id: moduleName})})
+                                      .toUpperCase()}
+                                  </a>) : (
+                                  <>{intl.formatMessage(
+                                    {id: _title},
+                                    {moduleName: intl.formatMessage({id: moduleName})})
+                                    .toUpperCase()}</>)}
                     />
-                    {
-                      <div className="text-right mt-10" key={key}>
-                        {Object.keys(actions.data).map(keyss => {
-                          switch (actions.data[keyss].role) {
-                            case 'submit':
-                              console.log(actions[keyss]);
-                              return (
-                                <button
-                                  formNoValidate
-                                  type={actions.data[keyss].type}
-                                  className={actions.data[keyss].className}
-                                  key={keyss}
-                                  onClick={() => handleSubmit()}>
-                                  {actions.data[keyss].icon} {actions.data[keyss].label}
-                                </button>
-                              );
-
-                            case 'button':
-                              console.log(actions[keyss]);
-
-                              return (
-                                <button
-                                  type={actions.data[keyss].type}
-                                  className={actions.data[keyss].className}
-                                  key={keyss}>
-                                  {actions.data[keyss].icon} {actions.data[keyss].label}
-                                </button>
-                              );
-                            case 'link-button':
-                              return (
-                                <Link to={actions.data[keyss].linkto} key={keyss}>
+                    <CardBody>
+                      <ModifyEntityPage
+                        // className={formPart[key].className}
+                        // images={images}
+                        inputGroups={panel}
+                      />
+                      {(
+                        <div className="text-right mt-10" key={key}>
+                          {Object.keys(actions).map(keyss => {
+                            switch (actions[keyss].role) {
+                              case 'submit':
+                                console.log(actions[keyss])
+                                return (
                                   <button
-                                    type={actions.data[keyss].type}
-                                    className={actions.data[keyss].className}>
-                                    {actions.data[keyss].icon} {actions.data[keyss].label}
+                                    formNoValidate
+                                    type={actions[keyss].type}
+                                    className={actions[keyss].className}
+                                    key={keyss}
+                                    onClick={() => handleSubmit()}>
+                                    {actions[keyss].icon} {actions[keyss].label}
                                   </button>
-                                </Link>
-                              );
-                          }
-                        })}
-                      </div>
-                    }
-                  </CardBody>
-                </Card>
-              ))}
+                                );
+                
+                              case 'button':
+                                console.log(actions[keyss])
+                  
+                                return (
+                                  <button
+                                    type={actions[keyss].type}
+                                    className={actions[keyss].className}
+                                    key={keyss}>
+                                    {actions[keyss].icon} {actions[keyss].label}
+                                  </button>
+                                );
+                              case 'link-button':
+                                return (
+                                  <Link to={actions[keyss].linkto} key={keyss}>
+                                    <button
+                                      type={actions[keyss].type}
+                                      className={actions[keyss].className}>
+                                      {actions[keyss].icon} {actions[keyss].label}
+                                    </button>
+                                  </Link>
+                                );
+                            }
+                          })}
+                        </div>
+                      )}
+                    </CardBody>
+                  </Card>
+                )
+              })}
             </Form>
             {/*
             <button type="submit" onClick={() => handleSubmit()} className="btn btn-primary mr-2">

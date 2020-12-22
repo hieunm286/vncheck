@@ -1,13 +1,13 @@
-import {ModifyModel, SearchModel} from '../../../common-library/common-types/common-type';
-import { GenerateAllFormField } from '../../../common-library/helpers/common-function';
+import {ModifyPanel, SearchModel} from '../../../common-library/common-types/common-type';
+import {GenerateAllFormField} from '../../../common-library/helpers/common-function';
 import * as ProductPackagingService from '../../product-packaging/product-packaging.service';
 import * as SpeciesService from '../../species/species.service';
 import * as Yup from 'yup';
 
 import '../style/production-plan.scss';
 import _ from 'lodash';
-import React, { Fragment } from 'react';
-import { useIntl } from 'react-intl';
+import React, {Fragment} from 'react';
+import {useIntl} from 'react-intl';
 import {ProductPackagingModel} from "../../product-packaging/product-packaging.model";
 
 export const headerTitle = 'PRODUCT_TYPE.MASTER.HEADER.TITLE';
@@ -17,9 +17,9 @@ export const deleteDialogTitle = 'PRODUCT_TYPE.DELETE_DIALOG.TITLE';
 export const createTitle = 'PRODUCT_TYPE.CREATE.TITLE';
 export const updateTitle = 'PURCHASE_ORDER.UPDATE.TITLE';
 export const homeURL = `${window.location.pathname}`;
-const Fix = ({ title }: { title: string }) => {
+const Fix = ({title}: { title: string }) => {
   const intl = useIntl();
-  return <div style={{ minWidth: 174 }}>{intl.formatMessage({ id: title })}</div>;
+  return <div style={{minWidth: 174}}>{intl.formatMessage({id: title})}</div>;
 };
 export const productPlanSearchModel1: SearchModel = {
   seedingCode: {
@@ -77,287 +77,256 @@ export const productPlanSearchModel2: SearchModel = {
   },
 };
 
-export const modifyModel: ModifyModel = [
-  {
-    title: 'THÔNG TIN CHUNG',
-    data: {
+export const modifyModel: ModifyPanel = {
+  _title: '',
+  commonInfo: {
+    _subTitle: 'THÔNG TIN CHUNG',
+    code: {
+      _type: 'string',
+      placeholder: 'Mã kế hoạch',
+      label: 'Mã kế hoạch',
+      required: true,
+      disabled: true,
+    },
+    seeding: {
+      _type: 'object',
       code: {
-        type: 'string',
-        placeholder: 'Mã kế hoạch',
-        label: 'Mã kế hoạch',
+        _type: 'string',
+        placeholder: 'Mã gieo giống',
         required: true,
+        label: 'Mã gieo giống',
         disabled: true,
       },
-      seeding: {
-        type: 'object',
+      certificates: {
+        _type: 'object',
+        path: {
+          _type: 'string',
+          placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
+          label: 'Giấy chứng nhận giống',
+          required: true,
+          disabled: true,
+        },
+      },
+      buyInvoice: {
+        _type: 'object',
+        path: {
+          _type: 'string',
+          placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
+          label: 'Hóa đơn mua hàng',
+          required: true,
+          disabled: true,
+        },
+      },
+      seedingTime: {
+        _type: 'date-time',
+        // placeholder: 'PRODUCT_TYPE.MASTER.TABLE.BARCODE_COLUMN',
+        required: true,
+        label: 'Thời gian gieo',
+        disabled: true,
+      },
+      landLot: {
+        _type: 'object',
+        code: {
+          _type: 'string',
+          placeholder: 'PRODUCT_TYPE.MASTER.TABLE.BARCODE_COLUMN',
+          required: true,
+          label: 'Lô gieo ươm',
+          disabled: true,
+        },
+        // bill: {
+        //   type: 'string',
+        //   placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
+        //   label: 'Hóa đơn mua hàng',
+        //   disabled: true,
+        // },
+      },
+    },
+    planting: {
+      _type: 'object',
+      data: {
+        code: {
+          _type: 'string',
+          placeholder: 'PRODUCT_TYPE.MASTER.TABLE.BARCODE_COLUMN',
+          required: true,
+          label: 'Mã gieo trồng',
+          disabled: true,
+        },
+        estimatedPlantingTime: {
+          _type: 'date-time',
+          // placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
+          label: 'Thời gian trồng',
+          disabled: true,
+          required: true,
+        },
+        landLot: {
+          _type: 'object',
+          data: {
+            code: {
+              type: 'string',
+              placeholder: 'PRODUCT_TYPE.MASTER.TABLE.BARCODE_COLUMN',
+              required: true,
+              label: 'Lô gieo trồng',
+              disabled: true,
+            },
+          },
+        },
+      },
+    },
+    
+    // plantTime: {
+    //   type: 'string',
+    //   placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
+    //   label: 'Thời gian gieo',
+    //   disabled: true,
+    // },
+  },
+  masterInfo: {
+    _subTitle: '\u00A0',
+    seeding: {
+      _type: 'object',
+      species: {
+        _type: 'object',
         data: {
-          code: {
+          name: {
+            _type: 'string',
+            placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.PLANTING',
+            label: 'Tên chủng loại',
+            disabled: true,
+            required: true,
+          },
+          barcode: {
+            _type: 'string',
+            placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.PLANTING',
+            label: 'GTIN',
+            disabled: true,
+            required: true,
+          },
+        },
+      },
+      area: {
+        _type: 'string',
+        placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.EXPIRY',
+        label: 'Diện tích gieo ươm',
+        disabled: true,
+        required: true,
+      },
+      numberOfSeed: {
+        _type: 'string',
+        placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.EXPIRY',
+        label: 'Số cây con giống',
+        disabled: true,
+        required: true,
+      },
+      farmLocation: {
+        _type: 'object',
+        data: {
+          coordinates: {
             type: 'string',
-            placeholder: 'Mã gieo giống',
-            required: true,
-            label: 'Mã gieo giống',
+            placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
+            label: 'Địa chỉ farm giống',
             disabled: true,
-          },
-          certificates: {
-            type: 'object',
-            data: {
-              path: {
-                type: 'string',
-                placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
-                label: 'Giấy chứng nhận giống',
-                required: true,
-                disabled: true,
-              },
-            },
-          },
-          buyInvoice: {
-            type: 'object',
-            data: {
-              path: {
-                type: 'string',
-                placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
-                label: 'Hóa đơn mua hàng',
-                required: true,
-                disabled: true,
-              },
-            },
-          },
-          seedingTime: {
-            type: 'date-time',
-            // placeholder: 'PRODUCT_TYPE.MASTER.TABLE.BARCODE_COLUMN',
             required: true,
-            label: 'Thời gian gieo',
+          },
+        },
+      },
+    },
+    planting: {
+      _type: 'object',
+      area: {
+        _type: 'string',
+        placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.EXPIRY',
+        label: 'Diện tích gieo trồng',
+        disabled: true,
+        required: true,
+      },
+      numberOfPlants: {
+        _type: 'string',
+        placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.EXPIRY',
+        label: 'Số cây con trồng',
+        disabled: true,
+        required: true,
+      },
+      farmLocation: {
+        _type: 'object',
+        data: {
+          coordinates: {
+            _type: 'string',
+            placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
+            label: 'Địa chỉ farm trồng',
             disabled: true,
+            required: true,
           },
-          landLot: {
-            type: 'object',
-            data: {
-              code: {
-                type: 'string',
-                placeholder: 'PRODUCT_TYPE.MASTER.TABLE.BARCODE_COLUMN',
-                required: true,
-                label: 'Lô gieo ươm',
-                disabled: true,
-              },
-            },
-          },
+        },
+      },
+    },
+  },
+};
 
-          // bill: {
-          //   type: 'string',
-          //   placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
-          //   label: 'Hóa đơn mua hàng',
-          //   disabled: true,
-          // },
+export const modifyModel2: ModifyPanel = {
+  _title: '',
+  managementInfo: {
+    _subTitle: 'THÔNG TIN QUẢN TRỊ',
+    seeding: {
+      _type: 'object',
+      manager: {
+        _type: 'object',
+        fullName: {
+          _type: 'string',
+          placeholder: 'Mã gieo giống',
+          label: 'Thông tin Giám đốc/TGĐ',
+          required: true,
+          disabled: true,
         },
       },
-      planting: {
-        type: 'object',
-        data: {
-          code: {
-            type: 'string',
-            placeholder: 'PRODUCT_TYPE.MASTER.TABLE.BARCODE_COLUMN',
-            required: true,
-            label: 'Mã gieo trồng',
-            disabled: true,
-          },
-          estimatedPlantingTime: {
-            type: 'date-time',
-            // placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
-            label: 'Thời gian trồng',
-            disabled: true,
-            required: true,
-          },
-          landLot: {
-            type: 'object',
-            data: {
-              code: {
-                type: 'string',
-                placeholder: 'PRODUCT_TYPE.MASTER.TABLE.BARCODE_COLUMN',
-                required: true,
-                label: 'Lô gieo trồng',
-                disabled: true,
-              },
-            },
-          },
-        },
-      },
-
-      // plantTime: {
-      //   type: 'string',
-      //   placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
-      //   label: 'Thời gian gieo',
-      //   disabled: true,
-      // },
-    },
-  },
-  {
-    title: '\u00A0',
-    data: {
-      seeding: {
-        type: 'object',
-        data: {
-          species: {
-            type: 'object',
-            data: {
-              name: {
-                type: 'string',
-                placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.PLANTING',
-                label: 'Tên chủng loại',
-                disabled: true,
-                required: true,
-              },
-              barcode: {
-                type: 'string',
-                placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.PLANTING',
-                label: 'GTIN',
-                disabled: true,
-                required: true,
-              },
-            },
-          },
-          area: {
-            type: 'string',
-            placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.EXPIRY',
-            label: 'Diện tích gieo ươm',
-            disabled: true,
-            required: true,
-          },
-          numberOfSeed: {
-            type: 'string',
-            placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.EXPIRY',
-            label: 'Số cây con giống',
-            disabled: true,
-            required: true,
-          },
-          farmLocation: {
-            type: 'object',
-            data: {
-              coordinates: {
-                type: 'string',
-                placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
-                label: 'Địa chỉ farm giống',
-                disabled: true,
-                required: true,
-              },
-            },
-          },
-        },
-      },
-      planting: {
-        type: 'object',
-        data: {
-          area: {
-            type: 'string',
-            placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.EXPIRY',
-            label: 'Diện tích gieo trồng',
-            disabled: true,
-            required: true,
-          },
-          numberOfPlants: {
-            type: 'string',
-            placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.EXPIRY',
-            label: 'Số cây con trồng',
-            disabled: true,
-            required: true,
-          },
-          farmLocation: {
-            type: 'object',
-            data: {
-              coordinates: {
-                type: 'string',
-                placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
-                label: 'Địa chỉ farm trồng',
-                disabled: true,
-                required: true,
-              },
-            },
-          },
+      leader: {
+        _type: 'object',
+        lastName: {
+          _type: 'tag',
+          placeholder: 'Mã gieo giống',
+          required: true,
+          label: 'Tổ trưởng gieo giống',
+          disabled: true,
         },
       },
     },
   },
-];
-
-export const modifyModel2: ModifyModel = [
-  {
-    title: 'THÔNG TIN QUẢN TRỊ',
-    data: {
-      seeding: {
-        type: 'object',
-        data: {
-          manager: {
-            type: 'object',
-            data: {
-              fullName: {
-                type: 'string',
-                placeholder: 'Mã gieo giống',
-                label: 'Thông tin Giám đốc/TGĐ',
-                required: true,
-                disabled: true,
-              },
-            },
-          },
-          leader: {
-            type: 'object',
-            data: {
-              lastName: {
-                type: 'tag',
-                placeholder: 'Mã gieo giống',
-                required: true,
-                label: 'Tổ trưởng gieo giống',
-                disabled: true,
-              },
-            },
-          },
+  seedingInfo: {
+    _subTitle: '\u00A0',
+    planting: {
+      _type: 'object',
+      manager: {
+        _type: 'object',
+        fullName: {
+          _type: 'string',
+          placeholder: 'Mã gieo giống',
+          label: 'Người lập kế hoạch',
+          required: true,
+          disabled: true,
+        },
+      },
+      leader: {
+        _type: 'object',
+        lastName: {
+          _type: 'tag',
+          placeholder: 'Mã gieo giống',
+          required: true,
+          label: 'Tổ trưởng gieo trồng',
+          disabled: true,
         },
       },
     },
   },
-  {
-    title: '\u00A0',
-    data: {
-      planting: {
-        type: 'object',
-        data: {
-          manager: {
-            type: 'object',
-            data: {
-              fullName: {
-                type: 'string',
-                placeholder: 'Mã gieo giống',
-                label: 'Người lập kế hoạch',
-                required: true,
-                disabled: true,
-              },
-            },
-          },
-          leader: {
-            type: 'object',
-            data: {
-              lastName: {
-                type: 'tag',
-                placeholder: 'Mã gieo giống',
-                required: true,
-                label: 'Tổ trưởng gieo trồng',
-                disabled: true,
-              },
-            },
-          },
-        },
-      },
-    },
-  },
-];
+};
 
 export const modifyModel3: any[] = [
   {
-    title: 'THÔNG TIN THU HOẠCH',
-    data: {
+    subTitle: 'THÔNG TIN THU HOẠCH',
+    inputs: {
       planting: {
-        type: 'object',
+        _type: 'object',
         data: {
           estimatedHarvestTime: {
-            type: 'date-time',
+            _type: 'date-time',
             label: 'Thời gian thu hoạch (dự kiến)',
             required: true,
             disabled: true,
@@ -365,10 +334,10 @@ export const modifyModel3: any[] = [
         },
       },
       harvesting: {
-        type: 'object',
+        _type: 'object',
         data: {
           quantity: {
-            type: 'number',
+            _type: 'number',
             placeholder: 'Mã gieo giống',
             required: true,
             label: 'Sản lượng thu hoạch dự kiến (kg)',
@@ -379,20 +348,20 @@ export const modifyModel3: any[] = [
     },
   },
   {
-    title: '\u00A0',
-    data: {
+    subTitle: '\u00A0',
+    inputs: {
       harvesting: {
-        type: 'object',
+        _type: 'object',
         data: {
           technical: {
-            type: 'tag',
+            _type: 'tag',
             placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
             label: 'Nhân viên kỹ thuật thu hoạch',
             required: true,
             process: '2'
           },
           leader: {
-            type: 'tag',
+            _type: 'tag',
             placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
             label: 'Tổ trưởng thu hoạch',
             required: true,
@@ -404,212 +373,184 @@ export const modifyModel3: any[] = [
   },
 ];
 
-export const modifyModel4: ModifyModel = [
-  {
-    title: 'THÔNG TIN SƠ CHẾ',
-    data: {
-      preliminaryTreatment: {
-        type: 'object',
-        data: {
-          estimatedTime: {
-            type: 'date-time',
-            placeholder: 'Mã gieo giống',
-            label: 'Thời gian sơ chế (dự kiến)',
-            process: '3'
-          },
-          estimatedQuantity: {
-            type: 'number',
-            placeholder: 'Mã gieo giống',
-            label: 'Sản lượng sau sơ chế dự kiến (kg)',
-            process: '3'
-          },
-        },
+export const modifyModel4: ModifyPanel = {
+  _title: '',
+  group1: {
+    _subTitle: 'THÔNG TIN SƠ CHẾ',
+    preliminaryTreatment: {
+      _type: 'object',
+      estimatedTime: {
+        _type: 'date-time',
+        placeholder: 'Mã gieo giống',
+        label: 'Thời gian sơ chế (dự kiến)',
+        process: '3'
+      },
+      estimatedQuantity: {
+        _type: 'number',
+        placeholder: 'Mã gieo giống',
+        label: 'Sản lượng sau sơ chế dự kiến (kg)',
+        process: '3'
       },
     },
   },
-  {
-    title: '\u00A0',
-    data: {
-      preliminaryTreatment: {
-        type: 'object',
-        data: {
-          technical: {
-            type: 'tag',
-            placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
-            label: 'Nhân viên kỹ thuật sơ chế',
-            process: '3'
-          },
-          leader: {
-            type: 'tag',
-            placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
-            label: 'Tổ trưởng sơ chế',
-            process: '3'
-          },
-        },
+  group2: {
+    _subTitle: '\u00A0',
+    preliminaryTreatment: {
+      _type: 'object',
+      technical: {
+        _type: 'tag',
+        placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
+        label: 'Nhân viên kỹ thuật sơ chế',
+        process: '3'
+      },
+      leader: {
+        _type: 'tag',
+        placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
+        label: 'Tổ trưởng sơ chế',
+        process: '3'
       },
     },
   },
-];
+};
 
-export const modifyModel5: ModifyModel = [
-  {
-    title: 'THÔNG TIN LÀM SẠCH',
-    data: {
-      cleaning: {
-        type: 'object',
-        data: {
-          estimatedTime: {
-            type: 'date-time',
-            placeholder: 'Mã gieo giống',
-            label: 'Thời gian làm sạch (dự kiến)',
-            process: '4'
-          },
-          estimatedQuantity: {
-            type: 'number',
-            placeholder: 'Mã gieo giống',
-            label: 'Sản lượng sau làm sạch dự kiến (kg)',
-            process: '4'
-          },
-        },
+export const modifyModel5: ModifyPanel = {
+  _title: '',
+  cleaning: {
+    _subTitle: 'THÔNG TIN LÀM SẠCH',
+    cleaning: {
+      _type: 'object',
+      estimatedTime: {
+        _type: 'date-time',
+        placeholder: 'Mã gieo giống',
+        label: 'Thời gian làm sạch (dự kiến)',
+        process: '4'
+      },
+      estimatedQuantity: {
+        _type: 'number',
+        placeholder: 'Mã gieo giống',
+        label: 'Sản lượng sau làm sạch dự kiến (kg)',
+        process: '4'
       },
     },
   },
-  {
-    title: '\u00A0',
-    data: {
-      cleaning: {
-        type: 'object',
-        data: {
-          technical: {
-            type: 'tag',
-            placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
-            label: 'Nhân viên kỹ thuật làm sạch',
-            root: 'cleaning',
-            process: '4'
-          },
-          leader: {
-            type: 'tag',
-            placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
-            label: 'Tổ trưởng làm sạch',
-            root: 'cleaning',
-            process: '4'
-          },
-        },
+  cleaningInfo: {
+    _subTitle: '\u00A0',
+    cleaning: {
+      _type: 'object',
+      technical: {
+        _type: 'tag',
+        placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
+        label: 'Nhân viên kỹ thuật làm sạch',
+        root: 'cleaning',
+        process: '4'
+      },
+      leader: {
+        _type: 'tag',
+        placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
+        label: 'Tổ trưởng làm sạch',
+        root: 'cleaning',
+        process: '4'
       },
     },
   },
-];
+};
 
-export const modifyModel6: ModifyModel = [
-  {
-    title: 'THÔNG TIN ĐÓNG GÓI',
-    data: {
+export const modifyModel6: ModifyPanel = {
+  _title: '',
+  group1: {
+    _subTitle: 'THÔNG TIN ĐÓNG GÓI',
+    packing: {
+      _type: 'object',
+      estimatedTime: {
+        _type: 'date-time',
+        placeholder: 'Mã gieo giống',
+        label: 'Thời gian đóng gói (dự kiến)',
+        process: '5'
+      },
+      estimatedExpireTimeStart: {
+        _type: 'date-time',
+        placeholder: 'Hạn sử dụng',
+        label: 'Hạn sử dụng bắt đầu (dự kiến)',
+        process: '5'
+      },
+      estimatedExpireTimeEnd: {
+        _type: 'date-time',
+        placeholder: 'Hạn sử dụng',
+        label: 'Hạn sử dụng kết thúc (dự kiến)',
+        process: '5'
+      },
       packing: {
-        type: 'object',
-        data: {
-          estimatedTime: {
-            type: 'date-time',
-            placeholder: 'Mã gieo giống',
-            label: 'Thời gian đóng gói (dự kiến)',
-            process: '5'
-          },
-          estimatedExpireTimeStart: {
-            type: 'date-time',
-            placeholder: 'Hạn sử dụng',
-            label: 'Hạn sử dụng bắt đầu (dự kiến)',
-            process: '5'
-          },
-          estimatedExpireTimeEnd: {
-            type: 'date-time',
-            placeholder: 'Hạn sử dụng',
-            label: 'Hạn sử dụng kết thúc (dự kiến)',
-            process: '5'
-          },
-          packing: {
-            type: 'search-select',
-            placeholder: 'Quy cách',
-            label: 'Quy cách đóng gói',
-            onSearch: ProductPackagingService.GetAll,
-            keyField: 'weight',
-            // onDisplayOptions: (e:ProductPackagingModel)=> e.species.weight,
-            // rootField: 'seeding',
-            // fillField: 'packing',
-            // display: 'weight',
-          },
-        },
+        _type: 'search-select',
+        placeholder: 'Quy cách',
+        label: 'Quy cách đóng gói',
+        onSearch: ProductPackagingService.GetAll,
+        keyField: 'weight',
+        // onDisplayOptions: (e:ProductPackagingModel)=> e.species.weight,
+        // rootField: 'seeding',
+        // fillField: 'packing',
+        // display: 'weight',
       },
     },
   },
-  {
-    title: '\u00A0',
-    data: {
-      packing: {
-        type: 'object',
-        data: {
-          estimatedQuantity: {
-            type: 'number',
-            placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
-            label: 'Số lượng đóng gói dự kiến ',
-            process: '5'
-          },
-          technical: {
-            type: 'tag',
-            placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.PLANTING',
-            label: 'KCS',
-            process: '5'
-          },
-          leader: {
-            type: 'tag',
-            placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.PLANTING',
-            label: 'Tổ trưởng đóng gói',
-            process: '5'
-          },
-        },
+  group2: {
+    _subTitle: '\u00A0',
+    packing: {
+      _type: 'object',
+      estimatedQuantity: {
+        _type: 'number',
+        placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
+        label: 'Số lượng đóng gói dự kiến ',
+        process: '5'
+      },
+      technical: {
+        _type: 'tag',
+        placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.PLANTING',
+        label: 'KCS',
+        process: '5'
+      },
+      leader: {
+        _type: 'tag',
+        placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.PLANTING',
+        label: 'Tổ trưởng đóng gói',
+        process: '5'
       },
     },
   },
-];
+};
 
-export const modifyModel7: ModifyModel = [
-  {
-    title: 'THÔNG TIN BẢO QUẢN',
-    data: {
-      preservation: {
-        type: 'object',
-        data: {
-          estimatedStartTime: {
-            type: 'date-time',
-            placeholder: 'Mã gieo giống',
-            label: 'Thời gian bắt đầu bảo quản (dự kiến)',
-            process: '6'
-          },
-          estimatedEndTime: {
-            type: 'date-time',
-            placeholder: 'Mã gieo giống',
-            label: 'Thời gian kết thúc bảo quản (dự kiến)',
-            process: '6'
-          },
-        },
+export const modifyModel7: ModifyPanel = {
+  _title: '',
+  group1: {
+    _subTitle: 'THÔNG TIN BẢO QUẢN',
+    preservation: {
+      _type: 'object',
+      estimatedStartTime: {
+        _type: 'date-time',
+        placeholder: 'Mã gieo giống',
+        label: 'Thời gian bắt đầu bảo quản (dự kiến)',
+        process: '6'
+      },
+      estimatedEndTime: {
+        _type: 'date-time',
+        placeholder: 'Mã gieo giống',
+        label: 'Thời gian kết thúc bảo quản (dự kiến)',
+        process: '6'
       },
     },
   },
-  {
-    title: '\u00A0',
-    data: {
-      preservation: {
-        type: 'object',
-        data: {
-          technical: {
-            type: 'tag',
-            placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
-            label: 'Nhân viên kỹ thuật bảo quản',
-            process: '6'
-          },
-        },
+  group2: {
+    _subTitle: '\u00A0',
+    preservation: {
+      _type: 'object',
+      technical: {
+        _type: 'tag',
+        placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
+        label: 'Nhân viên kỹ thuật bảo quản',
+        process: '6'
       },
     },
   },
-];
+};
 
 export const formPart = {
   form_1: {
@@ -1226,8 +1167,8 @@ export const masterEntityDetailDialog2 = [
 ];
 
 export const addInitField = (obj1: any, obj2: any) => {
-  const rs = { ...obj1 };
-
+  const rs = {...obj1};
+  
   Object.keys(obj2).forEach(key => {
     if (rs[key]) {
       Object.keys(obj2[key]).forEach(keys => {
@@ -1237,7 +1178,7 @@ export const addInitField = (obj1: any, obj2: any) => {
       });
     }
   });
-
+  
   return rs;
 };
 
@@ -1265,7 +1206,7 @@ export const initProductPlanForm = {
 export const halfValidate = {
   estimatedHarvestTime: Yup.mixed(),
   expectedQuantity: Yup.number(),
-  technical: Yup.array().test('oneOfRequired', 'Nhập hết vào', function(value: any) {
+  technical: Yup.array().test('oneOfRequired', 'Nhập hết vào', function (value: any) {
     return (
       (this.parent.leader.length > 0 &&
         this.parent.expectedQuantity > 0 &&
@@ -1278,7 +1219,7 @@ export const halfValidate = {
       value.length > 0
     );
   }),
-  leader: Yup.array().test('oneOfRequired', 'Nhập hết vào', function(value: any) {
+  leader: Yup.array().test('oneOfRequired', 'Nhập hết vào', function (value: any) {
     return (
       (this.parent.technical.length > 0 &&
         this.parent.estimatedQuantity > 0 &&
@@ -1299,7 +1240,7 @@ export const CompareDate = (date1: Date, date2: Date) => {
 };
 
 export const validate = {
-  estimatedTime: Yup.mixed().test('oneOfRequired', 'Nhập hết vào', function(value: any) {
+  estimatedTime: Yup.mixed().test('oneOfRequired', 'Nhập hết vào', function (value: any) {
     return (
       (this.parent.leader.length > 0 &&
         this.parent.technical.length > 0 &&
@@ -1313,7 +1254,7 @@ export const validate = {
       (value && CompareDate(new Date(value), new Date()))
     );
   }),
-  estimatedQuantity: Yup.number().test('oneOfRequired', 'Nhập hết vào', function(value: any) {
+  estimatedQuantity: Yup.number().test('oneOfRequired', 'Nhập hết vào', function (value: any) {
     return (
       (this.parent.leader.length > 0 &&
         this.parent.technical.length > 0 &&
@@ -1326,7 +1267,7 @@ export const validate = {
       (value && value > 0)
     );
   }),
-  technical: Yup.array().test('oneOfRequired', 'Nhập hết vào', function(value: any) {
+  technical: Yup.array().test('oneOfRequired', 'Nhập hết vào', function (value: any) {
     console.log(value);
     return (
       (this.parent.leader.length > 0 &&
@@ -1340,7 +1281,7 @@ export const validate = {
       value.length > 0
     );
   }),
-  leader: Yup.array().test('oneOfRequired', 'Nhập hết vào', function(value: any) {
+  leader: Yup.array().test('oneOfRequired', 'Nhập hết vào', function (value: any) {
     return (
       (this.parent.technical.length > 0 &&
         this.parent.estimatedQuantity > 0 &&
@@ -1356,7 +1297,7 @@ export const validate = {
 };
 
 export const packingValidate = {
-  estimatedTime: Yup.mixed().test('oneOfRequired', 'Nhập hết vào', function(value: any) {
+  estimatedTime: Yup.mixed().test('oneOfRequired', 'Nhập hết vào', function (value: any) {
     return (
       (this.parent.leader.length > 0 &&
         this.parent.technical.length > 0 &&
@@ -1379,8 +1320,8 @@ export const packingValidate = {
       (value && CompareDate(new Date(value), new Date()))
     );
   }),
-
-  estimatedExpireTimeStart: Yup.mixed().test('oneOfRequired', 'Nhập hết vào', function(value: any) {
+  
+  estimatedExpireTimeStart: Yup.mixed().test('oneOfRequired', 'Nhập hết vào', function (value: any) {
     return (
       (this.parent.leader.length > 0 &&
         this.parent.technical.length > 0 &&
@@ -1391,8 +1332,8 @@ export const packingValidate = {
         _.isString(this.parent.packing) &&
         this.parent.packing !== '' &&
         value &&
-          CompareDate(new Date(value), new Date()) &&
-          CompareDate(new Date(this.parent.estimatedExpireTimeEnd), new Date(value))) ||
+        CompareDate(new Date(value), new Date()) &&
+        CompareDate(new Date(this.parent.estimatedExpireTimeEnd), new Date(value))) ||
       ((!this.parent.leader || this.parent.leader.length === 0) &&
         (!this.parent.technical || this.parent.technical.length === 0) &&
         !this.parent.packing.label &&
@@ -1406,8 +1347,8 @@ export const packingValidate = {
         CompareDate(new Date(this.parent.estimatedExpireTimeEnd), new Date(value)))
     );
   }),
-
-  estimatedExpireTimeEnd: Yup.mixed().test('oneOfRequired', 'Nhập hết vào', function(value: any) {
+  
+  estimatedExpireTimeEnd: Yup.mixed().test('oneOfRequired', 'Nhập hết vào', function (value: any) {
     return (
       (this.parent.leader.length > 0 &&
         this.parent.technical.length > 0 &&
@@ -1418,8 +1359,8 @@ export const packingValidate = {
         _.isString(this.parent.packing) &&
         this.parent.packing !== '' &&
         value &&
-          CompareDate(new Date(value), new Date()) &&
-          CompareDate(new Date(value), new Date(this.parent.estimatedExpireTimeStart))) ||
+        CompareDate(new Date(value), new Date()) &&
+        CompareDate(new Date(value), new Date(this.parent.estimatedExpireTimeStart))) ||
       ((!this.parent.leader || this.parent.leader.length === 0) &&
         (!this.parent.technical || this.parent.technical.length === 0) &&
         !this.parent.packing.label &&
@@ -1433,8 +1374,8 @@ export const packingValidate = {
         CompareDate(new Date(value), new Date(this.parent.estimatedExpireTimeStart)))
     );
   }),
-
-  packing: Yup.mixed().test('oneOfRequired', 'Nhập hết vào', function(value: any) {
+  
+  packing: Yup.mixed().test('oneOfRequired', 'Nhập hết vào', function (value: any) {
     console.log(value);
     return (
       (this.parent.leader.length > 0 &&
@@ -1456,8 +1397,8 @@ export const packingValidate = {
       (!_.isString(value) && value.label)
     );
   }),
-
-  estimatedQuantity: Yup.number().test('oneOfRequired', 'Nhập hết vào', function(value: any) {
+  
+  estimatedQuantity: Yup.number().test('oneOfRequired', 'Nhập hết vào', function (value: any) {
     return (
       (this.parent.leader.length > 0 &&
         this.parent.technical.length > 0 &&
@@ -1479,7 +1420,7 @@ export const packingValidate = {
       (value && value > 0)
     );
   }),
-  technical: Yup.array().test('oneOfRequired', 'Nhập hết vào', function(value: any) {
+  technical: Yup.array().test('oneOfRequired', 'Nhập hết vào', function (value: any) {
     return (
       (this.parent.leader.length > 0 &&
         this.parent.estimatedQuantity > 0 &&
@@ -1501,7 +1442,7 @@ export const packingValidate = {
       value.length > 0
     );
   }),
-  leader: Yup.array().test('oneOfRequired', 'Nhập hết vào', function(value: any) {
+  leader: Yup.array().test('oneOfRequired', 'Nhập hết vào', function (value: any) {
     return (
       (this.parent.technical.length > 0 &&
         this.parent.estimatedQuantity > 0 &&
@@ -1526,13 +1467,13 @@ export const packingValidate = {
 };
 
 export const preservationValidate = {
-  estimatedStartTime: Yup.mixed().test('oneOfRequired', 'Nhập hết vào', function(value: any) {
+  estimatedStartTime: Yup.mixed().test('oneOfRequired', 'Nhập hết vào', function (value: any) {
     return (
       (this.parent.technical.length > 0 &&
         this.parent.estimatedEndTime &&
         value &&
-          CompareDate(new Date(value), new Date()) &&
-          CompareDate(new Date(this.parent.estimatedEndTime), new Date(value))) ||
+        CompareDate(new Date(value), new Date()) &&
+        CompareDate(new Date(this.parent.estimatedEndTime), new Date(value))) ||
       ((!this.parent.technical || this.parent.technical.length === 0) &&
         !this.parent.estimatedEndTime &&
         !value) ||
@@ -1541,13 +1482,13 @@ export const preservationValidate = {
         CompareDate(new Date(this.parent.estimatedEndTime), new Date(value)))
     );
   }),
-  estimatedEndTime: Yup.mixed().test('oneOfRequired', 'Nhập hết vào', function(value: any) {
+  estimatedEndTime: Yup.mixed().test('oneOfRequired', 'Nhập hết vào', function (value: any) {
     return (
       (this.parent.technical.length > 0 &&
         this.parent.estimatedStartTime &&
         value &&
-          CompareDate(new Date(value), new Date()) &&
-          CompareDate(new Date(value), new Date(this.parent.estimatedStartTime))) ||
+        CompareDate(new Date(value), new Date()) &&
+        CompareDate(new Date(value), new Date(this.parent.estimatedStartTime))) ||
       ((!this.parent.technical || this.parent.technical.length === 0) &&
         !this.parent.estimatedStartTime &&
         !value) ||
@@ -1556,7 +1497,7 @@ export const preservationValidate = {
         CompareDate(new Date(value), new Date(this.parent.estimatedStartTime)))
     );
   }),
-  technical: Yup.array().test('oneOfRequired', 'Nhập hết vào', function(value: any) {
+  technical: Yup.array().test('oneOfRequired', 'Nhập hết vào', function (value: any) {
     return (
       (this.parent.estimatedStartTime && this.parent.estimatedEndTime && value.length > 0) ||
       (!this.parent.estimatedStartTime &&

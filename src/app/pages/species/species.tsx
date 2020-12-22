@@ -24,10 +24,10 @@ import {SpeciesModel} from './species.model';
 import * as ProductTypeService from './species.service';
 
 import 'react-toastify/dist/ReactToastify.css';
-import {allFormField, masterEntityDetailDialog, models, productTypeSearchModel} from './defined/const';
 import {
   MasterEntityDetailDialog
 } from "../../common-library/common-components/master-entity-detail-dialog";
+import {createForm, masterEntityDetailDialog, productTypeSearchModel, updateForm} from "./defined/const";
 
 const headerTitle = 'PRODUCT_TYPE.MASTER.HEADER.TITLE';
 const bodyTitle = 'PRODUCT_TYPE.MASTER.BODY.TITLE';
@@ -162,7 +162,7 @@ function Species() {
       style: {minWidth: '130px'},
     },
   };
-
+  
   const schema = Yup.object().shape({
     name: Yup.string().required('Tên chủng loại không được để trống').matches(/^[aAàÀảẢãÃáÁạẠăĂằẰẳẲẵẴắẮặẶâÂầẦẩẨẫẪấẤậẬbBcCdDđĐeEèÈẻẺẽẼéÉẹẸêÊềỀểỂễỄếẾệỆfFgGhHiIìÌỉỈĩĨíÍịỊjJkKlLmMnNoOòÒỏỎõÕóÓọỌôÔồỒổỔỗỖốỐộỘơƠờỜởỞỡỠớỚợỢpPqQrRsStTuUùÙủỦũŨúÚụỤưƯừỪửỬữỮứỨựỰvVwWxXyYỳỲỷỶỹỸýÝỵỴzZ ]+$/u, {
       message: 'Tên không hợp lệ. Tên không chứa số và ký tự đặc biệt',
@@ -172,7 +172,7 @@ function Species() {
         const index = validArr.findIndex(el => el.name === value)
         return index === -1
       }
-
+      
       const index = entities.findIndex(el => el.name === value)
       return index === -1
     }),
@@ -266,13 +266,12 @@ function Species() {
       <Switch>
         <Route path="/species/new">
           <EntityCrudPage
-            entity={generateInitForm(allFormField)}
+            entity={createEntity}
             onModify={add}
-            title={createTitle}
             // reduxModel="purchaseOrder"
             code={null}
             get={() => null}
-            models={models}
+            formModel={createForm}
             // allFormField={allFormField}
             actions={allFormButton}
             validation={schema}
@@ -296,10 +295,9 @@ function Species() {
             <EntityCrudPage
               entity={editEntity}
               onModify={update}
-              title={updateTitle}
               code={match && match.params.code}
               get={ProductTypeService.GetById}
-              models={models}
+              formModel={updateForm}
               // allFormField={allFormField}
               actions={allFormButton}
               validation={schema}

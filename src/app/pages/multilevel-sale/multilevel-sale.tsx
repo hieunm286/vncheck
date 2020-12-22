@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {
   ConvertStatusToBoolean,
   ConvertStatusToString,
@@ -7,19 +7,19 @@ import {
   InitMasterProps,
 } from '../../common-library/helpers/common-function';
 import MultiLevelSaleBody from './multi-sale-body';
-import { TreeData } from './multilevel-sale.model';
+import {TreeData} from './multilevel-sale.model';
 import * as MultilevelSaleService from './multilevel-sale.service';
-import { useIntl } from 'react-intl';
+import {useIntl} from 'react-intl';
 import {
   DefaultPagination,
   NormalColumn,
   SortColumn,
 } from '../../common-library/common-consts/const';
-import { MultilevelSaleActionColumn } from './multilevel-action-column';
+import {MultilevelSaleActionColumn} from './multilevel-action-column';
 import ModifyEntityDialog from '../../common-library/common-components/modify-entity-dialog';
-import { GenerateCode } from '../species/species';
-import { DeleteEntityDialog } from '../../common-library/common-components/delete-entity-dialog';
-import {ModifyForm, ModifyModel} from "../../common-library/common-types/common-type";
+import {GenerateCode} from '../species/species';
+import {DeleteEntityDialog} from '../../common-library/common-components/delete-entity-dialog';
+import {ModifyForm, ModifyInputGroup, ModifyPanel} from "../../common-library/common-types/common-type";
 
 const data: TreeData[] = [
   {
@@ -109,7 +109,7 @@ const homeURL = `${window.location.pathname}`;
 
 function MultilevelSale() {
   const intl = useIntl();
-
+  
   const {
     entities,
     setEntities,
@@ -159,7 +159,7 @@ function MultilevelSale() {
     getAllServer: MultilevelSaleService.GetAll,
     updateServer: MultilevelSaleService.Update,
   });
-
+  
   const [agency, setAgency] = useState<any[]>([]);
   const [agencyPagination, setAgencyPagination] = useState(DefaultPagination);
   const [agencyTotal, setAgencyTotal] = useState(0);
@@ -171,14 +171,14 @@ function MultilevelSale() {
   const [deleteAgency, setDeleteAgency] = useState<any>(null);
   const [refresh, setRefresh] = useState(false)
   const [errorAgency, setErrorAgency] = useState('')
-
+  
   useEffect(() => {
     getAll(filterProps);
-  }, [ filterProps]);
-
+  }, [filterProps]);
+  
   useEffect(() => {
     setAgencyLoading(true)
-    MultilevelSaleService.GetAgency({ agencyParams, paginationProps })
+    MultilevelSaleService.GetAgency({agencyParams, paginationProps})
       .then(res => {
         setAgency(res.data.data);
         setAgencyTotal(res.data.paging.total);
@@ -191,7 +191,7 @@ function MultilevelSale() {
         setErrorAgency(err.message)
       });
   }, [paginationProps, agencyParams, refresh]);
-
+  
   const columns = {
     _id: {
       dataField: '_id',
@@ -199,28 +199,28 @@ function MultilevelSale() {
       formatter: (cell: any, row: any, rowIndex: number) => (
         <p>{rowIndex + 1 + ((paginationProps.page ?? 0) - 1) * (paginationProps.limit ?? 0)}</p>
       ),
-      style: { paddingTop: 20 },
+      style: {paddingTop: 20},
     },
     code: {
       dataField: 'code',
-      text: `${intl.formatMessage({ id: 'MULTILEVEL_SALE.MASTER.TABLE.CODE_AGENCY' })}`,
+      text: `${intl.formatMessage({id: 'MULTILEVEL_SALE.MASTER.TABLE.CODE_AGENCY'})}`,
       ...SortColumn,
       classes: 'text-center',
     },
     name: {
       dataField: 'name',
-      text: `${intl.formatMessage({ id: 'MULTILEVEL_SALE.MASTER.TABLE.NAME_AGENCY' })}`,
+      text: `${intl.formatMessage({id: 'MULTILEVEL_SALE.MASTER.TABLE.NAME_AGENCY'})}`,
       ...SortColumn,
       classes: 'text-center',
     },
-
+    
     action: {
       dataField: 'action',
-      text: `${intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.ACTION_COLUMN' })}`,
+      text: `${intl.formatMessage({id: 'PURCHASE_ORDER.MASTER.TABLE.ACTION_COLUMN'})}`,
       formatter: MultilevelSaleActionColumn,
       formatExtraData: {
         intl,
-
+        
         onDelete: (entity: any) => {
           setDeleteAgency(entity);
           setErrorAgency('')
@@ -228,10 +228,10 @@ function MultilevelSale() {
         },
       },
       ...NormalColumn,
-      style: { minWidth: '130px' },
+      style: {minWidth: '130px'},
     },
   };
-
+  
   const TreeBody = [
     {
       name: 'Cấp',
@@ -255,51 +255,49 @@ function MultilevelSale() {
       },
     },
   ];
-
-  const modifyModel : ModifyModel = [
-    {
-      title: '',
-      data: {
-        code: {
-          type: 'string',
-          placeholder: intl.formatMessage({ id: 'COMMON_COMPONENT.INPUT.PLACEHOLDER' }),
-          label: intl.formatMessage({ id: 'MULTILEVEL_SALE.MASTER.CODE_COLUMN' }),
-          required: true,
-          disabled: true,
-        },
-        name: {
-          type: 'string',
-          placeholder: intl.formatMessage({
-            id: 'COMMON_COMPONENT.INPUT.PLACEHOLDER',
-          }),
-          required: true,
-          label: intl.formatMessage({ id: 'MULTILEVEL_SALE.MASTER.NAME_COLUMN' }),
-        },
-        status: {
-          type: 'boolean',
-          placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.STATUS' }),
-          label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.STATUS' }),
-        },
-      },
+  const [group1, setGroup1] = useState<ModifyInputGroup>({
+    _subTitle: '',
+    code: {
+      _type: 'string',
+      placeholder: intl.formatMessage({id: 'COMMON_COMPONENT.INPUT.PLACEHOLDER'}),
+      label: intl.formatMessage({id: 'MULTILEVEL_SALE.MASTER.CODE_COLUMN'}),
+      required: true,
+      disabled: true,
     },
-  ];
-
-  const formPart: ModifyForm = {
-    form_1: {
-      title: 'ĐƠN HÀNG',
-      modifyModel: modifyModel,
+    name: {
+      _type: 'string',
+      placeholder: intl.formatMessage({
+        id: 'COMMON_COMPONENT.INPUT.PLACEHOLDER',
+      }),
+      required: true,
+      label: intl.formatMessage({id: 'MULTILEVEL_SALE.MASTER.NAME_COLUMN'}),
     },
-  };
-
-  const allFormField: any = {
-    ...GenerateAllFormField(modifyModel),
-  };
-
+    status: {
+      _type: 'boolean',
+      placeholder: intl.formatMessage({id: 'AGENCY.EDIT.PLACEHOLDER.STATUS'}),
+      label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.STATUS'}),
+    },
+  });
+  
+  const createForm = useMemo((): ModifyForm => ({
+    _header: createTitle,
+    panel1: {
+      _title: '',
+      group1: group1
+    },
+  }), []);
+  
+  const updateForm = useMemo((): ModifyForm => ({...createForm, _header: updateTitle}), [createForm]);
+  
+  // const allFormField: any = {
+  //   ...GenerateAllFormField(modifyModel),
+  // };
+  
   const onFetchAgency = (entity: any) => {
     setPaginationProps(DefaultPagination)
-    setAgencyParams({ storeLevel: entity._id });
+    setAgencyParams({storeLevel: entity._id});
   };
-
+  
   const onDeleteAgency = (entity: any) => {
     setAgencyLoading(true);
     MultilevelSaleService.DeleteAgency(entity).then(res => {
@@ -312,7 +310,7 @@ function MultilevelSale() {
       setErrorAgency(err.message || err.reason)
     })
   }
-
+  
   return (
     <React.Fragment>
       <DeleteEntityDialog
@@ -333,7 +331,7 @@ function MultilevelSale() {
         onDelete={onDeleteAgency}
         isShow={showdeleteAgency}
         loading={agencyLoading}
-        error={{error:errorAgency}}
+        error={{error: errorAgency}}
         onHide={() => {
           setShowDeleteAgency(false);
         }}
@@ -341,49 +339,43 @@ function MultilevelSale() {
       />
       <ModifyEntityDialog
         show={showCreate}
-        entity={generateInitForm(allFormField)}
+        entity={createEntity}
         onModify={values => {
           console.log(values);
           console.log(editEntity);
           if (editEntity) {
-            add({ parentId: editEntity._id, ...ConvertStatusToString(values) });
+            add({parentId: editEntity._id, ...ConvertStatusToString(values)});
           } else {
             add(ConvertStatusToString(values));
           }
         }}
-        title={createTitle}
         onHide={() => {
           setShowCreate(false);
         }}
         code={null}
         get={() => null}
-        formPart={formPart}
-        allFormField={allFormField}
         error={error}
         homePage={homeURL}
-      />
+        formModel={createForm}/>
       <ModifyEntityDialog
         show={showEdit}
         entity={editEntity}
         onModify={values => {
           console.log(values);
           if (editEntity) {
-            update({ parentId: editEntity._id, ...ConvertStatusToString(values) });
+            update({parentId: editEntity._id, ...ConvertStatusToString(values)});
           } else {
             update(ConvertStatusToString(values));
           }
         }}
-        title={updateTitle}
         onHide={() => {
           setShowEdit(false);
         }}
         code={null}
         get={() => null}
-        formPart={formPart}
-        allFormField={allFormField}
         error={error}
         homePage={homeURL}
-      />
+        formModel={updateForm}/>
       <MultiLevelSaleBody
         title="CẤP BÁN HÀNG"
         data={data}
@@ -400,7 +392,7 @@ function MultilevelSale() {
           setShowEdit(true);
         }}
         onDelete={(entity: any) => {
-          setError({error:''})
+          setError({error: ''})
           setDeleteEntity(entity);
           setShowDelete(true);
         }}

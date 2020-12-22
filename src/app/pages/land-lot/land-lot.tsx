@@ -12,10 +12,10 @@ import * as Yup from 'yup';
 import {DefaultPagination} from '../../common-library/common-consts/const';
 import {
   MasterBodyColumns,
-  ModifyModel,
-  ModifyPart,
+  ModifyPanel,
+  ModifyInputGroup,
   RenderInfoDetailDialog,
-  SearchModel
+  SearchModel, InputGroupType, ModifyForm
 } from "../../common-library/common-types/common-type";
 import {MasterEntityDetailDialog} from "../../common-library/common-components/master-entity-detail-dialog";
 import {MasterHeader} from "../../common-library/common-components/master-header";
@@ -216,7 +216,7 @@ function LandLot() {
         onSearch: GetSubLots,
         disabled: false,
         onChange: (value, {setFieldValue, values}) => {
-          setFieldValue('code', values.lot ? (values.lot  + value) : '');
+          setFieldValue('code', values.lot ? (values.lot + value) : '');
         },
         
       },
@@ -226,55 +226,48 @@ function LandLot() {
     if (Object.keys(queryProps).length !== 0) return;
     setSearchModel(searchModel);
   }, []);
-  const [modifyPart, setM] = useState<ModifyPart>({
-    title: '',
-    data: {
-      code: {
-        type: 'string',
-        label: 'LAND_LOT.MASTER.HEADER.CODE',
-        required: true,
-        disabled: true,
-      },
-      lot: {
-        type: 'search-select',
-        label: 'LAND_LOT.MASTER.HEADER.LOT_CODE',
-        onSearch: GetLots,
-        disabled: false,
-        onChange: (value, {setFieldValue, values}) => {
-          setFieldValue('code', value);
-          setFieldValue('subLot', null);
-          setM({...modifyPart})
-        }
-      },
-      subLot: {
-        type: 'search-select',
-        label: 'LAND_LOT.MASTER.HEADER.SUB_LOT_CODE',
-        onSearch: GetSubLots,
-        disabled: (values) => {
-          return !values.lot || values.lot.length !== 1
-        },
-        onChange: (value, {setFieldValue, values}) => {
-          setFieldValue('code', values.lot + value);
-        },
-      }
-    }
-  });
-  const modifyModel = useMemo((): ModifyModel => [
-    modifyPart
-  ], [modifyPart]);
-  
-  const formPart: any = {
-    form_1: {
-      title: '',
-      modifyModel: modifyModel,
+  const [group1, setGroup1] = useState<ModifyInputGroup>({
+    _subTitle: '',
+    code: {
+      _type: 'string',
+      label: 'LAND_LOT.MASTER.HEADER.CODE',
+      required: true,
+      disabled: true,
     },
-  };
+    lot: {
+      _type: 'search-select',
+      label: 'LAND_LOT.MASTER.HEADER.LOT_CODE',
+      onSearch: GetLots,
+      disabled: false,
+      onChange: (value, {setFieldValue, values}) => {
+        setFieldValue('code', value);
+        setFieldValue('subLot', null);
+        setGroup1({...group1})
+      }
+    },
+    subLot: {
+      _type: 'search-select',
+      label: 'LAND_LOT.MASTER.HEADER.SUB_LOT_CODE',
+      onSearch: GetSubLots,
+      disabled: (values) => {
+        return !values.lot || values.lot.length !== 1
+      },
+      onChange: (value, {setFieldValue, values}) => {
+        setFieldValue('code', values.lot + value);
+      },
+    },
+  });
   
-  const allFormField: any = {
-    ...GenerateAllFormField(
-      modifyModel,
-    ),
-  };
+  const createForm = useMemo((): ModifyForm => ({
+    _header: createTitle,
+    panel1: {
+      _title: '',
+      group1: group1
+    },
+  }), []);
+  
+  const updateForm = useMemo((): ModifyForm => ({...createForm, _header: updateTitle}), [createForm]);
+  
   console.log(createEntity)
   return (
     <Fragment>
@@ -311,22 +304,20 @@ function LandLot() {
         }}
       />
       <ModifyEntityDialog
-        formPart={formPart}
+        formModel={createForm}
         show={showCreate}
         entity={createEntity}
         onModify={add}
-        title={createTitle}
         validation={validateSchema}
         onHide={() => {
           setShowCreate(false);
         }}
       />
       <ModifyEntityDialog
-        formPart={formPart}
+        formModel={updateForm}
         show={showEdit}
         entity={editEntity}
         onModify={update}
-        title={updateTitle}
         validation={validateSchema}
         onHide={() => {
           setShowEdit(false);

@@ -279,13 +279,12 @@ function ProductPackaging() {
           }
           add(cvEntity)
         }}
-        title={createTitle}
         onHide={() => {
           setShowCreate(false);
         }}
         code={null}
         get={() => null}
-        formPart={formPart}
+        formModel={formPart}
         allFormField={allFormField}
         allFormButton={allFormButton}
         validation={ProductPackagingSchema}
@@ -306,13 +305,12 @@ function ProductPackaging() {
           }
           update(cvEntity)
         }}
-        title={updateTitle}
         onHide={() => {
           setShowEdit(false);
         }}
         code={null}
         get={() => null}
-        formPart={formPart}
+        formModel={formPart}
         allFormField={allFormField}
         allFormButton={allFormButton}
         validation={ProductPackagingSchema}
