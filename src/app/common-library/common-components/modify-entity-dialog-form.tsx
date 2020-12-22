@@ -49,9 +49,9 @@ function ModifyEntityDialogForm<T>({
   console.log(entity);
   return (
     <Formik
-      // enableReinitialize={true}
+      enableReinitialize={true}
       initialValues={entity}
-      // validationSchema={validation}
+      validationSchema={validation}
       onSubmit={values => {
         // if (entity._id) {
         //   const updateValue = diff(entity, values);
@@ -74,13 +74,13 @@ function ModifyEntityDialogForm<T>({
               {Object.keys(modifyForm).map(key => (
                 <React.Fragment key={key}>
                   <ModifyEntityPage
-                    images={images}
-                    onChange={(imageList: any, addUpdateIndex: any, key: any) => {
+                    // images={images}
+                    // onChange={(imageList: any, addUpdateIndex: any, key: any) => {
                       // onChange(imageList, addUpdateIndex, key);
-                    }}
-                    entity={entity}
-                    modifyModel={modifyForm[key].modifyModel}
-                    title={modifyForm[key].title}
+                    // }}
+                    // entity={entity}
+                    modifyModel={modifyForm[key]}
+                    // title={modifyForm[key].title}
                   />
                 </React.Fragment>
               ))}

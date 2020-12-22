@@ -25,7 +25,7 @@ function ModifyEntityPage<T>({
                                images
                              }: {
   
-  modifyModel: ModifyModel;
+  modifyModel: { title: string; modifyModel: ModifyModel };
   mode?: 'horizontal' | 'vertical'
   images?: any;
   onChange?: any;
@@ -95,7 +95,8 @@ function ModifyEntityPage<T>({
                 />
               );
               case 'image':
-              console.log(images)
+              console.log(values)
+              console.log(key)
               return (
                 <InputImage
                   className={defaultClassName}
@@ -233,16 +234,16 @@ function ModifyEntityPage<T>({
         })}
       </>
     );
-  }, [images]);
+  }, [values]);
   
   console.log(modifyModel)
   
   return (
     <>
-      {title && <h6 className="text-primary">{title.toUpperCase()}</h6>}
+      {modifyModel.title && <h6 className="text-primary">{modifyModel.title.toUpperCase()}</h6>}
       <div className={'row'}>
         {modifyModel &&
-        modifyModel.map((value, index) => (
+        modifyModel.modifyModel.map((value, index) => (
           <div key={`meg-${index}`} className={value.className ?? 'col-12'}>
             {value.title && <div className="modify-subtitle text-primary">{value.title.toUpperCase()}</div>}
             {renderForm(value.data, '')}

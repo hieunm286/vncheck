@@ -9,6 +9,7 @@ import DeleteManyEntitiesDialog from '../../common-library/common-components/del
 import {SearchModel} from '../../common-library/common-types/common-type';
 import {
   GenerateAllFormField,
+  generateInitForm,
   InitMasterProps,
 } from '../../common-library/helpers/common-function';
 import {Switch, Route, Redirect, useHistory} from 'react-router-dom';
@@ -270,7 +271,7 @@ function ProductPackaging() {
       />
       <ModifyEntityDialog
         show={showCreate}
-        entity={createEntity}
+        entity={generateInitForm(allFormField)}
         onModify={(entity: ProductPackagingModel) => {
           let cvEntity = {...entity}
           if (_.isObject(entity)) {
@@ -323,8 +324,14 @@ function ProductPackaging() {
           <MasterHeader
             title={headerTitle}
             onSearch={(value) => {
+              const cvEntity = { ...value }
+              
+              if (value.species && _.isObject(value.species) ) {
+                cvEntity.species = value.species._id
+              }
+
               setPaginationProps(DefaultPagination)
-              setFilterProps(value)
+              setFilterProps(cvEntity)
             }}
             searchModel={productTypeSearchModel}
           />

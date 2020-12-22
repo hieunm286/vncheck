@@ -1,43 +1,47 @@
-import React, {Fragment, useEffect, useState} from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import ModifyEntityPage from './modify-entity-page';
-import {useIntl} from 'react-intl';
+import { useIntl } from 'react-intl';
 import {
   generateInitForm,
   GetHomePage,
   getNewImage,
   getOnlyFile,
-  getOnlyBase64
+  getOnlyBase64,
 } from '../helpers/common-function';
-import {Field, Form, Formik} from 'formik';
-import {Link, useHistory} from 'react-router-dom';
-import {Card, CardBody, CardHeader} from '../card';
+import { Field, Form, Formik } from 'formik';
+import { Link, useHistory } from 'react-router-dom';
+import { Card, CardBody, CardHeader } from '../card';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import {diff} from 'deep-object-diff';
-import exifr from 'exifr'
-import {ModifyForm, ModifyModel} from "../common-types/common-type";
+import { diff } from 'deep-object-diff';
+import exifr from 'exifr';
+import { ModifyForm, ModifyModel } from '../common-types/common-type';
 
-const toDataURL = (url: string) => fetch(url)
-  .then(response => response.blob())
-  .then(blob => new Promise((resolve, reject) => {
-    const reader = new FileReader()
-    reader.onloadend = () => resolve(reader.result)
-    reader.onerror = reject
-    reader.readAsDataURL(blob)
-  }))
+const toDataURL = (url: string) =>
+  fetch(url)
+    .then(response => response.blob())
+    .then(
+      blob =>
+        new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onloadend = () => resolve(reader.result);
+          reader.onerror = reject;
+          reader.readAsDataURL(blob);
+        }),
+    );
 
 function EntityCrudPage({
-                          entity,
-                          onModify,
-                          title = 'COMMON_COMPONENT.CREATE_UPDATE.TITLE',
-                          moduleName = 'COMMON_COMPONENT.CREATE_UPDATE.MODULE_NAME',
-                          code,
-                          get,
-                          models,
-                          // allFormField,
-                          actions,
-                          validation,
-                          autoFill,
-                        }: {
+  entity,
+  onModify,
+  title = 'COMMON_COMPONENT.CREATE_UPDATE.TITLE',
+  moduleName = 'COMMON_COMPONENT.CREATE_UPDATE.MODULE_NAME',
+  code,
+  get,
+  models,
+  // allFormField,
+  actions,
+  validation,
+  autoFill,
+}: {
   // modifyModel: ModifyModel;
   title?: string;
   moduleName?: string;
@@ -55,56 +59,60 @@ function EntityCrudPage({
   // const initForm = autoFill
   //   ? generateInitForm(allFormField, autoFill.field, autoFill.data)
   //   : generateInitForm(allFormField);
-  const {...formPart} = models;
+  const { ...formPart } = models;
   const history = useHistory();
   const [entityForEdit, setEntityForEdit] = useState(entity);
-  
+
   // const [images, setImages] = useState(initForm);
   const [imageRootArr, setImageRootArr] = useState<any>([]);
-  
+
   // const [tagArr, setTagArr] = useState(initForm);
-  
-  const [imageData, setImageData] = useState<{ data_url: any; exif: any }[]>([])
-  
+
+  const [imageData, setImageData] = useState<{ data_url: any; exif: any }[]>([]);
+
+  console.log(entityForEdit);
+
   const ImageMeta = (file: any) => {
     if (!file) return '';
-    
+
     file.forEach((item: any) => {
       exifr.parse(item.file).then(res => {
         const image = {
           data_url: item.data_url,
-          exif: res
-        }
-        
-        const data: any[] = []
-        data.push(image)
-        console.log(image)
-        setImageData(prevImages => ([...prevImages, ...data]))
-        
-      })
-    })
+          exif: res,
+        };
+
+        const data: any[] = [];
+        data.push(image);
+        console.log(image);
+        setImageData(prevImages => [...prevImages, ...data]);
+      });
+    });
   };
-  
-  
-  const onChange = (imageList: any, addUpdateIndex: any, key: any, setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => void) => {
+
+  const onChange = (
+    imageList: any,
+    addUpdateIndex: any,
+    key: any,
+    setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => void,
+  ) => {
     const imageArray = getOnlyFile(imageList);
     const base64Array = getOnlyBase64(imageList);
-    const ImagesData = []
+    const ImagesData = [];
     // const newArr = getNewImage(images[key], imageList);
     // console.log(newArr)
     // newArr.forEach((file, index) => {
-    //   ImageMeta(file.file) 
+    //   ImageMeta(file.file)
     // });
     // ImageMeta(newArr)
-    
-    setFieldValue(key, imageData)
-    
+
+    setFieldValue(key, imageData);
+
     // data for submit
     // setImages({...images, [key]: imageList});
     setImageRootArr(base64Array);
-    
   };
-  
+
   function handleChangeTag(value: string, key?: string) {
     // const newTag: string[] = [...tagArr];
     // newTag.push(value);
@@ -116,12 +124,14 @@ function EntityCrudPage({
 
     if (entity.image) {
       toDataURL('/' + entity.image.path)
-        .then(dataUrl  => {
+        .then(dataUrl => {
           const url = { data_url: dataUrl };
           console.log(url);
+          delete cv.image;
           cv.images = [url];
 
           // setImages(cv)
+          setEntityForEdit(cv);
         })
         .catch(error => {
           console.log(error); // Logs an error if there was one
@@ -130,7 +140,7 @@ function EntityCrudPage({
   };
 
   // console.log(images)
-  
+
   // useEffect(() => {
   //   if (code) {
   //     get(code).then((res: { data: any }) => {
@@ -145,14 +155,14 @@ function EntityCrudPage({
         // const convert = autoFill
         //   ? ConvertSelectSearch(res.data, autoFill.searchSelectField)
         //   : ConvertSelectSearch(res.data);
-        setEntityForEdit(res.data);
+        // setEntityForEdit(res.data);
         // setImages(convert.image ? ConvertImage(convert) : initForm)
-        ConvertImage(res.data)
+        ConvertImage(res.data);
         // setSearch(res.data);
       });
     }
   }, [code]);
-  
+
   return (
     <>
       <Formik
@@ -161,12 +171,13 @@ function EntityCrudPage({
         validationSchema={validation}
         onSubmit={(values, { setSubmitting }) => {
           console.log(values);
-          if (entityForEdit) {
-            const updateValue = diff(entityForEdit, values);
-            onModify({_id: values._id, ...updateValue});
-          } else {
-            onModify({...values, imageData});
-          }
+          // if (entityForEdit) {
+          //   const updateValue = diff(entityForEdit, values);
+          //   onModify({_id: values._id, ...updateValue});
+          // } else {
+          //   onModify({...values});
+          // }
+          onModify(values);
           // if (asyncError !== '') {
           //   store.addNotification({
           //     title: "Wonderful!",
@@ -184,79 +195,93 @@ function EntityCrudPage({
           // }
           history.push(GetHomePage(window.location.pathname));
         }}>
-        {({handleSubmit, setFieldValue}) => (
+        {({ handleSubmit, setFieldValue }) => (
           <>
             <Form className="form form-label-right">
-              {Object.keys(formPart).map((key, index,keys) => (
+              {Object.keys(formPart).map((key, index, keys) => (
                 <Card key={key} className={'modify-page'}>
-                    <CardHeader className={'border-bottom-0'}
-                                title={index == 0 ? (
-                                  <a onClick={() => history.goBack()}
-                                     className={'cursor-pointer text-primary font-weight-boldest'}>
-                                    <ArrowBackIosIcon/>
-                                    {intl
-                                      .formatMessage({id: title}, {moduleName: intl.formatMessage({id: moduleName})})
-                                      .toUpperCase()}
-                                  </a>) : (
-                                  <>{intl.formatMessage(
-                                    {id: formPart[key].title},
-                                    {moduleName: intl.formatMessage({id: moduleName})})
-                                    .toUpperCase()}</>)}
-                    />
+                  <CardHeader
+                    className={'border-bottom-0'}
+                    title={
+                      index == 0 ? (
+                        <a
+                          onClick={() => history.goBack()}
+                          className={'cursor-pointer text-primary font-weight-boldest'}>
+                          <ArrowBackIosIcon />
+                          {intl
+                            .formatMessage(
+                              { id: title },
+                              { moduleName: intl.formatMessage({ id: moduleName }) },
+                            )
+                            .toUpperCase()}
+                        </a>
+                      ) : (
+                        <>
+                          {intl
+                            .formatMessage(
+                              { id: formPart[key].title },
+                              { moduleName: intl.formatMessage({ id: moduleName }) },
+                            )
+                            .toUpperCase()}
+                        </>
+                      )
+                    }
+                  />
                   <CardBody>
                     <ModifyEntityPage
+                      modifyModel={formPart[key]}
+                      // title={formPart[key].title}
                       // className={formPart[key].className}
                       // images={images}
-                      onChange={(imageList: any, addUpdateIndex: any, key: any) => {
-                        onChange(imageList, addUpdateIndex, key, setFieldValue);
-                      }}
-                      modifyModel={formPart[key].modifyModel as any}
+                      // onChange={(imageList: any, addUpdateIndex: any, key: any) => {
+                      //   onChange(imageList, addUpdateIndex, key, setFieldValue);
+                      // }}
                       // column={formPart[key].modifyModel.length}
-                      title={formPart[key].title}
-                      handleChangeTag={handleChangeTag}
+                      // entity={entityForEdit}
+                      // handleChangeTag={handleChangeTag}
                     />
-                    {(
+                    {
                       <div className="text-right mt-10" key={key}>
-                        {Object.keys(actions).map(keyss => {
-                          switch (actions[keyss].role) {
+                        {Object.keys(actions.data).map(keyss => {
+                          switch (actions.data[keyss].role) {
                             case 'submit':
-                              console.log(actions[keyss])
+                              console.log(actions[keyss]);
                               return (
                                 <button
                                   formNoValidate
-                                  type={actions[keyss].type}
-                                  className={actions[keyss].className}
+                                  type={actions.data[keyss].type}
+                                  className={actions.data[keyss].className}
                                   key={keyss}
                                   onClick={() => handleSubmit()}>
-                                  {actions[keyss].icon} {actions[keyss].label}
+                                  {actions.data[keyss].icon} {actions.data[keyss].label}
                                 </button>
                               );
-          
+
                             case 'button':
-                              console.log(actions[keyss])
-            
+                              console.log(actions[keyss]);
+
                               return (
                                 <button
-                                  type={actions[keyss].type}
-                                  className={actions[keyss].className}
+                                  type={actions.data[keyss].type}
+                                  className={actions.data[keyss].className}
                                   key={keyss}>
-                                  {actions[keyss].icon} {actions[keyss].label}
+                                  {actions.data[keyss].icon} {actions.data[keyss].label}
                                 </button>
                               );
                             case 'link-button':
                               return (
-                                <Link to={actions[keyss].linkto} key={keyss}>
+                                <Link to={actions.data[keyss].linkto} key={keyss}>
                                   <button
-                                    type={actions[keyss].type}
-                                    className={actions[keyss].className}>
-                                    {actions[keyss].icon} {actions[keyss].label}
+                                    type={actions.data[keyss].type}
+                                    className={actions.data[keyss].className}>
+                                    {actions.data[keyss].icon} {actions.data[keyss].label}
                                   </button>
                                 </Link>
                               );
                           }
                         })}
                       </div>
-                    )}
+                    }
                   </CardBody>
                 </Card>
               ))}

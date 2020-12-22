@@ -31,6 +31,7 @@ function ModifyEntityDialog<T>({
   error?: { error: string };
 }) {
   const intl = useIntl();
+  console.log(entity)
   return (
     <Modal
       size={size}

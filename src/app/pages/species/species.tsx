@@ -12,6 +12,7 @@ import {ActionsColumnFormatter} from '../../common-library/common-components/act
 import {DeleteEntityDialog} from '../../common-library/common-components/delete-entity-dialog';
 import DeleteManyEntitiesDialog from '../../common-library/common-components/delete-many-entities-dialog';
 import {
+  generateInitForm,
   InitMasterProps,
 } from '../../common-library/helpers/common-function';
 import {Switch, Route, useHistory} from 'react-router-dom';
@@ -265,7 +266,7 @@ function Species() {
       <Switch>
         <Route path="/species/new">
           <EntityCrudPage
-            entity={createEntity}
+            entity={generateInitForm(allFormField)}
             onModify={add}
             title={createTitle}
             // reduxModel="purchaseOrder"
