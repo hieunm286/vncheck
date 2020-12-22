@@ -4,6 +4,7 @@ import {GetClassName, getNewImage, getOnlyBase64} from '../helpers/common-functi
 import exifr from 'exifr';
 import './custom-image-upload.scss';
 import {useFormikContext} from 'formik';
+import {CloseOutlined} from "@material-ui/icons";
 
 interface ImageUploadPros {
   value: any[];
@@ -124,7 +125,7 @@ function CustomImageUpload({
               <div
                 className={(errors[name] && touched[name]) ? "is-invalid d-flex flex-wrap upload__image-wrapper" : "d-flex flex-wrap upload__image-wrapper"}>
                 {imageList.map((image, index) => (
-                  <div key={index} className="image-item imagePreview">
+                  <div key={index} className="image-item imagePreview mr-1">
                     <img src={image['data_url']} alt="" width="100" height="100"/>
                     {/* <div className="image-item__btn-wrapper"> */}
                     <button
@@ -134,9 +135,8 @@ function CustomImageUpload({
                         onImageRemove(index);
                         getDeleteImage(index);
                       }}>
-                      x
+                      <CloseOutlined style={{verticalAlign:'bottom'}}/>
                     </button>
-                    &nbsp;
                   </div>
                   // </div>
                 ))}
