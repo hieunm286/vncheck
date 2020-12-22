@@ -1,22 +1,17 @@
 import React, {Fragment, useCallback, useEffect, useMemo, useState} from 'react';
-import {useIntl} from 'react-intl';
 import {Count, Create, Delete, DeleteMany, Get, GetAll, GetLots, GetSubLots, Update} from './land-lot.service';
 import {LandLotModel} from './land-lot.model';
-import {NormalColumn, SortColumn, StatusValue} from '../../common-library/common-consts/const';
+import {NormalColumn, SortColumn} from '../../common-library/common-consts/const';
 import {ActionsColumnFormatter} from '../../common-library/common-components/actions-column-formatter';
 import {
   GenerateAllFormField,
   InitMasterProps,
 } from '../../common-library/helpers/common-function';
 import {Switch, Route, Redirect, useHistory} from 'react-router-dom';
-import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
-import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import * as Yup from 'yup';
 import {DefaultPagination} from '../../common-library/common-consts/const';
-import {toast} from 'react-toastify';
-import * as ShippingAgencyService from '../shipping-agency/shipping-agency.service'
-import {NotifyDialog} from '../../common-library/common-components/notify-dialog';
 import {
+  MasterBodyColumns,
   ModifyModel,
   ModifyPart,
   RenderInfoDetailDialog,
@@ -28,7 +23,6 @@ import {MasterBody} from "../../common-library/common-components/master-body";
 import ModifyEntityDialog from "../../common-library/common-components/modify-entity-dialog";
 import {DeleteEntityDialog} from "../../common-library/common-components/delete-entity-dialog";
 import DeleteManyEntitiesDialog from "../../common-library/common-components/delete-many-entities-dialog";
-import _ from "lodash";
 import isNumeric from "antd/es/_util/isNumeric";
 
 function LandLot() {
@@ -56,8 +50,6 @@ function LandLot() {
     setShowDetail,
     showDeleteMany,
     setShowDeleteMany,
-    trigger,
-    setTrigger,
     paginationProps,
     setPaginationProps,
     filterProps,
@@ -85,16 +77,13 @@ function LandLot() {
     updateServer: Update,
   });
   
-  const [showNotifyDialog, setShowNotifyDialog] = useState<boolean>(false);
-  
   const moduleName = 'LAND_LOT.MODULE_NAME';
   const headerTitle = 'LAND_LOT.MASTER.HEADER.TITLE';
   const bodyTitle = 'LAND_LOT.MASTER.BODY.TITLE';
   const createTitle = 'LAND_LOT.CREATE.TITLE';
   const updateTitle = 'LAND_LOT.EDIT.TITLE';
   const viewTitle = 'LAND_LOT.VIEW.TITLE';
-  const PurchaseOrderSchema = Yup.object().shape({
-    // code: Yup.string().required('abc'),
+  const validateSchema = Yup.object().shape({
     lot: Yup.string()
       .required(intl.formatMessage({id: 'LAND_LOT.EDIT.VALIDATION.LOT_CODE_EMPTY'}))
       .matches(/[a-zA-Z]/u, {
@@ -111,13 +100,12 @@ function LandLot() {
   useEffect(() => {
     getAll(filterProps);
     
-  }, [paginationProps, trigger, filterProps]);
-  //TODO: change fields to get data from server
-  const columns = {
+  }, [paginationProps, filterProps]);
+  const columns = useMemo((): MasterBodyColumns => ({
     code: {
       dataField: 'code',
       text: `${intl.formatMessage({id: 'LAND_LOT.MASTER.HEADER.CODE'})}`,
-      formatter: (cell: any, row: any, rowIndex: any) => {
+      formatter: (cell: any, row: any, rowIndex) => {
         return (<Fragment>{row.lot + row.subLot}</Fragment>);
       },
       ...SortColumn,
@@ -127,23 +115,11 @@ function LandLot() {
       text: `${intl.formatMessage({id: 'LAND_LOT.MASTER.HEADER.LOT_CODE'})}`,
       ...SortColumn,
     },
-    
     subLot: {
       dataField: 'subLot',
       text: `${intl.formatMessage({id: 'LAND_LOT.MASTER.HEADER.SUB_LOT_CODE'})}`,
       ...SortColumn,
     },
-    // status: {
-    //   dataField: 'status',
-    //   text: `${intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.STATUS_COLUMN' })}`,
-    //   ...SortColumn,
-    //   formatter: (cell: any, row: any) =>
-    //     row.status === StatusValue ? (
-    //       <CheckCircleIcon style={{ color: '#1DBE2D' }} />
-    //     ) : (
-    //       <IndeterminateCheckBoxIcon />
-    //     ),
-    // },
     action: {
       dataField: 'action',
       text: `${intl.formatMessage({id: 'PURCHASE_ORDER.MASTER.TABLE.ACTION_COLUMN'})}`,
@@ -160,19 +136,17 @@ function LandLot() {
         },
         onEdit: (entity: LandLotModel) => {
           get(entity).then(result => {
-            console.log(result.data);
             setEditEntity(result.data);
             setShowEdit(true);
           });
-          // history.push(`${window.location.pathname}/${entity.code}`);
         },
       },
       ...NormalColumn,
       style: {minWidth: '130px'},
     },
-  };
+  }), []);
   
-  const masterEntityDetailDialog: RenderInfoDetailDialog = [
+  const masterEntityDetailDialog: RenderInfoDetailDialog = useMemo((): RenderInfoDetailDialog => [
     {
       data: {
         code: {title: 'LAND_LOT.MASTER.HEADER.CODE'},
@@ -181,7 +155,7 @@ function LandLot() {
       },
       titleClassName: 'col-3'
     },
-  ];
+  ], []);
   
   const initSearchModel = useMemo<SearchModel>(() => (
     {
@@ -230,8 +204,6 @@ function LandLot() {
         onSearch: GetLots,
         disabled: false,
         onChange: (value, {setFieldValue, values}) => {
-          // setDisabledCode(true);
-          // setDisabledSubLot(false);
           setFieldValue('code', value);
           setFieldValue('subLot', null);
           searchModel.code.disabled = true;
@@ -247,7 +219,6 @@ function LandLot() {
         onSearch: GetSubLots,
         disabled: true,
         onChange: (value, {setFieldValue, values}) => {
-          // console.log(value, entity);
           setFieldValue('code', values.lot + value);
         },
         
@@ -285,9 +256,9 @@ function LandLot() {
         type: 'search-select',
         label: 'LAND_LOT.MASTER.HEADER.SUB_LOT_CODE',
         onSearch: GetSubLots,
-        disabled: (values)=> {
-          return !values.lot ||values.lot.length !== 1
-      },
+        disabled: (values) => {
+          return !values.lot || values.lot.length !== 1
+        },
         onChange: (value, {setFieldValue, values}) => {
           setFieldValue('code', values.lot + value);
         },
@@ -347,24 +318,22 @@ function LandLot() {
       />
       <ModifyEntityDialog
         formPart={formPart}
-        allFormField={allFormField}
         show={showCreate}
         entity={createEntity}
         onModify={add}
         title={createTitle}
-        validation={PurchaseOrderSchema}
+        validation={validateSchema}
         onHide={() => {
           setShowCreate(false);
         }}
       />
       <ModifyEntityDialog
         formPart={formPart}
-        allFormField={allFormField}
         show={showEdit}
         entity={editEntity}
         onModify={update}
         title={updateTitle}
-        validation={PurchaseOrderSchema}
+        validation={validateSchema}
         onHide={() => {
           setShowEdit(false);
         }}
@@ -395,7 +364,7 @@ function LandLot() {
             onSelectMany={setSelectedEntities}
             entities={entities}
             total={total}
-            columns={columns as any}
+            columns={columns}
             loading={loading}
             paginationParams={paginationProps}
             setPaginationParams={setPaginationProps}

@@ -1,24 +1,24 @@
-import React, { Fragment, useEffect } from 'react';
-import { useIntl } from 'react-intl';
-import { DefaultPagination, NormalColumn, SortColumn, StatusValue } from '../../common-library/common-consts/const';
-import { MasterHeader } from '../../common-library/common-components/master-header';
-import { MasterBody } from '../../common-library/common-components/master-body';
-import { ActionsColumnFormatter } from '../../common-library/common-components/actions-column-formatter';
-import { DeleteEntityDialog } from '../../common-library/common-components/delete-entity-dialog';
+import React, {Fragment, useEffect} from 'react';
+import {useIntl} from 'react-intl';
+import {DefaultPagination, NormalColumn, SortColumn, StatusValue} from '../../common-library/common-consts/const';
+import {MasterHeader} from '../../common-library/common-components/master-header';
+import {MasterBody} from '../../common-library/common-components/master-body';
+import {ActionsColumnFormatter} from '../../common-library/common-components/actions-column-formatter';
+import {DeleteEntityDialog} from '../../common-library/common-components/delete-entity-dialog';
 import DeleteManyEntitiesDialog from '../../common-library/common-components/delete-many-entities-dialog';
-import { OldModifyModel, SearchModel } from '../../common-library/common-types/common-type';
+import {SearchModel} from '../../common-library/common-types/common-type';
 import {
   GenerateAllFormField,
+  generateInitForm,
   InitMasterProps,
 } from '../../common-library/helpers/common-function';
-import { Switch, Route, Redirect, useHistory } from 'react-router-dom';
+import {Switch, Route, Redirect, useHistory} from 'react-router-dom';
 import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import * as Yup from 'yup';
-import { ProductPackagingModel } from './product-packaging.model';
+import {ProductPackagingModel} from './product-packaging.model';
 import * as ProductPackagingService from './product-packaging.service';
 import ProductPackagingDetailDialog from './product-packaging-detail-dialog';
-import { GenerateCode } from '../species/species';
 import * as ProductTypeService from '../species/species.service';
 import {GetAll} from "./product-packaging.service";
 import _ from 'lodash';
@@ -43,7 +43,7 @@ const ProductPackagingSchema = Yup.object().shape({
 
 function ProductPackaging() {
   const intl = useIntl();
-
+  
   const history = useHistory();
   const {
     entities,
@@ -68,8 +68,6 @@ function ProductPackaging() {
     setShowDetail,
     showDeleteMany,
     setShowDeleteMany,
-    trigger,
-    setTrigger,
     paginationProps,
     setPaginationProps,
     filterProps,
@@ -96,38 +94,38 @@ function ProductPackaging() {
     getAllServer: ProductPackagingService.GetAll,
     updateServer: ProductPackagingService.Update,
   });
-
+  
   useEffect(() => {
     getAll(filterProps);
-  }, [paginationProps, trigger, filterProps]);
-
+  }, [paginationProps, filterProps]);
+  
   const columns = {
     code: {
       dataField: 'code',
-      text: `${intl.formatMessage({ id: 'PRODUCT_PACKAGING.MASTER.TABLE.CODE_COLUMN' })}`,
+      text: `${intl.formatMessage({id: 'PRODUCT_PACKAGING.MASTER.TABLE.CODE_COLUMN'})}`,
       ...SortColumn,
       classes: 'text-center',
     },
     name: {
       dataField: 'species',
-      text: `${intl.formatMessage({ id: 'PRODUCT_PACKAGING.MASTER.TABLE.NAME_COLUMN' })}`,
+      text: `${intl.formatMessage({id: 'PRODUCT_PACKAGING.MASTER.TABLE.NAME_COLUMN'})}`,
       ...SortColumn,
       formatter: (cell: any, row: any, rowIndex: any) => {
-        return (<p>{row.species ?  row.species.name : 'Không có thông tin nha'}</p>);
+        return (<p>{row.species ? row.species.name : 'Không có thông tin nha'}</p>);
       },
       classes: 'text-center',
     },
-
+    
     weight: {
       dataField: 'weight',
-      text: `${intl.formatMessage({ id: 'PRODUCT_PACKAGING.MASTER.TABLE.GRAM_COLUMN' })}`,
+      text: `${intl.formatMessage({id: 'PRODUCT_PACKAGING.MASTER.TABLE.GRAM_COLUMN'})}`,
       ...SortColumn,
       classes: 'text-center',
       headerClasses: 'text-center',
     },
     action: {
       dataField: 'action',
-      text: `${intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.ACTION_COLUMN' })}`,
+      text: `${intl.formatMessage({id: 'PURCHASE_ORDER.MASTER.TABLE.ACTION_COLUMN'})}`,
       formatter: ActionsColumnFormatter,
       formatExtraData: {
         intl,
@@ -147,21 +145,21 @@ function ProductPackaging() {
         },
       },
       ...NormalColumn,
-      style: { minWidth: '130px' },
+      style: {minWidth: '130px'},
     },
   };
-
+  
   const masterEntityDetailDialog = [
     {
       header: 'THÔNG TIN 1',
       data: {
-        code: { title: 'PRODUCT_PACKAGING.MASTER.DETAIL_DIALOG.CODE' },
-        species: { title: 'PRODUCT_PACKAGING.MASTER.DETAIL_DIALOG.NAME', refField: 'name' },
-        weight: { title: 'PRODUCT_PACKAGING.MASTER.DETAIL_DIALOG.GRAM' },
+        code: {title: 'PRODUCT_PACKAGING.MASTER.DETAIL_DIALOG.CODE'},
+        species: {title: 'PRODUCT_PACKAGING.MASTER.DETAIL_DIALOG.NAME', refField: 'name'},
+        weight: {title: 'PRODUCT_PACKAGING.MASTER.DETAIL_DIALOG.GRAM'},
       },
     },
   ];
-
+  
   const productTypeSearchModel: SearchModel = {
     code: {
       type: 'string',
@@ -178,7 +176,7 @@ function ProductPackaging() {
       keyField: 'name',
     },
   };
-
+  
   const modifyModel = [
     {
       title: '',
@@ -206,7 +204,7 @@ function ProductPackaging() {
       },
     },
   ];
-
+  
   const formPart: any = {
     form_1: {
       title: '',
@@ -214,11 +212,11 @@ function ProductPackaging() {
       header: 'ĐƠN HÀNG',
     },
   };
-
+  
   const allFormField: any = {
     ...GenerateAllFormField(modifyModel),
   };
-
+  
   const allFormButton: any = {
     save: {
       role: 'submit',
@@ -226,7 +224,7 @@ function ProductPackaging() {
       linkto: undefined,
       className: 'btn btn-primary mr-2',
       label: 'Lưu',
-      icon: <SaveOutlinedIcon />,
+      icon: <SaveOutlinedIcon/>,
     },
     cancel: {
       role: 'link-button',
@@ -234,10 +232,10 @@ function ProductPackaging() {
       linkto: '/product-packaging',
       className: 'btn btn-outline-primary mr-2',
       label: 'Hủy',
-      icon: <CancelOutlinedIcon />,
+      icon: <CancelOutlinedIcon/>,
     },
   };
-
+  
   return (
     <Fragment>
       <ProductPackagingDetailDialog
@@ -273,9 +271,9 @@ function ProductPackaging() {
       />
       <ModifyEntityDialog
         show={showCreate}
-        entity={createEntity}
+        entity={generateInitForm(allFormField)}
         onModify={(entity: ProductPackagingModel) => {
-          let cvEntity = { ...entity }
+          let cvEntity = {...entity}
           if (_.isObject(entity)) {
             cvEntity.species = entity.species._id
           }
@@ -302,7 +300,7 @@ function ProductPackaging() {
         show={showEdit}
         entity={editEntity}
         onModify={(entity: ProductPackagingModel) => {
-          let cvEntity = { ...entity }
+          let cvEntity = {...entity}
           if (_.isObject(entity)) {
             cvEntity.species = entity.species._id
           }
@@ -319,11 +317,6 @@ function ProductPackaging() {
         allFormButton={allFormButton}
         validation={ProductPackagingSchema}
         error={error}
-        autoFill={{
-          field: '',
-          data: null,
-          searchSelectField: [{ field: 'species', ref: { prop: '', key: 'name' } }],
-        }}
         homePage={homeURL}
       />
       <Switch>
@@ -361,7 +354,7 @@ function ProductPackaging() {
             setPaginationParams={setPaginationProps}
             isShowId={true}
           />
-
+          
           {/* <MasterTreeStructure /> */}
         </Route>
       </Switch>

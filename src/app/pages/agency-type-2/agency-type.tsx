@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, {useEffect} from "react";
 import {useIntl} from 'react-intl';
 
 
@@ -8,22 +8,21 @@ import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import IndeterminateCheckBoxIcon from '@material-ui/icons/IndeterminateCheckBox';
 
 import {Count, Create, Delete, DeleteMany, Get, GetAll, Update} from './agency-type.service';
-import { AgencyTypeModel } from './agency-type.model';
-import { MasterHeader } from "../../common-library/common-components/master-header";
-import { MasterBody } from "../../common-library/common-components/master-body";
-import { ActionsColumnFormatter } from '../../common-library/common-components/actions-column-formatter';
+import {AgencyTypeModel} from './agency-type.model';
+import {MasterHeader} from "../../common-library/common-components/master-header";
+import {MasterBody} from "../../common-library/common-components/master-body";
+import {ActionsColumnFormatter} from '../../common-library/common-components/actions-column-formatter';
 
-import { NormalColumn, SortColumn } from '../../common-library/common-consts/const';
+import {NormalColumn, SortColumn} from '../../common-library/common-consts/const';
 
-import {OldModifyModel, SearchModel} from "../../common-library/common-types/common-type";
-import { DeleteEntityDialog } from "../../common-library/common-components/delete-entity-dialog";
-import ModifyEntityDialog from "../../common-library/common-components/modify-entity-dialog";
-import { MasterEntityDetailDialog } from "../../common-library/common-components/master-entity-detail-dialog";
+import {MasterBodyColumns, ModifyModel, SearchModel} from "../../common-library/common-types/common-type";
+import {DeleteEntityDialog} from "../../common-library/common-components/delete-entity-dialog";
+import {MasterEntityDetailDialog} from "../../common-library/common-components/master-entity-detail-dialog";
 import DeleteManyEntitiesDialog from '../../common-library/common-components/delete-many-entities-dialog';
 import * as Yup from "yup";
 
 function AgencyType() {
-
+  
   const intl = useIntl();
   const {
     entities,
@@ -48,8 +47,6 @@ function AgencyType() {
     setShowDetail,
     showDeleteMany,
     setShowDeleteMany,
-    trigger,
-    setTrigger,
     paginationProps,
     setPaginationProps,
     filterProps,
@@ -68,20 +65,20 @@ function AgencyType() {
     getAllServer: GetAll,
     updateServer: Update
   });
-
+  
   useEffect(() => {
     getAll(filterProps);
-  }, [paginationProps, trigger, filterProps]);
-
-
+  }, [paginationProps, filterProps]);
+  
+  
   console.log(entities);
-
+  
   const moduleName = 'PURCHASE_ORDER.CUSTOM.MODULE_NAME';
   const headerTitle = 'PURCHASE_ORDER.MASTER.HEADER.TITLE';
   const createTitle = 'PURCHASE_ORDER.CREATE.TITLE';
   const updateTitle = 'PURCHASE_ORDER.UPDATE.TITLE';
-
-  const columns = [
+  
+  const columns: MasterBodyColumns = [
     {
       dataField: 'ordinal',
       text: '#',
@@ -89,7 +86,7 @@ function AgencyType() {
         <p>{rowIndex + 1 + ((paginationProps.page ?? 0) - 1) * (paginationProps.limit ?? 0)}</p>
       ),
       style: {paddingTop: 20},
-    },    {
+    }, {
       dataField: 'type_name',
       text: 'Tên loại',
       ...SortColumn
@@ -140,7 +137,7 @@ function AgencyType() {
       style: {minWidth: '130px'},
     },
   ];
-
+  
   const purchaseOrderSearchModel: SearchModel = {
     code: {
       type: 'string',
@@ -154,8 +151,8 @@ function AgencyType() {
       keyField: 'name'
     },
   };
-
-  const modifyModel: OldModifyModel = {
+  
+  const modifyModel: any = {
     code: {
       type: 'string',
       placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.PLACEHOLDER',
@@ -172,19 +169,19 @@ function AgencyType() {
       label: 'AGENCY.MASTER.TABLE.STATUS_COLUMN'
     },
   };
-
+  
   const masterEntityDetailDialog = [
-    { keyField: 'code', title: 'PURCHASE_ORDER.MASTER.TABLE.CODE_COLUMN' },
-    { keyField: 'name', title: 'PURCHASE_ORDER.MASTER.HEADER.NAME.PLACEHOLDER' },
-    { keyField: 'status', title: 'PURCHASE_ORDER.MASTER.TABLE.STATUS_COLUMN' },
+    {keyField: 'code', title: 'PURCHASE_ORDER.MASTER.TABLE.CODE_COLUMN'},
+    {keyField: 'name', title: 'PURCHASE_ORDER.MASTER.HEADER.NAME.PLACEHOLDER'},
+    {keyField: 'status', title: 'PURCHASE_ORDER.MASTER.TABLE.STATUS_COLUMN'},
   ];
-
+  
   const agencyTypeSchema = Yup.object<AgencyTypeModel>().shape({
     // code: Yup.string().required('Vui lòng nhập mã đơn vị'),
     // agencyAddress: Yup.string().required('Vui lòng nhập tên đơn vị'),
     // phoneNumber: Yup.string().required('Vui lòng nhập số điện thoại'),
   });
-
+  
   return (
     <>
       <MasterHeader title={headerTitle} onSearch={setFilterProps} searchModel={purchaseOrderSearchModel}
@@ -204,7 +201,7 @@ function AgencyType() {
         paginationParams={paginationProps}
         setPaginationParams={setPaginationProps}
       />
-
+      
       <DeleteEntityDialog
         moduleName={moduleName}
         entity={deleteEntity}
@@ -246,7 +243,7 @@ function AgencyType() {
           setShowEdit(false);
         }}
       /> */}
-
+      
       <MasterEntityDetailDialog
         show={showDetail}
         entity={detailEntity}

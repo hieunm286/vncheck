@@ -5,7 +5,6 @@ import {useIntl} from 'react-intl';
 import {GetHomePage, InitMasterProps} from "../../common-library/helpers/common-function";
 
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-import IndeterminateCheckBoxIcon from '@material-ui/icons/IndeterminateCheckBox';
 
 import {Count, Create, Delete, DeleteMany, Get, GetAll, Update} from './agency.service';
 import { AgencyModel } from './agency.model';
@@ -15,24 +14,14 @@ import { ActionsColumnFormatter } from '../../common-library/common-components/a
 
 import { DefaultPagination, NormalColumn, SortColumn } from '../../common-library/common-consts/const';
 
-import {OldModifyModel, SearchModel} from "../../common-library/common-types/common-type";
 
 import { DeleteEntityDialog } from "../../common-library/common-components/delete-entity-dialog";
 import DeleteManyEntitiesDialog from '../../common-library/common-components/delete-many-entities-dialog';
-import ModifyEntityDialog from '../../common-library/common-components/modify-entity-dialog';
-import { MasterEntityDetailDialog } from '../../common-library/common-components/master-entity-detail-dialog';
-import * as Yup from "yup";
 import {  MasterEntityDetailAgency } from "../../common-library/common-components/master-entity-detail-dialog-agency";
-import { getUserById } from "../account/_redux/user-crud";
-import * as agencyTypeService from "../agency-type-2/agency-type.service";
-import ModifyEntityPageAgency from './helpers/modify-entity-page-agency';
 import EntityCrudPageAgency from "./helpers/entity-crud-page-agency";
 import * as AgencyService from './agency.service';
 import { ConvertStatusToBoolean, ConvertStatusToString, ConvertToTreeNode, GenerateAllFormField } from '../../common-library/helpers/common-function';
 import { Switch, Route, Redirect, useHistory } from 'react-router-dom';
-import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
-import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
-import { convertToServer } from "./helpers/convert-data-model";
 import { mockAgency, initAgency } from "./helpers/mock-entity";
 import { agencySearchModel, allFormButton, agencySchema, masterEntityDetailDialog } from './defined/const';
 import * as StoreLevelService from '../multilevel-sale/multilevel-sale.service';
@@ -67,8 +56,6 @@ function AgencyPage() {
     setShowDetail,
     showDeleteMany,
     setShowDeleteMany,
-    trigger,
-    setTrigger,
     paginationProps,
     setPaginationProps,
     filterProps,
@@ -94,7 +81,7 @@ function AgencyPage() {
     getAll(filterProps);
     // setEntities(mock_entities);
     // setEntities([{}]);
-  }, [paginationProps, trigger, filterProps]);
+  }, [paginationProps, filterProps]);
 
   const history = useHistory();
 
@@ -392,8 +379,8 @@ function AgencyPage() {
   }
 
   const crudFail = (error: any) => {
-    setError(error.response.data || error.message || JSON.stringify(error))
-    notify(intl.formatMessage({id: error.response.data || error.message || JSON.stringify(error)}));
+    setError(error.response.entity || error.message || JSON.stringify(error))
+    notify(intl.formatMessage({id: error.response.entity || error.message || JSON.stringify(error)}));
   }
 
   const [treeData, setTreeData] = useState<any>();
@@ -404,7 +391,7 @@ function AgencyPage() {
     // queryProps =
   
     const entities = await getAll({});
-    return entities.data;
+    return entities.entity;
   };
   
   useEffect(() => {

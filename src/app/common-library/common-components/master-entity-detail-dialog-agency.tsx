@@ -42,14 +42,14 @@ export function MasterEntityDetailAgency({
             <>
               <div className="row">
                 <div className="col-6">
-                <FormGroup data={entity} renderInfo={renderInfo[0].data} title={intl.formatMessage({id: renderInfo[0].header})}/>
+                <FormGroup data={entity} renderInfo={renderInfo[0].entity} title={intl.formatMessage({id: renderInfo[0].header})}/>
                 </div>
                 <div className="col-6">
                   <div className="row h-60">
-                    <FormGroup data={entity} renderInfo={renderInfo[1].data} title={intl.formatMessage({id: renderInfo[1].header})}/>
+                    <FormGroup data={entity} renderInfo={renderInfo[1].entity} title={intl.formatMessage({id: renderInfo[1].header})}/>
                   </div>
                   <div className="row">
-                  <FormGroup data={entity} renderInfo={renderInfo[2].data} title={intl.formatMessage({id: renderInfo[2].header})}/>
+                  <FormGroup data={entity} renderInfo={renderInfo[2].entity} title={intl.formatMessage({id: renderInfo[2].header})}/>
                   </div>
                 </div>
               </div>

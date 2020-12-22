@@ -12,6 +12,7 @@ import {ActionsColumnFormatter} from '../../common-library/common-components/act
 import {DeleteEntityDialog} from '../../common-library/common-components/delete-entity-dialog';
 import DeleteManyEntitiesDialog from '../../common-library/common-components/delete-many-entities-dialog';
 import {
+  generateInitForm,
   InitMasterProps,
 } from '../../common-library/helpers/common-function';
 import {Switch, Route, useHistory} from 'react-router-dom';
@@ -21,11 +22,12 @@ import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import * as Yup from 'yup';
 import {SpeciesModel} from './species.model';
 import * as ProductTypeService from './species.service';
-import SpeciesDetailDialog from './species-detail-dialog';
 
 import 'react-toastify/dist/ReactToastify.css';
 import {allFormField, masterEntityDetailDialog, models, productTypeSearchModel} from './defined/const';
-import _ from 'lodash';
+import {
+  MasterEntityDetailDialog
+} from "../../common-library/common-components/master-entity-detail-dialog";
 
 const headerTitle = 'PRODUCT_TYPE.MASTER.HEADER.TITLE';
 const bodyTitle = 'PRODUCT_TYPE.MASTER.BODY.TITLE';
@@ -82,8 +84,6 @@ function Species() {
     setShowDetail,
     showDeleteMany,
     setShowDeleteMany,
-    trigger,
-    setTrigger,
     paginationProps,
     setPaginationProps,
     filterProps,
@@ -110,10 +110,10 @@ function Species() {
     getAllServer: ProductTypeService.GetAll,
     updateServer: ProductTypeService.Update,
   });
-  
+  console.log(entities);
   useEffect(() => {
     getAll(filterProps);
-  }, [paginationProps, trigger, filterProps]);
+  }, [paginationProps, filterProps]);
   
   const columns = {
     code: {
@@ -163,7 +163,7 @@ function Species() {
     },
   };
 
-  const ProductTypeSchema = Yup.object().shape({
+  const schema = Yup.object().shape({
     name: Yup.string().required('Tên chủng loại không được để trống').matches(/^[aAàÀảẢãÃáÁạẠăĂằẰẳẲẵẴắẮặẶâÂầẦẩẨẫẪấẤậẬbBcCdDđĐeEèÈẻẺẽẼéÉẹẸêÊềỀểỂễỄếẾệỆfFgGhHiIìÌỉỈĩĨíÍịỊjJkKlLmMnNoOòÒỏỎõÕóÓọỌôÔồỒổỔỗỖốỐộỘơƠờỜởỞỡỠớỚợỢpPqQrRsStTuUùÙủỦũŨúÚụỤưƯừỪửỬữỮứỨựỰvVwWxXyYỳỲỷỶỹỸýÝỵỴzZ ]+$/u, {
       message: 'Tên không hợp lệ. Tên không chứa số và ký tự đặc biệt',
     }).test('Exists validate', 'Tên chủng loại đã tồn tại', function (value) {
@@ -229,13 +229,15 @@ function Species() {
     <Fragment>
       {/* <ReactNotification /> */}
       {/* <ToastContainer /> */}
-      <SpeciesDetailDialog
+      <MasterEntityDetailDialog
         show={showDetail}
         entity={detailEntity}
         renderInfo={masterEntityDetailDialog}
-        onClose={() => {
+        onHide={() => {
           setShowDetail(false);
         }}
+        moduleName={moduleName}
+        size={'lg'}
       />
       <DeleteEntityDialog
         moduleName={moduleName}
@@ -264,16 +266,16 @@ function Species() {
       <Switch>
         <Route path="/species/new">
           <EntityCrudPage
-            entity={createEntity}
+            entity={generateInitForm(allFormField)}
             onModify={add}
             title={createTitle}
             // reduxModel="purchaseOrder"
             code={null}
             get={() => null}
             models={models}
-            allFormField={allFormField}
-            allFormButton={allFormButton}
-            validation={ProductTypeSchema}
+            // allFormField={allFormField}
+            actions={allFormButton}
+            validation={schema}
             // autoFill={{
             //   field: 'code',
             //   data: GenerateCode(data),
@@ -298,9 +300,9 @@ function Species() {
               code={match && match.params.code}
               get={ProductTypeService.GetById}
               models={models}
-              allFormField={allFormField}
-              allFormButton={allFormButton}
-              validation={ProductTypeSchema}
+              // allFormField={allFormField}
+              actions={allFormButton}
+              validation={schema}
             />
           )}
         </Route>

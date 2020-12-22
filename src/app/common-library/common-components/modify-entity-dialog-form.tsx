@@ -4,16 +4,9 @@ import {Field, Form, Formik} from 'formik';
 import {useIntl} from 'react-intl';
 import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
-import * as Yup from 'yup';
-import {MainInput} from '../forms/main-input';
-import {DefaultPagination, iconStyle} from '../common-consts/const';
-import {ModifyForm, ModifyModel, OldModifyModel} from '../common-types/common-type';
-import CustomImageUpload from '../forms/custom-image-upload';
-import {getNewImage, getOnlyFile} from '../helpers/common-function';
-import {Card, CardBody, CardHeader} from '../card';
-import {uploadImage} from '../../pages/purchase-order/purchase-order.service';
+import {ModifyForm, ModifyModel} from '../common-types/common-type';
 import ModifyEntityPage from './modify-entity-page';
-import {diff} from 'deep-object-diff';
+import {iconStyle} from "../common-consts/const";
 
 function ModifyEntityDialogForm<T>({
                                      entity = {},
@@ -64,8 +57,8 @@ function ModifyEntityDialogForm<T>({
         //   const updateValue = diff(entity, values);
         //   onModify({_id: values._id, ...updateValue});
         // } else {
-          console.log(values)
-          onModify({...entity, ...values, __v:undefined});
+        console.log(values)
+        onModify({...entity, ...values, __v: undefined});
         // }
         onHide();
       }}>
@@ -81,14 +74,13 @@ function ModifyEntityDialogForm<T>({
               {Object.keys(modifyForm).map(key => (
                 <React.Fragment key={key}>
                   <ModifyEntityPage
-                    images={images}
-                    onChange={(imageList: any, addUpdateIndex: any, key: any) => {
+                    // images={images}
+                    // onChange={(imageList: any, addUpdateIndex: any, key: any) => {
                       // onChange(imageList, addUpdateIndex, key);
-                    }}
-                    entity={entity}
-                    modifyModel={modifyForm[key].modifyModel}
-                    column={modifyForm[key].modifyModel.length}
-                    title={modifyForm[key].title}
+                    // }}
+                    // entity={entity}
+                    modifyModel={modifyForm[key]}
+                    // title={modifyForm[key].title}
                   />
                 </React.Fragment>
               ))}

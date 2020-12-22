@@ -244,8 +244,6 @@ function ProductionPlan() {
     setShowDetail,
     showDeleteMany,
     setShowDeleteMany,
-    trigger,
-    setTrigger,
     paginationProps,
     setPaginationProps,
     filterProps,
@@ -314,7 +312,7 @@ function ProductionPlan() {
     } else if (currentTab === '2') {
       getAll({ ...(filterProps as any), step: '1', confirmationStatus: '2', isMaster: true });
     }
-  }, [paginationProps, trigger, filterProps, currentTab]);
+  }, [paginationProps, filterProps, currentTab]);
 
   const columns = {
     _id: {

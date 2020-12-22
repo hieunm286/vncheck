@@ -5,7 +5,7 @@ import AddIcon from '@material-ui/icons/Add';
 import {useIntl} from 'react-intl';
 import {iconStyle} from '../common-consts/const';
 import {MasterTable} from './master-table';
-import {PaginationProps} from '../common-types/common-type';
+import {MasterBodyColumns, PaginationProps} from '../common-types/common-type';
 import {ColumnDescription} from 'react-bootstrap-table-next';
 
 export interface BasicUnitDataProps {
@@ -40,7 +40,7 @@ export function MasterBody<T>({
   loading: boolean;
   onSelectMany: (entities: T[]) => void;
   onCreate: () => void;
-  columns: ColumnDescription[];
+  columns: MasterBodyColumns;
   entities: T[];
   selectedEntities: T[];
   paginationParams: PaginationProps;

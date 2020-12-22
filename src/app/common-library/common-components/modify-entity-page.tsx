@@ -1,28 +1,9 @@
 import React, {ReactElement, useCallback, useEffect, useState} from 'react';
-import {_ModifyModelType, ModifyModel, ModifyPart, OldModifyModel} from '../common-types/common-type';
+import {_ModifyModelType, ModifyModel, ModifyPart} from '../common-types/common-type';
 import {useIntl} from 'react-intl';
 import {generateInitForm, getField, getNewImage, getOnlyFile} from '../helpers/common-function';
 import {Field, Form, Formik, useFormikContext} from 'formik';
-import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
-import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
-import * as Yup from 'yup';
-import {MainInput} from '../forms/main-input';
-import {DefaultPagination, iconStyle} from '../common-consts/const';
-import {Link, useHistory} from 'react-router-dom';
-import ImageUploading from 'react-images-uploading';
-import CustomImageUpload from '../forms/custom-image-upload';
-import {uploadImage} from '../../pages/purchase-order/purchase-order.service';
-import {Card, CardBody} from '../card';
-import {DatePickerField} from '../forms/date-picker-field';
-import {Switch} from '@material-ui/core';
-import CheckCircleOutlinedIcon from '@material-ui/icons/CheckCircleOutlined';
-import {InfiniteSelect} from '../forms/infinite-select';
-import TagInput from '../forms/tag-input';
 import ImgGallery from '../forms/image-gallery';
-import {FormikRadioGroup} from '../forms/radio-group-field';
-import {SwitchField} from '../forms/switch-field';
-import {InfiniteSelectV2} from '../forms/infinite-select-v2';
-import {isArray} from 'lodash';
 import {
   InputBoolean,
   InputDateTime,
@@ -37,18 +18,19 @@ import _ from 'lodash';
 function ModifyEntityPage<T>({
                                modifyModel,
                                title,
-                               column,
                                entity,
+                               // className = '',
                                mode = 'horizontal',
                                tagData,
                                images
                              }: {
-  modifyModel: ModifyModel;
+  
+  modifyModel: { title: string; modifyModel: ModifyModel };
   mode?: 'horizontal' | 'vertical'
   images?: any;
   onChange?: any;
   title?: string;
-  column?: number;
+  // className?: string;
   handleChangeTag?: any;
   values?: any;
   tagData?: any;
@@ -57,7 +39,7 @@ function ModifyEntityPage<T>({
 }) {
   const intl = useIntl();
   const {setFieldValue, touched, values} = useFormikContext<any>();
-  const defaultClassName = 'mt-5';
+  const defaultClassName = 'mb-5';
   const renderForm = useCallback((data: _ModifyModelType, prevKey: string): ReactElement => {
     return (
       <>
@@ -102,19 +84,29 @@ function ModifyEntityPage<T>({
             //   ) : (
             //     <></>
             //   );
-            case 'image':
-              console.log(images)
+            case 'boolean':
+              return (
+                <InputBoolean
+                  className={defaultClassName}
+                  name={prevKey !== '' ? `${prevKey}.${key}` : key}
+                  mode={mode}
+                  {...input}
+                  key={`modify-page-${key}`}
+                />
+              );
+              case 'image':
+              console.log(values)
+              console.log(key)
               return (
                 <InputImage
                   className={defaultClassName}
                   name={prevKey !== '' ? `${prevKey}.${key}` : key}
                   mode={mode}
                   {...input}
-                  value={images[key] || []}
+                  value={values[key] || []}
                   key={`modify-page-${key}`}
                 />
-              )
-                ;
+              );
             case 'search-select':
               return (
                 <InputSearchSelect
@@ -242,18 +234,18 @@ function ModifyEntityPage<T>({
         })}
       </>
     );
-  }, [images]);
-
+  }, [values]);
+  
   console.log(modifyModel)
   
   return (
     <>
-      {title && <h6 className="text-primary">{title.toUpperCase()}</h6>}
-      <div className={(column ? column : 1) > 1 ? 'row' : ''}>
+      {modifyModel.title && <h6 className="text-primary">{modifyModel.title.toUpperCase()}</h6>}
+      <div className={'row'}>
         {modifyModel &&
-        modifyModel.map((value, index) => (
-          <div className={`col-md-${12 / (column ? column : 1)} col-12`} key={`meg-${index}`}>
-            {value.title && <h6 className="text-primary">{value.title.toUpperCase()}</h6>}
+        modifyModel.modifyModel.map((value, index) => (
+          <div key={`meg-${index}`} className={value.className ?? 'col-12'}>
+            {value.title && <div className="modify-subtitle text-primary">{value.title.toUpperCase()}</div>}
             {renderForm(value.data, '')}
           </div>
         ))}

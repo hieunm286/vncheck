@@ -1,29 +1,29 @@
-import React, { Fragment, useEffect } from 'react';
-import { useIntl } from 'react-intl';
-import { Count, Create, Delete, DeleteMany, Get, GetAll, Update } from './purchase-order.service';
-import { PurchaseOrderModel } from './purchase-order.model';
+import React, {Fragment, useEffect} from 'react';
+import {useIntl} from 'react-intl';
+import {Count, Create, Delete, DeleteMany, Get, GetAll, Update} from './purchase-order.service';
+import {PurchaseOrderModel} from './purchase-order.model';
 import {
   DefaultPagination,
   NormalColumn,
   SortColumn,
   StatusValue,
 } from '../../common-library/common-consts/const';
-import { MasterHeader } from '../../common-library/common-components/master-header';
-import { MasterEntityDetailDialog } from '../../common-library/common-components/master-entity-detail-dialog';
-import { MasterBody } from '../../common-library/common-components/master-body';
+import {MasterHeader} from '../../common-library/common-components/master-header';
+import {MasterEntityDetailDialog} from '../../common-library/common-components/master-entity-detail-dialog';
+import {MasterBody} from '../../common-library/common-components/master-body';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import IndeterminateCheckBoxIcon from '@material-ui/icons/IndeterminateCheckBox';
-import { ActionsColumnFormatter } from '../../common-library/common-components/actions-column-formatter';
-import { DeleteEntityDialog } from '../../common-library/common-components/delete-entity-dialog';
+import {ActionsColumnFormatter} from '../../common-library/common-components/actions-column-formatter';
+import {DeleteEntityDialog} from '../../common-library/common-components/delete-entity-dialog';
 import DeleteManyEntitiesDialog from '../../common-library/common-components/delete-many-entities-dialog';
 import ModifyEntityDialog from '../../common-library/common-components/modify-entity-dialog';
-import { OldModifyModel, SearchModel } from '../../common-library/common-types/common-type';
+import {SearchModel} from '../../common-library/common-types/common-type';
 import {
   ConvertToTreeNode,
   GenerateAllFormField,
   InitMasterProps,
 } from '../../common-library/helpers/common-function';
-import { Switch, Route, Redirect, useHistory } from 'react-router-dom';
+import {Switch, Route, Redirect, useHistory} from 'react-router-dom';
 import EntityCrudPage from '../../common-library/common-components/entity-crud-page';
 import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
@@ -144,8 +144,6 @@ function PurchaseOrder() {
     setShowDetail,
     showDeleteMany,
     setShowDeleteMany,
-    trigger,
-    setTrigger,
     paginationProps,
     setPaginationProps,
     filterProps,
@@ -172,48 +170,48 @@ function PurchaseOrder() {
     getAllServer: GetAll,
     updateServer: Update,
   });
-
+  
   const moduleName = 'PURCHASE_ORDER.CUSTOM.MODULE_NAME';
   const headerTitle = 'PURCHASE_ORDER.MASTER.HEADER.TITLE';
   const createTitle = 'PURCHASE_ORDER.CREATE.TITLE';
   const updateTitle = 'PURCHASE_ORDER.UPDATE.TITLE';
   const history = useHistory();
-
+  
   useEffect(() => {
     getAll(filterProps);
-  }, [paginationProps, trigger, filterProps]);
-
+  }, [paginationProps, filterProps]);
+  
   const columns = {
     code: {
       dataField: 'code',
-      text: `${intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.CODE_COLUMN' })}`,
+      text: `${intl.formatMessage({id: 'PURCHASE_ORDER.MASTER.TABLE.CODE_COLUMN'})}`,
       ...SortColumn,
     },
     agencyAddress: {
       dataField: 'agencyAddress',
-      text: `${intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS_COLUMN' })}`,
+      text: `${intl.formatMessage({id: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS_COLUMN'})}`,
       ...SortColumn,
     },
-
+    
     phoneNumber: {
       dataField: 'phoneNumber',
-      text: `${intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' })}`,
+      text: `${intl.formatMessage({id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN'})}`,
       ...SortColumn,
     },
     status: {
       dataField: 'status',
-      text: `${intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.STATUS_COLUMN' })}`,
+      text: `${intl.formatMessage({id: 'PURCHASE_ORDER.MASTER.TABLE.STATUS_COLUMN'})}`,
       ...SortColumn,
       formatter: (cell: any, row: any) =>
         row.status === StatusValue ? (
-          <CheckCircleIcon style={{ color: '#1DBE2D' }} />
+          <CheckCircleIcon style={{color: '#1DBE2D'}}/>
         ) : (
-          <IndeterminateCheckBoxIcon />
+          <IndeterminateCheckBoxIcon/>
         ),
     },
     action: {
       dataField: 'action',
-      text: `${intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.ACTION_COLUMN' })}`,
+      text: `${intl.formatMessage({id: 'PURCHASE_ORDER.MASTER.TABLE.ACTION_COLUMN'})}`,
       formatter: ActionsColumnFormatter,
       formatExtraData: {
         intl,
@@ -233,37 +231,37 @@ function PurchaseOrder() {
         },
       },
       ...NormalColumn,
-      style: { minWidth: '130px' },
+      style: {minWidth: '130px'},
     },
   };
-
+  
   const masterEntityDetailDialog = [
     {
       header: 'THÔNG TIN 1',
       data: {
-        code: { title: 'PURCHASE_ORDER.MASTER.TABLE.CODE_COLUMN' },
-        agencyAddress: { title: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS_COLUMN' },
-        phoneNumber: { title: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' },
+        code: {title: 'PURCHASE_ORDER.MASTER.TABLE.CODE_COLUMN'},
+        agencyAddress: {title: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS_COLUMN'},
+        phoneNumber: {title: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN'},
       },
     },
     {
       header: 'THÔNG TIN 2',
       data: {
-        code: { title: 'PURCHASE_ORDER.MASTER.TABLE.CODE_COLUMN' },
-        agencyAddress: { title: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS_COLUMN' },
-        phoneNumber: { title: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' },
+        code: {title: 'PURCHASE_ORDER.MASTER.TABLE.CODE_COLUMN'},
+        agencyAddress: {title: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS_COLUMN'},
+        phoneNumber: {title: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN'},
       },
     },
     {
       header: 'THÔNG TIN 3',
       data: {
-        code: { title: 'PURCHASE_ORDER.MASTER.TABLE.CODE_COLUMN' },
-        agencyAddress: { title: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS_COLUMN' },
-        phoneNumber: { title: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' },
+        code: {title: 'PURCHASE_ORDER.MASTER.TABLE.CODE_COLUMN'},
+        agencyAddress: {title: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS_COLUMN'},
+        phoneNumber: {title: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN'},
       },
     },
   ];
-
+  
   const purchaseOrderSearchModel: SearchModel = {
     code: {
       type: 'search-select',
@@ -315,7 +313,7 @@ function PurchaseOrder() {
       data: ConvertToTreeNode(DataExample),
     },
   };
-
+  
   const modifyModel = [
     {
       title: 'Test',
@@ -339,11 +337,11 @@ function PurchaseOrder() {
             id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN',
           }),
           required: true,
-          label: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN' }),
+          label: intl.formatMessage({id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN'}),
         },
         image: {
           type: 'image',
-          placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL' }),
+          placeholder: intl.formatMessage({id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL'}),
           label: 'Album 1',
         },
         // image2: {
@@ -412,7 +410,7 @@ function PurchaseOrder() {
     //   },
     // },
   ];
-
+  
   const modifyModel_3 = [
     {
       title: '',
@@ -441,7 +439,7 @@ function PurchaseOrder() {
       },
     },
   ];
-
+  
   const modifyModel_2 = [
     {
       director: {
@@ -456,7 +454,7 @@ function PurchaseOrder() {
       },
     },
   ];
-
+  
   const modifyModel_4 = [
     {
       test4: {
@@ -488,7 +486,7 @@ function PurchaseOrder() {
       },
     },
   ];
-
+  
   const formPart: any = {
     form_1: {
       title: '',
@@ -512,7 +510,7 @@ function PurchaseOrder() {
     //   modifyModel: modifyModel_2
     // }
   };
-
+  
   const allFormField: any = {
     ...GenerateAllFormField(
       modifyModel,
@@ -520,9 +518,9 @@ function PurchaseOrder() {
       // , modifyModel_2, modifyModel_3, modifyModel_4
     ),
   };
-
+  
   console.log(allFormField);
-
+  
   const allFormButton: any = {
     save: {
       role: 'submit',
@@ -530,7 +528,7 @@ function PurchaseOrder() {
       linkto: undefined,
       className: 'btn btn-primary mr-2',
       label: 'Lưu',
-      icon: <SaveOutlinedIcon />,
+      icon: <SaveOutlinedIcon/>,
     },
     cancel: {
       role: 'link-button',
@@ -538,7 +536,7 @@ function PurchaseOrder() {
       linkto: '/purchase-order',
       className: 'btn btn-outline-primary mr-2',
       label: 'Hủy',
-      icon: <CancelOutlinedIcon />,
+      icon: <CancelOutlinedIcon/>,
     },
     test: {
       role: 'button',
@@ -546,15 +544,15 @@ function PurchaseOrder() {
       linkto: undefined,
       className: 'btn btn-outline-primary',
       label: 'Test',
-      icon: <CancelOutlinedIcon />,
+      icon: <CancelOutlinedIcon/>,
     },
   };
-
+  
   const location = {
     latitude: 21.027763,
     longitude: 105.83416,
   };
-
+  
   return (
     <Fragment>
       <MasterEntityDetailDialog
@@ -609,8 +607,8 @@ function PurchaseOrder() {
         }}
       />
       <Switch>
-        <Redirect from="/purchase-order/edit" to="/purchase-order" />
-
+        <Redirect from="/purchase-order/edit" to="/purchase-order"/>
+        
         <Route path="/purchase-order/new">
           {/* <ModifyEntityPage
             entity={createEntity}
@@ -629,8 +627,8 @@ function PurchaseOrder() {
             code={null}
             get={() => null}
             models={formPart}
-            allFormField={allFormField}
-            allFormButton={allFormButton}
+            // allFormField={allFormField}
+            actions={allFormButton}
             validation={PurchaseOrderSchema}
           />
         </Route>
@@ -664,13 +662,13 @@ function PurchaseOrder() {
           <MasterHeader
             title={headerTitle}
             onSearch={value => {
-              setPaginationProps({ ...DefaultPagination, page: 1 });
+              setPaginationProps({...DefaultPagination, page: 1});
               console.log(paginationProps);
               setFilterProps(value);
             }}
             searchModel={purchaseOrderSearchModel}
             initValue={{
-              code: { label: 'ccc', value: 'cccc' },
+              code: {label: 'ccc', value: 'cccc'},
               agencyAddress: null,
               agency: null,
               date: '',
@@ -697,11 +695,11 @@ function PurchaseOrder() {
             setPaginationParams={setPaginationProps}
             isShowId={true}
           />
-
+          
           {/* <MasterGoogleMap location={location} /> */}
-
+          
           {/* <MasterMap /> */}
-          <GalleryImage />
+          <GalleryImage/>
         </Route>
       </Switch>
     </Fragment>

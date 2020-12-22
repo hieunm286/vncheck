@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import { Modal } from 'react-bootstrap';
 import { useIntl } from 'react-intl';
-import { OldModifyModel } from '../../../common-library/common-types/common-type';
 import {  generateInitForm } from '../../../common-library/helpers/common-function';
-import { DefaultPagination } from '../../../common-library/common-consts/const';
 import ModifyShippingAddressDialogForm from './modify-shipping-address-dialog-form';
 
 function ModifyShippingAddressDialog<T>({
@@ -39,7 +37,7 @@ function ModifyShippingAddressDialog<T>({
 }) {
   const intl = useIntl();
   const initForm = autoFill
-    ? generateInitForm(allFormField, autoFill.field, autoFill.data)
+    ? generateInitForm(allFormField, autoFill.field, autoFill.entity)
     : generateInitForm(allFormField);
   const [search, onChange] = useState<any>(initForm);
 

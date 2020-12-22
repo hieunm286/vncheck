@@ -6,7 +6,7 @@ import {useFormikContext} from "formik";
 import { truncate } from 'lodash';
 
 
-interface MainInputState {
+export interface MainInputState {
   field: any; // { name, value, onChange, onBlur }
   form: { touched: any; errors: any }; // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
   label: string | any;
@@ -14,13 +14,14 @@ interface MainInputState {
   withValidation: any;
   customFeedbackLabel: any;
   mode: 'horizontal' | 'vertical';
-  labelWidth: any;
+  labelWidth: number;
   width: any;
   type: string;
   value: any;
   onChange?: (value: any, props: { setFieldValue: ((name: string, value: any) => void), values: any }) => any;
   required?: boolean | ((values: any) => boolean);
   disabled?: boolean | ((values: any) => boolean);
+  name: string;
 }
 
 export function MainInput({
@@ -44,10 +45,10 @@ export function MainInput({
   };
   const {setFieldValue, values, handleChange, setTouched, handleBlur} = useFormikContext<any>();
   
-  console.log(errors)
-  console.log(GetError(errors, field.name))
-  console.log(touched)
-  console.log(GetTouched(touched, field.name))
+  // console.log(errors)
+  // console.log(GetError(errors, field.name))
+  // console.log(touched)
+  // console.log(GetTouched(touched, field.name))
   return (
     <>
       <div className={mode === 'horizontal' ? 'row' : ''}>

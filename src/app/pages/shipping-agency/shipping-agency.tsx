@@ -9,7 +9,12 @@ import {
 } from '../../common-library/common-components/actions-column-formatter';
 import {DeleteEntityDialog} from '../../common-library/common-components/delete-entity-dialog';
 import DeleteManyEntitiesDialog from '../../common-library/common-components/delete-many-entities-dialog';
-import {RenderInfoDetailDialog, SearchModel} from '../../common-library/common-types/common-type';
+import {
+  ModifyForm,
+  ModifyModel,
+  RenderInfoDetailDialog,
+  SearchModel
+} from '../../common-library/common-types/common-type';
 import {GenerateAllFormField, InitMasterProps,} from '../../common-library/helpers/common-function';
 import {Route, Switch, useHistory} from 'react-router-dom';
 import EntityCrudPage from '../../common-library/common-components/entity-crud-page';
@@ -25,8 +30,8 @@ const detailDialogTitle = 'SHIPPING_AGENCY.DETAIL_DIALOG.TITLE';
 const moduleName = 'SHIPPING_AGENCY.MODULE_NAME';
 const deleteDialogTitle = 'SHIPPING_AGENCY.DELETE_DIALOG.TITLE';
 const deleteDialogBodyTitle = 'SHIPPING_AGENCY.DELETE_DIALOG.BODY_TITLE';
-const createTitle = 'PRODUCT_TYPE.CREATE.TITLE';
-const updateTitle = 'PURCHASE_ORDER.UPDATE.TITLE';
+const createTitle = 'SHIPPING_AGENCY.CREATE.HEADER';
+const updateTitle = 'SHIPPING_AGENCY.CREATE.HEADER';
 const homeURL = `${window.location.pathname}`
 
 function ShippingAgency() {
@@ -56,8 +61,6 @@ function ShippingAgency() {
     setShowDetail,
     showDeleteMany,
     setShowDeleteMany,
-    trigger,
-    setTrigger,
     paginationProps,
     setPaginationProps,
     filterProps,
@@ -87,7 +90,7 @@ function ShippingAgency() {
   
   useEffect(() => {
     getAll(filterProps);
-  }, [paginationProps, trigger, filterProps, getAll]);
+  }, [paginationProps, filterProps]);
   
   const columns = useMemo(() => {
     return {
@@ -132,7 +135,7 @@ function ShippingAgency() {
             setShowDelete(true);
           },
           onEdit: (entity: ShippingAgencyModel) => {
-            get(entity);
+            // get(entity);
             // setShowEdit(true);
             setEditEntity(entity);
             history.push(`${window.location.pathname}/${entity._id}`);
@@ -200,68 +203,105 @@ function ShippingAgency() {
     },
   };
   
-  const modifyModel: any[] = useMemo(() => [
+  const modifyModel = useMemo((): ModifyModel => [
     {
       title: 'THÔNG TIN CHUNG',
+      className: 'col-6 pr-xl-15 pr-md-10 pr-5',
       data: {
         code: {
           type: 'string',
-          label: 'PRODUCT_TYPE.MASTER.TABLE.CODE_COLUMN',
+          label: 'SHIPPING_AGENCY.MODIFY.CODE',
           required: true,
           disabled: true,
         },
         name: {
           type: 'string',
           required: true,
-          label: 'PRODUCT_TYPE.MASTER.TABLE.CODE_COLUMN',
+          label: 'SHIPPING_AGENCY.MODIFY.NAME',
         },
-        barcode: {
+        city: {
           type: 'string',
           required: true,
-          label: 'PRODUCT_TYPE.MASTER.TABLE.CODE_COLUMN',
+          label: 'SHIPPING_AGENCY.MODIFY.CITY',
         },
-        // image: {
-        //   type: 'image',
-        //   placeholder: intl.formatMessage({id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL'}),
-        //   label: 'Album 1',
-        // },
+        district: {
+          type: 'string',
+          required: true,
+          label: 'SHIPPING_AGENCY.MODIFY.DISTRICT',
+        },
+        quater: {
+          type: 'string',
+          required: true,
+          label: 'SHIPPING_AGENCY.MODIFY.DISTRICT',
+        },
+        address: {
+          type: 'string',
+          required: true,
+          label: 'SHIPPING_AGENCY.MODIFY.DISTRICT',
+        },
+        status: {
+          type: 'boolean',
+          required: true,
+          label: 'SHIPPING_AGENCY.MODIFY.STATUS',
+        },
+        phoneNumber: {
+          type: 'string',
+          required: true,
+          label: 'SHIPPING_AGENCY.MODIFY.STATUS',
+        },
+        tax: {
+          type: 'string',
+          required: true,
+          label: 'SHIPPING_AGENCY.MODIFY.STATUS',
+        },
+        images: {
+          type: 'image',
+          required: true,
+          label: 'SHIPPING_AGENCY.MODIFY.STATUS',
+        },
+      },
+    }, {
+      title: 'THÔNG TIN CHỦ ĐƠN VỊ',
+      className: 'col-6 pl-xl-15 pl-md-10 pl-5',
+      data: {
+        code: {
+          type: 'string',
+          label: 'SHIPPING_AGENCY.MODIFY.CODE',
+          required: true,
+          disabled: true,
+        },
+        name: {
+          type: 'string',
+          required: true,
+          label: 'SHIPPING_AGENCY.MODIFY.NAME',
+        },
+        city: {
+          type: 'string',
+          required: true,
+          label: 'SHIPPING_AGENCY.MODIFY.CITY',
+        },
+        district: {
+          type: 'string',
+          required: true,
+          label: 'SHIPPING_AGENCY.MODIFY.DISTRICT',
+        },
+        quater: {
+          type: 'string',
+          required: true,
+          label: 'SHIPPING_AGENCY.MODIFY.DISTRICT',
+        },
+        address: {
+          type: 'string',
+          required: true,
+          label: 'SHIPPING_AGENCY.MODIFY.DISTRICT',
+        },
       },
     },
-    // {
-    //   title: 'THÔNG TIN VÒNG ĐỜI',
-    //   data: {
-    //     growingDays: {
-    //       type: 'number',
-    //       placeholder: intl.formatMessage({id: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW'}),
-    //       label: intl.formatMessage({id: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW'}),
-    //     },
-    //     plantingDays: {
-    //       type: 'number',
-    //       placeholder: intl.formatMessage({id: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.PLANTING'}),
-    //       label: intl.formatMessage({id: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.PLANTING'}),
-    //     },
-    //     expiryDays: {
-    //       type: 'number',
-    //       placeholder: intl.formatMessage({
-    //         id: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.EXPIRY',
-    //       }),
-    //       label: intl.formatMessage({id: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.EXPIRY'}),
-    //     },
-    //   },
-    // },
   ], []);
   
-  const models: any = {
-    header: "SHIPPING_AGENCY.CREATE.HEADER",
-    // form: [
-    //   {
-    //     title: '',
-    //     modifyModel: modifyModel,
-    //     header: 'ĐƠN HÀNG',
-    //   }
-    // ],
+  const models: ModifyForm = {
     form_1: {
-      title: '',
+      title: 'SSDSD',
       modifyModel: modifyModel,
     },
   };
@@ -272,12 +312,12 @@ function ShippingAgency() {
     ),
   };
   
-  const modifyButtonPage: any = {
+  const actions: any = {
     save: {
       role: 'submit',
       type: 'submit',
       linkto: undefined,
-      className: 'btn btn-primary mr-2',
+      className: 'btn btn-primary mr-8 fixed-btn-width',
       label: 'Lưu',
       icon: <SaveOutlinedIcon/>,
     },
@@ -285,7 +325,7 @@ function ShippingAgency() {
       role: 'link-button',
       type: 'button',
       linkto: '/shipping-agency',
-      className: 'btn btn-outline-primary mr-2',
+      className: 'btn btn-outline-primary fixed-btn-width',
       label: 'Hủy',
       icon: <CancelOutlinedIcon/>,
     },
@@ -303,8 +343,8 @@ function ShippingAgency() {
             code={null}
             get={() => null}
             models={models}
-            allFormField={allFormField}
-            allFormButton={modifyButtonPage}
+            // allFormField={allFormField}
+            actions={actions}
             // validation={ProductTypeSchema}
             // autoFill={{
             //     field: 'code',
@@ -332,8 +372,8 @@ function ShippingAgency() {
               code={match && match.params.code}
               get={ShippingAgencyService.GetById}
               models={models}
-              allFormField={allFormField}
-              allFormButton={modifyButtonPage}
+              // allFormField={allFormField}
+              actions={actions}
               //   validation={ProductTypeSchema}
             />
           )}

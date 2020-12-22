@@ -1,10 +1,27 @@
-import {ModifyModel, SearchModel} from '../../../common-library/common-types/common-type';
+import {
+  ModifyForm,
+  ModifyModel,
+  RenderInfoDetailDialog,
+  SearchModel
+} from '../../../common-library/common-types/common-type';
 import {GenerateAllFormField, getField} from '../../../common-library/helpers/common-function';
 import {GetAll} from "../species.service";
+import React from "react";
 
-export const masterEntityDetailDialog = [
+export const masterEntityDetailDialog: RenderInfoDetailDialog = [
   {
-    header: 'THÔNG TIN 1',
+    data: {
+      image: {
+        formatter: (data) => (
+          <img src={data ? data.path : ''} alt="rau" className="border border-primary" width="200px"
+               height="200px"/>
+        )
+      }
+    },
+    className: 'col-5 d-flex justify-content-center align-items-center ml-10',
+    dataClassName: 'd-flex',
+  },
+  {
     data: {
       code: {title: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.CODE'},
       name: {title: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.NAME'},
@@ -13,23 +30,18 @@ export const masterEntityDetailDialog = [
       plantingDays: {title: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.PLANTING'},
       expiryDays: {title: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.EXPIRY'},
     },
+    className: 'col-6',
   },
 ];
 
 export const productTypeSearchModel: SearchModel = {
   code: {
     type: 'string',
-    placeholder: 'PRODUCT_TYPE.MASTER.TABLE.CODE_COLUMN',
     label: 'PRODUCT_TYPE.MASTER.TABLE.CODE_COLUMN',
-    onSearch: GetAll,
-    keyField: 'code',
   },
   name: {
     type: 'string',
-    placeholder: 'PRODUCT_TYPE.MASTER.TABLE.NAME_COLUMN',
     label: 'PRODUCT_TYPE.MASTER.TABLE.NAME_COLUMN',
-    onSearch: GetAll,
-    keyField: 'name',
   },
 };
 
@@ -37,6 +49,7 @@ export const productTypeSearchModel: SearchModel = {
 export const modifyModel: any = [
   {
     title: 'THÔNG TIN CHUNG',
+    className: 'col-6 pr-xl-15 pr-md-10 pr-5',
     data: {
       code: {
         type: 'string',
@@ -69,6 +82,7 @@ export const modifyModel: any = [
   },
   {
     title: 'THÔNG TIN VÒNG ĐỜI',
+    className: 'col-6 pl-xl-15 pl-md-10 pl-5',
     data: {
       growingDays: {
         type: 'number',
@@ -86,9 +100,8 @@ export const modifyModel: any = [
   },
 ];
 
-export const models: any = {
-  header: 'CHỦNG LOẠI',
-  form_1: {
+export const models: ModifyForm = {
+    form_1: {
     title: '',
     modifyModel: modifyModel,
   },
