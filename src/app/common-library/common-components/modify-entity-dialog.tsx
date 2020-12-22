@@ -50,6 +50,7 @@ function ModifyEntityDialog<T>({
         </Modal.Title>
       </Modal.Header>
       {Object.values(panels).map((panel, index) => {
+        console.log(panel)
         if(_.isString(panel)) throw new Error('Sử dụng sai cách ' + panel);
         return (<ModifyEntityDialogForm
           modifyPanel={panel}
