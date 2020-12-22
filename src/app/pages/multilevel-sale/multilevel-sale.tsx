@@ -339,7 +339,7 @@ function MultilevelSale() {
       />
       <ModifyEntityDialog
         show={showCreate}
-        entity={generateInitForm(allFormField)}
+        entity={createEntity}
         onModify={values => {
           console.log(values);
           console.log(editEntity);

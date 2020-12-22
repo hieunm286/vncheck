@@ -68,9 +68,9 @@ function CustomImageUpload({
         const image = {
           data_url: item.data_url,
           exif: {
-            time: res.CreateDate,
-            lat: res.latitude,
-            long: res.longitude
+            time: res?.CreateDate,
+            lat: res?.latitude,
+            long: res?.longitude
           },
         };
         

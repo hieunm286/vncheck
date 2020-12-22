@@ -162,7 +162,7 @@ function Species() {
       style: {minWidth: '130px'},
     },
   };
-
+  
   const schema = Yup.object().shape({
     name: Yup.string().required('Tên chủng loại không được để trống').matches(/^[aAàÀảẢãÃáÁạẠăĂằẰẳẲẵẴắẮặẶâÂầẦẩẨẫẪấẤậẬbBcCdDđĐeEèÈẻẺẽẼéÉẹẸêÊềỀểỂễỄếẾệỆfFgGhHiIìÌỉỈĩĨíÍịỊjJkKlLmMnNoOòÒỏỎõÕóÓọỌôÔồỒổỔỗỖốỐộỘơƠờỜởỞỡỠớỚợỢpPqQrRsStTuUùÙủỦũŨúÚụỤưƯừỪửỬữỮứỨựỰvVwWxXyYỳỲỷỶỹỸýÝỵỴzZ ]+$/u, {
       message: 'Tên không hợp lệ. Tên không chứa số và ký tự đặc biệt',
@@ -172,7 +172,7 @@ function Species() {
         const index = validArr.findIndex(el => el.name === value)
         return index === -1
       }
-
+      
       const index = entities.findIndex(el => el.name === value)
       return index === -1
     }),
@@ -266,7 +266,7 @@ function Species() {
       <Switch>
         <Route path="/species/new">
           <EntityCrudPage
-            entity={generateInitForm(allFormField)}
+            entity={createEntity}
             onModify={add}
             // reduxModel="purchaseOrder"
             code={null}
