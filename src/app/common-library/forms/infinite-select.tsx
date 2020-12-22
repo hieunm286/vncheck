@@ -46,7 +46,7 @@ export function InfiniteSelect({
   placeholder?: string;
   name: string;
   additional?: any;
-  labelWidth?:number;
+  labelWidth?: number;
   validationMessage?: string;
   required?: boolean | ((values: any) => boolean);
   disabled?: boolean | ((values: any) => boolean);
@@ -54,12 +54,12 @@ export function InfiniteSelect({
 }) {
   const {setFieldValue, errors, touched, values, setFieldTouched} = useFormikContext<any>();
   const CustomAsyncPaginate = withAsyncPaginate(AtlaskitSelect);
-
+  
   // useEffect(() => {
   //   setFieldTouched(name, true)
-
+  
   // }, [])
-
+  
   const styles = useMemo((): StylesConfig => {
     return {
       control: (base, props1) => {
@@ -127,7 +127,7 @@ export function InfiniteSelect({
           <CustomAsyncPaginate
             className={getCSSClasses(errors[name], touched[name])}
             {...props}
-            value={selectField? [values[name][selectField]] : [values[name]]}
+            value={selectField ? (values[name] ? [values[name][selectField]] : [values[name]]) : [values[name]]}
             getOptionValue={option => {
               return selectField ? option[selectField] : option
             }}

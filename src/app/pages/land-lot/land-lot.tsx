@@ -178,6 +178,7 @@ function LandLot() {
             }
             if (innerValue.length > 3) {
               setError({error: 'LAND_LOT.ERROR.INVALID_LENGTH_SEARCH'});
+              setFieldValue('code',innerValue.substring(0,3));
               return;
             }
             const subLot = innerValue.substr(1, 2);

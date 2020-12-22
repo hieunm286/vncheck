@@ -23,6 +23,7 @@ import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import * as ShippingAgencyService from './shipping-agency.service'
 import {ShippingAgencyModel} from './shipping-agency.model';
 import {MasterEntityDetailDialog} from "../../common-library/common-components/master-entity-detail-dialog";
+import {GetCity, GetDistrict, GetState} from "../address/address.service";
 
 const headerTitle = 'PRODUCT_TYPE.MASTER.HEADER.TITLE';
 const tableTitle = 'SHIPPING_AGENCY.MASTER.TABLE.TITLE';
@@ -217,25 +218,46 @@ function ShippingAgency() {
       required: true,
       label: 'SHIPPING_AGENCY.MODIFY.NAME',
     },
-    city: {
-      _type: 'string',
-      required: true,
-      label: 'SHIPPING_AGENCY.MODIFY.CITY',
-    },
-    district: {
-      _type: 'string',
-      required: true,
-      label: 'SHIPPING_AGENCY.MODIFY.DISTRICT',
-    },
-    quater: {
-      _type: 'string',
-      required: true,
-      label: 'SHIPPING_AGENCY.MODIFY.DISTRICT',
-    },
     address: {
-      _type: 'string',
-      required: true,
-      label: 'SHIPPING_AGENCY.MODIFY.DISTRICT',
+      _type: 'object',
+      state: {
+        _type: 'search-select',
+        onSearch: GetState,
+        selectField: 'code',
+        keyField: 'name_with_type',
+        disabled: (values: any) => {
+          console.log(values)
+        },
+        required: true,
+        label: 'SHIPPING_AGENCY.MODIFY.STATE',
+      },
+      city: {
+        _type: 'search-select',
+        onSearch: GetCity,
+        selectField: 'code',
+        keyField: 'name_with_type',
+        required: true,
+        disabled: (values: any) => {
+          console.log(values)
+        },
+        label: 'SHIPPING_AGENCY.MODIFY.CITY',
+      },
+      district: {
+        _type: 'search-select',
+        onSearch: GetDistrict,
+        selectField: 'code',
+        keyField: 'name_with_type',
+        required: true,
+        disabled: (values: any) => {
+          console.log(values)
+        },
+        label: 'SHIPPING_AGENCY.MODIFY.DISTRICT',
+      },
+      address: {
+        _type: 'string',
+        required: true,
+        label: 'SHIPPING_AGENCY.MODIFY.ADDRESS',
+      },
     },
     status: {
       _type: 'boolean',
@@ -245,52 +267,64 @@ function ShippingAgency() {
     phoneNumber: {
       _type: 'string',
       required: true,
-      label: 'SHIPPING_AGENCY.MODIFY.STATUS',
+      label: 'SHIPPING_AGENCY.MODIFY.PHONE_NUMBER',
     },
     tax: {
       _type: 'string',
       required: true,
-      label: 'SHIPPING_AGENCY.MODIFY.STATUS',
+      label: 'SHIPPING_AGENCY.MODIFY.TAX_NUMBER',
     },
     images: {
       _type: 'image',
       required: true,
-      label: 'SHIPPING_AGENCY.MODIFY.STATUS',
+      label: 'SHIPPING_AGENCY.MODIFY.IMAGE',
     },
   });
   const [group2, setGroup2] = useState<ModifyInputGroup>({
     _subTitle: 'THÔNG TIN CHỦ ĐƠN VỊ',
     _className: 'col-6 pl-xl-15 pl-md-10 pl-5',
-    code: {
+    userName: {
       _type: 'string',
-      label: 'SHIPPING_AGENCY.MODIFY.CODE',
+      label: 'SHIPPING_AGENCY.MODIFY.USER_NAME',
       required: true,
-      disabled: true,
     },
-    name: {
+    displayName: {
       _type: 'string',
       required: true,
-      label: 'SHIPPING_AGENCY.MODIFY.NAME',
+      label: 'SHIPPING_AGENCY.MODIFY.DISPLAY_NAME',
     },
-    city: {
+    phoneNumber: {
       _type: 'string',
       required: true,
-      label: 'SHIPPING_AGENCY.MODIFY.CITY',
+      label: 'SHIPPING_AGENCY.MODIFY.PHONE_NUMBER',
     },
-    district: {
+    email: {
       _type: 'string',
       required: true,
-      label: 'SHIPPING_AGENCY.MODIFY.DISTRICT',
+      label: 'SHIPPING_AGENCY.MODIFY.EMAIL',
     },
-    quater: {
-      _type: 'string',
+    gender: {
+      _type: 'search-select',
+      onSearch: GetDistrict,
+      selectField: 'code',
+      keyField: 'name',
       required: true,
-      label: 'SHIPPING_AGENCY.MODIFY.DISTRICT',
+      label: 'SHIPPING_AGENCY.MODIFY.GENDER',
     },
-    address: {
+    dateOfBirth: {
+      _type: 'date-time',
+      required: true,
+      label: 'SHIPPING_AGENCY.MODIFY.DATE_OF_BIRTH',
+    },
+    role: {
       _type: 'string',
       required: true,
-      label: 'SHIPPING_AGENCY.MODIFY.DISTRICT',
+      label: 'SHIPPING_AGENCY.MODIFY.ROLE',
+    },
+    image: {
+      _type: 'image',
+      required: true,
+      label: 'SHIPPING_AGENCY.MODIFY.REPRESENT_IMAGE',
     },
   });
   
