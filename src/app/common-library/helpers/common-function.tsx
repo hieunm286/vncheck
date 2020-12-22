@@ -396,7 +396,7 @@ export function InitMasterProps<T>({
           setLoading(false);
           setSpinning(false);
           setTotal(data.paging ? data.paging.total : 5);
-          notifySuccess();
+          // notifySuccess();
         })
         .catch(error => {
           setError({error: error.message || error.response.data || JSON.stringify(error)});
@@ -457,7 +457,7 @@ export function InitMasterProps<T>({
       .then(res => {
         setDetailEntity(res.data);
         setEditEntity(res.data);
-        notifySuccess('COMMON_COMPONENT.TOAST.GET_SUCCESS');
+        // notifySuccess('COMMON_COMPONENT.TOAST.GET_SUCCESS');
         return res;
       })
       .catch(error => {
