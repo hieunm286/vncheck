@@ -171,8 +171,6 @@ function LandLot() {
               setError({error: 'LAND_LOT.ERROR.INVALID_LOT_SEARCH'});
               return;
             }
-            searchModel.lot.disabled = true;
-            searchModel.subLot.disabled = false;
             setFieldValue('lot', innerValue[0]);
             if (innerValue.length == 1) {
               setFieldValue('subLot', '');
@@ -187,13 +185,12 @@ function LandLot() {
               setError({error: 'LAND_LOT.ERROR.INVALID_SUB_LOT_SEARCH'});
               return;
             }
-            searchModel.subLot.disabled = true;
             setFieldValue('subLot', subLot);
           } else {
             setFieldValue('lot', '');
             setFieldValue('subLot', '');
-            searchModel.lot.disabled = false;
-            searchModel.subLot.disabled = true;
+            // searchModel.lot.disabled = false;
+            // searchModel.subLot.disabled = true;
           }
           setSearchModel(searchModel);
         }
@@ -204,10 +201,10 @@ function LandLot() {
         onSearch: GetLots,
         disabled: false,
         onChange: (value, {setFieldValue, values}) => {
-          setFieldValue('code', value);
-          setFieldValue('subLot', null);
-          searchModel.code.disabled = true;
-          searchModel.subLot.disabled = false;
+          setFieldValue('code', value + (values.subLot ?? ''));
+          // setFieldValue('subLot', null);
+          // searchModel.code.disabled = true;
+          // searchModel.subLot.disabled = false;
           setSearchModel(searchModel);
           console.log(value);
           console.log(values);
@@ -217,9 +214,9 @@ function LandLot() {
         type: 'search-select',
         label: 'LAND_LOT.MASTER.HEADER.SUB_LOT_CODE',
         onSearch: GetSubLots,
-        disabled: true,
+        disabled: false,
         onChange: (value, {setFieldValue, values}) => {
-          setFieldValue('code', values.lot + value);
+          setFieldValue('code', values.lot ? (values.lot  + value) : '');
         },
         
       },
@@ -227,9 +224,6 @@ function LandLot() {
   const [searchModel, setSearchModel] = useState(initSearchModel);
   const resetSearchModel = useCallback((queryProps) => {
     if (Object.keys(queryProps).length !== 0) return;
-    searchModel.code.disabled = false;
-    searchModel.lot.disabled = false;
-    searchModel.subLot.disabled = true;
     setSearchModel(searchModel);
   }, []);
   const [modifyPart, setM] = useState<ModifyPart>({
