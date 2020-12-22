@@ -208,6 +208,7 @@ export const InputSearchSelect = ({
     const count = entities.data.paging.total;
     const hasMore = prevOptions.length < count - (DefaultPagination.limit ?? 0);
     const data = [...new Set(entities.data.data)];
+    console.log(data)
     return {
       options: data,
       hasMore: hasMore,
@@ -216,6 +217,7 @@ export const InputSearchSelect = ({
       },
     };
   }, []);
+  console.log(props.values)
   return (
     <div className={className}>
       <InfiniteSelect

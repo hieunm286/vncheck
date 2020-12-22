@@ -61,6 +61,7 @@ export function ModifyEntityPage<T>({
 export const RenderForm = ({inputs, prevKey, mode}: any) => {
   const intl = useIntl();
   const {setFieldValue, touched, values} = useFormikContext<any>();
+  console.log(values)
   const defaultClassName = 'mb-5';
   return (<>
     {Object.keys(inputs).map(key => {
