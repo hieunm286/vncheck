@@ -1,4 +1,4 @@
-import React, {Fragment, useEffect} from 'react';
+import React, {Fragment, useEffect, useState, useMemo} from 'react';
 import {useIntl} from 'react-intl';
 import {
   DefaultPagination,
@@ -13,6 +13,7 @@ import {DeleteEntityDialog} from '../../common-library/common-components/delete-
 import DeleteManyEntitiesDialog from '../../common-library/common-components/delete-many-entities-dialog';
 import {
   generateInitForm,
+  getField,
   InitMasterProps,
 } from '../../common-library/helpers/common-function';
 import {Switch, Route, useHistory} from 'react-router-dom';
@@ -27,7 +28,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import {
   MasterEntityDetailDialog
 } from "../../common-library/common-components/master-entity-detail-dialog";
-import {createForm, masterEntityDetailDialog, productTypeSearchModel, updateForm} from "./defined/const";
+import { ModifyForm, ModifyInputGroup, RenderInfoDetailDialog, SearchModel } from '../../common-library/common-types/common-type';
 
 const headerTitle = 'PRODUCT_TYPE.MASTER.HEADER.TITLE';
 const bodyTitle = 'PRODUCT_TYPE.MASTER.BODY.TITLE';
@@ -203,6 +204,111 @@ function Species() {
       .min(1, 'Số ngày không được ít hơn 1 nha')
       .typeError('Vui lòng nhập số'),
   });
+
+  const masterEntityDetailDialog: RenderInfoDetailDialog = [
+    {
+      data: {
+        image: {
+          formatter: (data) => (
+            <img src={data ? data.path : ''} alt="rau" className="border border-primary" width="200px"
+                 height="200px"/>
+          )
+        }
+      },
+      className: 'col-5 d-flex justify-content-center align-items-center ml-10',
+      dataClassName: 'd-flex',
+    },
+    {
+      data: {
+        code: {title: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.CODE'},
+        name: {title: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.NAME'},
+        barcode: {title: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.BARCODE'},
+        growingDays: {title: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW'},
+        plantingDays: {title: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.PLANTING'},
+        expiryDays: {title: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.EXPIRY'},
+      },
+      className: 'col-6',
+    },
+  ];
+  
+  const productTypeSearchModel: SearchModel = {
+    code: {
+      type: 'string',
+      label: 'PRODUCT_TYPE.MASTER.TABLE.CODE_COLUMN',
+    },
+    name: {
+      type: 'string',
+      label: 'PRODUCT_TYPE.MASTER.TABLE.NAME_COLUMN',
+    },
+  };
+  
+  const [group1, setGroup1] = useState<ModifyInputGroup>({
+    _subTitle: 'THÔNG TIN CHUNG',
+    _className: 'col-6 pr-xl-15 pr-md-10 pr-5',
+    code: {
+      _type: 'string',
+      label: 'PRODUCT_TYPE.MASTER.TABLE.CODE_COLUMN',
+      required: true,
+      disabled: true,
+    },
+    name: {
+      _type: 'string',
+      required: true,
+      label: 'PRODUCT_TYPE.MASTER.TABLE.NAME_COLUMN',
+    },
+    barcode: {
+      _type: 'string',
+      required: true,
+      label: 'PRODUCT_TYPE.MASTER.TABLE.BARCODE_COLUMN',
+    },
+    images: {
+      _type: 'image',
+      // value: null,
+      label: 'PRODUCT_TYPE.MASTER.IMAGE',
+      multiple: false
+    },
+    // avatar: {
+    //   type: 'image',
+    //   placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
+    //   label: 'Album 2',
+    // },
+  });
+  const [group2, setGroup2] = useState<ModifyInputGroup>({
+    _subTitle: 'THÔNG TIN VÒNG ĐỜI',
+    _className: 'col-6 pl-xl-15 pl-md-10 pl-5',
+    growingDays: {
+      _type: 'number',
+      label: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
+    },
+    plantingDays: {
+      _type: 'number',
+      label: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.PLANTING',
+    },
+    expiryDays: {
+      _type: 'number',
+      label: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.EXPIRY',
+    },
+  });
+  
+  const createForm = useMemo((): ModifyForm => ({
+    _header: "createTitle",
+    panel1: {
+      _title: '',
+      group1: group1,
+      group2: group2,
+    },
+  }), []);
+  const updateForm = useMemo((): ModifyForm => ({...createForm, _header: "sada"}), [createForm]);
+
+  const initForm = useMemo(() => ({
+    code: '',
+    name: '',
+    barcode: '',
+    images: [],
+    growingDays: '',
+    plantingDays: '',
+    expiryDays: ''
+  }), [])
   
   const allFormButton: any = {
     type: 'inside',
@@ -266,7 +372,7 @@ function Species() {
       <Switch>
         <Route path="/species/new">
           <EntityCrudPage
-            entity={createEntity}
+            entity={initForm}
             onModify={add}
             // reduxModel="purchaseOrder"
             code={null}

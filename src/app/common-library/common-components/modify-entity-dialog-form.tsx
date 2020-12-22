@@ -44,9 +44,9 @@ function ModifyEntityDialogForm<T>({
   const {_title, ...inputGroups} = modifyPanel;
   return (
     <Formik
-      // enableReinitialize={true}
+      enableReinitialize={true}
       initialValues={entity}
-      // validationSchema={validation}
+      validationSchema={validation}
       onSubmit={values => {
         console.log(values)
         onModify({...entity, ...values, __v: undefined});

@@ -55,7 +55,7 @@ function CustomImageUpload({
                              multiple,
                              mode
                            }: ImageUploadPros) {
-  const {errors, touched, setFieldValue} = useFormikContext<any>();
+  const {errors, touched, setFieldValue, values} = useFormikContext<any>();
   
   const [imageData, setImageData] = useState<{ data_url: any; exif: any }[]>([]);
   const [imagess, setImagess] = useState(value || []);
@@ -103,7 +103,7 @@ function CustomImageUpload({
   }
   
   useEffect(() => {
-    if (name) {
+    if (name && values) {
       setFieldValue(name, imageData)
     }
   }, [imageData])

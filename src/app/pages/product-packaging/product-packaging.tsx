@@ -1,4 +1,4 @@
-import React, {Fragment, useEffect} from 'react';
+import React, {Fragment, useEffect, useMemo, useState} from 'react';
 import {useIntl} from 'react-intl';
 import {DefaultPagination, NormalColumn, SortColumn, StatusValue} from '../../common-library/common-consts/const';
 import {MasterHeader} from '../../common-library/common-components/master-header';
@@ -6,7 +6,7 @@ import {MasterBody} from '../../common-library/common-components/master-body';
 import {ActionsColumnFormatter} from '../../common-library/common-components/actions-column-formatter';
 import {DeleteEntityDialog} from '../../common-library/common-components/delete-entity-dialog';
 import DeleteManyEntitiesDialog from '../../common-library/common-components/delete-many-entities-dialog';
-import {SearchModel} from '../../common-library/common-types/common-type';
+import {ModifyForm, ModifyInputGroup, SearchModel} from '../../common-library/common-types/common-type';
 import {
   GenerateAllFormField,
   generateInitForm,
@@ -166,14 +166,15 @@ function ProductPackaging() {
       placeholder: 'COMMON_COMPONENT.INPUT.PLACEHOLDER',
       label: 'PRODUCT_PACKAGING.MASTER.TABLE.CODE_COLUMN',
       onSearch: GetAll,
-      keyField: 'code',
+      // selectField: 'code',
     },
     species: {
       type: 'search-select',
       placeholder: 'COMMON_COMPONENT.SELECT.PLACEHOLDER',
       label: 'PRODUCT_PACKAGING.MASTER.TABLE.NAME_COLUMN',
       onSearch: ProductTypeService.GetAll,
-      keyField: 'name',
+      selectField: '_id',
+      keyField: 'name'
     },
   };
   
@@ -216,6 +217,38 @@ function ProductPackaging() {
   const allFormField: any = {
     ...GenerateAllFormField(modifyModel),
   };
+
+  const [group1, setGroup1] = useState<ModifyInputGroup>({
+    _subTitle: '',
+    code: {
+      _type: 'string',
+      label: 'LAND_LOT.MASTER.HEADER.CODE',
+      required: true,
+      disabled: true,
+    },
+    species: {
+      _type: 'search-select',
+      label: 'LAND_LOT.MASTER.HEADER.LOT_CODE',
+      onSearch: ProductTypeService.GetAll,
+      disabled: false,
+      selectField: 'name'
+    },
+    weight: {
+      _type: 'string',
+      required: true,
+      label: 'PRODUCT_PACKAGING.MASTER.TABLE.GRAM_COLUMN',
+    },
+  });
+  
+  const createForm = useMemo((): ModifyForm => ({
+    _header: createTitle,
+    panel1: {
+      _title: '',
+      group1: group1
+    },
+  }), []);
+  
+  const updateForm = useMemo((): ModifyForm => ({...createForm, _header: updateTitle}), [createForm]);
   
   const allFormButton: any = {
     save: {
@@ -284,7 +317,7 @@ function ProductPackaging() {
         }}
         code={null}
         get={() => null}
-        formModel={formPart}
+        formModel={createForm}
         allFormField={allFormField}
         allFormButton={allFormButton}
         validation={ProductPackagingSchema}
@@ -310,7 +343,7 @@ function ProductPackaging() {
         }}
         code={null}
         get={() => null}
-        formModel={formPart}
+        formModel={updateForm}
         allFormField={allFormField}
         allFormButton={allFormButton}
         validation={ProductPackagingSchema}

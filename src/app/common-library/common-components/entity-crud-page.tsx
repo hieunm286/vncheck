@@ -13,7 +13,7 @@ import { Card, CardBody, CardHeader } from '../card';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import {diff} from 'deep-object-diff';
 import exifr from 'exifr'
-import {ModifyForm, ModifyPanel} from "../common-types/common-type";
+import {ModifyForm} from "../common-types/common-type";
 import _ from "lodash";
 import {ModifyEntityPage} from "./modify-entity-page";
 
@@ -222,39 +222,39 @@ function EntityCrudPage({
                       />
                       {(
                         <div className="text-right mt-10" key={key}>
-                          {Object.keys(actions).map(keyss => {
-                            switch (actions[keyss].role) {
+                          {Object.keys(actions.data).map(keyss => {
+                            switch (actions.data[keyss].role) {
                               case 'submit':
-                                console.log(actions[keyss])
+                                console.log(actions.data[keyss])
                                 return (
                                   <button
                                     formNoValidate
-                                    type={actions[keyss].type}
-                                    className={actions[keyss].className}
+                                    type={actions.data[keyss].type}
+                                    className={actions.data[keyss].className}
                                     key={keyss}
                                     onClick={() => handleSubmit()}>
-                                    {actions[keyss].icon} {actions[keyss].label}
+                                    {actions.data[keyss].icon} {actions.data[keyss].label}
                                   </button>
                                 );
                 
                               case 'button':
-                                console.log(actions[keyss])
+                                console.log(actions.data[keyss])
                   
                                 return (
                                   <button
-                                    type={actions[keyss].type}
-                                    className={actions[keyss].className}
+                                    type={actions.data[keyss].type}
+                                    className={actions.data[keyss].className}
                                     key={keyss}>
-                                    {actions[keyss].icon} {actions[keyss].label}
+                                    {actions.data[keyss].icon} {actions.data[keyss].label}
                                   </button>
                                 );
                               case 'link-button':
                                 return (
-                                  <Link to={actions[keyss].linkto} key={keyss}>
+                                  <Link to={actions.data[keyss].linkto} key={keyss}>
                                     <button
-                                      type={actions[keyss].type}
-                                      className={actions[keyss].className}>
-                                      {actions[keyss].icon} {actions[keyss].label}
+                                      type={actions.data[keyss].type}
+                                      className={actions.data[keyss].className}>
+                                      {actions.data[keyss].icon} {actions.data[keyss].label}
                                     </button>
                                   </Link>
                                 );

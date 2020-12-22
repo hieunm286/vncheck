@@ -53,6 +53,7 @@ export function MasterHeader<T>({
               <div className="form-group row master-header-search-margin">
                 {searchModel ? (
                   Object.keys(searchModel).map(key => {
+                    console.log(values)
                     switch (searchModel[key].type) {
                       case 'string':
                         return (

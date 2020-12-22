@@ -1,4 +1,4 @@
-import React, {ReactElement, useContext, useEffect, useMemo, useState} from 'react';
+import React, {ReactElement, useCallback, useContext, useEffect, useMemo, useState} from 'react';
 import {withAsyncPaginate} from 'react-select-async-paginate';
 import {useFormikContext} from 'formik';
 import {deCapitalizeFirstLetter, GetClassName} from '../helpers/common-function'
@@ -111,6 +111,18 @@ export function InfiniteSelect({
       },
     }
   }, []);
+
+  const getValue = (selectFields?: string, names?: string, formValues?: any) => {
+    if (formValues && names && formValues[names]) {
+      if (selectFields) {
+        return formValues[names][selectFields]
+      } else {
+        return formValues[names]
+      }
+    }
+    return;
+  }
+
   console.log(errors[name]);
   console.log(name)
   console.log(touched);
@@ -127,7 +139,7 @@ export function InfiniteSelect({
           <CustomAsyncPaginate
             className={getCSSClasses(errors[name], touched[name])}
             {...props}
-            value={selectField? [values[name][selectField]] : [values[name]]}
+            value={getValue(selectField, name, values)}
             getOptionValue={option => {
               return selectField ? option[selectField] : option
             }}
