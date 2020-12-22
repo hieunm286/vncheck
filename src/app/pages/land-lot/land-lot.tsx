@@ -167,6 +167,8 @@ function LandLot() {
           const innerValue = value.target.value.toUpperCase();
           setFieldValue('code', innerValue);
           if (innerValue !== '') {
+            searchModel.lot.disabled = true;
+            searchModel.subLot.disabled = true;
             if (innerValue[0].charAt(0) < 'A'.charCodeAt(0) || innerValue[0].charAt(0) > 'Z'.charCodeAt(0)) {
               setError({error: 'LAND_LOT.ERROR.INVALID_LOT_SEARCH'});
               return;
@@ -178,6 +180,7 @@ function LandLot() {
             }
             if (innerValue.length > 3) {
               setError({error: 'LAND_LOT.ERROR.INVALID_LENGTH_SEARCH'});
+              setFieldValue('code',innerValue.substring(0,3));
               return;
             }
             const subLot = innerValue.substr(1, 2);
@@ -189,8 +192,8 @@ function LandLot() {
           } else {
             setFieldValue('lot', '');
             setFieldValue('subLot', '');
-            // searchModel.lot.disabled = false;
-            // searchModel.subLot.disabled = true;
+            searchModel.lot.disabled = false;
+            searchModel.subLot.disabled = false;
           }
           setSearchModel(searchModel);
         }
@@ -201,9 +204,9 @@ function LandLot() {
         onSearch: GetLots,
         disabled: false,
         onChange: (value, {setFieldValue, values}) => {
-          setFieldValue('code', value + (values.subLot ?? ''));
+          // setFieldValue('code', value + (values.subLot ?? ''));
           // setFieldValue('subLot', null);
-          // searchModel.code.disabled = true;
+          searchModel.code.disabled = true;
           // searchModel.subLot.disabled = false;
           setSearchModel(searchModel);
           console.log(value);
@@ -216,14 +219,19 @@ function LandLot() {
         onSearch: GetSubLots,
         disabled: false,
         onChange: (value, {setFieldValue, values}) => {
-          setFieldValue('code', values.lot ? (values.lot + value) : '');
+          searchModel.code.disabled = true;
+          setSearchModel(searchModel);
+          // setFieldValue('code', values.lot ? (values.lot + value) : '');
         },
         
       },
     }), []);
   const [searchModel, setSearchModel] = useState(initSearchModel);
   const resetSearchModel = useCallback((queryProps) => {
-    if (Object.keys(queryProps).length !== 0) return;
+   if (Object.keys(queryProps).length !== 0) return;
+    searchModel.code.disabled = false;
+    searchModel.lot.disabled = false;
+    searchModel.subLot.disabled = false;
     setSearchModel(searchModel);
   }, []);
   const [group1, setGroup1] = useState<ModifyInputGroup>({

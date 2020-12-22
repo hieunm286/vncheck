@@ -1,6 +1,6 @@
 import React, {ReactElement, useEffect, useState} from 'react';
 import ImageUploading from 'react-images-uploading';
-import {getNewImage, getOnlyBase64} from '../helpers/common-function';
+import {GetClassName, getNewImage, getOnlyBase64} from '../helpers/common-function';
 import exifr from 'exifr';
 import './custom-image-upload.scss';
 import {useFormikContext} from 'formik';
@@ -16,34 +16,6 @@ interface ImageUploadPros {
   multiple?: boolean;
   mode?: "horizontal" | "vertical" | undefined
 }
-
-const getClassName = (labelWidth: number | null | undefined, labelStart: boolean) => {
-  const classes: string[] = [];
-  
-  if (labelStart) {
-    if (labelWidth) {
-      classes.push(`col-xl-${labelWidth}`);
-      classes.push(`col-md-${labelWidth}`);
-      classes.push('col-12');
-    } else {
-      classes.push(`col-xl-4`);
-      classes.push(`col-md-4`);
-      classes.push('col-12');
-    }
-  } else {
-    if (labelWidth) {
-      classes.push(`col-xl-${12 - labelWidth - 1}`);
-      classes.push(`col-md-${12 - labelWidth}`);
-      classes.push('col-12');
-    } else {
-      classes.push(`col-xl-8`);
-      classes.push(`col-md-9`);
-      classes.push('col-12');
-    }
-  }
-  
-  return classes.join(' ');
-};
 
 function CustomImageUpload({
                              label,
@@ -116,15 +88,15 @@ function CustomImageUpload({
 
   return (
     <div className={mode === 'horizontal' ? 'row' : ''}>
-      <div className={getClassName(labelWidth, true)}>
+      <div className={GetClassName(labelWidth, true)}>
         {typeof label === 'string' ? (
-          <label className={mode === 'horizontal' ? 'mb-0 select-label mt-2' : ''}>
+          <label className={mode === 'horizontal' ? 'mb-0 mt-2' : ''}>
             {label}
             {required && <span className="text-danger"> *</span>}
           </label>
         ) : label}
       </div>
-      <div className={getClassName(labelWidth, false)}>
+      <div className={GetClassName(labelWidth, false)}>
         <ImageUploading
           multiple={multiple}
           value={imagess}

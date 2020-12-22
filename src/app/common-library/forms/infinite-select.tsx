@@ -46,7 +46,7 @@ export function InfiniteSelect({
   placeholder?: string;
   name: string;
   additional?: any;
-  labelWidth?:number;
+  labelWidth?: number;
   validationMessage?: string;
   required?: boolean | ((values: any) => boolean);
   disabled?: boolean | ((values: any) => boolean);
@@ -54,12 +54,12 @@ export function InfiniteSelect({
 }) {
   const {setFieldValue, errors, touched, values, setFieldTouched} = useFormikContext<any>();
   const CustomAsyncPaginate = withAsyncPaginate(AtlaskitSelect);
-
+  
   // useEffect(() => {
   //   setFieldTouched(name, true)
-
+  
   // }, [])
-
+  
   const styles = useMemo((): StylesConfig => {
     return {
       control: (base, props1) => {
@@ -126,6 +126,7 @@ export function InfiniteSelect({
   console.log(errors[name]);
   console.log(name)
   console.log(touched);
+  console.log(selectField ? (values[name] ? [values[name][selectField]] : [values[name]]) : [values[name]]);
   return (
     <>
       <div className={mode === 'horizontal' ? 'row' : ''}>
@@ -140,6 +141,7 @@ export function InfiniteSelect({
             className={getCSSClasses(errors[name], touched[name])}
             {...props}
             value={getValue(selectField, name, values)}
+            // value={GetSearchSelectValue({selectField, name, values})}
             getOptionValue={option => {
               return selectField ? option[selectField] : option
             }}
@@ -174,4 +176,10 @@ export function InfiniteSelect({
   );
 }
 
-// export default InfiniteSelect;
+export const GetSearchSelectValue = ({values, selectField, name}: { values: any, selectField?: string, name: string }) => {
+  const path = name.split('.');
+  const obj = path.reduce((pre, cur, curI, arr) => {
+    return pre ? pre[cur] : pre;
+  }, values)
+  return obj
+}
