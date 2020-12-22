@@ -184,7 +184,7 @@ function ProductPackaging() {
       data: {
         code: {
           type: 'string',
-          label: 'PRODUCT_PACKAGING.MASTER.TABLE.CODE_COLUMN',
+          label: 'c',
           required: true,
           disabled: true,
         },
@@ -222,7 +222,7 @@ function ProductPackaging() {
     _subTitle: '',
     code: {
       _type: 'string',
-      label: 'LAND_LOT.MASTER.HEADER.CODE',
+      label: 'PRODUCT_PACKAGING.MASTER.TABLE.CODE_COLUMN',
       required: true,
       disabled: true,
     },
@@ -231,7 +231,7 @@ function ProductPackaging() {
       label: 'LAND_LOT.MASTER.HEADER.LOT_CODE',
       onSearch: ProductTypeService.GetAll,
       disabled: false,
-      selectField: 'name'
+      keyField: 'name',
     },
     weight: {
       _type: 'string',
@@ -307,10 +307,10 @@ function ProductPackaging() {
         entity={generateInitForm(allFormField)}
         onModify={(entity: ProductPackagingModel) => {
           let cvEntity = {...entity}
-          if (_.isObject(entity)) {
-            cvEntity.species = entity.species._id
-          }
-          add(cvEntity)
+          // if (_.isObject(entity)) {
+          //   cvEntity.species = entity.species._id
+          // }
+          add(entity)
         }}
         onHide={() => {
           setShowCreate(false);
@@ -333,9 +333,9 @@ function ProductPackaging() {
         entity={editEntity}
         onModify={(entity: ProductPackagingModel) => {
           let cvEntity = {...entity}
-          if (_.isObject(entity)) {
-            cvEntity.species = entity.species._id
-          }
+          // if (_.isObject(entity)) {
+          //   cvEntity.species = entity.species._id
+          // }
           update(cvEntity)
         }}
         onHide={() => {
