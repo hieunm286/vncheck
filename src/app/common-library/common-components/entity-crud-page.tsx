@@ -1,5 +1,4 @@
 import React, {Fragment, useEffect, useState} from 'react';
-import ModifyEntityPage from './modify-entity-page';
 import {useIntl} from 'react-intl';
 import {
   generateInitForm,
@@ -14,7 +13,9 @@ import {Card, CardBody, CardHeader} from '../card';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import {diff} from 'deep-object-diff';
 import exifr from 'exifr'
-import {ModifyForm, ModifyModel} from "../common-types/common-type";
+import {ModifyForm, ModifyPanel} from "../common-types/common-type";
+import _ from "lodash";
+import {ModifyEntityPage} from "./modify-entity-page";
 
 const toDataURL = (url: string) => fetch(url)
   .then(response => response.blob())
@@ -28,24 +29,23 @@ const toDataURL = (url: string) => fetch(url)
 function EntityCrudPage({
                           entity,
                           onModify,
-                          title = 'COMMON_COMPONENT.CREATE_UPDATE.TITLE',
+                          // header = 'COMMON_COMPONENT.CREATE_UPDATE.TITLE',
                           moduleName = 'COMMON_COMPONENT.CREATE_UPDATE.MODULE_NAME',
                           code,
                           get,
-                          models,
+                          formModel,
                           // allFormField,
                           actions,
                           validation,
                           autoFill,
                         }: {
   // modifyModel: ModifyModel;
-  title?: string;
   moduleName?: string;
   entity: any;
   onModify: (values: any) => void;
   code: string | null;
   get: (code: string) => any | null;
-  models: ModifyForm;
+  formModel: ModifyForm;
   // allFormField: any;
   actions: any;
   validation?: any;
@@ -55,11 +55,9 @@ function EntityCrudPage({
   // const initForm = autoFill
   //   ? generateInitForm(allFormField, autoFill.field, autoFill.data)
   //   : generateInitForm(allFormField);
-  const {...formPart} = models;
   const history = useHistory();
   const [entityForEdit, setEntityForEdit] = useState(entity);
-  
-  // const [images, setImages] = useState(initForm);
+  const {_header, ...modifyPanels} = formModel;
   const [imageRootArr, setImageRootArr] = useState<any>([]);
   
   // const [tagArr, setTagArr] = useState(initForm);
@@ -187,79 +185,82 @@ function EntityCrudPage({
         {({handleSubmit, setFieldValue}) => (
           <>
             <Form className="form form-label-right">
-              {Object.keys(formPart).map((key, index,keys) => (
-                <Card key={key} className={'modify-page'}>
+              {Object.keys(modifyPanels).map((key, index,keys) => {
+                const val = modifyPanels[key];
+                if(_.isString(val)) throw new Error('Sử dụng sai cách ' + key);
+                const {_title, ...panel} = val;
+                return (
+                  <Card key={key} className={'modify-page'}>
                     <CardHeader className={'border-bottom-0'}
                                 title={index == 0 ? (
                                   <a onClick={() => history.goBack()}
                                      className={'cursor-pointer text-primary font-weight-boldest'}>
                                     <ArrowBackIosIcon/>
                                     {intl
-                                      .formatMessage({id: title}, {moduleName: intl.formatMessage({id: moduleName})})
+                                      .formatMessage({id: _header}, {moduleName: intl.formatMessage({id: moduleName})})
                                       .toUpperCase()}
                                   </a>) : (
                                   <>{intl.formatMessage(
-                                    {id: formPart[key].title},
+                                    {id: _title},
                                     {moduleName: intl.formatMessage({id: moduleName})})
                                     .toUpperCase()}</>)}
                     />
-                  <CardBody>
-                    <ModifyEntityPage
-                      // className={formPart[key].className}
-                      // images={images}
-                      onChange={(imageList: any, addUpdateIndex: any, key: any) => {
-                        onChange(imageList, addUpdateIndex, key, setFieldValue);
-                      }}
-                      modifyModel={formPart[key].modifyModel as any}
-                      // column={formPart[key].modifyModel.length}
-                      title={formPart[key].title}
-                      handleChangeTag={handleChangeTag}
-                    />
-                    {(
-                      <div className="text-right mt-10" key={key}>
-                        {Object.keys(actions).map(keyss => {
-                          switch (actions[keyss].role) {
-                            case 'submit':
-                              console.log(actions[keyss])
-                              return (
-                                <button
-                                  formNoValidate
-                                  type={actions[keyss].type}
-                                  className={actions[keyss].className}
-                                  key={keyss}
-                                  onClick={() => handleSubmit()}>
-                                  {actions[keyss].icon} {actions[keyss].label}
-                                </button>
-                              );
-          
-                            case 'button':
-                              console.log(actions[keyss])
-            
-                              return (
-                                <button
-                                  type={actions[keyss].type}
-                                  className={actions[keyss].className}
-                                  key={keyss}>
-                                  {actions[keyss].icon} {actions[keyss].label}
-                                </button>
-                              );
-                            case 'link-button':
-                              return (
-                                <Link to={actions[keyss].linkto} key={keyss}>
+                    <CardBody>
+                      <ModifyEntityPage
+                        // className={formPart[key].className}
+                        // images={images}
+                        onChange={(imageList: any, addUpdateIndex: any, key: any) => {
+                          onChange(imageList, addUpdateIndex, key, setFieldValue);
+                        }}
+                        inputGroups={panel}
+                        handleChangeTag={handleChangeTag}
+                      />
+                      {(
+                        <div className="text-right mt-10" key={key}>
+                          {Object.keys(actions).map(keyss => {
+                            switch (actions[keyss].role) {
+                              case 'submit':
+                                console.log(actions[keyss])
+                                return (
                                   <button
+                                    formNoValidate
                                     type={actions[keyss].type}
-                                    className={actions[keyss].className}>
+                                    className={actions[keyss].className}
+                                    key={keyss}
+                                    onClick={() => handleSubmit()}>
                                     {actions[keyss].icon} {actions[keyss].label}
                                   </button>
-                                </Link>
-                              );
-                          }
-                        })}
-                      </div>
-                    )}
-                  </CardBody>
-                </Card>
-              ))}
+                                );
+                
+                              case 'button':
+                                console.log(actions[keyss])
+                  
+                                return (
+                                  <button
+                                    type={actions[keyss].type}
+                                    className={actions[keyss].className}
+                                    key={keyss}>
+                                    {actions[keyss].icon} {actions[keyss].label}
+                                  </button>
+                                );
+                              case 'link-button':
+                                return (
+                                  <Link to={actions[keyss].linkto} key={keyss}>
+                                    <button
+                                      type={actions[keyss].type}
+                                      className={actions[keyss].className}>
+                                      {actions[keyss].icon} {actions[keyss].label}
+                                    </button>
+                                  </Link>
+                                );
+                            }
+                          })}
+                        </div>
+                      )}
+                    </CardBody>
+                  </Card>
+                )
+              })}
             </Form>
             {/*
             <button type="submit" onClick={() => handleSubmit()} className="btn btn-primary mr-2">

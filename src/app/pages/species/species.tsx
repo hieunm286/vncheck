@@ -23,10 +23,10 @@ import {SpeciesModel} from './species.model';
 import * as ProductTypeService from './species.service';
 
 import 'react-toastify/dist/ReactToastify.css';
-import {allFormField, masterEntityDetailDialog, models, productTypeSearchModel} from './defined/const';
 import {
   MasterEntityDetailDialog
 } from "../../common-library/common-components/master-entity-detail-dialog";
+import {createForm, masterEntityDetailDialog, productTypeSearchModel, updateForm} from "./defined/const";
 
 const headerTitle = 'PRODUCT_TYPE.MASTER.HEADER.TITLE';
 const bodyTitle = 'PRODUCT_TYPE.MASTER.BODY.TITLE';
@@ -267,11 +267,10 @@ function Species() {
           <EntityCrudPage
             entity={createEntity}
             onModify={add}
-            title={createTitle}
             // reduxModel="purchaseOrder"
             code={null}
             get={() => null}
-            models={models}
+            formModel={createForm}
             // allFormField={allFormField}
             actions={allFormButton}
             validation={schema}
@@ -295,10 +294,9 @@ function Species() {
             <EntityCrudPage
               entity={editEntity}
               onModify={update}
-              title={updateTitle}
               code={match && match.params.code}
               get={ProductTypeService.GetById}
-              models={models}
+              formModel={updateForm}
               // allFormField={allFormField}
               actions={allFormButton}
               validation={schema}

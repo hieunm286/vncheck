@@ -4,30 +4,24 @@ import {Field, Form, Formik} from 'formik';
 import {useIntl} from 'react-intl';
 import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
-import {ModifyForm, ModifyModel} from '../common-types/common-type';
-import ModifyEntityPage from './modify-entity-page';
+import {ModifyForm, ModifyPanel} from '../common-types/common-type';
 import {iconStyle} from "../common-consts/const";
+import {ModifyEntityPage} from "./modify-entity-page";
 
 function ModifyEntityDialogForm<T>({
                                      entity = {},
                                      onHide,
                                      onModify,
-                                     modifyForm,
+                                     modifyPanel,
                                      validation,
                                    }: {
   entity?: any;
   onHide: () => void;
   onModify: (values: any) => void;
-  modifyForm: ModifyForm;
+  modifyPanel: ModifyPanel;
   validation: any;
 }) {
   const intl = useIntl();
-  const [images, setImages] = useState(entity);
-  const [imageRootArr, setImageRootArr] = useState<any>([]);
-  
-  // const [search, setSearch] = useState<any>(entity);
-  //
-  //
   // const onChange = (imageList: any, addUpdateIndex: any, key: any) => {
   //   const imageArray = getOnlyFile(imageList);
   //
@@ -47,40 +41,29 @@ function ModifyEntityDialogForm<T>({
   //   setImageRootArr(imageArray);
   // };
   console.log(entity);
+  const {_title, ...inputGroups} = modifyPanel;
   return (
     <Formik
       // enableReinitialize={true}
       initialValues={entity}
       // validationSchema={validation}
       onSubmit={values => {
-        // if (entity._id) {
-        //   const updateValue = diff(entity, values);
-        //   onModify({_id: values._id, ...updateValue});
-        // } else {
         console.log(values)
         onModify({...entity, ...values, __v: undefined});
-        // }
         onHide();
       }}>
       {({handleSubmit}) => (
         <>
           <Modal.Body className="overlay overlay-block cursor-default">
-            {/* {actionsLoading && (
-                        <div className="overlay-layer bg-transparent">
-                            <div className="spinner spinner-lg spinner-success"/>
-                        </div>
-                    )} */}
             <Form className="form form-label-right">
-              {Object.keys(modifyForm).map(key => (
+              {Object.keys(inputGroups).map(key => (
                 <React.Fragment key={key}>
                   <ModifyEntityPage
-                    images={images}
                     onChange={(imageList: any, addUpdateIndex: any, key: any) => {
                       // onChange(imageList, addUpdateIndex, key);
                     }}
                     entity={entity}
-                    modifyModel={modifyForm[key].modifyModel}
-                    title={modifyForm[key].title}
+                    inputGroups={inputGroups}
                   />
                 </React.Fragment>
               ))}

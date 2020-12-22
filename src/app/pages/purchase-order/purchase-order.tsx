@@ -597,8 +597,7 @@ function PurchaseOrder() {
         show={showEdit}
         entity={editEntity}
         onModify={update}
-        title={updateTitle}
-        formPart={formPart}
+        formModel={formPart}
         allFormField={allFormField}
         allFormButton={allFormButton}
         validation={PurchaseOrderSchema}
@@ -622,11 +621,10 @@ function PurchaseOrder() {
           <EntityCrudPage
             entity={createEntity}
             onModify={add}
-            title={createTitle}
             //  modifyModel={modifyModel}
             code={null}
             get={() => null}
-            models={formPart}
+            formModel={formPart}
             // allFormField={allFormField}
             actions={allFormButton}
             validation={PurchaseOrderSchema}

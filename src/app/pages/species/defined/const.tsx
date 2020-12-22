@@ -1,12 +1,11 @@
 import {
-  ModifyForm,
-  ModifyModel,
+  ModifyForm, ModifyInputGroup,
+  ModifyPanel,
   RenderInfoDetailDialog,
   SearchModel
 } from '../../../common-library/common-types/common-type';
 import {GenerateAllFormField, getField} from '../../../common-library/helpers/common-function';
-import {GetAll} from "../species.service";
-import React from "react";
+import React, {useMemo, useState} from "react";
 
 export const masterEntityDetailDialog: RenderInfoDetailDialog = [
   {
@@ -45,71 +44,63 @@ export const productTypeSearchModel: SearchModel = {
   },
 };
 
-
-export const modifyModel: any = [
-  {
-    title: 'THÔNG TIN CHUNG',
-    className: 'col-6 pr-xl-15 pr-md-10 pr-5',
-    data: {
-      code: {
-        type: 'string',
-        label: 'PRODUCT_TYPE.MASTER.TABLE.CODE_COLUMN',
-        required: true,
-        disabled: true,
-      },
-      name: {
-        type: 'string',
-        required: true,
-        label: 'PRODUCT_TYPE.MASTER.TABLE.NAME_COLUMN',
-      },
-      barcode: {
-        type: 'string',
-        required: true,
-        label: 'PRODUCT_TYPE.MASTER.TABLE.BARCODE_COLUMN',
-      },
-      images: {
-        type: 'image',
-        // value: null,
-        label: 'PRODUCT_TYPE.MASTER.IMAGE',
-        multiple: false
-      },
-      // avatar: {
-      //   type: 'image',
-      //   placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
-      //   label: 'Album 2',
-      // },
-    },
+const [group1, setGroup1] = useState<ModifyInputGroup>({
+  _subTitle: 'THÔNG TIN CHUNG',
+  _className: 'col-6 pr-xl-15 pr-md-10 pr-5',
+  code: {
+    _type: 'string',
+    label: 'PRODUCT_TYPE.MASTER.TABLE.CODE_COLUMN',
+    required: true,
+    disabled: true,
   },
-  {
-    title: 'THÔNG TIN VÒNG ĐỜI',
-    className: 'col-6 pl-xl-15 pl-md-10 pl-5',
-    data: {
-      growingDays: {
-        type: 'number',
-        label: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
-      },
-      plantingDays: {
-        type: 'number',
-        label: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.PLANTING',
-      },
-      expiryDays: {
-        type: 'number',
-        label: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.EXPIRY',
-      },
-    },
+  name: {
+    _type: 'string',
+    required: true,
+    label: 'PRODUCT_TYPE.MASTER.TABLE.NAME_COLUMN',
   },
-];
-
-export const models: ModifyForm = {
-    form_1: {
-    title: '',
-    modifyModel: modifyModel,
+  barcode: {
+    _type: 'string',
+    required: true,
+    label: 'PRODUCT_TYPE.MASTER.TABLE.BARCODE_COLUMN',
   },
-};
+  images: {
+    _type: 'image',
+    // value: null,
+    label: 'PRODUCT_TYPE.MASTER.IMAGE',
+    multiple: false
+  },
+  // avatar: {
+  //   type: 'image',
+  //   placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
+  //   label: 'Album 2',
+  // },
+});
+const [group2, setGroup2] = useState<ModifyInputGroup>({
+  _subTitle: 'THÔNG TIN VÒNG ĐỜI',
+  _className: 'col-6 pl-xl-15 pl-md-10 pl-5',
+  growingDays: {
+    _type: 'number',
+    label: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
+  },
+  plantingDays: {
+    _type: 'number',
+    label: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.PLANTING',
+  },
+  expiryDays: {
+    _type: 'number',
+    label: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.EXPIRY',
+  },
+});
 
-export const allFormField: any = {
-  ...GenerateAllFormField(modifyModel),
-};
+export const createForm = useMemo((): ModifyForm => ({
+  _header: "createTitle",
+  panel1: {
+    _title: '',
+    group1: group1,
+    group2: group2,
+  },
+}), []);
+export const updateForm = useMemo((): ModifyForm => ({...createForm, _header: "sada"}), [createForm]);
 
 interface FieldProp {
   field: string;

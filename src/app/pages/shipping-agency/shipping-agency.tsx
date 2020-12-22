@@ -1,4 +1,4 @@
-import React, {Fragment, useEffect, useMemo} from 'react';
+import React, {Fragment, useEffect, useMemo, useState} from 'react';
 import {useIntl} from 'react-intl';
 import {DefaultPagination, NormalColumn, SortColumn} from '../../common-library/common-consts/const';
 import {MasterHeader} from '../../common-library/common-components/master-header';
@@ -10,8 +10,8 @@ import {
 import {DeleteEntityDialog} from '../../common-library/common-components/delete-entity-dialog';
 import DeleteManyEntitiesDialog from '../../common-library/common-components/delete-many-entities-dialog';
 import {
-  ModifyForm,
-  ModifyModel,
+  ModifyForm, ModifyInputGroup,
+  ModifyPanel,
   RenderInfoDetailDialog,
   SearchModel
 } from '../../common-library/common-types/common-type';
@@ -147,7 +147,7 @@ function ShippingAgency() {
     }
   }, []);
   
-  const masterEntityDetailDialog: RenderInfoDetailDialog = useMemo(():RenderInfoDetailDialog => [
+  const masterEntityDetailDialog: RenderInfoDetailDialog = useMemo((): RenderInfoDetailDialog => [
     {
       header: 'SHIPPING_AGENCY.DETAIL_DIALOG.SHIPPING.SUBTITLE',
       className: 'col-7',
@@ -158,7 +158,7 @@ function ShippingAgency() {
           title: 'SHIPPING_AGENCY.DETAIL_DIALOG.SHIPPING.ADDRESS',
           formatter: (address: any, row: any, rowIndex: number) => {
             const addressString = `${address.district}, ${address.city}, ${address.state}`;
-            return ( <>{addressString}</>);
+            return (<>{addressString}</>);
           }
         },
         phone: {title: 'SHIPPING_AGENCY.DETAIL_DIALOG.SHIPPING.PHONE_NUMBER'},
@@ -203,114 +203,106 @@ function ShippingAgency() {
     },
   };
   
-  const modifyModel = useMemo((): ModifyModel => [
-    {
-      title: 'THÔNG TIN CHUNG',
-      className: 'col-6 pr-xl-15 pr-md-10 pr-5',
-      data: {
-        code: {
-          type: 'string',
-          label: 'SHIPPING_AGENCY.MODIFY.CODE',
-          required: true,
-          disabled: true,
-        },
-        name: {
-          type: 'string',
-          required: true,
-          label: 'SHIPPING_AGENCY.MODIFY.NAME',
-        },
-        city: {
-          type: 'string',
-          required: true,
-          label: 'SHIPPING_AGENCY.MODIFY.CITY',
-        },
-        district: {
-          type: 'string',
-          required: true,
-          label: 'SHIPPING_AGENCY.MODIFY.DISTRICT',
-        },
-        quater: {
-          type: 'string',
-          required: true,
-          label: 'SHIPPING_AGENCY.MODIFY.DISTRICT',
-        },
-        address: {
-          type: 'string',
-          required: true,
-          label: 'SHIPPING_AGENCY.MODIFY.DISTRICT',
-        },
-        status: {
-          type: 'boolean',
-          required: true,
-          label: 'SHIPPING_AGENCY.MODIFY.STATUS',
-        },
-        phoneNumber: {
-          type: 'string',
-          required: true,
-          label: 'SHIPPING_AGENCY.MODIFY.STATUS',
-        },
-        tax: {
-          type: 'string',
-          required: true,
-          label: 'SHIPPING_AGENCY.MODIFY.STATUS',
-        },
-        images: {
-          type: 'image',
-          required: true,
-          label: 'SHIPPING_AGENCY.MODIFY.STATUS',
-        },
-      },
-    }, {
-      title: 'THÔNG TIN CHỦ ĐƠN VỊ',
-      className: 'col-6 pl-xl-15 pl-md-10 pl-5',
-      data: {
-        code: {
-          type: 'string',
-          label: 'SHIPPING_AGENCY.MODIFY.CODE',
-          required: true,
-          disabled: true,
-        },
-        name: {
-          type: 'string',
-          required: true,
-          label: 'SHIPPING_AGENCY.MODIFY.NAME',
-        },
-        city: {
-          type: 'string',
-          required: true,
-          label: 'SHIPPING_AGENCY.MODIFY.CITY',
-        },
-        district: {
-          type: 'string',
-          required: true,
-          label: 'SHIPPING_AGENCY.MODIFY.DISTRICT',
-        },
-        quater: {
-          type: 'string',
-          required: true,
-          label: 'SHIPPING_AGENCY.MODIFY.DISTRICT',
-        },
-        address: {
-          type: 'string',
-          required: true,
-          label: 'SHIPPING_AGENCY.MODIFY.DISTRICT',
-        },
-      },
+  const [group1, setGroup1] = useState<ModifyInputGroup>({
+    _subTitle: 'THÔNG TIN CHUNG',
+    _className: 'col-6 pr-xl-15 pr-md-10 pr-5',
+    code: {
+      _type: 'string',
+      label: 'SHIPPING_AGENCY.MODIFY.CODE',
+      required: true,
+      disabled: true,
     },
-  ], []);
-  
-  const models: ModifyForm = {
-    form_1: {
-      title: 'SSDSD',
-      modifyModel: modifyModel,
+    name: {
+      _type: 'string',
+      required: true,
+      label: 'SHIPPING_AGENCY.MODIFY.NAME',
     },
-  };
+    city: {
+      _type: 'string',
+      required: true,
+      label: 'SHIPPING_AGENCY.MODIFY.CITY',
+    },
+    district: {
+      _type: 'string',
+      required: true,
+      label: 'SHIPPING_AGENCY.MODIFY.DISTRICT',
+    },
+    quater: {
+      _type: 'string',
+      required: true,
+      label: 'SHIPPING_AGENCY.MODIFY.DISTRICT',
+    },
+    address: {
+      _type: 'string',
+      required: true,
+      label: 'SHIPPING_AGENCY.MODIFY.DISTRICT',
+    },
+    status: {
+      _type: 'boolean',
+      required: true,
+      label: 'SHIPPING_AGENCY.MODIFY.STATUS',
+    },
+    phoneNumber: {
+      _type: 'string',
+      required: true,
+      label: 'SHIPPING_AGENCY.MODIFY.STATUS',
+    },
+    tax: {
+      _type: 'string',
+      required: true,
+      label: 'SHIPPING_AGENCY.MODIFY.STATUS',
+    },
+    images: {
+      _type: 'image',
+      required: true,
+      label: 'SHIPPING_AGENCY.MODIFY.STATUS',
+    },
+  });
+  const [group2, setGroup2] = useState<ModifyInputGroup>({
+    _subTitle: 'THÔNG TIN CHỦ ĐƠN VỊ',
+    _className: 'col-6 pl-xl-15 pl-md-10 pl-5',
+    code: {
+      _type: 'string',
+      label: 'SHIPPING_AGENCY.MODIFY.CODE',
+      required: true,
+      disabled: true,
+    },
+    name: {
+      _type: 'string',
+      required: true,
+      label: 'SHIPPING_AGENCY.MODIFY.NAME',
+    },
+    city: {
+      _type: 'string',
+      required: true,
+      label: 'SHIPPING_AGENCY.MODIFY.CITY',
+    },
+    district: {
+      _type: 'string',
+      required: true,
+      label: 'SHIPPING_AGENCY.MODIFY.DISTRICT',
+    },
+    quater: {
+      _type: 'string',
+      required: true,
+      label: 'SHIPPING_AGENCY.MODIFY.DISTRICT',
+    },
+    address: {
+      _type: 'string',
+      required: true,
+      label: 'SHIPPING_AGENCY.MODIFY.DISTRICT',
+    },
+  });
   
-  const allFormField: any = {
-    ...GenerateAllFormField(
-      modifyModel,
-    ),
-  };
+  const createForm = useMemo((): ModifyForm => ({
+    _header: createTitle,
+    panel1: {
+      _title: '',
+      group1: group1,
+      group2: group2,
+    },
+  }), []);
+  const updateForm = useMemo((): ModifyForm => ({...createForm, _header: updateTitle}), [createForm]);
   
   const actions: any = {
     save: {
@@ -339,10 +331,9 @@ function ShippingAgency() {
             entity={createEntity}
             moduleName={moduleName}
             onModify={add}
-            title={createTitle}
+            formModel={createForm}
             code={null}
             get={() => null}
-            models={models}
             // allFormField={allFormField}
             actions={actions}
             // validation={ProductTypeSchema}
@@ -366,12 +357,11 @@ function ShippingAgency() {
             <EntityCrudPage
               entity={editEntity}
               onModify={update}
-              title={updateTitle}
               moduleName={moduleName}
               //  modifyModel={modifyModel}
               code={match && match.params.code}
               get={ShippingAgencyService.GetById}
-              models={models}
+              formModel={updateForm}
               // allFormField={allFormField}
               actions={actions}
               //   validation={ProductTypeSchema}
