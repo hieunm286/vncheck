@@ -3,6 +3,7 @@ import {
   ConvertStatusToBoolean,
   ConvertStatusToString,
   GenerateAllFormField,
+  generateInitForm,
   InitMasterProps,
 } from '../../common-library/helpers/common-function';
 import MultiLevelSaleBody from './multi-sale-body';
@@ -338,7 +339,7 @@ function MultilevelSale() {
       />
       <ModifyEntityDialog
         show={showCreate}
-        entity={createEntity}
+        entity={generateInitForm(allFormField)}
         onModify={values => {
           console.log(values);
           console.log(editEntity);

@@ -5,11 +5,11 @@ import {
   GetHomePage,
   getNewImage,
   getOnlyFile,
-  getOnlyBase64
+  getOnlyBase64,
 } from '../helpers/common-function';
-import {Field, Form, Formik} from 'formik';
-import {Link, useHistory} from 'react-router-dom';
-import {Card, CardBody, CardHeader} from '../card';
+import { Field, Form, Formik } from 'formik';
+import { Link, useHistory } from 'react-router-dom';
+import { Card, CardBody, CardHeader } from '../card';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import {diff} from 'deep-object-diff';
 import exifr from 'exifr'
@@ -17,14 +17,18 @@ import {ModifyForm, ModifyPanel} from "../common-types/common-type";
 import _ from "lodash";
 import {ModifyEntityPage} from "./modify-entity-page";
 
-const toDataURL = (url: string) => fetch(url)
-  .then(response => response.blob())
-  .then(blob => new Promise((resolve, reject) => {
-    const reader = new FileReader()
-    reader.onloadend = () => resolve(reader.result)
-    reader.onerror = reject
-    reader.readAsDataURL(blob)
-  }))
+const toDataURL = (url: string) =>
+  fetch(url)
+    .then(response => response.blob())
+    .then(
+      blob =>
+        new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onloadend = () => resolve(reader.result);
+          reader.onerror = reject;
+          reader.readAsDataURL(blob);
+        }),
+    );
 
 function EntityCrudPage({
                           entity,
@@ -59,50 +63,52 @@ function EntityCrudPage({
   const [entityForEdit, setEntityForEdit] = useState(entity);
   const {_header, ...modifyPanels} = formModel;
   const [imageRootArr, setImageRootArr] = useState<any>([]);
-  
+
   // const [tagArr, setTagArr] = useState(initForm);
   
   const [imageData, setImageData] = useState<{ data_url: any; exif: any }[]>([])
   
   const ImageMeta = (file: any) => {
     if (!file) return '';
-    
+
     file.forEach((item: any) => {
       exifr.parse(item.file).then(res => {
         const image = {
           data_url: item.data_url,
-          exif: res
-        }
-        
-        const data: any[] = []
-        data.push(image)
-        console.log(image)
-        setImageData(prevImages => ([...prevImages, ...data]))
-        
-      })
-    })
+          exif: res,
+        };
+
+        const data: any[] = [];
+        data.push(image);
+        console.log(image);
+        setImageData(prevImages => [...prevImages, ...data]);
+      });
+    });
   };
-  
-  
-  const onChange = (imageList: any, addUpdateIndex: any, key: any, setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => void) => {
+
+  const onChange = (
+    imageList: any,
+    addUpdateIndex: any,
+    key: any,
+    setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => void,
+  ) => {
     const imageArray = getOnlyFile(imageList);
     const base64Array = getOnlyBase64(imageList);
-    const ImagesData = []
+    const ImagesData = [];
     // const newArr = getNewImage(images[key], imageList);
     // console.log(newArr)
     // newArr.forEach((file, index) => {
-    //   ImageMeta(file.file) 
+    //   ImageMeta(file.file)
     // });
     // ImageMeta(newArr)
-    
-    setFieldValue(key, imageData)
-    
+
+    setFieldValue(key, imageData);
+
     // data for submit
     // setImages({...images, [key]: imageList});
     setImageRootArr(base64Array);
-    
   };
-  
+
   function handleChangeTag(value: string, key?: string) {
     // const newTag: string[] = [...tagArr];
     // newTag.push(value);
@@ -114,12 +120,14 @@ function EntityCrudPage({
 
     if (entity.image) {
       toDataURL('/' + entity.image.path)
-        .then(dataUrl  => {
+        .then(dataUrl => {
           const url = { data_url: dataUrl };
           console.log(url);
+          delete cv.image;
           cv.images = [url];
 
           // setImages(cv)
+          setEntityForEdit(cv);
         })
         .catch(error => {
           console.log(error); // Logs an error if there was one
@@ -128,7 +136,7 @@ function EntityCrudPage({
   };
 
   // console.log(images)
-  
+
   // useEffect(() => {
   //   if (code) {
   //     get(code).then((res: { data: any }) => {
@@ -143,14 +151,14 @@ function EntityCrudPage({
         // const convert = autoFill
         //   ? ConvertSelectSearch(res.data, autoFill.searchSelectField)
         //   : ConvertSelectSearch(res.data);
-        setEntityForEdit(res.data);
+        // setEntityForEdit(res.data);
         // setImages(convert.image ? ConvertImage(convert) : initForm)
-        ConvertImage(res.data)
+        ConvertImage(res.data);
         // setSearch(res.data);
       });
     }
   }, [code]);
-  
+
   return (
     <>
       <Formik
@@ -159,12 +167,13 @@ function EntityCrudPage({
         validationSchema={validation}
         onSubmit={(values, { setSubmitting }) => {
           console.log(values);
-          if (entityForEdit) {
-            const updateValue = diff(entityForEdit, values);
-            onModify({_id: values._id, ...updateValue});
-          } else {
-            onModify({...values, imageData});
-          }
+          // if (entityForEdit) {
+          //   const updateValue = diff(entityForEdit, values);
+          //   onModify({_id: values._id, ...updateValue});
+          // } else {
+          //   onModify({...values});
+          // }
+          onModify(values);
           // if (asyncError !== '') {
           //   store.addNotification({
           //     title: "Wonderful!",
@@ -182,7 +191,7 @@ function EntityCrudPage({
           // }
           history.push(GetHomePage(window.location.pathname));
         }}>
-        {({handleSubmit, setFieldValue}) => (
+        {({ handleSubmit, setFieldValue }) => (
           <>
             <Form className="form form-label-right">
               {Object.keys(modifyPanels).map((key, index,keys) => {
@@ -209,11 +218,7 @@ function EntityCrudPage({
                       <ModifyEntityPage
                         // className={formPart[key].className}
                         // images={images}
-                        onChange={(imageList: any, addUpdateIndex: any, key: any) => {
-                          onChange(imageList, addUpdateIndex, key, setFieldValue);
-                        }}
                         inputGroups={panel}
-                        handleChangeTag={handleChangeTag}
                       />
                       {(
                         <div className="text-right mt-10" key={key}>

@@ -59,10 +59,6 @@ function ModifyEntityDialogForm<T>({
               {Object.keys(inputGroups).map(key => (
                 <React.Fragment key={key}>
                   <ModifyEntityPage
-                    onChange={(imageList: any, addUpdateIndex: any, key: any) => {
-                      // onChange(imageList, addUpdateIndex, key);
-                    }}
-                    entity={entity}
                     inputGroups={inputGroups}
                   />
                 </React.Fragment>

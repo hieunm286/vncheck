@@ -52,8 +52,14 @@ export function InfiniteSelect({
   disabled?: boolean | ((values: any) => boolean);
   
 }) {
-  const {setFieldValue, errors, touched, values} = useFormikContext<any>();
+  const {setFieldValue, errors, touched, values, setFieldTouched} = useFormikContext<any>();
   const CustomAsyncPaginate = withAsyncPaginate(AtlaskitSelect);
+
+  // useEffect(() => {
+  //   setFieldTouched(name, true)
+
+  // }, [])
+
   const styles = useMemo((): StylesConfig => {
     return {
       control: (base, props1) => {
@@ -105,8 +111,9 @@ export function InfiniteSelect({
       },
     }
   }, []);
-  console.log(keyField);
-  console.log(selectField);
+  console.log(errors[name]);
+  console.log(name)
+  console.log(touched);
   return (
     <>
       <div className={mode === 'horizontal' ? 'row' : ''}>
@@ -136,11 +143,12 @@ export function InfiniteSelect({
             isDisabled={disabled ? typeof disabled === 'boolean' ? disabled : disabled(values) : disabled}
             // className={`${errors[name] ? 'border-danger' : 'input-search-select'}`}
           />
-          {errors[name] && touched[name] ? (
-            <div className="invalid-feedback invalid-datepicker-feedback text-danger" style={{fontSize: '0.9rem'}}>
+          {errors[name] ? (
+            <div className="text-danger" style={{fontSize: '0.9rem'}}>
               {
                 // validationMessage ? intl.formatMessage({id: validationMessage}) : 'Vui lòng chọn ' + deCapitalizeFirstLetter(label)
-                (!errors[name] && typeof label === 'string') ? 'Vui lòng chọn ' + deCapitalizeFirstLetter(label) : errors[name]
+                // (!errors[name] && typeof label === 'string') ? 'Vui lòng chọn ' + deCapitalizeFirstLetter(label) : errors[name]
+                errors[name]
               }
             </div>
           ) : (
