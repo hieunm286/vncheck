@@ -132,6 +132,7 @@ export const RenderForm = ({inputs, prevKey, mode}: any) => {
             />
           );
         case 'search-select':
+          console.log(prevKey !== '' ? `${prevKey}.${key}` : key)
           return (
             <InputSearchSelect
               className={defaultClassName}
