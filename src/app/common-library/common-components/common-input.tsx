@@ -143,12 +143,16 @@ export const InputRadio = ({label, placeholder, className, ...props}: InputRadio
   const intl = useIntl();
   return (
     <div className={className}>
-      <Field
-        {...props}
-        component={RadioField}
-        placeholder={intl.formatMessage({id: placeholder ?? DefaultPlaceholder.string})}
-        label={_.isString(label) ? intl.formatMessage({id: label}) : label}
-      />
+    <RadioField
+      {...props}
+      label={_.isString(label) ? intl.formatMessage({id: label}) : label}
+    />
+      {/*<Field*/}
+      {/*  {...props}*/}
+      {/*  component={RadioField}*/}
+      {/*  placeholder={intl.formatMessage({id: placeholder ?? DefaultPlaceholder.string})}*/}
+      {/*  label={_.isString(label) ? intl.formatMessage({id: label}) : label}*/}
+      {/*/>*/}
     </div>
   );
 };

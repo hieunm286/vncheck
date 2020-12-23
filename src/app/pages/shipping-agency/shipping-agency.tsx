@@ -178,13 +178,13 @@ function ShippingAgency() {
       data: {
         fullName: {
           title: 'SHIPPING_AGENCY.DETAIL_DIALOG.OWNER.FULL_NAME',
-          // keyField: 'owner.fullName'
+          keyField: 'owner.fullName'
         }, email: {
           title: 'SHIPPING_AGENCY.DETAIL_DIALOG.OWNER.EMAIL',
-          // keyField: 'owner.email'
+          keyField: 'owner.email'
         }, phone: {
           title: 'SHIPPING_AGENCY.DETAIL_DIALOG.OWNER.PHONE_NUMBER',
-          // keyField: 'owner.phone'
+          keyField: 'owner.phone'
         },
       },
     },
