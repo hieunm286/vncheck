@@ -203,12 +203,10 @@ export const InputSearchSelect = ({
       sortBy: keyField,
       page,
     };
-    console.log(queryProps)
     const entities = await onSearch({queryProps, paginationProps});
     const count = entities.data.paging.total;
     const hasMore = prevOptions.length < count - (DefaultPagination.limit ?? 0);
     const data = [...new Set(entities.data.data)];
-    console.log(data)
     return {
       options: data,
       hasMore: hasMore,
@@ -216,7 +214,7 @@ export const InputSearchSelect = ({
         page: page + 1,
       },
     };
-  }, []);
+  }, [onSearch]);
   console.log(props.values)
   return (
     <div className={className}>

@@ -20,6 +20,7 @@ import {
   InputTag
 } from "./common-input";
 import _ from 'lodash';
+import {FormikRadioGroup} from "../forms/radio-group-field";
 
 export function ModifyEntityPage<T>({
                                       inputGroups,
@@ -49,7 +50,7 @@ export function ModifyEntityPage<T>({
           return (
             <div key={`meg-${index}`} className={_className ?? 'col-12'}>
               {_subTitle && <div className="modify-subtitle text-primary">{_subTitle.toUpperCase()}</div>}
-              <RenderForm inputs={inputs} prevKey={''} mode={mode} />
+              <RenderForm inputs={inputs} prevKey={''} mode={mode}/>
             </div>
           )
         })}
@@ -98,17 +99,19 @@ export const RenderForm = ({inputs, prevKey, mode}: any) => {
               {...input}
               key={`modify-page-${key}`}/>
           );
-        // case 'radioGroup':
-        //   const _shippingAddresses = values['shippingAddress'];
-        //   return _shippingAddresses ? (
-        //     <FormikRadioGroup
-        //       ariaLabel="defaultShippingAddress"
-        //       name="defaultShippingAddress"
-        //       addresses={_shippingAddresses}
-        //     />
-        //   ) : (
-        //     <></>
-        //   );
+        case 'radio-group':
+          const _shippingAddresses = ['22','33333','5555555'];
+          return _shippingAddresses ? (
+            <FormikRadioGroup
+              ariaLabel="defaultShippingAddress"
+              name="defaultShippingAddress"
+              addresses={_shippingAddresses}
+              currentAddress={"22"} setCurrentAddress={(e: any) => {
+              console.log(e)
+            }}/>
+          ) : (
+            <></>
+          );
         case 'boolean':
           return (
             <InputBoolean
@@ -160,35 +163,6 @@ export const RenderForm = ({inputs, prevKey, mode}: any) => {
         //     />
         //   );
         //
-        // case 'SearchSelectV2':
-        //   return (
-        //     <div className="mt-3" key={key}>
-        //       <InfiniteSelectV2
-        //         label={intl.formatMessage({id: input.label})}
-        //         isHorizontal={true}
-        //         value={input.fillField ? search[key][input.fillField] : search[key]}
-        //         onChange={(value: any) => {
-        //           setSearch({...search, [key]: value});
-        //           // setSearchTerm({
-        //           //   ...searchTerm,
-        //           //   [key]: searchM[key].ref ? value.value : value.label,
-        //           // });
-        //         }}
-        //         service={input.service}
-        //         keyField={input.keyField}
-        //         dataField={entityForEdit[input.rootField][input.keyField]}
-        //         display={input.display}
-        //         refs={input.ref}
-        //         additional={{
-        //           page: DefaultPagination.page,
-        //         }}
-        //         name={prevKey !== '' ? `${prevKey}.${key}` : key}
-        //         placeholder={intl.formatMessage({id: input.placeholder})}
-        //       />
-        //     </div>
-        //   );
-        //
-        
         case 'gallery':
           return (
             <div className="mt-3" key={key}>
@@ -227,37 +201,6 @@ export const RenderForm = ({inputs, prevKey, mode}: any) => {
         default:
           const {_type, ...inn} = input as any;
           return <RenderForm inputs={inn} prevKey={prevKey ? `${prevKey}.${key}` : key} mode={mode}/>
-        // handle shippingAddress
-        // case 'array':
-        //   const shippingAddresses = values[key];
-        //   return shippingAddresses
-        //     ? shippingAddresses.map((el: any, innerKey: any) => {
-        //       return (
-        //         <div className="mt-3" key={`${innerKey}`}>
-        //           <Field
-        //             name={key}
-        //             value={
-        //               shippingAddresses[innerKey].address +
-        //               ', ' +
-        //               shippingAddresses[innerKey].district +
-        //               ', ' +
-        //               shippingAddresses[innerKey].city +
-        //               ', ' +
-        //               shippingAddresses[innerKey].state
-        //             }
-        //             component={MainInput}
-        //             isHorizontal
-        //             withFeedbackLabel
-        //             labelWidth={4}
-        //             placeholder={intl.formatMessage({id: input.placeholder})}
-        //             label={intl.formatMessage({id: input.label})}
-        //             required={input.required}
-        //           />
-        //         </div>
-        //       );
-        //     })
-        //     : console.log(shippingAddresses);
-        //   break;
       }
       return (<></>)
     })}</>)

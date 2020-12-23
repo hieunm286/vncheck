@@ -65,9 +65,12 @@ export const GetCity = ({queryProps, paginationProps}: any): Promise<any> => {
 
 export const GetDistrict = ({queryProps, paginationProps}: any): Promise<any> => {
   return new Promise((resolve, reject) => {
-    const totalData = DistrictList.filter((val, index, arr) => {
+    let totalData = DistrictList.filter((val, index, arr) => {
       return val.name_with_type.toLowerCase().indexOf(queryProps.name_with_type.toLowerCase()) > -1;
     })
+    queryProps.parent_code && (totalData = totalData.filter((val, index, arr) => {
+      return val.parent_code === queryProps.parent_code;
+    }));
     const data = totalData.sort(GetCompareFunction({
       key: paginationProps.sortBy,
       orderType: paginationProps.sortType === 'asc' ? 1 : -1

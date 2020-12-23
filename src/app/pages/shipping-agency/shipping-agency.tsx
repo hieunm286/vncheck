@@ -203,12 +203,16 @@ function ShippingAgency() {
       label: 'SHIPPING_AGENCY.MASTER.SEARCH.PHONE',
     },
   };
-  const [state, setState] = useState<string | null>('');
+  const [state, setState] = useState<string | null>(null);
   const [city, setCity] = useState<string | null>(null);
   const getCity = useCallback(({queryProps, paginationProps}: any): Promise<any> => {
     console.log(state);
     return GetCity({queryProps: {...queryProps, parent_code: state}, paginationProps})
   }, [state]);
+  const getDistrict = useCallback(({queryProps, paginationProps}: any): Promise<any> => {
+    console.log(city);
+    return GetDistrict({queryProps: {...queryProps, parent_code: city}, paginationProps})
+  }, [city]);
   const group1 = useMemo(():ModifyInputGroup => ({
     _subTitle: 'THÔNG TIN CHUNG',
     _className: 'col-6 pr-xl-15 pr-md-10 pr-5',
@@ -246,7 +250,6 @@ function ShippingAgency() {
         keyField: 'name_with_type',
         required: true,
         onChange: (value: any, props: any) => {
-          console.log(value);
           setCity(value.code);
         },
         disabled: (values: any) => {
@@ -256,12 +259,11 @@ function ShippingAgency() {
       },
       district: {
         _type: 'search-select',
-        onSearch: GetDistrict,
+        onSearch: getDistrict,
         selectField: 'code',
         keyField: 'name_with_type',
         required: true,
         disabled: (values: any) => {
-          console.log(values);
           return city === null;
         },
         label: 'SHIPPING_AGENCY.MODIFY.DISTRICT',
@@ -317,10 +319,7 @@ function ShippingAgency() {
       label: 'SHIPPING_AGENCY.MODIFY.EMAIL',
     },
     gender: {
-      _type: 'search-select',
-      onSearch: GetDistrict,
-      selectField: 'code',
-      keyField: 'name',
+      _type: 'radio-group',
       required: true,
       label: 'SHIPPING_AGENCY.MODIFY.GENDER',
     },
