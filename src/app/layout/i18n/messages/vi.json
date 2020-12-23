@@ -1,5 +1,10 @@
 {
   "Network Error": "Cá mập cắn cáp rồi đại vương ơi",
+  "ROLE.MANAGER": "Quản lý",
+  "ROLE.FARMER": "Nông dân",
+  "ROLE.TECHNICIAN": "Nhân viên kỹ thuật",
+  "ROLE.ADMIN": "Quản trị hệ thống",
+
   "TRANSLATOR.SELECT": "Select your language",
   "MENU.NEW": "new",
   "MENU.ACTIONS": "Actions",

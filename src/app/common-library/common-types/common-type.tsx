@@ -195,7 +195,7 @@ export type GetAllPropsServer<T> = ({
 export type _ModifyModelInput =
   ({ _type: 'object', [S: string]: any })
   | ({ _type: 'image', value?: any } & _CommonProps)
-  | ({ _type: 'string' | 'date-time' | 'number' | 'boolean' | 'tag' | 'gallery' | 'radio-group'; } & _CommonProps)
+  | ({ _type: 'string' | 'date-time' | 'number' | 'boolean' | 'tag' | 'gallery' | 'radio'; } & _CommonProps)
   | ({ _type: 'search-select', onSearch: GetAllPropsServer<any> | GetAllProps<any>, keyField?: string, selectField?: string } & _CommonProps)
 export type GetAllProps<T> = ({
                                 queryProps,

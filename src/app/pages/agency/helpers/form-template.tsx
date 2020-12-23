@@ -12,8 +12,6 @@ import CheckCircleOutlinedIcon from '@material-ui/icons/CheckCircleOutlined';
 import { FormikRadioGroup } from '../../../common-library/forms/radio-group-field';
 import { SwitchField } from '../../../common-library/forms/switch-field';
 import { RadioField } from '../../../common-library/forms/radio-field';
-import { DisplayField } from '../../../common-library/forms/display-field';
-import { SelectField } from '../../../common-library/forms/select-field';
 import STATE_LIST from '../../../../_metronic/AdministrativeDivision/state.json';
 import CITY_LIST from '../../../../_metronic/AdministrativeDivision/city.json';
 import DISTRICT_LIST from '../../../../_metronic/AdministrativeDivision/district.json';
@@ -558,27 +556,6 @@ const FormTemplate = ({
                 />
               </div>
             );  
-          
-          case 'display':
-            return values && values[key] ?
-            (
-              <div className="mt-3" key={`${key}`}>
-                          
-                <Field
-                  name={key}
-                  displayValue={values[key]}
-                  component={DisplayField}
-                  isHorizontal
-                  withFeedbackLabel
-                  labelWidth={4}
-                  placeholder={modifyModel.entity[key].placeholder}
-                  label={modifyModel.entity[key].label}
-                  required={modifyModel.entity[key].required}
-                />
-              </div>
-            ) :
-            (<></>);
-          
           case 'option':
             return values.gender !== undefined ? (
               <div className="mt-3" key={`${key}`}>

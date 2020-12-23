@@ -10,6 +10,7 @@ import TagInput from '../forms/tag-input';
 import React, {ReactElement, useCallback, useMemo} from 'react';
 import _ from 'lodash';
 import {InfiniteSelectV2} from '../forms/infinite-select-v2';
+import {RadioField} from "../forms/radio-field";
 
 const DefaultPlaceholder = {
   string: 'COMMON_COMPONENT.INPUT.PLACEHOLDER',
@@ -120,6 +121,20 @@ export const InputString = ({label, placeholder, className, ...props}: InputStri
         placeholder={intl.formatMessage({id: placeholder ?? DefaultPlaceholder.string})}
         label={_.isString(label) ? intl.formatMessage({id: label}) : label}
         type={'text'}
+      />
+    </div>
+  );
+};
+
+export const InputRadio = ({label, placeholder, className, ...props}: InputStringType) => {
+  const intl = useIntl();
+  return (
+    <div className={className}>
+      <Field
+        {...props}
+        component={RadioField}
+        placeholder={intl.formatMessage({id: placeholder ?? DefaultPlaceholder.string})}
+        label={_.isString(label) ? intl.formatMessage({id: label}) : label}
       />
     </div>
   );

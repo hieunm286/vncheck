@@ -24,6 +24,7 @@ import * as ShippingAgencyService from './shipping-agency.service'
 import {ShippingAgencyModel} from './shipping-agency.model';
 import {MasterEntityDetailDialog} from "../../common-library/common-components/master-entity-detail-dialog";
 import {GetCity, GetDistrict, GetState} from "../address/address.service";
+import {GetRole} from "../role/role.service";
 
 const headerTitle = 'PRODUCT_TYPE.MASTER.HEADER.TITLE';
 const tableTitle = 'SHIPPING_AGENCY.MASTER.TABLE.TITLE';
@@ -251,7 +252,7 @@ function ShippingAgency() {
       city: {
         _type: 'search-select',
         onSearch: getCity,
-        selectField: 'code',
+        // selectField: 'code',
         keyField: 'name_with_type',
         required: true,
         onChange: (value: any, {setFieldValue}: any) => {
@@ -268,7 +269,7 @@ function ShippingAgency() {
       district: {
         _type: 'search-select',
         onSearch: getDistrict,
-        selectField: 'code',
+        // selectField: 'code',
         keyField: 'name_with_type',
         required: true,
         disabled: (values: any) => {
@@ -327,7 +328,7 @@ function ShippingAgency() {
       label: 'SHIPPING_AGENCY.MODIFY.EMAIL',
     },
     gender: {
-      _type: 'radio-group',
+      _type: 'radio',
       required: true,
       label: 'SHIPPING_AGENCY.MODIFY.GENDER',
     },
@@ -337,9 +338,12 @@ function ShippingAgency() {
       label: 'SHIPPING_AGENCY.MODIFY.DATE_OF_BIRTH',
     },
     role: {
-      _type: 'string',
+      _type: 'search-select',
       required: true,
       label: 'SHIPPING_AGENCY.MODIFY.ROLE',
+      onSearch: ({queryProps, paginationProps}: any): Promise<any> => {
+        return GetRole({queryProps, paginationProps},(t: any) => intl.formatMessage({id: t}))
+      },
     },
     image: {
       _type: 'image',

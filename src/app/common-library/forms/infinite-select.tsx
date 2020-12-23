@@ -126,7 +126,7 @@ export function InfiniteSelect({
   console.log(errors[name]);
   console.log(name)
   console.log(touched);
-  console.log(selectField ? (values[name] ? [values[name][selectField]] : [values[name]]) : [values[name]]);
+  console.log(GetSearchSelectValue({selectField, name, values}));
   return (
     <>
       <div className={mode === 'horizontal' ? 'row' : ''}>
@@ -140,7 +140,7 @@ export function InfiniteSelect({
           <CustomAsyncPaginate
             className={getCSSClasses(errors[name], touched[name])}
             {...props}
-            value={getValue(selectField, name, values)}
+            value={GetSearchSelectValue({selectField, name, values})}
             // value={GetSearchSelectValue({selectField, name, values})}
             getOptionValue={option => {
               return selectField ? option[selectField] : option
@@ -181,5 +181,5 @@ export const GetSearchSelectValue = ({values, selectField, name}: { values: any,
   const obj = path.reduce((pre, cur, curI, arr) => {
     return pre ? pre[cur] : pre;
   }, values)
-  return obj
+  return     selectField ? (obj ? [obj[selectField]] : [obj]) : [obj]
 }
