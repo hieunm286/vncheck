@@ -4,25 +4,8 @@ import {FieldFeedbackLabel} from './field-feedback-label';
 import {GetClassName, GetError, GetFieldCSSClasses, GetTouched} from "../helpers/common-function";
 import {useFormikContext} from "formik";
 import { truncate } from 'lodash';
+import {MainInputState} from "../common-types/common-type";
 
-
-export interface MainInputState {
-  field: any; // { name, value, onChange, onBlur }
-  form: { touched: any; errors: any }; // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
-  label: string | any;
-  withFeedbackLabel: any;
-  withValidation: any;
-  customFeedbackLabel: any;
-  mode: 'horizontal' | 'vertical';
-  labelWidth: number;
-  width: any;
-  type: string;
-  value: any;
-  onChange?: (value: any, props: { setFieldValue: ((name: string, value: any) => void), values: any }) => any;
-  required?: boolean | ((values: any) => boolean);
-  disabled?: boolean | ((values: any) => boolean);
-  name: string;
-}
 
 export function MainInput({
                             field, // { name, value, onChange, onBlur }

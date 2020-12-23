@@ -15,7 +15,7 @@ import {
 import {InputDateTimeType} from "../common-components/common-input";
 import _ from "lodash";
 
-export function DatePickerField({mode, disabled,required, ...props}: InputDateTimeType) {
+export function DatePickerField({mode, disabled, required, labelWidth, label, ...props}: InputDateTimeType) {
   const {setFieldValue, errors, touched, values} = useFormikContext<any>();
   const [field] = useField({
     ...props,
@@ -28,14 +28,14 @@ export function DatePickerField({mode, disabled,required, ...props}: InputDateTi
   return (
     <>
       <div className={mode == 'horizontal' ? 'row' : ''}>
-        <div className={mode === 'horizontal' ? GetClassName(props.labelWidth, true) : ''}>
-          {props.label && (
+        <div className={mode === 'horizontal' ? GetClassName(labelWidth, true) : ''}>
+          {label && (
             <label className={mode === 'horizontal' ? 'mb-0 mt-2' : ''}>
-              {props.label && <label>{props.label}</label>} {props.required && <span className="text-danger">*</span>}
+              {label && <label>{label}</label>} {props.required && <span className="text-danger">*</span>}
             </label>
           )}
         </div>
-        <div className={mode == 'horizontal' ? GetClassName(props.labelWidth, false) : ''}>
+        <div className={mode == 'horizontal' ? GetClassName(labelWidth, false) : ''}>
           <DatePicker picker="date"
                       className={
                         'default-behave ' + props.checkTouched ?
@@ -56,7 +56,7 @@ export function DatePickerField({mode, disabled,required, ...props}: InputDateTi
             <div className="invalid-datepicker-feedback text-danger" style={{fontSize: '0.9rem'}}>
               Vui lòng chọn
               {
-                '\u00A0' + (_.isString(props.label) ? deCapitalizeFirstLetter(props.label) : '')
+                '\u00A0' + (_.isString(label) ? deCapitalizeFirstLetter(label) : '')
               }
               hợp lệ
             </div>
@@ -68,7 +68,7 @@ export function DatePickerField({mode, disabled,required, ...props}: InputDateTi
             <div className="invalid-datepicker-feedback text-danger" style={{fontSize: '0.9rem'}}>
               Vui lòng chọn
               {
-                '\u00A0' + (_.isString(props.label) ? deCapitalizeFirstLetter(props.label) : '')
+                '\u00A0' + (_.isString(label) ? deCapitalizeFirstLetter(label) : '')
               }
             </div>
           ) : (

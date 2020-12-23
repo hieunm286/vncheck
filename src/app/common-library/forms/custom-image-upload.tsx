@@ -135,10 +135,9 @@ function CustomImageUpload({
                         onImageRemove(index);
                         getDeleteImage(index);
                       }}>
-                      <CloseOutlined style={{verticalAlign:'bottom'}}/>
+                      <CloseOutlined/>
                     </button>
                   </div>
-                  // </div>
                 ))}
                 <button
                   type="button"

@@ -1,9 +1,8 @@
-import React, {ReactElement, useCallback, useContext, useEffect, useMemo, useState} from 'react';
+import React, {ReactElement, useMemo} from 'react';
 import {withAsyncPaginate} from 'react-select-async-paginate';
-import {useFormikContext} from 'formik';
-import {deCapitalizeFirstLetter, GetClassName} from '../helpers/common-function'
+import {useField, useFormikContext} from 'formik';
+import {GetClassName} from '../helpers/common-function'
 import AtlaskitSelect from "@atlaskit/select";
-import {useIntl} from "react-intl";
 import {StylesConfig} from "react-select/src/styles";
 
 const getCSSClasses = (errorName: any, isTouched: any): string => {
@@ -111,7 +110,7 @@ export function InfiniteSelect({
       },
     }
   }, []);
-
+  
   const getValue = (selectFields?: string, names?: string, formValues?: any) => {
     if (formValues && names && formValues[names]) {
       if (selectFields) {
@@ -122,11 +121,13 @@ export function InfiniteSelect({
     }
     return;
   }
-
+  
   console.log(errors[name]);
   console.log(name)
   console.log(touched);
-  console.log(selectField ? (values[name] ? [values[name][selectField]] : [values[name]]) : [values[name]]);
+  const [field] = useField({name: name});
+  console.log(field.value);
+  // console.log(GetSearchSelectValue({selectField, name, values}));
   return (
     <>
       <div className={mode === 'horizontal' ? 'row' : ''}>
@@ -140,12 +141,14 @@ export function InfiniteSelect({
           <CustomAsyncPaginate
             className={getCSSClasses(errors[name], touched[name])}
             {...props}
-            value={getValue(selectField, name, values)}
+            value={[field.value]}
             // value={GetSearchSelectValue({selectField, name, values})}
             getOptionValue={option => {
+              console.log(option,selectField,selectField ? option[selectField] : option)
               return selectField ? option[selectField] : option
             }}
             getOptionLabel={option => {
+          console.log(option,keyField,keyField ? option[keyField] : option)
               return keyField ? option[keyField] : option
             }}
             loadOptions={loadOptions}
@@ -176,10 +179,3 @@ export function InfiniteSelect({
   );
 }
 
-export const GetSearchSelectValue = ({values, selectField, name}: { values: any, selectField?: string, name: string }) => {
-  const path = name.split('.');
-  const obj = path.reduce((pre, cur, curI, arr) => {
-    return pre ? pre[cur] : pre;
-  }, values)
-  return obj
-}

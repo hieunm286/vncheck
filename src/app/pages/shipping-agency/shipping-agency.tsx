@@ -1,4 +1,4 @@
-import React, {Fragment, useEffect, useMemo, useState} from 'react';
+import React, {Fragment, useCallback, useEffect, useMemo, useState} from 'react';
 import {useIntl} from 'react-intl';
 import {DefaultPagination, NormalColumn, SortColumn} from '../../common-library/common-consts/const';
 import {MasterHeader} from '../../common-library/common-components/master-header';
@@ -10,12 +10,12 @@ import {
 import {DeleteEntityDialog} from '../../common-library/common-components/delete-entity-dialog';
 import DeleteManyEntitiesDialog from '../../common-library/common-components/delete-many-entities-dialog';
 import {
-  ModifyForm, ModifyInputGroup,
-  ModifyPanel,
+  ModifyForm,
+  ModifyInputGroup,
   RenderInfoDetailDialog,
   SearchModel
 } from '../../common-library/common-types/common-type';
-import {GenerateAllFormField, InitMasterProps,} from '../../common-library/helpers/common-function';
+import {InitMasterProps,} from '../../common-library/helpers/common-function';
 import {Route, Switch, useHistory} from 'react-router-dom';
 import EntityCrudPage from '../../common-library/common-components/entity-crud-page';
 import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
@@ -24,6 +24,7 @@ import * as ShippingAgencyService from './shipping-agency.service'
 import {ShippingAgencyModel} from './shipping-agency.model';
 import {MasterEntityDetailDialog} from "../../common-library/common-components/master-entity-detail-dialog";
 import {GetCity, GetDistrict, GetState} from "../address/address.service";
+import {GetRole} from "../role/role.service";
 
 const headerTitle = 'PRODUCT_TYPE.MASTER.HEADER.TITLE';
 const tableTitle = 'SHIPPING_AGENCY.MASTER.TABLE.TITLE';
@@ -158,7 +159,7 @@ function ShippingAgency() {
         address: {
           title: 'SHIPPING_AGENCY.DETAIL_DIALOG.SHIPPING.ADDRESS',
           formatter: (address: any, row: any, rowIndex: number) => {
-            const addressString = `${address.district}, ${address.city}, ${address.state}`;
+            const addressString = `${address.address}, ${address.district}, ${address.city}, ${address.state}`;
             return (<>{addressString}</>);
           }
         },
@@ -177,13 +178,13 @@ function ShippingAgency() {
       data: {
         fullName: {
           title: 'SHIPPING_AGENCY.DETAIL_DIALOG.OWNER.FULL_NAME',
-          // keyField: 'owner.fullName'
+          keyField: 'owner.fullName'
         }, email: {
           title: 'SHIPPING_AGENCY.DETAIL_DIALOG.OWNER.EMAIL',
-          // keyField: 'owner.email'
+          keyField: 'owner.email'
         }, phone: {
           title: 'SHIPPING_AGENCY.DETAIL_DIALOG.OWNER.PHONE_NUMBER',
-          // keyField: 'owner.phone'
+          keyField: 'owner.phone'
         },
       },
     },
@@ -203,8 +204,21 @@ function ShippingAgency() {
       label: 'SHIPPING_AGENCY.MASTER.SEARCH.PHONE',
     },
   };
-  
-  const [group1, setGroup1] = useState<ModifyInputGroup>({
+  const [state, setState] = useState<string | null | undefined>(null);
+  const [city, setCity] = useState<string | null | undefined>(null);
+  useEffect(() => {
+    setState(editEntity?.address?.state);
+    setCity(editEntity?.address?.city);
+  }, [editEntity]);
+  const getCity = useCallback(({queryProps, paginationProps}: any): Promise<any> => {
+    console.log(state);
+    return GetCity({queryProps: {...queryProps, state}, paginationProps})
+  }, [state]);
+  const getDistrict = useCallback(({queryProps, paginationProps}: any): Promise<any> => {
+    console.log(city);
+    return GetDistrict({queryProps: {...queryProps, city}, paginationProps})
+  }, [city]);
+  const group1 = useMemo((): ModifyInputGroup => ({
     _subTitle: 'THÔNG TIN CHUNG',
     _className: 'col-6 pr-xl-15 pr-md-10 pr-5',
     code: {
@@ -223,33 +237,44 @@ function ShippingAgency() {
       state: {
         _type: 'search-select',
         onSearch: GetState,
-        selectField: 'code',
-        keyField: 'name_with_type',
         disabled: (values: any) => {
           console.log(values)
+        },
+        onChange: (value: any, {setFieldValue}: any) => {
+          console.log(value);
+          if (state != value) {
+            setCity(null);
+            setFieldValue('address.city', null);
+            setFieldValue('address.district', null);
+          }
+          setState(value);
         },
         required: true,
         label: 'SHIPPING_AGENCY.MODIFY.STATE',
       },
       city: {
         _type: 'search-select',
-        onSearch: GetCity,
-        selectField: 'code',
-        keyField: 'name_with_type',
+        onSearch: getCity,
+        // selectField: 'code',
         required: true,
+        onChange: (value: any, {setFieldValue}: any) => {
+          if (city != value) {
+            setFieldValue('address.district', null);
+          }
+          setCity(value);
+        },
         disabled: (values: any) => {
-          console.log(values)
+          return state === null;
         },
         label: 'SHIPPING_AGENCY.MODIFY.CITY',
       },
       district: {
         _type: 'search-select',
-        onSearch: GetDistrict,
-        selectField: 'code',
-        keyField: 'name_with_type',
+        onSearch: getDistrict,
+        // selectField: 'code',
         required: true,
         disabled: (values: any) => {
-          console.log(values)
+          return city === null;
         },
         label: 'SHIPPING_AGENCY.MODIFY.DISTRICT',
       },
@@ -264,12 +289,12 @@ function ShippingAgency() {
       required: true,
       label: 'SHIPPING_AGENCY.MODIFY.STATUS',
     },
-    phoneNumber: {
+    phone: {
       _type: 'string',
       required: true,
       label: 'SHIPPING_AGENCY.MODIFY.PHONE_NUMBER',
     },
-    tax: {
+    taxId: {
       _type: 'string',
       required: true,
       label: 'SHIPPING_AGENCY.MODIFY.TAX_NUMBER',
@@ -279,53 +304,60 @@ function ShippingAgency() {
       required: true,
       label: 'SHIPPING_AGENCY.MODIFY.IMAGE',
     },
-  });
+  }), [state, city, getCity]);
   const [group2, setGroup2] = useState<ModifyInputGroup>({
     _subTitle: 'THÔNG TIN CHỦ ĐƠN VỊ',
     _className: 'col-6 pl-xl-15 pl-md-10 pl-5',
-    userName: {
-      _type: 'string',
-      label: 'SHIPPING_AGENCY.MODIFY.USER_NAME',
-      required: true,
-    },
-    displayName: {
-      _type: 'string',
-      required: true,
-      label: 'SHIPPING_AGENCY.MODIFY.DISPLAY_NAME',
-    },
-    phoneNumber: {
-      _type: 'string',
-      required: true,
-      label: 'SHIPPING_AGENCY.MODIFY.PHONE_NUMBER',
-    },
-    email: {
-      _type: 'string',
-      required: true,
-      label: 'SHIPPING_AGENCY.MODIFY.EMAIL',
-    },
-    gender: {
-      _type: 'search-select',
-      onSearch: GetDistrict,
-      selectField: 'code',
-      keyField: 'name',
-      required: true,
-      label: 'SHIPPING_AGENCY.MODIFY.GENDER',
-    },
-    dateOfBirth: {
-      _type: 'date-time',
-      required: true,
-      label: 'SHIPPING_AGENCY.MODIFY.DATE_OF_BIRTH',
-    },
-    role: {
-      _type: 'string',
-      required: true,
-      label: 'SHIPPING_AGENCY.MODIFY.ROLE',
-    },
-    image: {
-      _type: 'image',
-      required: true,
-      label: 'SHIPPING_AGENCY.MODIFY.REPRESENT_IMAGE',
-    },
+    owner: {
+      _type: 'object',
+      username: {
+        _type: 'string',
+        label: 'SHIPPING_AGENCY.MODIFY.USER_NAME',
+        required: true,
+      },
+      fullName: {
+        _type: 'string',
+        required: true,
+        label: 'SHIPPING_AGENCY.MODIFY.DISPLAY_NAME',
+      },
+      phone: {
+        _type: 'string',
+        required: true,
+        label: 'SHIPPING_AGENCY.MODIFY.PHONE_NUMBER',
+      },
+      email: {
+        _type: 'string',
+        required: true,
+        label: 'SHIPPING_AGENCY.MODIFY.EMAIL',
+      },
+      gender: {
+        _type: 'radio',
+        required: true,
+        options: [{
+          label: 'SHIPPING_AGENCY.MODIFY.GENDER_OPTION.MALE',
+          value: '1'
+        }, {label: 'SHIPPING_AGENCY.MODIFY.GENDER_OPTION.FEMALE', value: '0'}],
+        label: 'SHIPPING_AGENCY.MODIFY.GENDER',
+      },
+      birthDay: {
+        _type: 'date-time',
+        required: true,
+        label: 'SHIPPING_AGENCY.MODIFY.DATE_OF_BIRTH',
+      },
+      role: {
+        _type: 'search-select',
+        required: true,
+        label: 'SHIPPING_AGENCY.MODIFY.ROLE',
+        onSearch: ({queryProps, paginationProps}: any): Promise<any> => {
+          return GetRole({queryProps, paginationProps}, (t: any) => intl.formatMessage({id: t}))
+        },
+      },
+      image: {
+        _type: 'image',
+        required: true,
+        label: 'SHIPPING_AGENCY.MODIFY.REPRESENT_IMAGE',
+      },
+    }
   });
   
   const createForm = useMemo((): ModifyForm => ({
@@ -335,7 +367,7 @@ function ShippingAgency() {
       group1: group1,
       group2: group2,
     },
-  }), []);
+  }), [group1, group2]);
   const updateForm = useMemo((): ModifyForm => ({...createForm, _header: updateTitle}), [createForm]);
   
   const actions: any = {

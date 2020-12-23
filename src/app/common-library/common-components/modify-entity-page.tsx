@@ -14,19 +14,19 @@ import {
   InputBoolean,
   InputDateTime,
   InputImage,
-  InputNumber,
+  InputNumber, InputRadio,
   InputSearchSelect,
   InputString,
   InputTag
 } from "./common-input";
 import _ from 'lodash';
+import {FormikRadioGroup} from "../forms/radio-group-field";
 
 export function ModifyEntityPage<T>({
                                       inputGroups,
                                       entity,
                                       // className = '',
                                       mode = 'horizontal',
-                                      tagData
                                     }: {
   
   inputGroups: InputGroups;
@@ -36,24 +36,21 @@ export function ModifyEntityPage<T>({
   handleChangeTag?: any;
   values?: any;
   entity?: any;
-  errors?: any;
-  tagData?: any[]
+  errors?: any
 }) {
   
   console.log(inputGroups)
   const {_subTitle, ...pl} = inputGroups;
-  console.log(pl)
   return (
     <>
       <div className={'row'}>
         {pl && Object.values(pl).map((inputGroup, index) => {
           if (_.isString(inputGroup)) throw new Error('Sử dụng sai cách ' + inputGroup);
           const {_subTitle, _className, _dataClassName, _titleClassName, ...inputs} = inputGroup;
-          console.log(inputs)
           return (
             <div key={`meg-${index}`} className={_className ?? 'col-12'}>
               {_subTitle && <div className="modify-subtitle text-primary">{_subTitle.toUpperCase()}</div>}
-              <RenderForm inputs={inputs} prevKey={''} mode={mode} tagData={tagData} />
+              <RenderForm inputs={inputs} prevKey={''} mode={mode}/>
             </div>
           )
         })}
@@ -62,18 +59,15 @@ export function ModifyEntityPage<T>({
   );
 }
 
-export const RenderForm = ({inputs, prevKey, mode, tagData}: any) => {
+export const RenderForm = ({inputs, prevKey, mode}: any) => {
   const intl = useIntl();
   const {setFieldValue, touched, values} = useFormikContext<any>();
   console.log(values)
   const defaultClassName = 'mb-5';
   return (<>
     {Object.keys(inputs).map(key => {
-      console.log(inputs)
-      console.log(key)
       const input = inputs[key];
-      console.log(input)
-      if (!_.isString(input)) {
+      if (_.isString(input)) throw new Error('Sử dụng sai cách ' + key);
       switch (input._type) {
         case 'string':
           return (
@@ -105,17 +99,27 @@ export const RenderForm = ({inputs, prevKey, mode, tagData}: any) => {
               {...input}
               key={`modify-page-${key}`}/>
           );
-        // case 'radioGroup':
-        //   const _shippingAddresses = values['shippingAddress'];
-        //   return _shippingAddresses ? (
-        //     <FormikRadioGroup
-        //       ariaLabel="defaultShippingAddress"
-        //       name="defaultShippingAddress"
-        //       addresses={_shippingAddresses}
-        //     />
-        //   ) : (
-        //     <></>
-        //   );
+        case 'radio':
+          return (
+            <InputRadio
+              className={defaultClassName}
+              name={prevKey !== '' ? `${prevKey}.${key}` : key}
+              mode={mode}
+              type={input._type}
+              {...input}
+              key={`modify-page-${key}`}/>
+          )
+        // const _shippingAddresses = ['22','33333','5555555'];
+        // return _shippingAddresses ? (
+        //   <FormikRadioGroup
+        //     ariaLabel="defaultShippingAddress"
+        //     name="defaultShippingAddress"
+        //     addresses={_shippingAddresses}
+        //     currentAddress={"22"} setCurrentAddress={(e: any) => {
+        //     console.log(e)
+        //   }}/>
+        // ) : (
+        //   <></>
         case 'boolean':
           return (
             <InputBoolean
@@ -152,50 +156,21 @@ export const RenderForm = ({inputs, prevKey, mode, tagData}: any) => {
               key={`modify-page-${key}`}
             />
           );
-        case 'tag':
-          const defaultTag = (getField(values, prevKey ? `${prevKey}.${key}` : key))
-          return (
-            <InputTag
-              className={defaultClassName}
-              name={prevKey !== '' ? `${prevKey}.${key}` : key}
-              mode={mode}
-              defaultTag={defaultTag}
-              tagData={tagData || []}
-              type={input._type}
-              {...input}
-              key={`modify-page-${key}`}
-            />
-          );
-        //
-        // case 'SearchSelectV2':
+        // case 'tag':
+        //   const defaultTag = (getField(values, prevKey ? `${prevKey}.${key}` : key))
         //   return (
-        //     <div className="mt-3" key={key}>
-        //       <InfiniteSelectV2
-        //         label={intl.formatMessage({id: input.label})}
-        //         isHorizontal={true}
-        //         value={input.fillField ? search[key][input.fillField] : search[key]}
-        //         onChange={(value: any) => {
-        //           setSearch({...search, [key]: value});
-        //           // setSearchTerm({
-        //           //   ...searchTerm,
-        //           //   [key]: searchM[key].ref ? value.value : value.label,
-        //           // });
-        //         }}
-        //         service={input.service}
-        //         keyField={input.keyField}
-        //         dataField={entityForEdit[input.rootField][input.keyField]}
-        //         display={input.display}
-        //         refs={input.ref}
-        //         additional={{
-        //           page: DefaultPagination.page,
-        //         }}
-        //         name={prevKey !== '' ? `${prevKey}.${key}` : key}
-        //         placeholder={intl.formatMessage({id: input.placeholder})}
-        //       />
-        //     </div>
+        //     <InputTag
+        //       className={defaultClassName}
+        //       name={prevKey !== '' ? `${prevKey}.${key}` : key}
+        //       mode={mode}
+        //       defaultTag={defaultTag}
+        //       tagData={tagData || []}
+        //       type={input._type}
+        //       {...input}
+        //       key={`modify-page-${key}`}
+        //     />
         //   );
         //
-        
         case 'gallery':
           return (
             <div className="mt-3" key={key}>
@@ -233,39 +208,10 @@ export const RenderForm = ({inputs, prevKey, mode, tagData}: any) => {
           );
         default:
           const {_type, ...inn} = input as any;
-          return <RenderForm inputs={inn} prevKey={prevKey ? `${prevKey}.${key}` : key} mode={mode}/>
-        // handle shippingAddress
-        // case 'array':
-        //   const shippingAddresses = values[key];
-        //   return shippingAddresses
-        //     ? shippingAddresses.map((el: any, innerKey: any) => {
-        //       return (
-        //         <div className="mt-3" key={`${innerKey}`}>
-        //           <Field
-        //             name={key}
-        //             value={
-        //               shippingAddresses[innerKey].address +
-        //               ', ' +
-        //               shippingAddresses[innerKey].district +
-        //               ', ' +
-        //               shippingAddresses[innerKey].city +
-        //               ', ' +
-        //               shippingAddresses[innerKey].state
-        //             }
-        //             component={MainInput}
-        //             isHorizontal
-        //             withFeedbackLabel
-        //             labelWidth={4}
-        //             placeholder={intl.formatMessage({id: input.placeholder})}
-        //             label={intl.formatMessage({id: input.label})}
-        //             required={input.required}
-        //           />
-        //         </div>
-        //       );
-        //     })
-        //     : console.log(shippingAddresses);
-        //   break;
-      }}
+          console.log(prevKey ? `${prevKey}.${key}` : key);
+          return <RenderForm inputs={inn} prevKey={prevKey ? `${prevKey}.${key}` : key} mode={mode}
+                             key={`render_form${prevKey ? `${prevKey}.${key}` : key}`}/>
+      }
       return (<></>)
     })}</>)
 };
