@@ -26,6 +26,7 @@ export function ModifyEntityPage<T>({
                                       entity,
                                       // className = '',
                                       mode = 'horizontal',
+                                      tagData
                                     }: {
   
   inputGroups: InputGroups;
@@ -35,21 +36,24 @@ export function ModifyEntityPage<T>({
   handleChangeTag?: any;
   values?: any;
   entity?: any;
-  errors?: any
+  errors?: any;
+  tagData?: any[]
 }) {
   
   console.log(inputGroups)
   const {_subTitle, ...pl} = inputGroups;
+  console.log(pl)
   return (
     <>
       <div className={'row'}>
         {pl && Object.values(pl).map((inputGroup, index) => {
           if (_.isString(inputGroup)) throw new Error('Sử dụng sai cách ' + inputGroup);
           const {_subTitle, _className, _dataClassName, _titleClassName, ...inputs} = inputGroup;
+          console.log(inputs)
           return (
             <div key={`meg-${index}`} className={_className ?? 'col-12'}>
               {_subTitle && <div className="modify-subtitle text-primary">{_subTitle.toUpperCase()}</div>}
-              <RenderForm inputs={inputs} prevKey={''} mode={mode} />
+              <RenderForm inputs={inputs} prevKey={''} mode={mode} tagData={tagData} />
             </div>
           )
         })}
@@ -58,15 +62,18 @@ export function ModifyEntityPage<T>({
   );
 }
 
-export const RenderForm = ({inputs, prevKey, mode}: any) => {
+export const RenderForm = ({inputs, prevKey, mode, tagData}: any) => {
   const intl = useIntl();
   const {setFieldValue, touched, values} = useFormikContext<any>();
   console.log(values)
   const defaultClassName = 'mb-5';
   return (<>
     {Object.keys(inputs).map(key => {
+      console.log(inputs)
+      console.log(key)
       const input = inputs[key];
-      if (_.isString(input)) throw new Error('Sử dụng sai cách ' + key);
+      console.log(input)
+      if (!_.isString(input)) {
       switch (input._type) {
         case 'string':
           return (
@@ -145,20 +152,20 @@ export const RenderForm = ({inputs, prevKey, mode}: any) => {
               key={`modify-page-${key}`}
             />
           );
-        // case 'tag':
-        //   const defaultTag = (getField(entity, prevKey ? `${prevKey}.${key}` : key))
-        //   return (
-        //     <InputTag
-        //       className={defaultClassName}
-        //       name={prevKey !== '' ? `${prevKey}.${key}` : key}
-        //       mode={mode}
-        //       defaultTag={defaultTag}
-        //       tagData={tagData}
-        //       type={input._type}
-        //       {...input}
-        //       key={`modify-page-${key}`}
-        //     />
-        //   );
+        case 'tag':
+          const defaultTag = (getField(values, prevKey ? `${prevKey}.${key}` : key))
+          return (
+            <InputTag
+              className={defaultClassName}
+              name={prevKey !== '' ? `${prevKey}.${key}` : key}
+              mode={mode}
+              defaultTag={defaultTag}
+              tagData={tagData || []}
+              type={input._type}
+              {...input}
+              key={`modify-page-${key}`}
+            />
+          );
         //
         // case 'SearchSelectV2':
         //   return (
@@ -258,7 +265,7 @@ export const RenderForm = ({inputs, prevKey, mode}: any) => {
         //     })
         //     : console.log(shippingAddresses);
         //   break;
-      }
+      }}
       return (<></>)
     })}</>)
 };

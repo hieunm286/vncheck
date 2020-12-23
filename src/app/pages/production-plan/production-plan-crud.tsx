@@ -14,6 +14,7 @@ import _ from 'lodash';
 import { addInitField, initProductPlanForm } from './defined/const';
 import ProductionPlanModal from './production-plan-modal';
 import {ModifyEntityPage} from "../../common-library/common-components/modify-entity-page";
+import { ModifyForm } from '../../common-library/common-types/common-type';
 
 const diff = (obj1: any, obj2: any) => {
   console.log(obj1);
@@ -118,6 +119,7 @@ function ProductionPlanCrud({
   title,
   // modifyModel,
   reduxModel,
+  moduleName = 'COMMON_COMPONENT.CREATE_UPDATE.MODULE_NAME',
   code,
   get,
   formPart,
@@ -135,6 +137,7 @@ function ProductionPlanCrud({
   sendRequest,
   approveFollow,
   currentTab,
+  formModel
 }: {
   // modifyModel: ModifyModel;
   title: string;
@@ -158,14 +161,20 @@ function ProductionPlanCrud({
   sendRequest: (data: any) => Promise<AxiosResponse<any>>;
   approveFollow: (data: any) => Promise<AxiosResponse<any>>;
   currentTab: string | undefined;
+  formModel: ModifyForm;
+  moduleName?: string;
 }) {
   const intl = useIntl();
   const initForm = autoFill
     ? generateInitForm(allFormField, autoFill.field, autoFill.entity)
     : generateInitForm(allFormField);
-  //   const modifyM = { ...modifyModel } as any;
+  //   const modifyM = { ...modifyModel } as any; 
   const history = useHistory();
   const [entityForEdit, setEntityForEdit] = useState(entity);
+
+  const {_header, ...modifyPanels} = formModel;
+
+  console.log(modifyPanels)
 
   const [images, setImages] = useState(initForm);
   const [imageRootArr, setImageRootArr] = useState<any>([]);
@@ -377,15 +386,21 @@ function ProductionPlanCrud({
         {({ handleSubmit, setFieldValue, values, errors }) => (
           <>
             <Form className="form form-label-right">
-              {Object.keys(formPart).map(key => (
+              {Object.keys(modifyPanels).map((key, index) => {
+                const val = modifyPanels[key];
+                if(!_.isObject(val)) throw new Error('Sử dụng sai cách ' + key);
+                const {_title, ...panel} = val;
+                console.log(panel)
+                return (
                 <Card
                   key={key}
-                  className={
-                    formPart[key].keyField && errors[formPart[key].keyField]
-                      ? 'border border-danger'
-                      : ''
-                  }>
-                  {formPart[key].header && (
+                  // className={
+                  //   formPart[key].keyField && errors[formPart[key].keyField]
+                  //     ? 'border border-danger'
+                  //     : ''
+                  // }
+                  >
+                   {/* {formPart[key].header && (
                     <CardHeader
                       title={
                         <>
@@ -401,134 +416,106 @@ function ProductionPlanCrud({
                         </>
                       }
                     />
-                  )}
+                  )}  */}
+                   {/* <CardHeader className={'border-bottom-0'}
+                                title={index == 0 ? (
+                                  <a onClick={() => history.goBack()}
+                                     className={'cursor-pointer text-primary font-weight-boldest'}>
+                                    <ArrowBackIosIcon/>
+                                    {intl
+                                      .formatMessage({id: _header}, {moduleName: intl.formatMessage({id: moduleName})})
+                                      .toUpperCase()}
+                                  </a>) : (
+                                  <>{intl.formatMessage(
+                                    {id: _title},
+                                    {moduleName: intl.formatMessage({id: moduleName})})
+                                    .toUpperCase()}</>)}
+                    />  */}
                   <CardBody>
                     <ModifyEntityPage
-                      entity={entityForEdit}
-                      inputGroups={formPart[key].modifyModel}
-                      handleChangeTag={handleChangeTag}
+                      // entity={entityForEdit}
+                      inputGroups={panel}
+                      tagData={tagData}
+                      // handleChangeTag={handleChangeTag}
                       errors={errors}
                     />
 
-                    {formPart[key].keyField && errors[formPart[key].keyField] && (
+                     {/* {formPart[key].keyField && errors[formPart[key].keyField] && (
                       <span className="text-danger">Vui lòng nhập đúng thứ tự các bước</span>
-                    )}
+                    )}  */}
                   </CardBody>
-                  {allFormButton.type === 'inside' &&
-                    key === Object.keys(formPart)[Object.keys(formPart).length - 1] && (
-                      <div className="text-right mb-5 mr-20" key={key}>
-                        {Object.keys(allFormButton.entity).map(keyss => {
-                          switch (allFormButton['data'][keyss].role) {
-                            case 'submit':
-                              return (
-                                <button
-                                  formNoValidate
-                                  type={allFormButton['data'][keyss].type}
-                                  className={allFormButton['data'][keyss].className}
-                                  key={keyss}>
-                                  {allFormButton['data'][keyss].icon}{' '}
-                                  {allFormButton['data'][keyss].label}
-                                </button>
-                              );
-
-                            case 'button':
-                              return (
-                                <button
-                                  type={allFormButton['data'][keyss].type}
-                                  className={allFormButton['data'][keyss].className}
-                                  key={keyss}
-                                  onClick={() => {
-                                    allFormButton['data'][keyss].onClick();
-                                  }}>
-                                  {allFormButton['data'][keyss].icon}{' '}
-                                  {allFormButton['data'][keyss].label}
-                                </button>
-                              );
-                            case 'link-button':
-                              return (
-                                <Link to={allFormButton['data'][keyss].linkto} key={keyss}>
-                                  <button
-                                    type={allFormButton['data'][keyss].type}
-                                    className={allFormButton['data'][keyss].className}>
-                                    {allFormButton['data'][keyss].icon}{' '}
-                                    {allFormButton['data'][keyss].label}
-                                  </button>
-                                </Link>
-                              );
-                          }
-                        })}
-                      </div>
-                    )}
+                  
                 </Card>
-              ))}
+                )
+              })}
             </Form>
             {errorMsg && (
               <div className="text-left mt-5">
                 <span className="text-danger">{intl.formatMessage({ id: errorMsg })}</span>
               </div>
             )}
-            {/*{allFormButton.type === 'outside' && (*/}
-            {/*  <div className="text-right mb-5 mr-20">*/}
-            {/*    {Object.keys(allFormButton.entity).map(keyss => {*/}
-            {/*      switch (allFormButton[keyss].role) {*/}
-            {/*        case 'submit':*/}
-            {/*          return (*/}
-            {/*            <button*/}
-            {/*              type={allFormButton[keyss].type}*/}
-            {/*              onClick={() => {*/}
-            {/*                handleSubmit();*/}
-            {/*                allFormButton[keyss].onClick();*/}
-            {/*              }}*/}
-            {/*              className={allFormButton[keyss].className}*/}
-            {/*              key={keyss}>*/}
-            {/*              {allFormButton[keyss].icon} {allFormButton[keyss].label}*/}
-            {/*            </button>*/}
-            {/*          );*/}
+            {allFormButton.type === 'outside' && (
+              <div className="text-right mb-5 mr-20">
+                {Object.keys(allFormButton.data).map(keyss => {
+                  switch (allFormButton.data[keyss].role) {
+                    case 'submit':
+                      return (
+                        <button
+                          type={allFormButton.data[keyss].type}
+                          onClick={() => {
+                            handleSubmit();
+                            allFormButton.data[keyss].onClick();
+                          }}
+                          className={allFormButton.data[keyss].className}
+                          key={keyss}>
+                          {allFormButton.data[keyss].icon} {allFormButton.data[keyss].label}
+                        </button>
+                      );
             
-            {/*        case 'special':*/}
-            {/*          return (*/}
-            {/*            <button*/}
-            {/*              type={allFormButton[keyss].type}*/}
-            {/*              onClick={() => {*/}
-            {/*                handleSubmit();*/}
-            {/*                allFormButton[keyss].onClick();*/}
-            {/*              }}*/}
-            {/*              className={allFormButton[keyss].className}*/}
-            {/*              key={keyss}>*/}
-            {/*              {allFormButton[keyss].icon} {allFormButton[keyss].label}*/}
-            {/*            </button>*/}
-            {/*          );*/}
+                    case 'special':
+                      return (
+                        <button
+                          type={allFormButton.data[keyss].type}
+                          onClick={() => {
+                            handleSubmit();
+                            allFormButton.data[keyss].onClick();
+                          }}
+                          className={allFormButton.data[keyss].className}
+                          key={keyss}>
+                          {allFormButton.data[keyss].icon} {allFormButton.data[keyss].label}
+                        </button>
+                      );
             
-            {/*        case 'button':*/}
-            {/*          return (*/}
-            {/*            <button*/}
-            {/*              type={allFormButton[keyss].type}*/}
-            {/*              className={allFormButton[keyss].className}*/}
-            {/*              key={keyss}*/}
-            {/*              onClick={() => {*/}
-            {/*                allFormButton[keyss].onClick();*/}
-            {/*              }}>*/}
-            {/*              {allFormButton[keyss].icon} {allFormButton[keyss].label}*/}
-            {/*            </button>*/}
-            {/*          );*/}
-            {/*        case 'link-button':*/}
-            {/*          return (*/}
-            {/*            // <Link to={allFormButton[keyss].linkto} key={keyss}>*/}
-            {/*            <button*/}
-            {/*              type={allFormButton[keyss].type}*/}
-            {/*              className={allFormButton[keyss].className}*/}
-            {/*              key={keyss}*/}
-            {/*              onClick={() => {*/}
-            {/*                setConfirmModal(true);*/}
-            {/*              }}>*/}
-            {/*              {allFormButton[keyss].icon} {allFormButton[keyss].label}*/}
-            {/*            </button>*/}
-            {/*            // </Link>*/}
-            {/*          );*/}
-            {/*      }*/}
-            {/*    })}*/}
-            {/*  </div>*/}
-            {/*)}*/}
+                    case 'button':
+                      return (
+                        <button
+                          type={allFormButton.data[keyss].type}
+                          className={allFormButton.data[keyss].className}
+                          key={keyss}
+                          onClick={() => {
+                            allFormButton.data[keyss].onClick();
+                          }}>
+                          {allFormButton.data[keyss].icon} {allFormButton.data[keyss].label}
+                        </button>
+                      );
+                    case 'link-button':
+                      return (
+                        // <Link to={allFormButton.data[keyss].linkto} key={keyss}>
+                        <button
+                          type={allFormButton.data[keyss].type}
+                          className={allFormButton.data[keyss].className}
+                          key={keyss}
+                          onClick={() => {
+                            setConfirmModal(true);
+                          }}>
+                          {allFormButton.data[keyss].icon} {allFormButton.data[keyss].label}
+                        </button>
+                        // </Link>
+                      );
+                  }
+                })}
+              </div>
+            )}
           </>
         )}
       </Formik>
