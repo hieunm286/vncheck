@@ -163,7 +163,7 @@ export const InputImage = ({label, className, value, ...props}: InputImageType) 
     </div>
   );
 };
-export const InputTag = ({label, placeholder, className, ...props}: InputTagType) => {
+export const InputTag = ({label, placeholder, className, data, tagData, ...props}: InputTagType) => {
   const intl = useIntl();
   return (
     <div className={className}>
@@ -172,8 +172,8 @@ export const InputTag = ({label, placeholder, className, ...props}: InputTagType
         label={_.isString(label) ? intl.formatMessage({id: label}) : label}
         placeholder={intl.formatMessage({id: placeholder ?? DefaultPlaceholder.boolean})}
         // handleChange={handleChangeTag}
-        data={[]}
-        tagData={[]}
+        data={data || []}
+        tagData={tagData || []}
       />
     </div>
   );

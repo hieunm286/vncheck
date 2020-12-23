@@ -28,6 +28,7 @@ import {
   productPlanSearchModel1,
   productPlanSearchModel2,
   SeedingDetailDialog,
+  updateForm,
   validate,
 } from './defined/const';
 import { getAllUsers } from '../account/_redux/user-crud';
@@ -882,6 +883,7 @@ function ProductionPlan() {
                 code={match && match.params.id}
                 get={code => ProductionPlanService.GetById(code)}
                 formPart={formPart}
+                formModel={updateForm}
                 allFormField={allFormField}
                 allFormButton={currentTab !== '2' ? allFormButton : allFormButton2}
                 validation={ProductPlantSchema}
@@ -902,6 +904,9 @@ function ProductionPlan() {
                 sendRequest={sendRequest}
                 approveFollow={approveFollow}
               />
+              {/* <EntityCrudPage 
+
+              /> */}
             </>
           )}
         </Route>
