@@ -213,7 +213,7 @@ function ShippingAgency() {
     console.log(city);
     return GetDistrict({queryProps: {...queryProps, parent_code: city}, paginationProps})
   }, [city]);
-  const group1 = useMemo(():ModifyInputGroup => ({
+  const group1 = useMemo((): ModifyInputGroup => ({
     _subTitle: 'THÔNG TIN CHUNG',
     _className: 'col-6 pr-xl-15 pr-md-10 pr-5',
     code: {
@@ -236,8 +236,13 @@ function ShippingAgency() {
         disabled: (values: any) => {
           console.log(values)
         },
-        onChange: (value: any, props: any) => {
+        onChange: (value: any, {setFieldValue}: any) => {
           console.log(value);
+          if (state != value.code) {
+            setCity(null);
+            setFieldValue('address.city', null);
+            setFieldValue('address.district', null);
+          }
           setState(value.code);
         },
         required: true,
@@ -249,7 +254,10 @@ function ShippingAgency() {
         selectField: 'code',
         keyField: 'name_with_type',
         required: true,
-        onChange: (value: any, props: any) => {
+        onChange: (value: any, {setFieldValue}: any) => {
+          if (city != value.code) {
+            setFieldValue('address.district', null);
+          }
           setCity(value.code);
         },
         disabled: (values: any) => {
@@ -294,7 +302,7 @@ function ShippingAgency() {
       required: true,
       label: 'SHIPPING_AGENCY.MODIFY.IMAGE',
     },
-  }),[state, city,getCity]);
+  }), [state, city, getCity]);
   const [group2, setGroup2] = useState<ModifyInputGroup>({
     _subTitle: 'THÔNG TIN CHỦ ĐƠN VỊ',
     _className: 'col-6 pl-xl-15 pl-md-10 pl-5',
@@ -347,7 +355,7 @@ function ShippingAgency() {
       group1: group1,
       group2: group2,
     },
-  }), [group1,group2]);
+  }), [group1, group2]);
   const updateForm = useMemo((): ModifyForm => ({...createForm, _header: updateTitle}), [createForm]);
   
   const actions: any = {
