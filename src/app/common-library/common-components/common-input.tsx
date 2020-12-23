@@ -7,9 +7,8 @@ import CustomImageUpload from '../forms/custom-image-upload';
 import {SwitchField} from '../forms/switch-field';
 import {InfiniteSelect} from '../forms/infinite-select';
 import TagInput from '../forms/tag-input';
-import React, {ReactElement, useCallback, useMemo} from 'react';
+import React, {ReactElement, useCallback} from 'react';
 import _ from 'lodash';
-import {InfiniteSelectV2} from '../forms/infinite-select-v2';
 import {RadioField} from "../forms/radio-field";
 
 const DefaultPlaceholder = {
@@ -143,10 +142,10 @@ export const InputRadio = ({label, placeholder, className, ...props}: InputRadio
   const intl = useIntl();
   return (
     <div className={className}>
-    <RadioField
-      {...props}
-      label={_.isString(label) ? intl.formatMessage({id: label}) : label}
-    />
+      <RadioField
+        {...props}
+        label={_.isString(label) ? intl.formatMessage({id: label}) : label}
+      />
       {/*<Field*/}
       {/*  {...props}*/}
       {/*  component={RadioField}*/}
@@ -228,7 +227,8 @@ export const InputSearchSelect = ({
     if (keyField) {
       queryProps[keyField] = search;
     } else {
-      queryProps[name] = search;
+      const names = name.split('.');
+      queryProps[names[names.length - 1]] = search;
     }
     const paginationProps = {
       ...DefaultPagination,

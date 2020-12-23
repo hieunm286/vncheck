@@ -21,7 +21,7 @@ export function SwitchField({
       <div className={mode === 'horizontal' ? 'row' : ''}>
         <div className={mode === 'horizontal' ? GetClassName(props.labelWidth, true) : ''}>
           {props.label && (
-            <label className={mode === 'horizontal' ? 'mb-0 mt-2' : ''}>
+            <label className={mode === 'horizontal' ? 'mb-0 mt-1' : ''}>
               {props.label && <label>{props.label}</label>} {props.required && <span className="text-danger">*</span>}
             </label>
           )}
