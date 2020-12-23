@@ -39,6 +39,8 @@ export const GetTouched = (touched: any, fieldName: string) => {
   }
   
   const arrName = fieldName.split('.')
+
+  console.log(arrName)
   
   if (arrName.length === 3) {
     return touched[arrName[0]] ? touched[arrName[0]][arrName[1]][arrName[2]] : ''

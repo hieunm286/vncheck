@@ -157,14 +157,14 @@ export const RenderForm = ({inputs, prevKey, mode}: any) => {
             />
           );
         // case 'tag':
-        //   const defaultTag = (getField(entity, prevKey ? `${prevKey}.${key}` : key))
+        //   const defaultTag = (getField(values, prevKey ? `${prevKey}.${key}` : key))
         //   return (
         //     <InputTag
         //       className={defaultClassName}
         //       name={prevKey !== '' ? `${prevKey}.${key}` : key}
         //       mode={mode}
         //       defaultTag={defaultTag}
-        //       tagData={tagData}
+        //       tagData={tagData || []}
         //       type={input._type}
         //       {...input}
         //       key={`modify-page-${key}`}
