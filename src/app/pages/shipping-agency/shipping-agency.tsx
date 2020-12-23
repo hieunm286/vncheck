@@ -288,12 +288,12 @@ function ShippingAgency() {
       required: true,
       label: 'SHIPPING_AGENCY.MODIFY.STATUS',
     },
-    phoneNumber: {
+    phone: {
       _type: 'string',
       required: true,
       label: 'SHIPPING_AGENCY.MODIFY.PHONE_NUMBER',
     },
-    tax: {
+    taxId: {
       _type: 'string',
       required: true,
       label: 'SHIPPING_AGENCY.MODIFY.TAX_NUMBER',
@@ -307,49 +307,56 @@ function ShippingAgency() {
   const [group2, setGroup2] = useState<ModifyInputGroup>({
     _subTitle: 'THÔNG TIN CHỦ ĐƠN VỊ',
     _className: 'col-6 pl-xl-15 pl-md-10 pl-5',
-    userName: {
-      _type: 'string',
-      label: 'SHIPPING_AGENCY.MODIFY.USER_NAME',
-      required: true,
-    },
-    displayName: {
-      _type: 'string',
-      required: true,
-      label: 'SHIPPING_AGENCY.MODIFY.DISPLAY_NAME',
-    },
-    phoneNumber: {
-      _type: 'string',
-      required: true,
-      label: 'SHIPPING_AGENCY.MODIFY.PHONE_NUMBER',
-    },
-    email: {
-      _type: 'string',
-      required: true,
-      label: 'SHIPPING_AGENCY.MODIFY.EMAIL',
-    },
-    gender: {
-      _type: 'radio',
-      required: true,
-      label: 'SHIPPING_AGENCY.MODIFY.GENDER',
-    },
-    dateOfBirth: {
-      _type: 'date-time',
-      required: true,
-      label: 'SHIPPING_AGENCY.MODIFY.DATE_OF_BIRTH',
-    },
-    role: {
-      _type: 'search-select',
-      required: true,
-      label: 'SHIPPING_AGENCY.MODIFY.ROLE',
-      onSearch: ({queryProps, paginationProps}: any): Promise<any> => {
-        return GetRole({queryProps, paginationProps},(t: any) => intl.formatMessage({id: t}))
+    owner:{
+      _type: 'object',
+      username: {
+        _type: 'string',
+        label: 'SHIPPING_AGENCY.MODIFY.USER_NAME',
+        required: true,
       },
-    },
-    image: {
-      _type: 'image',
-      required: true,
-      label: 'SHIPPING_AGENCY.MODIFY.REPRESENT_IMAGE',
-    },
+      fullName: {
+        _type: 'string',
+        required: true,
+        label: 'SHIPPING_AGENCY.MODIFY.DISPLAY_NAME',
+      },
+      phone: {
+        _type: 'string',
+        required: true,
+        label: 'SHIPPING_AGENCY.MODIFY.PHONE_NUMBER',
+      },
+      email: {
+        _type: 'string',
+        required: true,
+        label: 'SHIPPING_AGENCY.MODIFY.EMAIL',
+      },
+      gender: {
+        _type: 'radio',
+        required: true,
+        options: [{
+          label: 'SHIPPING_AGENCY.MODIFY.GENDER_OPTION.MALE',
+          value: '1'
+        }, {label: 'SHIPPING_AGENCY.MODIFY.GENDER_OPTION.FEMALE', value: '0'}],
+        label: 'SHIPPING_AGENCY.MODIFY.GENDER',
+      },
+      birthDay: {
+        _type: 'date-time',
+        required: true,
+        label: 'SHIPPING_AGENCY.MODIFY.DATE_OF_BIRTH',
+      },
+      role: {
+        _type: 'search-select',
+        required: true,
+        label: 'SHIPPING_AGENCY.MODIFY.ROLE',
+        onSearch: ({queryProps, paginationProps}: any): Promise<any> => {
+          return GetRole({queryProps, paginationProps}, (t: any) => intl.formatMessage({id: t}))
+        },
+      },
+      image: {
+        _type: 'image',
+        required: true,
+        label: 'SHIPPING_AGENCY.MODIFY.REPRESENT_IMAGE',
+      },
+    }
   });
   
   const createForm = useMemo((): ModifyForm => ({

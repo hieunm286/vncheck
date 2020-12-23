@@ -34,6 +34,19 @@ export type InputStringType = {
   placeholder?: string;
   [X: string]: any;
 };
+
+export type InputRadioType = {
+  name: string;
+  className?: string;
+  label: string | ReactElement;
+  required?: boolean | ((values: any) => boolean);
+  disabled?: boolean | ((values: any) => boolean);
+  
+  mode?: 'horizontal' | 'vertical';
+  placeholder?: string;
+  options: { value: any, label: string }[] | ((...props: any) => { value: any, label: string }[]);
+  [X: string]: any;
+};
 export type InputNumberType = {
   name: string;
   className?: string;
@@ -126,7 +139,7 @@ export const InputString = ({label, placeholder, className, ...props}: InputStri
   );
 };
 
-export const InputRadio = ({label, placeholder, className, ...props}: InputStringType) => {
+export const InputRadio = ({label, placeholder, className, ...props}: InputRadioType) => {
   const intl = useIntl();
   return (
     <div className={className}>

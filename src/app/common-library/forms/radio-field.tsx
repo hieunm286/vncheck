@@ -1,71 +1,68 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import './custom.css';
 import {FieldFeedbackLabel} from './field-feedback-label';
 import {useFormikContext} from 'formik';
 import {useIntl} from 'react-intl';
 import {FormControlLabel, Radio, RadioGroup} from "@material-ui/core";
 import StyledRadio from "./StyledRadio";
-import {GetClassName, GetError, GetTouched} from "../helpers/common-function";
+import {GetClassName, GetError, GetFieldCSSClasses, GetTouched} from "../helpers/common-function";
+import {MainInputState} from "../common-types/common-type";
+import _ from "lodash";
 
-interface MainInputState {
-  field: any; // { name, value, onChange, onBlur }
-  form: { touched: any; errors: any }; // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
-  label: string | any;
-  withFeedbackLabel: any;
-  withValidation: any;
-  customFeedbackLabel: any;
-  isHorizontal: any;
-  labelWidth: any;
-  width: any;
-  type: any;
-  name: any;
-}
 
 export function RadioField({
                              field, // { name, value, onChange, onBlur }
                              form: {touched, errors}, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
                              label,
-                             withFeedbackLabel,
+                             withFeedbackLabel = true,
                              withValidation,
                              customFeedbackLabel,
-                             isHorizontal,
+                             mode,
                              labelWidth,
                              width,
-                             name,
+                             onChange,
+                             disabled,
+                             required,
                              type = 'text',
+                             options,
                              ...props
-                           }: MainInputState) {
-  const styleLabe = {
-    width: width,
-  };
-  const {values, setFieldValue} = useFormikContext<any>();
-  
+                           }: MainInputState & { options: { value: any, label: string }[] | ((...props: any) => { value: any, label: string }[]); }) {
+  const {setFieldValue, values, handleChange, setTouched, handleBlur} = useFormikContext<any>();
+  const [_innerOptions, setInnerOptions] = useState(options);
+  useEffect(() => {
+    if (_.isArray(options)) setInnerOptions(options);
+    else setInnerOptions(options(values));
+  }, [options]);
   const intl = useIntl();
-  
-  const handleGenderChange = (e: any) => {
-    // setFieldValue('defaultShippingAddress', e.target.value)
-    setFieldValue('gender', e.target.value)
-  }
   return (
     <>
-      <div className={isHorizontal && 'row'}>
-        <div className={isHorizontal && GetClassName(labelWidth, true)}>
+      <div className={mode === 'horizontal' ? 'row' : ''}>
+        <div className={mode === 'horizontal' ? GetClassName(labelWidth, true) : ''}>
           {label && (
-            <label style={width && styleLabe} className={isHorizontal && 'mb-0 input-label mt-2'}>
-              {label} {withFeedbackLabel && <span className="text-danger">*</span>}
+            <label className={mode === 'horizontal' ? 'mb-0 mt-2' : ''}>
+              {label} {required && <span className="text-danger">*</span>}
             </label>
           )}
         </div>
         
-        <div className={isHorizontal && GetClassName(labelWidth, false)}>
-          <RadioGroup name={name} value={values.gender}
-                      onChange={(e: any) => handleGenderChange(e)} {...props} {...field}
-                      className={(errors[field.name] && touched[field.name]) ? 'is-invalid' : ''}>
+        <div className={mode === 'horizontal' ? GetClassName(labelWidth, false) : ''}>
+          <RadioGroup
+            onChange={(e) => {
+              handleChange(e)
+              onChange && onChange(e, {setFieldValue, values})
+              // setTouched(field.name, true)
+            }}
+            disabled={disabled ? typeof disabled === 'boolean' ? disabled : disabled(values) : disabled}
+            {...field}
+            {...props}
+            className={(errors[field.name] && touched[field.name]) ? 'is-invalid' : ''}
+          >
             <div className="row no-gutters">
-              <FormControlLabel name={name} value="1" control={<StyledRadio/>}
-                                label={intl.formatMessage({id: 'AGENCY.EDIT.LABEL.OWNER_GENDER_MALE'})}/>
-              <FormControlLabel name={name} value="0" control={<StyledRadio/>}
-                                label={intl.formatMessage({id: 'AGENCY.EDIT.LABEL.OWNER_GENDER_FEMALE'})}/>
+              {_innerOptions.map((val, index, arr) => {
+                return (<FormControlLabel name={props.name} value={val.value} control={<StyledRadio/>}
+                                          key={`radio_${field.name}_${val.value}`}
+                                          label={intl.formatMessage({id: val.label})}/>)
+              })}
             </div>
           </RadioGroup>
           {withFeedbackLabel && (

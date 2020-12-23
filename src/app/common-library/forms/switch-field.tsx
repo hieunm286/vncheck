@@ -1,12 +1,9 @@
 import {Switch} from 'antd';
 import React from 'react';
 import './custom.css';
-import {FieldFeedbackLabel} from './field-feedback-label';
-import CheckCircleOutlinedIcon from '@material-ui/icons/CheckCircleOutlined';
 import {useField, useFormikContext} from 'formik';
 import {GetClassName, GetError, GetTouched} from "../helpers/common-function";
 import {CheckOutlined, CloseOutlined} from "@material-ui/icons";
-import {MainInputState} from "./main-input";
 import {InputBooleanType} from "../common-components/common-input";
 
 export function SwitchField({

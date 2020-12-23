@@ -4,6 +4,7 @@ import {GetClassName, getNewImage, getOnlyBase64} from '../helpers/common-functi
 import exifr from 'exifr';
 import './custom-image-upload.scss';
 import {useFormikContext} from 'formik';
+import {CloseOutlined} from "@material-ui/icons";
 
 interface ImageUploadPros {
   value: any[];
@@ -134,11 +135,9 @@ function CustomImageUpload({
                         onImageRemove(index);
                         getDeleteImage(index);
                       }}>
-                      x
+                      <CloseOutlined/>
                     </button>
-                    &nbsp;
                   </div>
-                  // </div>
                 ))}
                 <button
                   type="button"

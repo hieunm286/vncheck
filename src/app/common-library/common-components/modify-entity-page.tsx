@@ -100,7 +100,7 @@ export const RenderForm = ({inputs, prevKey, mode}: any) => {
               key={`modify-page-${key}`}/>
           );
         case 'radio':
-          return(
+          return (
             <InputRadio
               className={defaultClassName}
               name={prevKey !== '' ? `${prevKey}.${key}` : key}
@@ -109,17 +109,17 @@ export const RenderForm = ({inputs, prevKey, mode}: any) => {
               {...input}
               key={`modify-page-${key}`}/>
           )
-          // const _shippingAddresses = ['22','33333','5555555'];
-          // return _shippingAddresses ? (
-          //   <FormikRadioGroup
-          //     ariaLabel="defaultShippingAddress"
-          //     name="defaultShippingAddress"
-          //     addresses={_shippingAddresses}
-          //     currentAddress={"22"} setCurrentAddress={(e: any) => {
-          //     console.log(e)
-          //   }}/>
-          // ) : (
-          //   <></>
+        // const _shippingAddresses = ['22','33333','5555555'];
+        // return _shippingAddresses ? (
+        //   <FormikRadioGroup
+        //     ariaLabel="defaultShippingAddress"
+        //     name="defaultShippingAddress"
+        //     addresses={_shippingAddresses}
+        //     currentAddress={"22"} setCurrentAddress={(e: any) => {
+        //     console.log(e)
+        //   }}/>
+        // ) : (
+        //   <></>
         case 'boolean':
           return (
             <InputBoolean
@@ -208,7 +208,9 @@ export const RenderForm = ({inputs, prevKey, mode}: any) => {
           );
         default:
           const {_type, ...inn} = input as any;
-          return <RenderForm inputs={inn} prevKey={prevKey ? `${prevKey}.${key}` : key} mode={mode}/>
+          console.log(prevKey ? `${prevKey}.${key}` : key);
+          return <RenderForm inputs={inn} prevKey={prevKey ? `${prevKey}.${key}` : key} mode={mode}
+                             key={`render_form${prevKey ? `${prevKey}.${key}` : key}`}/>
       }
       return (<></>)
     })}</>)
