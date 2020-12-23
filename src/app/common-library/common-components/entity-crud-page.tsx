@@ -222,39 +222,39 @@ function EntityCrudPage({
                       />
                       {(
                         <div className="text-right mt-10" key={key}>
-                          {Object.keys(actions.data).map(keyss => {
-                            switch (actions.data[keyss].role) {
+                          {Object.keys(actions).map(keyss => {
+                            switch (actions[keyss].role) {
                               case 'submit':
-                                console.log(actions.data[keyss])
+                                console.log(actions[keyss])
                                 return (
                                   <button
                                     formNoValidate
-                                    type={actions.data[keyss].type}
-                                    className={actions.data[keyss].className}
+                                    type={actions[keyss].type}
+                                    className={actions[keyss].className}
                                     key={keyss}
                                     onClick={() => handleSubmit()}>
-                                    {actions.data[keyss].icon} {actions.data[keyss].label}
+                                    {actions[keyss].icon} {actions[keyss].label}
                                   </button>
                                 );
                 
                               case 'button':
-                                console.log(actions.data[keyss])
+                                console.log(actions[keyss])
                   
                                 return (
                                   <button
-                                    type={actions.data[keyss].type}
-                                    className={actions.data[keyss].className}
+                                    type={actions[keyss].type}
+                                    className={actions[keyss].className}
                                     key={keyss}>
-                                    {actions.data[keyss].icon} {actions.data[keyss].label}
+                                    {actions[keyss].icon} {actions[keyss].label}
                                   </button>
                                 );
                               case 'link-button':
                                 return (
-                                  <Link to={actions.data[keyss].linkto} key={keyss}>
+                                  <Link to={actions[keyss].linkto} key={keyss}>
                                     <button
-                                      type={actions.data[keyss].type}
-                                      className={actions.data[keyss].className}>
-                                      {actions.data[keyss].icon} {actions.data[keyss].label}
+                                      type={actions[keyss].type}
+                                      className={actions[keyss].className}>
+                                      {actions[keyss].icon} {actions[keyss].label}
                                     </button>
                                   </Link>
                                 );

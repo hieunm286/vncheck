@@ -1,4 +1,4 @@
-import React, {Fragment, useEffect, useMemo, useState} from 'react';
+import React, {Fragment, useCallback, useEffect, useMemo, useState} from 'react';
 import {useIntl} from 'react-intl';
 import {DefaultPagination, NormalColumn, SortColumn} from '../../common-library/common-consts/const';
 import {MasterHeader} from '../../common-library/common-components/master-header';
@@ -203,8 +203,13 @@ function ShippingAgency() {
       label: 'SHIPPING_AGENCY.MASTER.SEARCH.PHONE',
     },
   };
-  
-  const [group1, setGroup1] = useState<ModifyInputGroup>({
+  const [state, setState] = useState<string | null>('');
+  const [city, setCity] = useState<string | null>(null);
+  const getCity = useCallback(({queryProps, paginationProps}: any): Promise<any> => {
+    console.log(state);
+    return GetCity({queryProps: {...queryProps, parent_code: state}, paginationProps})
+  }, [state]);
+  const group1 = useMemo(():ModifyInputGroup => ({
     _subTitle: 'THÔNG TIN CHUNG',
     _className: 'col-6 pr-xl-15 pr-md-10 pr-5',
     code: {
@@ -223,22 +228,29 @@ function ShippingAgency() {
       state: {
         _type: 'search-select',
         onSearch: GetState,
-        selectField: 'code',
         keyField: 'name_with_type',
         disabled: (values: any) => {
           console.log(values)
+        },
+        onChange: (value: any, props: any) => {
+          console.log(value);
+          setState(value.code);
         },
         required: true,
         label: 'SHIPPING_AGENCY.MODIFY.STATE',
       },
       city: {
         _type: 'search-select',
-        onSearch: GetCity,
+        onSearch: getCity,
         selectField: 'code',
         keyField: 'name_with_type',
         required: true,
+        onChange: (value: any, props: any) => {
+          console.log(value);
+          setCity(value.code);
+        },
         disabled: (values: any) => {
-          console.log(values)
+          return state === null;
         },
         label: 'SHIPPING_AGENCY.MODIFY.CITY',
       },
@@ -249,7 +261,8 @@ function ShippingAgency() {
         keyField: 'name_with_type',
         required: true,
         disabled: (values: any) => {
-          console.log(values)
+          console.log(values);
+          return city === null;
         },
         label: 'SHIPPING_AGENCY.MODIFY.DISTRICT',
       },
@@ -279,7 +292,7 @@ function ShippingAgency() {
       required: true,
       label: 'SHIPPING_AGENCY.MODIFY.IMAGE',
     },
-  });
+  }),[state, city,getCity]);
   const [group2, setGroup2] = useState<ModifyInputGroup>({
     _subTitle: 'THÔNG TIN CHỦ ĐƠN VỊ',
     _className: 'col-6 pl-xl-15 pl-md-10 pl-5',
@@ -335,7 +348,7 @@ function ShippingAgency() {
       group1: group1,
       group2: group2,
     },
-  }), []);
+  }), [group1,group2]);
   const updateForm = useMemo((): ModifyForm => ({...createForm, _header: updateTitle}), [createForm]);
   
   const actions: any = {

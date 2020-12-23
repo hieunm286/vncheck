@@ -7,8 +7,8 @@ const CityList = Object.values(CITY_LIST);
 const DistrictList = Object.values(DISTRICT_LIST);
 const GetCompareFunction = ({key, orderType}: { key: string, orderType: 1 | -1 }) => {
   return (a: any, b: any) => {
-    const _a = key && key != ''? a[key] : a;
-    const _b = key && key != ''? b[key] : b;
+    const _a = key && key != '' ? a[key] : a;
+    const _b = key && key != '' ? b[key] : b;
     if (_a < _b) {
       return -1 * orderType;
     }
@@ -41,9 +41,12 @@ export const GetState = ({queryProps, paginationProps}: any): Promise<any> => {
 }
 export const GetCity = ({queryProps, paginationProps}: any): Promise<any> => {
   return new Promise((resolve, reject) => {
-    const totalData = CityList.filter((val, index, arr) => {
+    let totalData = CityList.filter((val, index, arr) => {
       return val.name_with_type.toLowerCase().indexOf(queryProps.name_with_type.toLowerCase()) > -1;
     })
+    queryProps.parent_code && (totalData = totalData.filter((val, index, arr) => {
+      return val.parent_code === queryProps.parent_code;
+    }));
     const data = totalData.sort(GetCompareFunction({
       key: paginationProps.sortBy,
       orderType: paginationProps.sortType === 'asc' ? 1 : -1
