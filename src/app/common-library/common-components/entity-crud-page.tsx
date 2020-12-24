@@ -31,7 +31,7 @@ const toDataURL = (url: string) =>
     );
 
 function EntityCrudPage({
-                          entity,
+                          entity = {},
                           onModify,
                           // header = 'COMMON_COMPONENT.CREATE_UPDATE.TITLE',
                           moduleName = 'COMMON_COMPONENT.CREATE_UPDATE.MODULE_NAME',
@@ -45,10 +45,10 @@ function EntityCrudPage({
                         }: {
   // modifyModel: ModifyModel;
   moduleName?: string;
-  entity: any;
+  entity?: any;
   onModify: (values: any) => void;
-  code: string | null;
-  get: (code: string) => any | null;
+  code?: string;
+  get?: (code: string) => any;
   formModel: ModifyForm;
   // allFormField: any;
   actions: any;
@@ -147,11 +147,11 @@ function EntityCrudPage({
 
   useEffect(() => {
     if (code) {
-      get(code).then((res: { data: any }) => {
+      get && get(code).then((res: { data: any }) => {
         // const convert = autoFill
         //   ? ConvertSelectSearch(res.data, autoFill.searchSelectField)
         //   : ConvertSelectSearch(res.data);
-        // setEntityForEdit(res.data);
+        setEntityForEdit(res.data);
         // setImages(convert.image ? ConvertImage(convert) : initForm)
         ConvertImage(res.data);
         // setSearch(res.data);

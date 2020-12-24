@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 
 interface FeedBackProps {
   label: string;
@@ -9,10 +9,10 @@ interface FeedBackProps {
   type?: string;
 }
 
-const inputLabel = ({ label, touched, error, customFeedbackLabel }: FeedBackProps) => {
+const inputLabel = ({label, touched, error, customFeedbackLabel}: FeedBackProps) => {
   // console.log('touced:' + touched)
   //   console.log('err:' + error)
-
+  
   if (touched && error) {
     return (
       <div className="invalid-feedback">
@@ -21,11 +21,11 @@ const inputLabel = ({ label, touched, error, customFeedbackLabel }: FeedBackProp
       </div>
     );
   }
-
+  
   if (touched && !error && label) {
     return <></>;
   }
-
+  
   return (
     <div className="feedback">
       {customFeedbackLabel && <>{customFeedbackLabel}</>}
@@ -34,7 +34,7 @@ const inputLabel = ({ label, touched, error, customFeedbackLabel }: FeedBackProp
   );
 };
 
-const selectLabel = ({ label, touched, error, customFeedbackLabel }: FeedBackProps) => {
+const selectLabel = ({label, touched, error, customFeedbackLabel}: FeedBackProps) => {
   if (touched && error) {
     return (
       <div className="invalid-feedback">
@@ -42,11 +42,11 @@ const selectLabel = ({ label, touched, error, customFeedbackLabel }: FeedBackPro
       </div>
     );
   }
-
+  
   return (
     <div className="feedback">
       {customFeedbackLabel && <>{customFeedbackLabel}</>}
-
+      
       {!customFeedbackLabel && label && (
         <>
           <FormattedMessage id="VALIDATION.SELECT_FEEDBACK_LABEL"></FormattedMessage> <b>{label}</b>
@@ -57,26 +57,28 @@ const selectLabel = ({ label, touched, error, customFeedbackLabel }: FeedBackPro
 };
 
 export function FieldFeedbackLabel({
-  label,
-  touched,
-  error,
-  type,
-  customFeedbackLabel,
-}: FeedBackProps) {
+                                     label,
+                                     touched,
+                                     error,
+                                     type,
+                                     customFeedbackLabel,
+                                   }: FeedBackProps) {
   switch (type) {
     case 'text':
-      return inputLabel({ label, touched, error, customFeedbackLabel });
+      return inputLabel({label, touched, error, customFeedbackLabel});
     case 'string':
-      return inputLabel({ label, touched, error, customFeedbackLabel });
+      return inputLabel({label, touched, error, customFeedbackLabel});
     case 'email':
-      return inputLabel({ label, touched, error, customFeedbackLabel });
+      return inputLabel({label, touched, error, customFeedbackLabel});
     case 'password':
-      return inputLabel({ label, touched, error, customFeedbackLabel });
+      return inputLabel({label, touched, error, customFeedbackLabel});
     case 'number':
-      return inputLabel({ label, touched, error, customFeedbackLabel });
-    case 'Datetime':
-      return inputLabel({ label, touched, error, customFeedbackLabel });
+      return inputLabel({label, touched, error, customFeedbackLabel});
+    case 'date-time':
+      return inputLabel({label, touched, error, customFeedbackLabel});
+    case 'radio':
+      return inputLabel({label, touched, error, customFeedbackLabel});
     default:
-      return selectLabel({ label, touched, error, customFeedbackLabel });
+      return selectLabel({label, touched, error, customFeedbackLabel});
   }
 }

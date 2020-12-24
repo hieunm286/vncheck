@@ -1,5 +1,10 @@
 {
   "Network Error": "Cá mập cắn cáp rồi đại vương ơi",
+  "ROLE.MANAGER": "Quản lý",
+  "ROLE.FARMER": "Nông dân",
+  "ROLE.TECHNICIAN": "Nhân viên kỹ thuật",
+  "ROLE.ADMIN": "Quản trị hệ thống",
+
   "TRANSLATOR.SELECT": "Select your language",
   "MENU.NEW": "new",
   "MENU.ACTIONS": "Actions",
@@ -409,6 +414,8 @@
   "SHIPPING_AGENCY.MODIFY.DATE_OF_BIRTH": "Ngày sinh",
   "SHIPPING_AGENCY.MODIFY.ROLE": "Tên vai trò",
   "SHIPPING_AGENCY.MODIFY.REPRESENT_IMAGE": "Hình ảnh đại diện",
+  "SHIPPING_AGENCY.MODIFY.GENDER_OPTION.MALE": "Nam",
+  "SHIPPING_AGENCY.MODIFY.GENDER_OPTION.FEMALE": "Nữ",
   "VALIDATE.ERROR.INVALID_START_TIME": "Ngày bắt đầu không hợp lệ",
   "VALIDATE.ERROR.MISSING_START_TIME": "Vui lòng nhập ngày bắt đầu",
   "VALIDATE.ERROR.START_TIME_MUST_LESS_THAN_END_TIME": "Ngày bắt đầu phải nhỏ hơn ngày kết thúc",

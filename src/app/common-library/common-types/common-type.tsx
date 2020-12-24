@@ -1,8 +1,25 @@
 import {AxiosResponse} from 'axios';
 import {CSSProperties, ReactElement} from "react";
-import {IntlShape} from "react-intl";
-import {StylesConfig} from "react-select";
 import {ColumnDescription} from "react-bootstrap-table-next";
+
+
+export interface MainInputState {
+  field: any; // { name, value, onChange, onBlur }
+  form: { touched: any; errors: any }; // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
+  label: string | any;
+  withFeedbackLabel: any;
+  withValidation: any;
+  customFeedbackLabel: any;
+  mode: 'horizontal' | 'vertical';
+  labelWidth: number;
+  width: any;
+  type: string;
+  value: any;
+  onChange?: (value: any, props: { setFieldValue: ((name: string, value: any) => void), values: any }) => any;
+  required?: boolean | ((values: any) => boolean);
+  disabled?: boolean | ((values: any) => boolean);
+  name: string;
+}
 
 export interface PaginationProps {
   limit: number | undefined;
@@ -11,12 +28,6 @@ export interface PaginationProps {
   sortBy: string;
 }
 
-export interface PaginationPropsV2 {
-  limit: number | undefined;
-  page: number | undefined;
-  sortType: string;
-  sortBy: string;
-}
 
 export interface SortProps {
   [t: string]: 'asc' | 'des';
@@ -190,12 +201,13 @@ export type GetAllPropsServer<T> = ({
                                     }: {
   queryProps: any;
   sortList?: SortProps[];
-  paginationProps?: PaginationProps | PaginationPropsV2;
+  paginationProps?: PaginationProps;
 }) => (Promise<AxiosResponse<T[]>>);
 export type _ModifyModelInput =
   ({ _type: 'object', [S: string]: any })
   | ({ _type: 'image', value?: any } & _CommonProps)
-  | ({ _type: 'string' | 'date-time' | 'number' | 'boolean' | 'tag' | 'gallery'; } & _CommonProps)
+  | ({ _type: 'string' | 'date-time' | 'number' | 'boolean' | 'tag' | 'gallery' } & _CommonProps)
+  | ({ _type: 'radio', options: { value: any, label: string }[] | ((...props: any) => { value: any, label: string }[]); } & _CommonProps)
   | ({ _type: 'search-select', onSearch: GetAllPropsServer<any> | GetAllProps<any>, keyField?: string, selectField?: string } & _CommonProps)
 export type GetAllProps<T> = ({
                                 queryProps,
@@ -204,7 +216,7 @@ export type GetAllProps<T> = ({
                               }: {
   queryProps: any;
   sortList?: SortProps[];
-  paginationProps?: PaginationProps | PaginationPropsV2;
+  paginationProps?: PaginationProps;
 }) => (Promise<{ code: number, data: any, success: boolean }>);
 
 export type CountProps<T> = ({
