@@ -622,7 +622,6 @@ function PurchaseOrder() {
             entity={createEntity}
             onModify={add}
             //  modifyModel={modifyModel}
-            code={null}
             get={() => null}
             formModel={formPart}
             // allFormField={allFormField}

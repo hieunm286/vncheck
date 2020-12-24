@@ -3,7 +3,6 @@ import './custom.css';
 import {FieldFeedbackLabel} from './field-feedback-label';
 import {GetClassName, GetError, GetFieldCSSClasses, GetTouched} from "../helpers/common-function";
 import {useFormikContext} from "formik";
-import { truncate } from 'lodash';
 import {MainInputState} from "../common-types/common-type";
 
 
@@ -57,6 +56,7 @@ export function MainInput({
             disabled={disabled ? typeof disabled === 'boolean' ? disabled : disabled(values) : disabled}
             {...field}
             {...props}
+            value={field.value ?? ''}
             onChange={(e) => {
               handleChange(e)
               onChange && onChange(e, {setFieldValue, values})
@@ -67,7 +67,7 @@ export function MainInput({
             }}
           
           />
-{/* 
+          {/*
           { GetError(errors, field.name) && 
              <div className="invalid-feedback">
              <FormattedMessage id={error}></FormattedMessage>

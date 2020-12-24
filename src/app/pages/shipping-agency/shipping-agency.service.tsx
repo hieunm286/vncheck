@@ -47,7 +47,10 @@ export const Get: GetProps<any> = entity => {
 };
 
 export const GetById = (_id: string) => {
-  return axios.get(`${API_URL}/${_id}`);
+  return axios.get(`${API_URL}/${_id}`).then((t) => {
+    console.log(t.data);
+    return t;
+  });
 };
 export const Update: UpdateProps<any> = (entity: any) => {
   return axios.put(`${API_URL}/${entity._id}`, entity);

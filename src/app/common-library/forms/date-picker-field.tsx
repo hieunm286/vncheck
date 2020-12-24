@@ -24,7 +24,7 @@ export function DatePickerField({mode, disabled, required, labelWidth, label, ..
   });
   const timestamp = new Date();
   const inverseOffset = moment(timestamp).utcOffset() * -1;
-  console.log(mode);
+  // console.log(mode);
   return (
     <>
       <div className={mode == 'horizontal' ? 'row' : ''}>

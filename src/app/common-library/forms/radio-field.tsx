@@ -23,6 +23,7 @@ export function RadioField({mode, disabled, required, options, labelWidth, onCha
     else setInnerOptions(options(values));
   }, [options]);
   const intl = useIntl();
+  console.log(field.value);
   return (
     <>
       <div className={mode === 'horizontal' ? 'row' : ''}>
@@ -38,6 +39,7 @@ export function RadioField({mode, disabled, required, options, labelWidth, onCha
           <RadioGroup
             {...props}
             {...field}
+            value={field.value??null}
             onChange={(e) => {
               handleChange(e)
               onChange && onChange(e, {setFieldValue, values})

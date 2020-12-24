@@ -24,7 +24,7 @@ import * as ShippingAgencyService from './shipping-agency.service'
 import {ShippingAgencyModel} from './shipping-agency.model';
 import {MasterEntityDetailDialog} from "../../common-library/common-components/master-entity-detail-dialog";
 import {GetCity, GetDistrict, GetState} from "../address/address.service";
-import {GetRole} from "../role/role.service";
+import * as RoleService from "../role/role.service";
 
 const headerTitle = 'PRODUCT_TYPE.MASTER.HEADER.TITLE';
 const tableTitle = 'SHIPPING_AGENCY.MASTER.TABLE.TITLE';
@@ -137,9 +137,6 @@ function ShippingAgency() {
             setShowDelete(true);
           },
           onEdit: (entity: ShippingAgencyModel) => {
-            // get(entity);
-            // setShowEdit(true);
-            setEditEntity(entity);
             history.push(`${window.location.pathname}/${entity._id}`);
           },
         },
@@ -348,9 +345,11 @@ function ShippingAgency() {
         _type: 'search-select',
         required: true,
         label: 'SHIPPING_AGENCY.MODIFY.ROLE',
-        onSearch: ({queryProps, paginationProps}: any): Promise<any> => {
-          return GetRole({queryProps, paginationProps}, (t: any) => intl.formatMessage({id: t}))
-        },
+        keyField: 'name',
+        // onSearch: ({queryProps, paginationProps}: any): Promise<any> => {
+        //   return GetRole({queryProps, paginationProps}, (t: any) => intl.formatMessage({id: t}))
+        // },
+        onSearch: RoleService.GetAll,
       },
       image: {
         _type: 'image',
@@ -392,15 +391,11 @@ function ShippingAgency() {
   return (
     <Fragment>
       <Switch>
-        <Route path="/shipping-agency/new">
+        <Route path="/shipping-agency/0000000">
           <EntityCrudPage
-            entity={createEntity}
             moduleName={moduleName}
             onModify={add}
             formModel={createForm}
-            code={null}
-            get={() => null}
-            // allFormField={allFormField}
             actions={actions}
             // validation={ProductTypeSchema}
             // autoFill={{
@@ -421,7 +416,6 @@ function ShippingAgency() {
             //   get={PurchaseOrderService.GetById}
             // />
             <EntityCrudPage
-              entity={editEntity}
               onModify={update}
               moduleName={moduleName}
               //  modifyModel={modifyModel}

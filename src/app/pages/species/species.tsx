@@ -375,7 +375,6 @@ function Species() {
             entity={initForm}
             onModify={add}
             // reduxModel="purchaseOrder"
-            code={null}
             get={() => null}
             formModel={createForm}
             // allFormField={allFormField}
