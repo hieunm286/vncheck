@@ -214,7 +214,7 @@ function ProductionPlanCrud({
         setNoticeModal(true);
         setErrorMsg(undefined);
         refreshData();
-        // history.push(homePage || GetHomePage(window.location.pathname));
+        history.push(homePage || GetHomePage(window.location.pathname));
       })
       .catch(error => {
         setSubmitting(false);
