@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useMemo, useState } from 'react';
 import { useIntl } from 'react-intl';
 import {
   DefaultPagination,
@@ -6,7 +6,7 @@ import {
   SortColumn,
 } from '../../common-library/common-consts/const';
 import { MasterHeader } from '../../common-library/common-components/master-header';
-import { InitMasterProps } from '../../common-library/helpers/common-function';
+import { GenerateAllFormField, InitMasterProps } from '../../common-library/helpers/common-function';
 import { Link, Route, Switch, useHistory } from 'react-router-dom';
 import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
@@ -18,8 +18,8 @@ import { ProductPlanActionsColumn } from './production-plan-actions-column';
 import ProductionPlanVersion from './production-plan-version';
 import { MasterEntityDetailPage } from '../../common-library/common-components/master-detail-page';
 import {
-  allFormField,
   formPart,
+  allFormField,
   halfValidate,
   masterEntityDetailDialog2,
   packingValidate,
@@ -28,7 +28,6 @@ import {
   productPlanSearchModel1,
   productPlanSearchModel2,
   SeedingDetailDialog,
-  updateForm,
   validate,
 } from './defined/const';
 import { getAllUsers } from '../account/_redux/user-crud';
@@ -39,6 +38,8 @@ import * as Yup from 'yup';
 import Visibility from '@material-ui/icons/Visibility';
 import clsx from 'clsx';
 import _ from 'lodash';
+import { ModifyForm, ModifyPanel } from '../../common-library/common-types/common-type';
+import * as ProductPackagingService from '../product-packaging/product-packaging.service';
 
 const headerTitle = 'PRODUCT_TYPE.MASTER.HEADER.TITLE';
 const bodyTitle = 'PRODUCT_TYPE.MASTER.BODY.TITLE';
@@ -82,132 +83,132 @@ const GetValidate = (
 };
 
 const ProductPlantSchema = Yup.object().shape({
-  harvesting: Yup.object()
-    .shape(halfValidate)
-    .test('oneOfRequired', 'Vui lòng nhập đầy đủ theo thứ tự', function(values: any) {
-      console.log(this.parent.harvesting);
-      console.log(values);
-      if (values.technical.length === 0 || values.leader.length === 0) {
-        if (
-          this.parent.preliminaryTreatment.technical.length > 0 ||
-          this.parent.preliminaryTreatment.leader.length > 0 ||
-          this.parent.preliminaryTreatment.estimatedTime ||
-          this.parent.preliminaryTreatment.estimatedQuantity > 0 ||
-          this.parent.preliminaryTreatment.estimatedQuantity
-        ) {
-          return false;
-        }
-      }
-      return true;
-    }),
-  preliminaryTreatment: Yup.object()
-    .shape(validate)
-    .test('oneOfRequired', 'Vui lòng nhập đầy đủ theo thứ tự', function(values: any) {
-      console.log(this.parent.harvesting);
-      console.log(values);
-      if (
-        values.technical.length === 0 ||
-        values.leader.length === 0 ||
-        !values.estimatedTime ||
-        values.estimatedQuantity === 0 ||
-        !values.estimatedQuantity
-      ) {
-        if (
-          this.parent.cleaning.technical.length > 0 ||
-          this.parent.cleaning.leader.length > 0 ||
-          this.parent.cleaning.estimatedTime ||
-          this.parent.cleaning.estimatedQuantity > 0 ||
-          this.parent.cleaning.estimatedQuantity
-        ) {
-          return false;
-        }
-      }
-      return true;
-    }),
-  cleaning: Yup.object()
-    .shape(validate)
-    .test('oneOfRequired', 'Vui lòng nhập đầy đủ theo thứ tự', function(values: any) {
-      console.log(this.parent.preliminaryTreatment);
-      console.log(values);
+  // harvesting: Yup.object()
+  //   .shape(halfValidate)
+  //   .test('oneOfRequired', 'Vui lòng nhập đầy đủ theo thứ tự', function(values: any) {
+  //     console.log(this.parent.harvesting);
+  //     console.log(values);
+  //     if (values.technical.length === 0 || values.leader.length === 0) {
+  //       if (
+  //         this.parent.preliminaryTreatment.technical.length > 0 ||
+  //         this.parent.preliminaryTreatment.leader.length > 0 ||
+  //         this.parent.preliminaryTreatment.estimatedTime ||
+  //         this.parent.preliminaryTreatment.estimatedQuantity > 0 ||
+  //         this.parent.preliminaryTreatment.estimatedQuantity
+  //       ) {
+  //         return false;
+  //       }
+  //     }
+  //     return true;
+  //   }),
+  // preliminaryTreatment: Yup.object()
+  //   .shape(validate)
+  //   .test('oneOfRequired', 'Vui lòng nhập đầy đủ theo thứ tự', function(values: any) {
+  //     console.log(this.parent.harvesting);
+  //     console.log(values);
+  //     if (
+  //       values.technical.length === 0 ||
+  //       values.leader.length === 0 ||
+  //       !values.estimatedTime ||
+  //       values.estimatedQuantity === 0 ||
+  //       !values.estimatedQuantity
+  //     ) {
+  //       if (
+  //         this.parent.cleaning.technical.length > 0 ||
+  //         this.parent.cleaning.leader.length > 0 ||
+  //         this.parent.cleaning.estimatedTime ||
+  //         this.parent.cleaning.estimatedQuantity > 0 ||
+  //         this.parent.cleaning.estimatedQuantity
+  //       ) {
+  //         return false;
+  //       }
+  //     }
+  //     return true;
+  //   }),
+  // cleaning: Yup.object()
+  //   .shape(validate)
+  //   .test('oneOfRequired', 'Vui lòng nhập đầy đủ theo thứ tự', function(values: any) {
+  //     console.log(this.parent.preliminaryTreatment);
+  //     console.log(values);
 
-      if (
-        // this.parent.harvesting.technical.length === 0 ||
-        // this.parent.harvesting.leader.length === 0 ||
-        values.technical.length === 0 ||
-        values.leader.length === 0 ||
-        !values.estimatedTime ||
-        values.estimatedQuantity === 0 ||
-        !values.estimatedQuantity
-      ) {
-        if (
-          this.parent.packing.estimatedTime ||
-          this.parent.packing.estimatedExpireTimeStart ||
-          this.parent.packing.estimatedExpireTimeEnd ||
-          // this.parent.packing.packing ||
-          // (_.isObject(this.parent.packing.packing)) ||
-          this.parent.packing.estimatedQuantity || this.parent.packing.estimatedQuantity > 0 ||
-          this.parent.packing.technical.length > 0 ||
-          this.parent.packing.leader.length > 0
-        ) {
-          return false;
-        }
-        // else if (
-        //   values.estimatedTime ||
-        //   values.estimatedQuantity ||
-        //   values.estimatedQuantity > 0 ||
-        //   values.technical.length > 0 ||
-        //   values.leader.length > 0
-        // ) {
-        //   return false;
-        // }
-        // return true;
-      }
-      return true;
-    }),
-  packing: Yup.object()
-    .shape(packingValidate)
-    .test('oneOfRequired', 'Vui lòng nhập đầy đủ theo thứ tự', function(values: any) {
-      console.log(this.parent.packing);
-      console.log(values);
+  //     if (
+  //       // this.parent.harvesting.technical.length === 0 ||
+  //       // this.parent.harvesting.leader.length === 0 ||
+  //       values.technical.length === 0 ||
+  //       values.leader.length === 0 ||
+  //       !values.estimatedTime ||
+  //       values.estimatedQuantity === 0 ||
+  //       !values.estimatedQuantity
+  //     ) {
+  //       if (
+  //         this.parent.packing.estimatedTime ||
+  //         this.parent.packing.estimatedExpireTimeStart ||
+  //         this.parent.packing.estimatedExpireTimeEnd ||
+  //         // this.parent.packing.packing ||
+  //         // (_.isObject(this.parent.packing.packing)) ||
+  //         this.parent.packing.estimatedQuantity || this.parent.packing.estimatedQuantity > 0 ||
+  //         this.parent.packing.technical.length > 0 ||
+  //         this.parent.packing.leader.length > 0
+  //       ) {
+  //         return false;
+  //       }
+  //       // else if (
+  //       //   values.estimatedTime ||
+  //       //   values.estimatedQuantity ||
+  //       //   values.estimatedQuantity > 0 ||
+  //       //   values.technical.length > 0 ||
+  //       //   values.leader.length > 0
+  //       // ) {
+  //       //   return false;
+  //       // }
+  //       // return true;
+  //     }
+  //     return true;
+  //   }),
+  // packing: Yup.object()
+  //   .shape(packingValidate)
+  //   .test('oneOfRequired', 'Vui lòng nhập đầy đủ theo thứ tự', function(values: any) {
+  //     console.log(this.parent.packing);
+  //     console.log(values);
 
-      if (
-        // this.parent.harvesting.technical.length === 0 ||
-        // this.parent.harvesting.leader.length === 0 ||
-        // this.parent.preliminaryTreatment.technical.length === 0 ||
-        // this.parent.preliminaryTreatment.leader.length === 0 ||
-        // !this.parent.preliminaryTreatment.estimatedTime ||
-        // this.parent.preliminaryTreatment.estimatedQuantity === 0 ||
-        // !this.parent.preliminaryTreatment.estimatedQuantity ||
-        !values.estimatedTime ||
-        !values.estimatedExpireTimeStart ||
-        !values.estimatedExpireTimeEnd ||
-        !values.packing || (_.isObject(values.packing) && !values.packing.label) ||
-        !values.estimatedQuantity || values.estimatedQuantity === 0 ||
-        values.technical.length === 0 ||
-        values.leader.length === 0
-      ) {
-        if (
-          this.parent.preservation.estimatedStartTime ||
-          this.parent.preservation.estimatedEndTime > 0 ||
-          this.parent.preservation.technical.length > 0
-        ) {
-          return true;
-        }
-        //  else if (
-        //   values.estimatedTime ||
-        //   values.estimatedQuantity ||
-        //   values.estimatedQuantity > 0 ||
-        //   values.technical.length > 0 ||
-        //   values.leader.length > 0
-        // ) {
-        //   return false;
-        // }
-        // return true;
-      }
-      return true;
-    }),
-  preservation: Yup.object()
-    .shape(preservationValidate)
+  //     if (
+  //       // this.parent.harvesting.technical.length === 0 ||
+  //       // this.parent.harvesting.leader.length === 0 ||
+  //       // this.parent.preliminaryTreatment.technical.length === 0 ||
+  //       // this.parent.preliminaryTreatment.leader.length === 0 ||
+  //       // !this.parent.preliminaryTreatment.estimatedTime ||
+  //       // this.parent.preliminaryTreatment.estimatedQuantity === 0 ||
+  //       // !this.parent.preliminaryTreatment.estimatedQuantity ||
+  //       !values.estimatedTime ||
+  //       !values.estimatedExpireTimeStart ||
+  //       !values.estimatedExpireTimeEnd ||
+  //       !values.packing || (_.isObject(values.packing) && !values.packing.label) ||
+  //       !values.estimatedQuantity || values.estimatedQuantity === 0 ||
+  //       values.technical.length === 0 ||
+  //       values.leader.length === 0
+  //     ) {
+  //       if (
+  //         this.parent.preservation.estimatedStartTime ||
+  //         this.parent.preservation.estimatedEndTime > 0 ||
+  //         this.parent.preservation.technical.length > 0
+  //       ) {
+  //         return true;
+  //       }
+  //       //  else if (
+  //       //   values.estimatedTime ||
+  //       //   values.estimatedQuantity ||
+  //       //   values.estimatedQuantity > 0 ||
+  //       //   values.technical.length > 0 ||
+  //       //   values.leader.length > 0
+  //       // ) {
+  //       //   return false;
+  //       // }
+  //       // return true;
+  //     }
+  //     return true;
+  //   }),
+  // preservation: Yup.object()
+  //   .shape(preservationValidate)
     
 
   // cleaning: Yup.object().shape({
@@ -286,15 +287,16 @@ function ProductionPlan() {
 
   const [step, setStep] = useState('0');
 
-  const { authState } = useSelector(
+  const { authState, usersState } = useSelector(
     (state: any) => ({
       authState: state.auth,
+      usersState: state.users
     }),
     shallowEqual,
   );
   const { username, role } = authState;
 
-  // const userData = currentState.entities;
+  const userData = usersState.entities;
 
   console.log(spinning);
 
@@ -857,6 +859,498 @@ function ProductionPlan() {
       style: { minWidth: '130px' },
     },
   };
+
+  const modifyModel = useMemo((): ModifyPanel => ({
+    _title: '',
+    commonInfo: {
+      _subTitle: 'THÔNG TIN CHUNG',
+      _className: 'col-6 pl-xl-15 pl-md-10 pl-5',
+      code: {
+        _type: 'string',
+        // placeholder: 'Mã kế hoạch',
+        label: 'Mã kế hoạch',
+        required: true,
+        disabled: true,
+      },
+      seeding: {
+        _type: 'object',
+        code: {
+          _type: 'string',
+          // placeholder: 'Mã gieo giống',
+          required: true,
+          label: 'Mã gieo giống',
+          disabled: true,
+        },
+        certificates: {
+          _type: 'object',
+          path: {
+            _type: 'string',
+            // placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
+            label: 'Giấy chứng nhận giống',
+            required: true,
+            disabled: true,
+          },
+        },
+        buyInvoice: {
+          _type: 'object',
+          path: {
+            _type: 'string',
+            // placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
+            label: 'Hóa đơn mua hàng',
+            required: true,
+            disabled: true,
+          },
+        },
+        seedingTime: {
+          _type: 'date-time',
+          // placeholder: 'PRODUCT_TYPE.MASTER.TABLE.BARCODE_COLUMN',
+          required: true,
+          label: 'Thời gian gieo',
+          disabled: true,
+        },
+        landLot: {
+          _type: 'object',
+          code: {
+            _type: 'string',
+            // placeholder: 'PRODUCT_TYPE.MASTER.TABLE.BARCODE_COLUMN',
+            required: true,
+            label: 'Lô gieo ươm',
+            disabled: true,
+          },
+          // bill: {
+          //   type: 'string',
+          //   placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
+          //   label: 'Hóa đơn mua hàng',
+          //   disabled: true,
+          // },
+        },
+      },
+      planting: {
+        _type: 'object',
+        code: {
+          _type: 'string',
+          // placeholder: 'PRODUCT_TYPE.MASTER.TABLE.BARCODE_COLUMN',
+          required: true,
+          label: 'Mã gieo trồng',
+          disabled: true,
+        },
+        estimatedPlantingTime: {
+          _type: 'date-time',
+          // placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
+          label: 'Thời gian trồng',
+          disabled: true,
+          required: true,
+        },
+        landLot: {
+          _type: 'object',
+          code: {
+            type: 'string',
+            // placeholder: 'PRODUCT_TYPE.MASTER.TABLE.BARCODE_COLUMN',
+            required: true,
+            label: 'Lô gieo trồng',
+            disabled: true,
+          },
+        },
+      },
+  
+      // plantTime: {
+      //   type: 'string',
+      //   placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
+      //   label: 'Thời gian gieo',
+      //   disabled: true,
+      // },
+    },
+    masterInfo: {
+      _subTitle: '\u00A0',
+      _className: 'col-6 pl-xl-15 pl-md-10 pl-5',
+      seeding: {
+        _type: 'object',
+        species: {
+          _type: 'object',
+          name: {
+            _type: 'string',
+            // placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.PLANTING',
+            label: 'Tên chủng loại',
+            disabled: true,
+            required: true,
+          },
+          barcode: {
+            _type: 'string',
+            // placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.PLANTING',
+            label: 'GTIN',
+            disabled: true,
+            required: true,
+          },
+        },
+        area: {
+          _type: 'string',
+          // placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.EXPIRY',
+          label: 'Diện tích gieo ươm',
+          disabled: true,
+          required: true,
+        },
+        numberOfSeed: {
+          _type: 'string',
+          // placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.EXPIRY',
+          label: 'Số cây con giống',
+          disabled: true,
+          required: true,
+        },
+        farmLocation: {
+          _type: 'object',
+          coordinates: {
+            _type: 'string',
+            // placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
+            label: 'Địa chỉ farm giống',
+            disabled: true,
+            required: true,
+          },
+        },
+      },
+      planting: {
+        _type: 'object',
+        area: {
+          _type: 'string',
+          // placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.EXPIRY',
+          label: 'Diện tích gieo trồng',
+          disabled: true,
+          required: true,
+        },
+        numberOfPlants: {
+          _type: 'string',
+          // placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.EXPIRY',
+          label: 'Số cây con trồng',
+          disabled: true,
+          required: true,
+        },
+        farmLocation: {
+          _type: 'object',
+          coordinates: {
+            _type: 'string',
+            // placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
+            label: 'Địa chỉ farm trồng',
+            disabled: true,
+            required: true,
+          },
+        },
+      },
+    },
+  }), []);
+  
+  const modifyModel2 = useMemo((): ModifyPanel => ({
+    _title: '',
+    managementInfo: {
+      _subTitle: 'THÔNG TIN QUẢN TRỊ',
+      _className: 'col-6 pl-xl-15 pl-md-10 pl-5',
+      seeding: {
+        _type: 'object',
+        manager: {
+          _type: 'object',
+          fullName: {
+            _type: 'string',
+            // placeholder: 'Mã gieo giống',
+            label: 'Thông tin Giám đốc/TGĐ',
+            required: true,
+            disabled: true,
+          },
+        },
+        leader: {
+          _type: 'object',
+          lastName: {
+            _type: 'tag',
+            // placeholder: 'Mã gieo giống',
+            required: true,
+            label: 'Tổ trưởng gieo giống',
+            disabled: true,
+          },
+        },
+      },
+    },
+    seedingInfo: {
+      _subTitle: '\u00A0',
+      _className: 'col-6 pl-xl-15 pl-md-10 pl-5',
+      planting: {
+        _type: 'object',
+        manager: {
+          _type: 'object',
+          fullName: {
+            _type: 'string',
+            // placeholder: 'Mã gieo giống',
+            label: 'Người lập kế hoạch',
+            required: true,
+            disabled: true,
+          },
+        },
+        leader: {
+          _type: 'object',
+          lastName: {
+            _type: 'tag',
+            // placeholder: 'Mã gieo giống',
+            required: true,
+            label: 'Tổ trưởng gieo trồng',
+            disabled: true,
+          },
+        },
+      },
+    },
+  }), []);
+  
+  const modifyModel3 = useMemo ((): ModifyPanel => ({
+    _title: '',
+    group1: {
+      _subTitle: 'THÔNG TIN THU HOẠCH',
+      _className: 'col-6 pl-xl-15 pl-md-10 pl-5',
+      planting: {
+        _type: 'object',
+        estimatedHarvestTime: {
+          _type: 'date-time',
+          label: 'Thời gian thu hoạch (dự kiến)',
+          required: true,
+          disabled: true,
+        },
+      },
+      harvesting: {
+        _type: 'object',
+        quantity: {
+          _type: 'number',
+          // placeholder: 'Mã gieo giống',
+          required: true,
+          label: 'Sản lượng thu hoạch dự kiến (kg)',
+          disabled: true,
+        },
+      },
+    },
+    group2: {
+      _subTitle: '\u00A0',
+      _className: 'col-6 pl-xl-15 pl-md-10 pl-5',
+      harvesting: {
+        _type: 'object',
+        technical: {
+          _type: 'tag',
+          // placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
+          label: 'Nhân viên kỹ thuật thu hoạch',
+          tagData: userData,
+          required: true,
+          process: '2',
+        },
+        leader: {
+          _type: 'tag',
+          // placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
+          label: 'Tổ trưởng thu hoạch',
+          tagData: userData,
+          required: true,
+          process: '2',
+        },
+      },
+    },
+  }), [userData]);
+
+  console.log(userData)
+  
+  const modifyModel4 = useMemo((): ModifyPanel => ({
+    _title: '',
+    group1: {
+      _subTitle: 'THÔNG TIN SƠ CHẾ',
+      _className: 'col-6 pl-xl-15 pl-md-10 pl-5',
+      preliminaryTreatment: {
+        _type: 'object',
+        estimatedTime: {
+          _type: 'date-time',
+          // placeholder: 'Mã gieo giống',
+          label: 'Thời gian sơ chế (dự kiến)',
+          process: '3',
+        },
+        estimatedQuantity: {
+          _type: 'number',
+          // placeholder: 'Mã gieo giống',
+          label: 'Sản lượng sau sơ chế dự kiến (kg)',
+          process: '3',
+        },
+      },
+    },
+    group2: {
+      _subTitle: '\u00A0',
+      _className: 'col-6 pl-xl-15 pl-md-10 pl-5',
+      preliminaryTreatment: {
+        _type: 'object',
+        technical: {
+          _type: 'tag',
+          // placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
+          tagData: userData,
+          label: 'Nhân viên kỹ thuật sơ chế',
+          process: '3',
+        },
+        leader: {
+          _type: 'tag',
+          // placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
+          label: 'Tổ trưởng sơ chế',
+          tagData: userData,
+          process: '3',
+        },
+      },
+    },
+  }), [userData]);
+  
+  const modifyModel5 = useMemo((): ModifyPanel => ({
+    _title: '',
+    cleaning: {
+      _subTitle: 'THÔNG TIN LÀM SẠCH',
+      _className: 'col-6 pl-xl-15 pl-md-10 pl-5',
+      cleaning: {
+        _type: 'object',
+        estimatedTime: {
+          _type: 'date-time',
+          // placeholder: 'Mã gieo giống',
+          label: 'Thời gian làm sạch (dự kiến)',
+          process: '4',
+        },
+        estimatedQuantity: {
+          _type: 'number',
+          // placeholder: 'Mã gieo giống',
+          label: 'Sản lượng sau làm sạch dự kiến (kg)',
+          process: '4',
+        },
+      },
+    },
+    cleaningInfo: {
+      _subTitle: '\u00A0',
+      _className: 'col-6 pl-xl-15 pl-md-10 pl-5',
+      cleaning: {
+        _type: 'object',
+        technical: {
+          _type: 'tag',
+          // placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
+          label: 'Nhân viên kỹ thuật làm sạch',
+          root: 'cleaning',
+          tagData: userData,
+          process: '4',
+        },
+        leader: {
+          _type: 'tag',
+          // placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
+          label: 'Tổ trưởng làm sạch',
+          root: 'cleaning',
+          tagData: userData,
+          process: '4',
+        },
+      },
+    },
+  }), [userData]);
+  
+  const modifyModel6 = useMemo((): ModifyPanel =>  ({
+    _title: '',
+    group1: {
+      _subTitle: 'THÔNG TIN ĐÓNG GÓI',
+      _className: 'col-6 pl-xl-15 pl-md-10 pl-5',
+      packing: {
+        _type: 'object',
+        estimatedTime: {
+          _type: 'date-time',
+          // placeholder: 'Mã gieo giống',
+          label: 'Thời gian đóng gói (dự kiến)',
+          process: '5',
+        },
+        estimatedExpireTimeStart: {
+          _type: 'date-time',
+          // placeholder: 'Hạn sử dụng',
+          label: 'Hạn sử dụng bắt đầu (dự kiến)',
+          process: '5',
+        },
+        estimatedExpireTimeEnd: {
+          _type: 'date-time',
+          // placeholder: 'Hạn sử dụng',
+          label: 'Hạn sử dụng kết thúc (dự kiến)',
+          process: '5',
+        },
+        packing: {
+          _type: 'search-select',
+          // placeholder: 'Quy cách',
+          label: 'Quy cách đóng gói',
+          onSearch: ProductPackagingService.GetAll,
+          keyField: 'weight',
+          // onDisplayOptions: (e:ProductPackagingModel)=> e.species.weight,
+          // rootField: 'seeding',
+          // fillField: 'packing',
+          // display: 'weight',
+        },
+      },
+    },
+    group2: {
+      _subTitle: '\u00A0',
+      _className: 'col-6 pl-xl-15 pl-md-10 pl-5',
+      packing: {
+        _type: 'object',
+        estimatedQuantity: {
+          _type: 'number',
+          // placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
+          label: 'Số lượng đóng gói dự kiến ',
+          process: '5',
+        },
+        technical: {
+          _type: 'tag',
+          // placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.PLANTING',
+          label: 'KCS',
+          tagData: userData,
+          process: '5',
+        },
+        leader: {
+          _type: 'tag',
+          // placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.PLANTING',
+          label: 'Tổ trưởng đóng gói',
+          tagData: userData,
+          process: '5',
+        },
+      },
+    },
+  }), [userData]);
+  
+  const modifyModel7 = useMemo((): ModifyPanel => ({
+    _title: '',
+    group1: {
+      _subTitle: 'THÔNG TIN BẢO QUẢN',
+      _className: 'col-6 pl-xl-15 pl-md-10 pl-5',
+      preservation: {
+        _type: 'object',
+        estimatedStartTime: {
+          _type: 'date-time',
+          // placeholder: 'Mã gieo giống',
+          label: 'Thời gian bắt đầu bảo quản (dự kiến)',
+          process: '6',
+        },
+        estimatedEndTime: {
+          _type: 'date-time',
+          // placeholder: 'Mã gieo giống',
+          label: 'Thời gian kết thúc bảo quản (dự kiến)',
+          process: '6',
+        },
+      },
+    },
+    group2: {
+      _subTitle: '\u00A0',
+      _className: 'col-6 pl-xl-15 pl-md-10 pl-5',
+      preservation: {
+        _type: 'object',
+        technical: {
+          _type: 'tag',
+          tagData: userData,
+          // placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
+          label: 'Nhân viên kỹ thuật bảo quản',
+          process: '6',
+        },
+      },
+    },
+  }), [userData]);
+  
+  const updateForm = useMemo((): ModifyForm => ({
+    _header: 'test',
+    panel1: modifyModel,
+    panel2: modifyModel2,
+    panel3: modifyModel3,
+    panel4: modifyModel4,
+    panel5: modifyModel5,
+    panel6: modifyModel6,
+    panel7: modifyModel7,
+  }), [modifyModel, modifyModel2, modifyModel3, modifyModel4, modifyModel5, modifyModel6, modifyModel7]);
 
   return (
     <React.Fragment>

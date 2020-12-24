@@ -26,7 +26,7 @@ export function ModifyEntityPage<T>({
                                       entity,
                                       // className = '',
                                       mode = 'horizontal',
-                                      tagData
+                                      // tagData
                                     }: {
   
   inputGroups: InputGroups;
@@ -53,7 +53,7 @@ export function ModifyEntityPage<T>({
           return (
             <div key={`meg-${index}`} className={_className ?? 'col-12'}>
               {_subTitle && <div className="modify-subtitle text-primary">{_subTitle.toUpperCase()}</div>}
-              <RenderForm inputs={inputs} prevKey={''} mode={mode} tagData={tagData} />
+              <RenderForm inputs={inputs} prevKey={''} mode={mode} />
             </div>
           )
         })}
@@ -62,7 +62,7 @@ export function ModifyEntityPage<T>({
   );
 }
 
-export const RenderForm = ({inputs, prevKey, mode, tagData}: any) => {
+export const RenderForm = ({inputs, prevKey, mode}: any) => {
   const intl = useIntl();
   const {setFieldValue, touched, values} = useFormikContext<any>();
   console.log(values)
@@ -160,7 +160,7 @@ export const RenderForm = ({inputs, prevKey, mode, tagData}: any) => {
               name={prevKey !== '' ? `${prevKey}.${key}` : key}
               mode={mode}
               defaultTag={defaultTag}
-              tagData={tagData || []}
+              // tagData={tagData || []}
               type={input._type}
               {...input}
               key={`modify-page-${key}`}

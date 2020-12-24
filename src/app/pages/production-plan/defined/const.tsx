@@ -13,6 +13,7 @@ import _ from 'lodash';
 import React, { Fragment } from 'react';
 import { useIntl } from 'react-intl';
 import { ProductPackagingModel } from '../../product-packaging/product-packaging.model';
+import store from '../../../../redux/store';
 
 export const headerTitle = 'PRODUCT_TYPE.MASTER.HEADER.TITLE';
 export const bodyTitle = 'PRODUCT_TYPE.MASTER.BODY.TITLE';
@@ -25,6 +26,11 @@ const Fix = ({ title }: { title: string }) => {
   const intl = useIntl();
   return <div style={{ minWidth: 174 }}>{intl.formatMessage({ id: title })}</div>;
 };
+
+const { users } = store.getState();
+
+const userData = users.entities
+
 export const productPlanSearchModel1: SearchModel = {
   seedingCode: {
     type: 'string',
@@ -350,6 +356,7 @@ export const modifyModel3: ModifyPanel = {
         _type: 'tag',
         // placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
         label: 'Nhân viên kỹ thuật thu hoạch',
+        tagData: userData,
         required: true,
         process: '2',
       },
@@ -393,6 +400,7 @@ export const modifyModel4: ModifyPanel = {
       technical: {
         _type: 'tag',
         // placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
+        tagData: userData,
         label: 'Nhân viên kỹ thuật sơ chế',
         process: '3',
       },
