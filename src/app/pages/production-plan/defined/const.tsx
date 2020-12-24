@@ -1323,14 +1323,15 @@ export const packingValidate = {
         this.parent.estimatedExpireTimeStart &&
         this.parent.estimatedExpireTimeEnd &&
         this.parent.packing &&
-        _.isString(this.parent.packing) &&
-        this.parent.packing !== '' &&
+        // _.isString(this.parent.packing) &&
+        // this.parent.packing !== '' &&
         value &&
         CompareDate(new Date(value), new Date())) ||
       ((!this.parent.leader || this.parent.leader.length === 0) &&
         (!this.parent.technical || this.parent.technical.length === 0) &&
-        !this.parent.packing.label &&
-        !_.isString(this.parent.packing) &&
+        // !this.parent.packing.label &&
+        // !_.isString(this.parent.packing) &&
+        !this.parent.packing &&
         (!this.parent.estimatedQuantity || this.parent.estimatedQuantity === 0) &&
         (!this.parent.estimatedExpireTimeStart || this.parent.estimatedExpireTimeStart === '') &&
         (!this.parent.estimatedExpireTimeEnd || this.parent.estimatedExpireTimeEnd === '') &&
@@ -1347,15 +1348,16 @@ export const packingValidate = {
         this.parent.estimatedTime &&
         this.parent.estimatedExpireTimeEnd &&
         this.parent.packing &&
-        _.isString(this.parent.packing) &&
-        this.parent.packing !== '' &&
+        // _.isString(this.parent.packing) &&
+        // this.parent.packing !== '' &&
         value &&
         CompareDate(new Date(value), new Date()) &&
         CompareDate(new Date(this.parent.estimatedExpireTimeEnd), new Date(value))) ||
       ((!this.parent.leader || this.parent.leader.length === 0) &&
         (!this.parent.technical || this.parent.technical.length === 0) &&
-        !this.parent.packing.label &&
-        !_.isString(this.parent.packing) &&
+        // !this.parent.packing.label &&
+        // !_.isString(this.parent.packing) &&
+        !this.parent.packing &&
         (!this.parent.estimatedQuantity || this.parent.estimatedQuantity === 0) &&
         (!this.parent.estimatedTime || this.parent.estimatedTime === '') &&
         (!this.parent.estimatedExpireTimeEnd || this.parent.estimatedExpireTimeEnd === '') &&
@@ -1374,15 +1376,16 @@ export const packingValidate = {
         this.parent.estimatedExpireTimeStart &&
         this.parent.estimatedTime &&
         this.parent.packing &&
-        _.isString(this.parent.packing) &&
-        this.parent.packing !== '' &&
+        // _.isString(this.parent.packing) &&
+        // this.parent.packing !== '' &&
         value &&
         CompareDate(new Date(value), new Date()) &&
         CompareDate(new Date(value), new Date(this.parent.estimatedExpireTimeStart))) ||
       ((!this.parent.leader || this.parent.leader.length === 0) &&
         (!this.parent.technical || this.parent.technical.length === 0) &&
-        !this.parent.packing.label &&
-        !_.isString(this.parent.packing) &&
+        // !this.parent.packing.label &&
+        // !_.isString(this.parent.packing) &&
+        !this.parent.packing &&
         (!this.parent.estimatedQuantity || this.parent.estimatedQuantity === 0) &&
         (!this.parent.estimatedExpireTimeStart || this.parent.estimatedExpireTimeStart === '') &&
         (!this.parent.estimatedTime || this.parent.estimatedTime === '') &&
@@ -1402,17 +1405,21 @@ export const packingValidate = {
         this.parent.estimatedTime &&
         this.parent.estimatedExpireTimeStart &&
         this.parent.estimatedExpireTimeEnd &&
-        value &&
-        _.isString(value)) ||
+        value)
+        // && _.isString(value)) 
+        ||
       ((!this.parent.leader || this.parent.leader.length === 0) &&
         (!this.parent.technical || this.parent.technical.length === 0) &&
         !this.parent.estimatedTime &&
         !this.parent.estimatedExpireTimeStart &&
         !this.parent.estimatedExpireTimeEnd &&
         (!this.parent.estimatedQuantity || this.parent.estimatedQuantity === 0) &&
-        !value.label) ||
-      (value && _.isString(value)) ||
-      (!_.isString(value) && value.label)
+        !value)
+        // !value.label) 
+        ||
+      (value)
+        // && _.isString(value)) ||
+      // (!_.isString(value) && value.label)
     );
   }),
 
@@ -1424,13 +1431,14 @@ export const packingValidate = {
         this.parent.estimatedExpireTimeStart &&
         this.parent.estimatedExpireTimeEnd &&
         this.parent.packing &&
-        _.isString(this.parent.packing) &&
-        this.parent.packing !== '' &&
+        // _.isString(this.parent.packing) &&
+        // this.parent.packing !== '' &&
         value > 0) ||
       ((!this.parent.leader || this.parent.leader.length === 0) &&
         (!this.parent.technical || this.parent.technical.length === 0) &&
-        !this.parent.packing.label &&
-        !_.isString(this.parent.packing) &&
+        // !this.parent.packing.label &&
+        // !_.isString(this.parent.packing) &&
+        !this.parent.packing &&
         !this.parent.estimatedExpireTimeStart &&
         !this.parent.estimatedExpireTimeEnd &&
         (!this.parent.estimatedTime || this.parent.estimatedTime === '') &&
@@ -1446,12 +1454,13 @@ export const packingValidate = {
         this.parent.estimatedExpireTimeStart &&
         this.parent.estimatedExpireTimeEnd &&
         this.parent.packing &&
-        _.isString(this.parent.packing) &&
-        this.parent.packing !== '' &&
+        // _.isString(this.parent.packing) &&
+        // this.parent.packing !== '' &&
         value.length > 0) ||
       ((!this.parent.leader || this.parent.leader.length === 0) &&
-        !this.parent.packing.label &&
-        !_.isString(this.parent.packing) &&
+        // !this.parent.packing.label &&
+        // !_.isString(this.parent.packing) &&
+        !this.parent.packing &&
         !this.parent.estimatedExpireTimeStart &&
         !this.parent.estimatedExpireTimeEnd &&
         (!this.parent.estimatedQuantity || this.parent.estimatedQuantity === 0) &&
@@ -1468,12 +1477,13 @@ export const packingValidate = {
         this.parent.estimatedExpireTimeStart &&
         this.parent.estimatedExpireTimeEnd &&
         this.parent.packing &&
-        _.isString(this.parent.packing) &&
-        this.parent.packing !== '' &&
+        // _.isString(this.parent.packing) &&
+        // this.parent.packing !== '' &&
         value.length > 0) ||
       ((!this.parent.technical || this.parent.technical.length === 0) &&
-        !this.parent.packing.label &&
-        !_.isString(this.parent.packing) &&
+        // !this.parent.packing.label &&
+        // !_.isString(this.parent.packing) &&
+        !this.parent.packing &&
         (!this.parent.estimatedQuantity || this.parent.estimatedQuantity === 0) &&
         !this.parent.estimatedExpireTimeStart &&
         !this.parent.estimatedExpireTimeEnd &&

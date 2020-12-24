@@ -153,6 +153,8 @@ function TagInput({
   //   // eslint-disable-next-line react-hooks/exhaustive-deps
   // }, [queryProps, paginationProps, dispatch]);
 
+  console.log(errors)
+
   return (
     <>
       <div className={mode === 'horizontal' ? 'row' : ''}>

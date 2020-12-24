@@ -201,7 +201,8 @@ function ProductionPlanCrud({
         // const convert = autoFill
         //   ? ConvertSelectSearch(res.data, autoFill.searchSelectField)
         //   : ConvertSelectSearch(res.data);
-        setEntityForEdit(res.data);
+        const initEntity = addInitField(res.data, initProductPlanForm)
+        setEntityForEdit(initEntity);
         setSearch(res.data);
       });
     }
@@ -213,13 +214,15 @@ function ProductionPlanCrud({
         setNoticeModal(true);
         setErrorMsg(undefined);
         refreshData();
-        history.push(homePage || GetHomePage(window.location.pathname));
+        // history.push(homePage || GetHomePage(window.location.pathname));
       })
       .catch(error => {
         setSubmitting(false);
         setErrorMsg(error.entity || error.response.entity);
       });
   };
+
+  console.log('????')
 
   return (
     <>
@@ -249,16 +252,19 @@ function ProductionPlanCrud({
       />
       <Formik
         enableReinitialize={true}
-        initialValues={addInitField(entityForEdit, initProductPlanForm) || initForm}
+        initialValues={entityForEdit || initForm}
         // initialValues={initForm}
         validationSchema={validation}
         onSubmit={(values, { setSubmitting, setFieldError, resetForm }) => {
           let updateValue: any;
           setErrorMsg(undefined);
 
+          console.log(entityForEdit)
+          console.log(values)
+
+
           if (entityForEdit) {
-            const diffValue = diff(addInitField(entityForEdit, initProductPlanForm), values);
-            console.log(diffValue);
+            const diffValue = diff(entityForEdit, values);
             const clValue = { ...values };
 
             if (
@@ -266,7 +272,11 @@ function ProductionPlanCrud({
               _.isObject(diffValue.packing.packing) &&
               !diffValue.packing.packing.label
             ) {
-              delete diffValue.packing;
+              delete diffValue.packing.packing;
+            }
+
+            if (clValue.packing && clValue.packing.packing) {
+              diffValue.packing.packing = clValue.packing.packing._id
             }
 
             const validField = [
@@ -339,6 +349,8 @@ function ProductionPlanCrud({
               }
             });
 
+            console.log(diffValue);
+
             updateValue = { _id: values._id, ...diffValue };
           } else {
             updateValue = { ...values };
@@ -389,16 +401,16 @@ function ProductionPlanCrud({
               {Object.keys(modifyPanels).map((key, index) => {
                 const val = modifyPanels[key];
                 if(!_.isObject(val)) throw new Error('Sử dụng sai cách ' + key);
-                const {_title, ...panel} = val;
-                console.log(panel)
+                const {_title, _validationField, ...panel} = val;
+                console.log(_validationField)
                 return (
                 <Card
                   key={key}
-                  // className={
-                  //   formPart[key].keyField && errors[formPart[key].keyField]
-                  //     ? 'border border-danger'
-                  //     : ''
-                  // }
+                  className={
+                    _validationField && errors[_validationField]
+                      ? 'border border-danger'
+                      : ''
+                  }
                   >
                    {/* {formPart[key].header && (
                     <CardHeader
@@ -440,9 +452,9 @@ function ProductionPlanCrud({
                       errors={errors}
                     />
 
-                     {/* {formPart[key].keyField && errors[formPart[key].keyField] && (
-                      <span className="text-danger">Vui lòng nhập đúng thứ tự các bước</span>
-                    )}  */}
+                     {_validationField && errors[_validationField] && _.isString(errors[_validationField]) && (
+                      <span className="text-danger">{errors[_validationField]}</span>
+                    )} 
                   </CardBody>
                   
                 </Card>
