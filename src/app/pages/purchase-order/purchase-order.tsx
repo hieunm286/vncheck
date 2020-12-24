@@ -598,8 +598,7 @@ function PurchaseOrder() {
         entity={editEntity}
         onModify={update}
         formModel={formPart}
-        allFormField={allFormField}
-        allFormButton={allFormButton}
+        actions={allFormButton}
         validation={PurchaseOrderSchema}
         onHide={() => {
           setShowEdit(false);

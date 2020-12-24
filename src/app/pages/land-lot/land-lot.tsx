@@ -85,22 +85,23 @@ function LandLot() {
   const viewTitle = 'LAND_LOT.VIEW.TITLE';
   const validateSchema = Yup.object().shape({
     lot: Yup.string()
-      .required(intl.formatMessage({id: 'LAND_LOT.EDIT.VALIDATION.LOT_CODE_EMPTY'}))
+      .required('LAND_LOT.EDIT.VALIDATION.LOT_CODE_EMPTY')
       .matches(/[a-zA-Z]/u, {
-        message: intl.formatMessage({id: 'LAND_LOT.EDIT.VALIDATION.LOT_CODE_WRONG_FORMAT'})
+        message: 'LAND_LOT.EDIT.VALIDATION.LOT_CODE_WRONG_FORMAT'
       }).nullable(),
     subLot: Yup.string()
-      .required(intl.formatMessage({id: 'LAND_LOT.EDIT.VALIDATION.SUB_LOT_CODE_EMPTY'}))
+      .required('LAND_LOT.EDIT.VALIDATION.SUB_LOT_CODE_EMPTY')
       .matches(/[0-9]+/u, {
-        message: intl.formatMessage({id: 'LAND_LOT.EDIT.VALIDATION.SUB_LOT_CODE_WRONG_FORMAT'})
+        message: 'LAND_LOT.EDIT.VALIDATION.SUB_LOT_CODE_WRONG_FORMAT'
       }).nullable()
     // .test('len', intl.formatMessage({id: 'LAND_LOT.EDIT.VALIDATION.SUB_LOT_CODE_WRONG_FORMAT_LENGTH'}), (val: any) => val.length === 2),
   });
   
+  
   useEffect(() => {
     getAll(filterProps);
     
-  }, [paginationProps, filterProps]);
+  }, [paginationProps, filterProps, getAll]);
   const columns = useMemo((): MasterBodyColumns => ({
     code: {
       dataField: 'code',
@@ -144,7 +145,7 @@ function LandLot() {
       ...NormalColumn,
       style: {minWidth: '130px'},
     },
-  }), []);
+  }), [get, intl, setDeleteEntity, setEditEntity, setShowDelete, setShowDetail, setShowEdit]);
   
   const masterEntityDetailDialog: RenderInfoDetailDialog = useMemo((): RenderInfoDetailDialog => [
     {
@@ -174,7 +175,7 @@ function LandLot() {
               return;
             }
             setFieldValue('lot', innerValue[0]);
-            if (innerValue.length == 1) {
+            if (innerValue.length === 1) {
               setFieldValue('subLot', '');
               return;
             }
@@ -225,7 +226,7 @@ function LandLot() {
         },
         
       },
-    }), []);
+    }), [setError]);
   const [searchModel, setSearchModel] = useState(initSearchModel);
   const resetSearchModel = useCallback((queryProps) => {
    if (Object.keys(queryProps).length !== 0) return;
@@ -233,7 +234,7 @@ function LandLot() {
     searchModel.lot.disabled = false;
     searchModel.subLot.disabled = false;
     setSearchModel(searchModel);
-  }, []);
+  }, [searchModel]);
   const [group1, setGroup1] = useState<ModifyInputGroup>({
     _subTitle: '',
     code: {
@@ -272,7 +273,7 @@ function LandLot() {
       _title: '',
       group1: group1
     },
-  }), []);
+  }), [group1]);
   
   const updateForm = useMemo((): ModifyForm => ({...createForm, _header: updateTitle}), [createForm]);
   
