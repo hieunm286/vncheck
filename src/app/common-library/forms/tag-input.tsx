@@ -182,7 +182,7 @@ function TagInput({
             // className={'default-behave ' + getFieldCSSClasses(getTouched(touched, name), getError(errors, name))}
           
           >
-            {entities && entities.map((item: any, key: any) => (
+            {tagData && tagData.map((item: any, key: any) => (
               <Option key={item._id} value={item._id}>
                 {item.fullName ? item.fullName : item.user && item.user.fullName ? item.user.fullName : item.lastName ? item.lastName : item.user.lastName}
               </Option>
