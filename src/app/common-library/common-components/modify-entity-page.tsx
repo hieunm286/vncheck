@@ -27,6 +27,7 @@ export function ModifyEntityPage<T>({
                                       entity,
                                       // className = '',
                                       mode = 'horizontal',
+                                      // tagData
                                     }: {
   
   inputGroups: InputGroups;
@@ -50,7 +51,7 @@ export function ModifyEntityPage<T>({
           return (
             <div key={`meg-${index}`} className={_className ?? 'col-12'}>
               {_subTitle && <div className="modify-subtitle text-primary">{_subTitle.toUpperCase()}</div>}
-              <RenderForm inputs={inputs} prevKey={''} mode={mode}/>
+              <RenderForm inputs={inputs} prevKey={''} mode={mode} />
             </div>
           )
         })}
@@ -156,8 +157,22 @@ export const RenderForm = ({inputs, prevKey, mode}: any) => {
               key={`modify-page-${key}`}
             />
           );
-        // case 'tag':
-        //   const defaultTag = (getField(values, prevKey ? `${prevKey}.${key}` : key))
+        case 'tag':
+          const defaultTag = (getField(values, prevKey ? `${prevKey}.${key}` : key))
+          return (
+            <InputTag
+              className={defaultClassName}
+              name={prevKey !== '' ? `${prevKey}.${key}` : key}
+              mode={mode}
+              defaultTag={defaultTag}
+              // tagData={tagData || []}
+              type={input._type}
+              {...input}
+              key={`modify-page-${key}`}
+            />
+          );
+        //
+        // case 'SearchSelectV2':
         //   return (
         //     <InputTag
         //       className={defaultClassName}
