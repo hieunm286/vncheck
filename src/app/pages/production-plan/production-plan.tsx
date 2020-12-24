@@ -1060,6 +1060,7 @@ function ProductionPlan() {
             _type: 'tag',
             // placeholder: 'Mã gieo giống',
             required: true,
+            tagData: userData,
             label: 'Tổ trưởng gieo giống',
             disabled: true,
           },
@@ -1087,13 +1088,14 @@ function ProductionPlan() {
             _type: 'tag',
             // placeholder: 'Mã gieo giống',
             required: true,
+            tagData: userData,
             label: 'Tổ trưởng gieo trồng',
             disabled: true,
           },
         },
       },
     },
-  }), []);
+  }), [userData]);
   
   const modifyModel3 = useMemo ((): ModifyPanel => ({
     _title: '',

@@ -399,6 +399,7 @@ function Species() {
             // />
             <EntityCrudPage
               entity={editEntity}
+              setEditEntity={setEditEntity}
               onModify={update}
               code={match && match.params.code}
               get={ProductTypeService.GetById}

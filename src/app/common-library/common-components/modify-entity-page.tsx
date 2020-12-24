@@ -159,12 +159,17 @@ export const RenderForm = ({inputs, prevKey, mode}: any) => {
           );
         case 'tag':
           const defaultTag = (getField(values, prevKey ? `${prevKey}.${key}` : key))
+          console.log('----------------')
+          console.log(prevKey ? `${prevKey}.${key}` : key)
+          console.log(defaultTag)
+          console.log('----------------')
+
           return (
             <InputTag
               className={defaultClassName}
               name={prevKey !== '' ? `${prevKey}.${key}` : key}
               mode={mode}
-              defaultTag={defaultTag}
+              data={defaultTag}
               // tagData={tagData || []}
               type={input._type}
               {...input}

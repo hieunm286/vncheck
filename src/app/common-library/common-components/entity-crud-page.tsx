@@ -42,6 +42,7 @@ function EntityCrudPage({
                           actions,
                           validation,
                           autoFill,
+                          setEditEntity
                         }: {
   // modifyModel: ModifyModel;
   moduleName?: string;
@@ -54,6 +55,7 @@ function EntityCrudPage({
   actions: any;
   validation?: any;
   autoFill?: any;
+  setEditEntity?: (editEntity: any) => void;
 }) {
   const intl = useIntl();
   // const initForm = autoFill
@@ -151,7 +153,10 @@ function EntityCrudPage({
         // const convert = autoFill
         //   ? ConvertSelectSearch(res.data, autoFill.searchSelectField)
         //   : ConvertSelectSearch(res.data);
-        setEntityForEdit(res.data);
+        // setEntityForEdit(res.data);
+        if (setEditEntity) {
+          setEditEntity(res.data)
+        }
         // setImages(convert.image ? ConvertImage(convert) : initForm)
         ConvertImage(res.data);
         // setSearch(res.data);
