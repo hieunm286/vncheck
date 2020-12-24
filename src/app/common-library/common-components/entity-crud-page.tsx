@@ -1,18 +1,10 @@
-import React, {Fragment, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useIntl} from 'react-intl';
-import {
-  generateInitForm,
-  GetHomePage,
-  getNewImage,
-  getOnlyFile,
-  getOnlyBase64,
-} from '../helpers/common-function';
-import { Field, Form, Formik } from 'formik';
-import { Link, useHistory } from 'react-router-dom';
-import { Card, CardBody, CardHeader } from '../card';
+import {GetHomePage,} from '../helpers/common-function';
+import {Form, Formik} from 'formik';
+import {Link, useHistory} from 'react-router-dom';
+import {Card, CardBody, CardHeader} from '../card';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import {diff} from 'deep-object-diff';
-import exifr from 'exifr'
 import {ModifyForm} from "../common-types/common-type";
 import _ from "lodash";
 import {ModifyEntityPage} from "./modify-entity-page";
@@ -33,16 +25,12 @@ const toDataURL = (url: string) =>
 function EntityCrudPage({
                           entity = {},
                           onModify,
-                          // header = 'COMMON_COMPONENT.CREATE_UPDATE.TITLE',
                           moduleName = 'COMMON_COMPONENT.CREATE_UPDATE.MODULE_NAME',
                           code,
                           get,
                           formModel,
-                          // allFormField,
                           actions,
                           validation,
-                          autoFill,
-                          setEditEntity
                         }: {
   // modifyModel: ModifyModel;
   moduleName?: string;
@@ -55,79 +43,23 @@ function EntityCrudPage({
   actions: any;
   validation?: any;
   autoFill?: any;
-  setEditEntity?: (editEntity: any) => void;
 }) {
   const intl = useIntl();
-  // const initForm = autoFill
-  //   ? generateInitForm(allFormField, autoFill.field, autoFill.data)
-  //   : generateInitForm(allFormField);
   const history = useHistory();
   const [entityForEdit, setEntityForEdit] = useState(entity);
   const {_header, ...modifyPanels} = formModel;
-  const [imageRootArr, setImageRootArr] = useState<any>([]);
-
-  // const [tagArr, setTagArr] = useState(initForm);
   
-  const [imageData, setImageData] = useState<{ data_url: any; exif: any }[]>([])
-  
-  const ImageMeta = (file: any) => {
-    if (!file) return '';
-
-    file.forEach((item: any) => {
-      exifr.parse(item.file).then(res => {
-        const image = {
-          data_url: item.data_url,
-          exif: res,
-        };
-
-        const data: any[] = [];
-        data.push(image);
-        console.log(image);
-        setImageData(prevImages => [...prevImages, ...data]);
-      });
-    });
-  };
-
-  const onChange = (
-    imageList: any,
-    addUpdateIndex: any,
-    key: any,
-    setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => void,
-  ) => {
-    const imageArray = getOnlyFile(imageList);
-    const base64Array = getOnlyBase64(imageList);
-    const ImagesData = [];
-    // const newArr = getNewImage(images[key], imageList);
-    // console.log(newArr)
-    // newArr.forEach((file, index) => {
-    //   ImageMeta(file.file)
-    // });
-    // ImageMeta(newArr)
-
-    setFieldValue(key, imageData);
-
-    // data for submit
-    // setImages({...images, [key]: imageList});
-    setImageRootArr(base64Array);
-  };
-
-  function handleChangeTag(value: string, key?: string) {
-    // const newTag: string[] = [...tagArr];
-    // newTag.push(value);
-    // setTagArr({ ...tagArr, [key]: newTag });
-  }
-
   const ConvertImage = (entity: any) => {
-    const cv = { ...entity };
-
+    const cv = {...entity};
+    
     if (entity.image) {
       toDataURL('/' + entity.image.path)
         .then(dataUrl => {
-          const url = { data_url: dataUrl };
+          const url = {data_url: dataUrl};
           console.log(url);
           delete cv.image;
           cv.images = [url];
-
+          
           // setImages(cv)
           setEntityForEdit(cv);
         })
@@ -136,72 +68,32 @@ function EntityCrudPage({
         });
     }
   };
-
-  // console.log(images)
-
-  // useEffect(() => {
-  //   if (code) {
-  //     get(code).then((res: { data: any }) => {
-  //       setEntityForEdit(res.data);
-  //     });
-  //   }
-  // }, [code]);
-
+  
   useEffect(() => {
     if (code) {
       get && get(code).then((res: { data: any }) => {
-        // const convert = autoFill
-        //   ? ConvertSelectSearch(res.data, autoFill.searchSelectField)
-        //   : ConvertSelectSearch(res.data);
-        // setEntityForEdit(res.data);
-        if (setEditEntity) {
-          setEditEntity(res.data)
-        }
-        // setImages(convert.image ? ConvertImage(convert) : initForm)
+        setEntityForEdit(res.data)
         ConvertImage(res.data);
-        // setSearch(res.data);
       });
     }
   }, [code]);
-
+  
   return (
     <>
       <Formik
         enableReinitialize={true}
         initialValues={entityForEdit}
         validationSchema={validation}
-        onSubmit={(values, { setSubmitting }) => {
-          console.log(values);
-          // if (entityForEdit) {
-          //   const updateValue = diff(entityForEdit, values);
-          //   onModify({_id: values._id, ...updateValue});
-          // } else {
-          //   onModify({...values});
-          // }
+        onSubmit={(values, {setSubmitting}) => {
           onModify(values);
-          // if (asyncError !== '') {
-          //   store.addNotification({
-          //     title: "Wonderful!",
-          //     message: "teodosii@react-notifications-component",
-          //     type: "success",
-          //     insert: "top",
-          //     container: "top-right",
-          //     animationIn: ["animate__animated", "animate__fadeIn"],
-          //     animationOut: ["animate__animated", "animate__fadeOut"],
-          //     dismiss: {
-          //       duration: 5000,
-          //       onScreen: true
-          //     }
-          //   });
-          // }
           history.push(GetHomePage(window.location.pathname));
         }}>
-        {({ handleSubmit, setFieldValue }) => (
+        {({handleSubmit, setFieldValue}) => (
           <>
             <Form className="form form-label-right">
-              {Object.keys(modifyPanels).map((key, index,keys) => {
+              {Object.keys(modifyPanels).map((key, index, keys) => {
                 const val = modifyPanels[key];
-                if(_.isString(val)) throw new Error('Sử dụng sai cách ' + key + '\n' + JSON.stringify(modifyPanels));
+                if (_.isString(val)) throw new Error('Sử dụng sai cách ' + key + '\n' + JSON.stringify(modifyPanels));
                 const {_title, ...panel} = val;
                 return (
                   <Card key={key} className={'modify-page'}>
@@ -241,10 +133,10 @@ function EntityCrudPage({
                                     {actions.data[keyss].icon} {actions.data[keyss].label}
                                   </button>
                                 );
-                
+                              
                               case 'button':
                                 console.log(actions.data[keyss])
-                  
+                                
                                 return (
                                   <button
                                     type={actions.data[keyss].type}

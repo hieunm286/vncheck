@@ -4,7 +4,7 @@ import {useField, useFormikContext} from 'formik';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {DefaultPagination} from '../common-consts/const';
 import {fetchAllUser} from '../../pages/account/_redux/user-action';
-import {deCapitalizeFirstLetter, GetClassName} from '../helpers/common-function';
+import {deCapitalizeFirstLetter, GetClassName, GetError, GetTouched} from '../helpers/common-function';
 
 const { Option } = Select;
 
@@ -17,100 +17,6 @@ const getDefautltTag = (data: any) => {
   
   return idArr;
 };
-
-const getFieldCSSClasses = (touched: any, errors: any) => {
-  const classes = ['form-control'];
-  
-  if (errors) classes.push('is-invalid');
-  
-  if (touched && !errors) classes.push('is-valid');
-  
-  return classes.join(' ');
-};
-
-const getClassName = (labelWidth: number | null | undefined, labelStart: boolean) => {
-  const classes: string[] = [];
-  
-  if (labelStart) {
-    if (labelWidth) {
-      classes.push(`col-xl-${labelWidth}`);
-      classes.push(`col-md-${labelWidth}`);
-      classes.push('col-12');
-    } else {
-      classes.push(`col-xl-3`);
-      classes.push(`col-md-3`);
-      classes.push('col-12');
-    }
-  } else {
-    if (labelWidth) {
-      classes.push(`col-xl-${12 - labelWidth - 1}`);
-      classes.push(`col-md-${12 - labelWidth}`);
-      classes.push('col-12');
-    } else {
-      classes.push(`col-xl-8`);
-      classes.push(`col-md-9`);
-      classes.push('col-12');
-    }
-  }
-  
-  return classes.join(' ');
-};
-
-const getTouched = (touched: any, fieldName: string) => {
-  if (fieldName.indexOf('.') === -1) {
-    return touched[fieldName]
-  }
-  
-  console.log(fieldName)
-  
-  const arrName = fieldName.split('.')
-  
-  if (arrName.length === 3) {
-    return touched[arrName[0]] ? touched[arrName[0]][arrName[1]][arrName[2]] : ''
-  }
-  
-  return touched[arrName[0]] ? touched[arrName[0]][arrName[1]] : ''
-}
-
-const getError = (error: any, fieldName: string, index?: number) => {
-  if (fieldName.indexOf('.') === -1) {
-    return error[fieldName];
-  }
-  
-  const arrName = fieldName.split('.');
-  
-  
-  if (index) {
-    return error[arrName[index]]
-  }
-  
-  
-  if (arrName.length === 3) {
-    return error[arrName[0]] ? error[arrName[0]][arrName[1]][arrName[2]] : '';
-  }
-  
-  return error[arrName[0]] ? error[arrName[0]][arrName[1]] : '';
-};
-
-function useStateCallback(initialState: any) {
-  const [state, setState] = useState(initialState);
-  const cbRef = useRef(null); // mutable ref to store current callback
-  
-  const setStateCallback = (state: any, cb: any) => {
-    cbRef.current = cb; // store passed callback to ref
-    setState(state);
-  };
-  
-  useEffect(() => {
-    // cb.current is `null` on initial render, so we only execute cb on state *updates*
-    if (cbRef.current) {
-      cbRef.current = state;
-      cbRef.current = null; // reset callback after execution
-    }
-  }, [state]);
-  
-  return [state, setStateCallback];
-}
 
 function TagInput({
                     label,
@@ -133,28 +39,6 @@ function TagInput({
 }) {
   
   const {setFieldValue, errors, touched} = useFormikContext<any>();
-  
-  const [queryProps, setQueryProps] = useState({firstName: ''})
-  const [paginationProps, setPaginationProps] = useState(DefaultPagination);
-  
-  const {currentState} = useSelector(
-    (state: any) => ({
-      currentState: state.users,
-    }),
-    shallowEqual,
-  );
-  const {totalCount, entities, listLoading} = currentState;
-  
-  // // Customers Redux state
-  // const dispatch = useDispatch();
-  // useEffect(() => {
-  
-  //   dispatch(fetchAllUser());
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [queryProps, paginationProps, dispatch]);
-
-  console.log(errors)
-
   return (
     <>
       <div className={mode === 'horizontal' ? 'row' : ''}>
@@ -180,7 +64,7 @@ function TagInput({
               option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
             }
             disabled={disabled}
-            className={`${getTouched(touched, name) && getError(errors, name) ? 'border border-danger rounded' : ''}`}
+            className={`${GetTouched(touched, name) && GetError(errors, name) ? 'border border-danger rounded' : ''}`}
             // className={'default-behave ' + getFieldCSSClasses(getTouched(touched, name), getError(errors, name))}
           
           >
@@ -190,7 +74,7 @@ function TagInput({
               </Option>
             ))}
           </Select>
-          {getError(errors, name) && getTouched(touched, name) ? (
+          {GetError(errors, name) && GetTouched(touched, name) ? (
             <div className="invalid-datepicker-feedback text-danger" style={{fontSize: '0.9rem'}}>
               Vui lòng chọn
               {

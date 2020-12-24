@@ -370,22 +370,25 @@ function ShippingAgency() {
   const updateForm = useMemo((): ModifyForm => ({...createForm, _header: updateTitle}), [createForm]);
   
   const actions: any = {
-    save: {
-      role: 'submit',
-      type: 'submit',
-      linkto: undefined,
-      className: 'btn btn-primary mr-8 fixed-btn-width',
-      label: 'Lưu',
-      icon: <SaveOutlinedIcon/>,
-    },
-    cancel: {
-      role: 'link-button',
-      type: 'button',
-      linkto: '/shipping-agency',
-      className: 'btn btn-outline-primary fixed-btn-width',
-      label: 'Hủy',
-      icon: <CancelOutlinedIcon/>,
-    },
+    type: 'inside',
+    data: {
+      save: {
+        role: 'submit',
+        type: 'submit',
+        linkto: undefined,
+        className: 'btn btn-primary mr-8 fixed-btn-width',
+        label: 'Lưu',
+        icon: <SaveOutlinedIcon/>,
+      },
+      cancel: {
+        role: 'link-button',
+        type: 'button',
+        linkto: '/shipping-agency',
+        className: 'btn btn-outline-primary fixed-btn-width',
+        label: 'Hủy',
+        icon: <CancelOutlinedIcon/>,
+      }
+    }
   };
   
   return (
@@ -443,7 +446,7 @@ function ShippingAgency() {
               setCreateEntity(null);
               setEditEntity(null);
               // setShowCreate(true);
-              history.push(`${window.location.pathname}/new`);
+              history.push(`${window.location.pathname}/0000000`);
             }}
             onDeleteMany={() => setShowDeleteMany(true)}
             selectedEntities={selectedEntities}
