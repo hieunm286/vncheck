@@ -152,7 +152,7 @@ function TagInput({
   //   dispatch(fetchAllUser());
   //   // eslint-disable-next-line react-hooks/exhaustive-deps
   // }, [queryProps, paginationProps, dispatch]);
-  
+
   return (
     <>
       <div className={mode === 'horizontal' ? 'row' : ''}>
