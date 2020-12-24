@@ -83,132 +83,132 @@ const GetValidate = (
 };
 
 const ProductPlantSchema = Yup.object().shape({
-  // harvesting: Yup.object()
-  //   .shape(halfValidate)
-  //   .test('oneOfRequired', 'Vui lòng nhập đầy đủ theo thứ tự', function(values: any) {
-  //     console.log(this.parent.harvesting);
-  //     console.log(values);
-  //     if (values.technical.length === 0 || values.leader.length === 0) {
-  //       if (
-  //         this.parent.preliminaryTreatment.technical.length > 0 ||
-  //         this.parent.preliminaryTreatment.leader.length > 0 ||
-  //         this.parent.preliminaryTreatment.estimatedTime ||
-  //         this.parent.preliminaryTreatment.estimatedQuantity > 0 ||
-  //         this.parent.preliminaryTreatment.estimatedQuantity
-  //       ) {
-  //         return false;
-  //       }
-  //     }
-  //     return true;
-  //   }),
-  // preliminaryTreatment: Yup.object()
-  //   .shape(validate)
-  //   .test('oneOfRequired', 'Vui lòng nhập đầy đủ theo thứ tự', function(values: any) {
-  //     console.log(this.parent.harvesting);
-  //     console.log(values);
-  //     if (
-  //       values.technical.length === 0 ||
-  //       values.leader.length === 0 ||
-  //       !values.estimatedTime ||
-  //       values.estimatedQuantity === 0 ||
-  //       !values.estimatedQuantity
-  //     ) {
-  //       if (
-  //         this.parent.cleaning.technical.length > 0 ||
-  //         this.parent.cleaning.leader.length > 0 ||
-  //         this.parent.cleaning.estimatedTime ||
-  //         this.parent.cleaning.estimatedQuantity > 0 ||
-  //         this.parent.cleaning.estimatedQuantity
-  //       ) {
-  //         return false;
-  //       }
-  //     }
-  //     return true;
-  //   }),
-  // cleaning: Yup.object()
-  //   .shape(validate)
-  //   .test('oneOfRequired', 'Vui lòng nhập đầy đủ theo thứ tự', function(values: any) {
-  //     console.log(this.parent.preliminaryTreatment);
-  //     console.log(values);
+  harvesting: Yup.object()
+    .shape(halfValidate)
+    .test('oneOfRequired', 'Vui lòng nhập đầy đủ theo thứ tự', function(values: any) {
+      console.log(this.parent.harvesting);
+      console.log(values);
+      if (values.technical.length === 0 || values.leader.length === 0) {
+        if (
+          this.parent.preliminaryTreatment.technical.length > 0 ||
+          this.parent.preliminaryTreatment.leader.length > 0 ||
+          this.parent.preliminaryTreatment.estimatedTime ||
+          this.parent.preliminaryTreatment.estimatedQuantity > 0 ||
+          this.parent.preliminaryTreatment.estimatedQuantity
+        ) {
+          return false;
+        }
+      }
+      return true;
+    }),
+  preliminaryTreatment: Yup.object()
+    .shape(validate)
+    .test('oneOfRequired', 'Vui lòng nhập đầy đủ theo thứ tự', function(values: any) {
+      console.log(this.parent.harvesting);
+      console.log(values);
+      if (
+        values.technical.length === 0 ||
+        values.leader.length === 0 ||
+        !values.estimatedTime ||
+        values.estimatedQuantity === 0 ||
+        !values.estimatedQuantity
+      ) {
+        if (
+          this.parent.cleaning.technical.length > 0 ||
+          this.parent.cleaning.leader.length > 0 ||
+          this.parent.cleaning.estimatedTime ||
+          this.parent.cleaning.estimatedQuantity > 0 ||
+          this.parent.cleaning.estimatedQuantity
+        ) {
+          return false;
+        }
+      }
+      return true;
+    }),
+  cleaning: Yup.object()
+    .shape(validate)
+    .test('oneOfRequired', 'Vui lòng nhập đầy đủ theo thứ tự', function(values: any) {
+      console.log(this.parent.preliminaryTreatment);
+      console.log(values);
 
-  //     if (
-  //       // this.parent.harvesting.technical.length === 0 ||
-  //       // this.parent.harvesting.leader.length === 0 ||
-  //       values.technical.length === 0 ||
-  //       values.leader.length === 0 ||
-  //       !values.estimatedTime ||
-  //       values.estimatedQuantity === 0 ||
-  //       !values.estimatedQuantity
-  //     ) {
-  //       if (
-  //         this.parent.packing.estimatedTime ||
-  //         this.parent.packing.estimatedExpireTimeStart ||
-  //         this.parent.packing.estimatedExpireTimeEnd ||
-  //         // this.parent.packing.packing ||
-  //         // (_.isObject(this.parent.packing.packing)) ||
-  //         this.parent.packing.estimatedQuantity || this.parent.packing.estimatedQuantity > 0 ||
-  //         this.parent.packing.technical.length > 0 ||
-  //         this.parent.packing.leader.length > 0
-  //       ) {
-  //         return false;
-  //       }
-  //       // else if (
-  //       //   values.estimatedTime ||
-  //       //   values.estimatedQuantity ||
-  //       //   values.estimatedQuantity > 0 ||
-  //       //   values.technical.length > 0 ||
-  //       //   values.leader.length > 0
-  //       // ) {
-  //       //   return false;
-  //       // }
-  //       // return true;
-  //     }
-  //     return true;
-  //   }),
-  // packing: Yup.object()
-  //   .shape(packingValidate)
-  //   .test('oneOfRequired', 'Vui lòng nhập đầy đủ theo thứ tự', function(values: any) {
-  //     console.log(this.parent.packing);
-  //     console.log(values);
+      if (
+        // this.parent.harvesting.technical.length === 0 ||
+        // this.parent.harvesting.leader.length === 0 ||
+        values.technical.length === 0 ||
+        values.leader.length === 0 ||
+        !values.estimatedTime ||
+        values.estimatedQuantity === 0 ||
+        !values.estimatedQuantity
+      ) {
+        if (
+          this.parent.packing.estimatedTime ||
+          this.parent.packing.estimatedExpireTimeStart ||
+          this.parent.packing.estimatedExpireTimeEnd ||
+          // this.parent.packing.packing ||
+          // (_.isObject(this.parent.packing.packing)) ||
+          this.parent.packing.estimatedQuantity || this.parent.packing.estimatedQuantity > 0 ||
+          this.parent.packing.technical.length > 0 ||
+          this.parent.packing.leader.length > 0
+        ) {
+          return false;
+        }
+        // else if (
+        //   values.estimatedTime ||
+        //   values.estimatedQuantity ||
+        //   values.estimatedQuantity > 0 ||
+        //   values.technical.length > 0 ||
+        //   values.leader.length > 0
+        // ) {
+        //   return false;
+        // }
+        // return true;
+      }
+      return true;
+    }),
+  packing: Yup.object()
+    .shape(packingValidate)
+    .test('oneOfRequired', 'Vui lòng nhập đầy đủ theo thứ tự', function(values: any) {
+      console.log(this.parent.packing);
+      console.log(values);
 
-  //     if (
-  //       // this.parent.harvesting.technical.length === 0 ||
-  //       // this.parent.harvesting.leader.length === 0 ||
-  //       // this.parent.preliminaryTreatment.technical.length === 0 ||
-  //       // this.parent.preliminaryTreatment.leader.length === 0 ||
-  //       // !this.parent.preliminaryTreatment.estimatedTime ||
-  //       // this.parent.preliminaryTreatment.estimatedQuantity === 0 ||
-  //       // !this.parent.preliminaryTreatment.estimatedQuantity ||
-  //       !values.estimatedTime ||
-  //       !values.estimatedExpireTimeStart ||
-  //       !values.estimatedExpireTimeEnd ||
-  //       !values.packing || (_.isObject(values.packing) && !values.packing.label) ||
-  //       !values.estimatedQuantity || values.estimatedQuantity === 0 ||
-  //       values.technical.length === 0 ||
-  //       values.leader.length === 0
-  //     ) {
-  //       if (
-  //         this.parent.preservation.estimatedStartTime ||
-  //         this.parent.preservation.estimatedEndTime > 0 ||
-  //         this.parent.preservation.technical.length > 0
-  //       ) {
-  //         return true;
-  //       }
-  //       //  else if (
-  //       //   values.estimatedTime ||
-  //       //   values.estimatedQuantity ||
-  //       //   values.estimatedQuantity > 0 ||
-  //       //   values.technical.length > 0 ||
-  //       //   values.leader.length > 0
-  //       // ) {
-  //       //   return false;
-  //       // }
-  //       // return true;
-  //     }
-  //     return true;
-  //   }),
-  // preservation: Yup.object()
-  //   .shape(preservationValidate)
+      if (
+        // this.parent.harvesting.technical.length === 0 ||
+        // this.parent.harvesting.leader.length === 0 ||
+        // this.parent.preliminaryTreatment.technical.length === 0 ||
+        // this.parent.preliminaryTreatment.leader.length === 0 ||
+        // !this.parent.preliminaryTreatment.estimatedTime ||
+        // this.parent.preliminaryTreatment.estimatedQuantity === 0 ||
+        // !this.parent.preliminaryTreatment.estimatedQuantity ||
+        !values.estimatedTime ||
+        !values.estimatedExpireTimeStart ||
+        !values.estimatedExpireTimeEnd ||
+        !values.packing || (_.isObject(values.packing) && !values.packing.label) ||
+        !values.estimatedQuantity || values.estimatedQuantity === 0 ||
+        values.technical.length === 0 ||
+        values.leader.length === 0
+      ) {
+        if (
+          this.parent.preservation.estimatedStartTime ||
+          this.parent.preservation.estimatedEndTime > 0 ||
+          this.parent.preservation.technical.length > 0
+        ) {
+          return true;
+        }
+        //  else if (
+        //   values.estimatedTime ||
+        //   values.estimatedQuantity ||
+        //   values.estimatedQuantity > 0 ||
+        //   values.technical.length > 0 ||
+        //   values.leader.length > 0
+        // ) {
+        //   return false;
+        // }
+        // return true;
+      }
+      return true;
+    }),
+  preservation: Yup.object()
+    .shape(preservationValidate),
     
 
   // cleaning: Yup.object().shape({
@@ -1151,6 +1151,7 @@ function ProductionPlan() {
   
   const modifyModel4 = useMemo((): ModifyPanel => ({
     _title: '',
+    _validationField: 'preliminaryTreatment',
     group1: {
       _subTitle: 'THÔNG TIN SƠ CHẾ',
       _className: 'col-6 pl-xl-15 pl-md-10 pl-5',
@@ -1195,6 +1196,7 @@ function ProductionPlan() {
   
   const modifyModel5 = useMemo((): ModifyPanel => ({
     _title: '',
+    _validationField: 'cleaning',
     cleaning: {
       _subTitle: 'THÔNG TIN LÀM SẠCH',
       _className: 'col-6 pl-xl-15 pl-md-10 pl-5',
@@ -1241,6 +1243,7 @@ function ProductionPlan() {
   
   const modifyModel6 = useMemo((): ModifyPanel =>  ({
     _title: '',
+    _validationField: 'packing',
     group1: {
       _subTitle: 'THÔNG TIN ĐÓNG GÓI',
       _className: 'col-6 pl-xl-15 pl-md-10 pl-5',
@@ -1308,6 +1311,7 @@ function ProductionPlan() {
   
   const modifyModel7 = useMemo((): ModifyPanel => ({
     _title: '',
+    _validationField: 'preservation',
     group1: {
       _subTitle: 'THÔNG TIN BẢO QUẢN',
       _className: 'col-6 pl-xl-15 pl-md-10 pl-5',

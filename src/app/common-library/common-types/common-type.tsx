@@ -166,7 +166,7 @@ export type ModifyForm = { _header: string } & Panels;
 export type Panels = {
   [T: string]: ModifyPanel | string,
 }
-export type ModifyPanel = { _title: string } & InputGroups;
+export type ModifyPanel = { _title: string, _validationField?: string } & InputGroups;
 
 export type InputGroups = {
   [T: string]: ModifyInputGroup | string
