@@ -944,7 +944,7 @@ function ProductionPlan() {
         landLot: {
           _type: 'object',
           code: {
-            type: 'string',
+            _type: 'string',
             // placeholder: 'PRODUCT_TYPE.MASTER.TABLE.BARCODE_COLUMN',
             required: true,
             label: 'Lô gieo trồng',

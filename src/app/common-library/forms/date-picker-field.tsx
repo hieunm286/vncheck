@@ -19,8 +19,7 @@ export function DatePickerField({mode, disabled, required, labelWidth, label, ..
   const {setFieldValue, errors, touched, values} = useFormikContext<any>();
   const [field] = useField({
     ...props,
-    disabled: disabled ? typeof disabled === 'boolean' ? disabled : disabled(values) : disabled,
-    required: required ? typeof required === 'boolean' ? required : required(values) : required
+    
   });
   const timestamp = new Date();
   const inverseOffset = moment(timestamp).utcOffset() * -1;
@@ -43,6 +42,7 @@ export function DatePickerField({mode, disabled, required, labelWidth, label, ..
                           GetFieldCSSClasses(GetTouched(touched, field.name), GetError(errors, field.name))}
                       locale={locale}
                       {...props}
+                      disabled={disabled ? typeof disabled === 'boolean' ? disabled : disabled(values) : disabled}
                       format={props.format ?? "DD/MM/yyyy"}
                       onChange={(val: Moment | null, dateString: string) => {
                         setFieldValue(field.name, val);

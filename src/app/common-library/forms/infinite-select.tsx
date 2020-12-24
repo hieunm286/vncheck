@@ -110,23 +110,13 @@ export function InfiniteSelect({
       },
     }
   }, []);
-  
-  const getValue = (selectFields?: string, names?: string, formValues?: any) => {
-    if (formValues && names && formValues[names]) {
-      if (selectFields) {
-        return formValues[names][selectFields]
-      } else {
-        return formValues[names]
-      }
-    }
-    return;
-  }
-  
   // console.log(errors[name]);
   // console.log(name)
   // console.log(touched);
-  const [field] = useField({name});
-  // console.log(field.value);
+  const [field] = useField({name,
+    disabled: disabled ? typeof disabled === 'boolean' ? disabled : disabled(values) : disabled,
+    required: required ? typeof required === 'boolean' ? required : required(values) : required});
+  console.log(field);
   // console.log(GetSearchSelectValue({selectField, name, values}));
   return (
     <>
@@ -141,6 +131,7 @@ export function InfiniteSelect({
           <CustomAsyncPaginate
             className={getCSSClasses(errors[name], touched[name])}
             {...props}
+            {...field}
             value={(keyField && keyField != '') ? field.value : [field.value]}
             // value={GetSearchSelectValue({selectField, name, values})}
             getOptionValue={option => {

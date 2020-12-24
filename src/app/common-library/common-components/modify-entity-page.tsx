@@ -46,7 +46,7 @@ export function ModifyEntityPage<T>({
     <>
       <div className={'row'}>
         {pl && Object.values(pl).map((inputGroup, index) => {
-          if (_.isString(inputGroup)) throw new Error('Sử dụng sai cách ' + inputGroup);
+          if (_.isString(inputGroup)) throw new Error('Sử dụng sai cách ' + inputGroup + '\n' + JSON.stringify(pl));
           const {_subTitle, _className, _dataClassName, _titleClassName, ...inputs} = inputGroup;
           return (
             <div key={`meg-${index}`} className={_className ?? 'col-12'}>
@@ -68,7 +68,7 @@ export const RenderForm = ({inputs, prevKey, mode}: any) => {
   return (<>
     {Object.keys(inputs).map(key => {
       const input = inputs[key];
-      if (_.isString(input)) throw new Error('Sử dụng sai cách ' + key);
+      if (_.isString(input)) throw new Error('Sử dụng sai cách ' + key + '\n' + JSON.stringify(inputs));
       switch (input._type) {
         case 'string':
           return (
