@@ -1,4 +1,4 @@
-import React, {ReactElement, useMemo} from 'react';
+import React, {ReactElement, useEffect, useMemo} from 'react';
 import {withAsyncPaginate} from 'react-select-async-paginate';
 import {useField, useFormikContext} from 'formik';
 import {GetClassName} from '../helpers/common-function'
@@ -53,12 +53,6 @@ export function InfiniteSelect({
 }) {
   const {setFieldValue, errors, touched, values, setFieldTouched} = useFormikContext<any>();
   const CustomAsyncPaginate = withAsyncPaginate(AtlaskitSelect);
-  
-  // useEffect(() => {
-  //   setFieldTouched(name, true)
-  
-  // }, [])
-  
   const styles = useMemo((): StylesConfig => {
     return {
       control: (base, props1) => {
@@ -110,13 +104,15 @@ export function InfiniteSelect({
       },
     }
   }, []);
-  // console.log(errors[name]);
-  // console.log(name)
-  // console.log(touched);
-  const [field] = useField({name,
+  
+  const [field,fieldMeta,fieldHelper] = useField({
+    name,
     disabled: disabled ? typeof disabled === 'boolean' ? disabled : disabled(values) : disabled,
-    required: required ? typeof required === 'boolean' ? required : required(values) : required});
-  console.log(field);
+    required: required ? typeof required === 'boolean' ? required : required(values) : required
+  });
+  useEffect(() => {
+    fieldMeta.touched && onChange && onChange(field.value, {setFieldValue, values});
+  }, [field.value]);
   // console.log(GetSearchSelectValue({selectField, name, values}));
   return (
     <>
@@ -146,7 +142,7 @@ export function InfiniteSelect({
             onChange={(value: any, action) => {
               // console.log(value);
               setFieldValue(name, value);
-              onChange && onChange(value, {setFieldValue, values});
+              setFieldTouched(name, true);
             }}
             styles={styles}
             isDisabled={disabled ? typeof disabled === 'boolean' ? disabled : disabled(values) : disabled}

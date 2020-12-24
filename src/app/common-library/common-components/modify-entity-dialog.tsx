@@ -13,7 +13,6 @@ function ModifyEntityDialog<T>({
                                  moduleName = 'COMMON_COMPONENT.DETAIL_DIALOG.MODULE_NAME',
                                  formModel,
                                  validation,
-                                 allFormField
                                }: {
   show: boolean;
   onHide: () => void;
@@ -23,9 +22,8 @@ function ModifyEntityDialog<T>({
   code?: string | null;
   get?: (code: string) => any | null;
   formModel: ModifyForm;
-  allFormField?: any;
   size?: 'sm' | 'lg';
-  allFormButton?: any;
+  actions?: any;
   validation?: any;
   homePage?: string;
   error?: { error: string };
