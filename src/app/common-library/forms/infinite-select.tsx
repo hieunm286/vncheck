@@ -122,11 +122,11 @@ export function InfiniteSelect({
     return;
   }
   
-  console.log(errors[name]);
-  console.log(name)
-  console.log(touched);
-  const [field] = useField({name: name});
-  console.log(field.value);
+  // console.log(errors[name]);
+  // console.log(name)
+  // console.log(touched);
+  const [field] = useField({name});
+  // console.log(field.value);
   // console.log(GetSearchSelectValue({selectField, name, values}));
   return (
     <>
@@ -141,18 +141,19 @@ export function InfiniteSelect({
           <CustomAsyncPaginate
             className={getCSSClasses(errors[name], touched[name])}
             {...props}
-            value={[field.value]}
+            value={(keyField && keyField != '') ? field.value : [field.value]}
             // value={GetSearchSelectValue({selectField, name, values})}
             getOptionValue={option => {
-              console.log(option,selectField,selectField ? option[selectField] : option)
+              // console.log(option, selectField, selectField ? option[selectField] : option)
               return selectField ? option[selectField] : option
             }}
             getOptionLabel={option => {
-          console.log(option,keyField,keyField ? option[keyField] : option)
+              // console.log(option, keyField, keyField ? option[keyField] : option)
               return keyField ? option[keyField] : option
             }}
             loadOptions={loadOptions}
             onChange={(value: any, action) => {
+              // console.log(value);
               setFieldValue(name, value);
               onChange && onChange(value, {setFieldValue, values});
             }}
