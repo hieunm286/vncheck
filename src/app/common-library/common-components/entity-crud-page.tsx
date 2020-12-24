@@ -196,7 +196,7 @@ function EntityCrudPage({
             <Form className="form form-label-right">
               {Object.keys(modifyPanels).map((key, index,keys) => {
                 const val = modifyPanels[key];
-                if(_.isString(val)) throw new Error('Sử dụng sai cách ' + key);
+                if(_.isString(val)) throw new Error('Sử dụng sai cách ' + key + '\n' + JSON.stringify(modifyPanels));
                 const {_title, ...panel} = val;
                 return (
                   <Card key={key} className={'modify-page'}>
