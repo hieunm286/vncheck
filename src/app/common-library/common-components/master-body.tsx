@@ -6,7 +6,6 @@ import {useIntl} from 'react-intl';
 import {iconStyle} from '../common-consts/const';
 import {MasterTable} from './master-table';
 import {MasterBodyColumns, PaginationProps} from '../common-types/common-type';
-import {ColumnDescription} from 'react-bootstrap-table-next';
 
 export interface BasicUnitDataProps {
   showModal: any;

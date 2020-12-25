@@ -250,7 +250,7 @@ function ProductPackaging() {
   
   const updateForm = useMemo((): ModifyForm => ({...createForm, _header: updateTitle}), [createForm]);
   
-  const allFormButton: any = {
+  const actions: any = {
     save: {
       role: 'submit',
       type: 'submit',
@@ -318,14 +318,9 @@ function ProductPackaging() {
         code={null}
         get={() => null}
         formModel={createForm}
-        allFormField={allFormField}
-        allFormButton={allFormButton}
+        actions={actions}
         validation={ProductPackagingSchema}
         error={error}
-        // autoFill={{
-        //   field: '',
-        //   data: null,
-        // }}
         homePage={homeURL}
       />
       <ModifyEntityDialog
@@ -344,8 +339,7 @@ function ProductPackaging() {
         code={null}
         get={() => null}
         formModel={updateForm}
-        allFormField={allFormField}
-        allFormButton={allFormButton}
+        actions={actions}
         validation={ProductPackagingSchema}
         error={error}
         homePage={homeURL}
