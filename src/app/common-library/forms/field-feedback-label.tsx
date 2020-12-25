@@ -16,8 +16,8 @@ const inputLabel = ({label, touched, error, customFeedbackLabel}: FeedBackProps)
   if (touched && error) {
     return (
       <div className="invalid-feedback">
-        {/* <FormattedMessage id={error}></FormattedMessage> */}
-        {error}
+        <FormattedMessage id={error}></FormattedMessage>
+        {/* {error} */}
       </div>
     );
   }
