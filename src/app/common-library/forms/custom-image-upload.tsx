@@ -1,42 +1,70 @@
-import React, { ReactElement, useEffect, useState } from 'react';
+import React, {ReactElement, useCallback, useEffect, useState} from 'react';
 import ImageUploading from 'react-images-uploading';
-import { GetClassName, getNewImage, getOnlyBase64 } from '../helpers/common-function';
+import {GetClassName, getNewImage, ToDataURL} from '../helpers/common-function';
 import exifr from 'exifr';
 import './custom-image-upload.scss';
-import { useFormikContext } from 'formik';
-import { CloseOutlined } from '@material-ui/icons';
+import {useField, useFormikContext} from 'formik';
+import {CloseOutlined} from '@material-ui/icons';
+import _ from "lodash";
 
 interface ImageUploadPros {
   value: any[];
   label: string | ReactElement;
   onChange?: any;
   labelWidth?: number;
-  isHorizontal?: boolean;
   required?: boolean | ((values: any) => boolean);
   name: string;
   maxNumber?: number;
+  pathField?: string;
   multiple?: boolean;
   mode?: 'horizontal' | 'vertical' | undefined;
 }
 
 function CustomImageUpload({
-  label,
-  labelWidth,
-  value,
-  isHorizontal,
-  required,
-  name,
-  mode,
-  maxNumber = 1,
-}: ImageUploadPros) {
-  const { errors, touched, setFieldValue, values } = useFormikContext<any>();
-
+                             label,
+                             labelWidth,
+                             pathField = 'path',
+                             required,
+                             name,
+                             mode,
+                             maxNumber = 1,
+                           }: ImageUploadPros) {
+  const {errors, touched, setFieldValue, values,} = useFormikContext<any>();
+  const [field, fieldMeta, fieldHelper] = useField({name});
+  
   const [imageData, setImageData] = useState<{ data_url: any; exif: any }[]>([]);
-  const [imagess, setImagess] = useState(value || []);
-
+  const [images, setImages] = useState<any>(null);
+  const getImage = useCallback((path: string) => {
+    return ToDataURL('/' + path)
+      .then(dataUrl => {
+        return {data_url: dataUrl};
+      })
+      .catch(error => {
+        console.log(error); // Logs an error if there was one
+        throw error;
+      });
+  }, []);
+  useEffect(() => {
+    if (field.value) {
+      if (_.isArray(field.value)) {
+        const arr: any[] = [];
+        field.value.forEach((f) => {
+          getImage(f[pathField]).then((image: any) => {
+            arr.push(image);
+          });
+        });
+        setImages(arr);
+      } else {
+        getImage(field.value[pathField]).then((image: any) => {
+          setImages(image);
+        });
+      }
+    }
+  }, [field.value]);
+  
   const ImageMeta = (file: any, key: string) => {
     if (!file) return '';
-
+    
     file.forEach((item: any) => {
       exifr.parse(item.file).then(res => {
         const image = {
@@ -47,43 +75,43 @@ function CustomImageUpload({
             long: res?.longitude,
           },
         };
-
+        
         const data: any[] = [];
         data.push(image);
-
+        
         setImageData(prevImages => [...prevImages, ...data]);
       });
     });
   };
-
-  const handleChange = (imageList: any, addUpdateIndex: any, key: string) => {
-    const newArr = getNewImage(imagess, imageList);
-
-    ImageMeta(newArr, key);
-
-    setImagess(imageList);
-  };
-
+  
+  // const handleChange = (imageList: any, addUpdateIndex: any, key: string) => {
+  //   const newArr = getNewImage(imagess, imageList);
+  //
+  //   ImageMeta(newArr, key);
+  //
+  //   setImagess(imageList);
+  // };
+  //
   const getDeleteImage = (index: number) => {
     let updateArr = [...imageData];
-
+    
     let arr = updateArr.filter((values: any, indexs: number) => indexs !== index);
-
+    
     setImageData(arr);
   };
-
+  
   useEffect(() => {
     if (name && values) {
       setFieldValue(name, imageData);
     }
   }, [imageData]);
-
-  useEffect(() => {
-    if (value) {
-      setImagess(value);
-    }
-  }, [value]);
-
+  //
+  // useEffect(() => {
+  //   if (value) {
+  //     setImagess(value);
+  //   }
+  // }, [value]);
+  //
   return (
     <div className={mode === 'horizontal' ? 'row' : ''}>
       <div className={GetClassName(labelWidth, true)}>
@@ -99,23 +127,23 @@ function CustomImageUpload({
       <div className={GetClassName(labelWidth, false)}>
         <ImageUploading
           multiple={maxNumber > 1}
-          value={imagess}
+          value={images}
           onChange={(imageList: any, addUpdateIndex: any) => {
             if (name) {
-              handleChange(imageList, addUpdateIndex, name);
+              // handleChange(imageList, addUpdateIndex, name);
             }
           }}
           maxNumber={maxNumber}
           dataURLKey="data_url">
           {({
-            imageList,
-            onImageUpload,
-            onImageRemoveAll,
-            onImageUpdate,
-            onImageRemove,
-            isDragging,
-            dragProps,
-          }) => (
+              imageList,
+              onImageUpload,
+              onImageRemoveAll,
+              onImageUpdate,
+              onImageRemove,
+              isDragging,
+              dragProps,
+            }) => (
             // write your building UI
             <>
               <div
@@ -126,7 +154,7 @@ function CustomImageUpload({
                 }>
                 {imageList.map((image, index) => (
                   <div key={index} className="image-item imagePreview mr-1">
-                    <img src={image['data_url']} alt="" width="100" height="100" />
+                    <img src={image['data_url']} alt="" width="100" height="100"/>
                     {/* <div className="image-item__btn-wrapper"> */}
                     <button
                       type="button"
@@ -135,14 +163,14 @@ function CustomImageUpload({
                         onImageRemove(index);
                         getDeleteImage(index);
                       }}>
-                      <CloseOutlined />
+                      <CloseOutlined/>
                     </button>
                   </div>
                 ))}
-                {imagess.length < maxNumber && (
+                {images.length < maxNumber && (
                   <button
                     type="button"
-                    style={isDragging ? { color: 'red' } : undefined}
+                    style={isDragging ? {color: 'red'} : undefined}
                     onClick={onImageUpload}
                     className="button-add-image text-primary"
                     {...dragProps}>

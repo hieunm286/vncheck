@@ -268,47 +268,18 @@ export const getFieldV2 = (field: any, fieldName: string[]) => {
   
   return fields
 }
-
-interface FieldProp {
-  field: string;
-  refs?: { prop: string, key: string }
-}
-
-// export const ConvertSelectSearch = (entity: any, keyField?: FieldProp[]) => {
-//
-//   if (!entity) return;
-//
-//   const convertEntity = {...entity};
-//
-//   if (keyField && keyField.length > 0) {
-//
-//     keyField.forEach(({field, ref}: FieldProp) => {
-//       if (ref && (!ref.prop || ref.prop === '')) {
-//         convertEntity[field] = {label: getField(convertEntity[field], ref.key), value: convertEntity[field]._id}
-//       } else if (ref && convertEntity[ref.prop]) {
-//         convertEntity[field][ref.prop] = {label: getField(convertEntity[ref.prop], ref.key), value: entity._id}
-//       } else {
-//         convertEntity[field] = {label: convertEntity[field], value: entity._id}
-//       }
-//     })
-//
-//     return convertEntity;
-//   }
-//
-//   return convertEntity;
-// }
-
-// export const ExportFieldOfSelectSearch = (formPart: any) => {
-//   const fieldArr = [];
-
-//   Object.keys(formPart).forEach(key => {
-//     formPart[key].modifyModel.forEach(item => {
-//       if ()
-//     })
-//   })
-
-// }
-
+export const ToDataURL = (url: string) =>
+  fetch(url)
+    .then(response => response.blob())
+    .then(
+      blob =>
+        new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onloadend = () => resolve(reader.result);
+          reader.onerror = reject;
+          reader.readAsDataURL(blob);
+        }),
+    );
 export const ConvertStatusToBoolean = (data: any) => {
   return data.status && typeof data.status === 'string' ? {...data, status: data.status === "1" ? true : false} : data;
 }

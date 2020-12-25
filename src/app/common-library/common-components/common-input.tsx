@@ -100,10 +100,11 @@ export type InputTagType = {
 };
 export type InputImageType = {
   name: string;
-  value: any;
+  value?: any;
   label: string | ReactElement;
   required?: boolean | ((values: any) => boolean);
   disabled?: boolean | ((values: any) => boolean);
+  pathField?: string;
   mode?: 'horizontal' | 'vertical';
   [X: string]: any;
 };
@@ -183,7 +184,6 @@ export const InputBoolean = ({label, placeholder, className, ...props}: InputBoo
 };
 export const InputImage = ({label, className, value, ...props}: InputImageType) => {
   const intl = useIntl();
-  console.log(value)
   return (
     <div className={className}>
       <CustomImageUpload
