@@ -20,84 +20,7 @@ import ModifyEntityDialog from '../../common-library/common-components/modify-en
 import {GenerateCode} from '../species/species';
 import {DeleteEntityDialog} from '../../common-library/common-components/delete-entity-dialog';
 import {ModifyForm, ModifyInputGroup, ModifyPanel} from "../../common-library/common-types/common-type";
-
-const data: TreeData[] = [
-  {
-    _id: 'dlc1',
-    name: 'Nhà phân phối',
-    code: '1213',
-    level: 1,
-    status: '1',
-    children: [
-      {
-        _id: 'xxx-xxx',
-        name: 'Tổng đại lý',
-        code: '123rf13',
-        level: 2,
-        status: '1',
-        children: [
-          {
-            _id: 'cccccc',
-            name: 'Đại lý',
-            code: '1savas213',
-            level: 3,
-            status: '1',
-            children: [
-              {
-                _id: 'cccxzca',
-                name: 'Cửa hàng bán lẻ',
-                code: 'sàvasf1213',
-                level: 4,
-                status: '1',
-              },
-            ],
-          },
-        ],
-        parent: 'dlc1',
-      },
-      {
-        _id: 'xxx-xczxxx',
-        name: 'Tổng đại lý 2',
-        code: '12đá13',
-        level: 2,
-        status: '1',
-        parent: 'dlc1',
-      },
-    ],
-  },
-  {
-    _id: 'sieuthi',
-    name: 'Siêu thị',
-    code: '12ábsdb13',
-    level: 1,
-    status: '1',
-  },
-  {
-    _id: 'bigC',
-    name: 'Big C',
-    code: '1213',
-    level: 1,
-    status: '1',
-    children: [
-      {
-        _id: 'xxx-xxx4',
-        name: 'Đại lý cấp 4',
-        parent: 'bigC',
-        code: '12ávasv13',
-        level: 2,
-        status: '1',
-      },
-      {
-        _id: 'xxx-xxx5',
-        name: 'Đại lý cấp 5',
-        parent: 'bigC',
-        code: '12173783',
-        level: 2,
-        status: '1',
-      },
-    ],
-  },
-];
+import * as Yup from 'yup';
 
 const headerTitle = 'PRODUCT_PACKAGING.MASTER.HEADER.TITLE';
 const bodyTitle = 'PRODUCT_PACKAGING.MASTER.BODY.TITLE';
@@ -106,6 +29,7 @@ const deleteDialogTitle = 'MULTILEVEL_SALE.DELETE_DIALOG.TITLE';
 const createTitle = 'MULTILEVEL_SALE.CREATE.TITLE';
 const updateTitle = 'MULTILEVEL_SALE.UPDATE.TITLE';
 const homeURL = `${window.location.pathname}`;
+
 
 function MultilevelSale() {
   const intl = useIntl();
@@ -231,6 +155,22 @@ function MultilevelSale() {
       style: {minWidth: '130px'},
     },
   };
+
+  
+const MultilevelSaleSchema = Yup.object().shape({
+  name: Yup.string().required('Tên cấp bán hàng không được để trống').matches(/^[aAàÀảẢãÃáÁạẠăĂằẰẳẲẵẴắẮặẶâÂầẦẩẨẫẪấẤậẬbBcCdDđĐeEèÈẻẺẽẼéÉẹẸêÊềỀểỂễỄếẾệỆfFgGhHiIìÌỉỈĩĨíÍịỊjJkKlLmMnNoOòÒỏỎõÕóÓọỌôÔồỒổỔỗỖốỐộỘơƠờỜởỞỡỠớỚợỢpPqQrRsStTuUùÙủỦũŨúÚụỤưƯừỪửỬữỮứỨựỰvVwWxXyYỳỲỷỶỹỸýÝỵỴzZ ]+$/u, {
+    message: 'Tên không hợp lệ. Tên không chứa số và ký tự đặc biệt',
+  }).test('Exists validate', 'Tên cấp bán hàng đã tồn tại', function (value) {
+    if (editEntity) {
+      const validArr = entities.filter(item => item._id !== editEntity._id)
+      const index = validArr.findIndex(el => el.name === value)
+      return index === -1
+    }
+    
+    const index = entities.findIndex(el => el.name === value)
+    return index === -1
+  }),
+});
   
   const TreeBody = [
     {
@@ -340,6 +280,7 @@ function MultilevelSale() {
       <ModifyEntityDialog
         show={showCreate}
         entity={{ name: '', status: true }}
+        validation={MultilevelSaleSchema}
         onModify={values => {
           console.log(values);
           console.log(editEntity);
@@ -360,6 +301,7 @@ function MultilevelSale() {
       <ModifyEntityDialog
         show={showEdit}
         entity={editEntity}
+        validation={MultilevelSaleSchema}
         onModify={values => {
           console.log(values);
           if (editEntity) {
@@ -378,7 +320,6 @@ function MultilevelSale() {
         formModel={updateForm}/>
       <MultiLevelSaleBody
         title="CẤP BÁN HÀNG"
-        data={data}
         body={TreeBody}
         onCreate={(entity: any) => {
           setCreateEntity(null);
