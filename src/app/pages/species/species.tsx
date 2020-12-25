@@ -23,7 +23,6 @@ import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import * as Yup from 'yup';
 import {SpeciesModel} from './species.model';
 import * as ProductTypeService from './species.service';
-
 import 'react-toastify/dist/ReactToastify.css';
 import {
   MasterEntityDetailDialog
@@ -265,7 +264,7 @@ function Species() {
       _type: 'image',
       // value: null,
       label: 'PRODUCT_TYPE.MASTER.IMAGE',
-      multiple: false
+      maxNumber: 1
     },
     // avatar: {
     //   type: 'image',
