@@ -51,7 +51,7 @@ export function InfiniteSelect({
   disabled?: boolean | ((values: any) => boolean);
   
 }) {
-  const {setFieldValue, errors, touched, values, handleBlur, setErrors} = useFormikContext<any>();
+  const {setFieldValue, errors, touched, values, handleBlur, setFieldTouched} = useFormikContext<any>();
   const CustomAsyncPaginate = withAsyncPaginate(AtlaskitSelect);
   const styles = useMemo((): StylesConfig => {
     return {
@@ -143,8 +143,9 @@ export function InfiniteSelect({
               console.log(value);
               console.log(errors)
               setFieldValue(name, value);
-              setFieldTouched(name, true);
+              // setFieldTouched(name, true);
             }}
+            isClearable={true}
             onBlur={handleBlur}
             styles={styles}
             isDisabled={disabled ? typeof disabled === 'boolean' ? disabled : disabled(values) : disabled}

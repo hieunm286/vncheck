@@ -34,7 +34,9 @@ const updateTitle = 'PRODUCT_PACKAGING.UPDATE.TITLE';
 const homeURL = `${window.location.pathname}`;
 
 const ProductPackagingSchema = Yup.object().shape({
-  species: Yup.string().required('Name ko đc để trống'),
+  species: Yup.mixed().required('Name ko đc để trống').test('test name', 'lỗi', function (value) {
+    return value
+  }),
   weight: Yup.number()
     .required('Số gram không được để trống')
     .min(0, 'Số gram không được ít hơn 0 nha')
@@ -194,7 +196,7 @@ function ProductPackaging() {
           label: 'PRODUCT_PACKAGING.MASTER.TABLE.NAME_COLUMN',
           onSearch: ProductTypeService.GetAll,
           keyField: 'name',
-          refs: true
+          // refs: true
         },
         weight: {
           type: 'string',
