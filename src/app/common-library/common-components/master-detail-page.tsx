@@ -191,8 +191,8 @@ const LineMode = ({ entityDetail, renderInfo, intl, title, moduleName, history, 
     <CardBody>
       {renderInfo.map((value: any, key: any) => (
         <div key={key} className="mt-5">
-          <p className="text-primary font-weight-bold">{value.header}</p>
-          <div className="row">
+          <p className="text-primary" style={{ fontWeight: 600 }}>{value.header}</p>
+          <div className="row" style={{ color: '#000000' }}>
             {value.data.map((el: any, elKey: number) => (
               <div key={elKey} className={`col-md-6 col-12 border-bottom pb-10`}>
                 {el.map((child: any, childKey: string) => {
