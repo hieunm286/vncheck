@@ -176,7 +176,7 @@ export type InputGroups = {
 export type ModifyInputGroup = InputGroupType & {
   _subTitle: string;
   _className?: string;
-  _titleClassName?: string;
+  _titlenpClassName?: string;
   _dataClassName?: string;
 };
 
@@ -206,6 +206,7 @@ export type GetAllPropsServer<T> = ({
 export type _ModifyModelInput =
   ({ _type: 'object', [S: string]: any })
   | ({ _type: 'image', value?: any } & _CommonProps)
+  | ({ _type: 'custom', component: () => ReactElement})
   | ({ _type: 'string' | 'date-time' | 'number' | 'boolean' | 'tag' | 'gallery' } & _CommonProps)
   | ({ _type: 'radio', options: { value: any, label: string }[] | ((...props: any) => { value: any, label: string }[]); } & _CommonProps)
   | ({ _type: 'search-select', onSearch: GetAllPropsServer<any> | GetAllProps<any>, keyField?: string, selectField?: string } & _CommonProps)

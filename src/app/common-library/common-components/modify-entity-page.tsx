@@ -1,26 +1,20 @@
-import React, {ReactElement, useCallback, useEffect, useState} from 'react';
-import {
-  _ModifyModelInput,
-  ModifyPanel,
-  ModifyInputGroup,
-  InputGroups,
-  InputGroupType
-} from '../common-types/common-type';
+import React from 'react';
+import {InputGroups} from '../common-types/common-type';
 import {useIntl} from 'react-intl';
-import {generateInitForm, getField, getNewImage, getOnlyFile} from '../helpers/common-function';
-import {Field, Form, Formik, useFormikContext} from 'formik';
-import ImgGallery from '../forms/image-gallery';
+import {getField} from '../helpers/common-function';
+import {useFormikContext} from 'formik';
 import {
   InputBoolean,
   InputDateTime,
   InputImage,
-  InputNumber, InputRadio,
+  InputNumber,
+  InputRadio,
   InputSearchSelect,
   InputString,
   InputTag
 } from "./common-input";
 import _ from 'lodash';
-import {FormikRadioGroup} from "../forms/radio-group-field";
+import {InputCustom} from "../forms/input-custom";
 
 export function ModifyEntityPage<T>({
                                       inputGroups,
@@ -51,7 +45,7 @@ export function ModifyEntityPage<T>({
           return (
             <div key={`meg-${index}`} className={_className ?? 'col-12'}>
               {_subTitle && <div className="modify-subtitle text-primary">{_subTitle.toUpperCase()}</div>}
-              <RenderForm inputs={inputs} prevKey={''} mode={mode} />
+              <RenderForm inputs={inputs} prevKey={''} mode={mode}/>
             </div>
           )
         })}
@@ -121,7 +115,7 @@ export const RenderForm = ({inputs, prevKey, mode}: any) => {
         //   }}/>
         // ) : (
         //   <></>
-        case 'boolean':
+        case 'boolean': {
           return (
             <InputBoolean
               className={defaultClassName}
@@ -132,6 +126,7 @@ export const RenderForm = ({inputs, prevKey, mode}: any) => {
               key={`modify-page-${key}`}
             />
           );
+        }
         case 'image':
           return (
             <InputImage
@@ -144,7 +139,7 @@ export const RenderForm = ({inputs, prevKey, mode}: any) => {
               key={`modify-page-${key}`}
             />
           );
-        case 'search-select':
+        case 'search-select': {
           console.log(prevKey !== '' ? `${prevKey}.${key}` : key)
           return (
             <InputSearchSelect
@@ -157,13 +152,14 @@ export const RenderForm = ({inputs, prevKey, mode}: any) => {
               key={`modify-page-${key}`}
             />
           );
-        case 'tag':
+        }
+        case 'tag': {
           const defaultTag = (getField(values, prevKey ? `${prevKey}.${key}` : key))
           console.log('----------------')
           console.log(prevKey ? `${prevKey}.${key}` : key)
           console.log(defaultTag)
           console.log('----------------')
-
+  
           return (
             <InputTag
               className={defaultClassName}
@@ -176,6 +172,11 @@ export const RenderForm = ({inputs, prevKey, mode}: any) => {
               key={`modify-page-${key}`}
             />
           );
+        }
+        case 'custom': {
+          const {_type, ...props} = input;
+          return (<InputCustom {...props}/>);
+        }
         //
         // case 'SearchSelectV2':
         //   return (
@@ -191,41 +192,42 @@ export const RenderForm = ({inputs, prevKey, mode}: any) => {
         //     />
         //   );
         //
-        case 'gallery':
-          return (
-            <div className="mt-3" key={key}>
-              <ImgGallery
-                label={intl.formatMessage({id: input.label as any})}
-                labelWidth={4}
-                name={prevKey !== '' ? `${prevKey}.${key}` : key}
-                isHorizontal
-                mode='multiple'
-                photos={[
-                  {
-                    path: 'https://source.unsplash.com/aZjw7xI3QAA/1144x763',
-                    author: 'Nguyễn Minh Hiếu',
-                    time: '26/09/2020 9:00',
-                    location: {coordinates: [`21°01'10.1"N 105°47'28.6"E`]},
-                    thumbnail: 'https://source.unsplash.com/aZjw7xI3QAA/100x67',
-                  },
-                  {
-                    path: 'https://source.unsplash.com/c77MgFOt7e0/1144x763',
-                    author: 'Nguyễn Minh Hiếu',
-                    time: '26/09/2020 9:00',
-                    location: {coordinates: [`21°01'10.1"N 105°47'28.6"E`]},
-                    thumbnail: 'https://source.unsplash.com/c77MgFOt7e0/100x67',
-                  },
-                  {
-                    path: 'https://source.unsplash.com/QdBHnkBdu4g/1144x763',
-                    author: 'Nguyễn Minh Hiếu',
-                    time: '26/09/2020 9:00',
-                    location: {coordinates: [`21°01'10.1"N 105°47'28.6"E`]},
-                    thumbnail: 'https://source.unsplash.com/QdBHnkBdu4g/100x67',
-                  },
-                ]}
-              />
-            </div>
-          );
+        // case 'gallery':
+        //   return (
+        //     <div className="mt-3" key={key}>
+        //       <ImgGallery
+        //         label={intl.formatMessage({id: input.label as any})}
+        //         labelWidth={4}
+        //         name={prevKey !== '' ? `${prevKey}.${key}` : key}
+        //         isHorizontal
+        //         mode='multiple'
+        //         photos={[
+        //           {
+        //             path: 'https://source.unsplash.com/aZjw7xI3QAA/1144x763',
+        //             author: 'Nguyễn Minh Hiếu',
+        //             time: '26/09/2020 9:00',
+        //             location: {coordinates: [`21°01'10.1"N 105°47'28.6"E`]},
+        //             thumbnail: 'https://source.unsplash.com/aZjw7xI3QAA/100x67',
+        //           },
+        //           {
+        //             path: 'https://source.unsplash.com/c77MgFOt7e0/1144x763',
+        //             author: 'Nguyễn Minh Hiếu',
+        //             time: '26/09/2020 9:00',
+        //             location: {coordinates: [`21°01'10.1"N 105°47'28.6"E`]},
+        //             thumbnail: 'https://source.unsplash.com/c77MgFOt7e0/100x67',
+        //           },
+        //           {
+        //             path: 'https://source.unsplash.com/QdBHnkBdu4g/1144x763',
+        //             author: 'Nguyễn Minh Hiếu',
+        //             time: '26/09/2020 9:00',
+        //             location: {coordinates: [`21°01'10.1"N 105°47'28.6"E`]},
+        //             thumbnail: 'https://source.unsplash.com/QdBHnkBdu4g/100x67',
+        //           },
+        //         ]}
+        //       />
+        //     </div>
+        //   );
+        
         default:
           const {_type, ...inn} = input as any;
           console.log(prevKey ? `${prevKey}.${key}` : key);
