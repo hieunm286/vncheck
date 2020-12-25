@@ -532,7 +532,6 @@ const FormTemplate = ({
                   labelWidth={4}
                   required={modifyModel.entity[key].required}
                   name={key}
-                  multiple={true}
                 />
               </div>
             )
