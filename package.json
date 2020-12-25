@@ -94,7 +94,7 @@
     "react-datepicker": "^3.3.0",
     "react-dnd": "^5.0.0",
     "react-dnd-html5-backend": "^3.0.2",
-    "react-dom": "^16.12.0",
+    "react-dom": "^17.0.1",
     "react-draggable": "4.4.2",
     "react-fast-compare": "^3.2.0",
     "react-google-maps": "^9.4.5",
