@@ -59,29 +59,6 @@ const versionData = [
   },
 ];
 
-const GetValidate = (
-  harvesting?: any,
-  preliminaryTreatment?: any,
-  cleaning?: any,
-  packing?: any,
-  preservation?: any,
-) => {
-  if (harvesting) {
-    return (
-      (harvesting.technical.length > 0 && harvesting.leader.length > 0) ||
-      (harvesting.technical.length === 0 && harvesting.leader.length === 0)
-    );
-  }
-  if (harvesting && preliminaryTreatment) {
-    return (
-      (harvesting.technical.length > 0 &&
-        harvesting.leader.length > 0 &&
-        preliminaryTreatment.estimatedTime) ||
-      (harvesting.technical.length === 0 && harvesting.leader.length === 0)
-    );
-  }
-};
-
 const ProductPlantSchema = Yup.object().shape({
   harvesting: Yup.object()
     .shape(halfValidate)

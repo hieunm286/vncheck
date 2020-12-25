@@ -333,8 +333,27 @@
   "PRODUCT_TYPE.CREATE.TITLE": "Tạo chủng loại mới",
   "PRODUCT_TYPE.UPDATE.TITLE": "Chỉnh sửa chủng loại",
   "PRODUCT_TYPE.MASTER.IMAGE": "Ảnh chủng loại",
-  "Tên chủng loại không được để trống": "Tên chủng loại không được để trống",
+
   
+  "Tên chủng loại không được để trống": "Tên chủng loại không được để trống",
+  "Tên không hợp lệ. Tên không chứa số và ký tự đặc biệt": "Tên không hợp lệ. Tên không chứa số và ký tự đặc biệt",
+  "Tên chủng loại đã tồn tại": "Tên chủng loại đã tồn tại",
+  "GTIN không được để trống": "GTIN không được để trống",
+  "Vui lòng nhập tối đa 10 ký tự": "Vui lòng nhập tối đa 10 ký tự",
+  "GTIN không hợp lệ. GTIN không chứa chữ cái và ký tự đặc biệt": "GTIN không hợp lệ. GTIN không chứa chữ cái và ký tự đặc biệt",
+  "GTIN đã tồn tại": "GTIN đã tồn tại",
+  "Số ngày gieo giống không được để trống": "Số ngày gieo giống không được để trống",
+  "Số ngày không được ít hơn 1 nha": "Số ngày không được ít hơn 1 nha",
+  "Vui lòng nhập số": "Vui lòng nhập số",
+
+  "Số gram không được để trống": "Số gram không được để trống",
+  "Số gram không được ít hơn 0 nha": "Số gram không được ít hơn 0 nha",
+
+  "Tên cấp bán hàng không được để trống": "Tên cấp bán hàng không được để trống",
+  "Tên cấp bán hàng đã tồn tại": "Tên cấp bán hàng đã tồn tại",
+
+  "Nhập hết vào": "Nhập hết vào",
+  "Vui lòng nhập đầy đủ theo thứ tự": "Vui lòng nhập đầy đủ theo thứ tự",
 
   "PRODUCT_PACKAGING.MASTER.TABLE.CODE_COLUMN": "Mã quy cách",
   "PRODUCT_PACKAGING.MASTER.TABLE.NAME_COLUMN": "Tên chủng loại",

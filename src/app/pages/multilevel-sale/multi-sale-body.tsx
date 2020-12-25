@@ -26,7 +26,6 @@ const showArray_v2 = (fileds: any, data: any): any => {
 
 const MultiLevelSaleBody: React.FC<MultilevelSaleBodyProp> = ({
   title,
-  data,
   body,
   onCreate,
   onEdit,
