@@ -442,4 +442,20 @@ label {
   border-color: $primary;
 }
 
+.ant-picker.ant-picker-disabled {
+  background: #C4C4C4;
+
+  .ant-picker-input > input[disabled] {
+    color: #3F4254;
+  }
+}
+
+.ant-select-disabled.ant-select-multiple .ant-select-selector {
+  background: #C4C4C4;
+}
+
+.form-control:disabled {
+  cursor: not-allowed;
+}
+
 //.card.card-custom > .card-body

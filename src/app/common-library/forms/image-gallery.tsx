@@ -110,7 +110,7 @@ function ImgGallery({
 
       <div className={isHorizontal ? 'row' : ''}>
         <div className={isHorizontal ? getClassName(labelWidth, true) : ''}>
-          {label && <label className={isHorizontal ? 'mb-0 input-label mt-2' : ''}>{label}</label>}
+          {label && <label className={isHorizontal ? 'mb-0 mt-2' : ''}>{label}</label>}
         </div>
 
         <div className={isHorizontal ? getClassName(labelWidth, false) : ''}>

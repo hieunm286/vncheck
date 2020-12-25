@@ -408,7 +408,7 @@ function ProductionPlan() {
       classes: 'text-center',
     },
     species: {
-      dataField: 'planting.species.name',
+      dataField: 'seeding.species.name',
       text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.SPECIES_NAME' })}`,
       ...SortColumn,
       classes: 'text-center',
@@ -508,7 +508,7 @@ function ProductionPlan() {
       classes: 'text-center',
     },
     species: {
-      dataField: 'planting.species.name',
+      dataField: 'seeding.species.name',
       text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.SPECIES_NAME' })}`,
       ...SortColumn,
       classes: 'text-center',
@@ -1265,7 +1265,7 @@ function ProductionPlan() {
         estimatedQuantity: {
           _type: 'number',
           // placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
-          label: 'Số lượng đóng gói dự kiến ',
+          label: 'Số lượng đóng gói dự kiến',
           process: '5',
         },
         technical: {
