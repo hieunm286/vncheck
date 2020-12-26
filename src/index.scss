@@ -297,6 +297,10 @@ input {
     }
   }
 
+  td {
+    border: none !important
+  }
+
   .table.table-head-custom thead tr {
     .sortable-active {
       color: $primary !important;
@@ -516,6 +520,28 @@ label {
 
   .ant-steps-item-finish > .ant-steps-item-container > .ant-steps-item-content > .ant-steps-item-title::after {
     background-color: $primary;
+  }
+}
+
+.ant-tabs-tab.ant-tabs-tab-active {
+
+  .ant-tabs-tab-btn {
+    color: #1fa156 !important;
+  }
+}
+
+.ant-tabs-tab:hover {
+  color: #10813f !important;
+
+}
+
+.ant-tabs-ink-bar {
+  background: #1fa156 !important;
+}
+
+.visibility:hover {
+  .eye {
+    color: white !important;
   }
 }
 

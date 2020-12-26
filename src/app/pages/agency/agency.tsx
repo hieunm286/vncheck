@@ -1,4 +1,4 @@
-import React, {Fragment, useEffect, useMemo, useState} from "react";
+import React, {Fragment, useCallback, useEffect, useMemo, useState} from "react";
 import {useIntl} from 'react-intl';
 
 
@@ -23,8 +23,9 @@ import {initAgency} from "./helpers/mock-entity";
 import {agencySearchModel} from './defined/const';
 import * as StoreLevelService from '../multilevel-sale/multilevel-sale.service';
 import * as RoleService from './helpers/role.service';
-import {RenderInfoDetailDialog} from "../../common-library/common-types/common-type";
+import {RenderInfoDetailDialog, SearchModel} from "../../common-library/common-types/common-type";
 import {MasterEntityDetailDialog} from "../../common-library/common-components/master-entity-detail-dialog";
+import {GetCity, GetDistrict, GetState} from "../address/address.service";
 
 const headerTitle = 'AGENCY.MASTER.HEADER.TITLE';
 const tableTitle = 'SHIPPING_AGENCY.MASTER.TABLE.TITLE';
@@ -182,9 +183,7 @@ function AgencyPage() {
     },
     {
       header: 'AGENCY.DETAIL_DIALOG.OWNER.SUBTITLE',
-      className: 'col-12',
-      dataClassName: 'col-9',
-      titleClassName: 'col-2',
+      className: 'col-7',
       data: {
         fullName: {
           title: 'AGENCY.DETAIL_DIALOG.OWNER.FULL_NAME',
@@ -216,6 +215,81 @@ function AgencyPage() {
       },
     }
   ], []);
+  const [state, setState] = useState<string | null | undefined>(null);
+  const [city, setCity] = useState<string | null | undefined>(null);
+  useEffect(() => {
+    setState(editEntity?.address?.state);
+    setCity(editEntity?.address?.city);
+  }, [editEntity]);
+  const getCity = useCallback(({queryProps, paginationProps}: any): Promise<any> => {
+    console.log(state);
+    return GetCity({queryProps: {...queryProps, state}, paginationProps})
+  }, [state]);
+  const getDistrict = useCallback(({queryProps, paginationProps}: any): Promise<any> => {
+    console.log(city);
+    return GetDistrict({queryProps: {...queryProps, city}, paginationProps})
+  }, [city]);
+  const searchModel: SearchModel = {
+    code: {
+      type: 'string',
+      label: 'AGENCY.MASTER.HEADER.AGENCY_CODE.LABEL',
+    },
+    name: {
+      type: 'string',
+      label: 'AGENCY.MASTER.HEADER.AGENCY_NAME.LABEL',
+    },
+    storeLevel: {
+      type: 'tree-select',
+      label: 'AGENCY.EDIT.LABEL.dffsfd',
+      onSearch: GetState,
+      keyField: 'name'
+    },
+    phone: {
+      type: 'number',
+      label: 'SHIPPING_AGENCY.MASTER.SEARCH.PHONE',
+    },
+    state: {
+      type: 'search-select',
+      name: 'address.state',
+      onSearch: GetState,
+      onChange: (value: any, {setFieldValue}: any) => {
+        console.log(value);
+        if (state != value) {
+          setCity(null);
+          setFieldValue('address.city', null);
+          setFieldValue('address.district', null);
+        }
+        setState(value);
+      },
+      label: 'AGENCY.EDIT.LABEL.STATE',
+    },
+    city: {
+      type: 'search-select',
+      name: 'address.city',
+      onSearch: getCity,
+      // selectField: 'code',
+      onChange: (value: any, {setFieldValue}: any) => {
+        if (city != value) {
+          setFieldValue('address.district', null);
+        }
+        setCity(value);
+      },
+      disabled: (values: any) => {
+        return !(values.address?.state);
+      },
+      label: 'AGENCY.EDIT.LABEL.CITY',
+    },
+    district: {
+      type: 'search-select',
+      name: 'address.district',
+      onSearch: getDistrict,
+      // selectField: 'code',
+      disabled: (values: any) => {
+        return !(values.address?.city);
+      },
+      label: 'AGENCY.EDIT.PLACEHOLDER.DISTRICT',
+    },
+  };
   
   
   const modifyModel = [
@@ -469,23 +543,7 @@ function AgencyPage() {
               setPaginationProps(DefaultPagination)
               setFilterProps(value)
             }}
-            searchModel={agencySearchModel}
-            initValue={{
-              code: '',
-              lot: '',
-              subLot: '',
-              address: {
-                state: '',
-                city: '',
-                district: ''
-              }
-              // agencyAddress: '',
-              // agency: null,
-              // date: '',
-              // count: 1,
-              // tree: undefined,
-              // tree2: undefined,
-            }}
+            searchModel={searchModel}
           />
           <MasterBody
             title={bodyTitle}
