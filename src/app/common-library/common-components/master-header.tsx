@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useEffect, useState} from 'react';
+import React from 'react';
 import {useIntl} from 'react-intl';
 import {Formik} from 'formik';
 import SearchIcon from '@material-ui/icons/Search';
@@ -7,10 +7,10 @@ import SVG from 'react-inlinesvg';
 import {ToAbsoluteUrl} from '../helpers/assets-helpers';
 import {SearchModel} from '../common-types/common-type';
 // import InfiniteScroll from 'react-infinite-scroll-component';
-import {DefaultPagination, iconStyle} from '../common-consts/const';
+import {iconStyle} from '../common-consts/const';
 
 import './master-header.css';
-import {InputDateTime, InputNumber, InputSearchSelect, InputString} from "./common-input";
+import {InputDateTime, InputNumber, InputSearchSelect, InputString, InputTreeSelect} from "./common-input";
 
 export function MasterHeader<T>({
                                   title,
@@ -51,9 +51,9 @@ export function MasterHeader<T>({
               <div className="form-group row master-header-search-margin">
                 {searchModel ? (
                   Object.keys(searchModel).map(key => {
-                    console.log(values)
+                    // console.log(values)
                     switch (searchModel[key].type) {
-                      case 'string':
+                      case 'string': {
                         return (
                           <InputString
                             className={defaultClassName}
@@ -61,7 +61,8 @@ export function MasterHeader<T>({
                             {...searchModel[key]}
                             key={`master_header${key}`}/>
                         );
-                      case 'number':
+                      }
+                      case 'number': {
                         return (
                           <InputNumber
                             className={defaultClassName}
@@ -69,7 +70,8 @@ export function MasterHeader<T>({
                             {...searchModel[key]}
                             key={`master_header${key}`}/>
                         );
-                      case 'date-time':
+                      }
+                      case 'date-time': {
                         return (
                           <InputDateTime
                             className={defaultClassName}
@@ -78,7 +80,8 @@ export function MasterHeader<T>({
                             key={`master_header${key}`}
                           />
                         );
-                      case 'search-select':
+                      }
+                      case 'search-select': {
                         if (searchModel[key].onSearch === undefined || searchModel[key].onSearch === null) return;
                         const t: any = (t: any) => null;
                         return (
@@ -91,19 +94,20 @@ export function MasterHeader<T>({
                             key={`master_header${key}`}
                           />
                         );
-                      //
-                      // case 'TreeSelect':
-                      //   return (
-                      //       <CustomeTreeSelect
-                      //         label={intl.formatMessage({id: searchM[key].label})}
-                      //         disabled={searchM[key].isDisabled ?? false}
-                      //         placeholder={intl.formatMessage({id: searchM[key].placeholder})}
-                      //         data={treeData}
-                      //         value={treeSelectValue}
-                      //         onChange={(value: any) => setSearch({...search, [key]: value})}
-                      //         name={key}
-                      //       />
-                      //   );
+                      }
+                      case 'tree-select': {
+                        if (searchModel[key].onSearch === undefined || searchModel[key].onSearch === null) return;
+                        const t: any = (t: any) => null;
+                        return (
+                          <InputTreeSelect
+                            className={defaultClassName}
+                            name={key}
+                            {...searchModel[key]}
+                            onSearch={searchModel[key].onSearch ?? t}
+                            key={`master_header${key}`}
+                          />
+                        );
+                      }
                       //
                       // case 'stateSelect':
                       //   // const stateValues = Object.values(STATE_LIST).map((state: any) => {return {value: state.name, key: state.code}});

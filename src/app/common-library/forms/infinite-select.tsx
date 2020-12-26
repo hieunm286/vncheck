@@ -143,8 +143,8 @@ export function InfiniteSelect({
             }}
             loadOptions={loadOptions}
             onChange={(value: any, action) => {
-              console.log(value);
-              console.log(errors)
+              // console.log(value);
+              // console.log(errors)
               setFieldValue(name, value);
               setFieldTouched(name, true);
             }}
