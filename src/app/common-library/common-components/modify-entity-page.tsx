@@ -135,7 +135,7 @@ export const RenderForm = ({inputs, prevKey, mode}: any) => {
               mode={mode}
               type={input._type}
               {...input}
-              value={(values && values[key]) || []}
+              // value={(values && values[key]) || []}
               key={`modify-page-${key}`}
             />
           );

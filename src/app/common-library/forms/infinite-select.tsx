@@ -143,7 +143,7 @@ export function InfiniteSelect({
               console.log(value);
               console.log(errors)
               setFieldValue(name, value);
-              // setFieldTouched(name, true);
+              setFieldTouched(name, true);
             }}
             isClearable={true}
             onBlur={handleBlur}

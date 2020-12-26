@@ -530,10 +530,8 @@ const FormTemplate = ({
                   value={images[key]}
                   label={modifyModel.entity[key].label}
                   labelWidth={4}
-                  isHorizontal={true}
                   required={modifyModel.entity[key].required}
                   name={key}
-                  multiple={true}
                 />
               </div>
             )
