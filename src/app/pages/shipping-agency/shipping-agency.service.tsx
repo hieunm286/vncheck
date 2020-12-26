@@ -10,12 +10,11 @@ import {
   SearchModel,
   UpdateProps,
 } from '../../common-library/common-types/common-type';
+import {ShippingAgencyModel} from "./shipping-agency.model";
 
 export const API_URL = API_BASE_URL + '/shipping-agency';
 
 export const BULK_API_URL = API_URL + '/bulk'
-
-export const API_FILE_URL = API_BASE_URL + '/file';
 
 export const Create: CreateProps<any> = (data: any) => {
   return axios.post(API_URL, data);
@@ -28,7 +27,6 @@ export const GetAll: GetAllPropsServer<any> = ({
 }) => {
   return axios.get(`${API_URL}`, {
     params: { ...queryProps, ...paginationProps, sortList },
-    // paramsSerializer: ParamsSerializer
   });
 };
 
@@ -42,21 +40,18 @@ export const Count: CountProps<any> = ({
   });
 };
 
-export const Get: GetProps<any> = entity => {
+export const Get: GetProps<ShippingAgencyModel> = entity => {
   return axios.get(`${API_URL}/${entity._id}`);
 };
 
 export const GetById = (_id: string) => {
-  return axios.get(`${API_URL}/${_id}`).then((t) => {
-    console.log(t.data);
-    return t;
-  });
+  return axios.get(`${API_URL}/${_id}`);
 };
-export const Update: UpdateProps<any> = (entity: any) => {
+export const Update: UpdateProps<ShippingAgencyModel> = (entity: any) => {
   return axios.put(`${API_URL}/${entity._id}`, entity);
 };
 
-export const Delete: DeleteProps<any> = (entity: any) => {
+export const Delete: DeleteProps<ShippingAgencyModel> = (entity: any) => {
   return axios.delete(`${API_URL}/${entity._id}`);
 };
 

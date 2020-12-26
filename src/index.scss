@@ -164,6 +164,10 @@ input {
   }
 }
 
+.detail-dialog-subtitle::before {
+  content: "\200B";
+}
+
 .modal-modify {
   .modal-content {
     padding: 35px;
@@ -255,9 +259,10 @@ input {
     border-bottom: 0;
   }
 
-  .card-body{
+  .card-body {
     padding: 0 0 50px 0 !important;
-    .modify-subtitle{
+
+    .modify-subtitle {
       font-weight: 600;
       padding-bottom: 30px;
       margin-bottom: 0;
@@ -266,7 +271,7 @@ input {
 
   .card-title {
     padding: 35px 0 35px 0;
-    margin: 0!important;
+    margin: 0 !important;
     font-size: $large-font-size !important;
     font-weight: 700 !important;
   }
@@ -393,22 +398,22 @@ label {
   width: 100%;
 
   .ant-select-selector {
-      border-radius: 0.42rem !important;
+    border-radius: 0.42rem !important;
   }
 
   .ant-select-selector {
-      min-height: calc(1.5em + 1.3rem + 0.5px) !important;
+    min-height: calc(1.5em + 1.3rem + 0.5px) !important;
   }
 
   span.ant-select-selection-placeholder {
-      margin-top: 1%;
-  }
-  
-  span.ant-select-selection-item {
-      margin-top: 1%;
+    margin-top: 1%;
   }
 
-  
+  span.ant-select-selection-item {
+    margin-top: 1%;
+  }
+
+
 }
 
 .ant-select-tree {
@@ -424,13 +429,13 @@ label {
 .ant-select-multiple {
 
   .ant-select-selector {
-      border-radius: 0.42rem !important;
+    border-radius: 0.42rem !important;
   }
 
   .ant-select-selector {
-      min-height: calc(1.5em + 1.1rem + 1.4px) !important;
+    min-height: calc(1.5em + 1.1rem + 1.4px) !important;
   }
-  
+
 }
 
 .ant-select-multiple .ant-select-selection-item-remove {
@@ -513,5 +518,6 @@ label {
     background-color: $primary;
   }
 }
+
 
 //.card.card-custom > .card-body

@@ -40,7 +40,7 @@ export function MasterEntityDetailAgency({
           renderInfo ?
           (
             <>
-              <div className="row">
+              <div className="row no-gutters">
                 <div className="col-6">
                 <FormGroup data={entity} renderInfo={renderInfo[0].entity} title={intl.formatMessage({id: renderInfo[0].header})}/>
                 </div>
@@ -48,7 +48,7 @@ export function MasterEntityDetailAgency({
                   <div className="row h-60">
                     <FormGroup data={entity} renderInfo={renderInfo[1].entity} title={intl.formatMessage({id: renderInfo[1].header})}/>
                   </div>
-                  <div className="row">
+                  <div className="row no-gutters">
                   <FormGroup data={entity} renderInfo={renderInfo[2].entity} title={intl.formatMessage({id: renderInfo[2].header})}/>
                   </div>
                 </div>
@@ -143,14 +143,7 @@ export function FormGroup({
                           <td>
                             {(key === 0) ? intl.formatMessage({id: formField.title}) + ':\u00A0' : <></>}
                           </td>
-                          <td>
-                            {el.address}, {el.district}, {el.city}, {el.state}
-                            {(el.isDefault === true) ? 
-                              <span style={{color: '#B5B5C3'}} className={'ml-5'}>
-                                [{intl.formatMessage({id: 'AGENCY.VIEW.LABEL.DEFAULT_SHIPPING_ADDRESS'})}]
-                              </span> : <></>
-                            }
-                          </td>
+                          
                         </tr>
                       )
                     

@@ -212,7 +212,7 @@ const LineMode = ({ entityDetail, renderInfo, intl, title, moduleName, history, 
                     case 'string':
                       return (
                         <div className="mt-3" key={childKey}>
-                          <div className="row">
+                          <div className="row no-gutters">
                             <p className="col-4">{child.title}:</p>
                             <p className="col-8">
                               {entityDetail ? (
@@ -234,7 +234,7 @@ const LineMode = ({ entityDetail, renderInfo, intl, title, moduleName, history, 
                     case 'date-time':
                       return (
                         <div className="mt-3" key={childKey}>
-                          <div className="row">
+                          <div className="row no-gutters">
                             <p className="col-4">{child.title}:</p>
                             <p className="col-8">
                               {entityDetail ? (
@@ -263,7 +263,7 @@ const LineMode = ({ entityDetail, renderInfo, intl, title, moduleName, history, 
                     case 'link':
                       return (
                         <div className="mt-3" key={childKey}>
-                          <div className="row">
+                          <div className="row no-gutters">
                             <p className="col-4">{child.title}:</p>
                             <div className="col-8">
                               <Link
@@ -388,7 +388,7 @@ const SplitMode = ({
           <CardBody>
             <div key={key} className="mt-5">
               <p className="text-primary font-weight-bold">{value.header}</p>
-              <div className="row">
+              <div className="row no-gutters">
                 {value.data.map((el: any, elKey: number) => (
                   <div key={elKey} className={`col-md-6 col-12`}>
                     {el.map((child: any, childKey: string) => {
@@ -406,7 +406,7 @@ const SplitMode = ({
                         case 'string':
                           return (
                             <div className="mt-3" key={childKey}>
-                              <div className="row">
+                              <div className="row no-gutters">
                                 <p className="col-4">{el[childKey].title}:</p>
                                 <p className="col-8">
                                   {entityDetail ? (
@@ -438,7 +438,7 @@ const SplitMode = ({
                           const arr = entityDetail ? getField(entityDetail, child.keyField) : []
                           return (
                             <div className="mt-3" key={childKey}>
-                              <div className="row">
+                              <div className="row no-gutters">
                                 <p className="col-4">{el[childKey].title}:</p>
                                 <p className="col-8">
                                   {entityDetail ? (
@@ -457,7 +457,7 @@ const SplitMode = ({
                         case 'date-time':
                           return (
                             <div className="mt-3" key={childKey}>
-                              <div className="row">
+                              <div className="row no-gutters">
                                 <p className="col-4">{child.title}:</p>
                                 <p className="col-8">
                                   {entityDetail ? (
