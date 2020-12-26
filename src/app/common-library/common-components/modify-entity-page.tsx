@@ -5,37 +5,36 @@ import {getField} from '../helpers/common-function';
 import {useFormikContext} from 'formik';
 import {
   InputBoolean,
+  InputCheckBox,
   InputDateTime,
   InputImage,
   InputNumber,
   InputRadio,
   InputSearchSelect,
   InputString,
-  InputTag
-} from "./common-input";
+  InputTag,
+} from './common-input';
 import _ from 'lodash';
 import {InputCustom} from "../forms/input-custom";
 
 export function ModifyEntityPage<T>({
-                                      inputGroups,
-                                      entity,
-                                      // className = '',
-                                      mode = 'horizontal',
-                                      // tagData
-                                    }: {
-  
+  inputGroups,
+  entity,
+  // className = '',
+  mode = 'horizontal',
+}: // tagData
+{
   inputGroups: InputGroups;
-  mode?: 'horizontal' | 'vertical'
+  mode?: 'horizontal' | 'vertical';
   onChange?: any;
   // className?: string;
   handleChangeTag?: any;
   values?: any;
   entity?: any;
-  errors?: any
+  errors?: any;
 }) {
-  
-  console.log(inputGroups)
-  const {_subTitle, ...pl} = inputGroups;
+  console.log(inputGroups);
+  const { _subTitle, ...pl } = inputGroups;
   return (
     <>
       <div className={'row'}>
@@ -54,10 +53,10 @@ export function ModifyEntityPage<T>({
   );
 }
 
-export const RenderForm = ({inputs, prevKey, mode}: any) => {
+export const RenderForm = ({ inputs, prevKey, mode }: any) => {
   const intl = useIntl();
-  const {setFieldValue, touched, values} = useFormikContext<any>();
-  console.log(values)
+  const { setFieldValue, touched, values } = useFormikContext<any>();
+  console.log(values);
   const defaultClassName = 'mb-5';
   return (<>
     {Object.keys(inputs).map(key => {
@@ -173,6 +172,18 @@ export const RenderForm = ({inputs, prevKey, mode}: any) => {
             />
           );
         }
+
+        case 'checkbox':
+            return (
+              <InputCheckBox
+                className={defaultClassName}
+                name={prevKey !== '' ? `${prevKey}.${key}` : key}
+                type={input._type}
+                {...input}
+                key={`modify-page-${key}`}
+              />
+            );
+
         case 'custom': {
           const {_type, ...props} = input;
           return (<InputCustom {...props}/>);

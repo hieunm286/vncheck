@@ -36,7 +36,7 @@ const MultiLevelSaleBody: React.FC<MultilevelSaleBodyProp> = ({
 
   return (
     <Card>
-      {title && <CardHeader title={title} />}
+      {title && <CardHeader title={intl.formatMessage({ id: title })} />}
       <CardBody>
         {/* <div className="row no-gutters mb-10">
           <div className="col-md-6 col-12">
@@ -51,7 +51,7 @@ const MultiLevelSaleBody: React.FC<MultilevelSaleBodyProp> = ({
                   <Fragment key={key}>
                     <div className={`col-xl-${12 / body.length - 1} col-12 p-5 mr-xl-5 layout`}>
                       <p style={{ fontWeight: 'bold' }}>
-                        {item.title}
+                        {intl.formatMessage({ id: item.title })}
                         <span
                           className="text-primary"
                           style={{ cursor: 'pointer' }}
@@ -79,7 +79,7 @@ const MultiLevelSaleBody: React.FC<MultilevelSaleBodyProp> = ({
                 return (
                   <Fragment key={key}>
                     <div className={`col-xl-${12 / body.length} col-12 p-5 ml-xl-5 layout`}>
-                      <p style={{ fontWeight: 'bold' }}>{item.title}</p>
+                      <p style={{ fontWeight: 'bold' }}>{intl.formatMessage({ id: item.title })}</p>
 
                       <MasterTable
                         entities={item.data}

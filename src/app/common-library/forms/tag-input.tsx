@@ -5,6 +5,8 @@ import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {DefaultPagination} from '../common-consts/const';
 import {fetchAllUser} from '../../pages/account/_redux/user-action';
 import {deCapitalizeFirstLetter, GetClassName, GetError, GetTouched} from '../helpers/common-function';
+import { useIntl } from 'react-intl';
+import _ from 'lodash';
 
 const { Option } = Select;
 
@@ -37,7 +39,7 @@ function TagInput({
   placeholder?: string;
   [X: string]: any;
 }) {
-  
+  const intl = useIntl();
   const {setFieldValue, errors, touched} = useFormikContext<any>();
   return (
     <>
@@ -76,7 +78,7 @@ function TagInput({
           </Select>
           {GetError(errors, name) && GetTouched(touched, name) ? (
             <div className="invalid-datepicker-feedback text-danger" style={{fontSize: '0.9rem'}}>
-              Vui lòng chọn
+              {intl.formatMessage({ id: 'PLEASE_CHOOSE' })}
               {
                 // errors[field.name]?.toString()
                 '\u00A0' + deCapitalizeFirstLetter(label)

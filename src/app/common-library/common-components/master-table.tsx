@@ -76,7 +76,8 @@ export function MasterTable<T>({
   setPaginationParams,
   onSelectMany,
   columns,
-  removeSelectRow
+  removeSelectRow,
+  selectColumnPosition = "left"
 }: {
   total: number;
   loading: boolean;
@@ -87,6 +88,7 @@ export function MasterTable<T>({
   paginationParams: PaginationProps;
   setPaginationParams: (data: PaginationProps) => void;
   removeSelectRow?: boolean;
+  selectColumnPosition?: 'left' | 'right'
   // [T: string]: any;
 }) {
   const paginationOptions = {
@@ -119,11 +121,12 @@ export function MasterTable<T>({
               data={entities}
               columns={Object.values(columns)}
               defaultSorted={SortDefault as any}
-              selectRow={removeSelectRow ? undefined : GetSelectRow({
+              selectRow={removeSelectRow ? undefined : { ...GetSelectRow({
                 entities: entities,
                 selectedEntities: selectedEntities,
                 onSelectMany: onSelectMany,
-              })}
+              }), selectColumnPosition: selectColumnPosition
+            }}
               onTableChange={onTableChange(setPaginationParams, paginationParams)}>
               <PleaseWaitMessage entities={entities} />
               <NoRecordsFoundMessage entities={entities} />

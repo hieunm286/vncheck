@@ -34,13 +34,13 @@ const updateTitle = 'PRODUCT_PACKAGING.UPDATE.TITLE';
 const homeURL = `${window.location.pathname}`;
 
 const ProductPackagingSchema = Yup.object().shape({
-  species: Yup.mixed().required('Name ko đc để trống').test('test name', 'lỗi', function (value) {
+  species: Yup.mixed().required('SPECIES_NAME_CANNOT_EMPTY').test('test name', 'SPECIES_NAME_IS_INVALID', function (value) {
     return value
   }),
   weight: Yup.number()
-    .required('Số gram không được để trống')
-    .min(0, 'Số gram không được ít hơn 0 nha')
-    .typeError('Vui lòng nhập số'),
+    .required('GRAM_CANNOT_BE_EMPTY')
+    .min(0, 'GRAM_MUST_BE_MORE_THAN_0')
+    .typeError('INPUT_NUMBER'),
 });
 
 function ProductPackaging() {

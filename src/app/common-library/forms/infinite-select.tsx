@@ -4,6 +4,8 @@ import {useField, useFormikContext} from 'formik';
 import {GetClassName} from '../helpers/common-function'
 import AtlaskitSelect from "@atlaskit/select";
 import {StylesConfig} from "react-select/src/styles";
+import { useIntl } from 'react-intl';
+import _ from 'lodash';
 
 const getCSSClasses = (errorName: any, isTouched: any): string => {
   const classes: string[] = [];
@@ -51,6 +53,7 @@ export function InfiniteSelect({
   disabled?: boolean | ((values: any) => boolean);
   
 }) {
+  const intl = useIntl();
   const {setFieldValue, errors, touched, values, handleBlur, setFieldTouched} = useFormikContext<any>();
   const CustomAsyncPaginate = withAsyncPaginate(AtlaskitSelect);
   const styles = useMemo((): StylesConfig => {
@@ -156,7 +159,7 @@ export function InfiniteSelect({
               {
                 // validationMessage ? intl.formatMessage({id: validationMessage}) : 'Vui lòng chọn ' + deCapitalizeFirstLetter(label)
                 // (!errors[name] && typeof label === 'string') ? 'Vui lòng chọn ' + deCapitalizeFirstLetter(label) : errors[name]
-                errors[name]
+                _.isString(errors[name]) ? intl.formatMessage({ id: errors[name] as string }) : errors[name]
               }
             </div>
           ) : (

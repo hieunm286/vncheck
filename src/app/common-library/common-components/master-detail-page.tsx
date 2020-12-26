@@ -7,6 +7,8 @@ import { format } from 'date-fns';
 import { getField } from '../helpers/common-function';
 import _ from 'lodash';
 import ImgGallery from '../forms/image-gallery';
+import { MasterTable } from './master-table';
+import BootstrapTable from 'react-bootstrap-table-next';
 
 const getFieldV3 = (field: any, fieldName: string) => {
   const ifNested = (fN: string) => fN.indexOf('.') === -1;
@@ -194,7 +196,7 @@ const LineMode = ({ entityDetail, renderInfo, intl, title, moduleName, history, 
           <p className="text-primary" style={{ fontWeight: 600 }}>{value.header}</p>
           <div className="row" style={{ color: '#000000' }}>
             {value.data.map((el: any, elKey: number) => (
-              <div key={elKey} className={`col-md-6 col-12 border-bottom pb-10`}>
+              <div key={elKey} className={`col-md-${12 / value.data.length} col-12 border-bottom pb-10`}>
                 {el.map((child: any, childKey: string) => {
                   const Separator = () =>
                     child.separator ? (
@@ -285,6 +287,23 @@ const LineMode = ({ entityDetail, renderInfo, intl, title, moduleName, history, 
                           </div>
                         </div>
                       );
+
+                      case 'table':
+                        const entities = entityDetail ? getField(entityDetail, child.keyField) : []
+                        return (
+                          <div className="mt-3" key={childKey}>
+                            <BootstrapTable 
+                              wrapperClasses="table-responsive"
+                              bordered={false}
+                              classes="table table-head-custom table-vertical-center overflow-hidden noBorderOnClick"
+                              bootstrap4
+                              remote
+                              keyField="_id"
+                              data={entities || []}
+                              columns={Object.values(child.columns) || []}
+                            />
+                        </div>
+                        )
 
                     case 'image':
                       return (
