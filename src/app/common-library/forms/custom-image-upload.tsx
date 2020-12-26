@@ -5,13 +5,13 @@ import exifr from 'exifr';
 import './custom-image-upload.scss';
 import {useField, useFormikContext} from 'formik';
 import {CloseOutlined} from '@material-ui/icons';
-import _ from "lodash";
 
 interface ImageUploadPros {
   value: any[];
   label: string | ReactElement;
   onChange?: any;
   labelWidth?: number;
+  isArray?: boolean;
   required?: boolean | ((values: any) => boolean);
   name: string;
   maxNumber?: number;
@@ -26,9 +26,10 @@ function CustomImageUpload({
                              required,
                              name,
                              mode,
+                             isArray = true,
                              maxNumber = 3,
                            }: ImageUploadPros) {
-  const {errors, touched, setFieldValue, values,} = useFormikContext<any>();
+  const {errors, touched, setFieldValue, values, setFieldTouched} = useFormikContext<any>();
   const [field, fieldMeta, fieldHelper] = useField({name});
   const [images, setImages] = useState<any>([]);
   const getImage = useCallback((path: string) => {
@@ -41,38 +42,45 @@ function CustomImageUpload({
   }, []);
   useEffect(() => {
     if (field.value) {
-      if (_.isArray(field.value)) {
+      if (isArray) {
+        if ((field.value === images)) return;
         // console.log(field.value)
-        Promise.all(field.value.map((f) => {
+        Promise.all(field.value.map((f: any) => {
           return getImage(f[pathField])
         })).then((images) => {
           const t = images.map((image: any, index) => ({...field.value[index], [pathField]: image}));
           // console.log(t)
           setImages(t);
+          setFieldValue(name,t);
         });
       } else {
+        if ((field.value === images[0])) return;
         Promise.all([getImage(field.value[pathField])]).then(images => {
           const t = images.map((image: any) => ({...field.value, [pathField]: image}));
-          // console.log(t)
           setImages(t);
+          setFieldValue(name,t[0]);
         });
       }
+    } else {
+      setImages([]);
     }
   }, [field.value]);
   
   const getImageMetaList = useCallback((file: any, key: string): Promise<any[]> => {
     if (!file) return Promise.resolve([]);
     return Promise.all(file.map((item: any) => {
-      return exifr.parse(item.file)
+      return exifr.parse(item.file).catch(error => {
+        console.log(error);
+        return {}
+      })
     }));
   }, []);
   
   const handleChange = useCallback((imageList: any[], addUpdateIndex: any, key: string) => {
-    // console.log(imageList);
     const newArr = getNewImage(images, imageList);
     const promise = getImageMetaList(newArr, key);
     promise.then((metadataList) => {
-      setFieldValue(name, imageList.map((image: any, index) => {
+      const arr = imageList.map((image: any, index) => {
         let result = {[pathField]: image[pathField]};
         if (metadataList[index]) {
           result.location = {
@@ -82,23 +90,15 @@ function CustomImageUpload({
           result.takenTime = metadataList[index].time
         }
         return result;
-      }));
+      });
+      if (isArray) setFieldValue(name, arr);
+      else {
+        setFieldValue(name, arr[0]);
+        setFieldTouched(name, true);
+      }
     });
   }, []);
   
-  const getDeleteImage = useCallback((index: number) => {
-    // let updateArr = [...imageData];
-    // let arr = updateArr.filter((values: any, indexs: number) => indexs !== index);
-    // setImageData(arr);
-  }, []);
-  
-  //
-  // useEffect(() => {
-  //   if (value) {
-  //     setImagess(value);
-  //   }
-  // }, [value]);
-  //
   return (
     <div className={mode === 'horizontal' ? 'row' : ''}>
       <div className={GetClassName(labelWidth, true)}>
@@ -148,7 +148,6 @@ function CustomImageUpload({
                         className="close"
                         onClick={() => {
                           onImageRemove(index);
-                          getDeleteImage(index);
                         }}>
                         <CloseOutlined/>
                       </button>
