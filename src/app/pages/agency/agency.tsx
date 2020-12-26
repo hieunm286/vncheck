@@ -184,7 +184,7 @@ function AgencyPage() {
       header: 'AGENCY.DETAIL_DIALOG.OWNER.SUBTITLE',
       className: 'col-12',
       dataClassName: 'col-9',
-      titleClassName: 'col-3',
+      titleClassName: 'col-2',
       data: {
         fullName: {
           title: 'AGENCY.DETAIL_DIALOG.OWNER.FULL_NAME',

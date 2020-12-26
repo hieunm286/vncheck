@@ -1,29 +1,29 @@
-import React, { useEffect, useState } from 'react';
-import { useIntl } from 'react-intl';
-import { GetHomePage } from '../helpers/common-function';
-import { Form, Formik } from 'formik';
-import { Link, useHistory } from 'react-router-dom';
-import { Card, CardBody, CardHeader } from '../card';
+import React, {useEffect, useState} from 'react';
+import {useIntl} from 'react-intl';
+import {Form, Formik} from 'formik';
+import {Link, useHistory} from 'react-router-dom';
+import {Card, CardBody, CardHeader} from '../card';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import { ModifyForm } from '../common-types/common-type';
+import {ModifyForm} from '../common-types/common-type';
 import _ from 'lodash';
-import { ModifyEntityPage } from './modify-entity-page';
+import {ModifyEntityPage} from './modify-entity-page';
+import {GetHomePage} from "../helpers/common-function";
 
 function EntityCrudPage({
-  entity = {},
-  onModify,
-  moduleName = 'COMMON_COMPONENT.CREATE_UPDATE.MODULE_NAME',
-  code,
-  get,
-  formModel,
-  actions,
-  validation,
-  loading
-}: {
+                          entity = {},
+                          onModify,
+                          moduleName = 'COMMON_COMPONENT.CREATE_UPDATE.MODULE_NAME',
+                          code,
+                          get,
+                          formModel,
+                          actions,
+                          validation,
+                          loading
+                        }: {
   // modifyModel: ModifyModel;
   moduleName?: string;
   entity?: any;
-  onModify: (values: any, handleSuccess: () => void, handleError: () => void) => void;
+  onModify: (values: any) => Promise<any>;
   code?: string;
   get?: (code: string) => any;
   formModel: ModifyForm;
@@ -36,40 +36,40 @@ function EntityCrudPage({
   const intl = useIntl();
   const history = useHistory();
   const [entityForEdit, setEntityForEdit] = useState(entity);
-  const { _header, ...modifyPanels } = formModel;
-
+  const {_header, ...modifyPanels} = formModel;
+  
   useEffect(() => {
     if (code) {
       get &&
-        get(code).then((res: { data: any }) => {
-          setEntityForEdit(res.data);
-        });
+      get(code).then((res: { data: any }) => {
+        setEntityForEdit(res.data);
+      });
     }
   }, [code]);
-
+  
   console.log(loading)
-
+  
   return (
     <>
       <Formik
         enableReinitialize={true}
         initialValues={entityForEdit}
         validationSchema={validation}
-        onSubmit={(values, { setSubmitting }) => {
-          onModify(
-            values,
-            () => { history.push(GetHomePage(window.location.pathname)) },
-            () => { setSubmitting(false) },
-          );
+        onSubmit={(values, {setSubmitting}) => {
+          onModify(values).then(() => {
+            history.push(GetHomePage(window.location.pathname))
+          }).catch((err) => {
+            setSubmitting(false);
+          });
         }}>
-        {({ handleSubmit, setFieldValue }) => (
+        {({handleSubmit, setFieldValue}) => (
           <>
             <Form className="form form-label-right">
               {Object.keys(modifyPanels).map((key, index, keys) => {
                 const val = modifyPanels[key];
                 if (_.isString(val))
                   throw new Error('Sử dụng sai cách ' + key + '\n' + JSON.stringify(modifyPanels));
-                const { _title, ...panel } = val;
+                const {_title, ...panel} = val;
                 return (
                   <Card key={key} className={'modify-page'}>
                     <CardHeader
@@ -79,11 +79,11 @@ function EntityCrudPage({
                           <a
                             onClick={() => history.goBack()}
                             className={'cursor-pointer text-primary font-weight-boldest'}>
-                            <ArrowBackIosIcon />
+                            <ArrowBackIosIcon/>
                             {intl
                               .formatMessage(
-                                { id: _header },
-                                { moduleName: intl.formatMessage({ id: moduleName }) },
+                                {id: _header},
+                                {moduleName: intl.formatMessage({id: moduleName})},
                               )
                               .toUpperCase()}
                           </a>
@@ -91,8 +91,8 @@ function EntityCrudPage({
                           <>
                             {intl
                               .formatMessage(
-                                { id: _title },
-                                { moduleName: intl.formatMessage({ id: moduleName }) },
+                                {id: _title},
+                                {moduleName: intl.formatMessage({id: moduleName})},
                               )
                               .toUpperCase()}
                           </>
@@ -118,14 +118,14 @@ function EntityCrudPage({
                                     className={actions.data[keyss].className}
                                     key={keyss}
                                     // onClick={() => handleSubmit()}
-                                    >
+                                  >
                                     {loading === true ? actions.data[keyss].loading : actions.data[keyss].icon} {actions.data[keyss].label}
                                   </button>
                                 );
-
+                              
                               case 'button':
                                 console.log(actions.data[keyss]);
-
+                                
                                 return (
                                   <button
                                     type={actions.data[keyss].type}
