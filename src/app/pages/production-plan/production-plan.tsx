@@ -1354,7 +1354,7 @@ function ProductionPlan() {
               /> */}
               <ProductionPlanCrud
                 entity={history.location.state}
-                onModify={update}
+                onModify={ProductionPlanService.Update}
                 title={createTitle}
                 // reduxModel="purchaseOrder"
                 code={match && match.params.id}

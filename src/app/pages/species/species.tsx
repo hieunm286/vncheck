@@ -31,6 +31,7 @@ import {
   RenderInfoDetailDialog,
   SearchModel,
 } from '../../common-library/common-types/common-type';
+import { Spinner } from 'react-bootstrap';
 
 const headerTitle = 'PRODUCT_TYPE.MASTER.HEADER.TITLE';
 const bodyTitle = 'PRODUCT_TYPE.MASTER.BODY.TITLE';
@@ -355,6 +356,7 @@ function Species() {
         className: 'btn btn-primary mr-5 pl-8 pr-8',
         label: 'Lưu',
         icon: <SaveOutlinedIcon />,
+        loading: <Spinner animation="border" variant="light" size="sm" />
       },
       cancel: {
         role: 'link-button',
@@ -363,9 +365,13 @@ function Species() {
         className: 'btn btn-outline-primary mr-2 pl-8 pr-8',
         label: 'Hủy',
         icon: <CancelOutlinedIcon />,
+        loading: <Spinner animation="border" variant="success" size="sm" />
       },
     },
   };
+
+  console.log(loading)
+
   return (
     <Fragment>
       {/* <ReactNotification /> */}
@@ -415,6 +421,7 @@ function Species() {
             // allFormField={allFormField}
             actions={allFormButton}
             validation={schema}
+            loading={loading}
             // autoFill={{
             //   field: 'code',
             //   data: GenerateCode(data),
@@ -441,6 +448,7 @@ function Species() {
               // allFormField={allFormField}
               actions={allFormButton}
               validation={schema}
+              loading={loading}
             />
           )}
         </Route>

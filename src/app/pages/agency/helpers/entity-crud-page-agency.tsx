@@ -28,7 +28,7 @@ function EntityCrudPageAgency({
 }: {
   title?: string;
   entity?: any;
-  onModify: (values: any) => Promise<AxiosResponse<any>>;
+  onModify: (values: any, handleSuccess: () => void, handleError: () => void) => Promise<AxiosResponse<any>>;
   onClickReturn: () => void;
   reduxModel?: string;
   code?: string | null;
@@ -85,11 +85,11 @@ function EntityCrudPageAgency({
   }, [code]);
 
   const handleModify = (values: any) => {
-    onModify(values)
-      .then(crudSuccess)
-      .catch((error: any) => crudFail(error))
+    // onModify(values)
+    //   .then(crudSuccess)
+    //   .catch((error: any) => crudFail(error))
     
-    ;
+    // ;
   }
 
   const addInitField = (nullableEntity: any, compensateField: any) => {
@@ -113,8 +113,9 @@ function EntityCrudPageAgency({
         enableReinitialize={true}
         initialValues={entityForEdit || initForm}
         validationSchema={validation}
-        onSubmit={values => {
-          handleModify(values);
+        onSubmit={(values, { setSubmitting }) => {
+          // handleModify(values);
+          onModify(values, crudSuccess, () => { setSubmitting(false) })
           // history.goBack()
         }}>
         {({ values, handleSubmit, errors }) => (
