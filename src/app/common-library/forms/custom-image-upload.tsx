@@ -30,70 +30,68 @@ function CustomImageUpload({
                            }: ImageUploadPros) {
   const {errors, touched, setFieldValue, values,} = useFormikContext<any>();
   const [field, fieldMeta, fieldHelper] = useField({name});
-  
-  const [imageData, setImageData] = useState<any[]>([]);
   const [images, setImages] = useState<any>([]);
   const getImage = useCallback((path: string) => {
-    const isBase64 = (s: string) => s.indexOf("data:image/jpeg;base64") == 0;
-    return path ? isBase64(path) ? {[pathField]: path} : ToDataURL('/' + path)
-      .then(dataUrl => {
-        return {[pathField]: dataUrl};
-      })
+    const isBase64 = (s: string) => s.indexOf("data:image") == 0;
+    return path ? isBase64(path) ? path : ToDataURL('/' + path)
       .catch(error => {
         console.log(error); // Logs an error if there was one
         throw error;
-      }) : null;
+      }) : undefined;
   }, []);
   useEffect(() => {
     if (field.value) {
       if (_.isArray(field.value)) {
         console.log(field.value)
         Promise.all(field.value.map((f) => {
-          return getImage(f[pathField]);
-        })).then(setImages);
+          return getImage(f[pathField])
+        })).then((images) => {
+          const t = images.map((image: any, index) => ({...field.value[index], [pathField]: image}));
+          console.log(t)
+          setImages(t);
+        });
       } else {
-        Promise.all([getImage(field.value[pathField])]).then(setImages);
+        Promise.all([getImage(field.value[pathField])]).then(images => {
+          const t = images.map((image: any) => ({...field.value, [pathField]: image}));
+          console.log(t)
+          setImages(t);
+        });
       }
     }
   }, [field.value]);
   
-  const ImageMeta = useCallback((file: any, key: string) => {
-    if (!file) return '';
-    Promise.all(file.map((item: any) => {
-      return exifr.parse(item.file).then(res => {
-        return {
-          [pathField]: item.data_url,
-          exif: {
-            time: res?.CreateDate,
-            lat: res?.latitude,
-            long: res?.longitude,
-          },
-        };
-      });
-    })).then(images => {
-      setImageData(images);
+  const getImageMetaList = useCallback((file: any, key: string): Promise<any[]> => {
+    if (!file) return Promise.resolve([]);
+    return Promise.all(file.map((item: any) => {
+      return exifr.parse(item.file)
+    }));
+  }, []);
+  
+  const handleChange = useCallback((imageList: any[], addUpdateIndex: any, key: string) => {
+    console.log(imageList);
+    const newArr = getNewImage(images, imageList);
+    const promise = getImageMetaList(newArr, key);
+    promise.then((metadataList) => {
+      setFieldValue(name, imageList.map((image: any, index) => {
+        let result = {[pathField]: image[pathField]};
+        if (metadataList[index]) {
+          result.location = {
+            type: 'Point',
+            coordinates: [metadataList[index].lat, metadataList[index].long],
+          };
+          result.takenTime = metadataList[index].time
+        }
+        return result;
+      }));
     });
   }, []);
   
-  const handleChange = useCallback((imageList: any, addUpdateIndex: any, key: string) => {
-    console.log(imageList);
-    const newArr = getNewImage(images, imageList);
-    ImageMeta(newArr, key);
-    setFieldValue(name, imageList);
-    // setImages(imageList);
-  }, []);
-  
   const getDeleteImage = useCallback((index: number) => {
-    let updateArr = [...imageData];
-    let arr = updateArr.filter((values: any, indexs: number) => indexs !== index);
-    setImageData(arr);
+    // let updateArr = [...imageData];
+    // let arr = updateArr.filter((values: any, indexs: number) => indexs !== index);
+    // setImageData(arr);
   }, []);
   
-  useEffect(() => {
-    if (name && values) {
-      setFieldValue(name, imageData);
-    }
-  }, [imageData]);
   //
   // useEffect(() => {
   //   if (value) {
