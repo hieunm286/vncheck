@@ -504,7 +504,7 @@ export const modifyModel6: ModifyPanel = {
       estimatedQuantity: {
         _type: 'number',
         // placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
-        label: 'Số lượng đóng gói dự kiến ',
+        label: 'Số lượng đóng gói dự kiến',
         process: '5',
       },
       technical: {
