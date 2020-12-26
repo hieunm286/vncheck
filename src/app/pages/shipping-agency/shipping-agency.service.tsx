@@ -15,8 +15,6 @@ export const API_URL = API_BASE_URL + '/shipping-agency';
 
 export const BULK_API_URL = API_URL + '/bulk'
 
-export const API_FILE_URL = API_BASE_URL + '/file';
-
 export const Create: CreateProps<any> = (data: any) => {
   return axios.post(API_URL, data);
 };
@@ -28,7 +26,6 @@ export const GetAll: GetAllPropsServer<any> = ({
 }) => {
   return axios.get(`${API_URL}`, {
     params: { ...queryProps, ...paginationProps, sortList },
-    // paramsSerializer: ParamsSerializer
   });
 };
 

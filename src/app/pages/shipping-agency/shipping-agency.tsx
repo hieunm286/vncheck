@@ -330,10 +330,10 @@ function ShippingAgency() {
       gender: {
         _type: 'radio',
         required: true,
-        options: [{
-          label: 'SHIPPING_AGENCY.MODIFY.GENDER_OPTION.MALE',
-          value: '1'
-        }, {label: 'SHIPPING_AGENCY.MODIFY.GENDER_OPTION.FEMALE', value: '0'}],
+        options: [
+          {label: 'SHIPPING_AGENCY.MODIFY.GENDER_OPTION.MALE', value: '1'},
+          {label: 'SHIPPING_AGENCY.MODIFY.GENDER_OPTION.FEMALE', value: '0'}
+        ],
         label: 'SHIPPING_AGENCY.MODIFY.GENDER',
       },
       birthDay: {
