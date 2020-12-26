@@ -65,7 +65,7 @@ export function MasterEntityDetail({
   return entity ? (
     <Modal.Body>
       <div className={`row`}>
-        {renderInfo.map((value: any, key: any) => (
+      {renderInfo.map((value: any, key: any) => (
           <div key={key} className={`${value.className ?? 'col-12'}`}>
             {value.header && value.header !== '' && <p className="text-primary detail-dialog-subtitle">
               {intl.formatMessage({id: value.header})}

@@ -34,7 +34,6 @@ const deleteDialogTitle = 'SHIPPING_AGENCY.DELETE_DIALOG.TITLE';
 const deleteDialogBodyTitle = 'SHIPPING_AGENCY.DELETE_DIALOG.BODY_TITLE';
 const createTitle = 'SHIPPING_AGENCY.CREATE.HEADER';
 const updateTitle = 'SHIPPING_AGENCY.UPDATE.HEADER';
-const homeURL = `${window.location.pathname}`
 
 function ShippingAgency() {
   const intl = useIntl();
@@ -150,6 +149,7 @@ function ShippingAgency() {
     {
       header: 'SHIPPING_AGENCY.DETAIL_DIALOG.SHIPPING.SUBTITLE',
       className: 'col-7',
+      dataClassName: 'col-7',
       data: {
         code: {title: 'SHIPPING_AGENCY.DETAIL_DIALOG.SHIPPING.CODE'},
         name: {title: 'SHIPPING_AGENCY.DETAIL_DIALOG.SHIPPING.NAME'},
