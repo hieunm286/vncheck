@@ -35,25 +35,25 @@ function CustomImageUpload({
     const isBase64 = (s: string) => s.indexOf("data:image") == 0;
     return path ? isBase64(path) ? path : ToDataURL('/' + path)
       .catch(error => {
-        console.log(error); // Logs an error if there was one
+        // console.log(error); // Logs an error if there was one
         throw error;
       }) : undefined;
   }, []);
   useEffect(() => {
     if (field.value) {
       if (_.isArray(field.value)) {
-        console.log(field.value)
+        // console.log(field.value)
         Promise.all(field.value.map((f) => {
           return getImage(f[pathField])
         })).then((images) => {
           const t = images.map((image: any, index) => ({...field.value[index], [pathField]: image}));
-          console.log(t)
+          // console.log(t)
           setImages(t);
         });
       } else {
         Promise.all([getImage(field.value[pathField])]).then(images => {
           const t = images.map((image: any) => ({...field.value, [pathField]: image}));
-          console.log(t)
+          // console.log(t)
           setImages(t);
         });
       }
@@ -68,7 +68,7 @@ function CustomImageUpload({
   }, []);
   
   const handleChange = useCallback((imageList: any[], addUpdateIndex: any, key: string) => {
-    console.log(imageList);
+    // console.log(imageList);
     const newArr = getNewImage(images, imageList);
     const promise = getImageMetaList(newArr, key);
     promise.then((metadataList) => {
@@ -129,7 +129,7 @@ function CustomImageUpload({
               isDragging,
               dragProps,
             }) => {
-            console.log(imageList);
+            // console.log(imageList);
             return (
               // write your building UI
               <>
