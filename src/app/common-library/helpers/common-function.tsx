@@ -1,5 +1,5 @@
-import {isArray, isEmpty} from 'lodash';
-import {useCallback, useEffect, useState} from 'react';
+import _, {isArray, isEmpty} from 'lodash';
+import React, {useCallback, useEffect, useState} from 'react';
 import {useDispatch} from 'react-redux';
 import {DefaultPagination} from '../common-consts/const';
 import {
@@ -12,7 +12,7 @@ import {
   UpdateProps,
 } from '../common-types/common-type';
 import {diff} from 'deep-object-diff';
-import {ToastContainer, toast} from 'react-toastify';
+import {toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {useIntl} from "react-intl";
 
@@ -39,7 +39,7 @@ export const GetTouched = (touched: any, fieldName: string) => {
   }
   
   const arrName = fieldName.split('.')
-
+  
   console.log(arrName)
   
   if (arrName.length === 3) {
@@ -323,16 +323,30 @@ export function InitMasterProps<T>({
   const [loading, setLoading] = useState(false);
   const [spinning, setSpinning] = useState(false)
   const [error, setError] = useState({error: ''});
+  
   const notifyError = useCallback((error: string) => {
-    toast.error(intl.formatMessage({id: error ?? 'COMMON_COMPONENT.TOAST.DEFAULT_ERROR'}), {
-      position: 'top-right',
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
+    const getError = (error: string): string | ({ message: string, additional: string }[]) => {
+      try {
+        return JSON.parse(error)
+      } catch (e) {
+        return error
+      }
+    };
+    const _innerError = getError(error);
+    
+    toast.error(_.isString(_innerError) ? intl.formatMessage({id: _innerError ?? 'COMMON_COMPONENT.TOAST.DEFAULT_ERROR'}) :
+      (<span>{_innerError.map((e, index) => (
+        (<span key={`abc${index}`} style={{display:'block'}}>{intl.formatMessage({id: e.message}, e)}</span>)
+      ))}</span>)
+      , {
+        position: 'top-right',
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
   }, []);
   const notifySuccess = useCallback((message?: string) => {
     toast.success(intl.formatMessage({id: message ?? 'COMMON_COMPONENT.TOAST.DEFAULT_SUCCESS'}), {
