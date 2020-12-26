@@ -826,6 +826,7 @@ export const SeedingDetailDialog = [
   {
     header: 'THÔNG TIN MÔI TRƯỜNG',
     data: [
+      [],
       [
         {
           type: 'string',
@@ -846,7 +847,7 @@ export const SeedingDetailDialog = [
           convertFn: (t: string) => t + '%',
         },
       ],
-      []
+      
     ],
   },
   {

@@ -13,12 +13,13 @@ function ModifyEntityDialog<T>({
                                  moduleName = 'COMMON_COMPONENT.DETAIL_DIALOG.MODULE_NAME',
                                  formModel,
                                  validation,
+                                 loading
                                }: {
   show: boolean;
   onHide: () => void;
   entity: T;
   moduleName?: string;
-  onModify: (values: any) => void;
+  onModify: (values: any, handleSuccess: () => void, handleError: () => void) => void;
   code?: string | null;
   get?: (code: string) => any | null;
   formModel: ModifyForm;
@@ -27,6 +28,7 @@ function ModifyEntityDialog<T>({
   validation?: any;
   homePage?: string;
   error?: { error: string };
+  loading?: boolean;
 }) {
   const intl = useIntl();
   const {_header, ...panels} = formModel;
@@ -57,6 +59,7 @@ function ModifyEntityDialog<T>({
           onHide={onHide}
           onModify={onModify}
           key={`tttttttt${index}`}
+          loading={loading}
         />)
       })}
       {/*<MasterEntityDetail data={entity} renderInfo={renderInfo}/>*/}

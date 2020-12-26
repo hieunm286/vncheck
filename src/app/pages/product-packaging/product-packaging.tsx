@@ -307,13 +307,7 @@ function ProductPackaging() {
       <ModifyEntityDialog
         show={showCreate}
         entity={generateInitForm(allFormField)}
-        onModify={(entity: ProductPackagingModel) => {
-          let cvEntity = {...entity}
-          // if (_.isObject(entity)) {
-          //   cvEntity.species = entity.species._id
-          // }
-          add(entity)
-        }}
+        onModify={add}
         onHide={() => {
           setShowCreate(false);
         }}
@@ -323,18 +317,13 @@ function ProductPackaging() {
         actions={actions}
         validation={ProductPackagingSchema}
         error={error}
+        loading={loading}
         homePage={homeURL}
       />
       <ModifyEntityDialog
         show={showEdit}
         entity={editEntity}
-        onModify={(entity: ProductPackagingModel) => {
-          let cvEntity = {...entity}
-          // if (_.isObject(entity)) {
-          //   cvEntity.species = entity.species._id
-          // }
-          update(cvEntity)
-        }}
+        onModify={update}
         onHide={() => {
           setShowEdit(false);
         }}
@@ -344,6 +333,7 @@ function ProductPackaging() {
         actions={actions}
         validation={ProductPackagingSchema}
         error={error}
+        loading={loading}
         homePage={homeURL}
       />
       <Switch>

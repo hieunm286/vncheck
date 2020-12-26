@@ -439,36 +439,42 @@ export function InitMasterProps<T>({
         throw error;
       });
   }, []);
-  const update = useCallback((entity: T) => {
+  const update = useCallback((entity: T, handleSuccess: () => void, handleError: () => void) => {
     setLoading(true);
     return updateServer(entity)
       .then((e) => {
         refreshData();
+        handleSuccess();
         notifySuccess('COMMON_COMPONENT.TOAST.UPDATE_SUCCESS');
         return e;
       })
       .catch(error => {
         setError({error: error.message || error.response.data || JSON.stringify(error)});
-        setLoading(false);
+        handleError();
         throw error;
+      }).finally(() => {
+        setLoading(false);
       });
   }, []);
   
-  const add = useCallback((entity: T) => {
+  const add = useCallback((entity: T, handleSuccess: () => void, handleError: () => void) => {
     setLoading(true);
     return createServer(entity)
       .then((e) => {
         refreshData();
+        handleSuccess();
         notifySuccess('COMMON_COMPONENT.TOAST.ADD_SUCCESS');
         return e;
       })
       .catch(error => {
         setError({error: error.message || error.response.data || JSON.stringify(error)});
-        setLoading(false);
+        handleError();
         throw error;
+      }).finally(() => {
+        setLoading(false);
       });
   }, []);
-  
+
   return {
     entities,
     setEntities,

@@ -301,6 +301,7 @@ function LandLot() {
         onHide={() => {
           setShowCreate(false);
         }}
+        loading={loading}
       />
       <ModifyEntityDialog
         formModel={updateForm}
@@ -311,6 +312,7 @@ function LandLot() {
         onHide={() => {
           setShowEdit(false);
         }}
+        loading={loading}
       />
       <Switch>
         <Redirect from="/land-lot/edit" to="/land-lot"/>
