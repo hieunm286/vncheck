@@ -26,10 +26,8 @@ export function MasterHeader<T>({
   onSearch: (data: any) => void;
 }) {
   const intl = useIntl();
-  const [resetSearchSelect, triggerResetSearch] = useState<any>({});
   const defaultClassName = "col-xxl-2 col-md-3 master-header-search-input-margin";
   const handleResetForm = (resetForm: any) => {
-    triggerResetSearch({});
     resetForm();
   };
   return (

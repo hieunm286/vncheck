@@ -1,21 +1,17 @@
 import React, {Fragment, useCallback, useEffect, useMemo, useState} from 'react';
 import {Count, Create, Delete, DeleteMany, Get, GetAll, GetLots, GetSubLots, Update} from './land-lot.service';
 import {LandLotModel} from './land-lot.model';
-import {NormalColumn, SortColumn} from '../../common-library/common-consts/const';
+import {DefaultPagination, NormalColumn, SortColumn} from '../../common-library/common-consts/const';
 import {ActionsColumnFormatter} from '../../common-library/common-components/actions-column-formatter';
-import {
-  GenerateAllFormField,
-  InitMasterProps,
-} from '../../common-library/helpers/common-function';
-import {Switch, Route, Redirect, useHistory} from 'react-router-dom';
+import {InitMasterProps,} from '../../common-library/helpers/common-function';
+import {Redirect, Route, Switch} from 'react-router-dom';
 import * as Yup from 'yup';
-import {DefaultPagination} from '../../common-library/common-consts/const';
 import {
   MasterBodyColumns,
-  ModifyPanel,
+  ModifyForm,
   ModifyInputGroup,
   RenderInfoDetailDialog,
-  SearchModel, InputGroupType, ModifyForm
+  SearchModel
 } from "../../common-library/common-types/common-type";
 import {MasterEntityDetailDialog} from "../../common-library/common-components/master-entity-detail-dialog";
 import {MasterHeader} from "../../common-library/common-components/master-header";
@@ -101,7 +97,7 @@ function LandLot() {
   useEffect(() => {
     getAll(filterProps);
     
-  }, [paginationProps, filterProps, getAll]);
+  }, [paginationProps, filterProps]);
   const columns = useMemo((): MasterBodyColumns => ({
     code: {
       dataField: 'code',
@@ -145,7 +141,7 @@ function LandLot() {
       ...NormalColumn,
       style: {minWidth: '130px'},
     },
-  }), [get, intl, setDeleteEntity, setEditEntity, setShowDelete, setShowDetail, setShowEdit]);
+  }), []);
   
   const masterEntityDetailDialog: RenderInfoDetailDialog = useMemo((): RenderInfoDetailDialog => [
     {
@@ -163,13 +159,13 @@ function LandLot() {
       code: {
         type: 'string',
         label: 'LAND_LOT.MASTER.HEADER.CODE',
-        disabled: false,
+        disabled: (values) => {
+          return (values.lot || values.subLot) && (values.code !== values.lot + values.subLot)
+        },
         onChange: (value, {setFieldValue, values}) => {
           const innerValue = value.target.value.toUpperCase();
           setFieldValue('code', innerValue);
           if (innerValue !== '') {
-            searchModel.lot.disabled = true;
-            searchModel.subLot.disabled = true;
             if (innerValue[0].charAt(0) < 'A'.charCodeAt(0) || innerValue[0].charAt(0) > 'Z'.charCodeAt(0)) {
               setError({error: 'LAND_LOT.ERROR.INVALID_LOT_SEARCH'});
               return;
@@ -181,7 +177,7 @@ function LandLot() {
             }
             if (innerValue.length > 3) {
               setError({error: 'LAND_LOT.ERROR.INVALID_LENGTH_SEARCH'});
-              setFieldValue('code',innerValue.substring(0,3));
+              setFieldValue('code', innerValue.substring(0, 3));
               return;
             }
             const subLot = innerValue.substr(1, 2);
@@ -193,8 +189,6 @@ function LandLot() {
           } else {
             setFieldValue('lot', '');
             setFieldValue('subLot', '');
-            searchModel.lot.disabled = false;
-            searchModel.subLot.disabled = false;
           }
           setSearchModel(searchModel);
         }
@@ -203,43 +197,26 @@ function LandLot() {
         type: 'search-select',
         label: 'LAND_LOT.MASTER.HEADER.LOT_CODE',
         onSearch: GetLots,
-        disabled: false,
-        onChange: (value, {setFieldValue, values}) => {
-          // setFieldValue('code', value + (values.subLot ?? ''));
-          // setFieldValue('subLot', null);
-          searchModel.code.disabled = true;
-          // searchModel.subLot.disabled = false;
-          setSearchModel(searchModel);
-          console.log(value);
-          console.log(values);
-        }
+        disabled: (values) => values.code,
       },
       subLot: {
         type: 'search-select',
         label: 'LAND_LOT.MASTER.HEADER.SUB_LOT_CODE',
         onSearch: GetSubLots,
-        disabled: false,
-        onChange: (value, {setFieldValue, values}) => {
-          searchModel.code.disabled = true;
-          setSearchModel(searchModel);
-          // setFieldValue('code', values.lot ? (values.lot + value) : '');
-        },
-        
+        disabled: (values) => values.code,
       },
-    }), [setError]);
+    }), []);
   const [searchModel, setSearchModel] = useState(initSearchModel);
   const resetSearchModel = useCallback((queryProps) => {
-   if (Object.keys(queryProps).length !== 0) return;
-    searchModel.code.disabled = false;
-    searchModel.lot.disabled = false;
-    searchModel.subLot.disabled = false;
+    if (Object.keys(queryProps).length !== 0) return;
     setSearchModel(searchModel);
-  }, [searchModel]);
+  }, []);
   const [group1, setGroup1] = useState<ModifyInputGroup>({
     _subTitle: '',
     code: {
       _type: 'string',
       label: 'LAND_LOT.MASTER.HEADER.CODE',
+      placeholder: 'EMPTY',
       required: true,
       disabled: true,
     },
@@ -247,8 +224,10 @@ function LandLot() {
       _type: 'search-select',
       label: 'LAND_LOT.MASTER.HEADER.LOT_CODE',
       onSearch: GetLots,
+      required: true,
       disabled: false,
       onChange: (value, {setFieldValue, values}) => {
+        console.log(value)
         setFieldValue('code', value);
         setFieldValue('subLot', null);
         setGroup1({...group1})
@@ -257,12 +236,13 @@ function LandLot() {
     subLot: {
       _type: 'search-select',
       label: 'LAND_LOT.MASTER.HEADER.SUB_LOT_CODE',
+      required: true,
       onSearch: GetSubLots,
       disabled: (values) => {
         return !values.lot || values.lot.length !== 1
       },
       onChange: (value, {setFieldValue, values}) => {
-        setFieldValue('code', values.lot + value);
+        values.lot  && setFieldValue('code', values.lot + (value ?? ''));
       },
     },
   });

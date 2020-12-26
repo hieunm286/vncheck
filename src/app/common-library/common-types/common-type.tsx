@@ -148,7 +148,7 @@ export type SearchModel = {
     placeholder?: string;
     label: string | ReactElement;
     keyField?: string;
-    disabled?: boolean;
+    disabled?: boolean | ((values: any) => boolean);
     selectField?: string;
     onSearch?: (e: any) => void;
     onChange?: (value: any, props: { setFieldValue: ((name: string, value: any) => void), values: any }) => any;
