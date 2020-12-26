@@ -101,10 +101,11 @@ export type InputTagType = {
 };
 export type InputImageType = {
   name: string;
-  value: any;
+  value?: any;
   label: string | ReactElement;
   required?: boolean | ((values: any) => boolean);
   disabled?: boolean | ((values: any) => boolean);
+  pathField?: string;
   mode?: 'horizontal' | 'vertical';
   [X: string]: any;
 };

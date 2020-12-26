@@ -214,7 +214,7 @@ const LineMode = ({ entityDetail, renderInfo, intl, title, moduleName, history, 
                         <div className="mt-3" key={childKey}>
                           <div className="row">
                             <p className="col-4">{child.title}:</p>
-                            <p className="col-8 text-left">
+                            <p className="col-8">
                               {entityDetail ? (
                                 getFieldV3(entityDetail, child.keyField).map((f, i, arr) => {
                                   return (

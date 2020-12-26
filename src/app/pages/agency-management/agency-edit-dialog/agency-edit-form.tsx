@@ -21,7 +21,7 @@ import './style/agency-edit-form.scss';
 import { getCodeFromName, getNameFromCode } from '../utilities';
 import { MainInput } from '../../../common-library/forms/main-input';
 
-import { CustomSelect } from '../../../common-library/forms/custom-select';
+// import { CustomSelect } from '../../../common-library/forms/custom-select';
 import { AgencyShippingAddressTable } from './agency-shipping-address/agency-shipping-address-table/agency-shipping-address-table';
 import { AgencyShippingEditDialog } from './agency-shipping-address/agency-shipping-edit-dialog/agency-shipping-edit-dialog';
 import { AgencyShippingDetailDialog } from './agency-shipping-address/agency-shipping-detail-dialog/agency-shipping-detail-dialog';
@@ -404,120 +404,120 @@ export function AgencyEditForm({
                   </div>
 
                   <div className="mt-5">
-                    <CustomSelect
-                      type="text"
-                      labelWidth={null}
-                      width={null}
-                      disabled={false}
-                      name="agency_type_id"
-                      label="Loại đại lý"
-                      value={agencyTypeValue}
-                      withFeedbackLabel={true}
-                      isHorizontal={true}
-                      checkSelect={!isSubmit || (isSubmit && agencyTypeValue !== '')}
-                      onChange={(e: any) => setAgencyTypeValue(e.target.value)}>
-                      <option hidden>Chọn</option>
-                      {agencyType.map((value, key) => (
-                        <option key={key} value={value.agency_type_id}>
-                          {value.type_name}
-                        </option>
-                      ))}
-                    </CustomSelect>
+                    {/*<CustomSelect*/}
+                    {/*  type="text"*/}
+                    {/*  labelWidth={null}*/}
+                    {/*  width={null}*/}
+                    {/*  disabled={false}*/}
+                    {/*  name="agency_type_id"*/}
+                    {/*  label="Loại đại lý"*/}
+                    {/*  value={agencyTypeValue}*/}
+                    {/*  withFeedbackLabel={true}*/}
+                    {/*  isHorizontal={true}*/}
+                    {/*  checkSelect={!isSubmit || (isSubmit && agencyTypeValue !== '')}*/}
+                    {/*  onChange={(e: any) => setAgencyTypeValue(e.target.value)}>*/}
+                    {/*  <option hidden>Chọn</option>*/}
+                    {/*  {agencyType.map((value, key) => (*/}
+                    {/*    <option key={key} value={value.agency_type_id}>*/}
+                    {/*      {value.type_name}*/}
+                    {/*    </option>*/}
+                    {/*  ))}*/}
+                    {/*</CustomSelect>*/}
                   </div>
 
                   <div className="mt-5">
-                    <CustomSelect
-                      type="text"
-                      labelWidth={null}
-                      width={null}
-                      disabled={false}
-                      name="state"
-                      label="Tỉnh/Thành phố"
-                      value={administrativeDivision.state}
-                      withFeedbackLabel={true}
-                      isHorizontal={true}
-                      checkSelect={!isSubmit || (isSubmit && administrativeDivision.state !== '')}
-                      onChange={(e: any) =>
-                        setAdministrativeDivision({
-                          ...administrativeDivision,
-                          state: e.target.value,
-                          city: '',
-                          district: '',
-                        })
-                      }>
-                      <option hidden>Chọn</option>
-                      {Object.values(STATE_LIST).map((value, key) => (
-                        <option key={key} value={value.code}>
-                          {value.name}
-                        </option>
-                      ))}
-                      {/* <option defaultValue hidden>
-                        Please choose user's role
-                      </option> */}
-                    </CustomSelect>
+                    {/*<CustomSelect*/}
+                    {/*  type="text"*/}
+                    {/*  labelWidth={null}*/}
+                    {/*  width={null}*/}
+                    {/*  disabled={false}*/}
+                    {/*  name="state"*/}
+                    {/*  label="Tỉnh/Thành phố"*/}
+                    {/*  value={administrativeDivision.state}*/}
+                    {/*  withFeedbackLabel={true}*/}
+                    {/*  isHorizontal={true}*/}
+                    {/*  checkSelect={!isSubmit || (isSubmit && administrativeDivision.state !== '')}*/}
+                    {/*  onChange={(e: any) =>*/}
+                    {/*    setAdministrativeDivision({*/}
+                    {/*      ...administrativeDivision,*/}
+                    {/*      state: e.target.value,*/}
+                    {/*      city: '',*/}
+                    {/*      district: '',*/}
+                    {/*    })*/}
+                    {/*  }>*/}
+                    {/*  <option hidden>Chọn</option>*/}
+                    {/*  {Object.values(STATE_LIST).map((value, key) => (*/}
+                    {/*    <option key={key} value={value.code}>*/}
+                    {/*      {value.name}*/}
+                    {/*    </option>*/}
+                    {/*  ))}*/}
+                    {/*  /!* <option defaultValue hidden>*/}
+                    {/*    Please choose user's role*/}
+                    {/*  </option> *!/*/}
+                    {/*</CustomSelect>*/}
                   </div>
                   <div className="mt-5">
-                    <CustomSelect
-                      type="text"
-                      labelWidth={null}
-                      width={null}
-                      name="city"
-                      label="Quận/Huyện"
-                      value={administrativeDivision.city}
-                      withFeedbackLabel={true}
-                      isHorizontal={true}
-                      checkSelect={
-                        !isSubmit ? true : administrativeDivision.city === '' ? false : true
-                      }
-                      disabled={administrativeDivision.state === '' ? true : false}
-                      onChange={(e: any) =>
-                        setAdministrativeDivision({
-                          ...administrativeDivision,
-                          city: e.target.value,
-                          district: '',
-                        })
-                      }>
-                      <option hidden>Chọn</option>
-                      {Object.values(CITY_LIST).map(
-                        (value, key) =>
-                          value.parent_code === administrativeDivision.state && (
-                            <option key={key} value={value.code}>
-                              {value.name}
-                            </option>
-                          ),
-                      )}
-                    </CustomSelect>
+                    {/*<CustomSelect*/}
+                    {/*  type="text"*/}
+                    {/*  labelWidth={null}*/}
+                    {/*  width={null}*/}
+                    {/*  name="city"*/}
+                    {/*  label="Quận/Huyện"*/}
+                    {/*  value={administrativeDivision.city}*/}
+                    {/*  withFeedbackLabel={true}*/}
+                    {/*  isHorizontal={true}*/}
+                    {/*  checkSelect={*/}
+                    {/*    !isSubmit ? true : administrativeDivision.city === '' ? false : true*/}
+                    {/*  }*/}
+                    {/*  disabled={administrativeDivision.state === '' ? true : false}*/}
+                    {/*  onChange={(e: any) =>*/}
+                    {/*    setAdministrativeDivision({*/}
+                    {/*      ...administrativeDivision,*/}
+                    {/*      city: e.target.value,*/}
+                    {/*      district: '',*/}
+                    {/*    })*/}
+                    {/*  }>*/}
+                    {/*  <option hidden>Chọn</option>*/}
+                    {/*  {Object.values(CITY_LIST).map(*/}
+                    {/*    (value, key) =>*/}
+                    {/*      value.parent_code === administrativeDivision.state && (*/}
+                    {/*        <option key={key} value={value.code}>*/}
+                    {/*          {value.name}*/}
+                    {/*        </option>*/}
+                    {/*      ),*/}
+                    {/*  )}*/}
+                    {/*</CustomSelect>*/}
                   </div>
                   <div className="mt-5">
-                    <CustomSelect
-                      type="text"
-                      labelWidth={null}
-                      width={null}
-                      name="district"
-                      label="Phường/Xã"
-                      value={administrativeDivision.district}
-                      withFeedbackLabel={true}
-                      isHorizontal={true}
-                      checkSelect={
-                        !isSubmit ? true : administrativeDivision.district === '' ? false : true
-                      }
-                      disabled={administrativeDivision.city === '' ? true : false}
-                      onChange={(e: any) =>
-                        setAdministrativeDivision({
-                          ...administrativeDivision,
-                          district: e.target.value,
-                        })
-                      }>
-                      <option hidden>Chọn</option>
-                      {Object.values(DISTRICT_LIST).map(
-                        (value, key) =>
-                          value.parent_code === administrativeDivision.city && (
-                            <option key={key} value={value.code}>
-                              {value.name}
-                            </option>
-                          ),
-                      )}
-                    </CustomSelect>
+                    {/*<CustomSelect*/}
+                    {/*  type="text"*/}
+                    {/*  labelWidth={null}*/}
+                    {/*  width={null}*/}
+                    {/*  name="district"*/}
+                    {/*  label="Phường/Xã"*/}
+                    {/*  value={administrativeDivision.district}*/}
+                    {/*  withFeedbackLabel={true}*/}
+                    {/*  isHorizontal={true}*/}
+                    {/*  checkSelect={*/}
+                    {/*    !isSubmit ? true : administrativeDivision.district === '' ? false : true*/}
+                    {/*  }*/}
+                    {/*  disabled={administrativeDivision.city === '' ? true : false}*/}
+                    {/*  onChange={(e: any) =>*/}
+                    {/*    setAdministrativeDivision({*/}
+                    {/*      ...administrativeDivision,*/}
+                    {/*      district: e.target.value,*/}
+                    {/*    })*/}
+                    {/*  }>*/}
+                    {/*  <option hidden>Chọn</option>*/}
+                    {/*  {Object.values(DISTRICT_LIST).map(*/}
+                    {/*    (value, key) =>*/}
+                    {/*      value.parent_code === administrativeDivision.city && (*/}
+                    {/*        <option key={key} value={value.code}>*/}
+                    {/*          {value.name}*/}
+                    {/*        </option>*/}
+                    {/*      ),*/}
+                    {/*  )}*/}
+                    {/*</CustomSelect>*/}
                   </div>
                   <div className="mt-5">
                     <Field

@@ -33,7 +33,7 @@ const moduleName = 'SHIPPING_AGENCY.MODULE_NAME';
 const deleteDialogTitle = 'SHIPPING_AGENCY.DELETE_DIALOG.TITLE';
 const deleteDialogBodyTitle = 'SHIPPING_AGENCY.DELETE_DIALOG.BODY_TITLE';
 const createTitle = 'SHIPPING_AGENCY.CREATE.HEADER';
-const updateTitle = 'SHIPPING_AGENCY.CREATE.HEADER';
+const updateTitle = 'SHIPPING_AGENCY.UPDATE.HEADER';
 const homeURL = `${window.location.pathname}`
 
 function ShippingAgency() {
@@ -353,6 +353,8 @@ function ShippingAgency() {
       },
       image: {
         _type: 'image',
+        isArray: false,
+        maxNumber: 1,
         required: true,
         label: 'SHIPPING_AGENCY.MODIFY.REPRESENT_IMAGE',
       },
@@ -367,7 +369,9 @@ function ShippingAgency() {
       group2: group2,
     },
   }), [group1, group2]);
-  const updateForm = useMemo((): ModifyForm => ({...createForm, _header: updateTitle}), [createForm]);
+  const updateForm = useMemo((): ModifyForm => {
+    return ({...createForm, _header: updateTitle});
+  }, [createForm]);
   
   const actions: any = {
     type: 'inside',

@@ -9,19 +9,6 @@ import {ModifyForm} from "../common-types/common-type";
 import _ from "lodash";
 import {ModifyEntityPage} from "./modify-entity-page";
 
-const toDataURL = (url: string) =>
-  fetch(url)
-    .then(response => response.blob())
-    .then(
-      blob =>
-        new Promise((resolve, reject) => {
-          const reader = new FileReader();
-          reader.onloadend = () => resolve(reader.result);
-          reader.onerror = reject;
-          reader.readAsDataURL(blob);
-        }),
-    );
-
 function EntityCrudPage({
                           entity = {},
                           onModify,
@@ -48,32 +35,11 @@ function EntityCrudPage({
   const history = useHistory();
   const [entityForEdit, setEntityForEdit] = useState(entity);
   const {_header, ...modifyPanels} = formModel;
-  
-  const ConvertImage = (entity: any) => {
-    const cv = {...entity};
-    
-    if (entity.image) {
-      toDataURL('/' + entity.image.path)
-        .then(dataUrl => {
-          const url = {data_url: dataUrl};
-          console.log(url);
-          delete cv.image;
-          cv.images = [url];
-          
-          // setImages(cv)
-          setEntityForEdit(cv);
-        })
-        .catch(error => {
-          console.log(error); // Logs an error if there was one
-        });
-    }
-  };
-  
+ 
   useEffect(() => {
     if (code) {
       get && get(code).then((res: { data: any }) => {
         setEntityForEdit(res.data)
-        ConvertImage(res.data);
       });
     }
   }, [code]);

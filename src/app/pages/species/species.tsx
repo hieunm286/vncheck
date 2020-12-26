@@ -275,7 +275,7 @@ function Species() {
       required: true,
       label: 'PRODUCT_TYPE.MASTER.TABLE.BARCODE_COLUMN',
     },
-    images: {
+    image: {
       _type: 'image',
       // value: null,
       label: 'PRODUCT_TYPE.MASTER.IMAGE',
