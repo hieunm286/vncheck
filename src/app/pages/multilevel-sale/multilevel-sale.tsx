@@ -281,18 +281,19 @@ const MultilevelSaleSchema = Yup.object().shape({
         show={showCreate}
         entity={{ name: '', status: true }}
         validation={MultilevelSaleSchema}
-        onModify={values => {
+        onModify={(values, handleSuccess, handleError) => {
           console.log(values);
           console.log(editEntity);
           if (editEntity) {
-            add({parentId: editEntity._id, ...ConvertStatusToString(values)});
+            add({parentId: editEntity._id, ...ConvertStatusToString(values)}, handleSuccess, handleError);
           } else {
-            add(ConvertStatusToString(values));
+            add(ConvertStatusToString(values), handleSuccess, handleError);
           }
         }}
         onHide={() => {
           setShowCreate(false);
         }}
+        loading={loading}
         code={null}
         get={() => null}
         error={error}
@@ -302,14 +303,15 @@ const MultilevelSaleSchema = Yup.object().shape({
         show={showEdit}
         entity={editEntity}
         validation={MultilevelSaleSchema}
-        onModify={values => {
+        onModify={(values, handleSuccess, handleError) => {
           console.log(values);
           if (editEntity) {
-            update({parentId: editEntity._id, ...ConvertStatusToString(values)});
+            update({parentId: editEntity._id, ...ConvertStatusToString(values)}, handleSuccess, handleError);
           } else {
-            update(ConvertStatusToString(values));
+            update(ConvertStatusToString(values), handleSuccess, handleError);
           }
         }}
+        loading={loading}
         onHide={() => {
           setShowEdit(false);
         }}
