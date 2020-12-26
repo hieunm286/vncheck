@@ -1,33 +1,36 @@
-import React, {Fragment, useEffect, useState, useMemo} from 'react';
-import {useIntl} from 'react-intl';
+import React, { Fragment, useEffect, useState, useMemo } from 'react';
+import { useIntl } from 'react-intl';
 import {
   DefaultPagination,
   NormalColumn,
   SortColumn,
   StatusValue,
 } from '../../common-library/common-consts/const';
-import {MasterHeader} from '../../common-library/common-components/master-header';
-import {MasterBody} from '../../common-library/common-components/master-body';
-import {ActionsColumnFormatter} from '../../common-library/common-components/actions-column-formatter';
-import {DeleteEntityDialog} from '../../common-library/common-components/delete-entity-dialog';
+import { MasterHeader } from '../../common-library/common-components/master-header';
+import { MasterBody } from '../../common-library/common-components/master-body';
+import { ActionsColumnFormatter } from '../../common-library/common-components/actions-column-formatter';
+import { DeleteEntityDialog } from '../../common-library/common-components/delete-entity-dialog';
 import DeleteManyEntitiesDialog from '../../common-library/common-components/delete-many-entities-dialog';
 import {
   generateInitForm,
   getField,
   InitMasterProps,
 } from '../../common-library/helpers/common-function';
-import {Switch, Route, useHistory} from 'react-router-dom';
+import { Switch, Route, useHistory } from 'react-router-dom';
 import EntityCrudPage from '../../common-library/common-components/entity-crud-page';
 import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import * as Yup from 'yup';
-import {SpeciesModel} from './species.model';
+import { SpeciesModel } from './species.model';
 import * as ProductTypeService from './species.service';
 import 'react-toastify/dist/ReactToastify.css';
+import { MasterEntityDetailDialog } from '../../common-library/common-components/master-entity-detail-dialog';
 import {
-  MasterEntityDetailDialog
-} from "../../common-library/common-components/master-entity-detail-dialog";
-import { ModifyForm, ModifyInputGroup, RenderInfoDetailDialog, SearchModel } from '../../common-library/common-types/common-type';
+  ModifyForm,
+  ModifyInputGroup,
+  RenderInfoDetailDialog,
+  SearchModel,
+} from '../../common-library/common-types/common-type';
 
 const headerTitle = 'PRODUCT_TYPE.MASTER.HEADER.TITLE';
 const bodyTitle = 'PRODUCT_TYPE.MASTER.BODY.TITLE';
@@ -44,9 +47,9 @@ export const GenerateCode = (data: any[]) => {
       break;
     }
   }
-  
+
   const lastIndex = parseInt(lastEntity.slice(i));
-  
+
   if (lastIndex < 9) {
     return `00000${lastIndex + 1}`;
   } else if (lastIndex < 99) {
@@ -59,7 +62,7 @@ export const GenerateCode = (data: any[]) => {
 
 function Species() {
   const intl = useIntl();
-  
+
   const history = useHistory();
   const {
     entities,
@@ -114,31 +117,31 @@ function Species() {
   useEffect(() => {
     getAll(filterProps);
   }, [paginationProps, filterProps]);
-  
+
   const columns = {
     code: {
       dataField: 'code',
-      text: `${intl.formatMessage({id: 'PRODUCT_TYPE.MASTER.TABLE.CODE_COLUMN'})}`,
+      text: `${intl.formatMessage({ id: 'PRODUCT_TYPE.MASTER.TABLE.CODE_COLUMN' })}`,
       ...SortColumn,
       classes: 'text-center',
     },
     name: {
       dataField: 'name',
-      text: `${intl.formatMessage({id: 'PRODUCT_TYPE.MASTER.TABLE.NAME_COLUMN'})}`,
+      text: `${intl.formatMessage({ id: 'PRODUCT_TYPE.MASTER.TABLE.NAME_COLUMN' })}`,
       ...SortColumn,
       classes: 'text-center',
     },
-    
+
     barcode: {
       dataField: 'barcode',
-      text: `${intl.formatMessage({id: 'PRODUCT_TYPE.MASTER.TABLE.BARCODE_COLUMN'})}`,
+      text: `${intl.formatMessage({ id: 'PRODUCT_TYPE.MASTER.TABLE.BARCODE_COLUMN' })}`,
       ...SortColumn,
       classes: 'text-center',
       headerClasses: 'text-center',
     },
     action: {
       dataField: 'action',
-      text: `${intl.formatMessage({id: 'PURCHASE_ORDER.MASTER.TABLE.ACTION_COLUMN'})}`,
+      text: `${intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.ACTION_COLUMN' })}`,
       formatter: ActionsColumnFormatter,
       formatExtraData: {
         intl,
@@ -159,77 +162,89 @@ function Species() {
         },
       },
       ...NormalColumn,
-      style: {minWidth: '130px'},
+      style: { minWidth: '130px' },
     },
   };
-  
+
   const schema = Yup.object().shape({
-    name: Yup.string().required('Tên chủng loại không được để trống').matches(/^[aAàÀảẢãÃáÁạẠăĂằẰẳẲẵẴắẮặẶâÂầẦẩẨẫẪấẤậẬbBcCdDđĐeEèÈẻẺẽẼéÉẹẸêÊềỀểỂễỄếẾệỆfFgGhHiIìÌỉỈĩĨíÍịỊjJkKlLmMnNoOòÒỏỎõÕóÓọỌôÔồỒổỔỗỖốỐộỘơƠờỜởỞỡỠớỚợỢpPqQrRsStTuUùÙủỦũŨúÚụỤưƯừỪửỬữỮứỨựỰvVwWxXyYỳỲỷỶỹỸýÝỵỴzZ ]+$/u, {
-      message: 'Tên không hợp lệ. Tên không chứa số và ký tự đặc biệt',
-    }).test('Exists validate', 'Tên chủng loại đã tồn tại', function (value) {
-      if (editEntity) {
-        const validArr = entities.filter(item => item._id !== editEntity._id)
-        const index = validArr.findIndex(el => el.name === value)
-        return index === -1
-      }
-      
-      const index = entities.findIndex(el => el.name === value)
-      return index === -1
-    }),
-    barcode: Yup.string()
-      .required('GTIN không được để trống')
-      .max(10, 'Vui lòng nhập tối đa 10 ký tự')
-      .matches(/^[0-9]+$/u, {
-        message: 'GTIN không hợp lệ. GTIN không chứa chữ cái và ký tự đặc biệt',
-      }).test('Exists validate', 'GTIN đã tồn tại', function (value) {
+    name: Yup.string()
+      .required('SPECIES_NAME_CANNOT_EMPTY')
+      .matches(
+        /^[aAàÀảẢãÃáÁạẠăĂằẰẳẲẵẴắẮặẶâÂầẦẩẨẫẪấẤậẬbBcCdDđĐeEèÈẻẺẽẼéÉẹẸêÊềỀểỂễỄếẾệỆfFgGhHiIìÌỉỈĩĨíÍịỊjJkKlLmMnNoOòÒỏỎõÕóÓọỌôÔồỒổỔỗỖốỐộỘơƠờỜởỞỡỠớỚợỢpPqQrRsStTuUùÙủỦũŨúÚụỤưƯừỪửỬữỮứỨựỰvVwWxXyYỳỲỷỶỹỸýÝỵỴzZ ]+$/u,
+        {
+          message: 'SPECIES_NAME_IS_INVALID',
+        },
+      )
+      .test('Exists validate', 'SPECIES_NAME_WAS_EXISTED', function(value) {
         if (editEntity) {
-          const validArr = entities.filter(item => item._id !== editEntity._id)
-          const index = validArr.findIndex(el => el.barcode === value)
-          return index === -1
+          const validArr = entities.filter(item => item._id !== editEntity._id);
+          const index = validArr.findIndex(el => el.name === value);
+          return index === -1;
         }
-        const index = entities.findIndex(el => el.barcode === value)
-        return index === -1
+
+        const index = entities.findIndex(el => el.name === value);
+        return index === -1;
+      }),
+    barcode: Yup.string()
+      .required('GTIN_CANNOT_EMPTY')
+      .max(10, 'MAX_10_CHARACTERS')
+      .matches(/^[0-9]+$/u, {
+        message: '"GTIN_IS_INVALID',
+      })
+      .test('Exists validate', 'GTIN_WAS_EXISTED', function(value) {
+        if (editEntity) {
+          const validArr = entities.filter(item => item._id !== editEntity._id);
+          const index = validArr.findIndex(el => el.barcode === value);
+          return index === -1;
+        }
+        const index = entities.findIndex(el => el.barcode === value);
+        return index === -1;
       }),
     growingDays: Yup.number()
-      .required('Số ngày gieo giống không được để trống')
-      .min(1, 'Số ngày không được ít hơn 1 nha')
-      .typeError('Vui lòng nhập số'),
+      .required('DATE_CANNOT_BE_EMPTY')
+      .min(1, 'DAYS_MUST_BE_MORE_THAN_1')
+      .typeError('INPUT_NUMBER'),
     plantingDays: Yup.number()
-      .required('Số ngày gieo trồng không được để trống')
-      .min(1, 'KSố ngày không được ít hơn 1 nha')
-      .typeError('Vui lòng nhập số'),
+      .required('DATE_CANNOT_BE_EMPTY')
+      .min(1, 'DAYS_MUST_BE_MORE_THAN_1')
+      .typeError('INPUT_NUMBER'),
     expiryDays: Yup.number()
-      .required('Hạn sử dụng không được để trống')
-      .min(1, 'Số ngày không được ít hơn 1 nha')
-      .typeError('Vui lòng nhập số'),
+      .required('DATE_CANNOT_BE_EMPTY')
+      .min(1, 'DAYS_MUST_BE_MORE_THAN_1')
+      .typeError('INPUT_NUMBER'),
   });
 
   const masterEntityDetailDialog: RenderInfoDetailDialog = [
     {
       data: {
         image: {
-          formatter: (data) => (
-            <img src={data ? data.path : ''} alt="rau" className="border border-primary" width="200px"
-                 height="200px"/>
-          )
-        }
+          formatter: data => (
+            <img
+              src={data ? data.path : ''}
+              alt="rau"
+              className="border border-primary"
+              width="200px"
+              height="200px"
+            />
+          ),
+        },
       },
       className: 'col-5 d-flex justify-content-center align-items-center ml-10',
       dataClassName: 'd-flex',
     },
     {
       data: {
-        code: {title: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.CODE'},
-        name: {title: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.NAME'},
-        barcode: {title: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.BARCODE'},
-        growingDays: {title: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW'},
-        plantingDays: {title: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.PLANTING'},
-        expiryDays: {title: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.EXPIRY'},
+        code: { title: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.CODE' },
+        name: { title: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.NAME' },
+        barcode: { title: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.BARCODE' },
+        growingDays: { title: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW' },
+        plantingDays: { title: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.PLANTING' },
+        expiryDays: { title: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.EXPIRY' },
       },
       className: 'col-6',
     },
   ];
-  
+
   const productTypeSearchModel: SearchModel = {
     code: {
       type: 'string',
@@ -240,8 +255,8 @@ function Species() {
       label: 'PRODUCT_TYPE.MASTER.TABLE.NAME_COLUMN',
     },
   };
-  
-  const [group1, setGroup1] = useState<ModifyInputGroup>({
+
+  const group1 = useMemo((): ModifyInputGroup => ({
     _subTitle: 'THÔNG TIN CHUNG',
     _className: 'col-6 pr-xl-15 pr-md-10 pr-5',
     code: {
@@ -264,15 +279,15 @@ function Species() {
       _type: 'image',
       // value: null,
       label: 'PRODUCT_TYPE.MASTER.IMAGE',
-      maxNumber: 1
+      maxNumber: 1,
     },
     // avatar: {
     //   type: 'image',
     //   placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
     //   label: 'Album 2',
     // },
-  });
-  const [group2, setGroup2] = useState<ModifyInputGroup>({
+  }), []);
+  const group2 = useMemo(() :ModifyInputGroup => ({
     _subTitle: 'THÔNG TIN VÒNG ĐỜI',
     _className: 'col-6 pl-xl-15 pl-md-10 pl-5',
     growingDays: {
@@ -287,28 +302,49 @@ function Species() {
       _type: 'number',
       label: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.EXPIRY',
     },
-  });
-  
-  const createForm = useMemo((): ModifyForm => ({
-    _header: "createTitle",
-    panel1: {
-      _title: '',
-      group1: group1,
-      group2: group2,
+    chekbox: {
+      _type: 'checkbox',
+      label: 'test check box',
+      selectedEntities: selectedEntities,
+      onSelectMany: setSelectedEntities,
+      selectColumnPosition: 'right',
+      data: entities,
+      columns: {
+        value: {
+          dataField: 'name',
+          text: `Doanh nghiệp sản xuất`,
+          classes: 'text-left',
+        },
+      },
     },
-  }), []);
-  const updateForm = useMemo((): ModifyForm => ({...createForm, _header: "sada"}), [createForm]);
+  }), [entities, selectedEntities, setSelectedEntities]);
 
-  const initForm = useMemo(() => ({
-    code: '',
-    name: '',
-    barcode: '',
-    images: [],
-    growingDays: '',
-    plantingDays: '',
-    expiryDays: ''
-  }), [])
-  
+  const createForm = useMemo(
+    (): ModifyForm => ({
+      _header: 'createTitle',
+      panel1: {
+        _title: '',
+        group1: group1,
+        group2: group2,
+      },
+    }),
+    [group1, group2],
+  );
+  const updateForm = useMemo((): ModifyForm => ({ ...createForm, _header: 'sada' }), [createForm]);
+
+  const initForm = useMemo(
+    () => ({
+      code: '',
+      name: '',
+      barcode: '',
+      images: [],
+      growingDays: '',
+      plantingDays: '',
+      expiryDays: '',
+    }),
+    [],
+  );
+
   const allFormButton: any = {
     type: 'inside',
     data: {
@@ -318,7 +354,7 @@ function Species() {
         linkto: undefined,
         className: 'btn btn-primary mr-5 pl-8 pr-8',
         label: 'Lưu',
-        icon: <SaveOutlinedIcon/>,
+        icon: <SaveOutlinedIcon />,
       },
       cancel: {
         role: 'link-button',
@@ -326,7 +362,7 @@ function Species() {
         linkto: '/species',
         className: 'btn btn-outline-primary mr-2 pl-8 pr-8',
         label: 'Hủy',
-        icon: <CancelOutlinedIcon/>,
+        icon: <CancelOutlinedIcon />,
       },
     },
   };
@@ -367,7 +403,7 @@ function Species() {
           setShowDeleteMany(false);
         }}
       />
-      
+
       <Switch>
         <Route path="/species/new">
           <EntityCrudPage
@@ -386,7 +422,7 @@ function Species() {
           />
         </Route>
         <Route path={`/species/:code`}>
-          {({history, match}) => (
+          {({ history, match }) => (
             // <ModifyEntityPage
             //   entity={editEntity}
             //   onModify={update}
@@ -436,7 +472,7 @@ function Species() {
             setPaginationParams={setPaginationProps}
             isShowId={true}
           />
-          
+
           {/* <MasterTreeStructure /> */}
         </Route>
       </Switch>

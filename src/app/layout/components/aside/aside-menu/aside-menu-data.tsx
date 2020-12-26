@@ -140,6 +140,6 @@ export const MenuItems: MenuItemModel[] = [
 
 
   { parent: true, title: 'MENU.REPORT' },
-  { parent: true, title: 'MENU.PRODUCT_MANAGEMENT' },
+  { parent: true, title: 'MENU.PRODUCT_MANAGEMENT', url: '/production-management' },
   { parent: true, title: 'MENU.INVENTORY' },
 ];

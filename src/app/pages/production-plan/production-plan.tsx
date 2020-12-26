@@ -62,7 +62,7 @@ const versionData = [
 const ProductPlantSchema = Yup.object().shape({
   harvesting: Yup.object()
     .shape(halfValidate)
-    .test('oneOfRequired', 'Vui lòng nhập đầy đủ theo thứ tự', function(values: any) {
+    .test('oneOfRequired', 'INPUT_MUTS_ACCORDING_ORDER', function(values: any) {
       console.log(this.parent.harvesting);
       console.log(values);
       if (values.technical.length === 0 || values.leader.length === 0) {
@@ -80,7 +80,7 @@ const ProductPlantSchema = Yup.object().shape({
     }),
   preliminaryTreatment: Yup.object()
     .shape(validate)
-    .test('oneOfRequired', 'Vui lòng nhập đầy đủ theo thứ tự', function(values: any) {
+    .test('oneOfRequired', 'INPUT_MUTS_ACCORDING_ORDER', function(values: any) {
       console.log(this.parent.harvesting);
       console.log(values);
       if (
@@ -104,7 +104,7 @@ const ProductPlantSchema = Yup.object().shape({
     }),
   cleaning: Yup.object()
     .shape(validate)
-    .test('oneOfRequired', 'Vui lòng nhập đầy đủ theo thứ tự', function(values: any) {
+    .test('oneOfRequired', 'INPUT_MUTS_ACCORDING_ORDER', function(values: any) {
       console.log(this.parent.preliminaryTreatment);
       console.log(values);
 
@@ -144,7 +144,7 @@ const ProductPlantSchema = Yup.object().shape({
     }),
   packing: Yup.object()
     .shape(packingValidate)
-    .test('oneOfRequired', 'Vui lòng nhập đầy đủ theo thứ tự', function(values: any) {
+    .test('oneOfRequired', 'INPUT_MUTS_ACCORDING_ORDER', function(values: any) {
       console.log(this.parent.packing);
       console.log(values);
 
@@ -840,12 +840,12 @@ function ProductionPlan() {
   const modifyModel = useMemo((): ModifyPanel => ({
     _title: '',
     commonInfo: {
-      _subTitle: 'THÔNG TIN CHUNG',
+      _subTitle: 'GENERAL_INFO',
       _className: 'col-6 pl-xl-15 pl-md-10 pl-5',
       code: {
         _type: 'string',
         // placeholder: 'Mã kế hoạch',
-        label: 'Mã kế hoạch',
+        label: 'PRODUCTION_PLAN.CODE',
         required: true,
         disabled: true,
       },
@@ -855,7 +855,7 @@ function ProductionPlan() {
           _type: 'string',
           // placeholder: 'Mã gieo giống',
           required: true,
-          label: 'Mã gieo giống',
+          label: 'PRODUCTION_PLAN.SEEDING_CODE',
           disabled: true,
         },
         certificates: {
@@ -863,7 +863,7 @@ function ProductionPlan() {
           path: {
             _type: 'string',
             // placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
-            label: 'Giấy chứng nhận giống',
+            label: 'CERTIFICATE',
             required: true,
             disabled: true,
           },
@@ -873,7 +873,7 @@ function ProductionPlan() {
           path: {
             _type: 'string',
             // placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
-            label: 'Hóa đơn mua hàng',
+            label: 'BUY_INVOICE',
             required: true,
             disabled: true,
           },
@@ -882,7 +882,7 @@ function ProductionPlan() {
           _type: 'date-time',
           // placeholder: 'PRODUCT_TYPE.MASTER.TABLE.BARCODE_COLUMN',
           required: true,
-          label: 'Thời gian gieo',
+          label: 'SEEDING_TIME',
           disabled: true,
         },
         landLot: {
@@ -891,7 +891,7 @@ function ProductionPlan() {
             _type: 'string',
             // placeholder: 'PRODUCT_TYPE.MASTER.TABLE.BARCODE_COLUMN',
             required: true,
-            label: 'Lô gieo ươm',
+            label: 'SEEDING_LAND_LOT',
             disabled: true,
           },
           // bill: {
@@ -908,13 +908,13 @@ function ProductionPlan() {
           _type: 'string',
           // placeholder: 'PRODUCT_TYPE.MASTER.TABLE.BARCODE_COLUMN',
           required: true,
-          label: 'Mã gieo trồng',
+          label: 'PRODUCTION_PLAN.PLANT_CODE',
           disabled: true,
         },
         estimatedPlantingTime: {
           _type: 'date-time',
           // placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
-          label: 'Thời gian trồng',
+          label: 'ESTIMATED_PLANTING_TIME',
           disabled: true,
           required: true,
         },
@@ -924,7 +924,7 @@ function ProductionPlan() {
             _type: 'string',
             // placeholder: 'PRODUCT_TYPE.MASTER.TABLE.BARCODE_COLUMN',
             required: true,
-            label: 'Lô gieo trồng',
+            label: 'PLANTING_LAND_LOT',
             disabled: true,
           },
         },
@@ -947,7 +947,7 @@ function ProductionPlan() {
           name: {
             _type: 'string',
             // placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.PLANTING',
-            label: 'Tên chủng loại',
+            label: 'PRODUCTION_PLAN.SPECIES_NAME',
             disabled: true,
             required: true,
           },
@@ -962,14 +962,14 @@ function ProductionPlan() {
         area: {
           _type: 'string',
           // placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.EXPIRY',
-          label: 'Diện tích gieo ươm',
+          label: 'SEEDING_AREA',
           disabled: true,
           required: true,
         },
         numberOfSeed: {
           _type: 'string',
           // placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.EXPIRY',
-          label: 'Số cây con giống',
+          label: 'SEEDING_QUANTITY',
           disabled: true,
           required: true,
         },
@@ -978,7 +978,7 @@ function ProductionPlan() {
           coordinates: {
             _type: 'string',
             // placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
-            label: 'Địa chỉ farm giống',
+            label: 'SEEDING_LOCATION',
             disabled: true,
             required: true,
           },
@@ -989,14 +989,14 @@ function ProductionPlan() {
         area: {
           _type: 'string',
           // placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.EXPIRY',
-          label: 'Diện tích gieo trồng',
+          label: 'PLANTING_AREA',
           disabled: true,
           required: true,
         },
         numberOfPlants: {
           _type: 'string',
           // placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.EXPIRY',
-          label: 'Số cây con trồng',
+          label: 'PLATING_QUANTITY',
           disabled: true,
           required: true,
         },
@@ -1005,7 +1005,7 @@ function ProductionPlan() {
           coordinates: {
             _type: 'string',
             // placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
-            label: 'Địa chỉ farm trồng',
+            label: 'PLANTING_LOCATION',
             disabled: true,
             required: true,
           },
@@ -1017,7 +1017,7 @@ function ProductionPlan() {
   const modifyModel2 = useMemo((): ModifyPanel => ({
     _title: '',
     managementInfo: {
-      _subTitle: 'THÔNG TIN QUẢN TRỊ',
+      _subTitle: 'ADMIN_INFO',
       _className: 'col-6 pl-xl-15 pl-md-10 pl-5',
       seeding: {
         _type: 'object',
@@ -1026,7 +1026,7 @@ function ProductionPlan() {
           fullName: {
             _type: 'string',
             // placeholder: 'Mã gieo giống',
-            label: 'Thông tin Giám đốc/TGĐ',
+            label: 'DIRECTOR_INFO',
             required: true,
             disabled: true,
           },
@@ -1038,7 +1038,7 @@ function ProductionPlan() {
             // placeholder: 'Mã gieo giống',
             required: true,
             tagData: userData,
-            label: 'Tổ trưởng gieo giống',
+            label: 'ADMIN_SEEDING_LEADER',
             disabled: true,
           },
         },
@@ -1054,7 +1054,7 @@ function ProductionPlan() {
           fullName: {
             _type: 'string',
             // placeholder: 'Mã gieo giống',
-            label: 'Người lập kế hoạch',
+            label: 'ADMIN_PLAN',
             required: true,
             disabled: true,
           },
@@ -1066,7 +1066,7 @@ function ProductionPlan() {
             // placeholder: 'Mã gieo giống',
             required: true,
             tagData: userData,
-            label: 'Tổ trưởng gieo trồng',
+            label: 'ADMIN_PLANTING_LEADER',
             disabled: true,
           },
         },
@@ -1077,13 +1077,13 @@ function ProductionPlan() {
   const modifyModel3 = useMemo ((): ModifyPanel => ({
     _title: '',
     group1: {
-      _subTitle: 'THÔNG TIN THU HOẠCH',
+      _subTitle: 'HARVESTING_INFO',
       _className: 'col-6 pl-xl-15 pl-md-10 pl-5',
       planting: {
         _type: 'object',
         estimatedHarvestTime: {
           _type: 'date-time',
-          label: 'Thời gian thu hoạch (dự kiến)',
+          label: 'HARVESTING_TIME',
           required: true,
           disabled: true,
         },
@@ -1094,7 +1094,7 @@ function ProductionPlan() {
           _type: 'number',
           // placeholder: 'Mã gieo giống',
           required: true,
-          label: 'Sản lượng thu hoạch dự kiến (kg)',
+          label: 'HARVESTING_QUANTITY',
           disabled: true,
         },
       },
@@ -1107,7 +1107,7 @@ function ProductionPlan() {
         technical: {
           _type: 'tag',
           // placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
-          label: 'Nhân viên kỹ thuật thu hoạch',
+          label: 'HARVESTING_WORKER',
           tagData: userData,
           required: true,
           process: '2',
@@ -1115,7 +1115,7 @@ function ProductionPlan() {
         leader: {
           _type: 'tag',
           // placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
-          label: 'Tổ trưởng thu hoạch',
+          label: 'HARVESTING_LEADER',
           tagData: userData,
           required: true,
           process: '2',

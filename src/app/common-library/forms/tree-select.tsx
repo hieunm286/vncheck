@@ -4,6 +4,8 @@ import { useField, useFormikContext } from 'formik';
 import './tree-select.scss'
 import SelectDropDownIcon from './select-drop-down-icon';
 import { FieldFeedbackLabel } from './field-feedback-label';
+import { useIntl } from 'react-intl';
+import _ from 'lodash';
 
 const getClassName = (labelWidth: number | null | undefined, labelStart: boolean) => {
   const classes: string[] = [];
@@ -81,6 +83,7 @@ function CustomeTreeSelect(
   const styleLabe = {
     width: width,
   };
+  const intl = useIntl();
   const { setFieldValue, errors, touched } = useFormikContext<any>();
 
   return (
@@ -110,7 +113,7 @@ function CustomeTreeSelect(
           {
             // console.log(touched)
             (errors[name] && touched[name]) && (
-              <div className="invalid-feedback">{errors[name]}</div>
+              <div className="invalid-feedback">{_.isString(errors[name] ? intl.formatMessage({ id: errors[name] as string }) : errors[name])}</div>
             )
           }
         </div>

@@ -29,6 +29,8 @@ const ShippingAgency = lazy(() => import('./pages/shipping-agency/shipping-agenc
 
 const ProductionPlan = lazy(() => import('./pages/production-plan/production-plan'));
 
+const ProductionManagement = lazy(() => import('./pages/production-management/production-management'))
+
 export default function BasePage() {
   // useEffect(() => {
   //   console.log('Base page');
@@ -58,6 +60,7 @@ export default function BasePage() {
         <Route path="/multilevel-sale" component={MultilevelSale} />
         <Route path="/shipping-agency" component={ShippingAgency} />
         <Route path="/production-plan" component={ProductionPlan} />
+        <Route path="/production-management" component={ProductionManagement} />
 
         {/* <Redirect to="/error/error-v1" /> */}
       </Switch>

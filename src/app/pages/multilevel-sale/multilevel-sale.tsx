@@ -158,9 +158,9 @@ function MultilevelSale() {
 
   
 const MultilevelSaleSchema = Yup.object().shape({
-  name: Yup.string().required('Tên cấp bán hàng không được để trống').matches(/^[aAàÀảẢãÃáÁạẠăĂằẰẳẲẵẴắẮặẶâÂầẦẩẨẫẪấẤậẬbBcCdDđĐeEèÈẻẺẽẼéÉẹẸêÊềỀểỂễỄếẾệỆfFgGhHiIìÌỉỈĩĨíÍịỊjJkKlLmMnNoOòÒỏỎõÕóÓọỌôÔồỒổỔỗỖốỐộỘơƠờỜởỞỡỠớỚợỢpPqQrRsStTuUùÙủỦũŨúÚụỤưƯừỪửỬữỮứỨựỰvVwWxXyYỳỲỷỶỹỸýÝỵỴzZ ]+$/u, {
-    message: 'Tên không hợp lệ. Tên không chứa số và ký tự đặc biệt',
-  }).test('Exists validate', 'Tên cấp bán hàng đã tồn tại', function (value) {
+  name: Yup.string().required('MULTIVELEVEL_SALE_NAME_CANNOT_BE_EMPTY').matches(/^[aAàÀảẢãÃáÁạẠăĂằẰẳẲẵẴắẮặẶâÂầẦẩẨẫẪấẤậẬbBcCdDđĐeEèÈẻẺẽẼéÉẹẸêÊềỀểỂễỄếẾệỆfFgGhHiIìÌỉỈĩĨíÍịỊjJkKlLmMnNoOòÒỏỎõÕóÓọỌôÔồỒổỔỗỖốỐộỘơƠờỜởỞỡỠớỚợỢpPqQrRsStTuUùÙủỦũŨúÚụỤưƯừỪửỬữỮứỨựỰvVwWxXyYỳỲỷỶỹỸýÝỵỴzZ ]+$/u, {
+    message: 'MULTIVELEVEL_SALE_NAME_IS_INVALID',
+  }).test('Exists validate', 'MULTIVELEVEL_SALE_NAME_WAS_EXISTED', function (value) {
     if (editEntity) {
       const validArr = entities.filter(item => item._id !== editEntity._id)
       const index = validArr.findIndex(el => el.name === value)
@@ -175,13 +175,13 @@ const MultilevelSaleSchema = Yup.object().shape({
   const TreeBody = [
     {
       name: 'Cấp',
-      title: 'Danh sách cấp phân phối',
+      title: 'MULTIVELEVEL_SALE_TREE_DATA',
       type: 'Tree',
       data: entities,
     },
     {
       name: 'Test',
-      title: 'Danh sách các đơn vị bán hàng',
+      title: 'MULTIVELEVEL_SALE_AGENCY_DATA',
       type: 'Table',
       data: agency,
       prop: {
@@ -319,7 +319,7 @@ const MultilevelSaleSchema = Yup.object().shape({
         homePage={homeURL}
         formModel={updateForm}/>
       <MultiLevelSaleBody
-        title="CẤP BÁN HÀNG"
+        title="MULTILEVEL_SALE"
         body={TreeBody}
         onCreate={(entity: any) => {
           setCreateEntity(null);

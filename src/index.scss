@@ -458,4 +458,60 @@ label {
   cursor: not-allowed;
 }
 
+.pm-step {
+  background-color: #FFFFFF;
+}
+
+.pm-header {
+  .card.card-custom {
+    box-shadow: none;
+  }
+
+  .ant-steps-item-process .ant-steps-item-icon {
+    background: $primary;
+    border-color: $primary;
+  }
+
+  .ant-steps-item-process > .ant-steps-item-container > .ant-steps-item-content > .ant-steps-item-title {
+    color: $primary;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  .ant-steps-item-wait .ant-steps-item-icon {
+    border-color: $primary;
+  }
+
+  .ant-steps-item-wait > .ant-steps-item-container > .ant-steps-item-content > .ant-steps-item-title {
+    color: $primary;
+    text-transform: uppercase;
+  }
+
+  .ant-steps-item-wait .ant-steps-item-icon > .ant-steps-icon {
+    color: $primary
+  }
+
+  .ant-steps-item-finish .ant-steps-item-icon {
+    background: #FFFFFF;
+    border-color: $primary;
+  }
+
+  .ant-steps-item-finish .ant-steps-item-icon > .ant-steps-icon {
+    color: $primary
+  }
+
+  .anticon {
+    vertical-align: 0rem;
+  }
+
+  .ant-steps-item-finish > .ant-steps-item-container > .ant-steps-item-content > .ant-steps-item-title {
+    color: $primary;
+    text-transform: uppercase;
+  }
+
+  .ant-steps-item-finish > .ant-steps-item-container > .ant-steps-item-content > .ant-steps-item-title::after {
+    background-color: $primary;
+  }
+}
+
 //.card.card-custom > .card-body
