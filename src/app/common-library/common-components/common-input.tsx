@@ -7,7 +7,7 @@ import CustomImageUpload from '../forms/custom-image-upload';
 import {SwitchField} from '../forms/switch-field';
 import {InfiniteSelect} from '../forms/infinite-select';
 import TagInput from '../forms/tag-input';
-import React, {ReactElement, useCallback} from 'react';
+import React, {ReactElement, useCallback, useEffect, useState} from 'react';
 import _ from 'lodash';
 import {RadioField} from '../forms/radio-field';
 import CheckboxTable from '../forms/checkbox-table';
@@ -308,7 +308,7 @@ export const InputTreeSelect = ({
                                   label,
                                   placeholder,
                                   className,
-                                  data,
+                                  onSearch,
                                   ...props
                                 }: InputTreeSelectType) => {
   const intl = useIntl();
@@ -318,7 +318,7 @@ export const InputTreeSelect = ({
         {...props}
         placeholder={intl.formatMessage({id: placeholder ?? DefaultPlaceholder['tree-select']})}
         label={_.isString(label) ? intl.formatMessage({id: label}) : label}
-        data={data || []}
+        onSearch={onSearch}
       />
     </div>
   );
