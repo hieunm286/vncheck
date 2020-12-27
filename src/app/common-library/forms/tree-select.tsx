@@ -1,4 +1,4 @@
-import React, {ReactElement, useEffect} from 'react';
+import React, {ReactElement, useEffect, useState} from 'react';
 import {TreeSelect} from 'antd';
 import {useField, useFormikContext} from 'formik';
 import './tree-select.scss'
@@ -11,20 +11,19 @@ function CustomTreeSelect(
   {
     name,
     label,
-    value,
-    data,
     onChange,
     required,
     placeholder,
     labelWidth,
+    onSearch,
     mode, ...props
   }
     : {
     label: string | ReactElement;
-    data: any;
     mode?: 'horizontal' | 'vertical',
     value?: any;
     onChange?: (value: { value: any, entity: any }, props: { setFieldValue: ((name: string, value: any) => void), values: any }) => any;
+    onSearch: (searchQueryObject: any) => any;
     placeholder?: string;
     name: string;
     additional?: any;
@@ -39,6 +38,10 @@ function CustomTreeSelect(
   useEffect(() => {
     fieldMeta.touched && onChange && onChange(field.value, {setFieldValue, values});
   }, [field.value]);
+  const [treeData, setTreeData] = useState<any[]>([]);
+  useEffect(() => {
+    onSearch({}).then(setTreeData);
+  }, [])
   return (
     <>
       <div className={mode === 'horizontal' ? 'row' : ''}>
@@ -52,13 +55,17 @@ function CustomTreeSelect(
         <div className={mode === 'horizontal' ? GetClassName(labelWidth, false) : ''}>
           <TreeSelect
             suffixIcon={<SelectDropDownIcon/>}
-            value={value}
+            value={field.value}
             dropdownStyle={{maxHeight: 400, overflow: 'auto'}}
-            treeData={data}
+            treeData={treeData}
+            loadData={(e)=>{
+              // console.log(e);
+              return onSearch({})
+            }}
+            allowClear={true}
             placeholder={placeholder}
             treeDefaultExpandAll
             onChange={(val) => {
-              // onChange(val);
               setFieldValue(name, val);
               setFieldTouched(name, true);
             }}
