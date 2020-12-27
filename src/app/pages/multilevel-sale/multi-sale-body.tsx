@@ -43,34 +43,36 @@ const MultiLevelSaleBody: React.FC<MultilevelSaleBodyProp> = ({
             <MasterTreeStructure data={data} />
           </div>
         </div> */}
-        <div className="row no-gutters mb-10 justify-content-center">
+        <div className="row no-gutters mb-10 justify-content-between">
           {body.map((item: any, key: number) => {
             switch (item.type) {
               case 'Tree':
                 return (
                   <Fragment key={key}>
-                    <div className={`col-xl-${12 / body.length - 1} col-12 p-5 mr-xl-5 layout`}>
-                      <p style={{ fontWeight: 'bold' }}>
-                        {intl.formatMessage({ id: item.title })}
-                        <span
-                          className="text-primary"
-                          style={{ cursor: 'pointer' }}
-                          onClick={() => {
-                            if (onCreate) {
-                              onCreate(null);
-                            }
-                          }}>
-                          <AddIcon />
-                        </span>
-                      </p>
-                      <MasterTreeStructure
-                        data={item.data}
-                        onCreate={onCreate}
-                        onEdit={onEdit}
-                        onDelete={onDelete}
-                        onFetchAgency={onFetchAgency}
-                        showChildren={showArray_v2({}, item.data)}
-                      />
+                    <div className={`col-xl-${12 / body.length} col-12 pr-3`}>
+                      <div className="p-5 layout">
+                        <p style={{ fontWeight: 'bold' }}>
+                          {intl.formatMessage({ id: item.title })}
+                          <span
+                            className="text-primary"
+                            style={{ cursor: 'pointer' }}
+                            onClick={() => {
+                              if (onCreate) {
+                                onCreate(null);
+                              }
+                            }}>
+                            <AddIcon />
+                          </span>
+                        </p>
+                        <MasterTreeStructure
+                          data={item.data}
+                          onCreate={onCreate}
+                          onEdit={onEdit}
+                          onDelete={onDelete}
+                          onFetchAgency={onFetchAgency}
+                          showChildren={showArray_v2({}, item.data)}
+                        />
+                      </div>
                     </div>
                   </Fragment>
                 );
@@ -78,20 +80,24 @@ const MultiLevelSaleBody: React.FC<MultilevelSaleBodyProp> = ({
               case 'Table':
                 return (
                   <Fragment key={key}>
-                    <div className={`col-xl-${12 / body.length} col-12 p-5 ml-xl-5 layout`}>
-                      <p style={{ fontWeight: 'bold' }}>{intl.formatMessage({ id: item.title })}</p>
+                    <div className={`col-xl-${12 / body.length} col-12 pl-3`}>
+                      <div className="p-5 layout">
+                        <p style={{ fontWeight: 'bold' }}>
+                          {intl.formatMessage({ id: item.title })}
+                        </p>
 
-                      <MasterTable
-                        entities={item.data}
-                        columns={item.prop.columns}
-                        total={item.prop.total}
-                        loading={item.prop.loading}
-                        paginationParams={item.prop.paginationParams}
-                        setPaginationParams={item.prop.setPaginationParams}
-                        onSelectMany={item.prop.onSelectMany}
-                        selectedEntities={item.prop.selectedEntities}
-                        removeSelectRow
-                      />
+                        <MasterTable
+                          entities={item.data}
+                          columns={item.prop.columns}
+                          total={item.prop.total}
+                          loading={item.prop.loading}
+                          paginationParams={item.prop.paginationParams}
+                          setPaginationParams={item.prop.setPaginationParams}
+                          onSelectMany={item.prop.onSelectMany}
+                          selectedEntities={item.prop.selectedEntities}
+                          removeSelectRow
+                        />
+                      </div>
                     </div>
                   </Fragment>
                 );

@@ -18,6 +18,7 @@ class AnimateLoading extends React.Component {
     }
   }
 
+
   scrollToTop() {
     const scrollToTopBtn = document.getElementById("kt_scrolltop");
     if (scrollToTopBtn) {
@@ -50,6 +51,9 @@ class AnimateLoading extends React.Component {
     }
   }
   render() {
+
+    console.log(this.props)
+
     return (
       <div
         className="header-progress-bar"

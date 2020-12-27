@@ -2,6 +2,9 @@
 import React from 'react';
 import { PaginationOptions } from 'react-bootstrap-table-next';
 import { useIntl } from 'react-intl';
+import { Select } from 'antd';
+
+const { Option } = Select;
 
 export function PaginationToolbar({
   isLoading,
@@ -27,6 +30,11 @@ export function PaginationToolbar({
     onSizePerPageChange(page ?? -1, newSize);
   };
 
+  const handleChange = (value: string) => {
+    const newSize = Number.parseInt(value);
+    onSizePerPageChange(page ?? -1, newSize);
+  }
+
   return (
     <div className="d-flex align-items-center">
       {isLoading && (
@@ -37,7 +45,7 @@ export function PaginationToolbar({
           <div className="spinner spinner-primary mr-10" />
         </div>
       )}
-      <select
+      {/* <select
         disabled={totalSize === 0}
         className={`form-control form-control-sm font-weight-bold mr-4 border-0 bg-light ${totalSize ===
           0 && 'disabled'}`}
@@ -55,7 +63,31 @@ export function PaginationToolbar({
             </option>
           );
         })}
-      </select>
+      </select> */}
+      <Select 
+        // defaultValue="lucy" 
+        style={{ width: 75, marginRight: 5 }}
+        // size='small'
+        onChange={handleChange}
+        disabled={totalSize === 0}
+        value={'' + sizePerPage}
+      >
+        
+        
+        {(sizePerPageList as { text: string; value: number }[]).map(value => {
+          const isSelect = sizePerPage === value.value;
+          return (
+            <Option key={value.text}
+            value={'' + value.value}>{value.text}</Option>
+            // <option
+            //   key={value.text}
+            //   value={value.value}
+            //   className={`btn ${isSelect ? 'active' : ''}`}>
+            //   {value.text}
+            // </option>
+          );
+        })}
+      </Select>
       <span className="text-muted">
         {intl.formatMessage({ id: 'COMMON_COMPONENT.PAGINATION.RECORD_PER_PAGE' })} {totalSize}
       </span>
