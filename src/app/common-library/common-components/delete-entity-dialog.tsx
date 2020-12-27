@@ -7,6 +7,7 @@ import {DeleteDialogProps} from '../common-types/common-type';
 import {iconStyle} from '../common-consts/const';
 import {ModalProgressBar} from '../modal-progress-bar';
 import {CapitalizeFirstLetter} from '../helpers/common-function';
+import { AnimateLoading } from '../../../_metronic/_partials/controls';
 
 export function DeleteEntityDialog<T>({
                                         isShow,
@@ -30,6 +31,7 @@ export function DeleteEntityDialog<T>({
     onHide={onHide}
     aria-labelledby="example-modal-sizes-title-lg"
     dialogClassName="modal-delete">
+    {loading && <ModalProgressBar />}
     <Modal.Header className="border-bottom-0" closeButton>
       <Modal.Title id="example-modal-sizes-title-lg" className="text-primary">
         {intl

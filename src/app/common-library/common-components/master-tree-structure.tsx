@@ -6,7 +6,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import { TreeData } from '../../pages/multilevel-sale/multilevel-sale.model';
 import { ChildFriendly } from '@material-ui/icons';
 import { ConvertStatusToBoolean } from '../helpers/common-function';
-
+import './master-tree-structure.scss'
 
 interface TreeDataProp {
   data: TreeData[];
@@ -66,8 +66,8 @@ const MasterTreeStructure: React.FC<TreeDataProp> = ({ data, onCreate, onEdit, o
         {data.map((childrenItem: TreeData, keyItem: number) => (
           <React.Fragment key={'childrenren' + keyItem}>
             <tr>
-              <td onClick={() => handleClick(childrenItem)} className={currentChild === childrenItem._id ? 'text-primary font-weight-bold' : ''} >
-                <div style={{ marginLeft: `${size}rem` }}>
+              <td onClick={() => handleClick(childrenItem)} className={currentChild === childrenItem._id ? 'text-primary font-weight-700' : ''} >
+                <div style={{ marginLeft: `${size}px` }}>
                   {/* {childrenItem.children && childrenItem.children.length > 0 ? (
                     <button
                       onClick={() => onShowChildren(childrenItem._id)}
@@ -85,6 +85,7 @@ const MasterTreeStructure: React.FC<TreeDataProp> = ({ data, onCreate, onEdit, o
                 </div>
               </td>
               <td>
+                <div className="text-right">
                 <button
                   style={{ backgroundColor: 'white', border: 'none' }}
                   onClick={() => handleAdd(childrenItem)}
@@ -103,6 +104,7 @@ const MasterTreeStructure: React.FC<TreeDataProp> = ({ data, onCreate, onEdit, o
                   className="text-primary">
                   <DeleteIcon />
                 </button>
+                </div>
               </td>
             </tr>
             {
@@ -118,9 +120,9 @@ const MasterTreeStructure: React.FC<TreeDataProp> = ({ data, onCreate, onEdit, o
   return (
     <>
       {/* {data.map((value: TreeData, key: number) => { */}
-      <Table borderless>
+      <Table borderless style={{ tableLayout: 'fixed' }} className="tree-table">
         <tbody>
-          {renderChild(data, 0, 3.75)}
+          {renderChild(data, 0, 25)}
 
           {/* {data.map((value: TreeData, key: number) => {
               return (

@@ -230,7 +230,7 @@ function ProductPackaging() {
     },
     species: {
       _type: 'search-select',
-      label: 'LAND_LOT.MASTER.HEADER.LOT_CODE',
+      label: 'PRODUCT_PACKAGING.MASTER.TABLE.NAME_COLUMN',
       onSearch: ProductTypeService.GetAll,
       disabled: false,
       keyField: 'name',
