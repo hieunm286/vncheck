@@ -120,7 +120,7 @@ function AgencyPage() {
           const addressString = `${address.address}, ${address.district}, ${address.city}, ${address.state}`;
           return (<>{addressString}</>);
         },
-        ...SortColumn,
+        ...NormalColumn,
         align: 'center',
       },
       status: {
@@ -247,10 +247,6 @@ function AgencyPage() {
           return ConvertToTreeNode(e.data);
         })
       },
-    },
-    phone: {
-      type: 'number',
-      label: 'AGENCY.MASTER.SEARCH.PHONE',
     },
     state: {
       type: 'search-select',

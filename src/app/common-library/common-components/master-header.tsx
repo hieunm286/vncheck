@@ -10,7 +10,14 @@ import {SearchModel} from '../common-types/common-type';
 import {iconStyle} from '../common-consts/const';
 
 import './master-header.css';
-import {InputDateTime, InputNumber, InputSearchSelect, InputString, InputTreeSelect} from "./common-input";
+import {
+  InputDateTime,
+  InputNumber,
+  InputSearchSelect,
+  InputString,
+  InputStringNumber,
+  InputTreeSelect
+} from "./common-input";
 
 export function MasterHeader<T>({
                                   title,
@@ -56,6 +63,15 @@ export function MasterHeader<T>({
                       case 'string': {
                         return (
                           <InputString
+                            className={defaultClassName}
+                            name={key}
+                            {...searchModel[key]}
+                            key={`master_header${key}`}/>
+                        );
+                      }
+                      case 'string-number': {
+                        return (
+                          <InputStringNumber
                             className={defaultClassName}
                             name={key}
                             {...searchModel[key]}

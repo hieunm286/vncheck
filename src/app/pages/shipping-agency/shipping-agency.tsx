@@ -25,6 +25,7 @@ import {ShippingAgencyModel} from './shipping-agency.model';
 import {MasterEntityDetailDialog} from "../../common-library/common-components/master-entity-detail-dialog";
 import {GetCity, GetDistrict, GetState} from "../address/address.service";
 import * as RoleService from "../role/role.service";
+import * as Yup from "yup";
 
 const headerTitle = 'PRODUCT_TYPE.MASTER.HEADER.TITLE';
 const tableTitle = 'SHIPPING_AGENCY.MASTER.TABLE.TITLE';
@@ -197,7 +198,7 @@ function ShippingAgency() {
       label: 'SHIPPING_AGENCY.MASTER.SEARCH.NAME',
     },
     phone: {
-      type: 'number',
+      type: 'string-number',
       label: 'SHIPPING_AGENCY.MASTER.SEARCH.PHONE',
     },
   };
@@ -221,7 +222,6 @@ function ShippingAgency() {
     code: {
       _type: 'string',
       label: 'SHIPPING_AGENCY.MODIFY.CODE',
-      required: true,
       disabled: true,
     },
     name: {
@@ -237,12 +237,14 @@ function ShippingAgency() {
         disabled: (values: any) => {
           console.log(values)
         },
-        onChange: (value: any, {setFieldValue}: any) => {
+        onChange: (value: any, {setFieldValue, setFieldTouched}: any) => {
           console.log(value);
           if (state != value) {
             setCity(null);
-            setFieldValue('address.city', null);
-            setFieldValue('address.district', null);
+            setFieldValue('address.city', '');
+            setFieldTouched('address.city', false);
+            setFieldValue('address.district', '');
+            setFieldTouched('address.district', false);
           }
           setState(value);
         },
@@ -254,14 +256,15 @@ function ShippingAgency() {
         onSearch: getCity,
         // selectField: 'code',
         required: true,
-        onChange: (value: any, {setFieldValue}: any) => {
+        onChange: (value: any, {setFieldValue, setFieldTouched}: any) => {
           if (city != value) {
-            setFieldValue('address.district', null);
+            setFieldValue('address.district', '');
+            setFieldTouched('address.district', false);
           }
           setCity(value);
         },
         disabled: (values: any) => {
-          return !(values.address?.state);
+          return (values.address?.state === '');
         },
         label: 'SHIPPING_AGENCY.MODIFY.CITY',
       },
@@ -271,7 +274,7 @@ function ShippingAgency() {
         // selectField: 'code',
         required: true,
         disabled: (values: any) => {
-          return !(values.address?.city);
+          return (values.address?.city === '');
         },
         label: 'SHIPPING_AGENCY.MODIFY.DISTRICT',
       },
@@ -287,18 +290,17 @@ function ShippingAgency() {
       label: 'SHIPPING_AGENCY.MODIFY.STATUS',
     },
     phone: {
-      _type: 'string',
+      _type: 'string-number',
       required: true,
       label: 'SHIPPING_AGENCY.MODIFY.PHONE_NUMBER',
     },
     taxId: {
-      _type: 'string',
+      _type: 'string-number',
       required: true,
       label: 'SHIPPING_AGENCY.MODIFY.TAX_NUMBER',
     },
     images: {
       _type: 'image',
-      required: true,
       label: 'SHIPPING_AGENCY.MODIFY.IMAGE',
     },
   }), [state, city, getCity]);
@@ -318,12 +320,12 @@ function ShippingAgency() {
         label: 'SHIPPING_AGENCY.MODIFY.DISPLAY_NAME',
       },
       phone: {
-        _type: 'string',
+        _type: 'string-number',
         required: true,
         label: 'SHIPPING_AGENCY.MODIFY.PHONE_NUMBER',
       },
       email: {
-        _type: 'string',
+        _type: 'email',
         required: true,
         label: 'SHIPPING_AGENCY.MODIFY.EMAIL',
       },
@@ -355,7 +357,6 @@ function ShippingAgency() {
         _type: 'image',
         isArray: false,
         maxNumber: 1,
-        required: true,
         label: 'SHIPPING_AGENCY.MODIFY.REPRESENT_IMAGE',
       },
     }
@@ -372,8 +373,32 @@ function ShippingAgency() {
   const updateForm = useMemo((): ModifyForm => {
     return ({...createForm, _header: updateTitle});
   }, [createForm]);
-  
-  const actions: any = {
+  const validationSchema = useMemo(() => Yup.object().shape({
+    name: Yup.string()
+      .max(255, 'Tên quá dài, vui lòng nhập lại!'),
+    phone: Yup.string()
+      .matches(/^[0-9+]+$/u, {
+        message: 'Số điện thoại không hợp lệ',
+      })
+      .max(11, 'Số điện thoại không hợp lệ')
+      .min(8, 'Số điện thoại không hợp lệ'),
+    tax_id: Yup.string()
+      .matches(/^[0-9]+$/u, {
+        message: 'Mã số thuế không hợp lệ',
+      })
+      .max(13, 'Mã số thuế không hợp lệ'),
+    owner_name: Yup.string()
+      .max(255, 'Tên quá dài, vui lòng nhập lại!'),
+    owner_phone: Yup.string()
+      .matches(/^[0-9+]+$/u, {
+        message: 'Số điện thoại không hợp lệ',
+      })
+      .max(11, 'Số điện thoại không hợp lệ')
+      .min(8, 'Số điện thoại không hợp lệ'),
+    email: Yup.string()
+      .email('Email không hợp lệ')
+  }), []);
+  const actions: any = useMemo(() => ({
     type: 'inside',
     data: {
       save: {
@@ -393,7 +418,7 @@ function ShippingAgency() {
         icon: <CancelOutlinedIcon/>,
       }
     }
-  };
+  }), []);
   
   return (
     <Fragment>
@@ -404,24 +429,11 @@ function ShippingAgency() {
             onModify={add}
             formModel={createForm}
             actions={actions}
-            // validation={ProductTypeSchema}
-            // autoFill={{
-            //     field: 'code',
-            //     data: GenerateCode(data)
-            // }}
+            // validation={validationSchema}
           />
         </Route>
         <Route path={`/shipping-agency/:code`}>
           {({history, match}) => (
-            // <ModifyEntityPage
-            //   entity={editEntity}
-            //   onModify={update}
-            //   title={updateTitle}
-            //   modifyModel={modifyModel}
-            //   reduxModel="purchaseOrder"
-            //   code={match && match.params.code}
-            //   get={PurchaseOrderService.GetById}
-            // />
             <EntityCrudPage
               onModify={update}
               moduleName={moduleName}
@@ -431,7 +443,7 @@ function ShippingAgency() {
               formModel={updateForm}
               // allFormField={allFormField}
               actions={actions}
-              //   validation={ProductTypeSchema}
+              validation={validationSchema}
             />
           )}
         </Route>

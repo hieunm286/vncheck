@@ -1,5 +1,8 @@
 {
   "Network Error": "Cá mập cắn cáp rồi đại vương ơi",
+  "INPUT.ERROR.REQUIRED": "Vui lòng nhập {label}",
+  "RADIO.ERROR.REQUIRED": "Vui lòng chọn {label}",
+  "INPUT.ERROR.INVALID_EMAIL": "Email không hợp lệ",
   "EMPTY": " ",
   "ROLE.MANAGER": "Quản lý",
   "ROLE.FARMER": "Nông dân",
