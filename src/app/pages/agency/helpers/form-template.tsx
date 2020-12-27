@@ -16,7 +16,7 @@ import STATE_LIST from '../../../../_metronic/AdministrativeDivision/state.json'
 import CITY_LIST from '../../../../_metronic/AdministrativeDivision/city.json';
 import DISTRICT_LIST from '../../../../_metronic/AdministrativeDivision/district.json';
 import { useIntl } from 'react-intl';
-import CustomeTreeSelect from '../../../common-library/forms/tree-select';
+import CustomTreeSelect from '../../../common-library/forms/tree-select';
 import { ConvertToTreeNode } from '../../../common-library/helpers/common-function';
 import * as StoreLevelService from '../../multilevel-sale/multilevel-sale.service';
 import { Select } from 'antd'; // import Select from 'react-select';
@@ -647,28 +647,28 @@ const FormTemplate = ({
                  keyField={'aa'}/>
               </div>
             );
-          
-          case 'TreeSelect':
-            return treeData ? (
-              <div className="mt-3" key={key}>
-                <CustomeTreeSelect
-                  label={modifyModel.entity[key].label}
-                  placeholder={modifyModel.entity[key].placeholder}
-                  required={modifyModel.entity[key].required}
-                  labelWidth={4}
-                  data={treeData}
-                  value={treeSelectValue}
-                  isHorizontal
-                  onChange={(value: any) => {
-                      setTreeSelectValue(value)
-                    }
-                  }
-                  name={key}
-                />
-              </div>
-            ) : (
-              <></>
-            );
+          //
+          // case 'TreeSelect':
+          //   return treeData ? (
+          //     <div className="mt-3" key={key}>
+          //       <CustomTreeSelect
+          //         label={modifyModel.entity[key].label}
+          //         placeholder={modifyModel.entity[key].placeholder}
+          //         required={modifyModel.entity[key].required}
+          //         labelWidth={4}
+          //         data={treeData}
+          //         value={treeSelectValue}
+          //         isHorizontal
+          //         onChange={(value: any) => {
+          //             setTreeSelectValue(value)
+          //           }
+          //         }
+          //         name={key}
+          //       />
+          //     </div>
+          //   ) : (
+          //     <></>
+          //   );
 
 
           case 'tag':

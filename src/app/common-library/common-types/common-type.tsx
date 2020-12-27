@@ -150,7 +150,7 @@ export type SearchModel = {
     keyField?: string;
     disabled?: boolean | ((values: any) => boolean);
     selectField?: string;
-    onSearch?: (e: any) => void;
+    onSearch?: (e: any) => any;
     onChange?: (value: any, props: { setFieldValue: ((name: string, value: any) => void), values: any }) => any;
     data?: any;
     name?: string;

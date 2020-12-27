@@ -1,8 +1,8 @@
-import React, {Fragment, useEffect, useMemo, useState} from "react";
+import React, {Fragment, useCallback, useEffect, useMemo, useState} from "react";
 import {useIntl} from 'react-intl';
 
 
-import {GenerateAllFormField, InitMasterProps} from "../../common-library/helpers/common-function";
+import {ConvertToTreeNode, GenerateAllFormField, InitMasterProps} from "../../common-library/helpers/common-function";
 
 import {Count, Create, Delete, DeleteMany, Get, GetAll, Update} from './agency.service';
 import {AgencyModel} from './agency.model';
@@ -20,11 +20,13 @@ import {DeleteEntityDialog} from "../../common-library/common-components/delete-
 import DeleteManyEntitiesDialog from '../../common-library/common-components/delete-many-entities-dialog';
 import {Route, Switch, useHistory} from 'react-router-dom';
 import {initAgency} from "./helpers/mock-entity";
-import {agencySearchModel} from './defined/const';
-import * as StoreLevelService from '../multilevel-sale/multilevel-sale.service';
+import * as MultilevelSaleService from '../multilevel-sale/multilevel-sale.service';
+import {API_URL_TREE_FORMAT} from '../multilevel-sale/multilevel-sale.service';
 import * as RoleService from './helpers/role.service';
-import {RenderInfoDetailDialog} from "../../common-library/common-types/common-type";
+import {RenderInfoDetailDialog, SearchModel} from "../../common-library/common-types/common-type";
 import {MasterEntityDetailDialog} from "../../common-library/common-components/master-entity-detail-dialog";
+import {GetCity, GetDistrict, GetState} from "../address/address.service";
+import axios from "axios";
 
 const headerTitle = 'AGENCY.MASTER.HEADER.TITLE';
 const tableTitle = 'SHIPPING_AGENCY.MASTER.TABLE.TITLE';
@@ -182,9 +184,7 @@ function AgencyPage() {
     },
     {
       header: 'AGENCY.DETAIL_DIALOG.OWNER.SUBTITLE',
-      className: 'col-12',
-      dataClassName: 'col-9',
-      titleClassName: 'col-2',
+      className: 'col-7',
       data: {
         fullName: {
           title: 'AGENCY.DETAIL_DIALOG.OWNER.FULL_NAME',
@@ -216,6 +216,84 @@ function AgencyPage() {
       },
     }
   ], []);
+  const [state, setState] = useState<string | null | undefined>(null);
+  const [city, setCity] = useState<string | null | undefined>(null);
+  useEffect(() => {
+    setState(editEntity?.address?.state);
+    setCity(editEntity?.address?.city);
+  }, [editEntity]);
+  const getCity = useCallback(({queryProps, paginationProps}: any): Promise<any> => {
+    console.log(state);
+    return GetCity({queryProps: {...queryProps, state}, paginationProps})
+  }, [state]);
+  const getDistrict = useCallback(({queryProps, paginationProps}: any): Promise<any> => {
+    console.log(city);
+    return GetDistrict({queryProps: {...queryProps, city}, paginationProps})
+  }, [city]);
+  const searchModel: SearchModel = {
+    code: {
+      type: 'string',
+      label: 'AGENCY.MASTER.SEARCH.CODE',
+    },
+    name: {
+      type: 'string',
+      label: 'AGENCY.MASTER.SEARCH.NAME',
+    },
+    storeLevel: {
+      type: 'tree-select',
+      label: 'AGENCY.MASTER.SEARCH.STORE_LEVEL',
+      onSearch: ({queryProps, sortList, paginationProps,}) => {
+        return MultilevelSaleService.GetAll({queryProps}).then((e)=>{
+          return ConvertToTreeNode(e.data);
+        })
+      },
+    },
+    phone: {
+      type: 'number',
+      label: 'AGENCY.MASTER.SEARCH.PHONE',
+    },
+    state: {
+      type: 'search-select',
+      label: 'AGENCY.MASTER.SEARCH.STATE',
+      name: 'address.state',
+      onSearch: GetState,
+      onChange: (value: any, {setFieldValue}: any) => {
+        console.log(value);
+        if (state != value) {
+          setCity(null);
+          setFieldValue('address.city', null);
+          setFieldValue('address.district', null);
+        }
+        setState(value);
+      },
+    },
+    city: {
+      type: 'search-select',
+      label: 'AGENCY.MASTER.SEARCH.CITY',
+      name: 'address.city',
+      onSearch: getCity,
+      // selectField: 'code',
+      onChange: (value: any, {setFieldValue}: any) => {
+        if (city != value) {
+          setFieldValue('address.district', null);
+        }
+        setCity(value);
+      },
+      disabled: (values: any) => {
+        return !(values.address?.state);
+      },
+    },
+    district: {
+      type: 'search-select',
+      label: 'AGENCY.MASTER.SEARCH.DISTRICT',
+      name: 'address.district',
+      onSearch: getDistrict,
+      // selectField: 'code',
+      disabled: (values: any) => {
+        return !(values.address?.city);
+      },
+    },
+  };
   
   
   const modifyModel = [
@@ -245,7 +323,7 @@ function AgencyPage() {
           type: 'tree-select',
           placeholder: intl.formatMessage({id: 'AGENCY.EDIT.PLACEHOLDER.SELL_GOOD_LEVEL'}),
           label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.SELL_GOOD_LEVEL'}),
-          service: StoreLevelService,
+          service: MultilevelSaleService,
           keyField: 'name',
           required: true,
         },
@@ -469,23 +547,7 @@ function AgencyPage() {
               setPaginationProps(DefaultPagination)
               setFilterProps(value)
             }}
-            searchModel={agencySearchModel}
-            initValue={{
-              code: '',
-              lot: '',
-              subLot: '',
-              address: {
-                state: '',
-                city: '',
-                district: ''
-              }
-              // agencyAddress: '',
-              // agency: null,
-              // date: '',
-              // count: 1,
-              // tree: undefined,
-              // tree2: undefined,
-            }}
+            searchModel={searchModel}
           />
           <MasterBody
             title={bodyTitle}

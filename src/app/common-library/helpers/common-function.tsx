@@ -181,7 +181,7 @@ export const getNewImage = (prevArr: any[], currentArr: any[]) => {
   return newArr;
 };
 
-export const ConvertToTreeNode = (data: any) => {
+export const ConvertToTreeNode = (data: any[]) => {
   const treeData: any[] = [];
   data.forEach((value: any, key: any) => {
     const treeNode = {
