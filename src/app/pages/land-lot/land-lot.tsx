@@ -242,7 +242,7 @@ function LandLot() {
         return !values.lot || values.lot.length !== 1
       },
       onChange: (value, {setFieldValue, values}) => {
-        values.lot  && setFieldValue('code', values.lot + (value ?? ''));
+        values.lot && setFieldValue('code', values.lot + (value ?? ''));
       },
     },
   });

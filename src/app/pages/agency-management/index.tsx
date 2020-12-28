@@ -1,9 +1,5 @@
 import React from 'react';
 import {Route, Switch} from 'react-router-dom';
-import {AgencyDeleteDialog} from './agency-delete-dialog/agency-delete-dialog';
-import {AgencyDeleteManyDialog} from './agency-delete-many-dialog/agency-delete-many-dialog';
-import AgencyDetailDialog from './agency-detail-dialog/agency-detail-dialog';
-import {AgencyEditDialog} from './agency-edit-dialog/agency-edit-dialog';
 import {AgencyCard} from './agency-card';
 import AgencyCardHeader from './agency-card-header';
 import {AgencyUIProvider} from './agency-ui-context';

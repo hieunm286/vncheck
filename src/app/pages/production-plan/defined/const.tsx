@@ -1,18 +1,13 @@
-import {
-  ModifyForm,
-  ModifyPanel,
-  SearchModel,
-} from '../../../common-library/common-types/common-type';
-import { GenerateAllFormField } from '../../../common-library/helpers/common-function';
+import {ModifyForm, ModifyPanel, SearchModel,} from '../../../common-library/common-types/common-type';
+import {GenerateAllFormField} from '../../../common-library/helpers/common-function';
 import * as ProductPackagingService from '../../product-packaging/product-packaging.service';
 import * as SpeciesService from '../../species/species.service';
 import * as Yup from 'yup';
 
 import '../style/production-plan.scss';
 import _ from 'lodash';
-import React, { Fragment } from 'react';
-import { useIntl } from 'react-intl';
-import { ProductPackagingModel } from '../../product-packaging/product-packaging.model';
+import React from 'react';
+import {useIntl} from 'react-intl';
 import store from '../../../../redux/store';
 
 export const headerTitle = 'PRODUCT_TYPE.MASTER.HEADER.TITLE';
@@ -23,12 +18,12 @@ export const createTitle = 'PRODUCT_TYPE.CREATE.TITLE';
 export const updateTitle = 'PURCHASE_ORDER.UPDATE.TITLE';
 export const homeURL = `${window.location.pathname}`;
 
-export const Fix = ({ title }: { title: string }) => {
+export const Fix = ({title}: { title: string }) => {
   const intl = useIntl();
-  return <div style={{ minWidth: 174 }}>{intl.formatMessage({ id: title })}</div>;
+  return <div style={{minWidth: 174}}>{intl.formatMessage({id: title})}</div>;
 };
 
-const { users } = store.getState();
+const {users} = store.getState();
 
 const userData = users.entities
 
@@ -50,7 +45,7 @@ export const productPlanSearchModel1: SearchModel = {
   estimatedHarvestTime: {
     type: 'date-time',
     name: 'planting.estimatedHarvestTime',
-    label: <Fix title={'PRODUCTION_PLAN.HARVEST_DATE'} />,
+    label: <Fix title={'PRODUCTION_PLAN.HARVEST_DATE'}/>,
   },
 };
 
@@ -180,7 +175,7 @@ export const modifyModel: ModifyPanel = {
         },
       },
     },
-
+    
     // plantTime: {
     //   type: 'string',
     //   placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
@@ -1267,8 +1262,8 @@ export const masterEntityDetailDialog2 = [
 ];
 
 export const addInitField = (obj1: any, obj2: any) => {
-  const rs = { ...obj1 };
-
+  const rs = {...obj1};
+  
   Object.keys(obj2).forEach(key => {
     if (rs[key]) {
       Object.keys(obj2[key]).forEach(keys => {
@@ -1278,7 +1273,7 @@ export const addInitField = (obj1: any, obj2: any) => {
       });
     }
   });
-
+  
   return rs;
 };
 
@@ -1306,7 +1301,7 @@ export const initProductPlanForm = {
 export const halfValidate = {
   estimatedHarvestTime: Yup.mixed(),
   expectedQuantity: Yup.number(),
-  technical: Yup.array().test('oneOfRequired', 'INPUT_ALL', function(value: any) {
+  technical: Yup.array().test('oneOfRequired', 'INPUT_ALL', function (value: any) {
     return (
       (this.parent.leader.length > 0 &&
         this.parent.expectedQuantity > 0 &&
@@ -1319,7 +1314,7 @@ export const halfValidate = {
       value.length > 0
     );
   }),
-  leader: Yup.array().test('oneOfRequired', 'INPUT_ALL', function(value: any) {
+  leader: Yup.array().test('oneOfRequired', 'INPUT_ALL', function (value: any) {
     return (
       (this.parent.technical.length > 0 &&
         this.parent.estimatedQuantity > 0 &&
@@ -1340,7 +1335,7 @@ export const CompareDate = (date1: Date, date2: Date) => {
 };
 
 export const validate = {
-  estimatedTime: Yup.mixed().test('oneOfRequired', 'DATE_VALIDATE', function(value: any) {
+  estimatedTime: Yup.mixed().test('oneOfRequired', 'DATE_VALIDATE', function (value: any) {
     return (
       (this.parent.leader.length > 0 &&
         this.parent.technical.length > 0 &&
@@ -1354,7 +1349,7 @@ export const validate = {
       (value && CompareDate(new Date(value), new Date()))
     );
   }),
-  estimatedQuantity: Yup.number().test('oneOfRequired', 'INPUT_ALL', function(value: any) {
+  estimatedQuantity: Yup.number().test('oneOfRequired', 'INPUT_ALL', function (value: any) {
     return (
       (this.parent.leader.length > 0 &&
         this.parent.technical.length > 0 &&
@@ -1367,7 +1362,7 @@ export const validate = {
       (value && value > 0)
     );
   }),
-  technical: Yup.array().test('oneOfRequired', 'INPUT_ALL', function(value: any) {
+  technical: Yup.array().test('oneOfRequired', 'INPUT_ALL', function (value: any) {
     console.log(value);
     return (
       (this.parent.leader.length > 0 &&
@@ -1381,7 +1376,7 @@ export const validate = {
       value.length > 0
     );
   }),
-  leader: Yup.array().test('oneOfRequired', 'INPUT_ALL', function(value: any) {
+  leader: Yup.array().test('oneOfRequired', 'INPUT_ALL', function (value: any) {
     return (
       (this.parent.technical.length > 0 &&
         this.parent.estimatedQuantity > 0 &&
@@ -1397,7 +1392,7 @@ export const validate = {
 };
 
 export const packingValidate = {
-  estimatedTime: Yup.mixed().test('oneOfRequired', 'DATE_VALIDATE', function(value: any) {
+  estimatedTime: Yup.mixed().test('oneOfRequired', 'DATE_VALIDATE', function (value: any) {
     return (
       (this.parent.leader.length > 0 &&
         this.parent.technical.length > 0 &&
@@ -1421,8 +1416,8 @@ export const packingValidate = {
       (value && CompareDate(new Date(value), new Date()))
     );
   }),
-
-  estimatedExpireTimeStart: Yup.mixed().test('oneOfRequired', 'DATE_VALIDATE', function(value: any) {
+  
+  estimatedExpireTimeStart: Yup.mixed().test('oneOfRequired', 'DATE_VALIDATE', function (value: any) {
     return (
       (this.parent.leader.length > 0 &&
         this.parent.technical.length > 0 &&
@@ -1449,8 +1444,8 @@ export const packingValidate = {
         CompareDate(new Date(this.parent.estimatedExpireTimeEnd), new Date(value)))
     );
   }),
-
-  estimatedExpireTimeEnd: Yup.mixed().test('oneOfRequired', 'DATE_VALIDATE', function(value: any) {
+  
+  estimatedExpireTimeEnd: Yup.mixed().test('oneOfRequired', 'DATE_VALIDATE', function (value: any) {
     return (
       (this.parent.leader.length > 0 &&
         this.parent.technical.length > 0 &&
@@ -1477,8 +1472,8 @@ export const packingValidate = {
         CompareDate(new Date(value), new Date(this.parent.estimatedExpireTimeStart)))
     );
   }),
-
-  packing: Yup.mixed().test('oneOfRequired', 'INPUT_ALL', function(value: any) {
+  
+  packing: Yup.mixed().test('oneOfRequired', 'INPUT_ALL', function (value: any) {
     console.log(value);
     return (
       (this.parent.leader.length > 0 &&
@@ -1488,8 +1483,8 @@ export const packingValidate = {
         this.parent.estimatedExpireTimeStart &&
         this.parent.estimatedExpireTimeEnd &&
         value)
-        // && _.isString(value)) 
-        ||
+      // && _.isString(value))
+      ||
       ((!this.parent.leader || this.parent.leader.length === 0) &&
         (!this.parent.technical || this.parent.technical.length === 0) &&
         !this.parent.estimatedTime &&
@@ -1497,15 +1492,15 @@ export const packingValidate = {
         !this.parent.estimatedExpireTimeEnd &&
         (!this.parent.estimatedQuantity || this.parent.estimatedQuantity === 0) &&
         !value)
-        // !value.label) 
-        ||
+      // !value.label)
+      ||
       (value)
-        // && _.isString(value)) ||
+      // && _.isString(value)) ||
       // (!_.isString(value) && value.label)
     );
   }),
-
-  estimatedQuantity: Yup.number().test('oneOfRequired', 'INPUT_ALL', function(value: any) {
+  
+  estimatedQuantity: Yup.number().test('oneOfRequired', 'INPUT_ALL', function (value: any) {
     return (
       (this.parent.leader.length > 0 &&
         this.parent.technical.length > 0 &&
@@ -1528,7 +1523,7 @@ export const packingValidate = {
       (value && value > 0)
     );
   }),
-  technical: Yup.array().test('oneOfRequired', 'INPUT_ALL', function(value: any) {
+  technical: Yup.array().test('oneOfRequired', 'INPUT_ALL', function (value: any) {
     return (
       (this.parent.leader.length > 0 &&
         this.parent.estimatedQuantity > 0 &&
@@ -1551,7 +1546,7 @@ export const packingValidate = {
       value.length > 0
     );
   }),
-  leader: Yup.array().test('oneOfRequired', 'INPUT_ALL', function(value: any) {
+  leader: Yup.array().test('oneOfRequired', 'INPUT_ALL', function (value: any) {
     return (
       (this.parent.technical.length > 0 &&
         this.parent.estimatedQuantity > 0 &&
@@ -1577,7 +1572,7 @@ export const packingValidate = {
 };
 
 export const preservationValidate = {
-  estimatedStartTime: Yup.mixed().test('oneOfRequired', 'DATE_VALIDATE', function(value: any) {
+  estimatedStartTime: Yup.mixed().test('oneOfRequired', 'DATE_VALIDATE', function (value: any) {
     return (
       (this.parent.technical.length > 0 &&
         this.parent.estimatedEndTime &&
@@ -1592,7 +1587,7 @@ export const preservationValidate = {
         CompareDate(new Date(this.parent.estimatedEndTime), new Date(value)))
     );
   }),
-  estimatedEndTime: Yup.mixed().test('oneOfRequired', 'DATE_VALIDATE', function(value: any) {
+  estimatedEndTime: Yup.mixed().test('oneOfRequired', 'DATE_VALIDATE', function (value: any) {
     return (
       (this.parent.technical.length > 0 &&
         this.parent.estimatedStartTime &&
@@ -1607,7 +1602,7 @@ export const preservationValidate = {
         CompareDate(new Date(value), new Date(this.parent.estimatedStartTime)))
     );
   }),
-  technical: Yup.array().test('oneOfRequired', 'INPUT_ALL', function(value: any) {
+  technical: Yup.array().test('oneOfRequired', 'INPUT_ALL', function (value: any) {
     return (
       (this.parent.estimatedStartTime && this.parent.estimatedEndTime && value.length > 0) ||
       (!this.parent.estimatedStartTime &&

@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
-import { Modal } from 'react-bootstrap';
-import { Formik, Form, Field } from 'formik';
-import { Switch } from '@material-ui/core';
-import { useIntl } from 'react-intl';
-import { MainInput } from '../../../common-library/forms/main-input';
+import React, {useEffect} from 'react';
+import {Modal} from 'react-bootstrap';
+import {Field, Form, Formik} from 'formik';
+import {Switch} from '@material-ui/core';
+import {useIntl} from 'react-intl';
+import {MainInput} from '../../../common-library/forms/main-input';
 import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import * as Yup from 'yup';
@@ -15,11 +15,11 @@ const BasicUnitSchema = Yup.object().shape({
 });
 
 function BasicUnitForm({
-  unitForEdit,
-  onHide,
-  handleActionBasicUnit,
-  error,
-}: {
+                         unitForEdit,
+                         onHide,
+                         handleActionBasicUnit,
+                         error,
+                       }: {
   unitForEdit: any;
   onHide: any;
   handleActionBasicUnit: any;
@@ -29,14 +29,14 @@ function BasicUnitForm({
     status: unitForEdit.status == 1,
   });
   const intl = useIntl();
-
+  
   useEffect(() => {
-    setState({ status: unitForEdit.status == 1 });
+    setState({status: unitForEdit.status == 1});
   }, [unitForEdit.status]);
-
+  
   const handleChange = (event: any) => {
     console.log(state.status);
-    setState({ ...state, [event.target.name]: event.target.checked });
+    setState({...state, [event.target.name]: event.target.checked});
   };
   return (
     <>
@@ -53,7 +53,7 @@ function BasicUnitForm({
           console.log(valueEdit);
           handleActionBasicUnit(valueEdit);
         }}>
-        {({ handleSubmit }) => (
+        {({handleSubmit}) => (
           <>
             <Modal.Body className="overlay overlay-block cursor-default">
               {/* {actionsLoading && (
@@ -66,11 +66,11 @@ function BasicUnitForm({
                   <Field
                     name="code"
                     component={MainInput}
-                    placeholder={intl.formatMessage({ id: 'BASIC_UNIT.CARD.EDIT_DIALOG.CODE' })}
+                    placeholder={intl.formatMessage({id: 'BASIC_UNIT.CARD.EDIT_DIALOG.CODE'})}
                     withFeedbackLabel
                     labelWidth={4}
                     isHorizontal
-                    label={intl.formatMessage({ id: 'BASIC_UNIT.CARD.TABLE.CODE' })}
+                    label={intl.formatMessage({id: 'BASIC_UNIT.CARD.TABLE.CODE'})}
                   />
                   {error !== '' && (
                     <div className="row">
@@ -86,24 +86,24 @@ function BasicUnitForm({
                     name="name"
                     component={MainInput}
                     labelWidth={4}
-                    placeholder={intl.formatMessage({ id: 'BASIC_UNIT.CARD.EDIT_DIALOG.NAME' })}
+                    placeholder={intl.formatMessage({id: 'BASIC_UNIT.CARD.EDIT_DIALOG.NAME'})}
                     withFeedbackLabel
                     isHorizontal
-                    label={intl.formatMessage({ id: 'BASIC_UNIT.CARD.TABLE.NAME' })}
+                    label={intl.formatMessage({id: 'BASIC_UNIT.CARD.TABLE.NAME'})}
                   />
                 </div>
                 <div className="mt-3 row">
                   <label className="col-md-4 mt-3">
-                    {intl.formatMessage({ id: 'BASIC_UNIT.CARD.TABLE.STATUS' })}
+                    {intl.formatMessage({id: 'BASIC_UNIT.CARD.TABLE.STATUS'})}
                   </label>
                   <div className="col-md-8">
-                    <div style={{ marginLeft: '-1em' }}>
+                    <div style={{marginLeft: '-1em'}}>
                       <Switch
                         checked={state.status}
                         onChange={handleChange}
                         color="primary"
                         name="status"
-                        inputProps={{ 'aria-label': 'primary checkbox' }}
+                        inputProps={{'aria-label': 'primary checkbox'}}
                       />
                     </div>
                   </div>
@@ -112,13 +112,13 @@ function BasicUnitForm({
             </Modal.Body>
             <Modal.Footer>
               <button type="submit" onClick={() => handleSubmit()} className="btn btn-danger">
-                <SaveOutlinedIcon style={iconStyle} /> Lưu
+                <SaveOutlinedIcon style={iconStyle}/> Lưu
               </button>
               <button
                 type="button"
                 onClick={() => onHide('edit')}
                 className="btn btn-outline-danger">
-                <CancelOutlinedIcon style={iconStyle} /> Hủy
+                <CancelOutlinedIcon style={iconStyle}/> Hủy
               </button>
             </Modal.Footer>
           </>

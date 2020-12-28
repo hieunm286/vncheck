@@ -34,12 +34,16 @@ const _initValues = ({inputs}: any): any => {
       case 'radio':
       case 'boolean':
       case 'image':
-      case 'search-select':
       case 'tag':
       case 'checkbox':
       case 'custom':
         if (input.required) return {...pre, [name]: ''}
         return pre
+      case 'search-select':
+        if (input.required) {
+          return {...pre, [name]: ''}
+        }
+        return pre;
       case 'object':
         const {_type, ...inn} = input as any;
         const s = {[name]: _initValues({inputs: inn})};

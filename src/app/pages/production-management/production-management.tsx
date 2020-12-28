@@ -1,23 +1,22 @@
-import React, { useState } from 'react';
-import { useIntl } from 'react-intl';
-import { Link, Route, Switch, useHistory } from 'react-router-dom';
-import { Card, CardBody } from '../../common-library/card';
-import { InitMasterProps } from '../../common-library/helpers/common-function';
-import ProductionManagementBody from './production-management-body';
-import { ProductionManagementModel } from './production-management.model';
+import React, {useState} from 'react';
+import {useIntl} from 'react-intl';
+import {Route, Switch, useHistory} from 'react-router-dom';
+import {Card} from '../../common-library/card';
+import {InitMasterProps} from '../../common-library/helpers/common-function';
+import {ProductionManagementModel} from './production-management.model';
 import * as ProductionManagementService from './production-management.service';
-import { Steps, Divider } from 'antd';
-import { DefaultPagination } from '../../common-library/common-consts/const';
-import { MasterHeader } from '../../common-library/common-components/master-header';
-import { SearchModel } from '../../common-library/common-types/common-type';
+import {Steps} from 'antd';
+import {DefaultPagination} from '../../common-library/common-consts/const';
+import {MasterHeader} from '../../common-library/common-components/master-header';
+import {SearchModel} from '../../common-library/common-types/common-type';
 import * as ProductTypeService from '../species/species.service';
-import { Fix } from '../production-plan/defined/const';
+import {Fix} from '../production-plan/defined/const';
 
-const { Step } = Steps;
+const {Step} = Steps;
 
 function ProductionManagement() {
   const intl = useIntl();
-
+  
   const history = useHistory();
   const {
     entities,
@@ -70,9 +69,9 @@ function ProductionManagement() {
     getAllServer: ProductionManagementService.GetAll,
     updateServer: ProductionManagementService.Update,
   });
-
+  
   const [currentStep, setCurrentStep] = useState<number | undefined>(0);
-
+  
   const columns = {
     _id: {
       dataField: '_id',
@@ -80,10 +79,10 @@ function ProductionManagement() {
       formatter: (cell: any, row: any, rowIndex: number) => (
         <p>{rowIndex + 1 + ((paginationProps.page ?? 0) - 1) * (paginationProps.limit ?? 0)}</p>
       ),
-      style: { paddingTop: 20 },
+      style: {paddingTop: 20},
     },
   };
-
+  
   const stepData = [
     {
       title: 'PRODUCTION_MANAGEMENT_HARVESTING',
@@ -141,13 +140,13 @@ function ProductionManagement() {
       selectedEntities: selectedEntities,
     },
   ];
-
+  
   function callback(key: number) {
     setCurrentStep(key);
     setEntities([]);
     setPaginationProps(DefaultPagination);
   }
-
+  
   const PM_HarvestingSearchModel: SearchModel = {
     plCode: {
       type: 'string',
@@ -172,14 +171,14 @@ function ProductionManagement() {
     estimatedHarvestTime: {
       type: 'date-time',
       name: 'planting.estimatedHarvestTime',
-      label: <Fix title={'PRODUCTION_PLAN.HARVEST_DATE'} />,
+      label: <Fix title={'PRODUCTION_PLAN.HARVEST_DATE'}/>,
     },
     landLot: {
       type: 'string',
       label: 'PLANTING_LAND_LOT',
     }
   };
-
+  
   const PM_PreliminaryTreatmentSearchModel: SearchModel = {
     plCode: {
       type: 'string',
@@ -208,10 +207,10 @@ function ProductionManagement() {
     estimatedHarvestTime: {
       type: 'date-time',
       name: 'planting.estimatedHarvestTime',
-      label: <Fix title={'PRODUCTION_PLAN.HARVEST_DATE'} />,
+      label: <Fix title={'PRODUCTION_PLAN.HARVEST_DATE'}/>,
     },
   };
-
+  
   const PM_CleaningSearchModel: SearchModel = {
     plCode: {
       type: 'string',
@@ -244,10 +243,10 @@ function ProductionManagement() {
     estimatedHarvestTime: {
       type: 'date-time',
       name: 'planting.estimatedHarvestTime',
-      label: <Fix title={'PRODUCTION_PLAN.HARVEST_DATE'} />,
+      label: <Fix title={'PRODUCTION_PLAN.HARVEST_DATE'}/>,
     },
   };
-
+  
   const PM_PackingSearchModel: SearchModel = {
     plCode: {
       type: 'string',
@@ -284,10 +283,10 @@ function ProductionManagement() {
     estimatedHarvestTime: {
       type: 'date-time',
       name: 'planting.estimatedHarvestTime',
-      label: <Fix title={'PRODUCTION_PLAN.HARVEST_DATE'} />,
+      label: <Fix title={'PRODUCTION_PLAN.HARVEST_DATE'}/>,
     },
   };
-
+  
   const PM_PreservationSearchModel: SearchModel = {
     plCode: {
       type: 'string',
@@ -328,10 +327,10 @@ function ProductionManagement() {
     estimatedHarvestTime: {
       type: 'date-time',
       name: 'planting.estimatedHarvestTime',
-      label: <Fix title={'PRODUCTION_PLAN.HARVEST_DATE'} />,
+      label: <Fix title={'PRODUCTION_PLAN.HARVEST_DATE'}/>,
     },
   };
-
+  
   const getSearchModel = (): SearchModel => {
     if (currentStep === 0)
       return PM_HarvestingSearchModel
@@ -343,7 +342,7 @@ function ProductionManagement() {
       return PM_PackingSearchModel
     return PM_PreservationSearchModel
   }
-
+  
   return (
     <React.Fragment>
       <Switch>
@@ -352,7 +351,7 @@ function ProductionManagement() {
             <Card>
               <Steps current={currentStep} onChange={callback} className="pm-step">
                 {stepData.map((item: any, key: number) => (
-                  <Step title={intl.formatMessage({ id: item.title })} key={'' + key} />
+                  <Step title={intl.formatMessage({id: item.title})} key={'' + key}/>
                 ))}
               </Steps>
             </Card>
@@ -360,7 +359,7 @@ function ProductionManagement() {
               title={'Tìm kiếm'}
               onSearch={value => {
                 setPaginationProps(DefaultPagination);
-                setFilterProps({ ...value });
+                setFilterProps({...value});
               }}
               searchModel={getSearchModel()}
             />

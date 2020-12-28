@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { API_BASE_URL } from '../../common-library/common-consts/enviroment';
+import {API_BASE_URL} from '../../common-library/common-consts/enviroment';
 import {
   CountProps,
   CreateProps,
@@ -7,11 +7,9 @@ import {
   DeleteProps,
   GetAllPropsServer,
   GetProps,
-  SearchModel,
   UpdateProps,
 } from '../../common-library/common-types/common-type';
-import { PurchaseOrderModel, PurchaseOrderSearchModel } from './purchase-order.model';
-import { purchaseOrderSlice, callTypes } from './purchase-order.redux';
+import {PurchaseOrderModel} from './purchase-order.model';
 
 export const API_URL = API_BASE_URL + '/purchase-order';
 
@@ -22,23 +20,23 @@ export const Create: CreateProps<PurchaseOrderModel> = (data: PurchaseOrderModel
 };
 
 export const GetAll: GetAllPropsServer<PurchaseOrderModel> = ({
-  queryProps,
-  sortList,
-  paginationProps,
-}) => {
+                                                                queryProps,
+                                                                sortList,
+                                                                paginationProps,
+                                                              }) => {
   return axios.get(`${API_URL}`, {
-    params: { ...queryProps, ...paginationProps, sortList },
+    params: {...queryProps, ...paginationProps, sortList},
     // paramsSerializer: ParamsSerializer
   });
 };
 
 export const Count: CountProps<PurchaseOrderModel> = ({
-  queryProps,
-  sortList,
-  paginationProps,
-}) => {
+                                                        queryProps,
+                                                        sortList,
+                                                        paginationProps,
+                                                      }) => {
   return axios.get(`${API_URL}/count`, {
-    params: { ...queryProps, ...paginationProps, sortList },
+    params: {...queryProps, ...paginationProps, sortList},
   });
 };
 
@@ -59,7 +57,7 @@ export const Delete: DeleteProps<PurchaseOrderModel> = (entity: PurchaseOrderMod
 
 export const DeleteMany: DeleteManyProps<PurchaseOrderModel> = (entities: PurchaseOrderModel[]) => {
   return axios.delete(API_URL, {
-    data: { arrayEntities: entities },
+    data: {arrayEntities: entities},
   });
 };
 
@@ -67,5 +65,5 @@ export const uploadImage = (image: any) => {
   console.log('run updload');
   console.log(image);
   return axios.post(API_URL, image);
-
+  
 };

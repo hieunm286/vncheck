@@ -1,13 +1,10 @@
-import { MenuItemModel } from './menu-item-model';
-import { ToAbsoluteUrl } from '../../../../common-library/helpers/assets-helpers';
+import {MenuItemModel} from './menu-item-model';
+import {ToAbsoluteUrl} from '../../../../common-library/helpers/assets-helpers';
 import SVG from 'react-inlinesvg';
 import React from 'react';
-import ImageOutlinedIcon from '@material-ui/icons/ImageOutlined';
-import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
-import SyncOutlinedIcon from '@material-ui/icons/SyncOutlined';
 
 export const MenuItems: MenuItemModel[] = [
-  { parent: true, title: 'MENU.DASHBOARD', url: '/dashboard' },
+  {parent: true, title: 'MENU.DASHBOARD', url: '/dashboard'},
   {
     // section: true,
     parent: true,
@@ -19,17 +16,19 @@ export const MenuItems: MenuItemModel[] = [
         title: 'MENU.USER.ACCOUNT',
         url: '/account/user',
         icon: (
-          <SVG src={ToAbsoluteUrl('/media/svg/vncheck/account.svg')} style={{ width: '17px' }} />
+          <SVG src={ToAbsoluteUrl('/media/svg/vncheck/account.svg')} style={{width: '17px'}}/>
         ),
       },
-      { 
-        title: 'MENU.USER.ROLE', 
-        url: '/account/role', 
-        icon: 'role.svg' },
-      { 
-        title: 'MENU.USER.ORGANIZATION', 
-        url: '/account/organization', 
-        icon: 'organization.svg' },
+      {
+        title: 'MENU.USER.ROLE',
+        url: '/account/role',
+        icon: 'role.svg'
+      },
+      {
+        title: 'MENU.USER.ORGANIZATION',
+        url: '/account/organization',
+        icon: 'organization.svg'
+      },
     ],
   },
   // {
@@ -136,10 +135,10 @@ export const MenuItems: MenuItemModel[] = [
       },
     ],
   },
-  { parent: true, title: 'MENU.PRODUCT_PLANT', url: '/production-plan' },
-
-
-  { parent: true, title: 'MENU.REPORT' },
-  { parent: true, title: 'MENU.PRODUCT_MANAGEMENT', url: '/production-management' },
-  { parent: true, title: 'MENU.INVENTORY' },
+  {parent: true, title: 'MENU.PRODUCT_PLANT', url: '/production-plan'},
+  
+  
+  {parent: true, title: 'MENU.REPORT'},
+  {parent: true, title: 'MENU.PRODUCT_MANAGEMENT', url: '/production-management'},
+  {parent: true, title: 'MENU.INVENTORY'},
 ];

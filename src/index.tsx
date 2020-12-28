@@ -21,9 +21,9 @@ import './_metronic/_assets/plugins/flaticon2/flaticon.css';
 import 'react-datepicker/dist/react-datepicker.css';
 
 import { MetronicI18nProvider } from './app/layout/i18n';
-import {MetronicLayoutProvider} from "./app/layout/_core/metronic-layout";
-import {MetronicSubheaderProvider} from "./app/layout/_core/metronic-subheader";
-import {MetronicSplashScreenProvider} from "./app/layout/_core/metronic-splash-screen";
+import { MetronicLayoutProvider } from './app/layout/_core/metronic-layout';
+import { MetronicSubheaderProvider } from './app/layout/_core/metronic-subheader';
+import { MetronicSplashScreenProvider } from './app/layout/_core/metronic-splash-screen';
 
 /**
  * Base URL of the website.
@@ -38,8 +38,9 @@ const { REACT_APP_PUBLIC_URL, REACT_APP_ENV } = process.env;
  *
  * @see https://github.com/ctimmerm/axios-mock-adapter
  */
-/* const mock = */ 
-if (REACT_APP_ENV === "mock") {
+/* const mock = */
+
+if (REACT_APP_ENV === 'mock') {
   _redux.mockAxios(axios);
 }
 
@@ -48,7 +49,7 @@ if (REACT_APP_ENV === "mock") {
  *
  * @see https://github.com/axios/axios#interceptors
  */
-axios.create()
+axios.create();
 _redux.setupAxios(axios, store);
 
 ReactDOM.render(

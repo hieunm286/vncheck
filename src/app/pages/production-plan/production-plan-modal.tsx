@@ -1,7 +1,7 @@
 import React from 'react';
-import { Modal } from 'react-bootstrap';
+import {Modal} from 'react-bootstrap';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
-import { useIntl } from 'react-intl';
+import {useIntl} from 'react-intl';
 
 interface ModalProp {
   title?: string;
@@ -13,9 +13,9 @@ interface ModalProp {
   setSubmit?: (submit: boolean) => void;
 }
 
-function ProductionPlanModal({ show, title, body, mode, onConfirm, onClose, setSubmit }: ModalProp) {
+function ProductionPlanModal({show, title, body, mode, onConfirm, onClose, setSubmit}: ModalProp) {
   const intl = useIntl();
-
+  
   return (
     <Modal
       // size="lg"
@@ -26,26 +26,26 @@ function ProductionPlanModal({ show, title, body, mode, onConfirm, onClose, setS
       {mode === 'confirm' && (
         <Modal.Header closeButton className="border-bottom-0">
           <Modal.Title id="example-modal-sizes-title-lg" className="text-primary">
-            {intl.formatMessage({ id: title }).toUpperCase()}
+            {intl.formatMessage({id: title}).toUpperCase()}
           </Modal.Title>
         </Modal.Header>
       )}
-
+      
       <Modal.Body>
         <span>
-          {intl.formatMessage({ id: body }).toUpperCase()}
+          {intl.formatMessage({id: body}).toUpperCase()}
         </span>
       </Modal.Body>
-
+      
       <Modal.Footer className="border-top-0">
         {mode === 'confirm' && (
           <button type="button" onClick={onConfirm} className="btn btn-primary">
-            {intl.formatMessage({ id: 'COMMON_COMPONENT.DELETE_DIALOG.DELETE_BTN' })}
+            {intl.formatMessage({id: 'COMMON_COMPONENT.DELETE_DIALOG.DELETE_BTN'})}
           </button>
         )}
         <button type="button" onClick={onClose} className="btn btn-outline-primary">
-          <CancelOutlinedIcon style={{ fontSize: 14 }} />
-          {intl.formatMessage({ id: 'COMMON_COMPONENT.DETAIL_DIALOG.CLOSE_BTN' })}
+          <CancelOutlinedIcon style={{fontSize: 14}}/>
+          {intl.formatMessage({id: 'COMMON_COMPONENT.DETAIL_DIALOG.CLOSE_BTN'})}
         </button>
       </Modal.Footer>
     </Modal>

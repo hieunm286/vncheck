@@ -5,11 +5,8 @@ import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import * as Yup from 'yup';
 import FormTemplate from './form-template';
-import {
-  GenerateAllFormField
-} from '../../../common-library/helpers/common-function';
+import {GenerateAllFormField} from '../../../common-library/helpers/common-function';
 import {DeleteEntityDialog} from '../../../common-library/common-components/delete-entity-dialog';
-import ModifyEntityDialog from '../../../common-library/common-components/modify-entity-dialog';
 import ModifyShippingAddressDialog from './modify-shipping-address-dialog';
 import {NotifyDialog} from '../../../common-library/common-components/notify-dialog';
 

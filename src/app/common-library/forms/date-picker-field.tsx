@@ -45,10 +45,14 @@ export function DatePickerField({
                       disabled={disabled ? typeof disabled === 'boolean' ? disabled : disabled(values) : disabled}
                       format={props.format ?? "DD/MM/yyyy"}
                       onChange={(val: Moment | null, dateString: string) => {
+                        setFieldTouched(field.name, true);
                         setFieldValue(field.name, val);
                         setFieldTouched(field.name, true);
                         if (val) setFieldValue(field.name, moment(val).add(val.utcOffset(), 'm').utc().toISOString());
                         else setFieldValue(field.name, undefined);
+                      }}
+                      onBlur={(e)=>{
+                        setFieldTouched(field.name, true);
                       }}
                       value={field.value ? moment(field.value).add(inverseOffset, 'm') : null}
           

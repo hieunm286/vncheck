@@ -1,17 +1,17 @@
 /* eslint-disable no-restricted-imports */
 /* eslint-disable no-script-url,jsx-a11y/anchor-is-valid */
-import React, { useMemo } from 'react';
-import { Link } from 'react-router-dom';
+import React, {useMemo} from 'react';
+import {Link} from 'react-router-dom';
 import Dropdown from 'react-bootstrap/Dropdown';
-import { useSelector } from 'react-redux';
+import {useSelector} from 'react-redux';
 import objectPath from 'object-path';
-import { DropdownTopbarItemToggler } from '../../../../../_metronic/_partials/dropdowns';
-import { ToAbsoluteUrl } from '../../../../common-library/helpers/assets-helpers';
-import { useHtmlClassService } from '../../../_core/metronic-layout';
+import {DropdownTopbarItemToggler} from '../../../../../_metronic/_partials/dropdowns';
+import {ToAbsoluteUrl} from '../../../../common-library/helpers/assets-helpers';
+import {useHtmlClassService} from '../../../_core/metronic-layout';
 
 export function UserProfileDropdown() {
-  const { user } = useSelector((state: any) => state.auth);
-
+  const {user} = useSelector((state: any) => state.auth);
+  
   const uiService: any = useHtmlClassService();
   const layoutProps = useMemo(() => {
     return {
@@ -19,7 +19,7 @@ export function UserProfileDropdown() {
     };
   }, [uiService]);
   const location = window.location;
-  const { pathname } = location;
+  const {pathname} = location;
   const callbackUrl = pathname;
   return (
     <Dropdown drop="down" alignRight>
@@ -36,24 +36,25 @@ export function UserProfileDropdown() {
           </span>
         </div>
       </Dropdown.Toggle>
-      <Dropdown.Menu className="p-0 m-0 dropdown-menu-right dropdown-menu-anim dropdown-menu-top-unround dropdown-menu-xl">
+      <Dropdown.Menu
+        className="p-0 m-0 dropdown-menu-right dropdown-menu-anim dropdown-menu-top-unround dropdown-menu-xl">
         <>
           {/** ClassName should be 'dropdown-menu p-0 m-0 dropdown-menu-right dropdown-menu-anim dropdown-menu-top-unround dropdown-menu-xl' */}
           {layoutProps.light && (
             <>
               <div className="d-flex align-items-center p-8 rounded-top">
                 <div className="symbol symbol-md bg-light-primary mr-3 flex-shrink-0">
-                  <img src={ToAbsoluteUrl('/media/users/300_21.jpg')} alt="" />
+                  <img src={ToAbsoluteUrl('/media/users/300_21.jpg')} alt=""/>
                 </div>
                 <div className="text-dark m-0 flex-grow-1 mr-3 font-size-h5">Sean Stone</div>
                 <span className="label label-light-success label-lg font-weight-bold label-inline">
                   3 messages
                 </span>
               </div>
-              <div className="separator separator-solid" />
+              <div className="separator separator-solid"/>
             </>
           )}
-
+          
           {!layoutProps.light && (
             <div
               className="d-flex align-items-center justify-content-between flex-wrap p-8 bgi-size-cover bgi-no-repeat rounded-top"
@@ -71,12 +72,12 @@ export function UserProfileDropdown() {
             </div>
           )}
         </>
-
+        
         <div className="navi navi-spacer-x-0 pt-5">
           <a className="navi-item px-8">
             <div className="navi-link">
               <div className="navi-icon mr-2">
-                <i className="flaticon2-calendar-3 text-success" />
+                <i className="flaticon2-calendar-3 text-success"/>
               </div>
               <div className="navi-text">
                 <div className="font-weight-bold">My Profile</div>
@@ -89,11 +90,11 @@ export function UserProfileDropdown() {
               </div>
             </div>
           </a>
-
+          
           <a className="navi-item px-8">
             <div className="navi-link">
               <div className="navi-icon mr-2">
-                <i className="flaticon2-mail text-warning" />
+                <i className="flaticon2-mail text-warning"/>
               </div>
               <div className="navi-text">
                 <div className="font-weight-bold">My Messages</div>
@@ -101,11 +102,11 @@ export function UserProfileDropdown() {
               </div>
             </div>
           </a>
-
+          
           <a className="navi-item px-8">
             <div className="navi-link">
               <div className="navi-icon mr-2">
-                <i className="flaticon2-rocket-1 text-danger" />
+                <i className="flaticon2-rocket-1 text-danger"/>
               </div>
               <div className="navi-text">
                 <div className="font-weight-bold">My Activities</div>
@@ -113,11 +114,11 @@ export function UserProfileDropdown() {
               </div>
             </div>
           </a>
-
+          
           <a className="navi-item px-8">
             <div className="navi-link">
               <div className="navi-icon mr-2">
-                <i className="flaticon2-hourglass text-primary" />
+                <i className="flaticon2-hourglass text-primary"/>
               </div>
               <div className="navi-text">
                 <div className="font-weight-bold">My Tasks</div>
@@ -125,8 +126,8 @@ export function UserProfileDropdown() {
               </div>
             </div>
           </a>
-          <div className="navi-separator mt-3" />
-
+          <div className="navi-separator mt-3"/>
+          
           <div className="navi-footer  px-8 py-5">
             <Link
               to={'/logout?callbackUrl=' + callbackUrl}

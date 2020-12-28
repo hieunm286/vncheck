@@ -5,7 +5,7 @@ export interface MenuItemModel {
   section?: boolean;
   title?: string;
   url?: string;
-  icon?: ReactElement|string;
+  icon?: ReactElement | string;
   children?: MenuItemModel[];
   parent?: boolean;
 }

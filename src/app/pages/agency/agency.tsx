@@ -21,12 +21,10 @@ import DeleteManyEntitiesDialog from '../../common-library/common-components/del
 import {Route, Switch, useHistory} from 'react-router-dom';
 import {initAgency} from "./helpers/mock-entity";
 import * as MultilevelSaleService from '../multilevel-sale/multilevel-sale.service';
-import {API_URL_TREE_FORMAT} from '../multilevel-sale/multilevel-sale.service';
 import * as RoleService from './helpers/role.service';
 import {RenderInfoDetailDialog, SearchModel} from "../../common-library/common-types/common-type";
 import {MasterEntityDetailDialog} from "../../common-library/common-components/master-entity-detail-dialog";
 import {GetCity, GetDistrict, GetState} from "../address/address.service";
-import axios from "axios";
 
 const headerTitle = 'AGENCY.MASTER.HEADER.TITLE';
 const tableTitle = 'SHIPPING_AGENCY.MASTER.TABLE.TITLE';
@@ -243,7 +241,7 @@ function AgencyPage() {
       type: 'tree-select',
       label: 'AGENCY.MASTER.SEARCH.STORE_LEVEL',
       onSearch: ({queryProps, sortList, paginationProps,}) => {
-        return MultilevelSaleService.GetAll({queryProps}).then((e)=>{
+        return MultilevelSaleService.GetAll({queryProps}).then((e) => {
           return ConvertToTreeNode(e.data);
         })
       },

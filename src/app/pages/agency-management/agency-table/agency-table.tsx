@@ -5,7 +5,7 @@ import React, {useEffect, useMemo} from 'react';
 import BootstrapTable from 'react-bootstrap-table-next';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import * as actions from '../_redux/agency-action';
-import { Pagination } from '../../../../_metronic/_partials/controls';
+import {Pagination} from '../../../../_metronic/_partials/controls';
 import './agency-table.scss';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import IndeterminateCheckBoxIcon from '@material-ui/icons/IndeterminateCheckBox';
@@ -13,16 +13,9 @@ import {ActionsColumnFormatter} from './column-formatters/actions-column-formatt
 import {defaultSorted, sizePerPageList} from '../agency-ui-helpers';
 import {useAgencyUIContext} from '../agency-ui-context';
 import paginationFactory, {PaginationProvider} from 'react-bootstrap-table2-paginator';
-import {
-  onTableChange,
-  NoRecordsFoundMessage,
-  PleaseWaitMessage,
-} from '../../../common-library/helpers/pagination-helper';
-import {
-  HeaderSortingClasses,
-  SortCaret,
-} from '../../../common-library/helpers/table-sorting-helpers';
-import { GetSelectAgencyRow } from '../../../common-library/common-components/table-row-selection-helpers';
+import {NoRecordsFoundMessage, PleaseWaitMessage,} from '../../../common-library/helpers/pagination-helper';
+import {HeaderSortingClasses, SortCaret,} from '../../../common-library/helpers/table-sorting-helpers';
+import {GetSelectAgencyRow} from '../../../common-library/common-components/table-row-selection-helpers';
 
 export function AgencyTable() {
   // Customers UI Context

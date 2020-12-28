@@ -22,7 +22,7 @@ export function ErrorPage3() {
           </p>
           <p className="font-size-h4 line-height-md">
             There may be a misspelling in the URL entered,
-            <br />
+            <br/>
             or the page you are looking for may no longer exist.
           </p>
         </div>

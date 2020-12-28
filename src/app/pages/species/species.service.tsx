@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { API_BASE_URL } from '../../common-library/common-consts/enviroment';
+import {API_BASE_URL} from '../../common-library/common-consts/enviroment';
 import {
   CountProps,
   CreateProps,
@@ -7,10 +7,9 @@ import {
   DeleteProps,
   GetAllPropsServer,
   GetProps,
-  SearchModel,
   UpdateProps,
 } from '../../common-library/common-types/common-type';
-import { SpeciesModel } from './species.model';
+import {SpeciesModel} from './species.model';
 
 export const API_URL = API_BASE_URL + '/species';
 
@@ -23,23 +22,23 @@ export const Create: CreateProps<SpeciesModel> = (data: SpeciesModel) => {
 };
 
 export const GetAll: GetAllPropsServer<SpeciesModel> = ({
-  queryProps,
-  sortList,
-  paginationProps,
-}) => {
+                                                          queryProps,
+                                                          sortList,
+                                                          paginationProps,
+                                                        }) => {
   return axios.get(`${API_URL}`, {
-    params: { ...queryProps, ...paginationProps, sortList },
+    params: {...queryProps, ...paginationProps, sortList},
     // paramsSerializer: ParamsSerializer
   });
 };
 
 export const Count: CountProps<SpeciesModel> = ({
-  queryProps,
-  sortList,
-  paginationProps,
-}) => {
+                                                  queryProps,
+                                                  sortList,
+                                                  paginationProps,
+                                                }) => {
   return axios.get(`${API_URL}/count`, {
-    params: { ...queryProps, ...paginationProps, sortList },
+    params: {...queryProps, ...paginationProps, sortList},
   });
 };
 
@@ -60,7 +59,7 @@ export const Delete: DeleteProps<any> = (entity: SpeciesModel) => {
 
 export const DeleteMany: DeleteManyProps<SpeciesModel> = (entities: SpeciesModel[]) => {
   return axios.delete(BULK_API_URL, {
-    data: { listSpecies: entities },
+    data: {listSpecies: entities},
   });
 };
 

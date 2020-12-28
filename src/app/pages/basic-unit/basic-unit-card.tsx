@@ -1,27 +1,26 @@
 import React from 'react';
-import { Card, CardBody, CardHeader } from '../../common-library/card';
+import {Card, CardBody} from '../../common-library/card';
 import BasicUnitTable from './basic-unit-table/basic-unit-table';
 import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined';
-import InsertDriveFileOutlinedIcon from '@material-ui/icons/InsertDriveFileOutlined';
-import { useIntl } from 'react-intl';
-import { BasicUnitDataProps } from './_interface/basic-unit.interface';
+import {useIntl} from 'react-intl';
+import {BasicUnitDataProps} from './_interface/basic-unit.interface';
 import {iconStyle} from "../../common-library/common-consts/const";
 
 function BasicUnitCard({
-  showModal,
-  hideModal,
-  show,
-  basicUnitArray,
-  total,
-  loading,
-  queryParams,
-  setQueryParamsBase,
-  ids,
-  setIds,
-  setQueryParams,
-}: BasicUnitDataProps) {
+                         showModal,
+                         hideModal,
+                         show,
+                         basicUnitArray,
+                         total,
+                         loading,
+                         queryParams,
+                         setQueryParamsBase,
+                         ids,
+                         setIds,
+                         setQueryParams,
+                       }: BasicUnitDataProps) {
   const intl = useIntl();
-
+  
   return (
     <Card>
       <CardBody>
@@ -31,7 +30,7 @@ function BasicUnitCard({
               type="button"
               className="btn btn-danger w-100"
               onClick={() => showModal(null, 'edit')}>
-              + {intl.formatMessage({ id: 'BASIC_UNIT.CARD.HEADER.BUTTON.ADD' })}
+              + {intl.formatMessage({id: 'BASIC_UNIT.CARD.HEADER.BUTTON.ADD'})}
             </button>
           </div>
           <div className="col-xxl-1 col-xl-2 col-lg-2 mr-md-0 mr-5 col-5">
@@ -39,8 +38,8 @@ function BasicUnitCard({
               type="button"
               className="btn btn-outline-danger w-100"
               onClick={() => showModal(null, 'deleteMany')}>
-              <DeleteOutlineOutlinedIcon style={iconStyle} />{' '}
-              {intl.formatMessage({ id: 'BASIC_UNIT.CARD.HEADER.BUTTON.DELETE' })}
+              <DeleteOutlineOutlinedIcon style={iconStyle}/>{' '}
+              {intl.formatMessage({id: 'BASIC_UNIT.CARD.HEADER.BUTTON.DELETE'})}
             </button>
           </div>
         </div>
@@ -65,4 +64,5 @@ function BasicUnitCard({
     </Card>
   );
 }
+
 export default BasicUnitCard;

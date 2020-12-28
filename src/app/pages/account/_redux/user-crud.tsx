@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { API_BASE_URL } from '../../../common-library/common-consts/enviroment';
+import {API_BASE_URL} from '../../../common-library/common-consts/enviroment';
 
 export const USERS_URL = API_BASE_URL + '/user';
 export const USER_URL = API_BASE_URL + '/user';
@@ -24,7 +24,7 @@ export function getAllUsers(queryParams?: {
   // const sign = signTransaction('');
   // console.log(sign);
   if (typeof queryParams === 'undefined') return axios.get(USERS_URL);
-
+  
   if (queryParams.filter && queryParams.filter.field) {
     return axios.get(
       `${USER_URL_SEARCH}?page=${queryParams.page}&limit=${queryParams.limit}&sortBy=${queryParams.sortBy}&sortType=${queryParams.sortType}
@@ -49,16 +49,17 @@ export function getAllUsers(queryParams?: {
 }
 
 export const GetAll = ({
-  queryProps,
-  sortList,
-  paginationProps,
-}: any) => {
+                         queryProps,
+                         sortList,
+                         paginationProps,
+                       }: any) => {
   console.log(111);
   return axios.get(`${USERS_URL}`, {
-    params: { ...queryProps, ...paginationProps },
+    params: {...queryProps, ...paginationProps},
     // paramsSerializer: ParamsSerializer
   });
 };
+
 export function getUserById(id: string) {
   return axios.get(`${USERS_URL}/${id}`);
 }

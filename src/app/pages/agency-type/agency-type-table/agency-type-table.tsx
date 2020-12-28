@@ -8,12 +8,8 @@ import {useAgencyTypeUIContext} from '../agency-type-ui-context';
 import './agency-type-table.scss';
 import {fetchAgencyTypeViewById, fetchAllAgencyType} from "../_redux/agency-type-action";
 import {HeaderSortingClasses, SortCaret} from "../../../common-library/helpers/table-sorting-helpers";
-import {defaultSorted, sizePerPageList} from "../agency-ui-helpers";
-import {
-    onTableChange,
-    NoRecordsFoundMessage,
-    PleaseWaitMessage
-} from "../../../common-library/helpers/pagination-helper";
+import {sizePerPageList} from "../agency-ui-helpers";
+import {NoRecordsFoundMessage, PleaseWaitMessage} from "../../../common-library/helpers/pagination-helper";
 import {ActionsColumnFormatter} from "./column-formatters/actions-column-formatter";
 
 export function AgencyTypeTable() {

@@ -1,4 +1,4 @@
-import axios, {AxiosResponse} from 'axios';
+import axios from 'axios';
 import {API_BASE_URL} from '../../common-library/common-consts/enviroment';
 import {
   CountProps,
@@ -7,10 +7,9 @@ import {
   DeleteProps,
   GetAllPropsServer,
   GetProps,
-  SearchModel,
   UpdateProps,
 } from '../../common-library/common-types/common-type';
-import {LandLotModel, LandLotSearchModel} from './land-lot.model';
+import {LandLotModel} from './land-lot.model';
 
 export const API_URL = API_BASE_URL + '/land-lot';
 

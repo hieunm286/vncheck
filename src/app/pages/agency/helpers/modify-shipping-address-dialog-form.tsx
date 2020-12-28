@@ -1,23 +1,23 @@
-import React, { useState } from 'react';
-import { Modal } from 'react-bootstrap';
-import { Field, Form, Formik } from 'formik';
-import { useIntl } from 'react-intl';
+import React, {useState} from 'react';
+import {Modal} from 'react-bootstrap';
+import {Form, Formik} from 'formik';
+import {useIntl} from 'react-intl';
 import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
-import { DefaultPagination, iconStyle } from '../../../common-library/common-consts/const';
-import { getNewImage, getOnlyFile } from '../../../common-library/helpers/common-function';
-import { uploadImage } from '../../purchase-order/purchase-order.service';
-import { diff } from 'deep-object-diff';
+import {iconStyle} from '../../../common-library/common-consts/const';
+import {getNewImage, getOnlyFile} from '../../../common-library/helpers/common-function';
+import {uploadImage} from '../../purchase-order/purchase-order.service';
+import {diff} from 'deep-object-diff';
 import FormTemplate from './form-template';
 
 function ModifyShippingAddressDialogForm<T>({
-  entity,
-  onHide,
-  onModify,
-  modifyModel,
-  formPart,
-  validation,
-}: {
+                                              entity,
+                                              onHide,
+                                              onModify,
+                                              modifyModel,
+                                              formPart,
+                                              validation,
+                                            }: {
   entity: any;
   onHide: () => void;
   onModify: (values: any) => void;
@@ -29,13 +29,13 @@ function ModifyShippingAddressDialogForm<T>({
   
   const [images, setImages] = useState(entity);
   const [imageRootArr, setImageRootArr] = useState<any>([]);
-
+  
   const [search, setSearch] = useState<any>(entity);
-
-
+  
+  
   const onChange = (imageList: any, addUpdateIndex: any, key: any) => {
     const imageArray = getOnlyFile(imageList);
-
+    
     const newArr = getNewImage(imageRootArr, imageArray);
     newArr.forEach((file, index) => {
       uploadImage(file)
@@ -47,10 +47,10 @@ function ModifyShippingAddressDialogForm<T>({
         });
     });
     // data for submit
-    setImages({ ...images, [key]: imageList });
+    setImages({...images, [key]: imageList});
     setImageRootArr(imageArray);
   };
-
+  
   return (
     <Formik
       enableReinitialize={true}
@@ -60,7 +60,7 @@ function ModifyShippingAddressDialogForm<T>({
         if (entity._id) {
           const updateValue = diff(entity, values);
           if (entity.isDefault || entity.isDefault === false) {
-            onModify({ 
+            onModify({
               _id: values._id,
               isDefault: values.isDefault,
               state: values.state,
@@ -74,36 +74,36 @@ function ModifyShippingAddressDialogForm<T>({
           
         } else {
           onModify(values)
-        } 
-
+        }
+        
         onHide();
       }}>
-      {({ values, handleSubmit }) => (
+      {({values, handleSubmit}) => (
         <>
           <Modal.Body className="overlay overlay-block cursor-default">
             <Form className="form form-label-right">
               {Object.keys(formPart).map(key => (
                 <React.Fragment key={key}>
-                <FormTemplate 
-                  formValues={values}
-                  images={images}
-                  onChange={(imageList: any, addUpdateIndex: any, key: any) => {
-                    onChange(imageList, addUpdateIndex, key);
-
-                  }}
-                  modifyModel={modifyModel[0]}
-                  column={1}
-                />
+                  <FormTemplate
+                    formValues={values}
+                    images={images}
+                    onChange={(imageList: any, addUpdateIndex: any, key: any) => {
+                      onChange(imageList, addUpdateIndex, key);
+                      
+                    }}
+                    modifyModel={modifyModel[0]}
+                    column={1}
+                  />
                 </React.Fragment>
               ))}
             </Form>
           </Modal.Body>
           <Modal.Footer>
             <button type="submit" onClick={() => handleSubmit()} className="btn btn-primary">
-              <SaveOutlinedIcon style={iconStyle} /> Lưu
+              <SaveOutlinedIcon style={iconStyle}/> Lưu
             </button>
             <button type="button" onClick={onHide} className="btn btn-outline-primary">
-              <CancelOutlinedIcon style={iconStyle} /> Hủy
+              <CancelOutlinedIcon style={iconStyle}/> Hủy
             </button>
           </Modal.Footer>
         </>

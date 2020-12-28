@@ -1,10 +1,10 @@
 import {
-  ModifyForm, ModifyInputGroup,
-  ModifyPanel,
+  ModifyForm,
+  ModifyInputGroup,
   RenderInfoDetailDialog,
   SearchModel
 } from '../../../common-library/common-types/common-type';
-import {GenerateAllFormField, getField} from '../../../common-library/helpers/common-function';
+import {getField} from '../../../common-library/helpers/common-function';
 import React, {useMemo, useState} from "react";
 
 export const masterEntityDetailDialog: RenderInfoDetailDialog = [

@@ -56,7 +56,8 @@ export const GetCity = ({queryProps, paginationProps}: any): Promise<any> => {
     const data = totalData.sort(GetCompareFunction({
       key: paginationProps.sortBy,
       orderType: paginationProps.sortType === 'asc' ? 1 : -1
-    })).slice((paginationProps.page - 1) * paginationProps.limit, paginationProps.page * paginationProps.limit).map(t => t.name_with_type);;
+    })).slice((paginationProps.page - 1) * paginationProps.limit, paginationProps.page * paginationProps.limit).map(t => t.name_with_type);
+    
     
     resolve({
       code: 200,
@@ -84,7 +85,8 @@ export const GetDistrict = ({queryProps, paginationProps}: any): Promise<any> =>
     const data = totalData.sort(GetCompareFunction({
       key: paginationProps.sortBy,
       orderType: paginationProps.sortType === 'asc' ? 1 : -1
-    })).slice((paginationProps.page - 1) * paginationProps.limit, paginationProps.page * paginationProps.limit).map(t => t.name_with_type);;
+    })).slice((paginationProps.page - 1) * paginationProps.limit, paginationProps.page * paginationProps.limit).map(t => t.name_with_type);
+    
     
     resolve({
       code: 200,

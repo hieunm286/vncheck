@@ -9,7 +9,7 @@ import {
   GetProps,
   UpdateProps
 } from '../../common-library/common-types/common-type';
-import { AgencyTypeModel } from './agency-type.model';
+import {AgencyTypeModel} from './agency-type.model';
 
 export const API_URL = API_BASE_URL + '/agency-type';
 

@@ -1,4 +1,4 @@
-import { AgencyModel } from "../agency.model";
+import {AgencyModel} from "../agency.model";
 
 export const mockAgency: AgencyModel = {
   _id: "1824702981740u9weaufq",
@@ -54,8 +54,8 @@ export const mockAgency: AgencyModel = {
   taxId: "29849247809278329",
   // storeLevel: {label: 'label',value: 'value'},
   storeLevel: "5fca5573e4d7bd0041f287e6",
-
-
+  
+  
   username: "nongdan2",
   // fullName: "Nguyen Van A",
   ownerName: "Nguyen Van A",
@@ -63,14 +63,14 @@ export const mockAgency: AgencyModel = {
   email: "nongdan2@admin.com",
   birthDay: new Date(1982, 3, 6),
   gender: "0",
-  roleName: {label: 'Worker',value: "5fca5573e4d7bd0041f287e1" },
+  roleName: {label: 'Worker', value: "5fca5573e4d7bd0041f287e1"},
   phoneNumber: "0976582403",
-
+  
   detailAddress: "Số 2 ngõ 219 Trung Kính",
   district: "Yên Hoà",
   city: "Cầu Giấy",
   state: "Hà Nội",
-
+  
 }
 
 export const initAgency: AgencyModel = {
@@ -125,8 +125,8 @@ export const initAgency: AgencyModel = {
   taxId: "",
   // storeLevel: {label: 'label',value: 'value'},
   storeLevel: null,
-
-
+  
+  
   username: "",
   // fullName: "Nguyen Van A",
   ownerName: "",
@@ -136,10 +136,10 @@ export const initAgency: AgencyModel = {
   gender: null,
   roleName: null,
   phoneNumber: "",
-
+  
   detailAddress: "",
   district: null,
   city: null,
   state: null,
-
+  
 }
