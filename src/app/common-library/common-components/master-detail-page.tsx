@@ -194,9 +194,9 @@ const LineMode = ({ entityDetail, renderInfo, intl, title, moduleName, history, 
       {renderInfo.map((value: any, key: any) => (
         <div key={key} className="mt-5">
           <p className="text-primary" style={{ fontWeight: 600 }}>{value.header}</p>
-          <div className="row" style={{ color: '#000000' }}>
+          <div className={value.className} style={{ color: '#000000' }}>
             {value.data.map((el: any, elKey: number) => (
-              <div key={elKey} className={`col-md-${12 / value.data.length} col-12 border-bottom pb-10`}>
+              <div key={elKey} className={value.className ? `col-md-${12 / value.data.length} col-12 border-bottom pb-10` : `border-bottom pb-10`}>
                 {el.map((child: any, childKey: string) => {
                   const Separator = () =>
                     child.separator ? (
@@ -213,8 +213,8 @@ const LineMode = ({ entityDetail, renderInfo, intl, title, moduleName, history, 
                       return (
                         <div className="mt-3" key={childKey}>
                           <div className="row no-gutters">
-                            <p className="col-4">{child.title}:</p>
-                            <p className="col-8">
+                            <p className={value.className ? 'col-4' : 'col-2'}>{child.title}:</p>
+                            <p className={value.className ? 'col-8' : 'col-10'}>
                               {entityDetail ? (
                                 getFieldV3(entityDetail, child.keyField).map((f, i, arr) => {
                                   return (
@@ -235,8 +235,8 @@ const LineMode = ({ entityDetail, renderInfo, intl, title, moduleName, history, 
                       return (
                         <div className="mt-3" key={childKey}>
                           <div className="row no-gutters">
-                            <p className="col-4">{child.title}:</p>
-                            <p className="col-8">
+                            <p className={value.className ? 'col-4' : 'col-2'}>{child.title}:</p>
+                            <p className={value.className ? 'col-8' : 'col-10'}>
                               {entityDetail ? (
                                 getFieldV3(entityDetail, child.keyField).map((f, i, arr) => {
                                   const date_input = new Date(f);

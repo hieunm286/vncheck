@@ -623,6 +623,7 @@ export const allFormField: any = {
 export const PlantingDetailDialog = [
   {
     header: 'THÔNG TIN CHUNG',
+    className: 'row',
     data: [
       [
         {
@@ -690,6 +691,7 @@ export const PlantingDetailDialog = [
   },
   {
     header: 'THÔNG TIN MÔI TRƯỜNG',
+    className: 'row',
     data: [
       [
         {
@@ -708,10 +710,12 @@ export const PlantingDetailDialog = [
           keyField: 'planting.porosity',
         },
       ],
+      []
     ],
   },
   {
     header: 'THÔNG TIN QUẢN TRỊ',
+    className: 'row',
     data: [
       [
         {
@@ -730,10 +734,12 @@ export const PlantingDetailDialog = [
           keyField: 'planting.[worker].lastName',
         },
       ],
+      []
     ],
   },
   {
     header: 'HÌNH ẢNH',
+    className: 'row',
     data: [
       [
         {
@@ -756,6 +762,7 @@ export const PlantingDetailDialog = [
 export const SeedingDetailDialog = [
   {
     header: 'THÔNG TIN CHUNG',
+    className: 'row',
     data: [
       [
         {
@@ -826,8 +833,8 @@ export const SeedingDetailDialog = [
   },
   {
     header: 'THÔNG TIN MÔI TRƯỜNG',
+    className: 'row',
     data: [
-      [],
       [
         {
           type: 'string',
@@ -848,7 +855,7 @@ export const SeedingDetailDialog = [
           convertFn: (t: string) => t + '%',
         },
       ],
-      
+      []
     ],
   },
   {
@@ -871,12 +878,44 @@ export const SeedingDetailDialog = [
           title: 'Công nhân gieo trồng',
           keyField: 'planting.[worker].lastName',
         },
+        {
+          type: 'table',
+          title: 'Thông tin Giám đốc/TGĐ',
+          keyField: 'planting.worker',
+          columns: {
+            _id: {
+              dataField: '_id',
+              text: `ID`,
+              align: 'center',
+              classes: 'text-left',
+            },
+            firstName: {
+              dataField: 'firstName',
+              text: `Họ`,
+              align: 'center',
+              classes: 'text-left',
+            },
+            lastName: {
+              dataField: 'lastName',
+              text: `Tên`,
+              align: 'center',
+              classes: 'text-left',
+            },
+            fullName: {
+              dataField: 'fullName',
+              text: `Họ và tên`,
+              align: 'center',
+              classes: 'text-left',
+            },
+          }
+        },
       ],
       []
     ],
   },
   {
     header: 'THÔNG TIN CÔNG NHÂN',
+    className: 'row',
     data: [
       [
         {
@@ -915,6 +954,7 @@ export const SeedingDetailDialog = [
   },
   {
     header: 'HÌNH ẢNH',
+    className: 'row',
     data: [
       [
         {
