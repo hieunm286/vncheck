@@ -269,7 +269,7 @@ function Species() {
     },
     image: {
       _type: 'image',
-      // value: null,
+      isArray: false,
       label: 'PRODUCT_TYPE.MASTER.IMAGE',
       maxNumber: 1,
     },
