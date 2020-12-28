@@ -17,7 +17,7 @@ function ModifyEntityDialog<T>({
                                }: {
   show: boolean;
   onHide: () => void;
-  entity: T;
+  entity?: T;
   moduleName?: string;
   onModify: (values: any, handleSuccess: () => void, handleError: () => void) => void;
   formModel: ModifyForm;

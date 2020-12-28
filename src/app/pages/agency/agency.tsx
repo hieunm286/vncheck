@@ -2,7 +2,7 @@ import React, {Fragment, useCallback, useEffect, useMemo, useState} from "react"
 import {useIntl} from 'react-intl';
 
 
-import {ConvertToTreeNode, GenerateAllFormField, InitMasterProps} from "../../common-library/helpers/common-function";
+import {ConvertToTreeNode, InitMasterProps} from "../../common-library/helpers/common-function";
 
 import {Count, Create, Delete, DeleteMany, Get, GetAll, Update} from './agency.service';
 import {AgencyModel} from './agency.model';
@@ -13,13 +13,12 @@ import {
   TickColumnFormatter
 } from '../../common-library/common-components/actions-column-formatter';
 
-import {DefaultPagination, NormalColumn, SortColumn} from '../../common-library/common-consts/const';
+import {DefaultPagination, iconStyle, NormalColumn, SortColumn} from '../../common-library/common-consts/const';
 
 
 import {DeleteEntityDialog} from "../../common-library/common-components/delete-entity-dialog";
 import DeleteManyEntitiesDialog from '../../common-library/common-components/delete-many-entities-dialog';
 import {Route, Switch, useHistory} from 'react-router-dom';
-import {initAgency} from "./helpers/mock-entity";
 import * as MultilevelSaleService from '../multilevel-sale/multilevel-sale.service';
 import * as RoleService from './helpers/role.service';
 import {
@@ -33,6 +32,9 @@ import {GetCity, GetDistrict, GetState} from "../address/address.service";
 import EntityCrudPage from "../../common-library/common-components/entity-crud-page";
 import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
 import CancelOutlinedIcon from "@material-ui/icons/CancelOutlined";
+import AddIcon from "@material-ui/icons/Add";
+import ModifyEntityDialog from "../../common-library/common-components/modify-entity-dialog";
+import {GetLots, GetSubLots} from "../land-lot/land-lot.service";
 
 const headerTitle = 'AGENCY.MASTER.HEADER.TITLE';
 const tableTitle = 'SHIPPING_AGENCY.MASTER.TABLE.TITLE';
@@ -464,7 +466,7 @@ function AgencyPage() {
       _type: 'tree-select',
       required: true,
       label: 'AGENCY.MODIFY.STORE_LEVEL',
-      onSearch: ({queryProps, sortList, paginationProps,}:any) => {
+      onSearch: ({queryProps, sortList, paginationProps,}: any) => {
         return MultilevelSaleService.GetAll({queryProps}).then((e) => {
           return ConvertToTreeNode(e.data);
         })
@@ -544,7 +546,8 @@ function AgencyPage() {
       label: 'AGENCY.MODIFY.IMAGE',
     },
   }), [getCity, getDistrict]);
-  const [group2, setGroup2] = useState<ModifyInputGroup>({
+  
+  const group2 = useMemo((): ModifyInputGroup => ({
     _subTitle: 'AGENCY.MODIFY.OWNER_INFO',
     _className: 'col-6 pl-xl-15 pl-md-10 pl-5',
     owner: {
@@ -599,8 +602,29 @@ function AgencyPage() {
         maxNumber: 1,
         label: 'AGENCY.MODIFY.REPRESENT_IMAGE',
       },
+      shippingAddress: {
+        _type: 'custom',
+        component: ({values}: any) => {
+          
+          return (
+            <div className={'col-12'}>
+             
+              <div className="modify-subtitle text-primary">
+                {intl.formatMessage({id: 'AGENCY.MODIFY.SHIPPING_ADDRESS'}).toUpperCase()}
+              </div>
+              <button type="button" className="btn btn-primary" onClick={() => {
+                setShowCreate(true);
+              }}>
+                <AddIcon style={iconStyle}/>
+                {intl.formatMessage({id: 'AGENCY.MODIFY.ADD_SHIPPING_ADDRESS'})}
+              </button>
+            
+            </div>
+          )
+        }
+      }
     }
-  });
+  }),[showCreate]);
   
   const actions: any = useMemo(() => ({
     type: 'inside',
@@ -635,9 +659,92 @@ function AgencyPage() {
     return ({...createForm, _header: updateTitle});
   }, [createForm]);
   
+  
+  
+  
+  const [shippingAddressGroup, setShippingAddressGroup] = useState<ModifyInputGroup>({
+    _subTitle: '',
+    state: {
+      _type: 'search-select',
+      onSearch: GetState,
+      onChange: (value: any, {setFieldValue, setFieldTouched}: any) => {
+        if (state != value) {
+          setCity(null);
+          setFieldValue('address.city', '');
+          setFieldTouched('address.city', false);
+          setFieldValue('address.district', '');
+          setFieldTouched('address.district', false);
+        }
+        setState(value);
+      },
+      required: true,
+      label: 'AGENCY.MODIFY.SHIPPING_ADDRESS.STATE',
+    },
+    city: {
+      _type: 'search-select',
+      onSearch: getCity,
+      // selectField: 'code',
+      required: true,
+      onChange: (value: any, {setFieldValue, setFieldTouched}: any) => {
+        if (city != value) {
+          setFieldValue('address.district', '');
+          setFieldTouched('address.district', false);
+        }
+        setCity(value);
+      },
+      disabled: (values: any) => {
+        return (values?.state === '');
+      },
+      label: 'AGENCY.MODIFY.SHIPPING_ADDRESS.CITY',
+    },
+    district: {
+      _type: 'search-select',
+      onSearch: getDistrict,
+      // selectField: 'code',
+      required: true,
+      disabled: (values: any) => {
+        return (values?.city === '');
+      },
+      label: 'AGENCY.MODIFY.SHIPPING_ADDRESS.DISTRICT',
+    },
+    detailAddress: {
+      _type: 'string',
+      required: true,
+      label: 'AGENCY.MODIFY.SHIPPING_ADDRESS.ADDRESS',
+    },
+  });
+  
+  const createShippingAddressForm = useMemo((): ModifyForm => ({
+    _header: 'AGENCY.MODIFY.SHIPPING_ADDRESS.CREATE_TITLE',
+    panel1: {
+      _title: '',
+      group1: shippingAddressGroup
+    },
+  }), [shippingAddressGroup]);
+  
+  
+  
   return (
     <Fragment>
-      
+      <ModifyEntityDialog
+        formModel={createShippingAddressForm}
+        show={showCreate}
+        onModify={(...add) => {
+          console.log(add)}}
+        onHide={() => {
+          setShowCreate(false);
+        }}
+      />
+      <ModifyEntityDialog
+        formModel={updateForm}
+        show={showEdit}
+        entity={editEntity}
+        onModify={update}
+        onHide={() => {
+          setShowEdit(false);
+        }}
+        loading={loading}
+      />
       
       <DeleteEntityDialog
         moduleName={moduleName}
