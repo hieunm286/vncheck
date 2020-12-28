@@ -7,11 +7,8 @@ import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import * as actions from '../../../_redux/agency-action';
 import './agency-table.scss';
 import BootstrapTable from 'react-bootstrap-table-next';
-import { ActionsColumnFormatter } from './column-formatters/actions-column-formatter';
-import {
-  NoRecordsFoundMessage,
-  PleaseWaitMessage,
-} from '../../../../../common-library/helpers/pagination-helper';
+import {ActionsColumnFormatter} from './column-formatters/actions-column-formatter';
+import {NoRecordsFoundMessage, PleaseWaitMessage,} from '../../../../../common-library/helpers/pagination-helper';
 
 export function AgencyShippingAddressTable({
                                              openModal,

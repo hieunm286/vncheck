@@ -1,9 +1,9 @@
 /* eslint-disable no-script-url,jsx-a11y/anchor-is-valid,no-undef */
 import React from 'react';
 import SVG from 'react-inlinesvg';
-import { useHistory } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { ToAbsoluteUrl } from '../../../../common-library/helpers/assets-helpers';
+import {useHistory} from 'react-router-dom';
+import {useSelector} from 'react-redux';
+import {ToAbsoluteUrl} from '../../../../common-library/helpers/assets-helpers';
 
 export function QuickUser() {
   const history = useHistory();
@@ -16,7 +16,7 @@ export function QuickUser() {
     history.push('/logout?callbackUrl=' + callbackUrl);
   };
   const location = window.location;
-  const { pathname } = location;
+  const {pathname} = location;
   const callbackUrl = pathname;
   return (
     <div id="kt_quick_user" className="offcanvas offcanvas-right offcanvas p-10">
@@ -29,10 +29,10 @@ export function QuickUser() {
           href="#"
           className="btn btn-xs btn-icon btn-light btn-hover-primary"
           id="kt_quick_user_close">
-          <i className="ki ki-close icon-xs text-muted" />
+          <i className="ki ki-close icon-xs text-muted"/>
         </a>
       </div>
-
+      
       <div className="offcanvas-content pr-5 mr-n5">
         <div className="d-flex align-items-center mt-5">
           <div className="symbol symbol-100 mr-5">
@@ -42,7 +42,7 @@ export function QuickUser() {
                 backgroundImage: `url(${ToAbsoluteUrl('/media/users/300_21.jpg')})`,
               }}
             />
-            <i className="symbol-badge bg-success" />
+            <i className="symbol-badge bg-success"/>
           </div>
           <div className="d-flex flex-column">
             <a href="#" className="font-weight-bold font-size-h5 text-dark-75 text-hover-primary">
@@ -71,16 +71,16 @@ export function QuickUser() {
             </button>
           </div>
         </div>
-
-        <div className="separator separator-dashed mt-8 mb-5" />
-
+        
+        <div className="separator separator-dashed mt-8 mb-5"/>
+        
         <div className="navi navi-spacer-x-0 p-0">
           <a href="/change-password" className="navi-item">
             <div className="navi-link">
               <div className="symbol symbol-40 bg-light mr-3">
                 <div className="symbol-label">
                   <span className="svg-icon svg-icon-md svg-icon-success">
-                    <SVG src={ToAbsoluteUrl('/media/svg/icons/General/Notification2.svg')} />
+                    <SVG src={ToAbsoluteUrl('/media/svg/icons/General/Notification2.svg')}/>
                   </span>
                 </div>
               </div>
@@ -95,13 +95,13 @@ export function QuickUser() {
               </div>
             </div>
           </a>
-
+          
           <a href="/user/profile" className="navi-item">
             <div className="navi-link">
               <div className="symbol symbol-40 bg-light mr-3">
                 <div className="symbol-label">
                   <span className="svg-icon svg-icon-md svg-icon-warning">
-                    <SVG src={ToAbsoluteUrl('/media/svg/icons/Shopping/Chart-bar1.svg')} />
+                    <SVG src={ToAbsoluteUrl('/media/svg/icons/Shopping/Chart-bar1.svg')}/>
                   </span>
                 </div>
               </div>
@@ -111,13 +111,13 @@ export function QuickUser() {
               </div>
             </div>
           </a>
-
+          
           <a href="/user/profile" className="navi-item">
             <div className="navi-link">
               <div className="symbol symbol-40 bg-light mr-3">
                 <div className="symbol-label">
                   <span className="svg-icon svg-icon-md svg-icon-danger">
-                    <SVG src={ToAbsoluteUrl('/media/svg/icons/Files/Selected-file.svg')} />
+                    <SVG src={ToAbsoluteUrl('/media/svg/icons/Files/Selected-file.svg')}/>
                   </span>
                 </div>
               </div>
@@ -127,13 +127,13 @@ export function QuickUser() {
               </div>
             </div>
           </a>
-
+          
           <a href="/user/profile" className="navi-item">
             <div className="navi-link">
               <div className="symbol symbol-40 bg-light mr-3">
                 <div className="symbol-label">
                   <span className="svg-icon svg-icon-md svg-icon-primary">
-                    <SVG src={ToAbsoluteUrl('/media/svg/icons/Communication/Mail-opened.svg')} />
+                    <SVG src={ToAbsoluteUrl('/media/svg/icons/Communication/Mail-opened.svg')}/>
                   </span>
                 </div>
               </div>
@@ -144,12 +144,12 @@ export function QuickUser() {
             </div>
           </a>
         </div>
-
-        <div className="separator separator-dashed my-7" />
-
+        
+        <div className="separator separator-dashed my-7"/>
+        
         <div>
           <h5 className="mb-5">Recent Notifications</h5>
-
+          
           <div className="d-flex align-items-center bg-light-warning rounded p-5 gutter-b">
             <span className="svg-icon svg-icon-warning mr-5">
               <SVG
@@ -157,7 +157,7 @@ export function QuickUser() {
                 className="svg-icon svg-icon-lg"
               />
             </span>
-
+            
             <div className="d-flex flex-column flex-grow-1 mr-2">
               <a
                 href="#"
@@ -166,10 +166,10 @@ export function QuickUser() {
               </a>
               <span className="text-muted font-size-sm">Due in 2 Days</span>
             </div>
-
+            
             <span className="font-weight-bolder text-warning py-1 font-size-lg">+28%</span>
           </div>
-
+          
           <div className="d-flex align-items-center bg-light-success rounded p-5 gutter-b">
             <span className="svg-icon svg-icon-success mr-5">
               <SVG
@@ -185,10 +185,10 @@ export function QuickUser() {
               </a>
               <span className="text-muted font-size-sm">Due in 2 Days</span>
             </div>
-
+            
             <span className="font-weight-bolder text-success py-1 font-size-lg">+50%</span>
           </div>
-
+          
           <div className="d-flex align-items-center bg-light-danger rounded p-5 gutter-b">
             <span className="svg-icon svg-icon-danger mr-5">
               <SVG
@@ -204,10 +204,10 @@ export function QuickUser() {
               </a>
               <span className="text-muted font-size-sm">Due in 2 Days</span>
             </div>
-
+            
             <span className="font-weight-bolder text-danger py-1 font-size-lg">-27%</span>
           </div>
-
+          
           <div className="d-flex align-items-center bg-light-info rounded p-5">
             <span className="svg-icon svg-icon-info mr-5">
               <SVG
@@ -215,7 +215,7 @@ export function QuickUser() {
                 className="svg-icon svg-icon-lg"
               />
             </span>
-
+            
             <div className="d-flex flex-column flex-grow-1 mr-2">
               <a
                 href="#"
@@ -224,7 +224,7 @@ export function QuickUser() {
               </a>
               <span className="text-muted font-size-sm">Due in 2 Days</span>
             </div>
-
+            
             <span className="font-weight-bolder text-info py-1 font-size-lg">+8%</span>
           </div>
         </div>

@@ -3,22 +3,21 @@
 /* eslint-disable no-script-url,jsx-a11y/anchor-is-valid */
 import React from 'react';
 import SVG from 'react-inlinesvg';
-import Visibility from '@material-ui/icons/Visibility';
 import './style/production-plan.scss';
-import { IntlShape } from 'react-intl';
-import { Link } from 'react-router-dom';
-import { ToAbsoluteUrl } from '../../common-library/helpers/assets-helpers';
+import {IntlShape} from 'react-intl';
+import {ToAbsoluteUrl} from '../../common-library/helpers/assets-helpers';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
+
 interface ActionColumnProps<T> {
-    onEdit: (entity: T) => void;
-    onShowDetail: (entity: any) => void;
-  }
+  onEdit: (entity: T) => void;
+  onShowDetail: (entity: any) => void;
+}
 
 export function ProductPlanActionsColumn<T>(
   cellContent: any,
   row: any,
   rowIndex: number,
-  { onShowDetail, onEdit }: ActionColumnProps<T> & { intl: IntlShape },
+  {onShowDetail, onEdit}: ActionColumnProps<T> & { intl: IntlShape },
 ) {
   
   return (
@@ -27,7 +26,7 @@ export function ProductPlanActionsColumn<T>(
         className="btn btn-icon btn-light btn-hover-primary btn-sm visibility"
         onClick={() => onShowDetail(row)}>
         <span className="svg-icon svg-icon-md svg-icon-primary">
-          <FileCopyIcon className="text-primary eye" />
+          <FileCopyIcon className="text-primary eye"/>
         </span>
       </a>
       <a
@@ -41,7 +40,7 @@ export function ProductPlanActionsColumn<T>(
           />
         </span>
       </a>
-      
+    
     </>
   );
 }

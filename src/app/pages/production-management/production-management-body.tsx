@@ -1,18 +1,17 @@
 import React from 'react';
-import { Card, CardBody } from '../../common-library/card';
-import { Steps, Divider } from 'antd';
-import { DefaultPagination } from '../../common-library/common-consts/const';
-import { MasterTable } from '../../common-library/common-components/master-table';
+import {Card, CardBody} from '../../common-library/card';
+import {Steps} from 'antd';
+import {DefaultPagination} from '../../common-library/common-consts/const';
 
-const { Step } = Steps;
+const {Step} = Steps;
 
 function ProductionManagementBody({
-  stepData,
-  setCurrentStep,
-  currentStep,
-  setEntities,
-  setPaginationProps,
-}: {
+                                    stepData,
+                                    setCurrentStep,
+                                    currentStep,
+                                    setEntities,
+                                    setPaginationProps,
+                                  }: {
   stepData: any[];
   setCurrentStep: (tab: number | undefined) => void;
   currentStep: number | undefined;
@@ -24,14 +23,14 @@ function ProductionManagementBody({
     setEntities([]);
     setPaginationProps(DefaultPagination);
   }
-
+  
   return (
     <Card>
       {/* {title && <CardHeader title={intl.formatMessage({ id: title }).toUpperCase()} />} */}
       <CardBody>
         <Steps current={currentStep} onChange={callback}>
-					{stepData.map((item: any, key: number) => (
-            <Step title={item.title} key={'' + key} />
+          {stepData.map((item: any, key: number) => (
+            <Step title={item.title} key={'' + key}/>
           ))}
         </Steps>
       </CardBody>

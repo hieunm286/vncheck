@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { API_BASE_URL } from '../../common-library/common-consts/enviroment';
+import {API_BASE_URL} from '../../common-library/common-consts/enviroment';
 import {
   CountProps,
   CreateProps,
@@ -7,10 +7,9 @@ import {
   DeleteProps,
   GetAllPropsServer,
   GetProps,
-  SearchModel,
   UpdateProps,
 } from '../../common-library/common-types/common-type';
-import { ProductPackagingModel } from './product-packaging.model';
+import {ProductPackagingModel} from './product-packaging.model';
 
 export const API_URL = API_BASE_URL + '/packing';
 
@@ -23,23 +22,23 @@ export const Create: CreateProps<ProductPackagingModel> = (data: ProductPackagin
 };
 
 export const GetAll: GetAllPropsServer<ProductPackagingModel> = ({
-  queryProps,
-  sortList,
-  paginationProps,
-}) => {
+                                                                   queryProps,
+                                                                   sortList,
+                                                                   paginationProps,
+                                                                 }) => {
   return axios.get(`${API_URL}`, {
-    params: { ...queryProps, ...paginationProps, sortList },
+    params: {...queryProps, ...paginationProps, sortList},
     // paramsSerializer: ParamsSerializer
   });
 };
 
 export const Count: CountProps<ProductPackagingModel> = ({
-  queryProps,
-  sortList,
-  paginationProps,
-}) => {
+                                                           queryProps,
+                                                           sortList,
+                                                           paginationProps,
+                                                         }) => {
   return axios.get(`${API_URL}/count`, {
-    params: { ...queryProps, ...paginationProps, sortList },
+    params: {...queryProps, ...paginationProps, sortList},
   });
 };
 
@@ -55,13 +54,13 @@ export const Update: UpdateProps<ProductPackagingModel> = (entity: ProductPackag
 };
 
 export const Delete: DeleteProps<ProductPackagingModel> = (entity: ProductPackagingModel) => {
-    console.log(entity)
+  console.log(entity)
   return axios.delete(`${API_URL}/${entity._id}`);
 };
 
 export const DeleteMany: DeleteManyProps<ProductPackagingModel> = (entities: ProductPackagingModel[]) => {
   return axios.delete(BULK_API_URL, {
-    data: { listPacking: entities },
+    data: {listPacking: entities},
   });
 };
 

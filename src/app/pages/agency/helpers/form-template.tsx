@@ -1,43 +1,40 @@
-import React, { useEffect, useState } from 'react';
-import { Field, useFormikContext } from 'formik';
-import { MainInput } from '../../../common-library/forms/main-input';
-import { DatePickerField } from '../../../common-library/forms/date-picker-field';
-import { Switch } from '@material-ui/core';
+import React, {useEffect, useState} from 'react';
+import {Field, useFormikContext} from 'formik';
+import {MainInput} from '../../../common-library/forms/main-input';
+import {DatePickerField} from '../../../common-library/forms/date-picker-field';
 import TagInput from '../../../common-library/forms/tag-input';
-import { InfiniteSelect } from '../../../common-library/forms/infinite-select';
+import {InfiniteSelect} from '../../../common-library/forms/infinite-select';
 import CustomImageUpload from '../../../common-library/forms/custom-image-upload';
-import { DefaultPagination } from '../../../common-library/common-consts/const';
+import {DefaultPagination} from '../../../common-library/common-consts/const';
 import ImgGallery from '../../../common-library/forms/image-gallery';
-import CheckCircleOutlinedIcon from '@material-ui/icons/CheckCircleOutlined';
-import { FormikRadioGroup } from '../../../common-library/forms/radio-group-field';
-import { SwitchField } from '../../../common-library/forms/switch-field';
-import { RadioField } from '../../../common-library/forms/radio-field';
+import {FormikRadioGroup} from '../../../common-library/forms/radio-group-field';
+import {SwitchField} from '../../../common-library/forms/switch-field';
+import {RadioField} from '../../../common-library/forms/radio-field';
 import STATE_LIST from '../../../../_metronic/AdministrativeDivision/state.json';
 import CITY_LIST from '../../../../_metronic/AdministrativeDivision/city.json';
 import DISTRICT_LIST from '../../../../_metronic/AdministrativeDivision/district.json';
-import { useIntl } from 'react-intl';
-import CustomTreeSelect from '../../../common-library/forms/tree-select';
-import { ConvertToTreeNode } from '../../../common-library/helpers/common-function';
+import {useIntl} from 'react-intl';
+import {ConvertToTreeNode} from '../../../common-library/helpers/common-function';
 import * as StoreLevelService from '../../multilevel-sale/multilevel-sale.service';
-import { Select } from 'antd'; // import Select from 'react-select';
+import {Select} from 'antd'; // import Select from 'react-select';
 import './ant-select.scss'
 import SelectDropDownIcon from '../../../common-library/forms/select-drop-down-icon';
 
 const FormTemplate = ({
-  modifyModel,
-  images,
-  onChange,
-  title,
-  column,
-  handleChangeTag,
-  handleAddButton,
-  handleEditButton,
-  handleDeleteButton,
-  setShippingAddressEntity,
-  formValues,
-  currentAddress,
-  setCurrentAddress,
-}: {
+                        modifyModel,
+                        images,
+                        onChange,
+                        title,
+                        column,
+                        handleChangeTag,
+                        handleAddButton,
+                        handleEditButton,
+                        handleDeleteButton,
+                        setShippingAddressEntity,
+                        formValues,
+                        currentAddress,
+                        setCurrentAddress,
+                      }: {
   modifyModel: any;
   images?: any;
   onChange?: any;
@@ -52,68 +49,67 @@ const FormTemplate = ({
   currentAddress?: any;
   setCurrentAddress?: any;
 }) => {
-
-  const { touched, errors, values, setFieldValue } = useFormikContext<any>();
-
-  const [ search, setSearch ] = useState<any>(formValues);
-
-  const [ searchSelect, setSearchSelect ] = useState<any>({});
-
-  const { Option } = Select;
-
+  
+  const {touched, errors, values, setFieldValue} = useFormikContext<any>();
+  
+  const [search, setSearch] = useState<any>(formValues);
+  
+  const [searchSelect, setSearchSelect] = useState<any>({});
+  
+  const {Option} = Select;
+  
   // prevent role from being null
   // useEffect(() => {
   //   setSearch(formValues);
   // }, [formValues]);
   useEffect(() => {
-    if(formValues && formValues.roleName) {
+    if (formValues && formValues.roleName) {
       setSearchSelect(formValues.roleName);
     }
   }, [formValues])
-
   
-
-  const [ address, setAddress ] = useState<any>({
+  
+  const [address, setAddress] = useState<any>({
     state: {key: '', value: ''},
     city: {key: '', value: ''},
     district: {key: '', value: ''},
   });
-
-  const [ selectedState, setSelectedState ] = useState<any>({key: '', value: ''});
-  const [ selectedCity, setSelectedCity ] = useState<any>({key: '', value: ''});
-  const [ selectedDistrict, setSelectedDistrict ] = useState<any>({key: '', value: ''});
-
   
-  const [ stateValues, setStateValues ] = useState<any>([]);
-  const [ cityValues, setCityValues ] = useState<any>([]);
-  const [ districtValues, setDistrictValues ] = useState<any>([]);
-
-  const [ treeSelectValue, setTreeSelectValue ] = useState<any>(null);
-  const [ treeData, setTreeData ] = useState<any>([]);
-
+  const [selectedState, setSelectedState] = useState<any>({key: '', value: ''});
+  const [selectedCity, setSelectedCity] = useState<any>({key: '', value: ''});
+  const [selectedDistrict, setSelectedDistrict] = useState<any>({key: '', value: ''});
+  
+  
+  const [stateValues, setStateValues] = useState<any>([]);
+  const [cityValues, setCityValues] = useState<any>([]);
+  const [districtValues, setDistrictValues] = useState<any>([]);
+  
+  const [treeSelectValue, setTreeSelectValue] = useState<any>(null);
+  const [treeData, setTreeData] = useState<any>([]);
+  
   const intl = useIntl();
-
+  
   
   useEffect(() => {
     treeLoadOptions(StoreLevelService) // treeLoadOptions(modifyModel.data['storeLevel'].service)
-    .then((res: any) => {
-      const treeData = ConvertToTreeNode(res);
-      setTreeData(treeData)
-    });
+      .then((res: any) => {
+        const treeData = ConvertToTreeNode(res);
+        setTreeData(treeData)
+      });
     
-  },[]);
-
+  }, []);
+  
   useEffect(() => {
-    if(values.storeLevel && values.storeLevel._id) {
+    if (values.storeLevel && values.storeLevel._id) {
       setTreeSelectValue(values.storeLevel._id)
     }
   }, [values.storeLevel])
-
+  
   // useEffect(() => {
   //   const stateValues = Object.values(STATE_LIST).map((state: any) => {return {value: state.name, key: state.code}});
   //   setStateValues(stateValues);
   // },[]);
-
+  
   // useEffect(() => {
   //   const cityValues = selectedState ? Object.values(CITY_LIST).
   //   filter((city: any) => {return city.parent_code === selectedState.key})
@@ -121,7 +117,7 @@ const FormTemplate = ({
   //  : [];
   //  setCityValues(cityValues);
   // },[selectedState]);
-
+  
   // useEffect(() => {
   //   const cityValues = selectedState ? Object.values(CITY_LIST).
   //   filter((city: any) => {return city.parent_code === selectedState.key})
@@ -129,97 +125,100 @@ const FormTemplate = ({
   //  : [];
   //  setCityValues(cityValues);
   // },[selectedState]);
-
+  
   useEffect(() => {
     if (values.state === undefined) {
       setSelectedState({
-        value: undefined, 
+        value: undefined,
         key: undefined
       });
     }
-    if(values.state !== undefined && values.state !== null) {
+    if (values.state !== undefined && values.state !== null) {
       setSelectedState({
-        value: values.state, 
+        value: values.state,
         key: getCodeFromName(Object.values(STATE_LIST), values.state)
       });
     }
     if (values.state === null) {
       setSelectedState({
-        value: null, 
+        value: null,
         key: null
       });
     }
-  },[values.state]);
-
+  }, [values.state]);
+  
   useEffect(() => {
-    if(values.city !== undefined && values.city !== null) {
+    if (values.city !== undefined && values.city !== null) {
       setSelectedCity({
-        value: values.city, 
-        key: getCodeFromName(Object.values(CITY_LIST).filter((city: any) => { return city.parent_code === selectedState.key }), values.city)
+        value: values.city,
+        key: getCodeFromName(Object.values(CITY_LIST).filter((city: any) => {
+          return city.parent_code === selectedState.key
+        }), values.city)
       });
     }
     if (values.city === undefined) {
       setSelectedCity({
-        value: undefined, 
+        value: undefined,
         key: undefined
       });
     }
     if (values.city === null) {
       setSelectedCity({
-        value: null, 
+        value: null,
         key: null
       });
     }
-  },[selectedState]);
-
+  }, [selectedState]);
+  
   useEffect(() => {
-    if(values.district !== undefined && values.district !== null) {
+    if (values.district !== undefined && values.district !== null) {
       setSelectedDistrict({
-        value: values.district, 
-        key: getCodeFromName(Object.values(DISTRICT_LIST).filter((district: any) => { return district.parent_code === selectedCity.key }), values.district)
+        value: values.district,
+        key: getCodeFromName(Object.values(DISTRICT_LIST).filter((district: any) => {
+          return district.parent_code === selectedCity.key
+        }), values.district)
       });
     }
     if (values.district === undefined) {
       setSelectedDistrict({
-        value: undefined, 
+        value: undefined,
         key: undefined
       });
     }
     if (values.district === null) {
       setSelectedDistrict({
-        value: null, 
+        value: null,
         key: null
       });
     }
-  },[selectedCity]);
-
-
-
+  }, [selectedCity]);
+  
+  
   const loadOptions = async (
     search: string,
     prevOptions: any,
-    { page }: any,
+    {page}: any,
     service: any,
     keyField: string,
     key: string,
   ) => {
     const queryProps: any = {};
     queryProps[keyField] = search;
-
+    
     const paginationProps = {
       ...DefaultPagination,
       page: page,
     };
-
-    if(!service) console.error('search select with undefined service')
-    const entities = await service.GetAll({ queryProps, paginationProps });
+    
+    if (!service) console.error('search select with undefined service')
+    const entities = await service.GetAll({queryProps, paginationProps});
     const count = entities.entity.length;
-
+    
     const hasMore = prevOptions.length < count - (DefaultPagination.limit ?? 0);
-
+    
     return {
       options: entities.entity.map((e: any) => {
-        return { label: e[keyField], value: e._id };
+        return {label: e[keyField], value: e._id};
       }),
       hasMore: false,
       additional: {
@@ -227,24 +226,24 @@ const FormTemplate = ({
       },
     };
   };
-
+  
   const treeLoadOptions = async (
     service: any,
   ) => {
     const queryProps: any = {};
     // queryProps[keyField] = search;
     // queryProps = 
-
-    if(!service) console.error('search select with undefined service')
+    
+    if (!service) console.error('search select with undefined service')
     const entities = await service.GetAll(
       {}
     );
     return entities.entity;
   };
-
+  
   return (
     <>
-    {modifyModel && modifyModel.title && <h6 className="text-primary">{modifyModel.title.toUpperCase()}</h6>}
+      {modifyModel && modifyModel.title && <h6 className="text-primary">{modifyModel.title.toUpperCase()}</h6>}
       {modifyModel && modifyModel.entity && Object.keys(modifyModel.entity).map(key => {
         switch (modifyModel.entity[key].type) {
           case 'string':
@@ -279,8 +278,8 @@ const FormTemplate = ({
                 />
               </div>
             );
-
-
+          
+          
           case 'stateSelect':
             const labelWidth = 4;
             const isHorizontal = true;
@@ -292,98 +291,106 @@ const FormTemplate = ({
               <div className="mt-3" key={`${key}`}>
                 <div className="row">
                   
-                <Field name="state">
-                  {({
-                    field, // { name, value, onChange, onBlur }
-                    form: { touched, errors }, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
-                    meta,
-                  } : {
-                    field: any;
-                    form: any;
-                    meta: any;
-                  }
-                  ) => 
-                  (
-                  <>
-                  <div className={'col-md-4 col-xl-4 col-12'}>
-                    {label && (
-                      <label  className={isHorizontal && 'mb-0 input-label mt-2'}>
-                        {label} {withFeedbackLabel && <span className="text-danger">*</span>}
-                      </label>
-                    )}
-                  </div>
-                  <div className={'col-md-8 col-xl-7 col-12'}>
-                    <Select
-                      placeholder={intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'})}
-                      suffixIcon={<SelectDropDownIcon />}
-                      defaultValue={selectedState.value}
-                      onChange={(value: any) => {
-                          const key = getCodeFromName(Object.values(STATE_LIST), value)
-                          // const selectedIndex = e.target.options.selectedIndex;
-                          // const key = e.target.options[selectedIndex].getAttribute('data-code')
-                          setSelectedState({value: value, key: key})
-                          setSelectedCity({value: '', key: ''})
-                          setSelectedDistrict({value: '', key: ''})
-                          setFieldValue('state', value);
-                          setFieldValue('city', intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'}));
-                          setFieldValue('district', intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'}));
-                        }
+                  <Field name="state">
+                    {({
+                        field, // { name, value, onChange, onBlur }
+                        form: {touched, errors}, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
+                        meta,
+                      }: {
+                        field: any;
+                        form: any;
+                        meta: any;
                       }
-                      className={(errors[key] && touched[key]) ? 'is-invalid' : ''}
-                      >
-                      <Option children='' value={intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'})} hidden></Option>
-                      {
-                        Object.values(STATE_LIST).map((state: any) => {
-                          return (
-                            <Option key={state.code} data-code={state.code} value={state.name}>{state.name}</Option>
-                          )
-                        })
-                      }
-                    </Select>
-                      {
-                        (errors[key] && touched[key]) && (
-                          <div className="invalid-feedback">{errors[key]}</div>
-                        )
-                      }
-                  </div> 
-                  </>
-                  )}
+                    ) =>
+                      (
+                        <>
+                          <div className={'col-md-4 col-xl-4 col-12'}>
+                            {label && (
+                              <label className={isHorizontal && 'mb-0 input-label mt-2'}>
+                                {label} {withFeedbackLabel && <span className="text-danger">*</span>}
+                              </label>
+                            )}
+                          </div>
+                          <div className={'col-md-8 col-xl-7 col-12'}>
+                            <Select
+                              placeholder={intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'})}
+                              suffixIcon={<SelectDropDownIcon/>}
+                              defaultValue={selectedState.value}
+                              onChange={(value: any) => {
+                                const key = getCodeFromName(Object.values(STATE_LIST), value)
+                                // const selectedIndex = e.target.options.selectedIndex;
+                                // const key = e.target.options[selectedIndex].getAttribute('data-code')
+                                setSelectedState({value: value, key: key})
+                                setSelectedCity({value: '', key: ''})
+                                setSelectedDistrict({value: '', key: ''})
+                                setFieldValue('state', value);
+                                setFieldValue('city', intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'}));
+                                setFieldValue('district', intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'}));
+                              }
+                              }
+                              className={(errors[key] && touched[key]) ? 'is-invalid' : ''}
+                            >
+                              <Option children=''
+                                      value={intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'})}
+                                      hidden></Option>
+                              {
+                                Object.values(STATE_LIST).map((state: any) => {
+                                  return (
+                                    <Option key={state.code} data-code={state.code}
+                                            value={state.name}>{state.name}</Option>
+                                  )
+                                })
+                              }
+                            </Select>
+                            {
+                              (errors[key] && touched[key]) && (
+                                <div className="invalid-feedback">{errors[key]}</div>
+                              )
+                            }
+                          </div>
+                        </>
+                      )}
                   </Field>
                 </div>
               </div>
             );
-
+          
           case 'citySelect':
             return (selectedCity.value || (selectedCity.key === null && selectedCity.value === null)) && (
               <div className="mt-3" key={`${key}`}>
                 <div className="row">
                   <div className={'col-md-4 col-xl-4 col-12'}>
                     {modifyModel.entity[key].label && (
-                      <label  className={'mb-0 input-label mt-2'}>
+                      <label className={'mb-0 input-label mt-2'}>
                         {modifyModel.entity[key].label} {<span className="text-danger">*</span>}
                       </label>
                     )}
                   </div>
                   <div className={'col-md-8 col-xl-7 col-12'}>
                     <Select
-                        placeholder={intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'})}
-                        suffixIcon={<SelectDropDownIcon />}
-                        defaultValue={selectedCity.value}
-                        onChange={(value: any) => {
-                          // const selectedIndex = e.target.options.selectedIndex;
-                          // const key = e.target.options[selectedIndex].getAttribute('data-code')
-                          const key = getCodeFromName(Object.values(CITY_LIST).filter((city: any) => {return city.parent_code === selectedState.key}), value);
-                          setSelectedCity({value: value, key: key})
-                          setSelectedDistrict({value: '', key: ''})
-                          setFieldValue('city', value);
-                          setFieldValue('district', intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'}));
-                        }
+                      placeholder={intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'})}
+                      suffixIcon={<SelectDropDownIcon/>}
+                      defaultValue={selectedCity.value}
+                      onChange={(value: any) => {
+                        // const selectedIndex = e.target.options.selectedIndex;
+                        // const key = e.target.options[selectedIndex].getAttribute('data-code')
+                        const key = getCodeFromName(Object.values(CITY_LIST).filter((city: any) => {
+                          return city.parent_code === selectedState.key
+                        }), value);
+                        setSelectedCity({value: value, key: key})
+                        setSelectedDistrict({value: '', key: ''})
+                        setFieldValue('city', value);
+                        setFieldValue('district', intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'}));
+                      }
                       }
                       className={(errors[key] && touched[key]) ? 'is-invalid' : ''}
-                      >
-                      <Option children='' value={intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'})} hidden></Option>
+                    >
+                      <Option children='' value={intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'})}
+                              hidden></Option>
                       {(selectedState && selectedState.key) ?
-                        Object.values(CITY_LIST).filter((city: any) => {return city.parent_code === selectedState.key}).map((city: any) => {
+                        Object.values(CITY_LIST).filter((city: any) => {
+                          return city.parent_code === selectedState.key
+                        }).map((city: any) => {
                           return (
                             <Option key={city.code} data-code={city.code} value={city.name}>{city.name}</Option>
                           )
@@ -393,87 +400,93 @@ const FormTemplate = ({
                       }
                     </Select>
                     {
-                        (errors[key] && touched[key]) && (
-                          <div className="invalid-feedback">{errors[key]}</div>
-                        )
-                      }
+                      (errors[key] && touched[key]) && (
+                        <div className="invalid-feedback">{errors[key]}</div>
+                      )
+                    }
                   </div>
                 </div>
               </div>
             );
-
+          
           case 'districtSelect':
             return (selectedDistrict.value || (selectedDistrict.key === null && selectedDistrict.value === null)) && (
               <div className="mt-3" key={`${key}`}>
                 <div className="row">
                   <div className={'col-md-4 col-xl-4 col-12 '}>
                     {modifyModel.entity[key].label && (
-                      <label  className={'mb-0 input-label mt-2'}>
+                      <label className={'mb-0 input-label mt-2'}>
                         {modifyModel.entity[key].label} {<span className="text-danger">*</span>}
                       </label>
                     )}
                   </div>
-                    <div className={'col-md-8 col-xl-7 col-12'}>
-                      <Select
-                          placeholder={intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'})}
-                          suffixIcon={<SelectDropDownIcon />}
-                          defaultValue={values.district}
-                          onChange={(value: any) => {
-                            // const selectedIndex = e.target.options.selectedIndex;
-                            // const key = e.target.options[selectedIndex].getAttribute('data-code')
-                            const key = getCodeFromName(Object.values(DISTRICT_LIST).filter((district: any) => {return district.parent_code === selectedCity.key}), value);
-                            setFieldValue('district', value);
-                            setSelectedDistrict({value: value, key: key})
-                            // setFieldValue('district', e.target.value);
-                          }
-                        }
-                        className={(errors[key] && touched[key]) ? 'is-invalid' : ''}
-                        >
-                        <Option children='' value={intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'})} hidden></Option>
-                        {(selectedCity && selectedCity.key) ?
-                          Object.values(DISTRICT_LIST).filter((district: any) => {return district.parent_code === selectedCity.key}).map((district: any) => {
-                            return (
-                              <Option key={district.code} data-code={district.code} value={district.name}>{district.name}</Option>
-                            )
-                          })
-                          :
-                          (<></>)
-                        }
-                      </Select>
-                      {
-                        (errors[key] && touched[key]) && (
-                          <div className="invalid-feedback">{errors[key]}</div>
-                        )
+                  <div className={'col-md-8 col-xl-7 col-12'}>
+                    <Select
+                      placeholder={intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'})}
+                      suffixIcon={<SelectDropDownIcon/>}
+                      defaultValue={values.district}
+                      onChange={(value: any) => {
+                        // const selectedIndex = e.target.options.selectedIndex;
+                        // const key = e.target.options[selectedIndex].getAttribute('data-code')
+                        const key = getCodeFromName(Object.values(DISTRICT_LIST).filter((district: any) => {
+                          return district.parent_code === selectedCity.key
+                        }), value);
+                        setFieldValue('district', value);
+                        setSelectedDistrict({value: value, key: key})
+                        // setFieldValue('district', e.target.value);
                       }
-                    </div>
+                      }
+                      className={(errors[key] && touched[key]) ? 'is-invalid' : ''}
+                    >
+                      <Option children='' value={intl.formatMessage({id: 'COMMON_COMPONENT.SELECT.PLACEHOLDER'})}
+                              hidden></Option>
+                      {(selectedCity && selectedCity.key) ?
+                        Object.values(DISTRICT_LIST).filter((district: any) => {
+                          return district.parent_code === selectedCity.key
+                        }).map((district: any) => {
+                          return (
+                            <Option key={district.code} data-code={district.code}
+                                    value={district.name}>{district.name}</Option>
+                          )
+                        })
+                        :
+                        (<></>)
+                      }
+                    </Select>
+                    {
+                      (errors[key] && touched[key]) && (
+                        <div className="invalid-feedback">{errors[key]}</div>
+                      )
+                    }
                   </div>
+                </div>
               </div>
             );
-
+          
           // handle shippingAddress
           case 'array':
             const shippingAddresses = formValues[key];
-            return shippingAddresses ? 
+            return shippingAddresses ?
               shippingAddresses.map((el: any, innerkey: any) => {
                 return (
                   <div className="mt-3" key={`${innerkey}`}>
-                  <Field
-                    name={key}
-                    value={
-                      shippingAddresses[innerkey].address + ', ' +
-                      shippingAddresses[innerkey].district + ', ' +
-                      shippingAddresses[innerkey].city + ', ' +
-                      shippingAddresses[innerkey].state
-                    }
-                    component={MainInput}
-                    isHorizontal
-                    withFeedbackLabel
-                    labelWidth={4}
-                    placeholder={modifyModel.entity[key].placeholder}
-                    label={modifyModel.entity[key].label}
-                    required={modifyModel.entity[key].required}
-                  />
-                </div>
+                    <Field
+                      name={key}
+                      value={
+                        shippingAddresses[innerkey].address + ', ' +
+                        shippingAddresses[innerkey].district + ', ' +
+                        shippingAddresses[innerkey].city + ', ' +
+                        shippingAddresses[innerkey].state
+                      }
+                      component={MainInput}
+                      isHorizontal
+                      withFeedbackLabel
+                      labelWidth={4}
+                      placeholder={modifyModel.entity[key].placeholder}
+                      label={modifyModel.entity[key].label}
+                      required={modifyModel.entity[key].required}
+                    />
+                  </div>
                 )
               })
               : <></>
@@ -494,9 +507,9 @@ const FormTemplate = ({
             );
           case 'radioGroup':
             const _shippingAddresses = formValues['shippingAddress'] ? formValues['shippingAddress'].map((addr: any, key: number) => {
-              return {...addr, _id: key};
-            })
-            : [];
+                return {...addr, _id: key};
+              })
+              : [];
             formValues['shippingAddress'] = _shippingAddresses;
             return (
               <FormikRadioGroup
@@ -514,34 +527,34 @@ const FormTemplate = ({
           case 'image':
             return (
               <Field name={key}>
-              {({
-                field, // { name, value, onChange, onBlur }
-                form: { touched, errors }, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
-                meta,
-              } : {
-                field: any;
-                form: any;
-                meta: any;
-              }
-              ) => 
-              (
-              <div className="mt-3" key={key}>
-                <CustomImageUpload
-                  value={images[key]}
-                  label={modifyModel.entity[key].label}
-                  labelWidth={4}
-                  required={modifyModel.entity[key].required}
-                  name={key}
-                />
-              </div>
-            )
-            }
-            </Field>)
-            ;
+                {({
+                    field, // { name, value, onChange, onBlur }
+                    form: {touched, errors}, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
+                    meta,
+                  }: {
+                    field: any;
+                    form: any;
+                    meta: any;
+                  }
+                ) =>
+                  (
+                    <div className="mt-3" key={key}>
+                      <CustomImageUpload
+                        value={images[key]}
+                        label={modifyModel.entity[key].label}
+                        labelWidth={4}
+                        required={modifyModel.entity[key].required}
+                        name={key}
+                      />
+                    </div>
+                  )
+                }
+              </Field>)
+              ;
           case 'boolean':
             return (
               <div className="mt-3" key={`${key}`}>
-                          
+                
                 <Field
                   name={key}
                   component={SwitchField}
@@ -553,7 +566,7 @@ const FormTemplate = ({
                   required={modifyModel.entity[key].required}
                 />
               </div>
-            );  
+            );
           case 'option':
             return values.gender !== undefined ? (
               <div className="mt-3" key={`${key}`}>
@@ -570,9 +583,9 @@ const FormTemplate = ({
                 {/* <RadioField 
                   defaultValue={values.gender}
                 /> */}
-            </div>
+              </div>
             ) : (<></>)
-
+          
           case 'object':
             return (
               <div className="mt-3" key={key}>
@@ -614,7 +627,7 @@ const FormTemplate = ({
                 })}
               </div>
             );
-
+          
           case 'SearchSelect':
             // setTouched({[key]: true})
             return searchSelect && (
@@ -626,17 +639,17 @@ const FormTemplate = ({
                   onChange={(value: any) => {
                     setSearchSelect(value);
                   }}
-                  loadOptions={(search: string, prevOptions: any, { page }: any) => {
-                      // setSearchSelect(values[key])
-                      return loadOptions(
-                        search,
-                        prevOptions,
-                        { page },
-                        modifyModel.entity[key].service,
-                        modifyModel.entity[key].keyField,
-                        key,
-                      )
-                    }
+                  loadOptions={(search: string, prevOptions: any, {page}: any) => {
+                    // setSearchSelect(values[key])
+                    return loadOptions(
+                      search,
+                      prevOptions,
+                      {page},
+                      modifyModel.entity[key].service,
+                      modifyModel.entity[key].keyField,
+                      key,
+                    )
+                  }
                   }
                   additional={{
                     page: DefaultPagination.page,
@@ -644,7 +657,7 @@ const FormTemplate = ({
                   name={key}
                   placeholder={modifyModel.entity[key].placeholder}
                   required={modifyModel.entity[key].required}
-                 keyField={'aa'}/>
+                  keyField={'aa'}/>
               </div>
             );
           //
@@ -669,8 +682,8 @@ const FormTemplate = ({
           //   ) : (
           //     <></>
           //   );
-
-
+          
+          
           case 'tag':
             return (
               <div className="mt-3" key={key}>
@@ -684,8 +697,8 @@ const FormTemplate = ({
                 />
               </div>
             );
-
-            case 'gallery':
+          
+          case 'gallery':
             return (
               <div className="mt-3" key={key}>
                 <ImgGallery
@@ -698,23 +711,23 @@ const FormTemplate = ({
                     path: 'https://source.unsplash.com/aZjw7xI3QAA/1144x763',
                     author: 'Nguyễn Minh Hiếu',
                     time: '26/09/2020 9:00',
-                    location: { coordinates: [`21°01'10.1"N 105°47'28.6"E`] },
+                    location: {coordinates: [`21°01'10.1"N 105°47'28.6"E`]},
                     thumbnail: 'https://source.unsplash.com/aZjw7xI3QAA/100x67',
                   },
-                  {
-                    path: 'https://source.unsplash.com/c77MgFOt7e0/1144x763',
-                    author: 'Nguyễn Minh Hiếu',
-                    time: '26/09/2020 9:00',
-                    location: { coordinates: [`21°01'10.1"N 105°47'28.6"E`] },
-                    thumbnail: 'https://source.unsplash.com/c77MgFOt7e0/100x67',
-                  },
-                  {
-                    path: 'https://source.unsplash.com/QdBHnkBdu4g/1144x763',
-                    author: 'Nguyễn Minh Hiếu',
-                    time: '26/09/2020 9:00',
-                    location: { coordinates: [`21°01'10.1"N 105°47'28.6"E`] },
-                    thumbnail: 'https://source.unsplash.com/QdBHnkBdu4g/100x67',
-                  },]}
+                    {
+                      path: 'https://source.unsplash.com/c77MgFOt7e0/1144x763',
+                      author: 'Nguyễn Minh Hiếu',
+                      time: '26/09/2020 9:00',
+                      location: {coordinates: [`21°01'10.1"N 105°47'28.6"E`]},
+                      thumbnail: 'https://source.unsplash.com/c77MgFOt7e0/100x67',
+                    },
+                    {
+                      path: 'https://source.unsplash.com/QdBHnkBdu4g/1144x763',
+                      author: 'Nguyễn Minh Hiếu',
+                      time: '26/09/2020 9:00',
+                      location: {coordinates: [`21°01'10.1"N 105°47'28.6"E`]},
+                      thumbnail: 'https://source.unsplash.com/QdBHnkBdu4g/100x67',
+                    },]}
                 />
               </div>
             );

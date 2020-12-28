@@ -20,9 +20,9 @@ export function ErrorPage5() {
           </p>
           <p className="font-size-h3">
             We're working on it and we'll get it fixed
-            <br />
+            <br/>
             as soon possible.
-            <br />
+            <br/>
             You can back or use our Help Center.
           </p>
         </div>

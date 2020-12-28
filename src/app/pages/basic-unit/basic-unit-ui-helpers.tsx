@@ -1,4 +1,4 @@
-import { SortOrder } from 'react-bootstrap-table-next';
+import {SortOrder} from 'react-bootstrap-table-next';
 
 export const defaultSorted: { dataField: any; order: SortOrder }[] = [
   {

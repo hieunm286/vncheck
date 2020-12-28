@@ -12,7 +12,7 @@ export function ErrorPage1() {
       >
         <h1
           className="font-size-sm-100 font-weight-boldest text-dark-75 mt-15"
-          style={{ fontSize: "150px" }}
+          style={{fontSize: "150px"}}
         >
           404
         </h1>

@@ -202,10 +202,8 @@
   "AGENCY.MASTER.TABLE.AGENCY_ADDRESS_COLUMN": "Địa chỉ đơn vị",
   "AGENCY.MASTER.TABLE.STATUS_COLUMN": "Trạng thái",
   "AGENCY.MASTER.TABLE.ACTION_COLUMN": "Hành động",
-
   "AGENCY.DELETE_DIALOG.TITLE": "Xóa đơn vị vận chuyển",
   "AGENCY.DELETE_DIALOG.BODY_TITLE": "Đơn vị vận chuyển này sẽ bị xóa.",
-
   "AGENCY.DETAIL_DIALOG.TITLE": "Thông tin chi tiết",
   "AGENCY.DETAIL_DIALOG.SHIPPING.SUBTITLE": "Thông tin đơn vị bán hàng",
   "AGENCY.DETAIL_DIALOG.SHIPPING.CODE": "Mã đơn vị bán hàng",
@@ -218,7 +216,6 @@
   "AGENCY.DETAIL_DIALOG.OWNER.EMAIL": "Email",
   "AGENCY.DETAIL_DIALOG.OWNER.PHONE_NUMBER": "Điện thoại liên hệ",
   "AGENCY.DETAIL_DIALOG.SHIPPING_ADDRESS": "Địa chỉ giao hàng",
-
   "AGENCY.EDIT.HEADER.AGENCY_INFO": "Thông tin đơn vị bán hàng",
   "AGENCY.EDIT.HEADER.AGENCY_OWNER_INFO": "Thông tin chủ đơn vị",
   "AGENCY.EDIT.HEADER.EDIT_SHIPPING_ADDRESS": "Chỉnh sửa địa chỉ giao hàng",
@@ -350,8 +347,6 @@
   "PRODUCT_TYPE.CREATE.TITLE": "Tạo chủng loại mới",
   "PRODUCT_TYPE.UPDATE.TITLE": "Chỉnh sửa chủng loại",
   "PRODUCT_TYPE.MASTER.IMAGE": "Ảnh chủng loại",
-
-  
   "SPECIES_NAME_CANNOT_EMPTY": "Tên chủng loại không được để trống",
   "SPECIES_NAME_IS_INVALID": "Tên không hợp lệ. Tên không chứa số và ký tự đặc biệt",
   "SPECIES_NAME_WAS_EXISTED": "Tên chủng loại đã tồn tại",
@@ -362,20 +357,16 @@
   "DATE_CANNOT_BE_EMPTY": "Số ngày không được để trống",
   "DAYS_MUST_BE_MORE_THAN_1": "Số ngày không được ít hơn 1 nha",
   "INPUT_NUMBER": "Vui lòng nhập số",
-
   "GRAM_CANNOT_BE_EMPTY": "Số gram không được để trống",
   "GRAM_MUST_BE_MORE_THAN_0": "Số gram không được ít hơn 0 nha",
-
   "MULTILEVEL_SALE": "Cấp bán hàng",
   "MULTIVELEVEL_SALE_NAME_CANNOT_BE_EMPTY": "Tên cấp bán hàng không được để trống",
   "MULTIVELEVEL_SALE_NAME_IS_INVALID": "Tên cấp bán hàng không hợp lệ",
   "MULTIVELEVEL_SALE_NAME_WAS_EXISTED": "Tên cấp bán hàng đã tồn tại",
   "MULTIVELEVEL_SALE_TREE_DATA": "Danh sách cấp phân phối",
   "MULTIVELEVEL_SALE_AGENCY_DATA": "Danh sách các đơn vị bán hàng",
-
   "INPUT_ALL": "Nhập hết vào",
   "INPUT_MUTS_ACCORDING_ORDER": "Vui lòng nhập đầy đủ theo thứ tự",
-
   "PRODUCT_PACKAGING.MASTER.TABLE.CODE_COLUMN": "Mã quy cách",
   "PRODUCT_PACKAGING.MASTER.TABLE.NAME_COLUMN": "Tên chủng loại",
   "PRODUCT_PACKAGING.MASTER.TABLE.GRAM_COLUMN": "Số Gram/Gói",
@@ -530,7 +521,6 @@
   "VALIDATE.ERROR.INVALID_ESTIMATED_EXPIRE_TIME_START": "Hạn sử dụng bắt đầu phải lớn hơn hiện tại",
   "VALIDATE.ERROR.INVALID_ESTIMATED_EXPIRE_TIME_END": "Hạn sử dụng kết thúc phải lớn hơn hiện tại",
   "VALIDATE.ERROR.ESTIMATED_EXPIRE_START_TIME_MUST_BEFORE_ESTIMATED_EXPIRE_END_TIME": "Hạn sử dụng bắt đầu phải nhỏ hơn hạn sử dụng kết thúc",
-
   "PRODUCTION_MANAGEMENT_HARVESTING": "Thu hoạch",
   "PRODUCTION_MANAGEMENT_PREPROCESSING": "Sơ chế",
   "PRODUCTION_MANAGEMENT_CLEANING": "Làm sạch",

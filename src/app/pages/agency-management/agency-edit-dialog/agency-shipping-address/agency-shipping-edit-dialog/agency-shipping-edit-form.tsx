@@ -6,7 +6,7 @@ import React, {useState} from 'react';
 import {Modal} from 'react-bootstrap';
 import {Field, Form, Formik} from 'formik';
 import * as Yup from 'yup';
-import {Input, MainInput, Select} from '../../../../../../_metronic/_partials/controls/index';
+import {MainInput, Select} from '../../../../../../_metronic/_partials/controls/index';
 // import COUNTRY_LIST from '../../../../../../_metronic/country/country';
 import STATE_LIST from '../../../../../../_metronic/AdministrativeDivision/state.json';
 import CITY_LIST from '../../../../../../_metronic/AdministrativeDivision/city.json';

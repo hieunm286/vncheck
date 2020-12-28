@@ -1,7 +1,8 @@
-import { getShippingAddress } from '../../../common-library/forms/radio-group-field';
+import {getShippingAddress} from '../../../common-library/forms/radio-group-field';
 
 export const convertToForm = (entity: any) => {
-  const _entity = {...entity, 
+  const _entity = {
+    ...entity,
     storeLevel: entity.storeLevel._id,
     state: entity.address.state,
     city: entity.address.city,
@@ -16,7 +17,9 @@ export const convertToForm = (entity: any) => {
     birthDay: entity.owner.birthDay, // entity.owner.birthDay && Date.parse(entity.owner.birthDay),
     roleName: {label: entity.owner.role.name, value: entity.owner.role._id},
     status: entity.status,
-    defaultShippingAddress: getShippingAddress(entity.shippingAddress.find((addr: any) => {return addr.isDefault === true})),
+    defaultShippingAddress: getShippingAddress(entity.shippingAddress.find((addr: any) => {
+      return addr.isDefault === true
+    })),
     // avatar: , 
     avatar: entity.owner.image || {},
     image: entity.value || [],
@@ -29,8 +32,8 @@ export const convertToServer = (entity: any) => {
   console.log(entity.detailAddress)
   const shippingAddress = entity.shippingAddress || [];
   shippingAddress.map((addr: any) => {
-    if(addr._id) {
-      if(addr._id.toString().match(/^[0-9a-fA-F]{24}$/)) {
+    if (addr._id) {
+      if (addr._id.toString().match(/^[0-9a-fA-F]{24}$/)) {
         return addr;
       } else {
         const _addr = delete addr._id;
@@ -41,7 +44,8 @@ export const convertToServer = (entity: any) => {
     }
   });
   
-  let _entity = {...entity,
+  let _entity = {
+    ...entity,
     storeLevel: entity.storeLevel || '',
     address: {
       state: entity.state || '',
@@ -68,11 +72,11 @@ export const convertToServer = (entity: any) => {
     status: entity.status,
     images: entity.image,
   };
-
   
-  if(_entity.images.length === 0) delete _entity.images;
-  if(_entity.owner.avatar.length === 0) delete _entity.owner.avatar;
-
+  
+  if (_entity.images.length === 0) delete _entity.images;
+  if (_entity.owner.avatar.length === 0) delete _entity.owner.avatar;
+  
   delete _entity.avatar;
   delete _entity.image;
   delete _entity.state;
@@ -80,18 +84,17 @@ export const convertToServer = (entity: any) => {
   delete _entity.district;
   delete _entity.detailAddress;
   delete _entity.phoneNumber;
-
+  
   delete _entity.username;
   delete _entity.ownerPhoneNumber;
   delete _entity.ownerName;
   delete _entity.email;
   delete _entity.gender;
   delete _entity.roleName;
-
+  
   delete _entity.birthDay;
   delete _entity.defaultShippingAddress;
-
-
-
+  
+  
   return _entity;
 }

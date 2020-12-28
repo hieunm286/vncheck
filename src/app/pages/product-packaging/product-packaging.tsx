@@ -1,26 +1,22 @@
 import React, {Fragment, useEffect, useMemo, useState} from 'react';
 import {useIntl} from 'react-intl';
-import {DefaultPagination, NormalColumn, SortColumn, StatusValue} from '../../common-library/common-consts/const';
+import {DefaultPagination, NormalColumn, SortColumn} from '../../common-library/common-consts/const';
 import {MasterHeader} from '../../common-library/common-components/master-header';
 import {MasterBody} from '../../common-library/common-components/master-body';
 import {ActionsColumnFormatter} from '../../common-library/common-components/actions-column-formatter';
 import {DeleteEntityDialog} from '../../common-library/common-components/delete-entity-dialog';
 import DeleteManyEntitiesDialog from '../../common-library/common-components/delete-many-entities-dialog';
 import {ModifyForm, ModifyInputGroup, SearchModel} from '../../common-library/common-types/common-type';
-import {
-  GenerateAllFormField,
-  generateInitForm,
-  InitMasterProps,
-} from '../../common-library/helpers/common-function';
-import {Switch, Route, Redirect, useHistory} from 'react-router-dom';
+import {GenerateAllFormField, generateInitForm, InitMasterProps,} from '../../common-library/helpers/common-function';
+import {Route, Switch, useHistory} from 'react-router-dom';
 import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import * as Yup from 'yup';
 import {ProductPackagingModel} from './product-packaging.model';
 import * as ProductPackagingService from './product-packaging.service';
+import {GetAll} from './product-packaging.service';
 import ProductPackagingDetailDialog from './product-packaging-detail-dialog';
 import * as ProductTypeService from '../species/species.service';
-import {GetAll} from "./product-packaging.service";
 import _ from 'lodash';
 import ModifyEntityDialog from "../../common-library/common-components/modify-entity-dialog";
 
@@ -219,7 +215,7 @@ function ProductPackaging() {
   const allFormField: any = {
     ...GenerateAllFormField(modifyModel),
   };
-
+  
   const [group1, setGroup1] = useState<ModifyInputGroup>({
     _subTitle: '',
     code: {
@@ -341,12 +337,12 @@ function ProductPackaging() {
           <MasterHeader
             title={headerTitle}
             onSearch={(value) => {
-              const cvEntity = { ...value }
+              const cvEntity = {...value}
               
-              if (value.species && _.isObject(value.species) ) {
+              if (value.species && _.isObject(value.species)) {
                 cvEntity.species = value.species._id
               }
-
+              
               setPaginationProps(DefaultPagination)
               setFilterProps(cvEntity)
             }}

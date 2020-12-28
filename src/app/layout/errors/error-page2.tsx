@@ -10,7 +10,8 @@ export function ErrorPage2() {
           backgroundImage: `url(${ToAbsoluteUrl("/media/error/bg2.jpg")})`
         }}
       >
-        <div className="d-flex flex-row-fluid flex-column justify-content-end align-items-center text-center text-white pb-40">
+        <div
+          className="d-flex flex-row-fluid flex-column justify-content-end align-items-center text-center text-white pb-40">
           <h1 className="display-1 font-weight-bold">OOPS!</h1>
           <span className="display-4 font-weight-boldest mb-8">
             Something went wrong here

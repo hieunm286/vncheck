@@ -4,7 +4,7 @@ import axios from 'axios';
 import {Button, Form, FormControl, Spinner} from 'react-bootstrap';
 import SearchIcon from '@material-ui/icons/Search';
 import './infinite-list.scss';
-import { API_BASE_URL } from '../../../common-library/common-consts/enviroment';
+import {API_BASE_URL} from '../../../common-library/common-consts/enviroment';
 
 import InfiniteItem from './infinite-item';
 

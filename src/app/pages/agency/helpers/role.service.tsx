@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { API_BASE_URL } from '../../../common-library/common-consts/enviroment';
+import {API_BASE_URL} from '../../../common-library/common-consts/enviroment';
 import {
   CountProps,
   CreateProps,
@@ -16,16 +16,16 @@ export const Create: CreateProps<any> = (data: any) => {
   return axios.post(API_URL, data);
 };
 
-export const GetAll: GetAllPropsServer<any> = ({ queryProps, sortList, paginationProps }) => {
+export const GetAll: GetAllPropsServer<any> = ({queryProps, sortList, paginationProps}) => {
   return axios.get(`${API_URL}`, {
-    params: { ...queryProps, ...paginationProps, sortList },
+    params: {...queryProps, ...paginationProps, sortList},
     // paramsSerializer: ParamsSerializer
   });
 };
 
-export const Count: CountProps<any> = ({ queryProps, sortList, paginationProps }) => {
+export const Count: CountProps<any> = ({queryProps, sortList, paginationProps}) => {
   return axios.get(`${API_URL}/count`, {
-    params: { ...queryProps, ...paginationProps, sortList },
+    params: {...queryProps, ...paginationProps, sortList},
   });
 };
 
@@ -43,6 +43,6 @@ export const Delete: DeleteProps<any> = (entity: any) => {
 
 export const DeleteMany: DeleteManyProps<any> = (entities: any[]) => {
   return axios.delete(API_URL, {
-    data: { arrayEntities: entities },
+    data: {arrayEntities: entities},
   });
 };

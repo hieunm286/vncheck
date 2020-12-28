@@ -2,7 +2,6 @@ import React, {useEffect, useMemo} from 'react';
 import {Modal} from 'react-bootstrap';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 // import store from '../../../../../../redux/store';
-
 import * as actions from '../_redux/agency-type-action';
 import {useAgencyTypeUIContext} from '../agency-type-ui-context';
 import './agency-type-detail-dialog.scss';

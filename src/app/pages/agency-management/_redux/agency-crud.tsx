@@ -1,6 +1,5 @@
 import axios from 'axios';
-import { any } from 'prop-types';
-import { API_BASE_URL } from '../../../common-library/common-consts/enviroment';
+import {API_BASE_URL} from '../../../common-library/common-consts/enviroment';
 
 export const AGENCIES_URL = API_BASE_URL + '/agency';
 export const AGENCY_URL = API_BASE_URL + '/agency';

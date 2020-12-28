@@ -30,20 +30,18 @@ export interface AgencyModel {
   };
   phone: string;
   // shippingAddress: string;
-  shippingAddress: Array<
-    {
-      _id: any;
-      address: string;
-      state: string;
-      city: string;
-      district: string;
-      isDefault: boolean
-    }
-  >;
+  shippingAddress: Array<{
+    _id: any;
+    address: string;
+    state: string;
+    city: string;
+    district: string;
+    isDefault: boolean
+  }>;
   status: boolean;
   taxId: string;
   storeLevel: object | string | null;
-
+  
   username?: string;
   fullName?: string;
   ownerName?: string;
@@ -58,5 +56,5 @@ export interface AgencyModel {
   city?: string | null;
   state?: string | null;
   
-
+  
 }

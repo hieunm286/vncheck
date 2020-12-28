@@ -2,12 +2,7 @@ import React, {Fragment, useEffect} from 'react';
 import {useIntl} from 'react-intl';
 import {Count, Create, Delete, DeleteMany, Get, GetAll, Update} from './purchase-order.service';
 import {PurchaseOrderModel} from './purchase-order.model';
-import {
-  DefaultPagination,
-  NormalColumn,
-  SortColumn,
-  StatusValue,
-} from '../../common-library/common-consts/const';
+import {DefaultPagination, NormalColumn, SortColumn, StatusValue,} from '../../common-library/common-consts/const';
 import {MasterHeader} from '../../common-library/common-components/master-header';
 import {MasterEntityDetailDialog} from '../../common-library/common-components/master-entity-detail-dialog';
 import {MasterBody} from '../../common-library/common-components/master-body';
@@ -18,12 +13,8 @@ import {DeleteEntityDialog} from '../../common-library/common-components/delete-
 import DeleteManyEntitiesDialog from '../../common-library/common-components/delete-many-entities-dialog';
 import ModifyEntityDialog from '../../common-library/common-components/modify-entity-dialog';
 import {SearchModel} from '../../common-library/common-types/common-type';
-import {
-  ConvertToTreeNode,
-  GenerateAllFormField,
-  InitMasterProps,
-} from '../../common-library/helpers/common-function';
-import {Switch, Route, Redirect, useHistory} from 'react-router-dom';
+import {ConvertToTreeNode, GenerateAllFormField, InitMasterProps,} from '../../common-library/helpers/common-function';
+import {Redirect, Route, Switch, useHistory} from 'react-router-dom';
 import EntityCrudPage from '../../common-library/common-components/entity-crud-page';
 import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';

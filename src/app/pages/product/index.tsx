@@ -5,13 +5,13 @@ import Product from "./product";
 import ProductGroup from "./product-group";
 
 function ProductPage(props: any) {
-    return (
-        <Switch>
-            <Redirect exact={true} from="/product-category" to="/product-category/product"/>
-            <ContentRoute path="/product-category/product" component={Product}/>
-            <ContentRoute path="/product-category/group-product" component={ProductGroup}/>
-        </Switch>
-    );
+  return (
+    <Switch>
+      <Redirect exact={true} from="/product-category" to="/product-category/product"/>
+      <ContentRoute path="/product-category/product" component={Product}/>
+      <ContentRoute path="/product-category/group-product" component={ProductGroup}/>
+    </Switch>
+  );
 }
 
 export default ProductPage;

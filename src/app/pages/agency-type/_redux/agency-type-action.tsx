@@ -1,4 +1,3 @@
-import { GenerateKeyPairAndEncrypt } from '../../auth/service/auth-cryptography';
 import * as requestFromServer from './agency-type-crud';
 import {agencyTypeSlice, callTypes} from './agency-type-slice';
 import {AgencyType} from "../../../models/agency-type.model";

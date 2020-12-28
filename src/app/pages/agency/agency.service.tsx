@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { API_BASE_URL } from '../../common-library/common-consts/enviroment';
+import {API_BASE_URL} from '../../common-library/common-consts/enviroment';
 import {
   CountProps,
   CreateProps,
@@ -9,7 +9,7 @@ import {
   GetProps,
   UpdateProps,
 } from '../../common-library/common-types/common-type';
-import { AgencyModel } from './agency.model';
+import {AgencyModel} from './agency.model';
 
 export const API_URL = API_BASE_URL + '/agency';
 
@@ -31,17 +31,17 @@ export const Create: CreateProps<AgencyModel> = (data: AgencyModel) => {
 //   return convertURL
 // }
 //
-export const GetAll: GetAllPropsServer<AgencyModel> = ({ queryProps, sortList, paginationProps }) => {
+export const GetAll: GetAllPropsServer<AgencyModel> = ({queryProps, sortList, paginationProps}) => {
   // const convertQuery = { ...queryProps }
   // if (queryProps && queryProps.address) {
   //   delete convertQuery.address
   //   return axios.get(convertAddress(queryProps.address), {
   //     params: { ...convertQuery, ...paginationProps, sortList },
   //     paramsSerializer: ParamsSerializer
-    // });
+  // });
   // }
   return axios.get(`${API_URL}`, {
-    params: { ...queryProps, ...paginationProps, sortList },
+    params: {...queryProps, ...paginationProps, sortList},
   });
 };
 
@@ -51,7 +51,7 @@ export const Count: CountProps<any> = ({
                                          paginationProps,
                                        }) => {
   return axios.get(`${API_URL}/count`, {
-    params: { ...queryProps, ...paginationProps, sortList },
+    params: {...queryProps, ...paginationProps, sortList},
   });
 };
 
@@ -73,6 +73,6 @@ export const Delete: DeleteProps<AgencyModel> = (entity: AgencyModel) => {
 
 export const DeleteMany: DeleteManyProps<AgencyModel> = (entities: AgencyModel[]) => {
   return axios.delete(`${API_URL}/bulk`, {
-    data: { listAgencies: entities },
+    data: {listAgencies: entities},
   });
 };

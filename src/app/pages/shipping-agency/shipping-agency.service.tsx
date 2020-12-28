@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { API_BASE_URL } from '../../common-library/common-consts/enviroment';
+import {API_BASE_URL} from '../../common-library/common-consts/enviroment';
 import {
   CountProps,
   CreateProps,
@@ -7,7 +7,6 @@ import {
   DeleteProps,
   GetAllPropsServer,
   GetProps,
-  SearchModel,
   UpdateProps,
 } from '../../common-library/common-types/common-type';
 import {ShippingAgencyModel} from "./shipping-agency.model";
@@ -21,22 +20,22 @@ export const Create: CreateProps<any> = (data: any) => {
 };
 
 export const GetAll: GetAllPropsServer<any> = ({
-  queryProps,
-  sortList,
-  paginationProps,
-}) => {
+                                                 queryProps,
+                                                 sortList,
+                                                 paginationProps,
+                                               }) => {
   return axios.get(`${API_URL}`, {
-    params: { ...queryProps, ...paginationProps, sortList },
+    params: {...queryProps, ...paginationProps, sortList},
   });
 };
 
 export const Count: CountProps<any> = ({
-  queryProps,
-  sortList,
-  paginationProps,
-}) => {
+                                         queryProps,
+                                         sortList,
+                                         paginationProps,
+                                       }) => {
   return axios.get(`${API_URL}/count`, {
-    params: { ...queryProps, ...paginationProps, sortList },
+    params: {...queryProps, ...paginationProps, sortList},
   });
 };
 
@@ -57,6 +56,6 @@ export const Delete: DeleteProps<ShippingAgencyModel> = (entity: any) => {
 
 export const DeleteMany: DeleteManyProps<any> = (entities: any[]) => {
   return axios.delete(BULK_API_URL, {
-    data: { listShippingAgencies: entities },
+    data: {listShippingAgencies: entities},
   });
 };

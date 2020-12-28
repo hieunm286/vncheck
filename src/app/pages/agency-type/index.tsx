@@ -1,13 +1,13 @@
 import React from 'react';
-import { AgencyTypeUIProvider } from './agency-type-ui-context';
-import { Route } from 'react-router-dom';
-import { AgencyTypeEditDialog } from './agency-type-edit-dialog/agency-type-edit-dialog';
-import { AgencyTypeDeleteDialog } from './agency-type-delete-dialog/agency-type-delete-dialog';
+import {AgencyTypeUIProvider} from './agency-type-ui-context';
+import {Route} from 'react-router-dom';
+import {AgencyTypeEditDialog} from './agency-type-edit-dialog/agency-type-edit-dialog';
+import {AgencyTypeDeleteDialog} from './agency-type-delete-dialog/agency-type-delete-dialog';
 import AgencyTypeDetailDialog from './agency-type-detail-dialog/agency-type-detail-dialog';
-import { AgencyTypeCard } from './agency-type-card';
-import { AgencyUIProvider } from './agency-ui-context';
-import { AgencyDeleteDialog } from './agency-delete-dialog/agency-delete-dialog';
-import { AgencyCard } from './agency-card';
+import {AgencyTypeCard} from './agency-type-card';
+import {AgencyUIProvider} from './agency-ui-context';
+import {AgencyDeleteDialog} from './agency-delete-dialog/agency-delete-dialog';
+import {AgencyCard} from './agency-card';
 
 function AgencyType({history}: { history: any }) {
   const agencyTypeUIEvents = {
@@ -50,7 +50,7 @@ function AgencyType({history}: { history: any }) {
       <div className="col-lg-6">
         <AgencyTypeUIProvider agencyTypeUIEvents={agencyTypeUIEvents}>
           <Route path="/agency-type/new">
-            {({ history, match }) => (
+            {({history, match}) => (
               <AgencyTypeEditDialog
                 id={null}
                 show={match != null}
@@ -61,7 +61,7 @@ function AgencyType({history}: { history: any }) {
             )}
           </Route>
           <Route path="/agency-type/:id/edit">
-            {({ history, match }) => (
+            {({history, match}) => (
               <AgencyTypeEditDialog
                 show={match != null}
                 id={match && match.params.id}
@@ -72,7 +72,7 @@ function AgencyType({history}: { history: any }) {
             )}
           </Route>
           <Route path="/agency-type/:id/delete">
-            {({ history, match }) => (
+            {({history, match}) => (
               <AgencyTypeDeleteDialog
                 show={match != null}
                 id={match && match.params.id}
@@ -83,7 +83,7 @@ function AgencyType({history}: { history: any }) {
             )}
           </Route>
           <Route path="/agency-type/:id/view">
-            {({ history, match }) => (
+            {({history, match}) => (
               <AgencyTypeDetailDialog
                 show={match != null}
                 id={match && match.params.id}
@@ -100,7 +100,7 @@ function AgencyType({history}: { history: any }) {
       <div className="col-lg-6">
         <AgencyUIProvider agencyUIEvents={agencyTypeUIEvents}>
           <Route path="/agency-type/agency-management/:id/delete">
-            {({ history, match }) => (
+            {({history, match}) => (
               <AgencyDeleteDialog
                 show={match != null}
                 id={match && match.params.id}

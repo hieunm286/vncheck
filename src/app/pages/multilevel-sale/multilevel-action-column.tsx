@@ -3,21 +3,19 @@
 /* eslint-disable no-script-url,jsx-a11y/anchor-is-valid */
 import React from 'react';
 import SVG from 'react-inlinesvg';
-import Visibility from '@material-ui/icons/Visibility';
 // import './master-table.scss';
-import { IntlShape } from 'react-intl';
-import { Link } from 'react-router-dom';
-import { ToAbsoluteUrl } from '../../common-library/helpers/assets-helpers';
+import {IntlShape} from 'react-intl';
+import {ToAbsoluteUrl} from '../../common-library/helpers/assets-helpers';
 
 interface ActionColumnProps<T> {
-    onDelete: (entity: T) => void;
-  }
+  onDelete: (entity: T) => void;
+}
 
 export function MultilevelSaleActionColumn<T>(
   cellContent: any,
   row: any,
   rowIndex: number,
-  { onDelete, intl }: ActionColumnProps<T> & { intl: IntlShape },
+  {onDelete, intl}: ActionColumnProps<T> & { intl: IntlShape },
 ) {
   
   return (
@@ -29,7 +27,7 @@ export function MultilevelSaleActionColumn<T>(
         <span className="svg-icon svg-icon-md svg-icon-primary">
           <SVG
             src={ToAbsoluteUrl('/media/svg/icons/General/Trash.svg')}
-            title={intl.formatMessage({ id: 'COMMON_COMPONENT.MASTER_BODY.TABLE.DELETE_BTN' })}
+            title={intl.formatMessage({id: 'COMMON_COMPONENT.MASTER_BODY.TABLE.DELETE_BTN'})}
           />
         </span>
       </a>
