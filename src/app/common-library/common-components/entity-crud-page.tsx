@@ -57,7 +57,7 @@ function EntityCrudPage({
       <Formik
         enableReinitialize={true}
         initialValues={entityForEdit}
-        // validationSchema={validation}
+        validationSchema={validation}
         onSubmit={(values, {setSubmitting, validateForm}) => {
           onModify(values).then(() => {
             history.push(GetHomePage(window.location.pathname))

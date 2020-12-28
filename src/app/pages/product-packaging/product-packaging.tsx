@@ -31,6 +31,7 @@ const homeURL = `${window.location.pathname}`;
 
 const ProductPackagingSchema = Yup.object().shape({
   species: Yup.mixed().required('SPECIES_NAME_CANNOT_EMPTY').test('test name', 'SPECIES_NAME_IS_INVALID', function (value) {
+    console.log(value)
     return value
   }),
   weight: Yup.number()
@@ -183,7 +184,7 @@ function ProductPackaging() {
         code: {
           type: 'string',
           label: 'c',
-          required: true,
+          required: false,
           disabled: true,
         },
         species: {
@@ -195,8 +196,7 @@ function ProductPackaging() {
           // refs: true
         },
         weight: {
-          type: 'string',
-          
+          type: 'string', 
           required: true,
           label: 'PRODUCT_PACKAGING.MASTER.TABLE.GRAM_COLUMN',
         },
