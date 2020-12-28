@@ -30,7 +30,10 @@ function CustomImageUpload({
                              maxNumber = 3,
                            }: ImageUploadPros) {
   const {errors, touched, setFieldValue, values, setFieldTouched} = useFormikContext<any>();
-  const [field, fieldMeta, fieldHelper] = useField({name});
+  const validate = useCallback((value: any): string | void => {
+    if (required && !value) return 'RADIO.ERROR.REQUIRED';
+  }, []);
+  const [field, fieldMeta, fieldHelper] = useField({validate, name});
   const [images, setImages] = useState<any>([]);
   const getImage = useCallback((path: string) => {
     const isBase64 = (s: string) => s.indexOf("data:image") == 0;
@@ -51,14 +54,14 @@ function CustomImageUpload({
           const t = images.map((image: any, index) => ({...field.value[index], [pathField]: image}));
           // console.log(t)
           setImages(t);
-          setFieldValue(name,t);
+          setFieldValue(name, t);
         });
       } else {
         if ((field.value === images[0])) return;
         Promise.all([getImage(field.value[pathField])]).then(images => {
           const t = images.map((image: any) => ({...field.value, [pathField]: image}));
           setImages(t);
-          setFieldValue(name,t[0]);
+          setFieldValue(name, t[0]);
         });
       }
     } else {

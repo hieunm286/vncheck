@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {useIntl} from 'react-intl';
 import {Form, Formik} from 'formik';
 import {Link, useHistory} from 'react-router-dom';
@@ -7,7 +7,8 @@ import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import {ModifyForm} from '../common-types/common-type';
 import _ from 'lodash';
 import {ModifyEntityPage} from './modify-entity-page';
-import {GetHomePage} from "../helpers/common-function";
+import {GetHomePage, InitValues} from "../helpers/common-function";
+import {Spinner} from "react-bootstrap";
 
 function EntityCrudPage({
                           entity = {},
@@ -35,7 +36,11 @@ function EntityCrudPage({
 }) {
   const intl = useIntl();
   const history = useHistory();
+  const initValues = useMemo(() => InitValues(formModel), [formModel]);
   const [entityForEdit, setEntityForEdit] = useState(entity);
+  useEffect(() => {
+    if (!code) setEntityForEdit(initValues);
+  }, [initValues, code]);
   const {_header, ...modifyPanels} = formModel;
   
   useEffect(() => {
@@ -47,19 +52,18 @@ function EntityCrudPage({
     }
   }, [code]);
   
-  console.log(loading)
-  
   return (
     <>
       <Formik
         enableReinitialize={true}
         initialValues={entityForEdit}
-        validationSchema={validation}
-        onSubmit={(values, {setSubmitting}) => {
+        // validationSchema={validation}
+        onSubmit={(values, {setSubmitting, validateForm}) => {
           onModify(values).then(() => {
             history.push(GetHomePage(window.location.pathname))
           }).catch((err) => {
-            setSubmitting(false);
+            console.log(err);
+            // setSubmitting(false);
           });
         }}>
         {({handleSubmit, setFieldValue}) => (
@@ -71,7 +75,7 @@ function EntityCrudPage({
                   throw new Error('Sử dụng sai cách ' + key + '\n' + JSON.stringify(modifyPanels));
                 const {_title, ...panel} = val;
                 return (
-                  <Card key={key} className={'modify-page'}>
+                  <Card key={`entity-crud-card` + key} className={'modify-page'}>
                     <CardHeader
                       className={'border-bottom-0'}
                       title={
@@ -110,16 +114,15 @@ function EntityCrudPage({
                           {Object.keys(actions.data).map(keyss => {
                             switch (actions.data[keyss].role) {
                               case 'submit':
-                                console.log(actions.data[keyss]);
                                 return (
                                   <button
-                                    formNoValidate
-                                    type={actions.data[keyss].type}
                                     className={actions.data[keyss].className}
                                     key={keyss}
-                                    // onClick={() => handleSubmit()}
+                                    type={'submit'}
                                   >
-                                    {loading === true ? actions.data[keyss].loading : actions.data[keyss].icon} {actions.data[keyss].label}
+                                    {loading === true ? actions.data[keyss].loading ?? (
+                                      <Spinner animation="border" variant="light"
+                                               size="sm"/>) : actions.data[keyss].icon} {actions.data[keyss].label}
                                   </button>
                                 );
                               

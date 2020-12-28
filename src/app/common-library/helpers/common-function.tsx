@@ -9,6 +9,7 @@ import {
   DeleteProps,
   GetAllPropsServer,
   GetProps,
+  ModifyForm,
   UpdateProps,
 } from '../common-types/common-type';
 import {diff} from 'deep-object-diff';
@@ -19,35 +20,51 @@ import {useIntl} from "react-intl";
 export const CapitalizeFirstLetter = (string: string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
 };
+const _initValues = ({inputs}: any): any => {
+  return Object.keys(inputs).reduce((pre, key, k, o) => {
+    const input = inputs[key];
+    if (_.isString(input)) throw new Error('Sử dụng sai cách ' + key + '\n' + JSON.stringify(inputs));
+    const name = key;
+    switch (input._type) {
+      case 'string':
+      case 'email':
+      case 'string-number':
+      case 'number':
+      case 'date-time':
+      case 'radio':
+      case 'boolean':
+      case 'image':
+      case 'search-select':
+      case 'tag':
+      case 'checkbox':
+      case 'custom':
+        if (input.required) return {...pre, [name]: ''}
+        return pre
+      case 'object':
+        const {_type, ...inn} = input as any;
+        const s = {[name]: _initValues({inputs: inn})};
+        return _.merge(pre, s);
+    }
+  }, {} as any);
+}
+export const InitValues = (formModel: ModifyForm) => {
+  const result = {};
+  const {_header, ...modifyPanels} = formModel;
+  Object.keys(modifyPanels).map((key, index, keys) => {
+    const val = modifyPanels[key];
+    if (_.isString(val))
+      throw new Error('Sử dụng sai cách ' + key + '\n' + JSON.stringify(modifyPanels));
+    const {_title, ...panel} = val;
+    const {_subTitle, ...pl} = panel;
+    pl && Object.values(pl).map((inputGroup, index) => {
+      if (_.isString(inputGroup)) throw new Error('Sử dụng sai cách ' + inputGroup + '\n' + JSON.stringify(pl));
+      const {_subTitle, _className, _dataClassName, _titleClassName, ...inputs} = inputGroup;
+      _.merge(result, _initValues({inputs}));
+    })
+  })
+  return result;
+}
 
-export const GetError = (error: any, fieldName: string) => {
-  if (fieldName.indexOf('.') === -1) {
-    return error[fieldName]
-  }
-  
-  const arrName = fieldName.split('.')
-  
-  if (arrName.length === 3) {
-    return error[arrName[0]] ? error[arrName[0]][arrName[1]][arrName[2]] : ''
-  }
-  
-  return error[arrName[0]] ? error[arrName[0]][arrName[1]] : ''
-}
-export const GetTouched = (touched: any, fieldName: string) => {
-  if (fieldName.indexOf('.') === -1) {
-    return touched[fieldName]
-  }
-  
-  const arrName = fieldName.split('.')
-  
-  console.log(arrName)
-  
-  if (arrName.length === 3) {
-    return touched[arrName[0]] ? touched[arrName[0]][arrName[1]][arrName[2]] : ''
-  }
-  
-  return touched[arrName[0]] ? touched[arrName[0]][arrName[1]] : ''
-}
 export const GetFieldCSSClasses = (touched: any, errors: any) => {
   const classes = ['form-control'];
   
@@ -336,7 +353,7 @@ export function InitMasterProps<T>({
     
     toast.error(_.isString(_innerError) ? intl.formatMessage({id: _innerError ?? 'COMMON_COMPONENT.TOAST.DEFAULT_ERROR'}) :
       (<span>{_innerError.map((e, index) => (
-        (<span key={`abc${index}`} style={{display:'block'}}>{intl.formatMessage({id: e.message}, e)}</span>)
+        (<span key={`abc${index}`} style={{display: 'block'}}>{intl.formatMessage({id: e.message}, e)}</span>)
       ))}</span>)
       , {
         position: 'top-right',
@@ -484,7 +501,7 @@ export function InitMasterProps<T>({
         setLoading(false);
       });
   }, []);
-
+  
   return {
     entities,
     setEntities,

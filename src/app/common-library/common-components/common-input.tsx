@@ -7,7 +7,7 @@ import CustomImageUpload from '../forms/custom-image-upload';
 import {SwitchField} from '../forms/switch-field';
 import {InfiniteSelect} from '../forms/infinite-select';
 import TagInput from '../forms/tag-input';
-import React, {ReactElement, useCallback, useEffect, useState} from 'react';
+import React, {ReactElement, useCallback} from 'react';
 import _ from 'lodash';
 import {RadioField} from '../forms/radio-field';
 import CheckboxTable from '../forms/checkbox-table';
@@ -136,32 +136,64 @@ export type InputCheckBoxType = {
   [X: string]: any;
 };
 
-export const InputNumber = ({label, placeholder, className, ...props}: InputNumberType) => {
+export const InputNumber = ({label, required, placeholder, className, ...props}: InputNumberType) => {
   const intl = useIntl();
+  const validate = useCallback((value: any): string | void => {
+    if (required && !value) return 'INPUT.ERROR.REQUIRED';
+  }, [required]);
   return (
     <div className={className}>
       <Field
+        validate={validate}
         {...props}
         component={MainInput}
         placeholder={intl.formatMessage({id: placeholder ?? DefaultPlaceholder.number})}
         label={_.isString(label) ? intl.formatMessage({id: label}) : label}
         type="number"
+        required={required}
+      />
+    </div>
+  );
+};
+export const InputStringNumber = ({label, required, placeholder, className, ...props}: InputNumberType) => {
+  const intl = useIntl();
+  const validate = useCallback((value: any): string | void => {
+    if (required && !value) return 'INPUT.ERROR.REQUIRED';
+  }, [required]);
+  return (
+    <div className={className}>
+      <Field
+        validate={validate}
         {...props}
+        component={MainInput}
+        placeholder={intl.formatMessage({id: placeholder ?? DefaultPlaceholder.number})}
+        label={_.isString(label) ? intl.formatMessage({id: label}) : label}
+        type="string-number"
+        required={required}
       />
     </div>
   );
 };
 
-export const InputString = ({label, placeholder, className, ...props}: InputStringType) => {
+export const InputString = ({label, required, placeholder, className, ...props}: InputStringType) => {
   const intl = useIntl();
+  const validate = useCallback((value: any): string | void => {
+    if (required && !value) return 'INPUT.ERROR.REQUIRED';
+    if (props.type ==='email') {
+      if(!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)) {
+        return 'INPUT.ERROR.INVALID_EMAIL';
+      }
+    }
+  }, [required]);
   return (
     <div className={className}>
       <Field
+        validate={validate}
         {...props}
         component={MainInput}
         placeholder={intl.formatMessage({id: placeholder ?? DefaultPlaceholder.string})}
         label={_.isString(label) ? intl.formatMessage({id: label}) : label}
-        type={'text'}
+        required={required}
       />
     </div>
   );
@@ -175,12 +207,6 @@ export const InputRadio = ({label, placeholder, className, ...props}: InputRadio
         {...props}
         label={_.isString(label) ? intl.formatMessage({id: label}) : label}
       />
-      {/*<Field*/}
-      {/*  {...props}*/}
-      {/*  component={RadioField}*/}
-      {/*  placeholder={intl.formatMessage({id: placeholder ?? DefaultPlaceholder.string})}*/}
-      {/*  label={_.isString(label) ? intl.formatMessage({id: label}) : label}*/}
-      {/*/>*/}
     </div>
   );
 };
@@ -212,7 +238,6 @@ export const InputBoolean = ({label, placeholder, className, ...props}: InputBoo
 };
 export const InputImage = ({label, className, value, ...props}: InputImageType) => {
   const intl = useIntl();
-  console.log(value);
   return (
     <div className={className}>
       <CustomImageUpload

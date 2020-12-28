@@ -1,14 +1,11 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useCallback} from 'react';
 import {Select} from 'antd';
-import {useField, useFormikContext} from 'formik';
-import {shallowEqual, useDispatch, useSelector} from 'react-redux';
-import {DefaultPagination} from '../common-consts/const';
-import {fetchAllUser} from '../../pages/account/_redux/user-action';
-import {deCapitalizeFirstLetter, GetClassName, GetError, GetTouched} from '../helpers/common-function';
-import { useIntl } from 'react-intl';
-import _ from 'lodash';
+import {ErrorMessage, useField, useFormikContext} from 'formik';
+import {GetClassName} from '../helpers/common-function';
+import {useIntl} from 'react-intl';
+import {DisplayError} from "./field-feedback-label";
 
-const { Option } = Select;
+const {Option} = Select;
 
 const getDefautltTag = (data: any) => {
   const idArr: any[] = [];
@@ -31,7 +28,7 @@ function TagInput({
                     required,
                     disabled,
                     tagData,
-                    root,
+                    root, withFeedbackLabel,
                     placeholder,
                     ...props
                   }: {
@@ -40,14 +37,18 @@ function TagInput({
   [X: string]: any;
 }) {
   const intl = useIntl();
-  const {setFieldValue, errors, touched} = useFormikContext<any>();
+  const validate = useCallback((value: any): string | void => {
+    if (required && !value) return 'RADIO.ERROR.REQUIRED';
+  }, []);
+  const [field] = useField({validate, name});
+  const {setFieldValue, errors, touched, getFieldMeta} = useFormikContext<any>();
   return (
     <>
       <div className={mode === 'horizontal' ? 'row' : ''}>
         <div className={mode === 'horizontal' ? GetClassName(labelWidth, true) : ''}>
           {label && (
             <label className={mode === 'horizontal' ? 'mb-0 mt-2' : ''}>
-              {label} {required && <span className="text-danger">*</span>}
+              {label}{required && <span className="text-danger">*</span>}
             </label>
           )}
         </div>
@@ -58,15 +59,15 @@ function TagInput({
             defaultValue={getDefautltTag(data) || []}
             placeholder={placeholder}
             onChange={(value: any) => {
-                // handleChange(value);
-                setFieldValue(name, value);
+              // handleChange(value);
+              setFieldValue(name, value);
             }}
             optionFilterProp="children"
             filterOption={(input: any, option: any) =>
               option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
             }
             disabled={disabled}
-            className={`${GetTouched(touched, name) && GetError(errors, name) ? 'border border-danger rounded' : ''}`}
+            className={`${getFieldMeta(field.name).touched && getFieldMeta(field.name).error ? 'border border-danger rounded' : ''}`}
             // className={'default-behave ' + getFieldCSSClasses(getTouched(touched, name), getError(errors, name))}
           
           >
@@ -76,19 +77,10 @@ function TagInput({
               </Option>
             ))}
           </Select>
-          {GetError(errors, name) && GetTouched(touched, name) ? (
-            <div className="invalid-datepicker-feedback text-danger" style={{fontSize: '0.9rem'}}>
-              {intl.formatMessage({ id: 'PLEASE_CHOOSE' })}
-              {
-                // errors[field.name]?.toString()
-                '\u00A0' + deCapitalizeFirstLetter(label)
-              }
-            </div>
-          ) : (
-            <div className="feedback">
-              {/* Please enter <b>{props.label}</b> in 'mm/dd/yyyy' format */}
-            </div>
-          )}
+          {withFeedbackLabel && (<ErrorMessage name={field.name}>
+            {msg => <DisplayError label={label} error={msg}/>
+            }
+          </ErrorMessage>)}
         </div>
       </div>
     </>

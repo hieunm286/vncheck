@@ -11,7 +11,7 @@ import {
   InputNumber,
   InputRadio,
   InputSearchSelect,
-  InputString,
+  InputString, InputStringNumber,
   InputTag,
 } from './common-input';
 import _ from 'lodash';
@@ -33,7 +33,6 @@ export function ModifyEntityPage<T>({
   entity?: any;
   errors?: any;
 }) {
-  console.log(inputGroups);
   const { _subTitle, ...pl } = inputGroups;
   return (
     <>
@@ -42,7 +41,7 @@ export function ModifyEntityPage<T>({
           if (_.isString(inputGroup)) throw new Error('Sử dụng sai cách ' + inputGroup + '\n' + JSON.stringify(pl));
           const {_subTitle, _className, _dataClassName, _titleClassName, ...inputs} = inputGroup;
           return (
-            <div key={`meg-${index}`} className={_className ?? 'col-12'}>
+            <div key={`modify-entity-page${index}`} className={_className ?? 'col-12'}>
               {_subTitle && <div className="modify-subtitle text-primary">{_subTitle.toUpperCase()}</div>}
               <RenderForm inputs={inputs} prevKey={''} mode={mode}/>
             </div>
@@ -54,75 +53,75 @@ export function ModifyEntityPage<T>({
 }
 
 export const RenderForm = ({ inputs, prevKey, mode }: any) => {
-  const intl = useIntl();
   const { setFieldValue, touched, values } = useFormikContext<any>();
-  console.log(values);
   const defaultClassName = 'mb-5';
   return (<>
     {Object.keys(inputs).map(key => {
       const input = inputs[key];
       if (_.isString(input)) throw new Error('Sử dụng sai cách ' + key + '\n' + JSON.stringify(inputs));
+      const name = prevKey !== '' ? `${prevKey}.${key}` : key;
       switch (input._type) {
         case 'string':
+        case 'email':
           return (
             <InputString
               className={defaultClassName}
-              name={prevKey !== '' ? `${prevKey}.${key}` : key}
+              name={name}
               type={input._type}
               {...input}
               mode={mode}
-              key={`modify-page-${key}`}/>
+              key={`modify-page-form-${name}`}/>
           );
+          case 'string-number': {
+            return (
+              <InputStringNumber
+                className={defaultClassName}
+                name={name}
+                type={input._type}
+                {...input}
+                mode={mode}
+                key={`modify-page-form-${name}`}/>
+            );
+          }
         case 'number':
           return (
             <InputNumber
               className={defaultClassName}
-              name={prevKey !== '' ? `${prevKey}.${key}` : key}
+              name={name}
               mode={mode}
               type={input._type}
               {...input}
-              key={`modify-page-${key}`}/>
+              key={`modify-page-form-${name}`}/>
           );
         case 'date-time':
           return (
             <InputDateTime
               className={defaultClassName}
-              name={prevKey !== '' ? `${prevKey}.${key}` : key}
+              name={name}
               mode={mode}
               type={input._type}
               {...input}
-              key={`modify-page-${key}`}/>
+              key={`modify-page-form-${name}`}/>
           );
         case 'radio':
           return (
             <InputRadio
               className={defaultClassName}
-              name={prevKey !== '' ? `${prevKey}.${key}` : key}
+              name={name}
               mode={mode}
               type={input._type}
               {...input}
-              key={`modify-page-${key}`}/>
+              key={`modify-page-form-${name}`}/>
           )
-        // const _shippingAddresses = ['22','33333','5555555'];
-        // return _shippingAddresses ? (
-        //   <FormikRadioGroup
-        //     ariaLabel="defaultShippingAddress"
-        //     name="defaultShippingAddress"
-        //     addresses={_shippingAddresses}
-        //     currentAddress={"22"} setCurrentAddress={(e: any) => {
-        //     console.log(e)
-        //   }}/>
-        // ) : (
-        //   <></>
         case 'boolean': {
           return (
             <InputBoolean
               className={defaultClassName}
-              name={prevKey !== '' ? `${prevKey}.${key}` : key}
+              name={name}
               mode={mode}
               type={input._type}
               {...input}
-              key={`modify-page-${key}`}
+              key={`modify-page-form-${name}`}
             />
           );
         }
@@ -130,25 +129,24 @@ export const RenderForm = ({ inputs, prevKey, mode }: any) => {
           return (
             <InputImage
               className={defaultClassName}
-              name={prevKey !== '' ? `${prevKey}.${key}` : key}
+              name={name}
               mode={mode}
               type={input._type}
               {...input}
               // value={(values && values[key]) || []}
-              key={`modify-page-${key}`}
+              key={`modify-page-form-${name}`}
             />
           );
         case 'search-select': {
-          console.log(prevKey !== '' ? `${prevKey}.${key}` : key)
           return (
             <InputSearchSelect
               className={defaultClassName}
-              name={prevKey !== '' ? `${prevKey}.${key}` : key}
+              name={name}
               value={values[key]}
               mode={mode}
               type={input._type}
               {...input}
-              key={`modify-page-${key}`}
+              key={`modify-page-form-${name}`}
             />
           );
         }
@@ -162,13 +160,13 @@ export const RenderForm = ({ inputs, prevKey, mode }: any) => {
           return (
             <InputTag
               className={defaultClassName}
-              name={prevKey !== '' ? `${prevKey}.${key}` : key}
+              name={name}
               mode={mode}
               data={defaultTag}
               // tagData={tagData || []}
               type={input._type}
               {...input}
-              key={`modify-page-${key}`}
+              key={`modify-page-form-${name}`}
             />
           );
         }
@@ -177,16 +175,16 @@ export const RenderForm = ({ inputs, prevKey, mode }: any) => {
             return (
               <InputCheckBox
                 className={defaultClassName}
-                name={prevKey !== '' ? `${prevKey}.${key}` : key}
+                name={name}
                 type={input._type}
                 {...input}
-                key={`modify-page-${key}`}
+                key={`modify-page-form-${name}`}
               />
             );
 
         case 'custom': {
           const {_type, ...props} = input;
-          return (<InputCustom {...props}/>);
+          return (<InputCustom {...props} key={`modify-page-form-${name}`}/>);
         }
         //
         // case 'SearchSelectV2':

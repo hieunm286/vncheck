@@ -1,11 +1,11 @@
-import React, {ReactElement, useEffect, useMemo} from 'react';
+import React, {ReactElement, useCallback, useEffect, useMemo} from 'react';
 import {withAsyncPaginate} from 'react-select-async-paginate';
-import {useField, useFormikContext} from 'formik';
+import {ErrorMessage, useField, useFormikContext} from 'formik';
 import {GetClassName} from '../helpers/common-function'
 import AtlaskitSelect from "@atlaskit/select";
 import {StylesConfig} from "react-select/src/styles";
-import { useIntl } from 'react-intl';
-import _ from 'lodash';
+import {useIntl} from 'react-intl';
+import {DisplayError} from "./field-feedback-label";
 
 const getCSSClasses = (errorName: any, isTouched: any): string => {
   const classes: string[] = [];
@@ -26,6 +26,8 @@ const getCSSClasses = (errorName: any, isTouched: any): string => {
 export function InfiniteSelect({
                                  name,
                                  label,
+                                 withFeedbackLabel = true,
+                                 customFeedbackLabel,
                                  value,
                                  loadOptions,
                                  onChange,
@@ -40,12 +42,14 @@ export function InfiniteSelect({
   label: string | ReactElement;
   loadOptions: any;
   selectField?: string;
+  withFeedbackLabel?: boolean;
   keyField?: string;
   mode?: 'horizontal' | 'vertical',
   value?: any;
-  onChange?: (value: { value: any, entity: any }, props: { setFieldValue: ((name: string, value: any) => void), values: any }) => any;
+  onChange?: (value: { value: any, entity: any }, props: { setFieldValue: ((name: string, value: any) => void),setFieldTouched: ((name: string, value: boolean) => void), values: any }) => any;
   placeholder?: string;
   name: string;
+  customFeedbackLabel?: any;
   additional?: any;
   labelWidth?: number;
   validationMessage?: string;
@@ -54,8 +58,17 @@ export function InfiniteSelect({
   
 }) {
   const intl = useIntl();
-  const {setFieldValue, errors, touched, values, handleBlur, setFieldTouched} = useFormikContext<any>();
+  const {setFieldValue, errors, touched, values, handleBlur, setFieldTouched, validateField} = useFormikContext<any>();
   const CustomAsyncPaginate = withAsyncPaginate(AtlaskitSelect);
+  const validate = useCallback((value: any): string | void => {
+    console.log(value,required , (disabled ? typeof disabled === 'boolean' ? !disabled : !disabled(values) : true) , !value , value === '')
+    if (required && (disabled ? typeof disabled === 'boolean' ? !disabled : !disabled(values) : true) && !value && value === '') return 'RADIO.ERROR.REQUIRED';
+  }, [disabled, values]);
+  const [field, fieldMeta, fieldHelper] = useField({
+    name, validate,
+    disabled: disabled ? typeof disabled === 'boolean' ? disabled : disabled(values) : disabled,
+    required: required ? typeof required === 'boolean' ? required : required(values) : required
+  });
   const styles = useMemo((): StylesConfig => {
     return {
       control: (base, props1) => {
@@ -63,7 +76,7 @@ export function InfiniteSelect({
         return {
           ...base,
           backgroundColor: "transparent",
-          borderColor: "#E4E6EF",
+          borderColor: fieldMeta.error ? "#f10d0d" : fieldMeta.touched ? "#0fc35c" : "#E4E6EF",
           borderRadius: "0.42rem",
           borderWidth: "1px",
           minHeight: "2.3rem",
@@ -106,17 +119,19 @@ export function InfiniteSelect({
         return {...styles}
       },
     }
-  }, []);
+  }, [fieldMeta.error, fieldMeta.touched]);
   
-  const [field,fieldMeta,fieldHelper] = useField({
-    name,
-    disabled: disabled ? typeof disabled === 'boolean' ? disabled : disabled(values) : disabled,
-    required: required ? typeof required === 'boolean' ? required : required(values) : required
-  });
   useEffect(() => {
-    fieldMeta.touched && onChange && onChange(field.value, {setFieldValue, values});
+    if (fieldMeta.touched) {
+      onChange && onChange(field.value, {setFieldTouched,setFieldValue, values});
+      validateField(name);
+    }
   }, [field.value]);
-  // console.log(GetSearchSelectValue({selectField, name, values}));
+  useEffect(() => {
+    if (fieldMeta.touched) {
+      validateField(name);
+    }
+  }, [field.value,fieldMeta.touched]);
   return (
     <>
       <div className={mode === 'horizontal' ? 'row' : ''}>
@@ -143,9 +158,8 @@ export function InfiniteSelect({
             }}
             loadOptions={loadOptions}
             onChange={(value: any, action) => {
-              // console.log(value);
-              // console.log(errors)
-              setFieldValue(name, value);
+              console.log(value);
+              setFieldValue(name, value !== null ? value : '');
               setFieldTouched(name, true);
             }}
             isClearable={true}
@@ -154,19 +168,10 @@ export function InfiniteSelect({
             isDisabled={disabled ? typeof disabled === 'boolean' ? disabled : disabled(values) : disabled}
             // className={`${errors[name] ? 'border-danger' : 'input-search-select'}`}
           />
-          {errors[name] ? (
-            <div className="text-danger" style={{fontSize: '0.9rem'}}>
-              {
-                // validationMessage ? intl.formatMessage({id: validationMessage}) : 'Vui lòng chọn ' + deCapitalizeFirstLetter(label)
-                // (!errors[name] && typeof label === 'string') ? 'Vui lòng chọn ' + deCapitalizeFirstLetter(label) : errors[name]
-                _.isString(errors[name]) ? intl.formatMessage({ id: errors[name] as string }) : errors[name]
-              }
-            </div>
-          ) : (
-            <div className="feedback">
-              {/* Please enter <b>{props.label}</b> in 'mm/dd/yyyy' format */}
-            </div>
-          )}
+          {withFeedbackLabel && (<ErrorMessage name={name}>
+            {msg => <DisplayError label={label} error={msg}/>
+            }
+          </ErrorMessage>)}
         </div>
       </div>
     </>

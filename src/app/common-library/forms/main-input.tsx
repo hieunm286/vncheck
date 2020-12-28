@@ -1,10 +1,9 @@
 import React from 'react';
 import './custom.css';
-import {FieldFeedbackLabel} from './field-feedback-label';
-import {GetClassName, GetError, GetFieldCSSClasses, GetTouched} from "../helpers/common-function";
-import {useFormikContext} from "formik";
+import {DisplayError, FieldFeedbackLabel} from './field-feedback-label';
+import {GetClassName, GetFieldCSSClasses} from "../helpers/common-function";
+import {ErrorMessage, useFormikContext} from "formik";
 import {MainInputState} from "../common-types/common-type";
-
 
 export function MainInput({
                             field, // { name, value, onChange, onBlur }
@@ -25,7 +24,7 @@ export function MainInput({
   const styleInput = {
     marginRight: 0,
   };
-  const {setFieldValue, values, handleChange, setTouched, handleBlur} = useFormikContext<any>();
+  const {setFieldValue, values, handleChange, getFieldMeta, handleBlur} = useFormikContext<any>();
   
   // console.log(errors)
   // console.log(GetError(errors, field.name))
@@ -37,18 +36,18 @@ export function MainInput({
         <div className={mode === 'horizontal' ? GetClassName(labelWidth, true) : ''}>
           {label && (
             <label className={mode === 'horizontal' ? 'mb-0 mt-2' : ''}>
-              {label} {required && <span className="text-danger">*</span>}
+              {label}{required && <span className="text-danger">*</span>}
             </label>
           )}
         </div>
         <div className={mode === 'horizontal' ? GetClassName(labelWidth, false) : ''}>
           <input
-            type={type}
+            type={type === 'string-number' ? 'text' : type}
             style={width && styleInput}
             className={
-              ['text', 'email', 'file', 'image', 'number'].includes(type)
+              ['string', 'email', 'file', 'image', 'number', 'string-number'].includes(type)
                 ? withFeedbackLabel
-                ? GetFieldCSSClasses(GetTouched(touched, field.name), GetError(errors, field.name))
+                ? GetFieldCSSClasses(getFieldMeta(field.name).touched, getFieldMeta(field.name).error)
                 : 'form-control'
                 : ''
             }
@@ -58,9 +57,11 @@ export function MainInput({
             {...props}
             value={field.value ?? ''}
             onChange={(e) => {
-              handleChange(e)
+              if (type === 'string-number') {
+                e.target.value = e.target.value.replace(/\D/g, '');
+              }
+              handleChange(e);
               onChange && onChange(e, {setFieldValue, values})
-              // setTouched(field.name, true)
             }}
             onBlur={(e) => {
               handleBlur(e)
@@ -78,16 +79,19 @@ export function MainInput({
           </span>
            
           } */}
-          
-          {withFeedbackLabel && (
-            <FieldFeedbackLabel
-              error={GetError(errors, field.name)}
-              touched={GetTouched(touched, field.name)}
-              label={label}
-              type={type}
-              customFeedbackLabel={customFeedbackLabel}
-            />
-          )}
+          {withFeedbackLabel && (<ErrorMessage name={field.name}>
+            {msg =>   <DisplayError label={label} error={msg} />
+            }
+          </ErrorMessage>)}
+          {/*{withFeedbackLabel && (*/}
+          {/*  <FieldFeedbackLabel*/}
+          {/*    error={GetError(errors, field.name)}*/}
+          {/*    touched={GetTouched(touched, field.name)}*/}
+          {/*    label={label}*/}
+          {/*    type={type}*/}
+          {/*    customFeedbackLabel={customFeedbackLabel}*/}
+          {/*  />*/}
+          {/*)}*/}
         </div>
       </div>
     </>

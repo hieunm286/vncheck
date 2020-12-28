@@ -1,5 +1,5 @@
 import {AxiosResponse} from 'axios';
-import {CSSProperties, ReactElement} from "react";
+import {ReactElement} from "react";
 import {ColumnDescription} from "react-bootstrap-table-next";
 
 
@@ -7,7 +7,7 @@ export interface MainInputState {
   field: any; // { name, value, onChange, onBlur }
   form: { touched: any; errors: any }; // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
   label: string | any;
-  withFeedbackLabel: any;
+  withFeedbackLabel: boolean;
   withValidation: any;
   customFeedbackLabel: any;
   mode: 'horizontal' | 'vertical';
@@ -141,7 +141,15 @@ export interface ActionColumnProps<T> {
   // deleteTitle: string;
 }
 
-export type InputType = 'string' | 'number' | 'date-time' | 'search-select' | 'file' | 'tree-select' | 'nested';
+export type InputType =
+  'string'
+  | 'string-number'
+  | 'number'
+  | 'date-time'
+  | 'search-select'
+  | 'file'
+  | 'tree-select'
+  | 'nested';
 export type SearchModel = {
   [T: string]: {
     type: InputType;
@@ -190,7 +198,7 @@ export type _CommonProps = {
   value?: any;
   name?: string;
   [T: string]: any;
-  onChange?: (value: any, props: { setFieldValue: ((name: string, value: any) => void), values: any }) => any;
+  onChange?: (value: { value: any, entity: any }, props: { setFieldValue: ((name: string, value: any) => void),setFieldTouched: ((name: string, value: boolean) => void), values: any }) => any;
 }
 
 
@@ -205,9 +213,9 @@ export type GetAllPropsServer<T> = ({
 }) => (Promise<AxiosResponse<T[]>>);
 export type _ModifyModelInput =
   ({ _type: 'object', [S: string]: any })
-  | ({ _type: 'image', value?: any , pathField? : string} & _CommonProps)
-  | ({ _type: 'custom', component: () => ReactElement})
-  | ({ _type: 'string' | 'date-time' | 'number' | 'boolean' | 'tag' | 'gallery' } & _CommonProps)
+  | ({ _type: 'image', value?: any, pathField?: string } & _CommonProps)
+  | ({ _type: 'custom', component: () => ReactElement })
+  | ({ _type: 'string' | 'string-number' | 'email'| 'date-time' | 'number' | 'boolean' | 'tag' | 'gallery' } & _CommonProps)
   | ({ _type: 'radio', options: { value: any, label: string }[] | ((...props: any) => { value: any, label: string }[]); } & _CommonProps)
   | ({ _type: 'search-select', onSearch: GetAllPropsServer<any> | GetAllProps<any>, keyField?: string, selectField?: string } & _CommonProps)
   | ({ _type: 'checkbox', onSelectMany: (entities: any[]) => void; selectedEntities: any[]; } & _CommonProps)

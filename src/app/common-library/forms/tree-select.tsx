@@ -1,4 +1,4 @@
-import React, {ReactElement, useEffect, useState} from 'react';
+import React, {ReactElement, useCallback, useEffect, useState} from 'react';
 import {TreeSelect} from 'antd';
 import {useField, useFormikContext} from 'formik';
 import './tree-select.scss'
@@ -34,7 +34,10 @@ function CustomTreeSelect(
   }) {
   const intl = useIntl();
   const {setFieldValue, errors, touched, setFieldTouched, values} = useFormikContext<any>();
-  const [field, fieldMeta, fieldHelper] = useField({name,});
+  const validate = useCallback((value: any): string | void => {
+    if (required && !value) return 'RADIO.ERROR.REQUIRED';
+  }, []);
+  const [field, fieldMeta, fieldHelper] = useField({name,validate});
   useEffect(() => {
     fieldMeta.touched && onChange && onChange(field.value, {setFieldValue, values});
   }, [field.value]);
