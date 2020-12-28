@@ -28,7 +28,8 @@ function TagInput({
                     required,
                     disabled,
                     tagData,
-                    root, withFeedbackLabel,
+                    root, 
+                    withFeedbackLabel = true,
                     placeholder,
                     ...props
                   }: {

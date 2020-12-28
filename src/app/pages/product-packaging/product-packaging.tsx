@@ -221,7 +221,6 @@ function ProductPackaging() {
     code: {
       _type: 'string',
       label: 'PRODUCT_PACKAGING.MASTER.TABLE.CODE_COLUMN',
-      required: true,
       disabled: true,
     },
     species: {
@@ -229,6 +228,7 @@ function ProductPackaging() {
       label: 'PRODUCT_PACKAGING.MASTER.TABLE.NAME_COLUMN',
       onSearch: ProductTypeService.GetAll,
       disabled: false,
+      required: true,
       keyField: 'name',
     },
     weight: {

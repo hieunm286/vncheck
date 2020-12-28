@@ -111,6 +111,7 @@ const validField = [''];
 
 function ProductionPlanCrud({
                               entity,
+                              setEditEntity,
                               onModify,
                               title,
                               // modifyModel,
@@ -138,6 +139,7 @@ function ProductionPlanCrud({
   // modifyModel: ModifyModel;
   title: string;
   entity: any;
+  setEditEntity: (entity: any) => void;
   onModify: (values: any) => Promise<AxiosResponse<any>>;
   reduxModel?: string;
   code: string | null;
@@ -200,6 +202,7 @@ function ProductionPlanCrud({
         //   : ConvertSelectSearch(res.data);
         const initEntity = addInitField(res.data, initProductPlanForm)
         setEntityForEdit(initEntity);
+        setEditEntity(res.data)
         setSearch(res.data);
       });
     }
