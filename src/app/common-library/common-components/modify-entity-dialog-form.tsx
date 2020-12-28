@@ -1,21 +1,24 @@
-import React, { useState } from 'react';
-import { Modal, Spinner } from 'react-bootstrap';
-import { Field, Form, Formik } from 'formik';
-import { useIntl } from 'react-intl';
+import React, {useEffect, useMemo, useState} from 'react';
+import {Modal, Spinner} from 'react-bootstrap';
+import {Form, Formik} from 'formik';
+import {useIntl} from 'react-intl';
 import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
-import { ModifyForm, ModifyPanel } from '../common-types/common-type';
-import { iconStyle } from '../common-consts/const';
-import { ModifyEntityPage } from './modify-entity-page';
+import {ModifyPanel} from '../common-types/common-type';
+import {iconStyle} from '../common-consts/const';
+import {ModifyEntityPage} from './modify-entity-page';
+import {InitValues} from "../helpers/common-function";
 
 function ModifyEntityDialogForm<T>({
-  entity = {},
-  onHide,
-  onModify,
-  modifyPanel,
-  validation,
-  loading
-}: {
+                                     entity = {},
+                                     onModify,
+                                     moduleName = 'COMMON_COMPONENT.CREATE_UPDATE.MODULE_NAME',
+                                     onHide,
+                                     modifyPanel,
+                                     validation,
+                                     loading
+                                   }: {
+  moduleName?: string;
   entity?: any;
   onHide: () => void;
   onModify: (values: any, handleSuccess: () => void, handleError: () => void) => void;
@@ -24,46 +27,38 @@ function ModifyEntityDialogForm<T>({
   loading?: boolean
 }) {
   const intl = useIntl();
-  // const onChange = (imageList: any, addUpdateIndex: any, key: any) => {
-  //   const imageArray = getOnlyFile(imageList);
-  //
-  //   const newArr = getNewImage(imageRootArr, imageArray);
-  //
-  //   newArr.forEach((file, index) => {
-  //     uploadImage(file)
-  //       .then(res => {
-  //         // console.log('update: ' + index);
-  //       })
-  //       .catch(err => {
-  //         console.log(err);
-  //       });
-  //   });
-  //   // data for submit
-  //   setImages({...images, [key]: imageList});
-  //   setImageRootArr(imageArray);
-  // };
-  console.log(entity);
-  const { _title, ...inputGroups } = modifyPanel;
+  const {_title, ...inputGroups} = modifyPanel;
+  const [entityForEdit, setEntityForEdit] = useState(entity);
+  const initValues = useMemo(() => InitValues({_header: '', panel1: modifyPanel}), [modifyPanel]);
+  
+  useEffect(() => {
+    entity && setEntityForEdit(initValues);
+  }, [entity,initValues]);
+  
   return (
     <Formik
       enableReinitialize={true}
-      initialValues={entity}
+      initialValues={entityForEdit}
       validationSchema={validation}
-      onSubmit={(values, { setSubmitting }) => {
+      onSubmit={(values, {setSubmitting}) => {
         console.log(values);
         onModify(
-          { ...entity, ...values, __v: undefined },
-          () => { onHide() },
-          () => { setSubmitting(false) },
+          {...entity, ...values, __v: undefined},
+          () => {
+            onHide()
+          },
+          () => {
+            setSubmitting(false)
+          },
         );
       }}>
-      {({ handleSubmit }) => (
+      {({handleSubmit}) => (
         <>
           <Modal.Body className="overlay overlay-block cursor-default">
             <Form className="form form-label-right">
               {Object.keys(inputGroups).map(key => (
                 <React.Fragment key={key}>
-                  <ModifyEntityPage inputGroups={inputGroups} />
+                  <ModifyEntityPage inputGroups={inputGroups}/>
                 </React.Fragment>
               ))}
             </Form>
@@ -73,18 +68,19 @@ function ModifyEntityDialogForm<T>({
               type="submit"
               onClick={() => handleSubmit()}
               className="btn btn-primary fixed-btn-width">
-                {
-                  loading === true ? <Spinner animation="border" variant="light" size="sm" /> : <SaveOutlinedIcon style={iconStyle} />
-                }
+              {
+                loading === true ? <Spinner animation="border" variant="light" size="sm"/> :
+                  <SaveOutlinedIcon style={iconStyle}/>
+              }
               {'\u00A0'}
-              {intl.formatMessage({ id: 'COMMON_COMPONENT.MODIFY_DIALOG.SAVE_BTN' })}
+              {intl.formatMessage({id: 'COMMON_COMPONENT.MODIFY_DIALOG.SAVE_BTN'})}
             </button>
             <button
               type="button"
               onClick={onHide}
               className="btn btn-outline-primary fixed-btn-width">
-              <CancelOutlinedIcon style={iconStyle} />
-              {intl.formatMessage({ id: 'COMMON_COMPONENT.MODIFY_DIALOG.CLOSE_BTN' })}
+              <CancelOutlinedIcon style={iconStyle}/>
+              {intl.formatMessage({id: 'COMMON_COMPONENT.MODIFY_DIALOG.CLOSE_BTN'})}
             </button>
           </Modal.Footer>
         </>

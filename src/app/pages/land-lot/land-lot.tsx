@@ -217,7 +217,6 @@ function LandLot() {
       _type: 'string',
       label: 'LAND_LOT.MASTER.HEADER.CODE',
       placeholder: 'EMPTY',
-      required: true,
       disabled: true,
     },
     lot: {

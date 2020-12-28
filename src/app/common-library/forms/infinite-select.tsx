@@ -70,8 +70,8 @@ export function InfiniteSelect({
   } = useFormikContext<any>();
   const CustomAsyncPaginate = withAsyncPaginate(AtlaskitSelect);
   const validate = useCallback((value: any): string | void => {
-    if (required && (disabled ? typeof disabled === 'boolean' ? !disabled : !disabled(values) : true) && !value && value === '') return 'RADIO.ERROR.REQUIRED';
-  },[disabled, values])
+    if (required && !value && value === '') return 'RADIO.ERROR.REQUIRED';
+  },[required,values])
   const [field, fieldMeta, fieldHelper] = useField({name, validate});
   const styles = useMemo((): StylesConfig => {
     return {

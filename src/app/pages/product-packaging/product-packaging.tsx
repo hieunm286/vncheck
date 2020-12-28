@@ -307,8 +307,6 @@ function ProductPackaging() {
         onHide={() => {
           setShowCreate(false);
         }}
-        code={null}
-        get={() => null}
         formModel={createForm}
         actions={actions}
         validation={ProductPackagingSchema}
@@ -323,8 +321,6 @@ function ProductPackaging() {
         onHide={() => {
           setShowEdit(false);
         }}
-        code={null}
-        get={() => null}
         formModel={updateForm}
         actions={actions}
         validation={ProductPackagingSchema}

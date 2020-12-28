@@ -20,8 +20,6 @@ function ModifyEntityDialog<T>({
   entity: T;
   moduleName?: string;
   onModify: (values: any, handleSuccess: () => void, handleError: () => void) => void;
-  code?: string | null;
-  get?: (code: string) => any | null;
   formModel: ModifyForm;
   size?: 'sm' | 'lg';
   actions?: any;

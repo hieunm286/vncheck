@@ -317,8 +317,6 @@ function MultilevelSale() {
                 history.push('/multilevel-sale');
               }}
               loading={loading}
-              code={null}
-              get={() => null}
               error={error}
               homePage={homeURL}
               formModel={createForm}
@@ -345,8 +343,6 @@ function MultilevelSale() {
                 setShowEdit(false);
                 history.push('/multilevel-sale');
               }}
-              code={null}
-              get={() => null}
               error={error}
               homePage={homeURL}
               formModel={updateForm}
