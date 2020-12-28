@@ -22,7 +22,8 @@ export const deleteDialogTitle = 'PRODUCT_TYPE.DELETE_DIALOG.TITLE';
 export const createTitle = 'PRODUCT_TYPE.CREATE.TITLE';
 export const updateTitle = 'PURCHASE_ORDER.UPDATE.TITLE';
 export const homeURL = `${window.location.pathname}`;
-const Fix = ({ title }: { title: string }) => {
+
+export const Fix = ({ title }: { title: string }) => {
   const intl = useIntl();
   return <div style={{ minWidth: 174 }}>{intl.formatMessage({ id: title })}</div>;
 };
@@ -1079,13 +1080,13 @@ export const masterEntityDetailDialog2 = [
           type: 'array',
           title: 'Nhân viên kĩ thuật thu hoạch',
           keyField: 'harvesting.technical',
-          target: 'user.lastName',
+          target: 'user.fullName',
         },
         {
           type: 'array',
           title: 'Tổ trưởng thu hoạch',
           keyField: 'harvesting.leader',
-          target: 'user.lastName',
+          target: 'user.fullName',
         },
       ],
     ],
@@ -1110,13 +1111,13 @@ export const masterEntityDetailDialog2 = [
           type: 'array',
           title: 'Nhân viên kĩ thuật sơ chế',
           keyField: 'preliminaryTreatment.technical',
-          target: 'user.lastName',
+          target: 'user.fullName',
         },
         {
           type: 'array',
           title: 'Tổ trưởng sơ chế',
           keyField: 'preliminaryTreatment.leader',
-          target: 'user.lastName',
+          target: 'user.fullName',
         },
       ],
     ],
@@ -1141,13 +1142,13 @@ export const masterEntityDetailDialog2 = [
           type: 'array',
           title: 'Nhân viên kĩ thuật làm sạch',
           keyField: 'cleaning.technical',
-          target: 'user.lastName',
+          target: 'user.fullName',
         },
         {
           type: 'array',
           title: 'Tổ trưởng làm sạch',
           keyField: 'cleaning.leader',
-          target: 'user.lastName',
+          target: 'user.fullName',
         },
       ],
     ],
@@ -1187,13 +1188,13 @@ export const masterEntityDetailDialog2 = [
           type: 'array',
           title: 'KCS',
           keyField: 'packing.technical',
-          target: 'user.lastName',
+          target: 'user.fullName',
         },
         {
           type: 'array',
           title: 'Tổ trưởng đóng gói',
           keyField: 'packing.leader',
-          target: 'user.lastName',
+          target: 'user.fullName',
         },
       ],
     ],
@@ -1218,7 +1219,7 @@ export const masterEntityDetailDialog2 = [
           type: 'array',
           title: 'Nhân viên kĩ thuật bảo quản',
           keyField: 'preservation.technical',
-          target: 'user.lastName',
+          target: 'user.fullName',
         },
       ],
     ],
@@ -1299,7 +1300,7 @@ export const CompareDate = (date1: Date, date2: Date) => {
 };
 
 export const validate = {
-  estimatedTime: Yup.mixed().test('oneOfRequired', 'INPUT_ALL', function(value: any) {
+  estimatedTime: Yup.mixed().test('oneOfRequired', 'DATE_VALIDATE', function(value: any) {
     return (
       (this.parent.leader.length > 0 &&
         this.parent.technical.length > 0 &&
@@ -1356,7 +1357,7 @@ export const validate = {
 };
 
 export const packingValidate = {
-  estimatedTime: Yup.mixed().test('oneOfRequired', 'INPUT_ALL', function(value: any) {
+  estimatedTime: Yup.mixed().test('oneOfRequired', 'DATE_VALIDATE', function(value: any) {
     return (
       (this.parent.leader.length > 0 &&
         this.parent.technical.length > 0 &&
@@ -1381,7 +1382,7 @@ export const packingValidate = {
     );
   }),
 
-  estimatedExpireTimeStart: Yup.mixed().test('oneOfRequired', 'INPUT_ALL', function(value: any) {
+  estimatedExpireTimeStart: Yup.mixed().test('oneOfRequired', 'DATE_VALIDATE', function(value: any) {
     return (
       (this.parent.leader.length > 0 &&
         this.parent.technical.length > 0 &&
@@ -1409,7 +1410,7 @@ export const packingValidate = {
     );
   }),
 
-  estimatedExpireTimeEnd: Yup.mixed().test('oneOfRequired', 'INPUT_ALL', function(value: any) {
+  estimatedExpireTimeEnd: Yup.mixed().test('oneOfRequired', 'DATE_VALIDATE', function(value: any) {
     return (
       (this.parent.leader.length > 0 &&
         this.parent.technical.length > 0 &&
@@ -1536,7 +1537,7 @@ export const packingValidate = {
 };
 
 export const preservationValidate = {
-  estimatedStartTime: Yup.mixed().test('oneOfRequired', 'INPUT_ALL', function(value: any) {
+  estimatedStartTime: Yup.mixed().test('oneOfRequired', 'DATE_VALIDATE', function(value: any) {
     return (
       (this.parent.technical.length > 0 &&
         this.parent.estimatedEndTime &&
@@ -1551,7 +1552,7 @@ export const preservationValidate = {
         CompareDate(new Date(this.parent.estimatedEndTime), new Date(value)))
     );
   }),
-  estimatedEndTime: Yup.mixed().test('oneOfRequired', 'INPUT_ALL', function(value: any) {
+  estimatedEndTime: Yup.mixed().test('oneOfRequired', 'DATE_VALIDATE', function(value: any) {
     return (
       (this.parent.technical.length > 0 &&
         this.parent.estimatedStartTime &&
