@@ -1291,6 +1291,7 @@ export const initProductPlanForm = {
     estimatedExpireTimeStart: null,
     estimatedExpireTimeEnd: null,
     estimatedQuantity: undefined,
+    packing: null
   },
   preservation: {
     estimatedStartTime: null,

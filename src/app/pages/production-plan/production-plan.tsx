@@ -1244,8 +1244,15 @@ function ProductionPlan() {
           _type: 'search-select',
           // placeholder: 'Quy cách',
           label: 'Quy cách đóng gói',
-          onSearch: ProductPackagingService.GetAll,
+          onSearch: ({ queryProps, paginationProps }: any) => { 
+            
+            if (editEntity && editEntity.seeding && editEntity.seeding.species) {
+              queryProps.species = editEntity.seeding.species._id
+            }
+            return ProductPackagingService.GetAll({ queryProps, paginationProps })
+          },
           keyField: 'weight',
+          // required: true,
           // onDisplayOptions: (e:ProductPackagingModel)=> e.species.weight,
           // rootField: 'seeding',
           // fillField: 'packing',
@@ -1280,7 +1287,7 @@ function ProductionPlan() {
         },
       },
     },
-  }), [userData]);
+  }), [editEntity, userData]);
   
   const modifyModel7 = useMemo((): ModifyPanel => ({
     _title: '',
@@ -1350,6 +1357,7 @@ function ProductionPlan() {
               /> */}
               <ProductionPlanCrud
                 entity={history.location.state}
+                setEditEntity={setEditEntity}
                 onModify={ProductionPlanService.Update}
                 title={createTitle}
                 // reduxModel="purchaseOrder"
