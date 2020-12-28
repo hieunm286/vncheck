@@ -294,26 +294,26 @@ function Species() {
       _type: 'number',
       label: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.EXPIRY',
     },
-    chekbox: {
-      _type: 'checkbox',
-      label: 'test check box',
-      selectedEntities: selectedEntities,
-      onSelectMany: setSelectedEntities,
-      selectColumnPosition: 'right',
-      data: entities,
-      columns: {
-        value: {
-          dataField: 'name',
-          text: `Doanh nghiệp sản xuất`,
-          classes: 'text-left',
-        },
-      },
-    },
+    // chekbox: {
+    //   _type: 'checkbox',
+    //   label: 'test check box',
+    //   selectedEntities: selectedEntities,
+    //   onSelectMany: setSelectedEntities,
+    //   selectColumnPosition: 'right',
+    //   data: entities,
+    //   columns: {
+    //     value: {
+    //       dataField: 'name',
+    //       text: `Doanh nghiệp sản xuất`,
+    //       classes: 'text-left',
+    //     },
+    //   },
+    // },
   }), [entities, selectedEntities, setSelectedEntities]);
   
   const createForm = useMemo(
     (): ModifyForm => ({
-      _header: 'createTitle',
+      _header: createTitle,
       panel1: {
         _title: '',
         group1: group1,
@@ -322,7 +322,7 @@ function Species() {
     }),
     [group1, group2],
   );
-  const updateForm = useMemo((): ModifyForm => ({...createForm, _header: 'sada'}), [createForm]);
+  const updateForm = useMemo((): ModifyForm => ({...createForm, _header: updateTitle}), [createForm]);
   
   const initForm = useMemo(
     () => ({
