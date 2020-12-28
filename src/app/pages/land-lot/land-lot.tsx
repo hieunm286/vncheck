@@ -79,20 +79,6 @@ function LandLot() {
   const createTitle = 'LAND_LOT.CREATE.TITLE';
   const updateTitle = 'LAND_LOT.EDIT.TITLE';
   const viewTitle = 'LAND_LOT.VIEW.TITLE';
-  const validateSchema = Yup.object().shape({
-    lot: Yup.string()
-      .required('LAND_LOT.EDIT.VALIDATION.LOT_CODE_EMPTY')
-      .matches(/[a-zA-Z]/u, {
-        message: 'LAND_LOT.EDIT.VALIDATION.LOT_CODE_WRONG_FORMAT'
-      }).nullable(),
-    subLot: Yup.string()
-      .required('LAND_LOT.EDIT.VALIDATION.SUB_LOT_CODE_EMPTY')
-      .matches(/[0-9]+/u, {
-        message: 'LAND_LOT.EDIT.VALIDATION.SUB_LOT_CODE_WRONG_FORMAT'
-      }).nullable()
-    // .test('len', intl.formatMessage({id: 'LAND_LOT.EDIT.VALIDATION.SUB_LOT_CODE_WRONG_FORMAT_LENGTH'}), (val: any) => val.length === 2),
-  });
-  
   
   useEffect(() => {
     getAll(filterProps);
@@ -226,9 +212,7 @@ function LandLot() {
       required: true,
       disabled: false,
       onChange: (value, {setFieldValue, values}) => {
-        console.log(value)
-        setFieldValue('code', value);
-        setFieldValue('subLot', null);
+        setFieldValue('subLot', '');
         setGroup1({...group1})
       }
     },
@@ -296,7 +280,6 @@ function LandLot() {
         show={showCreate}
         entity={createEntity}
         onModify={add}
-        validation={validateSchema}
         onHide={() => {
           setShowCreate(false);
         }}
@@ -307,7 +290,6 @@ function LandLot() {
         show={showEdit}
         entity={editEntity}
         onModify={update}
-        validation={validateSchema}
         onHide={() => {
           setShowEdit(false);
         }}

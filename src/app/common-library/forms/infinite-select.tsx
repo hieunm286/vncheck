@@ -71,8 +71,14 @@ export function InfiniteSelect({
   const CustomAsyncPaginate = withAsyncPaginate(AtlaskitSelect);
   const validate = useCallback((value: any): string | void => {
     if (required && !value && value === '') return 'RADIO.ERROR.REQUIRED';
-  },[required,values])
+  },[required,values]);
+
   const [field, fieldMeta, fieldHelper] = useField({name, validate});
+  useEffect(() => {
+    setTimeout(()=>{
+      validateField(name);
+    },10);
+  },[field.value])
   const styles = useMemo((): StylesConfig => {
     return {
       control: (base, props1) => {
