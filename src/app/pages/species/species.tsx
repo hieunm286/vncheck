@@ -254,7 +254,7 @@ function Species() {
     code: {
       _type: 'string',
       label: 'PRODUCT_TYPE.MASTER.TABLE.CODE_COLUMN',
-      required: true,
+      required: false,
       disabled: true,
     },
     name: {
@@ -285,14 +285,17 @@ function Species() {
     growingDays: {
       _type: 'number',
       label: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
+      required: true,
     },
     plantingDays: {
       _type: 'number',
       label: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.PLANTING',
+      required: true,
     },
     expiryDays: {
       _type: 'number',
       label: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.EXPIRY',
+      required: true,
     },
     // chekbox: {
     //   _type: 'checkbox',
