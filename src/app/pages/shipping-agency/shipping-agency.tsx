@@ -373,29 +373,14 @@ function ShippingAgency() {
     return ({...createForm, _header: updateTitle});
   }, [createForm]);
   const validationSchema = useMemo(() => Yup.object().shape({
-    name: Yup.string()
-      .max(255, 'Tên quá dài, vui lòng nhập lại!'),
     phone: Yup.string()
-      .matches(/^[0-9+]+$/u, {
-        message: 'Số điện thoại không hợp lệ',
-      })
       .max(11, 'Số điện thoại không hợp lệ')
       .min(8, 'Số điện thoại không hợp lệ'),
     tax_id: Yup.string()
-      .matches(/^[0-9]+$/u, {
-        message: 'Mã số thuế không hợp lệ',
-      })
       .max(13, 'Mã số thuế không hợp lệ'),
-    owner_name: Yup.string()
-      .max(255, 'Tên quá dài, vui lòng nhập lại!'),
     owner_phone: Yup.string()
-      .matches(/^[0-9+]+$/u, {
-        message: 'Số điện thoại không hợp lệ',
-      })
       .max(11, 'Số điện thoại không hợp lệ')
       .min(8, 'Số điện thoại không hợp lệ'),
-    email: Yup.string()
-      .email('Email không hợp lệ')
   }), []);
   const actions: any = useMemo(() => ({
     type: 'inside',
@@ -458,9 +443,6 @@ function ShippingAgency() {
           <MasterBody
             title={tableTitle}
             onCreate={() => {
-              setCreateEntity(null);
-              setEditEntity(null);
-              // setShowCreate(true);
               history.push(`${window.location.pathname}/0000000`);
             }}
             onDeleteMany={() => setShowDeleteMany(true)}

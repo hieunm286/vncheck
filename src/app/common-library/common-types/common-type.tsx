@@ -219,6 +219,7 @@ export type _ModifyModelInput =
   | ({ _type: 'radio', options: { value: any, label: string }[] | ((...props: any) => { value: any, label: string }[]); } & _CommonProps)
   | ({ _type: 'checkbox', onSelectMany: (entities: any[]) => void; selectedEntities: any[]; } & _CommonProps)
   | ({ _type: 'search-select', onSearch: GetAllPropsServer<any> | GetAllProps<any>, keyField?: string, selectField?: string } & _CommonProps)
+  | ({ _type: 'tree-select', onSearch: any, keyField?: string, selectField?: string } & _CommonProps)
 
 export type GetAllProps<T> = ({
                                 queryProps,
