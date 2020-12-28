@@ -22,7 +22,8 @@ export const deleteDialogTitle = 'PRODUCT_TYPE.DELETE_DIALOG.TITLE';
 export const createTitle = 'PRODUCT_TYPE.CREATE.TITLE';
 export const updateTitle = 'PURCHASE_ORDER.UPDATE.TITLE';
 export const homeURL = `${window.location.pathname}`;
-const Fix = ({ title }: { title: string }) => {
+
+export const Fix = ({ title }: { title: string }) => {
   const intl = useIntl();
   return <div style={{ minWidth: 174 }}>{intl.formatMessage({ id: title })}</div>;
 };
