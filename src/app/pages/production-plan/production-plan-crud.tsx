@@ -461,9 +461,9 @@ function ProductionPlanCrud({
                 )
               })}
             </Form>
-            {errorMsg && (
+            {errors && (
               <div className="text-left mt-5">
-                <span className="text-danger">{intl.formatMessage({ id: errorMsg })}</span>
+                <span className="text-danger">{JSON.stringify(errors)}</span>
               </div>
             )}
             {allFormButton.type === 'outside' && (
