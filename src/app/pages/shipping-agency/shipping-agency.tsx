@@ -238,7 +238,6 @@ function ShippingAgency() {
           console.log(values)
         },
         onChange: (value: any, {setFieldValue, setFieldTouched}: any) => {
-          console.log(value);
           if (state != value) {
             setCity(null);
             setFieldValue('address.city', '');
@@ -303,7 +302,7 @@ function ShippingAgency() {
       _type: 'image',
       label: 'SHIPPING_AGENCY.MODIFY.IMAGE',
     },
-  }), [state, city, getCity]);
+  }), [getCity, getDistrict]);
   const [group2, setGroup2] = useState<ModifyInputGroup>({
     _subTitle: 'THÔNG TIN CHỦ ĐƠN VỊ',
     _className: 'col-6 pl-xl-15 pl-md-10 pl-5',

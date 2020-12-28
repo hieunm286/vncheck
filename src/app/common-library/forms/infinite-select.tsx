@@ -46,7 +46,7 @@ export function InfiniteSelect({
   keyField?: string;
   mode?: 'horizontal' | 'vertical',
   value?: any;
-  onChange?: (value: { value: any, entity: any }, props: { setFieldValue: ((name: string, value: any) => void),setFieldTouched: ((name: string, value: boolean) => void), values: any }) => any;
+  onChange?: (value: { value: any, entity: any }, props: { setFieldValue: ((name: string, value: any) => void), setFieldTouched: ((name: string, value: boolean) => void), values: any }) => any;
   placeholder?: string;
   name: string;
   customFeedbackLabel?: any;
@@ -58,17 +58,21 @@ export function InfiniteSelect({
   
 }) {
   const intl = useIntl();
-  const {setFieldValue, errors, touched, values, handleBlur, setFieldTouched, validateField} = useFormikContext<any>();
+  const {
+    setFieldValue,
+    errors,
+    touched,
+    values,
+    handleBlur,
+    setFieldTouched,
+    validateField,
+    validateForm
+  } = useFormikContext<any>();
   const CustomAsyncPaginate = withAsyncPaginate(AtlaskitSelect);
   const validate = useCallback((value: any): string | void => {
-    console.log(value,required , (disabled ? typeof disabled === 'boolean' ? !disabled : !disabled(values) : true) , !value , value === '')
     if (required && (disabled ? typeof disabled === 'boolean' ? !disabled : !disabled(values) : true) && !value && value === '') return 'RADIO.ERROR.REQUIRED';
-  }, [disabled, values]);
-  const [field, fieldMeta, fieldHelper] = useField({
-    name, validate,
-    disabled: disabled ? typeof disabled === 'boolean' ? disabled : disabled(values) : disabled,
-    required: required ? typeof required === 'boolean' ? required : required(values) : required
-  });
+  },[disabled, values])
+  const [field, fieldMeta, fieldHelper] = useField({name, validate});
   const styles = useMemo((): StylesConfig => {
     return {
       control: (base, props1) => {
@@ -76,7 +80,7 @@ export function InfiniteSelect({
         return {
           ...base,
           backgroundColor: "transparent",
-          borderColor: fieldMeta.error ? "#f10d0d" : fieldMeta.touched ? "#0fc35c" : "#E4E6EF",
+          borderColor: (!fieldMeta.touched) ? "#E4E6EF" : fieldMeta.error ? "#f10d0d" : "#0fc35c",
           borderRadius: "0.42rem",
           borderWidth: "1px",
           minHeight: "2.3rem",
@@ -120,18 +124,6 @@ export function InfiniteSelect({
       },
     }
   }, [fieldMeta.error, fieldMeta.touched]);
-  
-  useEffect(() => {
-    if (fieldMeta.touched) {
-      onChange && onChange(field.value, {setFieldTouched,setFieldValue, values});
-      validateField(name);
-    }
-  }, [field.value]);
-  useEffect(() => {
-    if (fieldMeta.touched) {
-      validateField(name);
-    }
-  }, [field.value,fieldMeta.touched]);
   return (
     <>
       <div className={mode === 'horizontal' ? 'row' : ''}>
@@ -147,7 +139,6 @@ export function InfiniteSelect({
             {...props}
             {...field}
             value={(keyField && keyField != '') ? field.value : [field.value]}
-            // value={GetSearchSelectValue({selectField, name, values})}
             getOptionValue={option => {
               // console.log(option, selectField, selectField ? option[selectField] : option)
               return selectField ? option[selectField] : option
@@ -158,12 +149,14 @@ export function InfiniteSelect({
             }}
             loadOptions={loadOptions}
             onChange={(value: any, action) => {
-              console.log(value);
-              setFieldValue(name, value !== null ? value : '');
+              onChange && onChange(value, {setFieldTouched, setFieldValue, values});
               setFieldTouched(name, true);
+              setFieldValue(name, value !== null ? value : '');
             }}
             isClearable={true}
-            onBlur={handleBlur}
+            onBlur={(e)=>{
+              setFieldTouched(name, true);
+            }}
             styles={styles}
             isDisabled={disabled ? typeof disabled === 'boolean' ? disabled : disabled(values) : disabled}
             // className={`${errors[name] ? 'border-danger' : 'input-search-select'}`}
