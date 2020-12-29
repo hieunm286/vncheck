@@ -1242,12 +1242,12 @@ function ProductionPlan() {
           _type: 'search-select',
           // placeholder: 'Quy cách',
           label: 'Quy cách đóng gói',
-          onSearch: ({ queryProps, paginationProps }: any) => { 
+          onSearch: ({queryProps, paginationProps}: any) => {
             
             if (editEntity && editEntity.seeding && editEntity.seeding.species) {
               queryProps.species = editEntity.seeding.species._id
             }
-            return ProductPackagingService.GetAll({ queryProps, paginationProps })
+            return ProductPackagingService.GetAll({queryProps, paginationProps})
           },
           keyField: 'weight',
           // required: true,
@@ -1373,7 +1373,7 @@ function ProductionPlan() {
                 approveFollow={approveFollow}
                 moduleName={moduleName}
               />
-              
+            
             </>
           )}
         </Route>
@@ -1444,20 +1444,20 @@ function ProductionPlan() {
             title={headerTitle}
             onSearch={value => {
               setPaginationProps(DefaultPagination);
-
+              
               const cvValue = JSON.parse(JSON.stringify(value))
               console.log(cvValue)
               if (value.product_plan && value.product_plan.seeding && value.product_plan.seeding.species && _.isObject(value.product_plan.seeding.species)) {
                 console.log('1')
                 console.log(value)
                 cvValue.product_plan.seeding.species = {}
-
+                
                 cvValue.product_plan.seeding.species._id = value.product_plan.seeding.species._id
               }
-
+              
               console.log(cvValue)
-
-
+              
+              
               setFilterProps({...cvValue});
             }}
             searchModel={currentTab == '0' ? productPlanSearchModel1 : productPlanSearchModel2}

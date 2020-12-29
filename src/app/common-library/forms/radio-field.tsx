@@ -23,6 +23,7 @@ export function RadioField({
                              options,
                              onChange,
                              type,
+                             optionsClassName,
                              ...props
                            }: InputRadioType) {
   const {setFieldValue, handleChange, values, handleBlur} = useFormikContext<any>();
@@ -41,17 +42,16 @@ export function RadioField({
     else setInnerOptions(options(values));
   }, [options]);
   const intl = useIntl();
-  console.log(field.value);
   return (
     <>
       <div className={mode === 'horizontal' ? 'row' : ''}>
-        <div className={mode === 'horizontal' ? GetClassName(labelWidth, true) : ''}>
-          {label && (
+        {label && (
+          <div className={mode === 'horizontal' ? GetClassName(labelWidth, true) : ''}>
             <label className={mode === 'horizontal' ? 'mb-0 mt-2' : ''}>
               {label}{required && <span className="text-danger">*</span>}
             </label>
-          )}
-        </div>
+          </div>
+        )}
         
         <div className={mode === 'horizontal' ? GetClassName(labelWidth, false) : ''}>
           <RadioGroup
@@ -66,11 +66,17 @@ export function RadioField({
             }}
             onBlur={handleBlur}
           >
-            <div className="row no-gutters">
+            <div className={'row no-gutters'}>
               {_innerOptions.map((val, index, arr) => {
-                return (<FormControlLabel value={val.value} control={<StyledRadio/>}
+                return (<FormControlLabel className={optionsClassName} value={val.value} control={<StyledRadio/>}
                                           key={`radio_${name}_${val.value}`}
-                                          label={intl.formatMessage({id: val.label})}/>)
+                                          label={_.isString(val.label) ?
+                                            intl.formatMessage({id: val.label}) : val.label({
+                                              setFieldValue,
+                                              handleChange,
+                                              values,
+                                              handleBlur
+                                            })}/>)
               })}
             </div>
           </RadioGroup>

@@ -33,13 +33,13 @@ export function MainInput({
   return (
     <>
       <div className={mode === 'horizontal' ? 'row' : ''}>
-        <div className={mode === 'horizontal' ? GetClassName(labelWidth, true) : ''}>
-          {label && (
+        {label && (
+          <div className={mode === 'horizontal' ? GetClassName(labelWidth, true) : ''}>
             <label className={mode === 'horizontal' ? 'mb-0 mt-2' : ''}>
               {label}{required && <span className="text-danger">*</span>}
             </label>
-          )}
         </div>
+        )}
         <div className={mode === 'horizontal' ? GetClassName(labelWidth, false) : ''}>
           <input
             type={type === 'string-number' ? 'text' : type}

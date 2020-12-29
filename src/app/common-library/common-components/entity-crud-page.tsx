@@ -47,7 +47,7 @@ function EntityCrudPage({
     if (code) {
       get &&
       get(code).then((res: { data: any }) => {
-        setEntityForEdit(res.data);
+        setEntityForEdit({...res.data,storeLevel:undefined});
       });
     }
   }, [code]);

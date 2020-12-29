@@ -429,7 +429,6 @@ function ShippingAgency() {
               code={match && match.params.code}
               get={ShippingAgencyService.GetById}
               formModel={updateForm}
-              // allFormField={allFormField}
               actions={actions}
               validation={validationSchema}
             />

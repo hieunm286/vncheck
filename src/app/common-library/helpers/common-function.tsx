@@ -83,7 +83,7 @@ export const GetClassName = (labelWidth: number | null | undefined, labelStart: 
   const classes: string[] = [];
   
   if (labelStart) {
-    if (labelWidth) {
+    if (labelWidth != null) {
       classes.push(`col-xl-${labelWidth}`);
       classes.push(`col-md-${labelWidth}`);
       classes.push('col-12');
@@ -93,7 +93,7 @@ export const GetClassName = (labelWidth: number | null | undefined, labelStart: 
       classes.push('col-12');
     }
   } else {
-    if (labelWidth) {
+    if (labelWidth != null) {
       classes.push(`col-xl-${12 - labelWidth}`);
       classes.push(`col-md-${12 - labelWidth}`);
       classes.push('col-12');

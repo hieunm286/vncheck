@@ -198,7 +198,7 @@ export const RenderForm = ({inputs, prevKey, mode}: any) => {
           console.log(input, innt)
           
           return (<Fragment key={`render_form${prevKey ? `${prevKey}.${key}` : key}`}>
-            <div className={_className ?? 'col-12'}>
+            <div className={_className ?? ''}>
               {_subTitle && _subTitle !== '' && (<div
                 className="modify-subtitle text-primary">{intl.formatMessage({id: _subTitle}).toUpperCase()}</div>)}
               <RenderForm inputs={innt} prevKey={prevKey ? `${prevKey}.${key}` : key} mode={mode}/>

@@ -1,16 +1,19 @@
 import React, {ReactElement, useCallback, useEffect, useState} from 'react';
 import {TreeSelect} from 'antd';
-import {useField, useFormikContext} from 'formik';
+import {ErrorMessage, useField, useFormikContext} from 'formik';
 import './tree-select.scss'
 import SelectDropDownIcon from './select-drop-down-icon';
 import {useIntl} from 'react-intl';
 import _ from 'lodash';
 import {GetClassName} from "../helpers/common-function";
+import {DisplayError} from "./field-feedback-label";
 
 function CustomTreeSelect(
   {
     name,
     label,
+    withFeedbackLabel = true,
+    customFeedbackLabel,
     onChange,
     required,
     placeholder,
@@ -22,6 +25,8 @@ function CustomTreeSelect(
     label: string | ReactElement;
     mode?: 'horizontal' | 'vertical',
     value?: any;
+    withFeedbackLabel?: boolean;
+    customFeedbackLabel?: any;
     onChange?: (value: { value: any, entity: any }, props: { setFieldValue: ((name: string, value: any) => void), values: any }) => any;
     onSearch: (searchQueryObject: any) => any;
     placeholder?: string;
@@ -74,19 +79,10 @@ function CustomTreeSelect(
             }}
             className={(errors[name] && touched[name]) ? 'is-invalid ant-tree-select-custom' : 'ant-tree-select-custom'}
           />
-          {errors[name] ? (
-            <div className="text-danger" style={{fontSize: '0.9rem'}}>
-              {
-                // validationMessage ? intl.formatMessage({id: validationMessage}) : 'Vui lòng chọn ' + deCapitalizeFirstLetter(label)
-                // (!errors[name] && typeof label === 'string') ? 'Vui lòng chọn ' + deCapitalizeFirstLetter(label) : errors[name]
-                _.isString(errors[name]) ? intl.formatMessage({id: errors[name] as string}) : errors[name]
-              }
-            </div>
-          ) : (
-            <div className="feedback">
-              {/* Please enter <b>{props.label}</b> in 'mm/dd/yyyy' format */}
-            </div>
-          )}
+          {withFeedbackLabel && (<ErrorMessage name={name}>
+            {msg => <DisplayError label={label} error={msg}/>
+            }
+          </ErrorMessage>)}
         </div>
       </div>
     </>
