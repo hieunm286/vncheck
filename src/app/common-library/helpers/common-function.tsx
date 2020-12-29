@@ -382,7 +382,12 @@ export function InitMasterProps<T>({
   }, []);
   useEffect(() => {
     setError({error: ''});
-  }, [showDetail, showDeleteMany, showDelete])
+  }, [showDetail, showDeleteMany, showDelete]);
+  
+  useEffect(() => {
+    setSelectedEntities(selectedEntities.filter((t: any) => entities.some((e: any) => e._id === t._id)));
+  },[entities]);
+  
   const dispatch = useDispatch();
   useEffect(() => {
     if (error.error !== '') {

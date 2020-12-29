@@ -39,7 +39,7 @@ function EntityCrudPage({
   const initValues = useMemo(() => InitValues(formModel), [formModel]);
   const [entityForEdit, setEntityForEdit] = useState(entity);
   useEffect(() => {
-    if (!code) setEntityForEdit(initValues);
+    if (!code && !entity) setEntityForEdit(initValues);
   }, [initValues, code]);
   const {_header, ...modifyPanels} = formModel;
   

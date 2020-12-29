@@ -15,7 +15,7 @@ import {
   RenderInfoDetailDialog,
   SearchModel
 } from '../../common-library/common-types/common-type';
-import {InitMasterProps,} from '../../common-library/helpers/common-function';
+import {InitMasterProps, InitValues,} from '../../common-library/helpers/common-function';
 import {Route, Switch, useHistory} from 'react-router-dom';
 import EntityCrudPage from '../../common-library/common-components/entity-crud-page';
 import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
@@ -285,7 +285,6 @@ function ShippingAgency() {
     },
     status: {
       _type: 'boolean',
-      required: true,
       label: 'SHIPPING_AGENCY.MODIFY.STATUS',
     },
     phone: {
@@ -403,7 +402,7 @@ function ShippingAgency() {
       }
     }
   }), []);
-  
+  const initCreateValues = useMemo(()=>({...InitValues(createForm),status:'false'}),[createForm]);
   return (
     <Fragment>
       <Switch>
@@ -412,6 +411,7 @@ function ShippingAgency() {
             moduleName={moduleName}
             onModify={add}
             formModel={createForm}
+            entity={initCreateValues}
             actions={actions}
             // validation={validationSchema}
           />

@@ -198,7 +198,7 @@ export type _CommonProps = {
   value?: any;
   name?: string;
   [T: string]: any;
-  onChange?: (value: { value: any, entity: any }, props: { setFieldValue: ((name: string, value: any) => void),setFieldTouched: ((name: string, value: boolean) => void), values: any }) => any;
+  onChange?: (value: any, props: { setFieldValue: ((name: string, value: any) => void),setFieldTouched: ((name: string, value: boolean) => void), values: any }) => any;
 }
 
 
