@@ -33,6 +33,7 @@ export function ModifyEntityPage<T>({
   entity?: any;
   errors?: any;
 }) {
+  const intl = useIntl()
   const { _subTitle, ...pl } = inputGroups;
   return (
     <>
@@ -42,7 +43,7 @@ export function ModifyEntityPage<T>({
           const {_subTitle, _className, _dataClassName, _titleClassName, ...inputs} = inputGroup;
           return (
             <div key={`modify-entity-page${index}`} className={_className ?? 'col-12'}>
-              {_subTitle && <div className="modify-subtitle text-primary">{_subTitle.toUpperCase()}</div>}
+              {_subTitle && <div className="modify-subtitle text-primary">{intl.formatMessage({ id: _subTitle.toUpperCase() })}</div>}
               <RenderForm inputs={inputs} prevKey={''} mode={mode}/>
             </div>
           )
