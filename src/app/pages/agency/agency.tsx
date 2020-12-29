@@ -35,6 +35,7 @@ import CancelOutlinedIcon from "@material-ui/icons/CancelOutlined";
 import AddIcon from "@material-ui/icons/Add";
 import ModifyEntityDialog from "../../common-library/common-components/modify-entity-dialog";
 import {GetLots, GetSubLots} from "../land-lot/land-lot.service";
+import {AgencyShippingAddress} from "./agency-shipping-address";
 
 const headerTitle = 'AGENCY.MASTER.HEADER.TITLE';
 const tableTitle = 'SHIPPING_AGENCY.MASTER.TABLE.TITLE';
@@ -100,6 +101,8 @@ function AgencyPage() {
   useEffect(() => {
     getAll(filterProps);
   }, [paginationProps, filterProps]);
+  
+  const [showCreateShippingAddress, setShowCreateShippingAddress] = useState(false);
   
   const columns = useMemo(() => {
     return {
@@ -528,7 +531,6 @@ function AgencyPage() {
     },
     status: {
       _type: 'boolean',
-      required: true,
       label: 'AGENCY.MODIFY.STATUS',
     },
     phoneNumber: {
@@ -602,24 +604,24 @@ function AgencyPage() {
         maxNumber: 1,
         label: 'AGENCY.MODIFY.REPRESENT_IMAGE',
       },
-      shippingAddress: {
+      thes: {
+        _type: 'object',
+        _subTitle: 'AGENCY.MODIFY.SHIPPING_ADDRESS',
+        gender: {
+          _type: 'radio',
+          required: true,
+          options: [
+            {label: 'AGENCY.MODIFY.GENDER_OPTION.MALE', value: '1'},
+            {label: 'AGENCY.MODIFY.GENDER_OPTION.FEMALE', value: '0'}
+          ],
+          label: 'AGENCY.MODIFY.GENDER',
+        },
+      },
+      _addShippingAgencyBtn: {
         _type: 'custom',
         component: ({values}: any) => {
-          
           return (
-            <div className={'col-12'}>
-             
-              <div className="modify-subtitle text-primary">
-                {intl.formatMessage({id: 'AGENCY.MODIFY.SHIPPING_ADDRESS'}).toUpperCase()}
-              </div>
-              <button type="button" className="btn btn-primary" onClick={() => {
-                setShowCreate(true);
-              }}>
-                <AddIcon style={iconStyle}/>
-                {intl.formatMessage({id: 'AGENCY.MODIFY.ADD_SHIPPING_ADDRESS'})}
-              </button>
-            
-            </div>
+             <AgencyShippingAddress entity={{}}/>
           )
         }
       }
@@ -661,90 +663,8 @@ function AgencyPage() {
   
   
   
-  
-  const [shippingAddressGroup, setShippingAddressGroup] = useState<ModifyInputGroup>({
-    _subTitle: '',
-    state: {
-      _type: 'search-select',
-      onSearch: GetState,
-      onChange: (value: any, {setFieldValue, setFieldTouched}: any) => {
-        if (state != value) {
-          setCity(null);
-          setFieldValue('address.city', '');
-          setFieldTouched('address.city', false);
-          setFieldValue('address.district', '');
-          setFieldTouched('address.district', false);
-        }
-        setState(value);
-      },
-      required: true,
-      label: 'AGENCY.MODIFY.SHIPPING_ADDRESS.STATE',
-    },
-    city: {
-      _type: 'search-select',
-      onSearch: getCity,
-      // selectField: 'code',
-      required: true,
-      onChange: (value: any, {setFieldValue, setFieldTouched}: any) => {
-        if (city != value) {
-          setFieldValue('address.district', '');
-          setFieldTouched('address.district', false);
-        }
-        setCity(value);
-      },
-      disabled: (values: any) => {
-        return (values?.state === '');
-      },
-      label: 'AGENCY.MODIFY.SHIPPING_ADDRESS.CITY',
-    },
-    district: {
-      _type: 'search-select',
-      onSearch: getDistrict,
-      // selectField: 'code',
-      required: true,
-      disabled: (values: any) => {
-        return (values?.city === '');
-      },
-      label: 'AGENCY.MODIFY.SHIPPING_ADDRESS.DISTRICT',
-    },
-    detailAddress: {
-      _type: 'string',
-      required: true,
-      label: 'AGENCY.MODIFY.SHIPPING_ADDRESS.ADDRESS',
-    },
-  });
-  
-  const createShippingAddressForm = useMemo((): ModifyForm => ({
-    _header: 'AGENCY.MODIFY.SHIPPING_ADDRESS.CREATE_TITLE',
-    panel1: {
-      _title: '',
-      group1: shippingAddressGroup
-    },
-  }), [shippingAddressGroup]);
-  
-  
-  
   return (
     <Fragment>
-      <ModifyEntityDialog
-        formModel={createShippingAddressForm}
-        show={showCreate}
-        onModify={(...add) => {
-          console.log(add)}}
-        onHide={() => {
-          setShowCreate(false);
-        }}
-      />
-      <ModifyEntityDialog
-        formModel={updateForm}
-        show={showEdit}
-        entity={editEntity}
-        onModify={update}
-        onHide={() => {
-          setShowEdit(false);
-        }}
-        loading={loading}
-      />
       
       <DeleteEntityDialog
         moduleName={moduleName}
