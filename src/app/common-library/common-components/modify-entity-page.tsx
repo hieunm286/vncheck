@@ -16,6 +16,7 @@ import {
 } from './common-input';
 import _ from 'lodash';
 import {InputCustom} from "../forms/input-custom";
+import { getField } from '../helpers/common-function';
 
 export function ModifyEntityPage<T>({
                                       inputGroups,
@@ -169,8 +170,6 @@ export const RenderForm = ({inputs, prevKey, mode}: any) => {
               className={defaultClassName}
               name={name}
               mode={mode}
-              // data={defaultTag}
-              // tagData={tagData || []}
               type={input._type}
               {...input}
               key={`modify-page-form-${name}`}
