@@ -31,55 +31,55 @@ export const productPlanSearchModel1: SearchModel = {
   seedingCode: {
     type: 'string',
     label: 'PRODUCTION_PLAN.SEEDING_CODE',
+    name: 'product_plan.seeding.code',
   },
   plantCode: {
     type: 'string',
     label: 'PRODUCTION_PLAN.PLANT_CODE',
+    name: 'product_plan.planting.code'
   },
   species: {
     type: 'search-select',
     label: 'PRODUCTION_PLAN.SPECIES_NAME',
     onSearch: SpeciesService.GetAll,
     keyField: 'name',
+    name: 'product_plan.seeding.species'
   },
   estimatedHarvestTime: {
     type: 'date-time',
-    name: 'planting.estimatedHarvestTime',
+    name: 'product_plan.planting.estimatedHarvestTime',
     label: <Fix title={'PRODUCTION_PLAN.HARVEST_DATE'}/>,
   },
 };
 
 export const productPlanSearchModel2: SearchModel = {
-  seedingCode: {
+  code: {
     type: 'string',
     label: 'PRODUCTION_PLAN.CODE',
     placeholder: 'PRODUCTION_PLAN.INPUT',
     keyField: 'planCode',
   },
-  plantCode: {
+  seedingCode: {
     type: 'string',
     label: 'PRODUCTION_PLAN.SEEDING_CODE',
-    placeholder: 'PRODUCTION_PLAN.INPUT',
-    keyField: 'plantCode',
+    name: 'product_plan.seeding.code',
   },
-  growCode: {
+  plantCode: {
     type: 'string',
     label: 'PRODUCTION_PLAN.PLANT_CODE',
-    placeholder: 'PRODUCTION_PLAN.INPUT',
-    keyField: 'growCode',
+    name: 'product_plan.planting.code'
   },
   species: {
     type: 'search-select',
     label: 'PRODUCTION_PLAN.SPECIES_NAME',
-    placeholder: 'PRODUCTION_PLAN.INPUT',
     onSearch: SpeciesService.GetAll,
     keyField: 'name',
+    name: 'product_plan.seeding.species'
   },
   estimatedHarvestTime: {
     type: 'date-time',
-    name: 'planting.estimatedHarvestTime',
-    label: 'PRODUCTION_PLAN.HARVEST_DATE',
-    placeholder: 'PRODUCTION_PLAN.INPUT',
+    name: 'product_plan.planting.estimatedHarvestTime',
+    label: <Fix title={'PRODUCTION_PLAN.HARVEST_DATE'}/>,
   },
 };
 
