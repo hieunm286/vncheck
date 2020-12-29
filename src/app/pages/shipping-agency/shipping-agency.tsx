@@ -15,7 +15,7 @@ import {
   RenderInfoDetailDialog,
   SearchModel
 } from '../../common-library/common-types/common-type';
-import {InitMasterProps,} from '../../common-library/helpers/common-function';
+import {InitMasterProps, InitValues,} from '../../common-library/helpers/common-function';
 import {Route, Switch, useHistory} from 'react-router-dom';
 import EntityCrudPage from '../../common-library/common-components/entity-crud-page';
 import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
@@ -285,7 +285,6 @@ function ShippingAgency() {
     },
     status: {
       _type: 'boolean',
-      required: true,
       label: 'SHIPPING_AGENCY.MODIFY.STATUS',
     },
     phone: {
@@ -373,29 +372,14 @@ function ShippingAgency() {
     return ({...createForm, _header: updateTitle});
   }, [createForm]);
   const validationSchema = useMemo(() => Yup.object().shape({
-    name: Yup.string()
-      .max(255, 'Tên quá dài, vui lòng nhập lại!'),
     phone: Yup.string()
-      .matches(/^[0-9+]+$/u, {
-        message: 'Số điện thoại không hợp lệ',
-      })
       .max(11, 'Số điện thoại không hợp lệ')
       .min(8, 'Số điện thoại không hợp lệ'),
     tax_id: Yup.string()
-      .matches(/^[0-9]+$/u, {
-        message: 'Mã số thuế không hợp lệ',
-      })
       .max(13, 'Mã số thuế không hợp lệ'),
-    owner_name: Yup.string()
-      .max(255, 'Tên quá dài, vui lòng nhập lại!'),
     owner_phone: Yup.string()
-      .matches(/^[0-9+]+$/u, {
-        message: 'Số điện thoại không hợp lệ',
-      })
       .max(11, 'Số điện thoại không hợp lệ')
       .min(8, 'Số điện thoại không hợp lệ'),
-    email: Yup.string()
-      .email('Email không hợp lệ')
   }), []);
   const actions: any = useMemo(() => ({
     type: 'inside',
@@ -418,7 +402,7 @@ function ShippingAgency() {
       }
     }
   }), []);
-  
+  const initCreateValues = useMemo(()=>({...InitValues(createForm),status:'false'}),[createForm]);
   return (
     <Fragment>
       <Switch>
@@ -427,6 +411,7 @@ function ShippingAgency() {
             moduleName={moduleName}
             onModify={add}
             formModel={createForm}
+            entity={initCreateValues}
             actions={actions}
             // validation={validationSchema}
           />
@@ -458,9 +443,6 @@ function ShippingAgency() {
           <MasterBody
             title={tableTitle}
             onCreate={() => {
-              setCreateEntity(null);
-              setEditEntity(null);
-              // setShowCreate(true);
               history.push(`${window.location.pathname}/0000000`);
             }}
             onDeleteMany={() => setShowDeleteMany(true)}

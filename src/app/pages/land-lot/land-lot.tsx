@@ -1,11 +1,10 @@
-import React, {Fragment, useCallback, useEffect, useMemo, useState} from 'react';
+import React, {Fragment, useEffect, useMemo, useState} from 'react';
 import {Count, Create, Delete, DeleteMany, Get, GetAll, GetLots, GetSubLots, Update} from './land-lot.service';
 import {LandLotModel} from './land-lot.model';
 import {DefaultPagination, NormalColumn, SortColumn} from '../../common-library/common-consts/const';
 import {ActionsColumnFormatter} from '../../common-library/common-components/actions-column-formatter';
 import {InitMasterProps,} from '../../common-library/helpers/common-function';
 import {Redirect, Route, Switch} from 'react-router-dom';
-import * as Yup from 'yup';
 import {
   MasterBodyColumns,
   ModifyForm,
@@ -193,10 +192,6 @@ function LandLot() {
       },
     }), []);
   const [searchModel, setSearchModel] = useState(initSearchModel);
-  const resetSearchModel = useCallback((queryProps) => {
-    if (Object.keys(queryProps).length !== 0) return;
-    setSearchModel(searchModel);
-  }, []);
   const [group1, setGroup1] = useState<ModifyInputGroup>({
     _subTitle: '',
     code: {
@@ -211,8 +206,10 @@ function LandLot() {
       onSearch: GetLots,
       required: true,
       disabled: false,
-      onChange: (value, {setFieldValue, values}) => {
+      onChange: (value, {setFieldValue, setFieldTouched, values}) => {
+        setFieldValue('code', value ?? '');
         setFieldValue('subLot', '');
+        setFieldTouched('subLot', true);
         setGroup1({...group1})
       }
     },
@@ -225,7 +222,7 @@ function LandLot() {
         return !values.lot || values.lot.length !== 1
       },
       onChange: (value, {setFieldValue, values}) => {
-        values.lot && setFieldValue('code', values.lot + (value ?? ''));
+        values.lot && setFieldValue('code', value ? values.lot + value: '');
       },
     },
   });
@@ -260,6 +257,7 @@ function LandLot() {
         isShow={showDelete}
         onHide={() => {
           setShowDelete(false);
+          setFilterProps({...filterProps});
         }}
         loading={loading}
         error={error}
@@ -273,6 +271,7 @@ function LandLot() {
         onDelete={deleteMany}
         onHide={() => {
           setShowDeleteMany(false);
+          setFilterProps({...filterProps});
         }}
       />
       <ModifyEntityDialog
@@ -303,7 +302,6 @@ function LandLot() {
             onSearch={(value) => {
               setPaginationProps(DefaultPagination);
               setFilterProps(value);
-              resetSearchModel(value);
             }}
             searchModel={searchModel}
           />

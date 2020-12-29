@@ -198,7 +198,7 @@ export type _CommonProps = {
   value?: any;
   name?: string;
   [T: string]: any;
-  onChange?: (value: { value: any, entity: any }, props: { setFieldValue: ((name: string, value: any) => void),setFieldTouched: ((name: string, value: boolean) => void), values: any }) => any;
+  onChange?: (value: any, props: { setFieldValue: ((name: string, value: any) => void),setFieldTouched: ((name: string, value: boolean) => void), values: any }) => any;
 }
 
 
@@ -219,6 +219,7 @@ export type _ModifyModelInput =
   | ({ _type: 'radio', options: { value: any, label: string }[] | ((...props: any) => { value: any, label: string }[]); } & _CommonProps)
   | ({ _type: 'checkbox', onSelectMany: (entities: any[]) => void; selectedEntities: any[]; } & _CommonProps)
   | ({ _type: 'search-select', onSearch: GetAllPropsServer<any> | GetAllProps<any>, keyField?: string, selectField?: string } & _CommonProps)
+  | ({ _type: 'tree-select', onSearch: any, keyField?: string, selectField?: string } & _CommonProps)
 
 export type GetAllProps<T> = ({
                                 queryProps,

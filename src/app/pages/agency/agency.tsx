@@ -2,7 +2,7 @@ import React, {Fragment, useCallback, useEffect, useMemo, useState} from "react"
 import {useIntl} from 'react-intl';
 
 
-import {ConvertToTreeNode, GenerateAllFormField, InitMasterProps} from "../../common-library/helpers/common-function";
+import {ConvertToTreeNode, InitMasterProps} from "../../common-library/helpers/common-function";
 
 import {Count, Create, Delete, DeleteMany, Get, GetAll, Update} from './agency.service';
 import {AgencyModel} from './agency.model';
@@ -13,18 +13,28 @@ import {
   TickColumnFormatter
 } from '../../common-library/common-components/actions-column-formatter';
 
-import {DefaultPagination, NormalColumn, SortColumn} from '../../common-library/common-consts/const';
+import {DefaultPagination, iconStyle, NormalColumn, SortColumn} from '../../common-library/common-consts/const';
 
 
 import {DeleteEntityDialog} from "../../common-library/common-components/delete-entity-dialog";
 import DeleteManyEntitiesDialog from '../../common-library/common-components/delete-many-entities-dialog';
 import {Route, Switch, useHistory} from 'react-router-dom';
-import {initAgency} from "./helpers/mock-entity";
 import * as MultilevelSaleService from '../multilevel-sale/multilevel-sale.service';
 import * as RoleService from './helpers/role.service';
-import {RenderInfoDetailDialog, SearchModel} from "../../common-library/common-types/common-type";
+import {
+  ModifyForm,
+  ModifyInputGroup,
+  RenderInfoDetailDialog,
+  SearchModel
+} from "../../common-library/common-types/common-type";
 import {MasterEntityDetailDialog} from "../../common-library/common-components/master-entity-detail-dialog";
 import {GetCity, GetDistrict, GetState} from "../address/address.service";
+import EntityCrudPage from "../../common-library/common-components/entity-crud-page";
+import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
+import CancelOutlinedIcon from "@material-ui/icons/CancelOutlined";
+import AddIcon from "@material-ui/icons/Add";
+import ModifyEntityDialog from "../../common-library/common-components/modify-entity-dialog";
+import {GetLots, GetSubLots} from "../land-lot/land-lot.service";
 
 const headerTitle = 'AGENCY.MASTER.HEADER.TITLE';
 const tableTitle = 'SHIPPING_AGENCY.MASTER.TABLE.TITLE';
@@ -439,73 +449,302 @@ function AgencyPage() {
     }
   ];
   
-  const formPart: any = {
-    form_1: {
-      // title: 'Thông tin đơn vị bán hàng',
-      modifyModel: modifyModel,
-      // header: 'THÔNG TIN ĐƠN VỊ BÁN HÀNG',
+  const group1 = useMemo((): ModifyInputGroup => ({
+    _subTitle: 'AGENCY.MODIFY.GENERAL_INFO',
+    _className: 'col-6 pr-xl-15 pr-md-10 pr-5',
+    code: {
+      _type: 'string',
+      label: 'AGENCY.MODIFY.CODE',
+      disabled: true,
     },
-    // form_2: {
-    //   title: 'Thông tin quản trị',
-    //   modifyModel: modifyModel_2,
-    // },
-    // form_3: {
-    //   title: 'Thông tin thu hoạch',
-    //   modifyModel: modifyModel_3,
-    // },
-    // form_4: {
-    //   title: "Thông tin test",
-    //   modifyModel: modifyModel_4
-    // },
-    // form_5: {
-    //   title: "xxx",
-    //   modifyModel: modifyModel_2
-    // }
-  };
+    name: {
+      _type: 'string',
+      required: true,
+      label: 'AGENCY.MODIFY.NAME',
+    },
+    storeLevel: {
+      _type: 'tree-select',
+      required: true,
+      label: 'AGENCY.MODIFY.STORE_LEVEL',
+      onSearch: ({queryProps, sortList, paginationProps,}: any) => {
+        return MultilevelSaleService.GetAll({queryProps}).then((e) => {
+          return ConvertToTreeNode(e.data);
+        })
+      },
+    },
+    address: {
+      _type: 'object',
+      state: {
+        _type: 'search-select',
+        onSearch: GetState,
+        disabled: (values: any) => {
+          console.log(values)
+        },
+        onChange: (value: any, {setFieldValue, setFieldTouched}: any) => {
+          if (state != value) {
+            setCity(null);
+            setFieldValue('address.city', '');
+            setFieldTouched('address.city', false);
+            setFieldValue('address.district', '');
+            setFieldTouched('address.district', false);
+          }
+          setState(value);
+        },
+        required: true,
+        label: 'AGENCY.MODIFY.STATE',
+      },
+      city: {
+        _type: 'search-select',
+        onSearch: getCity,
+        // selectField: 'code',
+        required: true,
+        onChange: (value: any, {setFieldValue, setFieldTouched}: any) => {
+          if (city != value) {
+            setFieldValue('address.district', '');
+            setFieldTouched('address.district', false);
+          }
+          setCity(value);
+        },
+        disabled: (values: any) => {
+          return (values.address?.state === '');
+        },
+        label: 'AGENCY.MODIFY.CITY',
+      },
+      district: {
+        _type: 'search-select',
+        onSearch: getDistrict,
+        // selectField: 'code',
+        required: true,
+        disabled: (values: any) => {
+          return (values.address?.city === '');
+        },
+        label: 'AGENCY.MODIFY.DISTRICT',
+      },
+      detailAddress: {
+        _type: 'string',
+        required: true,
+        label: 'AGENCY.MODIFY.ADDRESS',
+      },
+    },
+    status: {
+      _type: 'boolean',
+      required: true,
+      label: 'AGENCY.MODIFY.STATUS',
+    },
+    phoneNumber: {
+      _type: 'string-number',
+      required: true,
+      label: 'AGENCY.MODIFY.PHONE_NUMBER',
+    },
+    taxId: {
+      _type: 'string-number',
+      required: true,
+      label: 'AGENCY.MODIFY.TAX_NUMBER',
+    },
+    images: {
+      _type: 'image',
+      label: 'AGENCY.MODIFY.IMAGE',
+    },
+  }), [getCity, getDistrict]);
   
-  const allFormField: any = {
-    ...GenerateAllFormField(modifyModel)
-  };
-  //
-  // const crudSuccess = () => {
-  //   refreshData();
-  //   notifySuccess();
-  //   history.push(GetHomePage(window.location.pathname));
-  //   history.push('/agency')
-  //   // history.goBack()
-  //
-  // }
-  //
-  // const crudFail = (error: any) => {
-  //   setError(error.response.entity || error.message || JSON.stringify(error))
-  //   notify(intl.formatMessage({id: error.response.entity || error.message || JSON.stringify(error)}));
-  // }
+  const group2 = useMemo((): ModifyInputGroup => ({
+    _subTitle: 'AGENCY.MODIFY.OWNER_INFO',
+    _className: 'col-6 pl-xl-15 pl-md-10 pl-5',
+    owner: {
+      _type: 'object',
+      username: {
+        _type: 'string',
+        label: 'AGENCY.MODIFY.USER_NAME',
+        required: true,
+      },
+      fullName: {
+        _type: 'string',
+        required: true,
+        label: 'AGENCY.MODIFY.DISPLAY_NAME',
+      },
+      phone: {
+        _type: 'string-number',
+        required: true,
+        label: 'AGENCY.MODIFY.PHONE_NUMBER',
+      },
+      email: {
+        _type: 'email',
+        required: true,
+        label: 'AGENCY.MODIFY.EMAIL',
+      },
+      gender: {
+        _type: 'radio',
+        required: true,
+        options: [
+          {label: 'AGENCY.MODIFY.GENDER_OPTION.MALE', value: '1'},
+          {label: 'AGENCY.MODIFY.GENDER_OPTION.FEMALE', value: '0'}
+        ],
+        label: 'AGENCY.MODIFY.GENDER',
+      },
+      birthDay: {
+        _type: 'date-time',
+        required: true,
+        label: 'AGENCY.MODIFY.DATE_OF_BIRTH',
+      },
+      role: {
+        _type: 'search-select',
+        required: true,
+        label: 'AGENCY.MODIFY.ROLE',
+        keyField: 'name',
+        // onSearch: ({queryProps, paginationProps}: any): Promise<any> => {
+        //   return GetRole({queryProps, paginationProps}, (t: any) => intl.formatMessage({id: t}))
+        // },
+        onSearch: RoleService.GetAll,
+      },
+      image: {
+        _type: 'image',
+        isArray: false,
+        maxNumber: 1,
+        label: 'AGENCY.MODIFY.REPRESENT_IMAGE',
+      },
+      shippingAddress: {
+        _type: 'custom',
+        component: ({values}: any) => {
+          
+          return (
+            <div className={'col-12'}>
+             
+              <div className="modify-subtitle text-primary">
+                {intl.formatMessage({id: 'AGENCY.MODIFY.SHIPPING_ADDRESS'}).toUpperCase()}
+              </div>
+              <button type="button" className="btn btn-primary" onClick={() => {
+                setShowCreate(true);
+              }}>
+                <AddIcon style={iconStyle}/>
+                {intl.formatMessage({id: 'AGENCY.MODIFY.ADD_SHIPPING_ADDRESS'})}
+              </button>
+            
+            </div>
+          )
+        }
+      }
+    }
+  }),[showCreate]);
   
-  const [treeData, setTreeData] = useState<any>();
+  const actions: any = useMemo(() => ({
+    type: 'inside',
+    data: {
+      save: {
+        role: 'submit',
+        type: 'submit',
+        linkto: undefined,
+        className: 'btn btn-primary mr-8 fixed-btn-width',
+        label: 'Lưu',
+        icon: <SaveOutlinedIcon/>,
+      },
+      cancel: {
+        role: 'link-button',
+        type: 'button',
+        linkto: '/shipping-agency',
+        className: 'btn btn-outline-primary fixed-btn-width',
+        label: 'Hủy',
+        icon: <CancelOutlinedIcon/>,
+      }
+    }
+  }), []);
+  const createForm = useMemo((): ModifyForm => ({
+    _header: createTitle,
+    panel1: {
+      _title: '',
+      group1: group1,
+      group2: group2,
+    },
+  }), [group1, group2]);
+  const updateForm = useMemo((): ModifyForm => {
+    return ({...createForm, _header: updateTitle});
+  }, [createForm]);
   
-  const treeLoadOptions = async (getAll: (t: any) => any) => {
-    const queryProps: any = {};
-    // queryProps[keyField] = search;
-    // queryProps =
-    
-    const entities = await getAll({});
-    return entities.entity;
-  };
   
-  // useEffect(() => {
-  //   treeLoadOptions(StoreLevelService.GetAll) // treeLoadOptions(modifyModel.data['storeLevel'].service)
-  //     .then((res: any) => {
-  //       // console.log(res);
-  //       // console.log(DataExample)
-  //       const treeData = ConvertToTreeNode(res);
-  //       setTreeData(treeData);
-  //     });
-  // }, []);
-  //
+  
+  
+  const [shippingAddressGroup, setShippingAddressGroup] = useState<ModifyInputGroup>({
+    _subTitle: '',
+    state: {
+      _type: 'search-select',
+      onSearch: GetState,
+      onChange: (value: any, {setFieldValue, setFieldTouched}: any) => {
+        if (state != value) {
+          setCity(null);
+          setFieldValue('address.city', '');
+          setFieldTouched('address.city', false);
+          setFieldValue('address.district', '');
+          setFieldTouched('address.district', false);
+        }
+        setState(value);
+      },
+      required: true,
+      label: 'AGENCY.MODIFY.SHIPPING_ADDRESS.STATE',
+    },
+    city: {
+      _type: 'search-select',
+      onSearch: getCity,
+      // selectField: 'code',
+      required: true,
+      onChange: (value: any, {setFieldValue, setFieldTouched}: any) => {
+        if (city != value) {
+          setFieldValue('address.district', '');
+          setFieldTouched('address.district', false);
+        }
+        setCity(value);
+      },
+      disabled: (values: any) => {
+        return (values?.state === '');
+      },
+      label: 'AGENCY.MODIFY.SHIPPING_ADDRESS.CITY',
+    },
+    district: {
+      _type: 'search-select',
+      onSearch: getDistrict,
+      // selectField: 'code',
+      required: true,
+      disabled: (values: any) => {
+        return (values?.city === '');
+      },
+      label: 'AGENCY.MODIFY.SHIPPING_ADDRESS.DISTRICT',
+    },
+    detailAddress: {
+      _type: 'string',
+      required: true,
+      label: 'AGENCY.MODIFY.SHIPPING_ADDRESS.ADDRESS',
+    },
+  });
+  
+  const createShippingAddressForm = useMemo((): ModifyForm => ({
+    _header: 'AGENCY.MODIFY.SHIPPING_ADDRESS.CREATE_TITLE',
+    panel1: {
+      _title: '',
+      group1: shippingAddressGroup
+    },
+  }), [shippingAddressGroup]);
+  
+  
   
   return (
     <Fragment>
-      
+      <ModifyEntityDialog
+        formModel={createShippingAddressForm}
+        show={showCreate}
+        onModify={(...add) => {
+          console.log(add)}}
+        onHide={() => {
+          setShowCreate(false);
+        }}
+      />
+      <ModifyEntityDialog
+        formModel={updateForm}
+        show={showEdit}
+        entity={editEntity}
+        onModify={update}
+        onHide={() => {
+          setShowEdit(false);
+        }}
+        loading={loading}
+      />
       
       <DeleteEntityDialog
         moduleName={moduleName}
@@ -546,10 +785,7 @@ function AgencyPage() {
           <MasterBody
             title={bodyTitle}
             onCreate={() => {
-              setEditEntity(null);
-              setCreateEntity(initAgency);
-              // setCreateEntity(mockAgency)
-              history.push('/agency/new');// setShowCreate(true);
+              history.push(`${window.location.pathname}/0000000`);
             }}
             onDeleteMany={() => setShowDeleteMany(true)}
             selectedEntities={selectedEntities}
@@ -562,24 +798,15 @@ function AgencyPage() {
             setPaginationParams={setPaginationProps}
           />
         </Route>
-        {/*<Route path="/agency/new">*/}
-        {/*  {({ history, match }) => (*/}
-        {/*    <EntityCrudPageAgency*/}
-        {/*      entity={createEntity}*/}
-        {/*      onModify={add}*/}
-        {/*      onClickReturn={refreshData}*/}
-        {/*      // title={updateTitle}*/}
-        {/*      //  modifyModel={modifyModel}*/}
-        {/*      // reduxModel="purchaseOrder"*/}
-        {/*      code={match && match.params.id}*/}
-        {/*      get={AgencyService.GetById}*/}
-        {/*      formPart={formPart}*/}
-        {/*      allFormField={allFormField}*/}
-        {/*      allFormButton={allFormButton}*/}
-        {/*      validation={agencySchema}*/}
-        {/*    />*/}
-        {/*  )}*/}
-        {/*</Route>*/}
+        <Route path="/agency/0000000">
+          <EntityCrudPage
+            moduleName={moduleName}
+            onModify={add}
+            formModel={createForm}
+            actions={actions}
+            // validation={validationSchema}
+          />
+        </Route>
         {/*<Route path="/agency/:code">*/}
         {/*  {({ history, match }) => (*/}
         {/*    <EntityCrudPageAgency*/}

@@ -1,8 +1,6 @@
 import React from 'react';
 import {InputGroups} from '../common-types/common-type';
 import {useIntl} from 'react-intl';
-import {getField} from '../helpers/common-function';
-import {useFormikContext} from 'formik';
 import {
   InputBoolean,
   InputCheckBox,
@@ -11,30 +9,32 @@ import {
   InputNumber,
   InputRadio,
   InputSearchSelect,
-  InputString, InputStringNumber,
+  InputString,
+  InputStringNumber,
   InputTag,
+  InputTreeSelect,
 } from './common-input';
 import _ from 'lodash';
 import {InputCustom} from "../forms/input-custom";
 
 export function ModifyEntityPage<T>({
-  inputGroups,
-  entity,
-  // className = '',
-  mode = 'horizontal',
-}: // tagData
-{
-  inputGroups: InputGroups;
-  mode?: 'horizontal' | 'vertical';
-  onChange?: any;
-  // className?: string;
-  handleChangeTag?: any;
-  values?: any;
-  entity?: any;
-  errors?: any;
-}) {
-  const intl = useIntl()
-  const { _subTitle, ...pl } = inputGroups;
+                                      inputGroups,
+                                      entity,
+                                      // className = '',
+                                      mode = 'horizontal',
+                                    }: // tagData
+                                      {
+                                        inputGroups: InputGroups;
+                                        mode?: 'horizontal' | 'vertical';
+                                        onChange?: any;
+                                        // className?: string;
+                                        handleChangeTag?: any;
+                                        values?: any;
+                                        entity?: any;
+                                        errors?: any;
+                                      }) {
+  const intl = useIntl();
+  const {_subTitle, ...pl} = inputGroups;
   return (
     <>
       <div className={'row'}>
@@ -43,7 +43,8 @@ export function ModifyEntityPage<T>({
           const {_subTitle, _className, _dataClassName, _titleClassName, ...inputs} = inputGroup;
           return (
             <div key={`modify-entity-page${index}`} className={_className ?? 'col-12'}>
-              {_subTitle && <div className="modify-subtitle text-primary">{intl.formatMessage({ id: _subTitle.toUpperCase() })}</div>}
+              {_subTitle && _subTitle !== '' && (<div
+                className="modify-subtitle text-primary">{intl.formatMessage({id: _subTitle}).toUpperCase()}</div>)}
               <RenderForm inputs={inputs} prevKey={''} mode={mode}/>
             </div>
           )
@@ -53,8 +54,7 @@ export function ModifyEntityPage<T>({
   );
 }
 
-export const RenderForm = ({ inputs, prevKey, mode }: any) => {
-  const { setFieldValue, touched, values } = useFormikContext<any>();
+export const RenderForm = ({inputs, prevKey, mode}: any) => {
   const defaultClassName = 'mb-5';
   return (<>
     {Object.keys(inputs).map(key => {
@@ -73,17 +73,17 @@ export const RenderForm = ({ inputs, prevKey, mode }: any) => {
               mode={mode}
               key={`modify-page-form-${name}`}/>
           );
-          case 'string-number': {
-            return (
-              <InputStringNumber
-                className={defaultClassName}
-                name={name}
-                type={input._type}
-                {...input}
-                mode={mode}
-                key={`modify-page-form-${name}`}/>
-            );
-          }
+        case 'string-number': {
+          return (
+            <InputStringNumber
+              className={defaultClassName}
+              name={name}
+              type={input._type}
+              {...input}
+              mode={mode}
+              key={`modify-page-form-${name}`}/>
+          );
+        }
         case 'number':
           return (
             <InputNumber
@@ -143,7 +143,6 @@ export const RenderForm = ({ inputs, prevKey, mode }: any) => {
             <InputSearchSelect
               className={defaultClassName}
               name={name}
-              value={values[key]}
               mode={mode}
               type={input._type}
               {...input}
@@ -151,19 +150,25 @@ export const RenderForm = ({ inputs, prevKey, mode }: any) => {
             />
           );
         }
+        case 'tree-select': {
+          return (
+            <InputTreeSelect
+              className={defaultClassName}
+              name={key}
+              mode={mode}
+              type={input._type}
+              {...input}
+              key={`master_header${key}`}
+            />
+          );
+        }
         case 'tag': {
-          const defaultTag = (getField(values, prevKey ? `${prevKey}.${key}` : key))
-          console.log('----------------')
-          console.log(prevKey ? `${prevKey}.${key}` : key)
-          console.log(defaultTag)
-          console.log('----------------')
-  
           return (
             <InputTag
               className={defaultClassName}
               name={name}
               mode={mode}
-              data={defaultTag}
+              // data={defaultTag}
               // tagData={tagData || []}
               type={input._type}
               {...input}
@@ -171,18 +176,18 @@ export const RenderForm = ({ inputs, prevKey, mode }: any) => {
             />
           );
         }
-
+        
         case 'checkbox':
-            return (
-              <InputCheckBox
-                className={defaultClassName}
-                name={name}
-                type={input._type}
-                {...input}
-                key={`modify-page-form-${name}`}
-              />
-            );
-
+          return (
+            <InputCheckBox
+              className={defaultClassName}
+              name={name}
+              type={input._type}
+              {...input}
+              key={`modify-page-form-${name}`}
+            />
+          );
+        
         case 'custom': {
           const {_type, ...props} = input;
           return (<InputCustom {...props} key={`modify-page-form-${name}`}/>);

@@ -32,7 +32,7 @@ function ModifyEntityDialogForm<T>({
   const initValues = useMemo(() => InitValues({_header: '', panel1: modifyPanel}), [modifyPanel]);
   
   useEffect(() => {
-    entity && setEntityForEdit(initValues);
+     setEntityForEdit(entity ?? initValues);
   }, [entity,initValues]);
   
   return (

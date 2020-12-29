@@ -1,15 +1,17 @@
 import React, {ReactElement} from 'react';
+import {useFormikContext} from "formik";
 
 export function InputCustom({
-                              className, component
+                              className, component, ...props
                             }: {
   className: string,
-  component: () => ReactElement;
+  component: (props: any) => ReactElement;
   
 }) {
   const Component = component;
+  const formik = useFormikContext<any>();
   return (<div className={className}>
-    <Component/>
+    <Component  {...formik} {...props}/>
   </div>)
 }
 
