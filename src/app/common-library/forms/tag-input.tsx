@@ -8,6 +8,8 @@ import {DisplayError} from "./field-feedback-label";
 const {Option} = Select;
 
 const getDefautltTag = (data: any) => {
+  if (!data) return;
+
   const idArr: any[] = [];
   
   data?.forEach((el: any) => {
@@ -40,9 +42,10 @@ function TagInput({
   const intl = useIntl();
   const validate = useCallback((value: any): string | void => {
     if (required && !value) return 'RADIO.ERROR.REQUIRED';
-  }, []);
-  const [field] = useField({validate, name});
+  }, [required, value]);
+  const [field] = useField({name, validate});
   const {setFieldValue, errors, touched, getFieldMeta} = useFormikContext<any>();
+
   return (
     <>
       <div className={mode === 'horizontal' ? 'row' : ''}>
@@ -57,7 +60,7 @@ function TagInput({
           <Select
             mode="multiple"
             style={{width: '100%'}}
-            defaultValue={getDefautltTag(data) || []}
+            defaultValue={getDefautltTag(field.value) || []}
             placeholder={placeholder}
             onChange={(value: any) => {
               // handleChange(value);
