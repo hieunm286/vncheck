@@ -620,12 +620,14 @@ function AgencyPage() {
             {
               label: ({setFieldValue, handleChange, values, handleBlur}: any) => {
                 return (<div>
-                  abc xss eis lmd, mdjw cchde
-                  {ActionsColumnFormatter(1, 1, 1,
-                    {
-                      onDelete: console.log,
-                      onEdit: console.log,
-                      intl})}
+                  <div className={'pr-23'} style={{display: 'inline-block'}}>abc xss eis lmd, mdjw cchdeabc xss eis lmd, mdjw cchdeabc xss eis lmd, mdjw cchdeabc xss eis lmd, mdjw cchdeabc xss eis lmd, mdjw cchdeabc xss eis lmd, mdjw cchdeabc xss eis lmd, mdjw cchdeabc xss eis lmd, mdjw cchdeabc xss eis lmd, mdjw cchdeabc xss eis lmd, mdjw cchdeabc xss eis lmd, mdjw cchdeabc xss eis lmd, mdjw cchdeabc xss eis lmd, mdjw cchdeabc xss eis lmd, mdjw cchdeabc xss eis lmd, mdjw cchdeabc xss eis lmd, mdjw cchdeabc xss eis lmd, mdjw cchdeabc xss eis lmd, mdjw cchde</div>
+                  <span style={{position: 'absolute', right:0, top: 'calc(50% - 15px)'}}>
+                    {ActionsColumnFormatter(1, 1, 1,
+                      {
+                        onDelete: console.log,
+                        onEdit: console.log,
+                        intl})}
+                  </span>
                 </div>)
               }, value: '1'
             },
