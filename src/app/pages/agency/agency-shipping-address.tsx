@@ -143,7 +143,7 @@ export function AgencyShippingAddress({entity} : any) {
   const updateForm = useMemo((): ModifyForm => {
     return ({...createForm, _header: updateTitle});
   }, [createForm]);
-  
+  const [createEntity,setCreateEntity] = useState({});
   return(<Fragment>
     <button type="button" className="btn btn-primary" onClick={() => {
       setShowCreate(true);
@@ -154,8 +154,9 @@ export function AgencyShippingAddress({entity} : any) {
     <ModifyEntityDialog
       formModel={createForm}
       show={showCreate}
-      onModify={(...add) => {
-        console.log(add)}}
+      entity={createEntity}
+      onModify={() => {
+        console.log(1)}}
       onHide={() => {
         setShowCreate(false);
       }}

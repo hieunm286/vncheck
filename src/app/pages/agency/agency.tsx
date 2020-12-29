@@ -4,6 +4,7 @@ import {useIntl} from 'react-intl';
 
 import {ConvertToTreeNode, InitMasterProps} from "../../common-library/helpers/common-function";
 
+import * as AgencyService from './agency.service';
 import {Count, Create, Delete, DeleteMany, Get, GetAll, Update} from './agency.service';
 import {AgencyModel} from './agency.model';
 import {MasterHeader} from "../../common-library/common-components/master-header";
@@ -33,9 +34,8 @@ import EntityCrudPage from "../../common-library/common-components/entity-crud-p
 import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
 import CancelOutlinedIcon from "@material-ui/icons/CancelOutlined";
 import AddIcon from "@material-ui/icons/Add";
-import ModifyEntityDialog from "../../common-library/common-components/modify-entity-dialog";
-import {GetLots, GetSubLots} from "../land-lot/land-lot.service";
 import {AgencyShippingAddress} from "./agency-shipping-address";
+import * as Yup from "yup";
 
 const headerTitle = 'AGENCY.MASTER.HEADER.TITLE';
 const tableTitle = 'SHIPPING_AGENCY.MASTER.TABLE.TITLE';
@@ -523,7 +523,7 @@ function AgencyPage() {
         },
         label: 'AGENCY.MODIFY.DISTRICT',
       },
-      detailAddress: {
+      address: {
         _type: 'string',
         required: true,
         label: 'AGENCY.MODIFY.ADDRESS',
@@ -532,8 +532,12 @@ function AgencyPage() {
     status: {
       _type: 'boolean',
       label: 'AGENCY.MODIFY.STATUS',
+      trueFalse: {
+        true: '1',
+        false: '0'
+      }
     },
-    phoneNumber: {
+    phone: {
       _type: 'string-number',
       required: true,
       label: 'AGENCY.MODIFY.PHONE_NUMBER',
@@ -610,23 +614,43 @@ function AgencyPage() {
         gender: {
           _type: 'radio',
           required: true,
+          labelWidth: 0,
+          optionsClassName: 'col-12 mr-0',
           options: [
-            {label: 'AGENCY.MODIFY.GENDER_OPTION.MALE', value: '1'},
-            {label: 'AGENCY.MODIFY.GENDER_OPTION.FEMALE', value: '0'}
+            {
+              label: ({setFieldValue, handleChange, values, handleBlur}: any) => {
+                return (<div>
+                  abc xss eis lmd, mdjw cchde
+                  {ActionsColumnFormatter(1, 1, 1,
+                    {
+                      onDelete: console.log,
+                      onEdit: console.log,
+                      intl})}
+                </div>)
+              }, value: '1'
+            },
+            {label: ({setFieldValue, handleChange, values, handleBlur}: any) => {
+                return (<div>
+                  abc xss eis lmd, mdjw cchde
+                  {ActionsColumnFormatter(1, 1, 1,
+                    {onShowDetail: console.log,
+                      onDelete: console.log,
+                      onEdit: console.log,
+                      intl})}
+                </div>)}, value: '0'}
           ],
-          label: 'AGENCY.MODIFY.GENDER',
         },
       },
       _addShippingAgencyBtn: {
         _type: 'custom',
         component: ({values}: any) => {
           return (
-             <AgencyShippingAddress entity={{}}/>
+            <AgencyShippingAddress entity={{}}/>
           )
         }
       }
     }
-  }),[showCreate]);
+  }), [showCreate]);
   
   const actions: any = useMemo(() => ({
     type: 'inside',
@@ -661,11 +685,22 @@ function AgencyPage() {
     return ({...createForm, _header: updateTitle});
   }, [createForm]);
   
-  
+  const validationSchema = useMemo(() => Yup.object().shape({
+    phone: Yup.string()
+      .max(11, 'Số điện thoại không hợp lệ')
+      .min(8, 'Số điện thoại không hợp lệ'),
+    tax_id: Yup.string()
+      .min(10, 'Mã số thuế không hợp lệ')
+      .max(13, 'Mã số thuế không hợp lệ'),
+    owner: Yup.object().shape({
+      phone: Yup.string()
+        .max(11, 'Số điện thoại không hợp lệ')
+        .min(8, 'Số điện thoại không hợp lệ'),
+    })
+  }), []);
   
   return (
     <Fragment>
-      
       <DeleteEntityDialog
         moduleName={moduleName}
         entity={deleteEntity}
@@ -727,21 +762,19 @@ function AgencyPage() {
             // validation={validationSchema}
           />
         </Route>
-        {/*<Route path="/agency/:code">*/}
-        {/*  {({ history, match }) => (*/}
-        {/*    <EntityCrudPageAgency*/}
-        {/*      entity={editEntity}*/}
-        {/*      onModify={update}*/}
-        {/*      onClickReturn={refreshData}*/}
-        {/*      code={match && match.params.code}*/}
-        {/*      get={AgencyService.GetById}*/}
-        {/*      formPart={formPart}*/}
-        {/*      allFormField={allFormField}*/}
-        {/*      allFormButton={allFormButton}*/}
-        {/*      validation={agencySchema}*/}
-        {/*    />*/}
-        {/*  )}*/}
-        {/*</Route>*/}
+        <Route path="/agency/:code">
+          {({history, match}) => (
+            <EntityCrudPage
+              onModify={update}
+              moduleName={moduleName}
+              code={match && match.params.code}
+              get={AgencyService.GetById}
+              formModel={updateForm}
+              actions={actions}
+              validation={validationSchema}
+            />
+          )}
+        </Route>
       </Switch>
       <MasterEntityDetailDialog
         title={detailDialogTitle}
