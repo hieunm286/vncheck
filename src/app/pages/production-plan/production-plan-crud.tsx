@@ -145,8 +145,8 @@ function ProductionPlanCrud({
   onModify: (values: any) => Promise<AxiosResponse<any>>;
   reduxModel?: string;
   code: string | null;
-  get: (code: string) => any | null;
-  onComments: (entity: any, data: { content: string }) => any;
+  get: (code: string) => Promise<AxiosResponse<any>>;
+  onComments: (entity: any, data: { content: string }) => Promise<AxiosResponse<any>>;
   formPart: any;
   allFormField: any;
   allFormButton: any;
@@ -184,6 +184,8 @@ function ProductionPlanCrud({
     content: '',
   });
 
+  const [commentsArr, setCommentArr] = useState(entity.comments || [])
+
   useEffect(() => {
     if (code) {
       get(code).then((res: { data: any }) => {
@@ -193,6 +195,7 @@ function ProductionPlanCrud({
         const initEntity = addInitField(res.data, initProductPlanForm);
         setEntityForEdit(initEntity);
         setEditEntity(res.data);
+        setCommentArr(res.data.comments || [])
       });
     }
   }, [code]);
@@ -214,6 +217,17 @@ function ProductionPlanCrud({
         setErrorMsg(error.entity || error.response.entity);
       });
   };
+
+  const handleComment = (comment: any) => {
+
+    onComments(entityForEdit, comment).then(res => {
+      setCommentArr(res.data.comments)
+      setComment({ content: '' })
+
+    }).catch(err => {
+      throw err
+    })
+  }
 
   return (
     <>
@@ -436,7 +450,7 @@ function ProductionPlanCrud({
               <CardBody>
                 <div className="pl-xl-15 pl-md-10 pl-5 mb-5">
                   <span className="modify-subtitle text-primary mt-8">BÌNH LUẬN</span>
-                  <div className="row mt-8 border border-light rounded pt-5 pb-5">
+                  <div className="mt-8 border border-light rounded pt-5 pb-5">
                     {//entityForEdit.comments
                     // [
                     //   {
@@ -450,35 +464,39 @@ function ProductionPlanCrud({
                     //       'Kế hoạch như tốt mai cho nghỉ việc..........vsdgkdfhkdfoihnsoirnhiosgboisdnbiodrgiosehuigheubguiwebguwebiugwebfiuwebfiuwebguiebgierdnhiordnhoifdnhidofjhpọhpotfjpofk',
                     //   },
                     // ]
-                    entityForEdit.comments.map((value: { fullName: string; content: string }, key: number) => (
-                      <div key={key} className="row mb-3">
-                        <div className="col-1 text-center">
-                          <AccountCircleOutlinedIcon style={{ fontSize: 30 }} />
+                    commentsArr.map(
+                      (value: { fullName: string; content: string }, key: number) => (
+                        <div key={key} className="row mb-3">
+                          <div className="col-1 text-center">
+                            <AccountCircleOutlinedIcon style={{ fontSize: 30 }} />
+                          </div>
+                          <div className="col-10 bg-light rounded p-3">
+                            <p className="font-bold">{value.fullName}</p>
+                            <p>{value.content}</p>
+                          </div>
                         </div>
-                        <div className="col-10 bg-light rounded p-3">
-                          <p className="font-bold">{value.fullName}</p>
-                          <p>{value.content}</p>
-                        </div>
-                      </div>
-                    ))}
-                    <div className="col-1"></div>
-                    <div className="col-10">
-                      <div className="row">
-                        <div className="col-11">
-                          <TextArea
-                            rows={1}
-                            placeholder="Viết bình luận..."
-                            autoSize
-                            value={comment.content}
-                            onChange={(e: any) => setComment({ content: e.target.value })}
-                          />
-                        </div>
-                        <div className="col-1">
-                          <button
-                            className="btn btn-primary"
-                            onClick={() => onComments(entityForEdit, comment)}>
-                            Gửi
-                          </button>
+                      ),
+                    )}
+                    <div className="row">
+                      <div className="col-1"></div>
+                      <div className="col-10">
+                        <div className="row">
+                          <div className="col-11">
+                            <TextArea
+                              rows={1}
+                              placeholder="Viết bình luận..."
+                              autoSize
+                              value={comment.content}
+                              onChange={(e: any) => setComment({ content: e.target.value })}
+                            />
+                          </div>
+                          <div className="col-1">
+                            <button
+                              className="btn btn-primary"
+                              onClick={() => handleComment(comment)}>
+                              Gửi
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </div>
