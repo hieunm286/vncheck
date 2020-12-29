@@ -12,6 +12,11 @@ import ProductionPlanModal from './production-plan-modal';
 import { ModifyEntityPage } from '../../common-library/common-components/modify-entity-page';
 import { ModifyForm } from '../../common-library/common-types/common-type';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined';
+import { Input } from 'antd';
+import './style/production-plan.scss';
+
+const { TextArea } = Input;
 
 const diff = (obj1: any, obj2: any) => {
   if (!obj2 || Object.prototype.toString.call(obj2) !== '[object Object]') {
@@ -131,6 +136,7 @@ function ProductionPlanCrud({
   approveFollow,
   currentTab,
   formModel,
+  onComments,
 }: {
   // modifyModel: ModifyModel;
   title: string;
@@ -140,6 +146,7 @@ function ProductionPlanCrud({
   reduxModel?: string;
   code: string | null;
   get: (code: string) => any | null;
+  onComments: (entity: any, data: { content: string }) => any;
   formPart: any;
   allFormField: any;
   allFormButton: any;
@@ -172,6 +179,10 @@ function ProductionPlanCrud({
 
   const [confirmModal, setConfirmModal] = useState(false);
   const [noticeModal, setNoticeModal] = useState(false);
+
+  const [comment, setComment] = useState({
+    content: '',
+  });
 
   useEffect(() => {
     if (code) {
@@ -421,6 +432,60 @@ function ProductionPlanCrud({
                 );
               })}
             </Form>
+            <Card>
+              <CardBody>
+                <div className="pl-xl-15 pl-md-10 pl-5 mb-5">
+                  <span className="modify-subtitle text-primary mt-8">BÌNH LUẬN</span>
+                  <div className="row mt-8 border border-light rounded pt-5 pb-5">
+                    {//entityForEdit.comments
+                    // [
+                    //   {
+                    //     fullName: 'Đầu khấc',
+                    //     content:
+                    //       'Kế hoạch như tốt mai cho nghỉ việc..........vsdgkdfhkdfoihnsoirnhiosgboisdnbiodrgiosehuigheubguiwebguwebiugwebfiuwebfiuwebguiebgierdnhiordnhoifdnhidofjhpọhpotfjpofk',
+                    //   },
+                    //   {
+                    //     fullName: 'Đầu khấc',
+                    //     content:
+                    //       'Kế hoạch như tốt mai cho nghỉ việc..........vsdgkdfhkdfoihnsoirnhiosgboisdnbiodrgiosehuigheubguiwebguwebiugwebfiuwebfiuwebguiebgierdnhiordnhoifdnhidofjhpọhpotfjpofk',
+                    //   },
+                    // ]
+                    entityForEdit.comments.map((value: { fullName: string; content: string }, key: number) => (
+                      <div key={key} className="row mb-3">
+                        <div className="col-1 text-center">
+                          <AccountCircleOutlinedIcon style={{ fontSize: 30 }} />
+                        </div>
+                        <div className="col-10 bg-light rounded p-3">
+                          <p className="font-bold">{value.fullName}</p>
+                          <p>{value.content}</p>
+                        </div>
+                      </div>
+                    ))}
+                    <div className="col-1"></div>
+                    <div className="col-10">
+                      <div className="row">
+                        <div className="col-11">
+                          <TextArea
+                            rows={1}
+                            placeholder="Viết bình luận..."
+                            autoSize
+                            value={comment.content}
+                            onChange={(e: any) => setComment({ content: e.target.value })}
+                          />
+                        </div>
+                        <div className="col-1">
+                          <button
+                            className="btn btn-primary"
+                            onClick={() => onComments(entityForEdit, comment)}>
+                            Gửi
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </CardBody>
+            </Card>
             {errors && (
               <div className="text-left mt-5">
                 <span className="text-danger">{JSON.stringify(errors)}</span>

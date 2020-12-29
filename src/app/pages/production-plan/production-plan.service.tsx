@@ -46,6 +46,10 @@ export const GetHistory = (entity: any) => {
   return axios.get(`${API_URL}/${entity._id}/history`);
 }
 
+export const Comments = (entity: any, data: any) => {
+  return axios.put(`${API_URL}/${entity._id}/comments`, data);
+}
+
 export const Count: CountProps<any> = ({
                                          queryProps,
                                          sortList,

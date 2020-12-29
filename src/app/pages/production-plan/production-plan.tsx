@@ -1084,10 +1084,7 @@ function ProductionPlan() {
           required: true,
           disabled: true,
         },
-      },
-      harvesting: {
-        _type: 'object',
-        quantity: {
+        expectedQuantity: {
           _type: 'number',
           // placeholder: 'Mã gieo giống',
           required: false,
@@ -1352,6 +1349,7 @@ function ProductionPlan() {
                 title={createTitle}
                 code={match && match.params.id}
                 get={code => ProductionPlanService.GetById(code)}
+                onComments={ProductionPlanService.Comments}
                 formPart={formPart}
                 formModel={updateForm}
                 allFormField={allFormField}
@@ -1446,7 +1444,21 @@ function ProductionPlan() {
             title={headerTitle}
             onSearch={value => {
               setPaginationProps(DefaultPagination);
-              setFilterProps({...value});
+
+              const cvValue = JSON.parse(JSON.stringify(value))
+              console.log(cvValue)
+              if (value.product_plan && value.product_plan.seeding && value.product_plan.seeding.species && _.isObject(value.product_plan.seeding.species)) {
+                console.log('1')
+                console.log(value)
+                cvValue.product_plan.seeding.species = {}
+
+                cvValue.product_plan.seeding.species._id = value.product_plan.seeding.species._id
+              }
+
+              console.log(cvValue)
+
+
+              setFilterProps({...cvValue});
             }}
             searchModel={currentTab == '0' ? productPlanSearchModel1 : productPlanSearchModel2}
           />
