@@ -238,7 +238,8 @@ function ShippingAgency() {
           console.log(values)
         },
         onChange: (value: any, {setFieldValue, setFieldTouched}: any) => {
-          if (state != value) {
+          console.log(state,value);
+          if (!value || state != value) {
             setCity(null);
             setFieldValue('address.city', '');
             setFieldTouched('address.city', false);
@@ -256,7 +257,7 @@ function ShippingAgency() {
         // selectField: 'code',
         required: true,
         onChange: (value: any, {setFieldValue, setFieldTouched}: any) => {
-          if (city != value) {
+          if (!value || city != value) {
             setFieldValue('address.district', '');
             setFieldTouched('address.district', false);
           }
