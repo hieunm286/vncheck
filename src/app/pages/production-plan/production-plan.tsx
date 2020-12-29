@@ -37,7 +37,7 @@ import * as ProductPackagingService from '../product-packaging/product-packaging
 
 const headerTitle = 'PRODUCT_TYPE.MASTER.HEADER.TITLE';
 const bodyTitle = 'PRODUCT_TYPE.MASTER.BODY.TITLE';
-const moduleName = 'PRODUCT_TYPE.MODULE_NAME';
+const moduleName = "MENU.PRODUCT_PLANT"
 const deleteDialogTitle = 'PRODUCT_TYPE.DELETE_DIALOG.TITLE';
 const createTitle = 'PRODUCT_TYPE.CREATE.TITLE';
 const updateTitle = 'PURCHASE_ORDER.UPDATE.TITLE';
@@ -52,6 +52,7 @@ const versionData = [
     approveDate: new Date(),
   },
 ];
+
 
 const ProductPlantSchema = Yup.object().shape({
   harvesting: Yup.object()
@@ -1344,23 +1345,11 @@ function ProductionPlan() {
         <Route path="/production-plan/:id/new">
           {({history, match}) => (
             <>
-              {/* <ProductionPlanModal
-                show={noticeModal}
-                mode="notice"
-                title="abc"
-                body="xyz"
-                onClose={() => {
-                  setNoticeModal(false);
-                  setSubmit(true);
-                }}
-                setSubmit={setSubmit}
-              /> */}
               <ProductionPlanCrud
                 entity={history.location.state}
                 setEditEntity={setEditEntity}
                 onModify={ProductionPlanService.Update}
                 title={createTitle}
-                // reduxModel="purchaseOrder"
                 code={match && match.params.id}
                 get={code => ProductionPlanService.GetById(code)}
                 formPart={formPart}
@@ -1384,10 +1373,9 @@ function ProductionPlan() {
                 updateProcess={updateProcess}
                 sendRequest={sendRequest}
                 approveFollow={approveFollow}
+                moduleName={moduleName}
               />
-              {/* <EntityCrudPage 
-
-              /> */}
+              
             </>
           )}
         </Route>
