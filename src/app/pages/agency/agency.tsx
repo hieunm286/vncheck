@@ -2,7 +2,7 @@ import React, {Fragment, useCallback, useEffect, useMemo, useState} from "react"
 import {useIntl} from 'react-intl';
 
 
-import {ConvertToTreeNode, InitMasterProps} from "../../common-library/helpers/common-function";
+import { InitMasterProps, InitValues} from "../../common-library/helpers/common-function";
 
 import * as AgencyService from './agency.service';
 import {Count, Create, Delete, DeleteMany, Get, GetAll, Update} from './agency.service';
@@ -255,7 +255,7 @@ function AgencyPage() {
       label: 'AGENCY.MASTER.SEARCH.STORE_LEVEL',
       onSearch: ({queryProps, sortList, paginationProps,}) => {
         return MultilevelSaleService.GetAll({queryProps}).then((e) => {
-          return ConvertToTreeNode(e.data);
+          return (e.data);
         })
       },
     },
@@ -303,154 +303,154 @@ function AgencyPage() {
   };
   
   
-  const modifyModel = [
-    {
-      title: intl.formatMessage({id: 'AGENCY.EDIT.HEADER.AGENCY_INFO'}).toUpperCase(),
-      data: {
-        code: {
-          type: 'string',
-          placeholder: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.AGENCY_CODE'}),
-          label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.AGENCY_CODE'}),
-          // disabled: editEntity,
-          disabled: true
-        },
-        name: {
-          type: 'string',
-          placeholder: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.AGENCY_NAME'}),
-          label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.AGENCY_NAME'}),
-        },
-        // storeLevel: {
-        //   type: 'search-select',
-        //   placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.SELL_GOOD_LEVEL' }),
-        //   label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.SELL_GOOD_LEVEL' }), 
-        //   service: StoreLevelService,
-        //   keyField: 'name'
-        // },
-        storeLevel: {
-          type: 'tree-select',
-          placeholder: intl.formatMessage({id: 'AGENCY.EDIT.PLACEHOLDER.SELL_GOOD_LEVEL'}),
-          label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.SELL_GOOD_LEVEL'}),
-          service: MultilevelSaleService,
-          keyField: 'name',
-          required: true,
-        },
-        state: {
-          type: 'stateSelect',
-          placeholder: intl.formatMessage({id: 'AGENCY.EDIT.PLACEHOLDER.STATE'}),
-          label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.STATE'}),
-          required: true,
-        },
-        city: {
-          type: 'citySelect',
-          placeholder: intl.formatMessage({id: 'AGENCY.EDIT.PLACEHOLDER.CITY'}),
-          label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.CITY'}),
-          required: true,
-        },
-        district: {
-          type: 'districtSelect',
-          placeholder: intl.formatMessage({id: 'AGENCY.EDIT.PLACEHOLDER.DISTRICT'}),
-          label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.DISTRICT'}),
-          required: true,
-        },
-        detailAddress: {
-          type: 'string',
-          placeholder: intl.formatMessage({id: 'AGENCY.EDIT.PLACEHOLDER.AGENCY_ADDRESS'}),
-          label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.AGENCY_ADDRESS'}),
-        },
-        status: {
-          type: 'boolean',
-          placeholder: intl.formatMessage({id: 'AGENCY.EDIT.PLACEHOLDER.STATUS'}),
-          label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.STATUS'}),
-        },
-        phoneNumber: {
-          type: 'string',
-          placeholder: intl.formatMessage({id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN'}),
-          label: intl.formatMessage({id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN'}),
-        },
-        taxId: {
-          type: 'string',
-          placeholder: intl.formatMessage({id: 'AGENCY.EDIT.PLACEHOLDER.TAX_ID'}),
-          label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.TAX_ID'}),
-        },
-        image: {
-          type: 'image',
-          placeholder: intl.formatMessage({id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL'}),
-          label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.IMAGE'}),
-        },
-        // image2: {
-        //   type: 'image',
-        //   placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL' }),
-        //   label: 'Album 2',
-        // },
-      }
-    },
-    {
-      title: intl.formatMessage({id: 'AGENCY.EDIT.HEADER.AGENCY_OWNER_INFO'}).toUpperCase(),
-      data: {
-        username: {
-          type: 'string',
-          placeholder: intl.formatMessage({id: 'AGENCY.EDIT.PLACEHOLDER.USERNAME'}),
-          label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.USERNAME'}),
-          disabled: !!editEntity,
-        },
-        ownerName: {
-          type: 'string',
-          placeholder: intl.formatMessage({id: 'AGENCY.EDIT.PLACEHOLDER.NAME'}),
-          label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.NAME'}),
-        },
-        ownerPhoneNumber: {
-          type: 'string',
-          placeholder: intl.formatMessage({id: 'AGENCY.EDIT.PLACEHOLDER.OWNER_PHONE'}),
-          label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.OWNER_PHONE'}),
-        },
-        email: {
-          type: 'string',
-          placeholder: intl.formatMessage({id: 'AGENCY.EDIT.PLACEHOLDER.EMAIL'}),
-          label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.EMAIL'}),
-        },
-        gender: {
-          type: 'option',
-          placeholder: intl.formatMessage({id: 'AGENCY.EDIT.PLACEHOLDER.GENDER'}),
-          label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.GENDER'}),
-          required: true,
-        },
-        birthDay: {
-          type: 'date-time',
-          placeholder: intl.formatMessage({id: 'AGENCY.EDIT.PLACEHOLDER.BIRTH_DAY'}),
-          label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.BIRTH_DAY'}),
-          required: true,
-        },
-        roleName: {
-          type: 'search-select',
-          placeholder: 'AGENCY.EDIT.PLACEHOLDER.ROLE_NAME',
-          label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.ROLE_NAME'}),
-          service: RoleService,
-          keyField: 'name',
-          required: true,
-        },
-        avatar: {
-          type: 'image',
-          placeholder: intl.formatMessage({id: 'AGENCY.EDIT.PLACEHOLDER.AVATAR'}),
-          label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.AVATAR'}),
-        },
-      },
-    },
-    {
-      title: intl.formatMessage({id: 'AGENCY.EDIT.HEADER.SHIPPING_ADDRESS'}).toUpperCase(),
-      data: {
-        shippingAddress: {
-          type: 'radioGroup', // type: 'array',
-          placeholder: intl.formatMessage({id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN'}),
-          label: intl.formatMessage({id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN'}),
-        },
-        defaultShippingAddress: {
-          type: 'display',
-          placeholder: intl.formatMessage({id: 'AGENCY.EDIT.PLACEHOLDER.DEFAULT_SHIPPING_ADDRESS'}),
-          label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.DEFAULT_SHIPPING_ADDRESS'}),
-        }
-      }
-    }
-  ];
+  // const modifyModel = [
+  //   {
+  //     title: intl.formatMessage({id: 'AGENCY.EDIT.HEADER.AGENCY_INFO'}).toUpperCase(),
+  //     data: {
+  //       code: {
+  //         type: 'string',
+  //         placeholder: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.AGENCY_CODE'}),
+  //         label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.AGENCY_CODE'}),
+  //         // disabled: editEntity,
+  //         disabled: true
+  //       },
+  //       name: {
+  //         type: 'string',
+  //         placeholder: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.AGENCY_NAME'}),
+  //         label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.AGENCY_NAME'}),
+  //       },
+  //       // storeLevel: {
+  //       //   type: 'search-select',
+  //       //   placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.SELL_GOOD_LEVEL' }),
+  //       //   label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.SELL_GOOD_LEVEL' }),
+  //       //   service: StoreLevelService,
+  //       //   keyField: 'name'
+  //       // },
+  //       storeLevel: {
+  //         type: 'tree-select',
+  //         placeholder: intl.formatMessage({id: 'AGENCY.EDIT.PLACEHOLDER.SELL_GOOD_LEVEL'}),
+  //         label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.SELL_GOOD_LEVEL'}),
+  //         service: MultilevelSaleService,
+  //         keyField: 'name',
+  //         required: true,
+  //       },
+  //       state: {
+  //         type: 'stateSelect',
+  //         placeholder: intl.formatMessage({id: 'AGENCY.EDIT.PLACEHOLDER.STATE'}),
+  //         label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.STATE'}),
+  //         required: true,
+  //       },
+  //       city: {
+  //         type: 'citySelect',
+  //         placeholder: intl.formatMessage({id: 'AGENCY.EDIT.PLACEHOLDER.CITY'}),
+  //         label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.CITY'}),
+  //         required: true,
+  //       },
+  //       district: {
+  //         type: 'districtSelect',
+  //         placeholder: intl.formatMessage({id: 'AGENCY.EDIT.PLACEHOLDER.DISTRICT'}),
+  //         label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.DISTRICT'}),
+  //         required: true,
+  //       },
+  //       detailAddress: {
+  //         type: 'string',
+  //         placeholder: intl.formatMessage({id: 'AGENCY.EDIT.PLACEHOLDER.AGENCY_ADDRESS'}),
+  //         label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.AGENCY_ADDRESS'}),
+  //       },
+  //       status: {
+  //         type: 'boolean',
+  //         placeholder: intl.formatMessage({id: 'AGENCY.EDIT.PLACEHOLDER.STATUS'}),
+  //         label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.STATUS'}),
+  //       },
+  //       phoneNumber: {
+  //         type: 'string',
+  //         placeholder: intl.formatMessage({id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN'}),
+  //         label: intl.formatMessage({id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN'}),
+  //       },
+  //       taxId: {
+  //         type: 'string',
+  //         placeholder: intl.formatMessage({id: 'AGENCY.EDIT.PLACEHOLDER.TAX_ID'}),
+  //         label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.TAX_ID'}),
+  //       },
+  //       image: {
+  //         type: 'image',
+  //         placeholder: intl.formatMessage({id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL'}),
+  //         label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.IMAGE'}),
+  //       },
+  //       // image2: {
+  //       //   type: 'image',
+  //       //   placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL' }),
+  //       //   label: 'Album 2',
+  //       // },
+  //     }
+  //   },
+  //   {
+  //     title: intl.formatMessage({id: 'AGENCY.EDIT.HEADER.AGENCY_OWNER_INFO'}).toUpperCase(),
+  //     data: {
+  //       username: {
+  //         type: 'string',
+  //         placeholder: intl.formatMessage({id: 'AGENCY.EDIT.PLACEHOLDER.USERNAME'}),
+  //         label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.USERNAME'}),
+  //         disabled: !!editEntity,
+  //       },
+  //       ownerName: {
+  //         type: 'string',
+  //         placeholder: intl.formatMessage({id: 'AGENCY.EDIT.PLACEHOLDER.NAME'}),
+  //         label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.NAME'}),
+  //       },
+  //       ownerPhoneNumber: {
+  //         type: 'string',
+  //         placeholder: intl.formatMessage({id: 'AGENCY.EDIT.PLACEHOLDER.OWNER_PHONE'}),
+  //         label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.OWNER_PHONE'}),
+  //       },
+  //       email: {
+  //         type: 'string',
+  //         placeholder: intl.formatMessage({id: 'AGENCY.EDIT.PLACEHOLDER.EMAIL'}),
+  //         label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.EMAIL'}),
+  //       },
+  //       gender: {
+  //         type: 'option',
+  //         placeholder: intl.formatMessage({id: 'AGENCY.EDIT.PLACEHOLDER.GENDER'}),
+  //         label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.GENDER'}),
+  //         required: true,
+  //       },
+  //       birthDay: {
+  //         type: 'date-time',
+  //         placeholder: intl.formatMessage({id: 'AGENCY.EDIT.PLACEHOLDER.BIRTH_DAY'}),
+  //         label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.BIRTH_DAY'}),
+  //         required: true,
+  //       },
+  //       roleName: {
+  //         type: 'search-select',
+  //         placeholder: 'AGENCY.EDIT.PLACEHOLDER.ROLE_NAME',
+  //         label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.ROLE_NAME'}),
+  //         service: RoleService,
+  //         keyField: 'name',
+  //         required: true,
+  //       },
+  //       avatar: {
+  //         type: 'image',
+  //         placeholder: intl.formatMessage({id: 'AGENCY.EDIT.PLACEHOLDER.AVATAR'}),
+  //         label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.AVATAR'}),
+  //       },
+  //     },
+  //   },
+  //   {
+  //     title: intl.formatMessage({id: 'AGENCY.EDIT.HEADER.SHIPPING_ADDRESS'}).toUpperCase(),
+  //     data: {
+  //       shippingAddress: {
+  //         type: 'radioGroup', // type: 'array',
+  //         placeholder: intl.formatMessage({id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN'}),
+  //         label: intl.formatMessage({id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN'}),
+  //       },
+  //       defaultShippingAddress: {
+  //         type: 'display',
+  //         placeholder: intl.formatMessage({id: 'AGENCY.EDIT.PLACEHOLDER.DEFAULT_SHIPPING_ADDRESS'}),
+  //         label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.DEFAULT_SHIPPING_ADDRESS'}),
+  //       }
+  //     }
+  //   }
+  // ];
   
   const group1 = useMemo((): ModifyInputGroup => ({
     _subTitle: 'AGENCY.MODIFY.GENERAL_INFO',
@@ -471,7 +471,7 @@ function AgencyPage() {
       label: 'AGENCY.MODIFY.STORE_LEVEL',
       onSearch: ({queryProps, sortList, paginationProps,}: any) => {
         return MultilevelSaleService.GetAll({queryProps}).then((e) => {
-          return ConvertToTreeNode(e.data);
+          return e.data;
         })
       },
     },
@@ -509,7 +509,7 @@ function AgencyPage() {
           setCity(value);
         },
         disabled: (values: any) => {
-          return (values.address?.state === '');
+          return (values?.address?.state === '');
         },
         label: 'AGENCY.MODIFY.CITY',
       },
@@ -519,7 +519,7 @@ function AgencyPage() {
         // selectField: 'code',
         required: true,
         disabled: (values: any) => {
-          return (values.address?.city === '');
+          return (values?.address?.city === '');
         },
         label: 'AGENCY.MODIFY.DISTRICT',
       },
@@ -614,6 +614,7 @@ function AgencyPage() {
         gender: {
           _type: 'radio',
           required: true,
+          label : 'AGENCY.MODIFY.SHIPPING_ADDRESS',
           labelWidth: 0,
           optionsClassName: 'col-12 mr-0',
           options: [
@@ -668,7 +669,7 @@ function AgencyPage() {
       cancel: {
         role: 'link-button',
         type: 'button',
-        linkto: '/shipping-agency',
+        linkto: '/agency',
         className: 'btn btn-outline-primary fixed-btn-width',
         label: 'Hủy',
         icon: <CancelOutlinedIcon/>,
@@ -700,7 +701,7 @@ function AgencyPage() {
         .min(8, 'Số điện thoại không hợp lệ'),
     })
   }), []);
-  
+  const initCreateValues = useMemo(() => ({...InitValues(createForm), status: 'false'}), [createForm]);
   return (
     <Fragment>
       <DeleteEntityDialog
@@ -761,6 +762,7 @@ function AgencyPage() {
             onModify={add}
             formModel={createForm}
             actions={actions}
+            entity={initCreateValues}
             // validation={validationSchema}
           />
         </Route>

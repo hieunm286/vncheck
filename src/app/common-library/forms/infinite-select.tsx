@@ -71,14 +71,15 @@ export function InfiniteSelect({
   const CustomAsyncPaginate = withAsyncPaginate(AtlaskitSelect);
   const validate = useCallback((value: any): string | void => {
     if (required && !value && value === '') return 'RADIO.ERROR.REQUIRED';
-  },[required,values]);
-
+  }, [required]);
+  
   const [field, fieldMeta, fieldHelper] = useField({name, validate});
+  
   useEffect(() => {
-    setTimeout(()=>{
+    setTimeout(() => {
       validateField(name);
-    },10);
-  },[field.value])
+    }, 10);
+  }, [field.value])
   const styles = useMemo((): StylesConfig => {
     return {
       control: (base, props1) => {
@@ -116,14 +117,15 @@ export function InfiniteSelect({
         return {
           ...base,
           fontFamily: "SVN-Gilroy, Roboto, Poppins, Helvetica, sans-serif",
-          fontSize: "12px"
+          fontSize: "12px",
+          margin: "0 0 0 0"
         }
       },
       dropdownIndicator: (base, props1) => {
         return {...base, padding: "0.41rem 0px !important", color: "#B5B5C3"}
       },
       placeholder: (styles) => {
-        return {...styles, color: "#B5B5C3", fontSize: "12px"}
+        return {...styles, color: "#B5B5C3", fontSize: "12px", margin: "0 0 0 0",}
       },
       option: (styles, {data, isDisabled, isFocused, isSelected}) => {
         return {...styles}
@@ -160,7 +162,7 @@ export function InfiniteSelect({
               setFieldValue(name, value !== null ? value : '');
             }}
             isClearable={true}
-            onBlur={(e)=>{
+            onBlur={(e) => {
               setFieldTouched(name, true);
             }}
             styles={styles}

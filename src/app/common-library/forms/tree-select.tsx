@@ -1,12 +1,26 @@
-import React, {ReactElement, useCallback, useEffect, useState} from 'react';
+import React, {ReactElement, useCallback, useEffect, useMemo, useState} from 'react';
 import {TreeSelect} from 'antd';
 import {ErrorMessage, useField, useFormikContext} from 'formik';
 import './tree-select.scss'
 import SelectDropDownIcon from './select-drop-down-icon';
 import {useIntl} from 'react-intl';
-import _ from 'lodash';
 import {GetClassName} from "../helpers/common-function";
 import {DisplayError} from "./field-feedback-label";
+import _ from "lodash";
+
+const ConvertToTreeNode = (data: any, {keyField, selectField, childrenField}: any) => {
+  const t = {
+    title: data[keyField],
+    value: data,
+    key: data[selectField],
+    children: data[childrenField] ? data[childrenField].map((e: any) => ConvertToTreeNode(e, {
+      keyField,
+      childrenField
+    })) : [],
+  };
+  console.log(t);
+  return t;
+};
 
 function CustomTreeSelect(
   {
@@ -16,6 +30,9 @@ function CustomTreeSelect(
     customFeedbackLabel,
     onChange,
     required,
+    selectField = '_id',
+    childrenField = 'children',
+    keyField = 'name',
     placeholder,
     labelWidth,
     onSearch,
@@ -24,10 +41,12 @@ function CustomTreeSelect(
     : {
     label: string | ReactElement;
     mode?: 'horizontal' | 'vertical',
-    value?: any;
+    keyField?: string;
+    selectField?: string;
+    childrenField?: string;
     withFeedbackLabel?: boolean;
     customFeedbackLabel?: any;
-    onChange?: (value: { value: any, entity: any }, props: { setFieldValue: ((name: string, value: any) => void), values: any }) => any;
+    onChange?: (value: { value: any, entity: any }, props: { setFieldValue: ((name: string, value: any) => void), setFieldTouched: ((name: string, value: boolean) => void), values: any }) => any;
     onSearch: (searchQueryObject: any) => any;
     placeholder?: string;
     name: string;
@@ -38,18 +57,36 @@ function CustomTreeSelect(
     disabled?: boolean | ((values: any) => boolean);
   }) {
   const intl = useIntl();
-  const {setFieldValue, errors, touched, setFieldTouched, values} = useFormikContext<any>();
+  const {
+    setFieldValue, errors, touched, validateField,
+    setFieldTouched, values,
+  } = useFormikContext<any>();
+  
+  
+  const ConvertToTree = useCallback((data: any[]) => {
+    return data.map((value: any, key: any) => {
+      return ConvertToTreeNode(value, {keyField, childrenField, selectField});
+    });
+  }, [keyField, childrenField, selectField]);
   const validate = useCallback((value: any): string | void => {
-    if (required && !value) return 'RADIO.ERROR.REQUIRED';
-  }, []);
-  const [field, fieldMeta, fieldHelper] = useField({name,validate});
+    if (required && !value && value === '') return 'RADIO.ERROR.REQUIRED';
+  }, [required]);
+  const [field, fieldMeta, fieldHelper] = useField({name, validate});
   useEffect(() => {
-    fieldMeta.touched && onChange && onChange(field.value, {setFieldValue, values});
+    setTimeout(() => {
+      validateField(name);
+    }, 10);
   }, [field.value]);
   const [treeData, setTreeData] = useState<any[]>([]);
   useEffect(() => {
-    onSearch({}).then(setTreeData);
-  }, [])
+    onSearch({}).then((data: any) => {
+      const c = ConvertToTree(data);
+      setTreeData(c);
+    });
+  }, [ConvertToTree]);
+  const _innerValue = useMemo(() => {
+    return field.value ? (_.isString(field.value) ? field.value === '' ? null : field.value : field.value[keyField]) : null;
+  }, [field.value]);
   return (
     <>
       <div className={mode === 'horizontal' ? 'row' : ''}>
@@ -63,21 +100,23 @@ function CustomTreeSelect(
         <div className={mode === 'horizontal' ? GetClassName(labelWidth, false) : ''}>
           <TreeSelect
             suffixIcon={<SelectDropDownIcon/>}
-            value={field.value}
+            value={_innerValue}
             dropdownStyle={{maxHeight: 400, overflow: 'auto'}}
             treeData={treeData}
-            loadData={(e)=>{
-              // console.log(e);
-              return onSearch({})
-            }}
+            // loadData={(e) => {
+            //   // console.log(e);
+            //   return onSearch({})
+            // }}
             allowClear={true}
             placeholder={placeholder}
             treeDefaultExpandAll
-            onChange={(val) => {
-              setFieldValue(name, val);
+            onChange={(value: any) => {
+              console.log(value);
+              onChange && onChange(value, {setFieldTouched, setFieldValue, values});
               setFieldTouched(name, true);
+              setFieldValue(name, value ?? '');
             }}
-            className={(errors[name] && touched[name]) ? 'is-invalid ant-tree-select-custom' : 'ant-tree-select-custom'}
+            className={((!fieldMeta.touched) ? '' : fieldMeta.error ? 'is-invalid' : "is-valid") + ' ant-tree-select-custom'}
           />
           {withFeedbackLabel && (<ErrorMessage name={name}>
             {msg => <DisplayError label={label} error={msg}/>

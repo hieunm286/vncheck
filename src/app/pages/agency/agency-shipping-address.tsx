@@ -2,7 +2,7 @@ import React, {Fragment, useCallback, useEffect, useMemo, useState} from "react"
 import {useIntl} from 'react-intl';
 
 
-import {ConvertToTreeNode, InitMasterProps} from "../../common-library/helpers/common-function";
+import { InitMasterProps} from "../../common-library/helpers/common-function";
 
 import {Count, Create, Delete, DeleteMany, Get, GetAll, Update} from './agency.service';
 import {AgencyModel} from './agency.model';

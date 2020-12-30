@@ -13,7 +13,7 @@ import {DeleteEntityDialog} from '../../common-library/common-components/delete-
 import DeleteManyEntitiesDialog from '../../common-library/common-components/delete-many-entities-dialog';
 import ModifyEntityDialog from '../../common-library/common-components/modify-entity-dialog';
 import {SearchModel} from '../../common-library/common-types/common-type';
-import {ConvertToTreeNode, GenerateAllFormField, InitMasterProps,} from '../../common-library/helpers/common-function';
+import {GenerateAllFormField, InitMasterProps,} from '../../common-library/helpers/common-function';
 import {Redirect, Route, Switch, useHistory} from 'react-router-dom';
 import EntityCrudPage from '../../common-library/common-components/entity-crud-page';
 import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
@@ -294,14 +294,14 @@ function PurchaseOrder() {
       placeholder: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS_COLUMN',
       label: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS_COLUMN',
       keyField: 'code',
-      data: ConvertToTreeNode(DataExample),
+      // data: ConvertToTreeNode(DataExample),
     },
     tree2: {
       type: 'tree-select',
       placeholder: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS_COLUMN',
       label: 'PURCHASE_ORDER.MASTER.TABLE.AGENCY_ADDRESS_COLUMN',
       keyField: 'code',
-      data: ConvertToTreeNode(DataExample),
+      // data: ConvertToTreeNode(DataExample),
     },
   };
   

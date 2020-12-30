@@ -264,7 +264,7 @@ function ShippingAgency() {
           setCity(value);
         },
         disabled: (values: any) => {
-          return (values.address?.state === '');
+          return (values?.address?.state === '');
         },
         label: 'SHIPPING_AGENCY.MODIFY.CITY',
       },
@@ -274,7 +274,7 @@ function ShippingAgency() {
         // selectField: 'code',
         required: true,
         disabled: (values: any) => {
-          return (values.address?.city === '');
+          return (values?.address?.city === '');
         },
         label: 'SHIPPING_AGENCY.MODIFY.DISTRICT',
       },

@@ -562,4 +562,23 @@ label {
   display: block;
 }
 
+
+.is-valid{
+  .ant-select-selector {
+    border-radius: 0.42rem !important;
+    min-height: calc(1.5em + 1.3rem + 2px) !important;
+    border: solid 1px $primary !important;
+  }
+
+}
+.is-invalid{
+  .ant-select-selector {
+    border-radius: 0.42rem !important;
+    min-height: calc(1.5em + 1.3rem + 2px) !important;
+    border: solid 1px #f10d0d !important;
+  }
+}
+.hidden{
+  display: none;
+}
 //.card.card-custom > .card-body

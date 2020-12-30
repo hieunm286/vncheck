@@ -11,7 +11,7 @@ import {GetHomePage, InitValues} from "../helpers/common-function";
 import {Spinner} from "react-bootstrap";
 
 function EntityCrudPage({
-                          entity = {},
+                          entity,
                           onModify,
                           moduleName = 'COMMON_COMPONENT.CREATE_UPDATE.MODULE_NAME',
                           code,
@@ -47,7 +47,7 @@ function EntityCrudPage({
     if (code) {
       get &&
       get(code).then((res: { data: any }) => {
-        setEntityForEdit({...res.data,storeLevel:undefined});
+        setEntityForEdit({...res.data});
       });
     }
   }, [code]);
