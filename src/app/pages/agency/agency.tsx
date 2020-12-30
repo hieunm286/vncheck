@@ -509,7 +509,6 @@ function AgencyPage() {
                             setShowDeleteShippingAddress({show: false});
                           })
                           setShowDeleteShippingAddress({show: true});
-                          return false;
                         },
                         onEdit: () => {
                           setUpdateShippingAddress(address);
@@ -519,8 +518,6 @@ function AgencyPage() {
                             setShowUpdateShippingAddress({show: false});
                           })
                           setShowUpdateShippingAddress({show: true});
-                          return false;
-                          return false;
                         },
                         intl
                       })}
