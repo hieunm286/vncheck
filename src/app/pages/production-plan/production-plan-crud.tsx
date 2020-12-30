@@ -184,7 +184,7 @@ function ProductionPlanCrud({
     content: '',
   });
 
-  const [commentsArr, setCommentArr] = useState(entity.comments || [])
+  const [commentsArr, setCommentArr] = useState(entity.comments || []);
 
   useEffect(() => {
     if (code) {
@@ -195,7 +195,7 @@ function ProductionPlanCrud({
         const initEntity = addInitField(res.data, initProductPlanForm);
         setEntityForEdit(initEntity);
         setEditEntity(res.data);
-        setCommentArr(res.data.comments || [])
+        setCommentArr(res.data.comments || []);
       });
     }
   }, [code]);
@@ -219,15 +219,15 @@ function ProductionPlanCrud({
   };
 
   const handleComment = (comment: any) => {
-
-    onComments(entityForEdit, comment).then(res => {
-      setCommentArr(res.data.comments)
-      setComment({ content: '' })
-
-    }).catch(err => {
-      throw err
-    })
-  }
+    onComments(entityForEdit, comment)
+      .then(res => {
+        setCommentArr(res.data);
+        setComment({ content: '' });
+      })
+      .catch(err => {
+        throw err;
+      });
+  };
 
   return (
     <>
@@ -465,13 +465,16 @@ function ProductionPlanCrud({
                     //   },
                     // ]
                     commentsArr.map(
-                      (value: { fullName: string; content: string }, key: number) => (
+                      (
+                        value: { createdBy: { _id: string; fullName: string }; content: string },
+                        key: number,
+                      ) => (
                         <div key={key} className="row mb-3">
                           <div className="col-1 text-center">
                             <AccountCircleOutlinedIcon style={{ fontSize: 30 }} />
                           </div>
                           <div className="col-10 bg-light rounded p-3">
-                            <p className="font-bold">{value.fullName}</p>
+                            <p className="font-bold">{value.createdBy.fullName}</p>
                             <p>{value.content}</p>
                           </div>
                         </div>
@@ -492,8 +495,10 @@ function ProductionPlanCrud({
                           </div>
                           <div className="col-1">
                             <button
-                              className="btn btn-primary"
-                              onClick={() => handleComment(comment)}>
+                              className="btn btn-primary pl-11 pr-11"
+                              style={{ cursor: comment.content === '' ? 'not-allowed' : 'pointer' }}
+                              onClick={() => handleComment(comment)}
+                              disabled={comment.content === ''}>
                               Gửi
                             </button>
                           </div>
@@ -504,11 +509,11 @@ function ProductionPlanCrud({
                 </div>
               </CardBody>
             </Card>
-            {errors && (
+            {/* {errors && (
               <div className="text-left mt-5">
                 <span className="text-danger">{JSON.stringify(errors)}</span>
               </div>
-            )}
+            )} */}
             {allFormButton.type === 'outside' && (
               <div className="text-right mb-5 mr-20">
                 {Object.keys(allFormButton.data).map(keyss => {

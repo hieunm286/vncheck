@@ -47,7 +47,11 @@ const createTitle = 'PRODUCT_TYPE.CREATE.TITLE';
 const updateTitle = 'PURCHASE_ORDER.UPDATE.TITLE';
 const homeURL = `/production-plan`;
 
-const harvestingProcess = 2, preliminaryTreatmentProcess = 3, cleaningProcess = 4, packingProcess = 5, preservationProcess = 6
+const harvestingProcess = 2,
+  preliminaryTreatmentProcess = 3,
+  cleaningProcess = 4,
+  packingProcess = 5,
+  preservationProcess = 6;
 
 const versionData = [
   {
@@ -455,6 +459,7 @@ function ProductionPlan() {
       formatter: (cell: any, row: any, rowIndex: number) => (
         <button
           className="btn btn-primary"
+          style={{ cursor: row.confirmationStatus === '3' ? 'not-allowed' : 'pointer' }}
           onClick={() => {
             ProductionPlanService.GetById(row._id).then(res => {
               setEditEntity(res.data);
@@ -463,7 +468,8 @@ function ProductionPlan() {
                 state: res.data,
               });
             });
-          }}>
+          }}
+          disabled={row.confirmationStatus === '3'}>
           Phê duyệt
         </button>
       ),
@@ -1118,7 +1124,7 @@ function ProductionPlan() {
             tagData: userData,
             required: true,
             disabled: (values: any) => {
-              return _.parseInt(values.process) >= harvestingProcess
+              return _.parseInt(values.process) >= harvestingProcess;
             },
           },
           leader: {
@@ -1128,7 +1134,7 @@ function ProductionPlan() {
             tagData: userData,
             required: true,
             disabled: (values: any) => {
-              return _.parseInt(values.process) >= harvestingProcess
+              return _.parseInt(values.process) >= harvestingProcess;
             },
           },
         },
@@ -1153,7 +1159,7 @@ function ProductionPlan() {
             // placeholder: 'Mã gieo giống',
             label: 'Thời gian sơ chế (dự kiến)',
             disabled: (values: any) => {
-              return _.parseInt(values.process) >= preliminaryTreatmentProcess
+              return _.parseInt(values.process) >= preliminaryTreatmentProcess;
             },
           },
           estimatedQuantity: {
@@ -1161,7 +1167,7 @@ function ProductionPlan() {
             // placeholder: 'Mã gieo giống',
             label: 'Sản lượng sau sơ chế dự kiến (kg)',
             disabled: (values: any) => {
-              return _.parseInt(values.process) >= preliminaryTreatmentProcess
+              return _.parseInt(values.process) >= preliminaryTreatmentProcess;
             },
           },
         },
@@ -1177,7 +1183,7 @@ function ProductionPlan() {
             tagData: userData,
             label: 'Nhân viên kỹ thuật sơ chế',
             disabled: (values: any) => {
-              return _.parseInt(values.process) >= preliminaryTreatmentProcess
+              return _.parseInt(values.process) >= preliminaryTreatmentProcess;
             },
           },
           leader: {
@@ -1186,7 +1192,7 @@ function ProductionPlan() {
             label: 'Tổ trưởng sơ chế',
             tagData: userData,
             disabled: (values: any) => {
-              return _.parseInt(values.process) >= preliminaryTreatmentProcess
+              return _.parseInt(values.process) >= preliminaryTreatmentProcess;
             },
           },
         },
@@ -1209,7 +1215,7 @@ function ProductionPlan() {
             // placeholder: 'Mã gieo giống',
             label: 'Thời gian làm sạch (dự kiến)',
             disabled: (values: any) => {
-              return _.parseInt(values.process) >= cleaningProcess
+              return _.parseInt(values.process) >= cleaningProcess;
             },
           },
           estimatedQuantity: {
@@ -1217,7 +1223,7 @@ function ProductionPlan() {
             // placeholder: 'Mã gieo giống',
             label: 'Sản lượng sau làm sạch dự kiến (kg)',
             disabled: (values: any) => {
-              return _.parseInt(values.process) >= cleaningProcess
+              return _.parseInt(values.process) >= cleaningProcess;
             },
           },
         },
@@ -1234,7 +1240,7 @@ function ProductionPlan() {
             root: 'cleaning',
             tagData: userData,
             disabled: (values: any) => {
-              return _.parseInt(values.process) >= cleaningProcess
+              return _.parseInt(values.process) >= cleaningProcess;
             },
           },
           leader: {
@@ -1244,7 +1250,7 @@ function ProductionPlan() {
             root: 'cleaning',
             tagData: userData,
             disabled: (values: any) => {
-              return _.parseInt(values.process) >= cleaningProcess
+              return _.parseInt(values.process) >= cleaningProcess;
             },
           },
         },
@@ -1267,7 +1273,7 @@ function ProductionPlan() {
             // placeholder: 'Mã gieo giống',
             label: 'Thời gian đóng gói (dự kiến)',
             disabled: (values: any) => {
-              return _.parseInt(values.process) >= packingProcess
+              return _.parseInt(values.process) >= packingProcess;
             },
           },
           estimatedExpireTimeStart: {
@@ -1275,7 +1281,7 @@ function ProductionPlan() {
             // placeholder: 'Hạn sử dụng',
             label: 'Hạn sử dụng bắt đầu (dự kiến)',
             disabled: (values: any) => {
-              return _.parseInt(values.process) >= packingProcess
+              return _.parseInt(values.process) >= packingProcess;
             },
           },
           estimatedExpireTimeEnd: {
@@ -1283,7 +1289,7 @@ function ProductionPlan() {
             // placeholder: 'Hạn sử dụng',
             label: 'Hạn sử dụng kết thúc (dự kiến)',
             disabled: (values: any) => {
-              return _.parseInt(values.process) >= packingProcess
+              return _.parseInt(values.process) >= packingProcess;
             },
           },
           packing: {
@@ -1298,7 +1304,7 @@ function ProductionPlan() {
             },
             keyField: 'weight',
             disabled: (values: any) => {
-              return _.parseInt(values.process) >= packingProcess
+              return _.parseInt(values.process) >= packingProcess;
             },
             // required: true,
             // onDisplayOptions: (e:ProductPackagingModel)=> e.species.weight,
@@ -1318,7 +1324,7 @@ function ProductionPlan() {
             // placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
             label: 'Số lượng đóng gói dự kiến',
             disabled: (values: any) => {
-              return _.parseInt(values.process) >= packingProcess
+              return _.parseInt(values.process) >= packingProcess;
             },
           },
           technical: {
@@ -1327,7 +1333,7 @@ function ProductionPlan() {
             label: 'KCS',
             tagData: userData,
             disabled: (values: any) => {
-              return _.parseInt(values.process) >= packingProcess
+              return _.parseInt(values.process) >= packingProcess;
             },
           },
           leader: {
@@ -1336,7 +1342,7 @@ function ProductionPlan() {
             label: 'Tổ trưởng đóng gói',
             tagData: userData,
             disabled: (values: any) => {
-              return _.parseInt(values.process) >= packingProcess
+              return _.parseInt(values.process) >= packingProcess;
             },
           },
         },
@@ -1359,7 +1365,7 @@ function ProductionPlan() {
             // placeholder: 'Mã gieo giống',
             label: 'Thời gian bắt đầu bảo quản (dự kiến)',
             disabled: (values: any) => {
-              return _.parseInt(values.process) >= preservationProcess
+              return _.parseInt(values.process) >= preservationProcess;
             },
           },
           estimatedEndTime: {
@@ -1367,7 +1373,7 @@ function ProductionPlan() {
             // placeholder: 'Mã gieo giống',
             label: 'Thời gian kết thúc bảo quản (dự kiến)',
             disabled: (values: any) => {
-              return _.parseInt(values.process) >= preservationProcess
+              return _.parseInt(values.process) >= preservationProcess;
             },
           },
         },
@@ -1383,7 +1389,7 @@ function ProductionPlan() {
             // placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
             label: 'Nhân viên kỹ thuật bảo quản',
             disabled: (values: any) => {
-              return _.parseInt(values.process) >= preservationProcess
+              return _.parseInt(values.process) >= preservationProcess;
             },
           },
         },
@@ -1523,21 +1529,15 @@ function ProductionPlan() {
               setPaginationProps(DefaultPagination);
 
               const cvValue = JSON.parse(JSON.stringify(value));
-              console.log(cvValue);
+
               if (
                 value.product_plan &&
                 value.product_plan.seeding &&
                 value.product_plan.seeding.species &&
                 _.isObject(value.product_plan.seeding.species)
               ) {
-                console.log('1');
-                console.log(value);
-                cvValue.product_plan.seeding.species = {};
-
-                cvValue.product_plan.seeding.species._id = value.product_plan.seeding.species._id;
+                cvValue.product_plan.seeding.species = value.product_plan.seeding.species._id;
               }
-
-              console.log(cvValue);
 
               setFilterProps({ ...cvValue });
             }}
