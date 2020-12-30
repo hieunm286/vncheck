@@ -459,6 +459,7 @@ function ProductionPlan() {
       formatter: (cell: any, row: any, rowIndex: number) => (
         <button
           className="btn btn-primary"
+          style={{ cursor: row.confirmationStatus === '3' ? 'not-allowed' : 'pointer' }}
           onClick={() => {
             ProductionPlanService.GetById(row._id).then(res => {
               setEditEntity(res.data);
@@ -467,7 +468,8 @@ function ProductionPlan() {
                 state: res.data,
               });
             });
-          }}>
+          }}
+          disabled={row.confirmationStatus === '3'}>
           Phê duyệt
         </button>
       ),
