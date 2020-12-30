@@ -43,7 +43,7 @@ export type InputRadioType = {
   label: string | ReactElement;
   required?: boolean | ((values: any) => boolean);
   disabled?: boolean | ((values: any) => boolean);
-  
+  value: object | ((value: any) => any);
   mode?: 'horizontal' | 'vertical';
   placeholder?: string;
   options: { value: any; label: string | ((...props: any) => ReactElement) }[] | ((...props: any) => { value: any; label: string }[]);
