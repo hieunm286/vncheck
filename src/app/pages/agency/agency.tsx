@@ -21,7 +21,7 @@ import {DeleteEntityDialog} from "../../common-library/common-components/delete-
 import DeleteManyEntitiesDialog from '../../common-library/common-components/delete-many-entities-dialog';
 import {Route, Switch, useHistory} from 'react-router-dom';
 import * as MultilevelSaleService from '../multilevel-sale/multilevel-sale.service';
-import * as RoleService from './helpers/role.service';
+import * as RoleService from '../role/role.service';
 import {
   ModifyForm,
   ModifyInputGroup,
