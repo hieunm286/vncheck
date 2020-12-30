@@ -2,8 +2,9 @@ import React, {Fragment, useCallback, useEffect, useMemo, useState} from "react"
 import {useIntl} from 'react-intl';
 
 
-import {ConvertToTreeNode, InitMasterProps} from "../../common-library/helpers/common-function";
+import { InitMasterProps, InitValues} from "../../common-library/helpers/common-function";
 
+import * as AgencyService from './agency.service';
 import {Count, Create, Delete, DeleteMany, Get, GetAll, Update} from './agency.service';
 import {AgencyModel} from './agency.model';
 import {MasterHeader} from "../../common-library/common-components/master-header";
@@ -33,8 +34,8 @@ import EntityCrudPage from "../../common-library/common-components/entity-crud-p
 import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
 import CancelOutlinedIcon from "@material-ui/icons/CancelOutlined";
 import AddIcon from "@material-ui/icons/Add";
-import ModifyEntityDialog from "../../common-library/common-components/modify-entity-dialog";
-import {GetLots, GetSubLots} from "../land-lot/land-lot.service";
+import {AgencyShippingAddress} from "./agency-shipping-address";
+import * as Yup from "yup";
 
 const headerTitle = 'AGENCY.MASTER.HEADER.TITLE';
 const tableTitle = 'SHIPPING_AGENCY.MASTER.TABLE.TITLE';
@@ -100,6 +101,8 @@ function AgencyPage() {
   useEffect(() => {
     getAll(filterProps);
   }, [paginationProps, filterProps]);
+  
+  const [showCreateShippingAddress, setShowCreateShippingAddress] = useState(false);
   
   const columns = useMemo(() => {
     return {
@@ -252,7 +255,7 @@ function AgencyPage() {
       label: 'AGENCY.MASTER.SEARCH.STORE_LEVEL',
       onSearch: ({queryProps, sortList, paginationProps,}) => {
         return MultilevelSaleService.GetAll({queryProps}).then((e) => {
-          return ConvertToTreeNode(e.data);
+          return (e.data);
         })
       },
     },
@@ -300,154 +303,154 @@ function AgencyPage() {
   };
   
   
-  const modifyModel = [
-    {
-      title: intl.formatMessage({id: 'AGENCY.EDIT.HEADER.AGENCY_INFO'}).toUpperCase(),
-      data: {
-        code: {
-          type: 'string',
-          placeholder: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.AGENCY_CODE'}),
-          label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.AGENCY_CODE'}),
-          // disabled: editEntity,
-          disabled: true
-        },
-        name: {
-          type: 'string',
-          placeholder: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.AGENCY_NAME'}),
-          label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.AGENCY_NAME'}),
-        },
-        // storeLevel: {
-        //   type: 'search-select',
-        //   placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.SELL_GOOD_LEVEL' }),
-        //   label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.SELL_GOOD_LEVEL' }), 
-        //   service: StoreLevelService,
-        //   keyField: 'name'
-        // },
-        storeLevel: {
-          type: 'tree-select',
-          placeholder: intl.formatMessage({id: 'AGENCY.EDIT.PLACEHOLDER.SELL_GOOD_LEVEL'}),
-          label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.SELL_GOOD_LEVEL'}),
-          service: MultilevelSaleService,
-          keyField: 'name',
-          required: true,
-        },
-        state: {
-          type: 'stateSelect',
-          placeholder: intl.formatMessage({id: 'AGENCY.EDIT.PLACEHOLDER.STATE'}),
-          label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.STATE'}),
-          required: true,
-        },
-        city: {
-          type: 'citySelect',
-          placeholder: intl.formatMessage({id: 'AGENCY.EDIT.PLACEHOLDER.CITY'}),
-          label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.CITY'}),
-          required: true,
-        },
-        district: {
-          type: 'districtSelect',
-          placeholder: intl.formatMessage({id: 'AGENCY.EDIT.PLACEHOLDER.DISTRICT'}),
-          label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.DISTRICT'}),
-          required: true,
-        },
-        detailAddress: {
-          type: 'string',
-          placeholder: intl.formatMessage({id: 'AGENCY.EDIT.PLACEHOLDER.AGENCY_ADDRESS'}),
-          label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.AGENCY_ADDRESS'}),
-        },
-        status: {
-          type: 'boolean',
-          placeholder: intl.formatMessage({id: 'AGENCY.EDIT.PLACEHOLDER.STATUS'}),
-          label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.STATUS'}),
-        },
-        phoneNumber: {
-          type: 'string',
-          placeholder: intl.formatMessage({id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN'}),
-          label: intl.formatMessage({id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN'}),
-        },
-        taxId: {
-          type: 'string',
-          placeholder: intl.formatMessage({id: 'AGENCY.EDIT.PLACEHOLDER.TAX_ID'}),
-          label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.TAX_ID'}),
-        },
-        image: {
-          type: 'image',
-          placeholder: intl.formatMessage({id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL'}),
-          label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.IMAGE'}),
-        },
-        // image2: {
-        //   type: 'image',
-        //   placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL' }),
-        //   label: 'Album 2',
-        // },
-      }
-    },
-    {
-      title: intl.formatMessage({id: 'AGENCY.EDIT.HEADER.AGENCY_OWNER_INFO'}).toUpperCase(),
-      data: {
-        username: {
-          type: 'string',
-          placeholder: intl.formatMessage({id: 'AGENCY.EDIT.PLACEHOLDER.USERNAME'}),
-          label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.USERNAME'}),
-          disabled: !!editEntity,
-        },
-        ownerName: {
-          type: 'string',
-          placeholder: intl.formatMessage({id: 'AGENCY.EDIT.PLACEHOLDER.NAME'}),
-          label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.NAME'}),
-        },
-        ownerPhoneNumber: {
-          type: 'string',
-          placeholder: intl.formatMessage({id: 'AGENCY.EDIT.PLACEHOLDER.OWNER_PHONE'}),
-          label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.OWNER_PHONE'}),
-        },
-        email: {
-          type: 'string',
-          placeholder: intl.formatMessage({id: 'AGENCY.EDIT.PLACEHOLDER.EMAIL'}),
-          label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.EMAIL'}),
-        },
-        gender: {
-          type: 'option',
-          placeholder: intl.formatMessage({id: 'AGENCY.EDIT.PLACEHOLDER.GENDER'}),
-          label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.GENDER'}),
-          required: true,
-        },
-        birthDay: {
-          type: 'date-time',
-          placeholder: intl.formatMessage({id: 'AGENCY.EDIT.PLACEHOLDER.BIRTH_DAY'}),
-          label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.BIRTH_DAY'}),
-          required: true,
-        },
-        roleName: {
-          type: 'search-select',
-          placeholder: 'AGENCY.EDIT.PLACEHOLDER.ROLE_NAME',
-          label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.ROLE_NAME'}),
-          service: RoleService,
-          keyField: 'name',
-          required: true,
-        },
-        avatar: {
-          type: 'image',
-          placeholder: intl.formatMessage({id: 'AGENCY.EDIT.PLACEHOLDER.AVATAR'}),
-          label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.AVATAR'}),
-        },
-      },
-    },
-    {
-      title: intl.formatMessage({id: 'AGENCY.EDIT.HEADER.SHIPPING_ADDRESS'}).toUpperCase(),
-      data: {
-        shippingAddress: {
-          type: 'radioGroup', // type: 'array',
-          placeholder: intl.formatMessage({id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN'}),
-          label: intl.formatMessage({id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN'}),
-        },
-        defaultShippingAddress: {
-          type: 'display',
-          placeholder: intl.formatMessage({id: 'AGENCY.EDIT.PLACEHOLDER.DEFAULT_SHIPPING_ADDRESS'}),
-          label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.DEFAULT_SHIPPING_ADDRESS'}),
-        }
-      }
-    }
-  ];
+  // const modifyModel = [
+  //   {
+  //     title: intl.formatMessage({id: 'AGENCY.EDIT.HEADER.AGENCY_INFO'}).toUpperCase(),
+  //     data: {
+  //       code: {
+  //         type: 'string',
+  //         placeholder: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.AGENCY_CODE'}),
+  //         label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.AGENCY_CODE'}),
+  //         // disabled: editEntity,
+  //         disabled: true
+  //       },
+  //       name: {
+  //         type: 'string',
+  //         placeholder: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.AGENCY_NAME'}),
+  //         label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.AGENCY_NAME'}),
+  //       },
+  //       // storeLevel: {
+  //       //   type: 'search-select',
+  //       //   placeholder: intl.formatMessage({ id: 'AGENCY.EDIT.PLACEHOLDER.SELL_GOOD_LEVEL' }),
+  //       //   label: intl.formatMessage({ id: 'AGENCY.EDIT.LABEL.SELL_GOOD_LEVEL' }),
+  //       //   service: StoreLevelService,
+  //       //   keyField: 'name'
+  //       // },
+  //       storeLevel: {
+  //         type: 'tree-select',
+  //         placeholder: intl.formatMessage({id: 'AGENCY.EDIT.PLACEHOLDER.SELL_GOOD_LEVEL'}),
+  //         label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.SELL_GOOD_LEVEL'}),
+  //         service: MultilevelSaleService,
+  //         keyField: 'name',
+  //         required: true,
+  //       },
+  //       state: {
+  //         type: 'stateSelect',
+  //         placeholder: intl.formatMessage({id: 'AGENCY.EDIT.PLACEHOLDER.STATE'}),
+  //         label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.STATE'}),
+  //         required: true,
+  //       },
+  //       city: {
+  //         type: 'citySelect',
+  //         placeholder: intl.formatMessage({id: 'AGENCY.EDIT.PLACEHOLDER.CITY'}),
+  //         label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.CITY'}),
+  //         required: true,
+  //       },
+  //       district: {
+  //         type: 'districtSelect',
+  //         placeholder: intl.formatMessage({id: 'AGENCY.EDIT.PLACEHOLDER.DISTRICT'}),
+  //         label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.DISTRICT'}),
+  //         required: true,
+  //       },
+  //       detailAddress: {
+  //         type: 'string',
+  //         placeholder: intl.formatMessage({id: 'AGENCY.EDIT.PLACEHOLDER.AGENCY_ADDRESS'}),
+  //         label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.AGENCY_ADDRESS'}),
+  //       },
+  //       status: {
+  //         type: 'boolean',
+  //         placeholder: intl.formatMessage({id: 'AGENCY.EDIT.PLACEHOLDER.STATUS'}),
+  //         label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.STATUS'}),
+  //       },
+  //       phoneNumber: {
+  //         type: 'string',
+  //         placeholder: intl.formatMessage({id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN'}),
+  //         label: intl.formatMessage({id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN'}),
+  //       },
+  //       taxId: {
+  //         type: 'string',
+  //         placeholder: intl.formatMessage({id: 'AGENCY.EDIT.PLACEHOLDER.TAX_ID'}),
+  //         label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.TAX_ID'}),
+  //       },
+  //       image: {
+  //         type: 'image',
+  //         placeholder: intl.formatMessage({id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL'}),
+  //         label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.IMAGE'}),
+  //       },
+  //       // image2: {
+  //       //   type: 'image',
+  //       //   placeholder: intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL' }),
+  //       //   label: 'Album 2',
+  //       // },
+  //     }
+  //   },
+  //   {
+  //     title: intl.formatMessage({id: 'AGENCY.EDIT.HEADER.AGENCY_OWNER_INFO'}).toUpperCase(),
+  //     data: {
+  //       username: {
+  //         type: 'string',
+  //         placeholder: intl.formatMessage({id: 'AGENCY.EDIT.PLACEHOLDER.USERNAME'}),
+  //         label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.USERNAME'}),
+  //         disabled: !!editEntity,
+  //       },
+  //       ownerName: {
+  //         type: 'string',
+  //         placeholder: intl.formatMessage({id: 'AGENCY.EDIT.PLACEHOLDER.NAME'}),
+  //         label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.NAME'}),
+  //       },
+  //       ownerPhoneNumber: {
+  //         type: 'string',
+  //         placeholder: intl.formatMessage({id: 'AGENCY.EDIT.PLACEHOLDER.OWNER_PHONE'}),
+  //         label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.OWNER_PHONE'}),
+  //       },
+  //       email: {
+  //         type: 'string',
+  //         placeholder: intl.formatMessage({id: 'AGENCY.EDIT.PLACEHOLDER.EMAIL'}),
+  //         label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.EMAIL'}),
+  //       },
+  //       gender: {
+  //         type: 'option',
+  //         placeholder: intl.formatMessage({id: 'AGENCY.EDIT.PLACEHOLDER.GENDER'}),
+  //         label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.GENDER'}),
+  //         required: true,
+  //       },
+  //       birthDay: {
+  //         type: 'date-time',
+  //         placeholder: intl.formatMessage({id: 'AGENCY.EDIT.PLACEHOLDER.BIRTH_DAY'}),
+  //         label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.BIRTH_DAY'}),
+  //         required: true,
+  //       },
+  //       roleName: {
+  //         type: 'search-select',
+  //         placeholder: 'AGENCY.EDIT.PLACEHOLDER.ROLE_NAME',
+  //         label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.ROLE_NAME'}),
+  //         service: RoleService,
+  //         keyField: 'name',
+  //         required: true,
+  //       },
+  //       avatar: {
+  //         type: 'image',
+  //         placeholder: intl.formatMessage({id: 'AGENCY.EDIT.PLACEHOLDER.AVATAR'}),
+  //         label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.AVATAR'}),
+  //       },
+  //     },
+  //   },
+  //   {
+  //     title: intl.formatMessage({id: 'AGENCY.EDIT.HEADER.SHIPPING_ADDRESS'}).toUpperCase(),
+  //     data: {
+  //       shippingAddress: {
+  //         type: 'radioGroup', // type: 'array',
+  //         placeholder: intl.formatMessage({id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN'}),
+  //         label: intl.formatMessage({id: 'PURCHASE_ORDER.MASTER.TABLE.PHONE_NUMBER_COLUMN'}),
+  //       },
+  //       defaultShippingAddress: {
+  //         type: 'display',
+  //         placeholder: intl.formatMessage({id: 'AGENCY.EDIT.PLACEHOLDER.DEFAULT_SHIPPING_ADDRESS'}),
+  //         label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.DEFAULT_SHIPPING_ADDRESS'}),
+  //       }
+  //     }
+  //   }
+  // ];
   
   const group1 = useMemo((): ModifyInputGroup => ({
     _subTitle: 'AGENCY.MODIFY.GENERAL_INFO',
@@ -468,7 +471,7 @@ function AgencyPage() {
       label: 'AGENCY.MODIFY.STORE_LEVEL',
       onSearch: ({queryProps, sortList, paginationProps,}: any) => {
         return MultilevelSaleService.GetAll({queryProps}).then((e) => {
-          return ConvertToTreeNode(e.data);
+          return e.data;
         })
       },
     },
@@ -506,7 +509,7 @@ function AgencyPage() {
           setCity(value);
         },
         disabled: (values: any) => {
-          return (values.address?.state === '');
+          return (values?.address?.state === '');
         },
         label: 'AGENCY.MODIFY.CITY',
       },
@@ -516,11 +519,11 @@ function AgencyPage() {
         // selectField: 'code',
         required: true,
         disabled: (values: any) => {
-          return (values.address?.city === '');
+          return (values?.address?.city === '');
         },
         label: 'AGENCY.MODIFY.DISTRICT',
       },
-      detailAddress: {
+      address: {
         _type: 'string',
         required: true,
         label: 'AGENCY.MODIFY.ADDRESS',
@@ -528,10 +531,13 @@ function AgencyPage() {
     },
     status: {
       _type: 'boolean',
-      required: true,
       label: 'AGENCY.MODIFY.STATUS',
+      trueFalse: {
+        true: '1',
+        false: '0'
+      }
     },
-    phoneNumber: {
+    phone: {
       _type: 'string-number',
       required: true,
       label: 'AGENCY.MODIFY.PHONE_NUMBER',
@@ -602,29 +608,52 @@ function AgencyPage() {
         maxNumber: 1,
         label: 'AGENCY.MODIFY.REPRESENT_IMAGE',
       },
-      shippingAddress: {
+      thes: {
+        _type: 'object',
+        _subTitle: 'AGENCY.MODIFY.SHIPPING_ADDRESS',
+        gender: {
+          _type: 'radio',
+          required: true,
+          label : 'AGENCY.MODIFY.SHIPPING_ADDRESS',
+          labelWidth: 0,
+          optionsClassName: 'col-12 mr-0',
+          options: [
+            {
+              label: ({setFieldValue, handleChange, values, handleBlur}: any) => {
+                return (<div>
+                  <div className={'pr-23'} style={{display: 'inline-block'}}>abc xss eis lmd, mdjw cchdeabc xss eis lmd, mdjw cchdeabc xss eis lmd, mdjw cchdeabc xss eis lmd, mdjw cchdeabc xss eis lmd, mdjw cchdeabc xss eis lmd, mdjw cchdeabc xss eis lmd, mdjw cchdeabc xss eis lmd, mdjw cchdeabc xss eis lmd, mdjw cchdeabc xss eis lmd, mdjw cchdeabc xss eis lmd, mdjw cchdeabc xss eis lmd, mdjw cchdeabc xss eis lmd, mdjw cchdeabc xss eis lmd, mdjw cchdeabc xss eis lmd, mdjw cchdeabc xss eis lmd, mdjw cchdeabc xss eis lmd, mdjw cchdeabc xss eis lmd, mdjw cchde</div>
+                  <span style={{position: 'absolute', right:0, top: 'calc(50% - 15px)'}}>
+                    {ActionsColumnFormatter(1, 1, 1,
+                      {
+                        onDelete: console.log,
+                        onEdit: console.log,
+                        intl})}
+                  </span>
+                </div>)
+              }, value: '1'
+            },
+            {label: ({setFieldValue, handleChange, values, handleBlur}: any) => {
+                return (<div>
+                  abc xss eis lmd, mdjw cchde
+                  {ActionsColumnFormatter(1, 1, 1,
+                    {onShowDetail: console.log,
+                      onDelete: console.log,
+                      onEdit: console.log,
+                      intl})}
+                </div>)}, value: '0'}
+          ],
+        },
+      },
+      _addShippingAgencyBtn: {
         _type: 'custom',
         component: ({values}: any) => {
-          
           return (
-            <div className={'col-12'}>
-             
-              <div className="modify-subtitle text-primary">
-                {intl.formatMessage({id: 'AGENCY.MODIFY.SHIPPING_ADDRESS'}).toUpperCase()}
-              </div>
-              <button type="button" className="btn btn-primary" onClick={() => {
-                setShowCreate(true);
-              }}>
-                <AddIcon style={iconStyle}/>
-                {intl.formatMessage({id: 'AGENCY.MODIFY.ADD_SHIPPING_ADDRESS'})}
-              </button>
-            
-            </div>
+            <AgencyShippingAddress entity={{}}/>
           )
         }
       }
     }
-  }),[showCreate]);
+  }), [showCreate]);
   
   const actions: any = useMemo(() => ({
     type: 'inside',
@@ -640,7 +669,7 @@ function AgencyPage() {
       cancel: {
         role: 'link-button',
         type: 'button',
-        linkto: '/shipping-agency',
+        linkto: '/agency',
         className: 'btn btn-outline-primary fixed-btn-width',
         label: 'Hủy',
         icon: <CancelOutlinedIcon/>,
@@ -659,93 +688,22 @@ function AgencyPage() {
     return ({...createForm, _header: updateTitle});
   }, [createForm]);
   
-  
-  
-  
-  const [shippingAddressGroup, setShippingAddressGroup] = useState<ModifyInputGroup>({
-    _subTitle: '',
-    state: {
-      _type: 'search-select',
-      onSearch: GetState,
-      onChange: (value: any, {setFieldValue, setFieldTouched}: any) => {
-        if (state != value) {
-          setCity(null);
-          setFieldValue('address.city', '');
-          setFieldTouched('address.city', false);
-          setFieldValue('address.district', '');
-          setFieldTouched('address.district', false);
-        }
-        setState(value);
-      },
-      required: true,
-      label: 'AGENCY.MODIFY.SHIPPING_ADDRESS.STATE',
-    },
-    city: {
-      _type: 'search-select',
-      onSearch: getCity,
-      // selectField: 'code',
-      required: true,
-      onChange: (value: any, {setFieldValue, setFieldTouched}: any) => {
-        if (city != value) {
-          setFieldValue('address.district', '');
-          setFieldTouched('address.district', false);
-        }
-        setCity(value);
-      },
-      disabled: (values: any) => {
-        return (values?.state === '');
-      },
-      label: 'AGENCY.MODIFY.SHIPPING_ADDRESS.CITY',
-    },
-    district: {
-      _type: 'search-select',
-      onSearch: getDistrict,
-      // selectField: 'code',
-      required: true,
-      disabled: (values: any) => {
-        return (values?.city === '');
-      },
-      label: 'AGENCY.MODIFY.SHIPPING_ADDRESS.DISTRICT',
-    },
-    detailAddress: {
-      _type: 'string',
-      required: true,
-      label: 'AGENCY.MODIFY.SHIPPING_ADDRESS.ADDRESS',
-    },
-  });
-  
-  const createShippingAddressForm = useMemo((): ModifyForm => ({
-    _header: 'AGENCY.MODIFY.SHIPPING_ADDRESS.CREATE_TITLE',
-    panel1: {
-      _title: '',
-      group1: shippingAddressGroup
-    },
-  }), [shippingAddressGroup]);
-  
-  
-  
+  const validationSchema = useMemo(() => Yup.object().shape({
+    phone: Yup.string()
+      .max(11, 'Số điện thoại không hợp lệ')
+      .min(8, 'Số điện thoại không hợp lệ'),
+    tax_id: Yup.string()
+      .min(10, 'Mã số thuế không hợp lệ')
+      .max(13, 'Mã số thuế không hợp lệ'),
+    owner: Yup.object().shape({
+      phone: Yup.string()
+        .max(11, 'Số điện thoại không hợp lệ')
+        .min(8, 'Số điện thoại không hợp lệ'),
+    })
+  }), []);
+  const initCreateValues = useMemo(() => ({...InitValues(createForm), status: 'false'}), [createForm]);
   return (
     <Fragment>
-      <ModifyEntityDialog
-        formModel={createShippingAddressForm}
-        show={showCreate}
-        onModify={(...add) => {
-          console.log(add)}}
-        onHide={() => {
-          setShowCreate(false);
-        }}
-      />
-      <ModifyEntityDialog
-        formModel={updateForm}
-        show={showEdit}
-        entity={editEntity}
-        onModify={update}
-        onHide={() => {
-          setShowEdit(false);
-        }}
-        loading={loading}
-      />
-      
       <DeleteEntityDialog
         moduleName={moduleName}
         entity={deleteEntity}
@@ -804,24 +762,23 @@ function AgencyPage() {
             onModify={add}
             formModel={createForm}
             actions={actions}
+            entity={initCreateValues}
             // validation={validationSchema}
           />
         </Route>
-        {/*<Route path="/agency/:code">*/}
-        {/*  {({ history, match }) => (*/}
-        {/*    <EntityCrudPageAgency*/}
-        {/*      entity={editEntity}*/}
-        {/*      onModify={update}*/}
-        {/*      onClickReturn={refreshData}*/}
-        {/*      code={match && match.params.code}*/}
-        {/*      get={AgencyService.GetById}*/}
-        {/*      formPart={formPart}*/}
-        {/*      allFormField={allFormField}*/}
-        {/*      allFormButton={allFormButton}*/}
-        {/*      validation={agencySchema}*/}
-        {/*    />*/}
-        {/*  )}*/}
-        {/*</Route>*/}
+        <Route path="/agency/:code">
+          {({history, match}) => (
+            <EntityCrudPage
+              onModify={update}
+              moduleName={moduleName}
+              code={match && match.params.code}
+              get={AgencyService.GetById}
+              formModel={updateForm}
+              actions={actions}
+              validation={validationSchema}
+            />
+          )}
+        </Route>
       </Switch>
       <MasterEntityDetailDialog
         title={detailDialogTitle}

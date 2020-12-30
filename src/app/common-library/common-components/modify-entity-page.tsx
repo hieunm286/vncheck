@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Fragment} from 'react';
 import {InputGroups} from '../common-types/common-type';
 import {useIntl} from 'react-intl';
 import {
@@ -56,6 +56,7 @@ export function ModifyEntityPage<T>({
 }
 
 export const RenderForm = ({inputs, prevKey, mode}: any) => {
+  const intl = useIntl();
   const defaultClassName = 'mb-5';
   return (<>
     {Object.keys(inputs).map(key => {
@@ -191,62 +192,18 @@ export const RenderForm = ({inputs, prevKey, mode}: any) => {
           const {_type, ...props} = input;
           return (<InputCustom {...props} key={`modify-page-form-${name}`}/>);
         }
-        //
-        // case 'SearchSelectV2':
-        //   return (
-        //     <InputTag
-        //       className={defaultClassName}
-        //       name={prevKey !== '' ? `${prevKey}.${key}` : key}
-        //       mode={mode}
-        //       defaultTag={defaultTag}
-        //       tagData={tagData || []}
-        //       type={input._type}
-        //       {...input}
-        //       key={`modify-page-${key}`}
-        //     />
-        //   );
-        //
-        // case 'gallery':
-        //   return (
-        //     <div className="mt-3" key={key}>
-        //       <ImgGallery
-        //         label={intl.formatMessage({id: input.label as any})}
-        //         labelWidth={4}
-        //         name={prevKey !== '' ? `${prevKey}.${key}` : key}
-        //         isHorizontal
-        //         mode='multiple'
-        //         photos={[
-        //           {
-        //             path: 'https://source.unsplash.com/aZjw7xI3QAA/1144x763',
-        //             author: 'Nguyễn Minh Hiếu',
-        //             time: '26/09/2020 9:00',
-        //             location: {coordinates: [`21°01'10.1"N 105°47'28.6"E`]},
-        //             thumbnail: 'https://source.unsplash.com/aZjw7xI3QAA/100x67',
-        //           },
-        //           {
-        //             path: 'https://source.unsplash.com/c77MgFOt7e0/1144x763',
-        //             author: 'Nguyễn Minh Hiếu',
-        //             time: '26/09/2020 9:00',
-        //             location: {coordinates: [`21°01'10.1"N 105°47'28.6"E`]},
-        //             thumbnail: 'https://source.unsplash.com/c77MgFOt7e0/100x67',
-        //           },
-        //           {
-        //             path: 'https://source.unsplash.com/QdBHnkBdu4g/1144x763',
-        //             author: 'Nguyễn Minh Hiếu',
-        //             time: '26/09/2020 9:00',
-        //             location: {coordinates: [`21°01'10.1"N 105°47'28.6"E`]},
-        //             thumbnail: 'https://source.unsplash.com/QdBHnkBdu4g/100x67',
-        //           },
-        //         ]}
-        //       />
-        //     </div>
-        //   );
-        
-        default:
-          const {_type, ...inn} = input as any;
-          console.log(prevKey ? `${prevKey}.${key}` : key);
-          return <RenderForm inputs={inn} prevKey={prevKey ? `${prevKey}.${key}` : key} mode={mode}
-                             key={`render_form${prevKey ? `${prevKey}.${key}` : key}`}/>
+        default: {
+          const {_type, _subTitle, _className, _dataClassName, _titleClassName, ...innt} = input as any;
+          console.log(input, innt)
+          
+          return (<Fragment key={`render_form${prevKey ? `${prevKey}.${key}` : key}`}>
+            <div className={_className ?? ''}>
+              {_subTitle && _subTitle !== '' && (<div
+                className="modify-subtitle text-primary">{intl.formatMessage({id: _subTitle}).toUpperCase()}</div>)}
+              <RenderForm inputs={innt} prevKey={prevKey ? `${prevKey}.${key}` : key} mode={mode}/>
+            </div>
+          </Fragment>)
+        }
       }
       return (<></>)
     })}</>)

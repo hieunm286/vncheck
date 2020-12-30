@@ -46,7 +46,7 @@ export type InputRadioType = {
   
   mode?: 'horizontal' | 'vertical';
   placeholder?: string;
-  options: { value: any; label: string }[] | ((...props: any) => { value: any; label: string }[]);
+  options: { value: any; label: string | ((...props: any) => ReactElement) }[] | ((...props: any) => { value: any; label: string }[]);
   [X: string]: any;
 };
 export type InputNumberType = {
@@ -179,8 +179,8 @@ export const InputString = ({label, required, placeholder, className, ...props}:
   const intl = useIntl();
   const validate = useCallback((value: any): string | void => {
     if (required && !value) return 'INPUT.ERROR.REQUIRED';
-    if (props.type ==='email') {
-      if(!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)) {
+    if (props.type === 'email') {
+      if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)) {
         return 'INPUT.ERROR.INVALID_EMAIL';
       }
     }

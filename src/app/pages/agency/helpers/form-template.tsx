@@ -14,8 +14,6 @@ import STATE_LIST from '../../../../_metronic/AdministrativeDivision/state.json'
 import CITY_LIST from '../../../../_metronic/AdministrativeDivision/city.json';
 import DISTRICT_LIST from '../../../../_metronic/AdministrativeDivision/district.json';
 import {useIntl} from 'react-intl';
-import {ConvertToTreeNode} from '../../../common-library/helpers/common-function';
-import * as StoreLevelService from '../../multilevel-sale/multilevel-sale.service';
 import {Select} from 'antd'; // import Select from 'react-select';
 import './ant-select.scss'
 import SelectDropDownIcon from '../../../common-library/forms/select-drop-down-icon';
@@ -89,16 +87,16 @@ const FormTemplate = ({
   
   const intl = useIntl();
   
-  
-  useEffect(() => {
-    treeLoadOptions(StoreLevelService) // treeLoadOptions(modifyModel.data['storeLevel'].service)
-      .then((res: any) => {
-        const treeData = ConvertToTreeNode(res);
-        setTreeData(treeData)
-      });
-    
-  }, []);
-  
+  //
+  // useEffect(() => {
+  //   treeLoadOptions(StoreLevelService) // treeLoadOptions(modifyModel.data['storeLevel'].service)
+  //     .then((res: any) => {
+  //       const treeData = ConvertToTreeNode(res);
+  //       setTreeData(treeData)
+  //     });
+  //
+  // }, []);
+  //
   useEffect(() => {
     if (values.storeLevel && values.storeLevel._id) {
       setTreeSelectValue(values.storeLevel._id)

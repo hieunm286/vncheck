@@ -40,13 +40,14 @@ const _initValues = ({inputs}: any): any => {
         if (input.required) return {...pre, [name]: ''}
         return pre
       case 'search-select':
+      case 'tree-select':
         if (input.required) {
           return {...pre, [name]: ''}
         }
         return pre;
       case 'object':
-        const {_type, ...inn} = input as any;
-        const s = {[name]: _initValues({inputs: inn})};
+        const {_type, _subTitle, _className, _dataClassName, _titleClassName, ...innt} = input as any;
+        const s = {[name]: _initValues({inputs: innt})};
         return _.merge(pre, s);
     }
   }, {} as any);
@@ -83,7 +84,8 @@ export const GetClassName = (labelWidth: number | null | undefined, labelStart: 
   const classes: string[] = [];
   
   if (labelStart) {
-    if (labelWidth) {
+    if (labelWidth == 0) classes.push('hidden');
+    if (labelWidth != null) {
       classes.push(`col-xl-${labelWidth}`);
       classes.push(`col-md-${labelWidth}`);
       classes.push('col-12');
@@ -93,7 +95,7 @@ export const GetClassName = (labelWidth: number | null | undefined, labelStart: 
       classes.push('col-12');
     }
   } else {
-    if (labelWidth) {
+    if (labelWidth != null) {
       classes.push(`col-xl-${12 - labelWidth}`);
       classes.push(`col-md-${12 - labelWidth}`);
       classes.push('col-12');
@@ -202,25 +204,6 @@ export const getNewImage = (prevArr: any[], currentArr: any[]) => {
   return newArr;
 };
 
-export const ConvertToTreeNode = (data: any[]) => {
-  const treeData: any[] = [];
-  data.forEach((value: any, key: any) => {
-    const treeNode = {
-      title: value.name,
-      value: value._id,
-      key: value._id,
-      children: value.children && value.children.map((childValue: any, childKey: any) => ({
-        title: childValue.name,
-        value: childValue._id,
-        key: childValue._id,
-      })),
-    };
-    
-    treeData.push(treeNode);
-  });
-  
-  return treeData;
-};
 
 export const GenerateAllFormField = (...params: any) => {
   
@@ -386,7 +369,7 @@ export function InitMasterProps<T>({
   
   useEffect(() => {
     setSelectedEntities(selectedEntities.filter((t: any) => entities.some((e: any) => e._id === t._id)));
-  },[entities]);
+  }, [entities]);
   
   const dispatch = useDispatch();
   useEffect(() => {

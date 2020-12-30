@@ -238,7 +238,7 @@ function ShippingAgency() {
           console.log(values)
         },
         onChange: (value: any, {setFieldValue, setFieldTouched}: any) => {
-          console.log(state,value);
+          console.log(state, value);
           if (!value || state != value) {
             setCity(null);
             setFieldValue('address.city', '');
@@ -264,7 +264,7 @@ function ShippingAgency() {
           setCity(value);
         },
         disabled: (values: any) => {
-          return (values.address?.state === '');
+          return (values?.address?.state === '');
         },
         label: 'SHIPPING_AGENCY.MODIFY.CITY',
       },
@@ -274,7 +274,7 @@ function ShippingAgency() {
         // selectField: 'code',
         required: true,
         disabled: (values: any) => {
-          return (values.address?.city === '');
+          return (values?.address?.city === '');
         },
         label: 'SHIPPING_AGENCY.MODIFY.DISTRICT',
       },
@@ -377,10 +377,13 @@ function ShippingAgency() {
       .max(11, 'Số điện thoại không hợp lệ')
       .min(8, 'Số điện thoại không hợp lệ'),
     tax_id: Yup.string()
+      .min(10, 'Mã số thuế không hợp lệ')
       .max(13, 'Mã số thuế không hợp lệ'),
-    owner_phone: Yup.string()
-      .max(11, 'Số điện thoại không hợp lệ')
-      .min(8, 'Số điện thoại không hợp lệ'),
+    owner: Yup.object().shape({
+      phone: Yup.string()
+        .max(11, 'Số điện thoại không hợp lệ')
+        .min(8, 'Số điện thoại không hợp lệ'),
+    })
   }), []);
   const actions: any = useMemo(() => ({
     type: 'inside',
@@ -403,7 +406,7 @@ function ShippingAgency() {
       }
     }
   }), []);
-  const initCreateValues = useMemo(()=>({...InitValues(createForm),status:'false'}),[createForm]);
+  const initCreateValues = useMemo(() => ({...InitValues(createForm), status: 'false'}), [createForm]);
   return (
     <Fragment>
       <Switch>
@@ -426,7 +429,6 @@ function ShippingAgency() {
               code={match && match.params.code}
               get={ShippingAgencyService.GetById}
               formModel={updateForm}
-              // allFormField={allFormField}
               actions={actions}
               validation={validationSchema}
             />

@@ -114,23 +114,9 @@ export interface DeleteManyDialogProps<T> {
 }
 
 export interface ActionColumnProps<T> {
-  onShowDetail: (entity: T) => void;
-  onDelete: (entity: T) => void;
-  onEdit: (entity: T) => void;
-  // onCreate: (entity?: T) => void;
-  // onSelectMany: (entities: T[]) => void;
-  // onDeleteMany?: () => any;
-  // openEditDialog: any;
-  // openDeleteDialog: any;
-  // detailTitle: string;
-  // editTitle: string;
-  // deleteTitle: string;
-}
-
-export interface ActionColumnProps<T> {
-  onShowDetail: (entity: T) => void;
-  onDelete: (entity: T) => void;
-  onEdit: (entity: T) => void;
+  onShowDetail?: (entity: T) => void;
+  onDelete?: (entity: T) => void;
+  onEdit?: (entity: T) => void;
   // onCreate: (entity?: T) => void;
   // onSelectMany: (entities: T[]) => void;
   // onDeleteMany?: () => any;
