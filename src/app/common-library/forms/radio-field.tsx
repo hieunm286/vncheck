@@ -53,11 +53,6 @@ export function RadioField({
     if (_.isArray(options)) setInnerOptions(options);
     else setInnerOptions(options({field, values, setFieldValue, setFieldTouched}));
   }, [field.value]);
-  useEffect(() => {
-    setTimeout(() => {
-      validateField(name);
-    }, 10);
-  }, [field.value])
   const intl = useIntl();
   return (
     <>
@@ -77,13 +72,13 @@ export function RadioField({
             name={name}
             value={_innerValue ?? null}
             onChange={(e) => {
+              onChange && onChange(e, {setFieldValue, values});
               if (_.isFunction(value)) {
-                // setFieldValue(name,e.target.value);
+                setFieldValue(name,field.value);
+                setFieldTouched(name, true);
               } else {
                 handleChange(e);
               }
-              setFieldTouched(name, true);
-              onChange && onChange(e, {setFieldValue, values});
             }}
             onBlur={handleBlur}
           >
