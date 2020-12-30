@@ -194,8 +194,6 @@ export const RenderForm = ({inputs, prevKey, mode}: any) => {
         }
         default: {
           const {_type, _subTitle, _className, _dataClassName, _titleClassName, ...innt} = input as any;
-          console.log(input, innt)
-          
           return (<Fragment key={`render_form${prevKey ? `${prevKey}.${key}` : key}`}>
             <div className={_className ?? ''}>
               {_subTitle && _subTitle !== '' && (<div

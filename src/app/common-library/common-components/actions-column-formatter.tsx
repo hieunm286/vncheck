@@ -22,7 +22,10 @@ export function ActionsColumnFormatter<T>(
       {onShowDetail && (<a 
         title={intl.formatMessage({id: 'COMMON_COMPONENT.MASTER_BODY.TABLE.SHOW_DETAIL_BTN'})}
         className="btn btn-icon btn-light btn-hover-primary btn-sm visibility"
-        onClick={() => onShowDetail(row)}>
+        onClick={(e) => {
+          onShowDetail(row);
+          e.preventDefault();
+        }}>
         <span className="svg-icon svg-icon-md svg-icon-primary">
           <Visibility className="text-primary eye"/>
         </span>
@@ -31,7 +34,10 @@ export function ActionsColumnFormatter<T>(
         // to={`/purchase-order/${row.code}`}
         // title={intl.formatMessage({id: 'COMMON_COMPONENT.MASTER_BODY.TABLE.EDIT_BTN'})}
         className="btn btn-icon btn-light btn-hover-primary btn-sm mx-1"
-        onClick={() => onEdit(row)}>
+        onClick={(e) => {
+          onEdit(row);
+          e.preventDefault();
+        }}>
         <span className="svg-icon svg-icon-md svg-icon-primary">
           <SVG
             src={ToAbsoluteUrl('/media/svg/icons/Communication/Write.svg')}
@@ -42,7 +48,10 @@ export function ActionsColumnFormatter<T>(
       {onDelete &&  (<a
         // title={intl.formatMessage({id: 'COMMON_COMPONENT.MASTER_BODY.TABLE.DELETE_BTN'})}
         className="btn btn-icon btn-light btn-hover-primary btn-sm visibility"
-        onClick={() => onDelete(row)}>
+        onClick={(e) => {
+          onDelete(row);
+          e.preventDefault();
+        }}>
         <span className="svg-icon svg-icon-md svg-icon-primary">
           <span className="svg-icon svg-icon-md svg-icon-primary">
             <DeleteIcon className="text-primary eye"/>

@@ -209,11 +209,9 @@ function ShippingAgency() {
     setCity(editEntity?.address?.city);
   }, [editEntity]);
   const getCity = useCallback(({queryProps, paginationProps}: any): Promise<any> => {
-    console.log(state);
     return GetCity({queryProps: {...queryProps, state}, paginationProps})
   }, [state]);
   const getDistrict = useCallback(({queryProps, paginationProps}: any): Promise<any> => {
-    console.log(city);
     return GetDistrict({queryProps: {...queryProps, city}, paginationProps})
   }, [city]);
   const group1 = useMemo((): ModifyInputGroup => ({

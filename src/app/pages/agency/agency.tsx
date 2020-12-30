@@ -14,7 +14,7 @@ import {
   TickColumnFormatter
 } from '../../common-library/common-components/actions-column-formatter';
 
-import {DefaultPagination, NormalColumn, SortColumn} from '../../common-library/common-consts/const';
+import {DefaultPagination, iconStyle, NormalColumn, SortColumn} from '../../common-library/common-consts/const';
 
 
 import {DeleteEntityDialog} from "../../common-library/common-components/delete-entity-dialog";
@@ -35,6 +35,8 @@ import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
 import CancelOutlinedIcon from "@material-ui/icons/CancelOutlined";
 import {AgencyShippingAddress} from "./agency-shipping-address";
 import * as Yup from "yup";
+import AddIcon from "@material-ui/icons/Add";
+import _ from "lodash";
 
 const headerTitle = 'AGENCY.MASTER.HEADER.TITLE';
 const tableTitle = 'SHIPPING_AGENCY.MASTER.TABLE.TITLE';
@@ -101,7 +103,6 @@ function AgencyPage() {
     getAll(filterProps);
   }, [paginationProps, filterProps]);
   
-  const [showCreateShippingAddress, setShowCreateShippingAddress] = useState(false);
   
   const columns = useMemo(() => {
     return {
@@ -402,6 +403,14 @@ function AgencyPage() {
     },
   }), [getCity, getDistrict]);
   
+  const [showCreateShippingAddress, setShowCreateShippingAddress] = useState({show: false});
+  const [showUpdateShippingAddress, setShowUpdateShippingAddress] = useState({show: false});
+  const [showDeleteShippingAddress, setShowDeleteShippingAddress] = useState({show: false});
+  const [deleteShippingAddress, setDeleteShippingAddress] = useState({});
+  const [updateShippingAddress, setUpdateShippingAddress] = useState({});
+  const [createShippingAddressFn, setCreateShippingAddressFn] = useState(() => console.log);
+  const [updateShippingAddressFn, setUpdateShippingAddressFn] = useState(() => console.log);
+  const [deleteShippingAddressFn, setDeleteShippingAddressFn] = useState(() => console.log);
   const group2 = useMemo((): ModifyInputGroup => ({
     _subTitle: 'AGENCY.MODIFY.OWNER_INFO',
     _className: 'col-6 pl-xl-15 pl-md-10 pl-5',
@@ -469,14 +478,16 @@ function AgencyPage() {
           label: 'AGENCY.MODIFY.SHIPPING_ADDRESS',
           labelWidth: 0,
           optionsClassName: 'col-12 mr-0',
-          value: (value: any[]) => {
-            return value?.find(v => v.isDefault)?._id
+          value: (value: any) => {
+            const t = _.isString(value) ? null : value?.find((v:any) => v.isDefault);
+            console.log(t);
+            return t ? JSON.stringify(t) : t;
           },
           onChange: (e: any, {setFieldValue, values}: any) => {
             const addresses = values['shippingAddress'];
             setFieldValue('shippingAddress', addresses.map((addr: any) => ({
               ...addr,
-              isDefault: addr._id === e.target.value
+              isDefault: JSON.stringify(addr) === e.target.value
             })));
           },
           options: ({field, values, setFieldValue, setFieldTouched}: any) => {
@@ -488,15 +499,34 @@ function AgencyPage() {
                       {`${address.address}, ${address.district}, ${address.city}, ${address.state}`}
                     </div>
                     <span style={{position: 'absolute', right: 0, top: 'calc(50% - 15px)'}}>
-                    {ActionsColumnFormatter(index, {field, values, setFieldValue, setFieldTouched}, 1,
+                    {ActionsColumnFormatter(address, {field, values, setFieldValue, setFieldTouched}, 1,
                       {
-                        onDelete: console.log,
-                        onEdit: console.log,
+                        onDelete: () => {
+                          setDeleteShippingAddress(address);
+                          setDeleteShippingAddressFn(() => () => {
+                            const addresses = field.value;
+                            setFieldValue('shippingAddress', addresses.filter((addr: any) => addr._id !== address._id))
+                            setShowDeleteShippingAddress({show: false});
+                          })
+                          setShowDeleteShippingAddress({show: true});
+                          return false;
+                        },
+                        onEdit: () => {
+                          setUpdateShippingAddress(address);
+                          setUpdateShippingAddressFn(() => (e: any) => {
+                            field.value[index] = e
+                            setFieldValue('shippingAddress', [...field.value]);
+                            setShowUpdateShippingAddress({show: false});
+                          })
+                          setShowUpdateShippingAddress({show: true});
+                          return false;
+                          return false;
+                        },
                         intl
                       })}
                   </span>
                   </div>)
-                }, value: address._id
+                }, value: JSON.stringify(address)
               }
             })) : []
           }
@@ -504,9 +534,19 @@ function AgencyPage() {
       },
       _addShippingAgencyBtn: {
         _type: 'custom',
-        component: ({values}: any) => {
+        component: ({values, setFieldValue}: any) => {
           return (
-            <AgencyShippingAddress entity={{}}/>
+            <button type="button" className="btn btn-primary" onClick={() => {
+              setCreateShippingAddressFn(() => (e: any) => {
+                const addresses = values['shippingAddress'];
+                setFieldValue('shippingAddress', [e, ...addresses]);
+                setShowCreateShippingAddress({show: false});
+              })
+              setShowCreateShippingAddress({show: true});
+            }}>
+              <AddIcon style={iconStyle}/>
+              {intl.formatMessage({id: 'AGENCY.MODIFY.ADD_SHIPPING_ADDRESS'})}
+            </button>
           )
         }
       }
@@ -562,6 +602,15 @@ function AgencyPage() {
   const initCreateValues = useMemo(() => ({...InitValues(createForm), status: 'false'}), [createForm]);
   return (
     <Fragment>
+      <AgencyShippingAddress
+        showCreate={showCreateShippingAddress}
+        showEdit={showUpdateShippingAddress}
+        showDelete={showDeleteShippingAddress}
+        onCreate={createShippingAddressFn}
+        onEdit={updateShippingAddressFn}
+        onDelete={deleteShippingAddressFn}
+        editEntity={updateShippingAddress}
+        deleteEntity={deleteShippingAddress}/>
       <DeleteEntityDialog
         moduleName={moduleName}
         entity={deleteEntity}

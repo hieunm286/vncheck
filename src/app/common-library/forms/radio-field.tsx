@@ -27,29 +27,37 @@ export function RadioField({
                              value,
                              ...props
                            }: InputRadioType) {
-  const {setFieldValue, handleChange, values, handleBlur, setFieldTouched} = useFormikContext<any>();
- 
-  const getValue = useCallback((value: any, fieldValue: any)=>{
-    return value? _.isFunction(value) ? value(fieldValue) : value : fieldValue;
-  },[]);
-  const validate = useCallback((value: any): string | void => {
-    if (required && !getValue) return 'RADIO.ERROR.REQUIRED';
-  }, [getValue]);
+  const {setFieldValue, handleChange, values, handleBlur, validateField, setFieldTouched} = useFormikContext<any>();
+  
+  const getValue = useCallback((value: any, fieldValue: any) => {
+    console.log(value, fieldValue);
+    return value ? _.isFunction(value) ? value(fieldValue) : value : fieldValue;
+  }, []);
+  const [validate, setValidate] = useState(() => console.log);
   const [field] = useField({
     validate,
     name,
     disabled: disabled ? typeof disabled === 'boolean' ? disabled : disabled(values) : disabled,
     required: required ? typeof required === 'boolean' ? required : required(values) : required
   });
-  const _innerValue = useMemo(()=>{
-    console.log(value,field.value)
-    return getValue(value,field.value)
-  },[field.value]);
+  useEffect(() => {
+    setValidate(() => (val: any): string | void => {
+      if (required && !getValue(value, val)) return 'RADIO.ERROR.REQUIRED';
+    });
+  }, [getValue, field.value])
+  const _innerValue = useMemo(() => {
+    return getValue(value, field.value)
+  }, [field.value]);
   const [_innerOptions, setInnerOptions] = useState<any[]>([]);
   useEffect(() => {
     if (_.isArray(options)) setInnerOptions(options);
     else setInnerOptions(options({field, values, setFieldValue, setFieldTouched}));
   }, [field.value]);
+  useEffect(() => {
+    setTimeout(() => {
+      validateField(name);
+    }, 10);
+  }, [field.value])
   const intl = useIntl();
   return (
     <>
@@ -69,16 +77,13 @@ export function RadioField({
             name={name}
             value={_innerValue ?? null}
             onChange={(e) => {
-              // handleChange(e)
-              console.log(e.target.value)
-              if(_.isFunction(value)){
+              if (_.isFunction(value)) {
                 // setFieldValue(name,e.target.value);
-              }  else {
+              } else {
                 handleChange(e);
               }
-              setFieldTouched(name,true);
+              setFieldTouched(name, true);
               onChange && onChange(e, {setFieldValue, values});
-              // setTouched(field.name, true)
             }}
             onBlur={handleBlur}
           >

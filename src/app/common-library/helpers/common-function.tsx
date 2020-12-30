@@ -37,7 +37,9 @@ const _initValues = ({inputs}: any): any => {
       case 'tag':
       case 'checkbox':
       case 'custom':
-        if (input.required) return {...pre, [name]: ''}
+        if (input.required) {
+          return {...pre, [name]: ''}
+        }
         return pre
       case 'search-select':
       case 'tree-select':
@@ -47,7 +49,7 @@ const _initValues = ({inputs}: any): any => {
         return pre;
       case 'object':
         const {_type, _subTitle, _className, _dataClassName, _titleClassName, ...innt} = input as any;
-        const s = {[name]: _initValues({inputs: innt})};
+        const s = name === '' ? _initValues({inputs: innt}) : {[name]: _initValues({inputs: innt})};
         return _.merge(pre, s);
     }
   }, {} as any);

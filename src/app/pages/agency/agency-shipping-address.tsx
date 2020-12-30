@@ -2,39 +2,10 @@ import React, {Fragment, useCallback, useEffect, useMemo, useState} from "react"
 import {useIntl} from 'react-intl';
 
 
-import { InitMasterProps} from "../../common-library/helpers/common-function";
-
-import {Count, Create, Delete, DeleteMany, Get, GetAll, Update} from './agency.service';
-import {AgencyModel} from './agency.model';
-import {MasterHeader} from "../../common-library/common-components/master-header";
-import {MasterBody} from "../../common-library/common-components/master-body";
-import {
-  ActionsColumnFormatter,
-  TickColumnFormatter
-} from '../../common-library/common-components/actions-column-formatter';
-
-import {DefaultPagination, iconStyle, NormalColumn, SortColumn} from '../../common-library/common-consts/const';
-
-
 import {DeleteEntityDialog} from "../../common-library/common-components/delete-entity-dialog";
-import DeleteManyEntitiesDialog from '../../common-library/common-components/delete-many-entities-dialog';
-import {Route, Switch, useHistory} from 'react-router-dom';
-import * as MultilevelSaleService from '../multilevel-sale/multilevel-sale.service';
-import * as RoleService from './helpers/role.service';
-import {
-  ModifyForm,
-  ModifyInputGroup,
-  RenderInfoDetailDialog,
-  SearchModel
-} from "../../common-library/common-types/common-type";
-import {MasterEntityDetailDialog} from "../../common-library/common-components/master-entity-detail-dialog";
+import {ModifyForm, ModifyInputGroup} from "../../common-library/common-types/common-type";
 import {GetCity, GetDistrict, GetState} from "../address/address.service";
-import EntityCrudPage from "../../common-library/common-components/entity-crud-page";
-import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
-import CancelOutlinedIcon from "@material-ui/icons/CancelOutlined";
-import AddIcon from "@material-ui/icons/Add";
 import ModifyEntityDialog from "../../common-library/common-components/modify-entity-dialog";
-import {GetLots, GetSubLots} from "../land-lot/land-lot.service";
 
 const headerTitle = 'AGENCY.MASTER.HEADER.TITLE';
 const tableTitle = 'SHIPPING_AGENCY.MASTER.TABLE.TITLE';
@@ -50,36 +21,28 @@ const updateTitle = 'SHIPPING_AGENCY.UPDATE.HEADER';
 const bodyTitle = 'AGENCY.MASTER.BODY.TITLE';
 
 
-export function AgencyShippingAddress({entity} : any) {
-  const {
-    showCreate,
-    setShowCreate,
-    showEdit,
-    setShowEdit,
-    editEntity,
-    loading
-  } = InitMasterProps<any>({
-    getServer: Get,
-    countServer: Count,
-    createServer: Create,
-    deleteServer: Delete,
-    deleteManyServer: DeleteMany,
-    getAllServer: GetAll,
-    updateServer: Update
-  });
+export function AgencyShippingAddress({
+                                        onCreate,
+                                        onEdit,
+                                        onDelete,
+                                        showCreate,
+                                        showEdit,
+                                        showDelete,
+                                        editEntity,
+                                        deleteEntity
+                                      }:
+                                        { onCreate: (...props: any) => any, onEdit: (...props: any) => any, onDelete: (...props: any) => any, showCreate: {show:boolean}, showEdit: {show:boolean}, showDelete: {show:boolean}, editEntity: any, deleteEntity: any }) {
   const intl = useIntl();
   const [state, setState] = useState<string | null | undefined>(null);
   const [city, setCity] = useState<string | null | undefined>(null);
   useEffect(() => {
-    setState(entity?.state);
-    setCity(entity?.city);
-  }, [entity]);
+    setState(editEntity?.state);
+    setCity(editEntity?.city);
+  }, [editEntity]);
   const getCity = useCallback(({queryProps, paginationProps}: any): Promise<any> => {
-    console.log(state);
     return GetCity({queryProps: {...queryProps, state}, paginationProps})
   }, [state]);
   const getDistrict = useCallback(({queryProps, paginationProps}: any): Promise<any> => {
-    console.log(city);
     return GetDistrict({queryProps: {...queryProps, city}, paginationProps})
   }, [city]);
   const [group1, setGroup1] = useState<ModifyInputGroup>({
@@ -88,7 +51,8 @@ export function AgencyShippingAddress({entity} : any) {
       _type: 'search-select',
       onSearch: GetState,
       onChange: (value: any, {setFieldValue, setFieldTouched}: any) => {
-        if (state != value) {
+        console.log(state, value);
+        if (!value || state != value) {
           setCity(null);
           setFieldValue('city', '');
           setFieldTouched('city', false);
@@ -106,7 +70,7 @@ export function AgencyShippingAddress({entity} : any) {
       // selectField: 'code',
       required: true,
       onChange: (value: any, {setFieldValue, setFieldTouched}: any) => {
-        if (city != value) {
+        if (!value || city != value) {
           setFieldValue('district', '');
           setFieldTouched('district', false);
         }
@@ -127,7 +91,7 @@ export function AgencyShippingAddress({entity} : any) {
       },
       label: 'AGENCY.MODIFY.SHIPPING_ADDRESS.DISTRICT',
     },
-    detailAddress: {
+    address: {
       _type: 'string',
       required: true,
       label: 'AGENCY.MODIFY.SHIPPING_ADDRESS.ADDRESS',
@@ -143,35 +107,56 @@ export function AgencyShippingAddress({entity} : any) {
   const updateForm = useMemo((): ModifyForm => {
     return ({...createForm, _header: updateTitle});
   }, [createForm]);
-  const [createEntity,setCreateEntity] = useState({});
-  return(<Fragment>
-    <button type="button" className="btn btn-primary" onClick={() => {
-      setShowCreate(true);
-    }}>
-      <AddIcon style={iconStyle}/>
-      {intl.formatMessage({id: 'AGENCY.MODIFY.ADD_SHIPPING_ADDRESS'})}
-    </button>
+  const [_create, setShowCreate] = useState(showCreate?.show);
+  useEffect(() => {
+    setShowCreate(showCreate?.show);
+  }, [showCreate]);
+  
+  const [_update, setShowUpdate] = useState(showEdit?.show);
+  useEffect(() => {
+    console.log(showEdit);
+    setShowUpdate(showEdit?.show);
+  }, [showEdit]);
+  
+  const [_delete, setShowDelete] = useState(showDelete?.show);
+  useEffect(() => {
+    console.log(showDelete);
+    setShowDelete(showDelete?.show);
+  }, [showDelete]);
+  return (<Fragment>
+    {/*<button type="button" className="btn btn-primary" onClick={() => {*/}
+    {/*  setShowCreate(true);*/}
+    {/*}}>*/}
+    {/*  <AddIcon style={iconStyle}/>*/}
+    {/*  {intl.formatMessage({id: 'AGENCY.MODIFY.ADD_SHIPPING_ADDRESS'})}*/}
+    {/*</button>*/}
     <ModifyEntityDialog
+      moduleName={moduleName}
       formModel={createForm}
-      show={showCreate}
-      entity={createEntity}
-      onModify={() => {
-        console.log(1)}}
+      show={_create}
+      onModify={onCreate}
       onHide={() => {
         setShowCreate(false);
       }}
     />
     <ModifyEntityDialog
+      moduleName={moduleName}
       formModel={updateForm}
-      show={showEdit}
+      show={_update}
       entity={editEntity}
-      onModify={(...add) => {
-        console.log(add)}}
+      onModify={onEdit}
       onHide={() => {
-        setShowEdit(false);
+        setShowUpdate(false);
       }}
-      loading={loading}
     />
-
+    <DeleteEntityDialog
+      moduleName={moduleName}
+      entity={deleteEntity}
+      onDelete={onDelete}
+      isShow={_delete}
+      onHide={() => {
+        setShowDelete(false);
+      }}
+    />
   </Fragment>)
 }

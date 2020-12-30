@@ -10,7 +10,7 @@ import {ModifyEntityPage} from './modify-entity-page';
 import {InitValues} from "../helpers/common-function";
 
 function ModifyEntityDialogForm<T>({
-                                     entity = {},
+                                     entity,
                                      onModify,
                                      moduleName = 'COMMON_COMPONENT.CREATE_UPDATE.MODULE_NAME',
                                      onHide,
@@ -41,7 +41,7 @@ function ModifyEntityDialogForm<T>({
       initialValues={entityForEdit}
       validationSchema={validation}
       onSubmit={(values, {setSubmitting}) => {
-        console.log(values);
+        // console.log(values);
         onModify(
           {...entity, ...values, __v: undefined},
           () => {

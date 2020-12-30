@@ -39,7 +39,6 @@ function ModifyEntityDialog<T>({
       dialogClassName="modal-modify"
       // style={{width}}
     >
-      {}
       <Modal.Header closeButton className="border-bottom-0">
         <Modal.Title id="example-modal-sizes-title-lg" className="text-primary">
           {intl
@@ -48,7 +47,6 @@ function ModifyEntityDialog<T>({
         </Modal.Title>
       </Modal.Header>
       {Object.values(panels).map((panel, index) => {
-        console.log(panel)
         if(_.isString(panel)) throw new Error('Sử dụng sai cách ' + panel);
         return (<ModifyEntityDialogForm
           modifyPanel={panel}
