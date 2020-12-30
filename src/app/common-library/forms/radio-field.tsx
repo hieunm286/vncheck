@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import './custom.css';
 import {DisplayError} from './field-feedback-label';
 import {ErrorMessage, useField, useFormikContext} from 'formik';
@@ -24,23 +24,32 @@ export function RadioField({
                              onChange,
                              type,
                              optionsClassName,
+                             value,
                              ...props
                            }: InputRadioType) {
-  const {setFieldValue, handleChange, values, handleBlur} = useFormikContext<any>();
+  const {setFieldValue, handleChange, values, handleBlur, setFieldTouched} = useFormikContext<any>();
+ 
+  const getValue = useCallback((value: any, fieldValue: any)=>{
+    return value? _.isFunction(value) ? value(fieldValue) : value : fieldValue;
+  },[]);
   const validate = useCallback((value: any): string | void => {
-    if (required && (value === null || value === '')) return 'RADIO.ERROR.REQUIRED';
-  }, []);
+    if (required && !getValue) return 'RADIO.ERROR.REQUIRED';
+  }, [getValue]);
   const [field] = useField({
     validate,
     name,
     disabled: disabled ? typeof disabled === 'boolean' ? disabled : disabled(values) : disabled,
     required: required ? typeof required === 'boolean' ? required : required(values) : required
   });
-  const [_innerOptions, setInnerOptions] = useState(options);
+  const _innerValue = useMemo(()=>{
+    console.log(value,field.value)
+    return getValue(value,field.value)
+  },[field.value]);
+  const [_innerOptions, setInnerOptions] = useState<any[]>([]);
   useEffect(() => {
     if (_.isArray(options)) setInnerOptions(options);
-    else setInnerOptions(options(values));
-  }, [options]);
+    else setInnerOptions(options({field, values, setFieldValue, setFieldTouched}));
+  }, [field.value]);
   const intl = useIntl();
   return (
     <>
@@ -58,10 +67,17 @@ export function RadioField({
             {...props}
             {...field}
             name={name}
-            value={field.value ?? null}
+            value={_innerValue ?? null}
             onChange={(e) => {
-              handleChange(e)
-              onChange && onChange(e, {setFieldValue, values})
+              // handleChange(e)
+              console.log(e.target.value)
+              if(_.isFunction(value)){
+                // setFieldValue(name,e.target.value);
+              }  else {
+                handleChange(e);
+              }
+              setFieldTouched(name,true);
+              onChange && onChange(e, {setFieldValue, values});
               // setTouched(field.name, true)
             }}
             onBlur={handleBlur}
@@ -69,7 +85,7 @@ export function RadioField({
             <div className={'row no-gutters'}>
               {_innerOptions.map((val, index, arr) => {
                 return (<FormControlLabel className={optionsClassName} value={val.value} control={<StyledRadio/>}
-                                          key={`radio_${name}_${val.value}`}
+                                          key={`radio_${name}_${index}_${JSON.stringify(val.value)}`}
                                           label={_.isString(val.label) ?
                                             intl.formatMessage({id: val.label}) : val.label({
                                               setFieldValue,
