@@ -106,7 +106,7 @@ function ProductPackaging() {
       classes: 'text-center',
     },
     name: {
-      dataField: 'species',
+      dataField: 'species.name',
       text: `${intl.formatMessage({id: 'PRODUCT_PACKAGING.MASTER.TABLE.NAME_COLUMN'})}`,
       ...SortColumn,
       formatter: (cell: any, row: any, rowIndex: any) => {
