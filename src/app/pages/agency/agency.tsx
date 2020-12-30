@@ -474,18 +474,18 @@ function AgencyPage() {
           },
           onChange: (e: any, {setFieldValue, values}: any) => {
             const addresses = values['shippingAddress'];
-            setFieldValue('shippingAddress', addresses.map((addr:any) => ({
+            setFieldValue('shippingAddress', addresses.map((addr: any) => ({
               ...addr,
               isDefault: addr._id === e.target.value
             })));
           },
           options: ({field, values, setFieldValue, setFieldTouched}: any) => {
-            return field.value ? field.value.map(((t: any, index: number) => {
+            return field.value ? field.value.map(((address: any, index: number) => {
               return {
                 label: ({setFieldValue, handleChange, values, handleBlur}: any) => {
                   return (<div>
                     <div className={'pr-23'} style={{display: 'inline-block'}}>
-                      {`${t.address}, ${t.district}, ${t.city}, ${t.state}`}
+                      {`${address.address}, ${address.district}, ${address.city}, ${address.state}`}
                     </div>
                     <span style={{position: 'absolute', right: 0, top: 'calc(50% - 15px)'}}>
                     {ActionsColumnFormatter(index, {field, values, setFieldValue, setFieldTouched}, 1,
@@ -496,7 +496,7 @@ function AgencyPage() {
                       })}
                   </span>
                   </div>)
-                }, value: t._id
+                }, value: address._id
               }
             })) : []
           }
