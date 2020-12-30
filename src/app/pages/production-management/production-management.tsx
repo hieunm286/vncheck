@@ -15,15 +15,17 @@ import * as ProductionPlanService from '../production-plan/production-plan.servi
 import { ProductionPlanModel } from '../production-plan/production-plant.model';
 import { MasterTable } from '../../common-library/common-components/master-table';
 import _ from 'lodash';
+import { MasterEntityDetailPage } from '../../common-library/common-components/master-detail-page';
+import { harvestingDetail, PreliminaryTreatmentDetail, CleaningDetail, PackingDetail, PreservationDetail } from './defined/const';
 
 const { Step } = Steps;
 
-const productPlanCode = 'PRODUCTION_PLAN.CODE'
-const harvestingCode = 'PRODUCTION_PLAN.HARVESTING_CODE'
-const preliminaryTreatmentCode = 'PRODUCTION_PLAN.PreliminaryTreatment_CODE'
-const cleaningCode = 'PRODUCTION_PLAN.CLEANING.CODE'
-const packingCode = 'PRODUCTION_PLAN.PACKING.CODE'
-const preservationCode = 'PRODUCTION_PLAN.PACKING.CODE'
+const productPlanCode = 'PRODUCTION_PLAN.CODE';
+const harvestingCode = 'PRODUCTION_PLAN.HARVESTING_CODE';
+const preliminaryTreatmentCode = 'PRODUCTION_PLAN.PreliminaryTreatment_CODE';
+const cleaningCode = 'PRODUCTION_PLAN.CLEANING.CODE';
+const packingCode = 'PRODUCTION_PLAN.PACKING.CODE';
+const preservationCode = 'PRODUCTION_PLAN.PACKING.CODE';
 
 const extendSearchField = {
   species: {
@@ -43,7 +45,7 @@ const extendSearchField = {
     name: 'planting.estimatedHarvestTime',
     label: <Fix title={'PRODUCTION_PLAN.HARVEST_DATE'} />,
   },
-}
+};
 
 const PM_HarvestingSearchModel: SearchModel = {
   plCode: {
@@ -90,7 +92,7 @@ const PM_PreliminaryTreatmentSearchModel: SearchModel = {
     type: 'string',
     label: preliminaryTreatmentCode,
   },
-  ...extendSearchField as any
+  ...(extendSearchField as any),
 };
 
 const PM_CleaningSearchModel: SearchModel = {
@@ -110,7 +112,7 @@ const PM_CleaningSearchModel: SearchModel = {
     type: 'string',
     label: cleaningCode,
   },
-  ...extendSearchField as any
+  ...(extendSearchField as any),
 };
 
 const PM_PackingSearchModel: SearchModel = {
@@ -134,7 +136,7 @@ const PM_PackingSearchModel: SearchModel = {
     type: 'string',
     label: 'PRODUCTION_PLAN.PACKING.CODE',
   },
-  ...extendSearchField as any
+  ...(extendSearchField as any),
 };
 
 const PM_PreservationSearchModel: SearchModel = {
@@ -162,8 +164,7 @@ const PM_PreservationSearchModel: SearchModel = {
     type: 'string',
     label: preservationCode,
   },
-  ...extendSearchField as any
-  
+  ...(extendSearchField as any),
 };
 
 function ProductionManagement() {
@@ -239,8 +240,8 @@ function ProductionManagement() {
       classes: 'text-center',
       headerClasses: 'text-center',
     },
-  }
-  
+  };
+
   const harvestingColumns = {
     _id: {
       dataField: '_id',
@@ -283,7 +284,7 @@ function ProductionManagement() {
     },
     landlot: {
       dataField: 'planting.landLot',
-      text: `${intl.formatMessage({ id: 'landlot' })}`,
+      text: `${intl.formatMessage({ id: 'PLANTING_LAND_LOT' })}`,
       ...SortColumn,
       classes: 'text-center',
       headerClasses: 'text-center',
@@ -321,7 +322,9 @@ function ProductionManagement() {
       dataField: 'preliminaryTreatment.code',
       text: `${intl.formatMessage({ id: preliminaryTreatmentCode })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
-        <Link to={`/production-management/preliminaryTreatment/${row._id}`}>{row.preliminaryTreatment.code}</Link>
+        <Link to={`/production-management/preliminaryTreatment/${row._id}`}>
+          {row.code}
+        </Link>
       ),
       ...SortColumn,
       classes: 'text-center',
@@ -332,15 +335,16 @@ function ProductionManagement() {
       text: `${intl.formatMessage({ id: 'PRODUCTION_MANAGEMENT.preliminaryTreatment.TIME' })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
         <span>
-          {row.preliminaryTreatment.createdAt ? new Intl.DateTimeFormat('en-GB').format(new Date(row.preliminaryTreatment.createdAt)) : 'Không có thông tin'}
+          {row.preliminaryTreatment.createdAt
+            ? new Intl.DateTimeFormat('en-GB').format(new Date(row.preliminaryTreatment.createdAt))
+            : 'Không có thông tin'}
         </span>
       ),
       ...SortColumn,
       classes: 'text-center',
       headerClasses: 'text-center',
     },
-
-  }
+  };
 
   const cleaningColumns = {
     _id: {
@@ -373,7 +377,9 @@ function ProductionManagement() {
       dataField: 'preliminaryTreatment.code',
       text: `${intl.formatMessage({ id: preliminaryTreatmentCode })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
-        <Link to={`/production-management/preliminaryTreatment/${row._id}`}>{row.preliminaryTreatment.code}</Link>
+        <Link to={`/production-management/preliminaryTreatment/${row._id}`}>
+          {row.code}
+        </Link>
       ),
       ...SortColumn,
       classes: 'text-center',
@@ -382,7 +388,7 @@ function ProductionManagement() {
       dataField: 'cleaning.code',
       text: `${intl.formatMessage({ id: cleaningCode })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
-        <Link to={`/production-management/cleaning/${row._id}`}>{row.cleaning.code}</Link>
+        <Link to={`/production-management/cleaning/${row._id}`}>{row.code}</Link>
       ),
       ...SortColumn,
       classes: 'text-center',
@@ -393,14 +399,16 @@ function ProductionManagement() {
       text: `${intl.formatMessage({ id: 'PRODUCTION_MANAGEMENT.CLEANING.TIME' })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
         <span>
-          {row.cleaning.createdAt ? new Intl.DateTimeFormat('en-GB').format(new Date(row.cleaning.createdAt)) : 'Không có thông tin'}
+          {row.cleaning.createdAt
+            ? new Intl.DateTimeFormat('en-GB').format(new Date(row.cleaning.createdAt))
+            : 'Không có thông tin'}
         </span>
       ),
       ...SortColumn,
       classes: 'text-center',
       headerClasses: 'text-center',
     },
-  }
+  };
 
   const packingColumns = {
     _id: {
@@ -433,7 +441,9 @@ function ProductionManagement() {
       dataField: 'preliminaryTreatment.code',
       text: `${intl.formatMessage({ id: preliminaryTreatmentCode })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
-        <Link to={`/production-management/preliminaryTreatment/${row._id}`}>{row.preliminaryTreatment.code}</Link>
+        <Link to={`/production-management/preliminaryTreatment/${row._id}`}>
+          {row.code}
+        </Link>
       ),
       ...SortColumn,
       classes: 'text-center',
@@ -442,7 +452,7 @@ function ProductionManagement() {
       dataField: 'cleaning.code',
       text: `${intl.formatMessage({ id: cleaningCode })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
-        <Link to={`/production-management/cleaning/${row._id}`}>{row.cleaning.code}</Link>
+        <Link to={`/production-management/cleaning/${row._id}`}>{row.code}</Link>
       ),
       ...SortColumn,
       classes: 'text-center',
@@ -451,7 +461,7 @@ function ProductionManagement() {
       dataField: 'packing.code',
       text: `${intl.formatMessage({ id: packingCode })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
-        <Link to={`/production-management/packing/${row._id}`}>{row.packing.code}</Link>
+        <Link to={`/production-management/packing/${row._id}`}>{row.code}</Link>
       ),
       ...SortColumn,
       classes: 'text-center',
@@ -461,12 +471,12 @@ function ProductionManagement() {
       dataField: 'packing.packing.weight',
       text: `${intl.formatMessage({ id: 'PRODUCT_PACKAGING.MODULE_NAME' })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
-        <span>{row.packing.packing ? row.packing.packing.weight : "Chưa có thông tin"}</span>
+        <span>{row.packing.packing ? row.packing.packing.weight : 'Chưa có thông tin'}</span>
       ),
       ...SortColumn,
-      classes: 'text-center', 
-    }
-  }
+      classes: 'text-center',
+    },
+  };
 
   const preservationColumns = {
     _id: {
@@ -499,7 +509,9 @@ function ProductionManagement() {
       dataField: 'preliminaryTreatment.code',
       text: `${intl.formatMessage({ id: preliminaryTreatmentCode })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
-        <Link to={`/production-management/preliminaryTreatment/${row._id}`}>{row.preliminaryTreatment.code}</Link>
+        <Link to={`/production-management/preliminaryTreatment/${row._id}`}>
+          {row.preliminaryTreatment.code}
+        </Link>
       ),
       ...SortColumn,
       classes: 'text-center',
@@ -526,7 +538,7 @@ function ProductionManagement() {
       dataField: 'preservation.code',
       text: `${intl.formatMessage({ id: packingCode })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
-        <Link to={`/production-management/preservation/${row._id}`}>{row.preservation.code}</Link>
+        <Link to={`/production-management/preservation/${row._id}`}>{row.code}</Link>
       ),
       ...SortColumn,
       classes: 'text-center',
@@ -557,8 +569,8 @@ function ProductionManagement() {
       ...SortColumn,
       classes: 'text-center',
       headerClasses: 'text-center',
-    }
-  }
+    },
+  };
 
   const stepData = [
     {
@@ -602,11 +614,86 @@ function ProductionManagement() {
     if (currentStep === 2) return cleaningColumns;
     if (currentStep === 3) return packingColumns;
     return preservationColumns;
-  }, [currentStep])
+  }, [currentStep]);
 
   return (
     <React.Fragment>
       <Switch>
+        <Route exact path="/production-management/harvesting/:code">
+          {({ history, match }) => (
+            <MasterEntityDetailPage
+              entity={history.location.state}
+              renderInfo={harvestingDetail}
+              code={match && match.params.code}
+              get={code => ProductionPlanService.GetById(code)}
+              onClose={() => {
+                setShowDetail(false);
+              }}
+              mode="line"
+              title="THÔNG TIN THU HOẠCH"
+            />
+          )}
+        </Route>
+        <Route exact path="/production-management/preliminaryTreatment/:code">
+          {({ history, match }) => (
+            <MasterEntityDetailPage
+              entity={history.location.state}
+              renderInfo={PreliminaryTreatmentDetail}
+              code={match && match.params.code}
+              get={code => ProductionPlanService.GetById(code)}
+              onClose={() => {
+                setShowDetail(false);
+              }}
+              mode="line"
+              title="THÔNG TIN THU HOẠCH"
+            />
+          )}
+        </Route>
+        <Route exact path="/production-management/cleaning/:code">
+          {({ history, match }) => (
+            <MasterEntityDetailPage
+              entity={history.location.state}
+              renderInfo={CleaningDetail}
+              code={match && match.params.code}
+              get={code => ProductionPlanService.GetById(code)}
+              onClose={() => {
+                setShowDetail(false);
+              }}
+              mode="line"
+              title="THÔNG TIN THU HOẠCH"
+            />
+          )}
+        </Route>
+        <Route exact path="/production-management/packing/:code">
+          {({ history, match }) => (
+            <MasterEntityDetailPage
+              entity={history.location.state}
+              renderInfo={PackingDetail}
+              code={match && match.params.code}
+              get={code => ProductionPlanService.GetById(code)}
+              onClose={() => {
+                setShowDetail(false);
+              }}
+              mode="line"
+              title="THÔNG TIN THU HOẠCH"
+            />
+          )}
+        </Route>
+        <Route exact path="/production-management/preservation/:code">
+          {({ history, match }) => (
+            <MasterEntityDetailPage
+              entity={history.location.state}
+              renderInfo={PreservationDetail}
+              code={match && match.params.code}
+              get={code => ProductionPlanService.GetById(code)}
+              onClose={() => {
+                setShowDetail(false);
+              }}
+              mode="line"
+              title="THÔNG TIN THU HOẠCH"
+            />
+          )}
+        </Route>
         <Route path="/production-management">
           <div className="bg-white pm-header pt-10">
             <Card className="card-step">
@@ -624,23 +711,22 @@ function ProductionManagement() {
               }}
               searchModel={getSearchModel()}
             />
-            
           </div>
           <Card>
-              <CardBody>
-                <MasterTable
-                  entities={entities}
-                  columns={getTableColumn()}
-                  total={total}
-                  loading={loading}
-                  paginationParams={paginationProps}
-                  setPaginationParams={setPaginationProps}
-                  onSelectMany={setSelectedEntities}
-                  selectedEntities={selectedEntities}
-                  removeSelectRow
-                />
-              </CardBody>
-            </Card>
+            <CardBody>
+              <MasterTable
+                entities={entities}
+                columns={getTableColumn()}
+                total={total}
+                loading={loading}
+                paginationParams={paginationProps}
+                setPaginationParams={setPaginationProps}
+                onSelectMany={setSelectedEntities}
+                selectedEntities={selectedEntities}
+                removeSelectRow
+              />
+            </CardBody>
+          </Card>
         </Route>
       </Switch>
     </React.Fragment>

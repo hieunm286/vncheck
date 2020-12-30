@@ -1303,6 +1303,9 @@ export const halfValidate = {
   estimatedHarvestTime: Yup.mixed(),
   expectedQuantity: Yup.number(),
   technical: Yup.array().test('oneOfRequired', 'INPUT_ALL', function (value: any) {
+    console.log(this.schema)
+    console.log(this.path)
+    console.log(this.options)
     return (
       (this.parent.leader.length > 0 &&
         this.parent.expectedQuantity > 0 &&
