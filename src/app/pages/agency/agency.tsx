@@ -485,10 +485,10 @@ function AgencyPage() {
           },
           onChange: (e: any, {setFieldValue, values}: any) => {
             const addresses = values['shippingAddress'];
-            setFieldValue('shippingAddress', addresses.map((addr: any) => ({
+            setFieldValue('shippingAddress', [...addresses.map((addr: any) => ({
               ...addr,
               isDefault: JSON.stringify(addr) === e.target.value
-            })));
+            }))]);
           },
           options: ({field, values, setFieldValue, setFieldTouched}: any) => {
             return field.value ? field.value.map(((address: any, index: number) => {

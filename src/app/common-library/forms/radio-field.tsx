@@ -72,11 +72,11 @@ export function RadioField({
             name={name}
             value={_innerValue ?? null}
             onChange={(e) => {
-              onChange && onChange(e, {setFieldValue, values});
               if (_.isFunction(value)) {
-                setFieldValue(name,field.value);
                 setFieldTouched(name, true);
+                onChange && onChange(e, {setFieldValue, setFieldTouched, values});
               } else {
+                onChange && onChange(e, {setFieldValue, setFieldTouched, values});
                 handleChange(e);
               }
             }}
