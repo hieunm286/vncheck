@@ -57,29 +57,6 @@ export const MenuItems: MenuItemModel[] = [
         // icon: <ImageOutlinedIcon style={{ width: '17px' }} htmlColor="#888C9F" />,
         icon: 'land-lot.svg',
       },
-      // {
-      //   title: 'MENU.DATA.CATEGORY',
-      //   url: '/category',
-      //   icon: 'product.svg',
-      //   children: [
-      //     {
-      //       title: 'MENU.DATA.CATEGORY.PRODUCT',
-      //       url: '/category/PRODUCT',
-      //       icon: <FormatListBulletedIcon style={{ width: '17px' }} htmlColor="#888C9F" />,
-      //     },
-      //     { title: 'MENU.DATA.CATEGORY.CATEGORY', url: '/category/CATEGORY', icon: 'category.svg' },
-      //     {
-      //       title: 'MENU.DATA.CATEGORY.BASE_UNIT',
-      //       url: '/category/basic-unit',
-      //       icon: 'base-unit.svg',
-      //     },
-      //     {
-      //       title: 'MENU.DATA.CATEGORY.CONVERT_UNIT',
-      //       url: '/category/CONVERT_UNIT',
-      //       icon: <SyncOutlinedIcon htmlColor="#888C9F" />,
-      //     },
-      //   ],
-      // },
       {
         title: 'MENU.DATA.PRODUCT',
         url: '/product',
@@ -121,24 +98,9 @@ export const MenuItems: MenuItemModel[] = [
       },
     ],
   },
-  {
-    // section: true,
-    parent: true,
-    title: 'MENU.QRCODE',
-    url: '/acount/user',
-    icon: 'distributor-1.svg',
-    children: [
-      {
-        url: '/purchase-order',
-        title: 'MENU.PURCHASE_ORDER.PURCHASE_ORDER',
-        icon: 'distributor-type.svg',
-      },
-    ],
-  },
   {parent: true, title: 'MENU.PRODUCT_PLANT', url: '/production-plan'},
-  
-  
   {parent: true, title: 'MENU.REPORT'},
   {parent: true, title: 'MENU.PRODUCT_MANAGEMENT', url: '/production-management'},
+  {parent: true, title: 'MENU.QRCODE', url: '/qr',},
   {parent: true, title: 'MENU.INVENTORY'},
 ];

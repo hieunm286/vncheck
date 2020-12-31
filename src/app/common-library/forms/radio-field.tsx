@@ -44,7 +44,7 @@ export function RadioField({
     setValidate(() => (val: any): string | void => {
       if (required && !getValue(value, val)) return 'RADIO.ERROR.REQUIRED';
     });
-  }, [getValue, field.value])
+  }, [getValue, value])
   const _innerValue = useMemo(() => {
     return getValue(value, field.value)
   }, [field.value]);

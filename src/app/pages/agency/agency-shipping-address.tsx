@@ -10,11 +10,11 @@ import ModifyEntityDialog from "../../common-library/common-components/modify-en
 const headerTitle = 'AGENCY.MASTER.HEADER.TITLE';
 const tableTitle = 'SHIPPING_AGENCY.MASTER.TABLE.TITLE';
 const detailDialogTitle = 'SHIPPING_AGENCY.DETAIL_DIALOG.TITLE';
-const moduleName = 'AGENCY.MODULE_NAME';
-const deleteDialogTitle = 'SHIPPING_AGENCY.DELETE_DIALOG.TITLE';
+const moduleName = 'AGENCY.MODIFY.SHIPPING_ADDRESS.MODULE_NAME';
 const deleteDialogBodyTitle = 'SHIPPING_AGENCY.DELETE_DIALOG.BODY_TITLE';
-const createTitle = 'SHIPPING_AGENCY.CREATE.HEADER';
-const updateTitle = 'SHIPPING_AGENCY.UPDATE.HEADER';
+const createTitle = 'AGENCY.MODIFY.SHIPPING_ADDRESS.CREATE_TITLE';
+const updateTitle = 'AGENCY.MODIFY.SHIPPING_ADDRESS.UPDATE_TITLE';
+const deleteDialogTitle = 'AGENCY.MODIFY.SHIPPING_ADDRESS.DELETE_TITLE';
 
 // const createTitle = 'PURCHASE_ORDER.CREATE.TITLE';
 // const updateTitle = 'PURCHASE_ORDER.UPDATE.TITLE';
@@ -51,7 +51,7 @@ export function AgencyShippingAddress({
       _type: 'search-select',
       onSearch: GetState,
       onChange: (value: any, {setFieldValue, setFieldTouched}: any) => {
-        console.log(state, value);
+        // console.log(state, value);
         if (!value || state != value) {
           setCity(null);
           setFieldValue('city', '');
@@ -114,22 +114,16 @@ export function AgencyShippingAddress({
   
   const [_update, setShowUpdate] = useState(showEdit?.show);
   useEffect(() => {
-    console.log(showEdit);
+    // console.log(showEdit);
     setShowUpdate(showEdit?.show);
   }, [showEdit]);
   
   const [_delete, setShowDelete] = useState(showDelete?.show);
   useEffect(() => {
-    console.log(showDelete);
+    // console.log(showDelete);
     setShowDelete(showDelete?.show);
   }, [showDelete]);
   return (<Fragment>
-    {/*<button type="button" className="btn btn-primary" onClick={() => {*/}
-    {/*  setShowCreate(true);*/}
-    {/*}}>*/}
-    {/*  <AddIcon style={iconStyle}/>*/}
-    {/*  {intl.formatMessage({id: 'AGENCY.MODIFY.ADD_SHIPPING_ADDRESS'})}*/}
-    {/*</button>*/}
     <ModifyEntityDialog
       moduleName={moduleName}
       formModel={createForm}
@@ -151,6 +145,7 @@ export function AgencyShippingAddress({
     />
     <DeleteEntityDialog
       moduleName={moduleName}
+      title={deleteDialogTitle}
       entity={deleteEntity}
       onDelete={onDelete}
       isShow={_delete}

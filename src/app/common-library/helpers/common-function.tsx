@@ -20,6 +20,16 @@ import {useIntl} from "react-intl";
 export const CapitalizeFirstLetter = (string: string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
 };
+
+export const DisplayTime = ({value}: { value: string }) => {
+  const intl = useIntl();
+  return (<span>
+          {value
+            ? new Intl.DateTimeFormat('en-GB').format(new Date(value))
+            : intl.formatMessage({id: 'NO_INFORMATION'})}
+        </span>)
+}
+
 const _initValues = ({inputs}: any): any => {
   return Object.keys(inputs).reduce((pre, key, k, o) => {
     const input = inputs[key];

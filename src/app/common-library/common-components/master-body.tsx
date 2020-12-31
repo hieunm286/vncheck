@@ -29,7 +29,7 @@ export function MasterBody<T>({
                                 setPaginationParams,
                                 onSelectMany,
                                 onCreate,
-                                selectedEntities,
+                                selectedEntities = [],
                                 columns,
                                 onDeleteMany,
                                 isShowId,
@@ -37,14 +37,14 @@ export function MasterBody<T>({
                               }: {
   total: number;
   loading: boolean;
-  onSelectMany: (entities: T[]) => void;
+  onSelectMany?: (entities: T[]) => void;
   onCreate: () => void;
   columns: MasterBodyColumns;
   entities: T[];
-  selectedEntities: T[];
+  selectedEntities?: T[];
   paginationParams: PaginationProps;
   setPaginationParams: (data: PaginationProps) => void;
-  onDeleteMany: () => void;
+  onDeleteMany?: () => void;
   isShowId?: boolean;
   title?: string;
 }) {
@@ -76,16 +76,16 @@ export function MasterBody<T>({
               <AddIcon style={iconStyle}/>
               {intl.formatMessage({id: 'COMMON_COMPONENT.MASTER_BODY.HEADER.ADD_BTN'})}
             </button>
-            <button
-              type="button"
-              className="btn btn-outline-primary fixed-btn-width"
-              onClick={() => {
-                onSelectMany(selectedEntities);
-                onDeleteMany();
-              }}>
-              <DeleteOutlineOutlinedIcon style={iconStyle}/>
-              {intl.formatMessage({id: 'COMMON_COMPONENT.MASTER_BODY.HEADER.DELETE_BTN'})}
-            </button>
+          {onDeleteMany && <button
+            type="button"
+            className="btn btn-outline-primary fixed-btn-width"
+            onClick={() => {
+              onSelectMany && onSelectMany(selectedEntities);
+              onDeleteMany();
+            }}>
+            <DeleteOutlineOutlinedIcon style={iconStyle}/>
+            {intl.formatMessage({id: 'COMMON_COMPONENT.MASTER_BODY.HEADER.DELETE_BTN'})}
+          </button>}
         </div>
         
         <MasterTable

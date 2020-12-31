@@ -1,39 +1,35 @@
 import React from 'react';
-import BootstrapTable, { ColumnDescription, RowSelectionType } from 'react-bootstrap-table-next';
-import paginationFactory, { PaginationProvider } from 'react-bootstrap-table2-paginator';
-import {
-  NoRecordsFoundMessage,
-  onTableChange,
-  PleaseWaitMessage,
-} from '../helpers/pagination-helper';
+import BootstrapTable, {RowSelectionType} from 'react-bootstrap-table-next';
+import paginationFactory, {PaginationProvider} from 'react-bootstrap-table2-paginator';
+import {NoRecordsFoundMessage, onTableChange, PleaseWaitMessage,} from '../helpers/pagination-helper';
 import './master-table.scss';
-import { SizePerPageList, SortDefault } from '../common-consts/const';
-import { SelectionCheckbox } from './table-row-selection-helpers';
+import {SizePerPageList, SortDefault} from '../common-consts/const';
+import {SelectionCheckbox} from './table-row-selection-helpers';
 import {MasterBodyColumns, PaginationProps} from '../common-types/common-type';
-import { Pagination } from '../pagination/pagination';
+import {Pagination} from '../pagination/pagination';
 import isEqual from 'react-fast-compare';
 
 export function GetSelectRow<T>({
-  entities,
-  selectedEntities,
-  onSelectMany,
-}: {
+                                  entities,
+                                  selectedEntities,
+                                  onSelectMany,
+                                }: {
   entities: T[];
   selectedEntities: T[];
   onSelectMany: (entities: T[]) => void;
 }) {
   return {
-
+    
     mode: 'checkbox' as RowSelectionType,
     clickToSelect: true,
     hideSelectAll: false,
-
+    
     selectionHeaderRenderer: () => {
       const isSelected =
         selectedEntities &&
         selectedEntities.length > 0 &&
         selectedEntities.length === entities.length;
-        
+      
       return (
         <SelectionCheckbox
           isFirstRow={true}
@@ -48,7 +44,7 @@ export function GetSelectRow<T>({
         />
       );
     },
-    selectionRenderer: ({ rowIndex }: { rowIndex: number }) => {
+    selectionRenderer: ({rowIndex}: { rowIndex: number }) => {
       const isSelected =
         selectedEntities && selectedEntities.some(entity => isEqual(entity, entities[rowIndex]));
       return (
@@ -68,20 +64,20 @@ export function GetSelectRow<T>({
 }
 
 export function MasterTable<T>({
-  entities,
-  selectedEntities,
-  total,
-  loading,
-  paginationParams,
-  setPaginationParams,
-  onSelectMany,
-  columns,
-  removeSelectRow,
-  selectColumnPosition = "left"
-}: {
+                                 entities,
+                                 selectedEntities,
+                                 total,
+                                 loading,
+                                 paginationParams,
+                                 setPaginationParams,
+                                 onSelectMany,
+                                 columns,
+                                 removeSelectRow,
+                                 selectColumnPosition = "left"
+                               }: {
   total: number;
   loading: boolean;
-  onSelectMany: (entities: T[]) => void;
+  onSelectMany?: (entities: T[]) => void;
   selectedEntities: T[];
   columns: MasterBodyColumns;
   entities: T[];
@@ -97,17 +93,17 @@ export function MasterTable<T>({
     sizePerPage: paginationParams.limit,
     page: paginationParams.page,
     onSizePerPageChange: (page: number, sizePerPage: number) => {
-      setPaginationParams({ ...paginationParams, page: 1, limit: sizePerPage });
-      onSelectMany([])
+      setPaginationParams({...paginationParams, page: 1, limit: sizePerPage});
+      onSelectMany && onSelectMany([])
     },
     onPageChange: (page: number) => {
-      setPaginationParams({ ...paginationParams, page });
-      onSelectMany([])
+      setPaginationParams({...paginationParams, page});
+      onSelectMany && onSelectMany([])
     },
   };
   return (
     <PaginationProvider pagination={paginationFactory(paginationOptions)}>
-      {({ paginationProps, paginationTableProps }) => {
+      {({paginationProps, paginationTableProps}) => {
         return (
           <Pagination isLoading={loading} paginationProps={paginationProps}>
             <BootstrapTable
@@ -121,15 +117,16 @@ export function MasterTable<T>({
               data={entities}
               columns={Object.values(columns)}
               defaultSorted={SortDefault as any}
-              selectRow={removeSelectRow ? undefined : { ...GetSelectRow({
-                entities: entities,
-                selectedEntities: selectedEntities,
-                onSelectMany: onSelectMany,
-              }), selectColumnPosition: selectColumnPosition
-            }}
+              selectRow={(removeSelectRow || onSelectMany == null) ? undefined : {
+                ...GetSelectRow({
+                  entities: entities,
+                  selectedEntities: selectedEntities,
+                  onSelectMany: onSelectMany,
+                }), selectColumnPosition: selectColumnPosition
+              }}
               onTableChange={onTableChange(setPaginationParams, paginationParams)}>
-              <PleaseWaitMessage entities={entities} />
-              <NoRecordsFoundMessage entities={entities} />
+              <PleaseWaitMessage entities={entities}/>
+              <NoRecordsFoundMessage entities={entities}/>
             </BootstrapTable>
           </Pagination>
         );
