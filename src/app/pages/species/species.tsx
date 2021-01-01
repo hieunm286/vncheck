@@ -212,7 +212,7 @@ function Species() {
         image: {
           formatter: data => (
             <img
-              src={data ? data.path : ''}
+              src={data ? (data.thumbnail ?? data.path) : ''}
               alt="rau"
               className="border border-primary"
               width="200px"

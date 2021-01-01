@@ -65,21 +65,22 @@ export function MasterEntityDetail({
   return entity ? (
     <Modal.Body>
       <div className={`row`}>
-      {renderInfo.map((value: any, key: any) => (
+        {renderInfo.map((value: any, key: any) => (
           <div key={key} className={`${value.className ?? 'col-12'}`}>
             {value.header && value.header !== '' && <p className="text-primary detail-dialog-subtitle">
               {intl.formatMessage({id: value.header})}
             </p>}
             {Object.keys(value.data).map((dataKey: any) => (
               <div className={`detail-dialog-row-info row`} key={dataKey}>
-                {value.data[dataKey].title && value.data[dataKey].title !== '' && <div className={`${value.titleClassName ?? 'col-4'}`}>
+                {value.data[dataKey].title && value.data[dataKey].title !== '' &&
+                <div className={`${value.titleClassName ?? 'col-4'}`}>
                   {intl.formatMessage({id: value.data[dataKey].title})}:
                 </div>}
                 <div className={`${value.dataClassName ?? 'col-8'}`}>
                   {(() => {
                     const displayData = value.data[dataKey].keyField ? getField(entity, value.data[dataKey].keyField) : entity[dataKey];
                     return value.data[dataKey].formatter ?
-                      (<>{value.data[dataKey].formatter(displayData)}</>)
+                      (<>{value.data[dataKey].formatter(displayData, entity)}</>)
                       : (<>{displayData}</>)
                   })()
                   }

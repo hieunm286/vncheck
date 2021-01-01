@@ -1,4 +1,4 @@
-import React, {ReactElement, useCallback, useEffect, useState} from 'react';
+import React, {ReactElement, useCallback, useEffect, useMemo, useState} from 'react';
 import ImageUploading from 'react-images-uploading';
 import {GetClassName, getNewImage, ToDataURL} from '../helpers/common-function';
 import exifr from 'exifr';
@@ -16,6 +16,8 @@ interface ImageUploadPros {
   name: string;
   maxNumber?: number;
   pathField?: string;
+  thumbnailField?: string;
+  disabled?: boolean | ((values: any) => boolean);
   mode?: 'horizontal' | 'vertical' | undefined;
 }
 
@@ -23,7 +25,9 @@ function CustomImageUpload({
                              label,
                              labelWidth,
                              pathField = 'path',
+                             thumbnailField = 'thumbnail',
                              required,
+                             disabled,
                              name,
                              mode,
                              isArray = true,
@@ -43,23 +47,32 @@ function CustomImageUpload({
         throw error;
       }) : undefined;
   }, []);
+  const _disabled = useMemo(()=>{
+    return disabled ? typeof disabled === 'boolean' ? disabled : disabled(values) : disabled;
+  },[disabled,values]);
   useEffect(() => {
     if (field.value) {
       if (isArray) {
         if ((field.value === images)) return;
         // console.log(field.value)
         Promise.all(field.value.map((f: any) => {
-          return getImage(f[pathField])
+          return getImage(f[thumbnailField] ?? f[pathField])
         })).then((images) => {
-          const t = images.map((image: any, index) => ({...field.value[index], [pathField]: image}));
+          const t = images.map((image: any, index) => ({
+            ...field.value[index],
+            [field.value[index][thumbnailField] ? thumbnailField : pathField]: image
+          }));
           // console.log(t)
           setImages(t);
           setFieldValue(name, t);
         });
       } else {
         if ((field.value === images[0])) return;
-        Promise.all([getImage(field.value[pathField])]).then(images => {
-          const t = images.map((image: any) => ({...field.value, [pathField]: image}));
+        Promise.all([getImage(field.value[thumbnailField] ?? field.value[pathField])]).then(images => {
+          const t = images.map((image: any) => ({
+            ...field.value,
+            [field.value[thumbnailField] ? thumbnailField : pathField]: image
+          }));
           setImages(t);
           setFieldValue(name, t[0]);
         });
@@ -144,19 +157,19 @@ function CustomImageUpload({
                   }>
                   {imageList.map((image, index) => (
                     <div key={index} className="image-item imagePreview mr-1">
-                      <img src={image[pathField]} alt="" width="100" height="100"/>
+                      <img src={image[thumbnailField] ?? image[pathField]} alt="" width="100" height="100"/>
                       {/* <div className="image-item__btn-wrapper"> */}
-                      <button
+                      {onImageRemove && !_disabled && <button
                         type="button"
                         className="close"
                         onClick={() => {
                           onImageRemove(index);
                         }}>
                         <CloseOutlined/>
-                      </button>
+                      </button>}
                     </div>
                   ))}
-                  {!(images && images.length >= maxNumber) && (
+                  {!_disabled && !(images && images.length >= maxNumber) && (
                     <button
                       type="button"
                       style={isDragging ? {color: 'red'} : undefined}
