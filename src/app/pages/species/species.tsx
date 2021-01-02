@@ -19,7 +19,7 @@ import {MasterEntityDetailDialog} from '../../common-library/common-components/m
 import {
   ModifyForm,
   ModifyInputGroup,
-  RenderInfoDetailDialog,
+  RenderInfoDetail,
   SearchModel,
 } from '../../common-library/common-types/common-type';
 import {Spinner} from 'react-bootstrap';
@@ -207,7 +207,7 @@ function Species() {
       .typeError('INPUT_NUMBER'),
   });
   
-  const masterEntityDetailDialog: RenderInfoDetailDialog = [
+  const masterEntityDetailDialog: RenderInfoDetail = [
     {
       data: {
         image: {

@@ -9,7 +9,7 @@ import {
   MasterBodyColumns,
   ModifyForm,
   ModifyInputGroup,
-  RenderInfoDetailDialog,
+  RenderInfoDetail,
   SearchModel
 } from "../../common-library/common-types/common-type";
 import {MasterEntityDetailDialog} from "../../common-library/common-components/master-entity-detail-dialog";
@@ -128,7 +128,7 @@ function LandLot() {
     },
   }), []);
   
-  const masterEntityDetailDialog: RenderInfoDetailDialog = useMemo((): RenderInfoDetailDialog => [
+  const masterEntityDetailDialog: RenderInfoDetail = useMemo((): RenderInfoDetail => [
     {
       data: {
         code: {title: 'LAND_LOT.MASTER.HEADER.CODE'},

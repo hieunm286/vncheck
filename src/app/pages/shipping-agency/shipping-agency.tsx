@@ -12,7 +12,7 @@ import DeleteManyEntitiesDialog from '../../common-library/common-components/del
 import {
   ModifyForm,
   ModifyInputGroup,
-  RenderInfoDetailDialog,
+  RenderInfoDetail,
   SearchModel
 } from '../../common-library/common-types/common-type';
 import {InitMasterProps, InitValues,} from '../../common-library/helpers/common-function';
@@ -146,7 +146,7 @@ function ShippingAgency() {
     }
   }, []);
   
-  const masterEntityDetailDialog: RenderInfoDetailDialog = useMemo((): RenderInfoDetailDialog => [
+  const masterEntityDetailDialog: RenderInfoDetail = useMemo((): RenderInfoDetail => [
     {
       header: 'SHIPPING_AGENCY.DETAIL_DIALOG.SHIPPING.SUBTITLE',
       className: 'col-7',

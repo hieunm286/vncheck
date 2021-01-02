@@ -226,7 +226,7 @@ export type CountProps<T> = ({
   sortList?: SortProps[];
   paginationProps?: PaginationProps;
 }) => Promise<AxiosResponse>;
-export type RenderInfoDetailDialog = {
+export type RenderInfoDetail = {
   header?: string;
   className?: string;
   titleClassName?: string;

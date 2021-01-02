@@ -762,32 +762,32 @@ export const SeedingDetailDialog = [
       [
         {
           type: 'string',
-          title: 'Mã gieo giống',
+          title: 'SEEDING.CODE',
           keyField: 'seeding.code',
         },
         {
           type: 'image',
-          title: 'Giấy chứng nhận giống',
+          title: 'SEEDING.CERTIFICATE',
           keyField: 'seeding.certificates',
         },
         {
           type: 'image',
-          title: 'Hóa đơn mua giống',
+          title: 'SEEDING.INVOICE',
           keyField: 'seeding.buyInvoice',
         },
         {
           type: 'date-time',
-          title: 'Thời gian xuống giống',
+          title: 'SEEDING.SEEDING_TIME',
           keyField: 'seeding.seedingTime',
         },
         {
           type: 'date-time',
-          title: 'Thời gian trồng dự kiến',
+          title: 'SEEDING.ESTIMATED_PLANTING_TIME',
           keyField: 'seeding.estimatedPlantingTime',
         },
         {
           type: 'string',
-          title: 'Lô gieo ươm',
+          title: 'SEEDING.LAND_LOT',
           keyField: 'seeding.landLot.code',
           convertFn: (t: any) => t.toUpperCase(),
         },
@@ -795,32 +795,32 @@ export const SeedingDetailDialog = [
       [
         {
           type: 'string',
-          title: 'Địa điểm Farm giống',
+          title: 'SEEDING.FARM_LOCATION',
           keyField: 'seeding.farmLocation.[coordinates]',
         },
         {
           type: 'string',
-          title: 'Tên chủng loại',
+          title: 'SEEDING.SPECIES_NAME',
           keyField: 'seeding.species.name',
         },
         {
           type: 'string',
-          title: 'GTIN',
+          title: 'SEEDING.GTIN',
           keyField: 'seeding.species.barcode',
         },
         {
           type: 'string',
-          title: 'Diện tích gieo ươm giống',
+          title: 'SEEDING.SEEDING_AREA',
           keyField: 'seeding.area',
         },
         {
           type: 'string',
-          title: 'Số cây con giống',
+          title: 'SEEDING.NUMBER_OF_SEED',
           keyField: 'seeding.numberOfSeed',
         },
         {
           type: 'string',
-          title: 'Sản lượng dự kiến',
+          title: 'SEEDING.EXPECTED_QUANTITY',
           keyField: 'seeding.expectedQuantity',
         },
       ],

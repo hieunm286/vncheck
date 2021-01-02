@@ -1,13 +1,13 @@
 import {
   ModifyForm,
   ModifyInputGroup,
-  RenderInfoDetailDialog,
+  RenderInfoDetail,
   SearchModel
 } from '../../../common-library/common-types/common-type';
 import {getField} from '../../../common-library/helpers/common-function';
 import React, {useMemo, useState} from "react";
 
-export const masterEntityDetailDialog: RenderInfoDetailDialog = [
+export const masterEntityDetailDialog: RenderInfoDetail = [
   {
     data: {
       image: {

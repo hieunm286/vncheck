@@ -4,7 +4,7 @@ import {useIntl} from 'react-intl';
 
 import * as UserService from '../user/user.service';
 import {DisplayTime, InitMasterProps, InitValues} from "../../common-library/helpers/common-function";
-import {Count, Create, Delete, DeleteMany, Get, GetAll, Update} from './qr.service';
+import {Count, Create, Delete, DeleteMany, Get, GetAll, GetById, Update} from './qr.service';
 import {QrModel} from './qr.model';
 import {MasterHeader} from "../../common-library/common-components/master-header";
 import {MasterBody} from "../../common-library/common-components/master-body";
@@ -23,10 +23,13 @@ import * as MultilevelSaleService from '../multilevel-sale/multilevel-sale.servi
 import {
   ModifyForm,
   ModifyInputGroup,
-  RenderInfoDetailDialog,
+  RenderInfoDetail,
   SearchModel
 } from "../../common-library/common-types/common-type";
 import User from "../account";
+import {MasterEntityDetailPage} from "../../common-library/common-components/master-detail-page";
+import {SeedingDetailDialog} from "../production-plan/defined/const";
+import * as ProductionPlanService from "../production-plan/production-plan.service";
 
 const headerTitle = 'AGENCY.MASTER.HEADER.TITLE';
 const tableTitle = 'SHIPPING_AGENCY.MASTER.TABLE.TITLE';
@@ -218,6 +221,20 @@ function QrPage() {
             paginationParams={paginationProps}
             setPaginationParams={setPaginationProps}
           />
+        </Route>
+        <Route exact path="/qr/:code">
+          {({ history, match }) => (
+            <MasterEntityDetailPage
+              renderInfo={SeedingDetailDialog}
+              code={match && match.params.code}
+              get={code => GetById(code)}
+              onClose={() => {
+                setShowDetail(false);
+              }}
+              mode="line"
+              title="THÔNG TIN GIEO GIỐNG"
+            />
+          )}
         </Route>
         <Route path="/qr/0000000">
           {/*<EntityCrudPage*/}

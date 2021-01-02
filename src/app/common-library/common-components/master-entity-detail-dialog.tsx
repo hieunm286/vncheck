@@ -4,7 +4,7 @@ import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import {useIntl} from 'react-intl';
 import {iconStyle} from "../common-consts/const";
 import {getField} from "../helpers/common-function";
-import {RenderInfoDetailDialog} from "../common-types/common-type";
+import {RenderInfoDetail} from "../common-types/common-type";
 
 export function MasterEntityDetailDialog({
                                            title = 'COMMON_COMPONENT.DETAIL_DIALOG.HEADER_TITLE',
@@ -19,7 +19,7 @@ export function MasterEntityDetailDialog({
   moduleName?: string;
   show: boolean;
   entity: any;
-  renderInfo: any;
+  renderInfo: RenderInfoDetail;
   onHide: () => void;
   size?: 'sm' | 'lg' | 'xl';
 }) {
@@ -57,7 +57,7 @@ export function MasterEntityDetail({
                                      renderInfo,
                                      convertFunctions = {},
                                    }: {
-  renderInfo: RenderInfoDetailDialog;
+  renderInfo: RenderInfoDetail;
   entity: any;
   convertFunctions?: { [V: string]: (input: any) => string };
 }) {

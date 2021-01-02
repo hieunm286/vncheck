@@ -1478,7 +1478,6 @@ function ProductionPlan() {
         <Route exact path="/production-plan/seeding/:code">
           {({ history, match }) => (
             <MasterEntityDetailPage
-              entity={history.location.state}
               renderInfo={SeedingDetailDialog}
               code={match && match.params.code}
               get={code => ProductionPlanService.GetById(code)}

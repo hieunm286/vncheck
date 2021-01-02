@@ -25,7 +25,7 @@ import * as RoleService from '../role/role.service';
 import {
   ModifyForm,
   ModifyInputGroup,
-  RenderInfoDetailDialog,
+  RenderInfoDetail,
   SearchModel
 } from "../../common-library/common-types/common-type";
 import {MasterEntityDetailDialog} from "../../common-library/common-components/master-entity-detail-dialog";
@@ -167,7 +167,7 @@ function AgencyPage() {
   }, []);
   
   
-  const masterEntityDetailDialog: RenderInfoDetailDialog = useMemo((): RenderInfoDetailDialog => [
+  const masterEntityDetailDialog: RenderInfoDetail = useMemo((): RenderInfoDetail => [
     {
       header: 'AGENCY.DETAIL_DIALOG.SHIPPING.SUBTITLE',
       className: 'col-7',
