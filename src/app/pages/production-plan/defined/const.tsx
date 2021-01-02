@@ -615,7 +615,7 @@ export const allFormField: any = {
   ),
 };
 
-export const PlantingDetailDialog = [
+export const PlantingDetailDialog:any = [
   {
     header: 'THÔNG TIN CHUNG',
     className: 'row',
@@ -754,7 +754,7 @@ export const PlantingDetailDialog = [
   },
 ];
 
-export const SeedingDetailDialog = [
+export const SeedingDetailDialog:any = [
   {
     header: 'THÔNG TIN CHUNG',
     className: 'row',
@@ -969,7 +969,7 @@ export const SeedingDetailDialog = [
   },
 ];
 
-export const masterEntityDetailDialog2 = [
+export const masterEntityDetailDialog2:any = [
   {
     header: 'THÔNG TIN CHUNG',
     data: [

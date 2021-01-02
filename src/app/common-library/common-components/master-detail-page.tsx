@@ -44,7 +44,7 @@ const getFieldV3 = (field: any, fieldName: string) => {
 };
 
 export function MasterEntityDetailPage({
-  title = 'COMMON_COMPONENT.DETAIL_DIALOG.HEADER_TITLE',
+  header = 'COMMON_COMPONENT.DETAIL_DIALOG.HEADER_TITLE',
   moduleName = 'COMMON_COMPONENT.DETAIL_DIALOG.MODULE_NAME',
   entity,
   onClose,
@@ -55,7 +55,7 @@ export function MasterEntityDetailPage({
   get,
   allFormButton,
 }: {
-  title?: string;
+  header?: string;
   moduleName?: string;
   entity?: any;
   renderInfo: RenderInfoDetail;
@@ -80,27 +80,40 @@ export function MasterEntityDetailPage({
   }, [code]);
   return (
     <Card>
-      <CardHeader
-        className={'border-bottom-0'}
-        title={
-          (
-            <a
-              onClick={() => history.goBack()}
-              className={'cursor-pointer text-primary font-weight-boldest'}>
-              <ArrowBackIosIcon/>
-              {intl
-                .formatMessage(
-                  {id: title},
-                  {moduleName: intl.formatMessage({id: moduleName})},
-                )
-                .toUpperCase()}
-            </a>
-          )
-        }
-      />
+      {renderInfo.map((value, index) => (
+        <CardHeader
+          className={'border-bottom-0'}
+          title={
+            index == 0 ? (
+              <a
+                onClick={() => history.goBack()}
+                className={'cursor-pointer text-primary font-weight-boldest'}>
+                <ArrowBackIosIcon/>
+                {intl
+                  .formatMessage(
+                    {id: header},
+                    {moduleName: intl.formatMessage({id: moduleName})},
+                  )
+                  .toUpperCase()}
+              </a>
+            ) : (
+              <>
+                {intl
+                  .formatMessage(
+                    {id: value.header},
+                    {moduleName: intl.formatMessage({id: moduleName})},
+                  )
+                  .toUpperCase()}
+              </>
+            )
+          }
+        />
+      ))}
+    
+      
       {mode === 'line' && (
         <LineMode
-          title={title}
+          title={header}
           entityDetail={entityDetail}
           renderInfo={renderInfo}
           intl={intl}
@@ -112,7 +125,7 @@ export function MasterEntityDetailPage({
       {mode === 'split' && (
         <>
           <SplitMode
-            title={title}
+            title={header}
             entityDetail={entityDetail}
             renderInfo={renderInfo}
             intl={intl}
@@ -463,49 +476,6 @@ const SplitMode = ({
                               </div>
                             </div>
                           );
-
-                        // case 'image':
-                        //   return (
-                        //     <div className="mt-3" key={childKey}>
-                        //       {/* <ImgGallery
-                        //         label={el[childKey].title}
-                        //         labelWidth={4}
-                        //         name={key}
-                        //         isHorizontal
-                        //         photos={
-                        //           entity && entity[childKey]
-                        //             ? entity[childKey]
-                        //             : [
-                        //                 {
-                        //                   src: 'https://source.unsplash.com/aZjw7xI3QAA/1144x763',
-                        //                   author: 'Nguyễn Minh Hiếu',
-                        //                   time: '26/09/2020 9:00',
-                        //                   location: `21°01'10.1"N 105°47'28.6"E`,
-                        //                   thumbnail:
-                        //                     'https://source.unsplash.com/aZjw7xI3QAA/100x67',
-                        //                 },
-                        //                 {
-                        //                   src: 'https://source.unsplash.com/c77MgFOt7e0/1144x763',
-                        //                   author: 'Nguyễn Minh Hiếu',
-                        //                   time: '26/09/2020 9:00',
-                        //                   location: `21°01'10.1"N 105°47'28.6"E`,
-                        //                   thumbnail:
-                        //                     'https://source.unsplash.com/c77MgFOt7e0/100x67',
-                        //                 },
-                        //                 {
-                        //                   src: 'https://source.unsplash.com/QdBHnkBdu4g/1144x763',
-                        //                   author: 'Nguyễn Minh Hiếu',
-                        //                   time: '26/09/2020 9:00',
-                        //                   location: `21°01'10.1"N 105°47'28.6"E`,
-                        //                   thumbnail:
-                        //                     'https://source.unsplash.com/QdBHnkBdu4g/100x67',
-                        //                 },
-                        //               ]
-                        //         }
-                        //       /> */}
-                        //       {/* <img src={entity[childKey]} alt="..." /> */}
-                        //     </div>
-                        //   );
                       }
                       return <></>;
                     })}

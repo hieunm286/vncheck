@@ -232,7 +232,7 @@ function QrPage() {
                 setShowDetail(false);
               }}
               mode="line"
-              title="THÔNG TIN GIEO GIỐNG"
+              header="THÔNG TIN GIEO GIỐNG"
             />
           )}
         </Route>

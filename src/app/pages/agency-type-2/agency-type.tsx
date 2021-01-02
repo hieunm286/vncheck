@@ -15,7 +15,7 @@ import {ActionsColumnFormatter} from '../../common-library/common-components/act
 
 import {NormalColumn, SortColumn} from '../../common-library/common-consts/const';
 
-import {MasterBodyColumns, SearchModel} from "../../common-library/common-types/common-type";
+import {MasterBodyColumns, RenderInfoDetail, SearchModel} from "../../common-library/common-types/common-type";
 import {DeleteEntityDialog} from "../../common-library/common-components/delete-entity-dialog";
 import {MasterEntityDetailDialog} from "../../common-library/common-components/master-entity-detail-dialog";
 import DeleteManyEntitiesDialog from '../../common-library/common-components/delete-many-entities-dialog';
@@ -170,11 +170,13 @@ function AgencyType() {
     },
   };
   
-  const masterEntityDetailDialog = [
-    {keyField: 'code', title: 'PURCHASE_ORDER.MASTER.TABLE.CODE_COLUMN'},
-    {keyField: 'name', title: 'PURCHASE_ORDER.MASTER.HEADER.NAME.PLACEHOLDER'},
-    {keyField: 'status', title: 'PURCHASE_ORDER.MASTER.TABLE.STATUS_COLUMN'},
-  ];
+  const masterEntityDetailDialog: RenderInfoDetail = [{
+    data:{
+      code: {title: 'PURCHASE_ORDER.MASTER.TABLE.CODE_COLUMN'},
+      name: {title: 'PURCHASE_ORDER.MASTER.HEADER.NAME.PLACEHOLDER'},
+      status: {title: 'PURCHASE_ORDER.MASTER.TABLE.STATUS_COLUMN'},
+    }
+  }]
   
   const agencyTypeSchema = Yup.object<AgencyTypeModel>().shape({
     // code: Yup.string().required('Vui lòng nhập mã đơn vị'),

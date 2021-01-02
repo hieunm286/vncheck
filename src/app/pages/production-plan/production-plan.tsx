@@ -1485,7 +1485,7 @@ function ProductionPlan() {
                 setShowDetail(false);
               }}
               mode="line"
-              title="THÔNG TIN GIEO GIỐNG"
+              header="THÔNG TIN GIEO GIỐNG"
             />
           )}
         </Route>
@@ -1500,7 +1500,7 @@ function ProductionPlan() {
                 setShowDetail(false);
               }}
               mode="line"
-              title="THÔNG TIN GIEO TRỒNG"
+              header="THÔNG TIN GIEO TRỒNG"
               homeURL={homeURL}
             />
           )}
@@ -1517,7 +1517,7 @@ function ProductionPlan() {
               }}
               allFormButton={currentTab === '1' && username === 'admin' && adminAllFormButton}
               mode="split"
-              title={`CHI TIẾT KẾ HOẠCH`}
+              header={`CHI TIẾT KẾ HOẠCH`}
             />
           )}
         </Route>
