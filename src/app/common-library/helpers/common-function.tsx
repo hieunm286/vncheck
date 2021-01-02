@@ -206,7 +206,7 @@ export const getNewImage = (prevArr: any[], currentArr: any[]) => {
   }
   
   currentArr.forEach((curEl: any) => {
-    const index = prevArr.findIndex(prevEl => isEmpty(diff(curEl, prevEl)) === true);
+    const index = prevArr.findIndex(prevEl => isEmpty(diff(curEl, prevEl)));
     
     if (index === -1) {
       newArr.push(curEl);
@@ -301,7 +301,7 @@ export const ConvertStatusToBoolean = (data: any) => {
 }
 
 export const ConvertStatusToString = (data: any) => {
-  return typeof data.status === 'boolean' ? {...data, status: data.status ? "1" : "0"} : data;
+  return (typeof data.status === 'boolean' || typeof data.status === 'string') ? {...data, status: (data.status || data.status == "true") ? "1" : "0"} : data;
 }
 
 export function InitMasterProps<T>({

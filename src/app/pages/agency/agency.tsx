@@ -485,10 +485,10 @@ function AgencyPage() {
           },
           onChange: (e: any, {setFieldValue, values}: any) => {
             const addresses = values['shippingAddress'];
-            setFieldValue('shippingAddress', addresses.map((addr: any) => ({
+            setFieldValue('shippingAddress', [...addresses.map((addr: any) => ({
               ...addr,
               isDefault: JSON.stringify(addr) === e.target.value
-            })));
+            }))]);
           },
           options: ({field, values, setFieldValue, setFieldTouched}: any) => {
             return field.value ? field.value.map(((address: any, index: number) => {
@@ -505,7 +505,7 @@ function AgencyPage() {
                           setDeleteShippingAddress(address);
                           setDeleteShippingAddressFn(() => () => {
                             const addresses = field.value;
-                            setFieldValue('shippingAddress', addresses.filter((addr: any) => addr._id !== address._id))
+                            setFieldValue('shippingAddress', addresses.filter((addr: any) => JSON.stringify(addr) !== JSON.stringify(address)))
                             setShowDeleteShippingAddress({show: false});
                           })
                           setShowDeleteShippingAddress({show: true});
@@ -585,15 +585,16 @@ function AgencyPage() {
   
   const validationSchema = useMemo(() => Yup.object().shape({
     phone: Yup.string()
-      .max(11, 'Số điện thoại không hợp lệ')
-      .min(8, 'Số điện thoại không hợp lệ'),
+      .max(11, 'VALIDATE.ERROR.INVALID_INPUT')
+      .min(8, 'VALIDATE.ERROR.INVALID_INPUT'),
     tax_id: Yup.string()
-      .min(10, 'Mã số thuế không hợp lệ')
-      .max(13, 'Mã số thuế không hợp lệ'),
+      .min(10, 'VALIDATE.ERROR.INVALID_INPUT')
+      .max(13, 'VALIDATE.ERROR.INVALID_INPUT'),
     owner: Yup.object().shape({
       phone: Yup.string()
-        .max(11, 'Số điện thoại không hợp lệ')
-        .min(8, 'Số điện thoại không hợp lệ'),
+        .max(11, 'VALIDATE.ERROR.INVALID_INPUT')
+        .min(8, 'VALIDATE.ERROR.INVALID_INPUT'),
+      birthDay: Yup.date().max(new Date(),'VALIDATE.ERROR.MUST_LESS_THAN_TODAY')
     })
   }), []);
   const initCreateValues = useMemo(() => ({...InitValues(createForm), status: 'false'}), [createForm]);

@@ -1,10 +1,11 @@
-import React, {ReactElement, useCallback, useEffect, useState} from 'react';
+import React, {ReactElement, useCallback, useMemo} from 'react';
 import ImageUploading from 'react-images-uploading';
-import {GetClassName, getNewImage, ToDataURL} from '../helpers/common-function';
+import {GetClassName, getNewImage} from '../helpers/common-function';
 import exifr from 'exifr';
 import './custom-image-upload.scss';
 import {useField, useFormikContext} from 'formik';
-import {CloseOutlined} from '@material-ui/icons';
+import {DetailImage} from "../common-components/detail/detail-image";
+import _ from "lodash";
 
 interface ImageUploadPros {
   value: any[];
@@ -16,6 +17,10 @@ interface ImageUploadPros {
   name: string;
   maxNumber?: number;
   pathField?: string;
+  thumbnailField?: string;
+  width?: number | string;
+  height?: number | string;
+  disabled?: boolean | ((values: any) => boolean);
   mode?: 'horizontal' | 'vertical' | undefined;
 }
 
@@ -23,64 +28,28 @@ function CustomImageUpload({
                              label,
                              labelWidth,
                              pathField = 'path',
+                             thumbnailField = 'thumbnail',
                              required,
+                             disabled,
                              name,
                              mode,
                              isArray = true,
                              maxNumber = 3,
+                             width = 127,
+                             height = 109,
                            }: ImageUploadPros) {
   const {errors, touched, setFieldValue, values, setFieldTouched} = useFormikContext<any>();
   const validate = useCallback((value: any): string | void => {
     if (required && !value) return 'RADIO.ERROR.REQUIRED';
   }, []);
   const [field, fieldMeta, fieldHelper] = useField({validate, name});
-  const [images, setImages] = useState<any>([]);
-  const getImage = useCallback((path: string) => {
-    const isBase64 = (s: string) => s.indexOf("data:image") == 0;
-    return path ? isBase64(path) ? path : ToDataURL('/' + path)
-      .catch(error => {
-        // console.log(error); // Logs an error if there was one
-        throw error;
-      }) : undefined;
-  }, []);
-  useEffect(() => {
-    if (field.value) {
-      if (isArray) {
-        if ((field.value === images)) return;
-        // console.log(field.value)
-        Promise.all(field.value.map((f: any) => {
-          return getImage(f[pathField])
-        })).then((images) => {
-          const t = images.map((image: any, index) => ({...field.value[index], [pathField]: image}));
-          // console.log(t)
-          setImages(t);
-          setFieldValue(name, t);
-        });
-      } else {
-        if ((field.value === images[0])) return;
-        Promise.all([getImage(field.value[pathField])]).then(images => {
-          const t = images.map((image: any) => ({...field.value, [pathField]: image}));
-          setImages(t);
-          setFieldValue(name, t[0]);
-        });
-      }
-    } else {
-      setImages([]);
-    }
-  }, [field.value]);
   
-  const getImageMetaList = useCallback((file: any, key: string): Promise<any[]> => {
-    if (!file) return Promise.resolve([]);
-    return Promise.all(file.map((item: any) => {
-      return exifr.parse(item.file).catch(error => {
-        console.log(error);
-        return {}
-      })
-    }));
-  }, []);
+  const _disabled = useMemo(() => {
+    return disabled ? typeof disabled === 'boolean' ? disabled : disabled(values) : disabled;
+  }, [disabled, values]);
   
   const handleChange = useCallback((imageList: any[], addUpdateIndex: any, key: string) => {
-    const newArr = getNewImage(images, imageList);
+    const newArr = getNewImage(field.value, imageList);
     const promise = getImageMetaList(newArr, key);
     promise.then((metadataList) => {
       const arr = imageList.map((image: any, index) => {
@@ -97,10 +66,10 @@ function CustomImageUpload({
       if (isArray) setFieldValue(name, arr);
       else {
         setFieldValue(name, arr[0]);
-        setFieldTouched(name, true);
       }
+      setFieldTouched(name, true);
     });
-  }, []);
+  }, [field.value]);
   
   return (
     <div className={mode === 'horizontal' ? 'row' : ''}>
@@ -117,7 +86,7 @@ function CustomImageUpload({
       <div className={GetClassName(labelWidth, false)}>
         <ImageUploading
           multiple={maxNumber > 1}
-          value={images}
+          value={field.value ? isArray ? field.value : [field.value] : []}
           onChange={(imageList: any, addUpdateIndex: any) => {
             handleChange(imageList, addUpdateIndex, name);
           }}
@@ -142,24 +111,11 @@ function CustomImageUpload({
                       ? 'is-invalid d-flex flex-wrap upload__image-wrapper'
                       : 'd-flex flex-wrap upload__image-wrapper'
                   }>
-                  {imageList.map((image, index) => (
-                    <div key={index} className="image-item imagePreview mr-1">
-                      <img src={image[pathField]} alt="" width="100" height="100"/>
-                      {/* <div className="image-item__btn-wrapper"> */}
-                      <button
-                        type="button"
-                        className="close"
-                        onClick={() => {
-                          onImageRemove(index);
-                        }}>
-                        <CloseOutlined/>
-                      </button>
-                    </div>
-                  ))}
-                  {!(images && images.length >= maxNumber) && (
+                  <DetailImage onImageRemove={onImageRemove} images={imageList} width={width} height={height}/>
+                  {!_disabled && !(imageList.length >= maxNumber) && (
                     <button
                       type="button"
-                      style={isDragging ? {color: 'red'} : undefined}
+                      style={_.merge(isDragging ? {color: 'red'} : undefined, {width: width, height: height})}
                       onClick={onImageUpload}
                       className="button-add-image text-primary"
                       {...dragProps}>
@@ -198,5 +154,16 @@ function CustomImageUpload({
     </div>
   );
 }
+
+const getImageMetaList = (file: any, key: string): Promise<any[]> => {
+  if (!file) return Promise.resolve([]);
+  return Promise.all(file.map((item: any) => {
+    return exifr.parse(item.file).catch(error => {
+      console.log(error);
+      return {}
+    })
+  }));
+}
+
 
 export default CustomImageUpload;

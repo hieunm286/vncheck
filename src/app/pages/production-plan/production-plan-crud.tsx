@@ -7,7 +7,7 @@ import { useIntl } from 'react-intl';
 import { generateInitForm, GetHomePage } from '../../common-library/helpers/common-function';
 import { Card, CardBody, CardHeader } from '../../common-library/card';
 import _ from 'lodash';
-import { addInitField, initProductPlanForm } from './defined/const';
+import { addInitField, CompareDate, initProductPlanForm } from './defined/const';
 import ProductionPlanModal from './production-plan-modal';
 import { ModifyEntityPage } from '../../common-library/common-components/modify-entity-page';
 import { ModifyForm } from '../../common-library/common-types/common-type';
@@ -229,6 +229,48 @@ function ProductionPlanCrud({
       });
   };
 
+  const validate = (values: any) => {
+    if (values.harvesting.estimatedTime &&
+      values.preliminaryTreatment.estimatedTime &&
+      !CompareDate(
+        new Date(values.preliminaryTreatment.estimatedTime),
+        new Date(values.harvesting.estimatedTime),
+      )) {
+        return { status: false, field: 'preliminaryTreatment.estimatedTime', message: 'Không thu hoạch thì sơ chế kiểu gì?' };
+      }
+    if (
+      values.preliminaryTreatment.estimatedTime &&
+      values.cleaning.estimatedTime &&
+      !CompareDate(
+        new Date(values.cleaning.estimatedTime),
+        new Date(values.preliminaryTreatment.estimatedTime),
+      )
+    ) {
+      return { status: false, field: 'cleaning.estimatedTime', message: 'Có thằng nào làm sạch xong mới sơ chế không?' };
+    }
+    if (
+      values.cleaning.estimatedTime &&
+      values.packing.estimatedTime &&
+      !CompareDate(
+        new Date(values.packing.estimatedTime),
+        new Date(values.cleaning.estimatedTime),
+      )
+    ) {
+      return { status: false, field: 'packing.estimatedTime', message: 'Nhập đúng ngày tháng hộ cái mệt vkl' };
+    }
+    if (
+      values.packing.estimatedTime &&
+      values.preservation.estimatedStartTime &&
+      !CompareDate(
+        new Date(values.preservation.estimatedStartTime),
+        new Date(values.packing.estimatedTime),
+      )
+    ) {
+      return { status: false, field: 'preservation.estimatedStartTime', message: 'Nói mãi không nghe à?' };
+    }
+    return { status: true };
+  };
+
   return (
     <>
       <ProductionPlanModal
@@ -261,137 +303,142 @@ function ProductionPlanCrud({
         // initialValues={initForm}
         validationSchema={validation}
         onSubmit={(values, { setSubmitting, setFieldError, resetForm }) => {
-          let updateValue: any;
-          setErrorMsg(undefined);
-
-          if (entityForEdit) {
-            const diffValue = diff(entityForEdit, values);
-            const clValue = { ...values };
-
-            if (
-              diffValue.packing &&
-              _.isObject(diffValue.packing.packing) &&
-              !diffValue.packing.packing.label
-            ) {
-              delete diffValue.packing.packing;
-            }
-
-            if (clValue.packing && clValue.packing.packing) {
-              diffValue.packing.packing = clValue.packing.packing._id;
-            }
-
-            const validField = [
-              'harvesting',
-              'preliminaryTreatment',
-              'cleaning',
-              'packing',
-              'preservation',
-            ];
-
-            const validNested = [
-              'estimatedTime',
-              'estimatedQuantity',
-              'technical',
-              'leader',
-              'estimatedExpireTimeStart',
-              'estimatedExpireTimeEnd',
-              'packing',
-              'estimatedStartTime',
-              'estimatedEndTime',
-            ];
-
-            validField.forEach(keys => {
-              const cvLeader: any[] = [];
-              const cvTechnical: any[] = [];
-
-              if (clValue[keys] && clValue[keys].leader) {
-                clValue[keys].leader.forEach((value: any) => {
-                  if (value.user) {
-                    cvLeader.push(value.user._id);
-                  }
-                });
-
-                clValue[keys].leader = cvLeader;
-              }
-
-              if (clValue[keys] && clValue[keys].technical) {
-                clValue[keys].technical.forEach((value: any) => {
-                  if (value.user) {
-                    cvTechnical.push(value.user._id);
-                  }
-                });
-
-                clValue[keys].technical = cvTechnical;
-              }
-            });
-
-            validField.forEach(keys => {
-              Object.keys(clValue[keys]).forEach(cKey => {
-                if (diffValue[keys] && !diffValue[keys][cKey] && validNested.includes(cKey)) {
-                  diffValue[keys][cKey] = clValue[keys][cKey];
-                }
-              });
-            });
-
-            validField.forEach(keys => {
-              if (diffValue[keys]) {
-                Object.keys(diffValue[keys]).forEach(cKey => {
-                  if (
-                    !diffValue[keys][cKey] ||
-                    (_.isArray(diffValue[keys][cKey]) && diffValue[keys][cKey].length === 0)
-                  ) {
-                    delete diffValue[keys][cKey];
-                  }
-                });
-
-                if (_.isEmpty(diffValue[keys])) {
-                  delete diffValue[keys];
-                }
-              }
-            });
-
-            updateValue = { _id: values._id, ...diffValue };
+          const vResult = validate(values)
+          if (!vResult.status && vResult.field && vResult.message) {
+            setFieldError(vResult.field, vResult.message)
           } else {
-            updateValue = { ...values };
-          }
+            let updateValue: any;
+            setErrorMsg(undefined);
 
-          console.log(values);
+            if (entityForEdit) {
+              const diffValue = diff(entityForEdit, values);
+              const clValue = { ...values };
 
-          if (step === '0') {
-            submitHandle(updateValue, values, { setSubmitting, setFieldError, resetForm });
-          } else if (step === '1' && currentTab !== '2') {
-            // if (!updateValue.step || updateValue.step !== '1') {
-            //   updateValue.step = '1';
-            // }
-            // submitHandle(updateValue, { setSubmitting, setFieldError });
-            onModify(updateValue)
-              .then((res: any) => {
-                sendRequest(entityForEdit)
-                  .then(ress => {
-                    setErrorMsg(undefined);
-                    refreshData();
-                    history.push(homePage || GetHomePage(window.location.pathname));
-                  })
-                  .catch(error => {
-                    setSubmitting(false);
-                    setErrorMsg(error.entity || error.response.entity);
+              if (
+                diffValue.packing &&
+                _.isObject(diffValue.packing.packing) &&
+                !diffValue.packing.packing.label
+              ) {
+                delete diffValue.packing.packing;
+              }
+
+              if (clValue.packing && clValue.packing.packing) {
+                diffValue.packing.packing = clValue.packing.packing._id;
+              }
+
+              const validField = [
+                'harvesting',
+                'preliminaryTreatment',
+                'cleaning',
+                'packing',
+                'preservation',
+              ];
+
+              const validNested = [
+                'estimatedTime',
+                'estimatedQuantity',
+                'technical',
+                'leader',
+                'estimatedExpireTimeStart',
+                'estimatedExpireTimeEnd',
+                'packing',
+                'estimatedStartTime',
+                'estimatedEndTime',
+              ];
+
+              validField.forEach(keys => {
+                const cvLeader: any[] = [];
+                const cvTechnical: any[] = [];
+
+                if (clValue[keys] && clValue[keys].leader) {
+                  clValue[keys].leader.forEach((value: any) => {
+                    if (value.user) {
+                      cvLeader.push(value.user._id);
+                    }
                   });
-              })
-              .catch(error => {
-                setSubmitting(false);
-                setErrorMsg(error.entity || error.response.entity);
+
+                  clValue[keys].leader = cvLeader;
+                }
+
+                if (clValue[keys] && clValue[keys].technical) {
+                  clValue[keys].technical.forEach((value: any) => {
+                    if (value.user) {
+                      cvTechnical.push(value.user._id);
+                    }
+                  });
+
+                  clValue[keys].technical = cvTechnical;
+                }
               });
-          } else if (step === '1' && currentTab === '2') {
-            approveFollow(updateValue)
-              .then(res => {
-                setErrorMsg(undefined);
-                refreshData();
-                history.push(homePage || GetHomePage(window.location.pathname));
-              })
-              .catch(error => {
-                setSubmitting(false);
-                setErrorMsg(error.entity || error.response.entity);
+
+              validField.forEach(keys => {
+                Object.keys(clValue[keys]).forEach(cKey => {
+                  if (diffValue[keys] && !diffValue[keys][cKey] && validNested.includes(cKey)) {
+                    diffValue[keys][cKey] = clValue[keys][cKey];
+                  }
+                });
               });
+
+              validField.forEach(keys => {
+                if (diffValue[keys]) {
+                  Object.keys(diffValue[keys]).forEach(cKey => {
+                    if (
+                      !diffValue[keys][cKey] ||
+                      (_.isArray(diffValue[keys][cKey]) && diffValue[keys][cKey].length === 0)
+                    ) {
+                      delete diffValue[keys][cKey];
+                    }
+                  });
+
+                  if (_.isEmpty(diffValue[keys])) {
+                    delete diffValue[keys];
+                  }
+                }
+              });
+
+              updateValue = { _id: values._id, ...diffValue };
+            } else {
+              updateValue = { ...values };
+            }
+
+            console.log(values);
+
+            if (step === '0') {
+              submitHandle(updateValue, values, { setSubmitting, setFieldError, resetForm });
+            } else if (step === '1' && currentTab !== '2') {
+              // if (!updateValue.step || updateValue.step !== '1') {
+              //   updateValue.step = '1';
+              // }
+              // submitHandle(updateValue, { setSubmitting, setFieldError });
+              onModify(updateValue)
+                .then((res: any) => {
+                  sendRequest(entityForEdit)
+                    .then(ress => {
+                      setErrorMsg(undefined);
+                      refreshData();
+                      history.push(homePage || GetHomePage(window.location.pathname));
+                    })
+                    .catch(error => {
+                      setSubmitting(false);
+                      setErrorMsg(error.entity || error.response.entity);
+                    });
+                })
+                .catch(error => {
+                  setSubmitting(false);
+                  setErrorMsg(error.entity || error.response.entity);
+                });
+            } else if (step === '1' && currentTab === '2') {
+              approveFollow(updateValue)
+                .then(res => {
+                  setErrorMsg(undefined);
+                  refreshData();
+                  history.push(homePage || GetHomePage(window.location.pathname));
+                })
+                .catch(error => {
+                  setSubmitting(false);
+                  setErrorMsg(error.entity || error.response.entity);
+                });
+            }
           }
         }}>
         {({ handleSubmit, setFieldValue, values, errors }) => (
