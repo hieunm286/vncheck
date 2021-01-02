@@ -32,16 +32,8 @@ export const Create: CreateProps<AgencyModel> = (data: AgencyModel) => {
 // }
 //
 export const GetAll: GetAllPropsServer<AgencyModel> = ({queryProps, sortList, paginationProps}) => {
-  // const convertQuery = { ...queryProps }
-  // if (queryProps && queryProps.address) {
-  //   delete convertQuery.address
-  //   return axios.get(convertAddress(queryProps.address), {
-  //     params: { ...convertQuery, ...paginationProps, sortList },
-  //     paramsSerializer: ParamsSerializer
-  // });
-  // }
   return axios.get(`${API_URL}`, {
-    params: {...queryProps, ...paginationProps, sortList},
+    params: {...queryProps, ...paginationProps, sortList, storeLevel: {_id: queryProps?.storeLevel?._id}},
   });
 };
 

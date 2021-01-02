@@ -31,7 +31,7 @@ export function AgencyShippingAddress({
                                         editEntity,
                                         deleteEntity
                                       }:
-                                        { onCreate: (...props: any) => any, onEdit: (...props: any) => any, onDelete: (...props: any) => any, showCreate: {show:boolean}, showEdit: {show:boolean}, showDelete: {show:boolean}, editEntity: any, deleteEntity: any }) {
+                                        { onCreate: (...props: any) => any, onEdit: (...props: any) => any, onDelete: (...props: any) => any, showCreate: { show: boolean }, showEdit: { show: boolean }, showDelete: { show: boolean }, editEntity: any, deleteEntity: any }) {
   const intl = useIntl();
   const [state, setState] = useState<string | null | undefined>(null);
   const [city, setCity] = useState<string | null | undefined>(null);
@@ -45,14 +45,13 @@ export function AgencyShippingAddress({
   const getDistrict = useCallback(({queryProps, paginationProps}: any): Promise<any> => {
     return GetDistrict({queryProps: {...queryProps, city}, paginationProps})
   }, [city]);
-  const [group1, setGroup1] = useState<ModifyInputGroup>({
+  const group1 = useMemo((): ModifyInputGroup => ({
     _subTitle: '',
     state: {
       _type: 'search-select',
       onSearch: GetState,
       onChange: (value: any, {setFieldValue, setFieldTouched}: any) => {
-        // console.log(state, value);
-        if (!value || state != value) {
+        if (state != value) {
           setCity(null);
           setFieldValue('city', '');
           setFieldTouched('city', false);
@@ -70,7 +69,7 @@ export function AgencyShippingAddress({
       // selectField: 'code',
       required: true,
       onChange: (value: any, {setFieldValue, setFieldTouched}: any) => {
-        if (!value || city != value) {
+        if (city != value) {
           setFieldValue('district', '');
           setFieldTouched('district', false);
         }
@@ -96,7 +95,7 @@ export function AgencyShippingAddress({
       required: true,
       label: 'AGENCY.MODIFY.SHIPPING_ADDRESS.ADDRESS',
     },
-  });
+  }), [getCity, getDistrict]);
   const createForm = useMemo((): ModifyForm => ({
     _header: createTitle,
     panel1: {

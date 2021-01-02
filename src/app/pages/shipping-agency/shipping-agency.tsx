@@ -379,8 +379,9 @@ function ShippingAgency() {
       .max(13, 'Mã số thuế không hợp lệ'),
     owner: Yup.object().shape({
       phone: Yup.string()
-        .max(11, 'Số điện thoại không hợp lệ')
-        .min(8, 'Số điện thoại không hợp lệ'),
+        .max(11, 'VALIDATE.ERROR.INVALID_INPUT')
+        .min(8, 'VALIDATE.ERROR.INVALID_INPUT'),
+      birthDay: Yup.date().max(new Date(),'VALIDATE.ERROR.MUST_LESS_THAN_TODAY')
     })
   }), []);
   const actions: any = useMemo(() => ({

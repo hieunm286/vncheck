@@ -308,35 +308,12 @@ const LineMode = ({ entityDetail, renderInfo, intl, title, moduleName, history, 
                     case 'image':
                       return (
                         <div className="mt-3" key={childKey}>
-                          {/* <div className="row">
-                            <p className="col-4">{child.title}:</p>
-                            <div className="col-8">
-                              {entityDetail ? (
-                                getFieldV3(entityDetail, child.keyField).map((f, i, arr) => {
-                                  return (
-                                    <Fragment>
-                                      <img
-                                        src={child.convertFn ? child.convertFn(f) : f}
-                                        alt="..."
-                                        width="125px"
-                                      />
-                                      {i < arr.length - 1 && <Separator />}
-                                    </Fragment>
-                                  );
-                                })
-                              ) : (
-                                <img src={''} alt="..." width="125px" />
-                              )}
-                            </div>
-                          </div> */}
-
                           <ImgGallery
                             label={el[childKey].title}
                             labelWidth={4}
                             name={key}
                             isHorizontal
-                            photo={entityDetail && getField(entityDetail, child.keyField)}
-                            mode='single'
+                            photos={entityDetail && getField(entityDetail, child.keyField)}
                           />
                         </div>
                       );

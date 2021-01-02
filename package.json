@@ -55,7 +55,7 @@
     "@types/react-router-config": "^5.0.1",
     "@types/react-select": "^3.0.22",
     "@types/react-tag-input": "^6.1.2",
-    "antd": "^4.8.0",
+    "antd": "^4.9.4",
     "apexcharts": "3.19.2",
     "axios": "0.19.2",
     "axios-mock-adapter": "1.18.1",

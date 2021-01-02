@@ -206,7 +206,7 @@ export const getNewImage = (prevArr: any[], currentArr: any[]) => {
   }
   
   currentArr.forEach((curEl: any) => {
-    const index = prevArr.findIndex(prevEl => isEmpty(diff(curEl, prevEl)) === true);
+    const index = prevArr.findIndex(prevEl => isEmpty(diff(curEl, prevEl)));
     
     if (index === -1) {
       newArr.push(curEl);

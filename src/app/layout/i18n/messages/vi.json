@@ -531,7 +531,8 @@
   "QR.MASTER.TABLE.ACTIVE_AT": "Ngày kích hoạt",
   "QR.MASTER.TABLE.CODE_TYPE": "Loại mã",
 
-  "VALIDATE.ERROR.INVALID_START_TIME": "Ngày bắt đầu không hợp lệ",
+  "VALIDATE.ERROR.INVALID_INPUT": "{label} không hợp lệ",
+  "VALIDATE.ERROR.MUST_LESS_THAN_TODAY": "{label} không được lớn hơn ngày hiện tại",
   "VALIDATE.ERROR.MISSING_START_TIME": "Vui lòng nhập ngày bắt đầu",
   "VALIDATE.ERROR.START_TIME_MUST_LESS_THAN_END_TIME": "Ngày bắt đầu phải nhỏ hơn ngày kết thúc",
   "VALIDATE.ERROR.INVALID_QUANTITY": "Số lượng không hợp lệ",

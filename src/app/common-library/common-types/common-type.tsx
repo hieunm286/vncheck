@@ -184,7 +184,7 @@ export type _CommonProps = {
   value?: any;
   name?: string;
   [T: string]: any;
-  onChange?: (value: any, props: { setFieldValue: ((name: string, value: any) => void),setFieldTouched: ((name: string, value: boolean) => void), values: any }) => any;
+  onChange?: (value: any, props: { setFieldValue: ((name: string, value: any) => void), setFieldTouched: ((name: string, value: boolean) => void), values: any }) => any;
 }
 
 
@@ -199,9 +199,9 @@ export type GetAllPropsServer<T> = ({
 }) => (Promise<AxiosResponse<T[]>>);
 export type _ModifyModelInput =
   ({ _type: 'object', [S: string]: any })
-  | ({ _type: 'image', value?: any, pathField?: string } & _CommonProps)
+  | ({ _type: 'image', value?: any, pathField?: string, width?: string | number, height?: string | number } & _CommonProps)
   | ({ _type: 'custom', component: () => ReactElement })
-  | ({ _type: 'string' | 'string-number' | 'email'| 'date-time' | 'number' | 'boolean' | 'tag' | 'gallery' } & _CommonProps)
+  | ({ _type: 'string' | 'string-number' | 'email' | 'date-time' | 'number' | 'boolean' | 'tag' | 'gallery' } & _CommonProps)
   | ({ _type: 'radio', options: { value: any, label: string }[] | ((...props: any) => { value: any, label: string }[]); } & _CommonProps)
   | ({ _type: 'checkbox', onSelectMany: (entities: any[]) => void; selectedEntities: any[]; } & _CommonProps)
   | ({ _type: 'search-select', onSearch: GetAllPropsServer<any> | GetAllProps<any>, keyField?: string, selectField?: string } & _CommonProps)

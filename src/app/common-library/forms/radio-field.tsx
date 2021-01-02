@@ -30,7 +30,7 @@ export function RadioField({
   const {setFieldValue, handleChange, values, handleBlur, validateField, setFieldTouched} = useFormikContext<any>();
   
   const getValue = useCallback((value: any, fieldValue: any) => {
-    console.log(value, fieldValue);
+    // console.log(value, fieldValue);
     return value ? _.isFunction(value) ? value(fieldValue) : value : fieldValue;
   }, []);
   const [validate, setValidate] = useState(() => console.log);
