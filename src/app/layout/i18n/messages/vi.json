@@ -126,6 +126,7 @@
   "COMMON_COMPONENT.TOAST.ADD_SUCCESS": "Thêm mới dữ liệu thành công",
   "COMMON_COMPONENT.TOAST.UPDATE_SUCCESS": "Cập nhật dữ liệu thành công",
   "COMMON_COMPONENT.TOAST.DEFAULT_ERROR": "Có lỗi rồi đại vương ơi!",
+  "COMMON_STATUS": "Trạng thái hoạt động",
   "PLEASE_CHOOSE": "Vui lòng chọn",
   "BASIC_UNIT.CARD_HEADER.TITLE": "DANH MỤC ĐƠN VỊ CƠ BẢN",
   "BASIC_UNIT.CARD_HEADER.CODE": "Mã đơn vị cơ bản",

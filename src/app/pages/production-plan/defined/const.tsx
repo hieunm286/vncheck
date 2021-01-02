@@ -1432,8 +1432,7 @@ export const packingValidate = {
         // _.isString(this.parent.packing) &&
         // this.parent.packing !== '' &&
         value &&
-        CompareDate(new Date(value), new Date()) &&
-        CompareDate(new Date(this.parent.estimatedExpireTimeEnd), new Date(value))) ||
+        CompareDate(new Date(value), new Date())) ||
       ((!this.parent.leader || this.parent.leader.length === 0) &&
         (!this.parent.technical || this.parent.technical.length === 0) &&
         // !this.parent.packing.label &&
@@ -1444,8 +1443,8 @@ export const packingValidate = {
         (!this.parent.estimatedExpireTimeEnd || this.parent.estimatedExpireTimeEnd === '') &&
         !value) ||
       (value &&
-        CompareDate(new Date(value), new Date()) &&
-        CompareDate(new Date(this.parent.estimatedExpireTimeEnd), new Date(value)))
+        CompareDate(new Date(value), new Date()) 
+       )
     );
   }),
   
