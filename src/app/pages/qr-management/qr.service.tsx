@@ -11,7 +11,7 @@ import {
 } from '../../common-library/common-types/common-type';
 import {QrModel} from './qr.model';
 
-export const API_URL = API_BASE_URL + '/agency';
+export const API_URL = API_BASE_URL + '/qrcode';
 
 export const Create: CreateProps<QrModel> = (data: QrModel) => {
   return axios.post(API_URL, data);

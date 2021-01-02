@@ -109,7 +109,7 @@ function QrPage() {
         align: 'center',
       },
       createdDate: {
-        dataField: 'createdBy',
+        dataField: 'createdDate',
         text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.CREATED_DATE'})}`,
         ...SortColumn,
         formatter: (cell: any, row: any, rowIndex: number) => (<DisplayTime value={cell}/>),
