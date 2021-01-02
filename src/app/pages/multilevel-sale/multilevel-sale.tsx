@@ -82,7 +82,9 @@ function MultilevelSale() {
   const [agencyTotal, setAgencyTotal] = useState(0);
   const [agencyLoading, setAgencyLoading] = useState(false);
   const [agencyParams, setAgencyParams] = useState({
-    storeLevel: '',
+    storeLevel: {
+      _id: ''
+    },
   });
   const [showdeleteAgency, setShowDeleteAgency] = useState(false);
   const [deleteAgency, setDeleteAgency] = useState<any>(null);
@@ -200,9 +202,8 @@ function MultilevelSale() {
     _subTitle: '',
     code: {
       _type: 'string',
-      placeholder: intl.formatMessage({id: 'COMMON_COMPONENT.INPUT.PLACEHOLDER'}),
+      placeholder: intl.formatMessage({id: 'EMPTY'}),
       label: intl.formatMessage({id: 'MULTILEVEL_SALE.MASTER.CODE_COLUMN'}),
-      required: true,
       disabled: true,
     },
     name: {
@@ -215,8 +216,8 @@ function MultilevelSale() {
     },
     status: {
       _type: 'boolean',
-      placeholder: intl.formatMessage({id: 'AGENCY.EDIT.PLACEHOLDER.STATUS'}),
-      label: intl.formatMessage({id: 'AGENCY.EDIT.LABEL.STATUS'}),
+      placeholder: intl.formatMessage({id: 'COMMON_STATUS'}),
+      label: intl.formatMessage({id: 'COMMON_STATUS'}),
     },
   });
   
@@ -241,7 +242,7 @@ function MultilevelSale() {
   
   const onFetchAgency = (entity: any) => {
     setPaginationProps(DefaultPagination);
-    setAgencyParams({storeLevel: entity._id});
+    setAgencyParams({storeLevel: {_id: entity._id}});
   };
   
   const onDeleteAgency = (entity: any) => {
