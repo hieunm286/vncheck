@@ -6,6 +6,7 @@ import {DeleteEntityDialog} from "../../common-library/common-components/delete-
 import {ModifyForm, ModifyInputGroup} from "../../common-library/common-types/common-type";
 import {GetCity, GetDistrict, GetState} from "../address/address.service";
 import ModifyEntityDialog from "../../common-library/common-components/modify-entity-dialog";
+import {InitValues} from "../../common-library/helpers/common-function";
 
 const headerTitle = 'AGENCY.MASTER.HEADER.TITLE';
 const tableTitle = 'SHIPPING_AGENCY.MASTER.TABLE.TITLE';
@@ -122,8 +123,12 @@ export function AgencyShippingAddress({
     // console.log(showDelete);
     setShowDelete(showDelete?.show);
   }, [showDelete]);
+  const initValues = useMemo(() => ({
+    ...InitValues(createForm),isDefault:false
+  }), []);
   return (<Fragment>
     <ModifyEntityDialog
+      entity={initValues}
       moduleName={moduleName}
       formModel={createForm}
       show={_create}
