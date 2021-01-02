@@ -490,7 +490,7 @@ function AgencyPage() {
               isDefault: JSON.stringify(addr) === e.target.value
             }))]);
           },
-          options: ({field, values, setFieldValue, setFieldTouched}: any) => {
+          options: ({ field, values, setFieldValue, setFieldTouched}: any) => {
             return field.value ? field.value.map(((address: any, index: number) => {
               return {
                 label: ({setFieldValue, handleChange, values, handleBlur}: any) => {
