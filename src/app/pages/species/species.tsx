@@ -23,6 +23,7 @@ import {
   SearchModel,
 } from '../../common-library/common-types/common-type';
 import {Spinner} from 'react-bootstrap';
+import {DetailImage} from "../../common-library/common-components/detail/detail-image";
 
 const headerTitle = 'PRODUCT_TYPE.MASTER.HEADER.TITLE';
 const bodyTitle = 'PRODUCT_TYPE.MASTER.BODY.TITLE';
@@ -210,18 +211,10 @@ function Species() {
     {
       data: {
         image: {
-          formatter: data => (
-            <img
-              src={data ? (data.thumbnail ?? data.path) : ''}
-              alt="rau"
-              className="border border-primary"
-              width="200px"
-              height="200px"
-            />
-          ),
+          formatter: (data, values) => (<DetailImage image={data} values={values}/>),
         },
       },
-      className: 'col-5 d-flex justify-content-center align-items-center ml-10',
+      className: 'col-lg-6 col-md-12 d-flex justify-content-right align-items-center mr-5 ml-5',
       dataClassName: 'd-flex',
     },
     {
@@ -233,7 +226,9 @@ function Species() {
         plantingDays: {title: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.PLANTING'},
         expiryDays: {title: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.EXPIRY'},
       },
-      className: 'col-6',
+      dataClassName: 'col-lg-5 col-md-8',
+      titleClassName: 'col-lg-7 col-md-4',
+      className: 'col-lg-5 col-md-12',
     },
   ];
   
@@ -364,12 +359,8 @@ function Species() {
     },
   };
   
-  console.log(loading)
-  
   return (
     <Fragment>
-      {/* <ReactNotification /> */}
-      {/* <ToastContainer /> */}
       <MasterEntityDetailDialog
         show={showDetail}
         entity={detailEntity}

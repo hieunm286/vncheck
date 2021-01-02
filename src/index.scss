@@ -455,6 +455,7 @@ label {
 .ant-select-focused:not(.ant-select-disabled).ant-select-multiple .ant-select-selector {
   border-color: $primary;
 }
+
 .ant-select-focused:not(.ant-select-disabled).ant-select:not(.ant-select-customize-input) .ant-select-selector {
   border-color: $primary;
   box-shadow: 0 0 0 0;
@@ -468,7 +469,7 @@ label {
 //   }
 // }
 .pagination-toolbar .ant-select-selection-item {
-  line-height: 33px!important;
+  line-height: 33px !important;
   min-width: 4rem;
 }
 
@@ -563,7 +564,7 @@ label {
 }
 
 
-.is-valid{
+.is-valid {
   .ant-select-selector {
     border-radius: 0.42rem !important;
     min-height: calc(1.5em + 1.3rem + 2px) !important;
@@ -571,14 +572,22 @@ label {
   }
 
 }
-.is-invalid{
+
+.is-invalid {
   .ant-select-selector {
     border-radius: 0.42rem !important;
     min-height: calc(1.5em + 1.3rem + 2px) !important;
     border: solid 1px #f10d0d !important;
   }
 }
-.hidden{
+
+.hidden {
   display: none;
 }
+
+.ant-image-preview-wrap {
+  z-index: 1060 !important;
+  background-color: rgba(0,0,0,.8);
+}
+
 //.card.card-custom > .card-body
