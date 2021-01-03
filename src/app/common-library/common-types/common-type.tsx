@@ -234,7 +234,7 @@ export type RenderInfoDetail = {
   data: {
     [T: string]: {
       title?: string;
-      formatter?: (cellContent: any, row: any, rowIndex: number) => ReactElement;
+      formatter?: (value: any, entity?: any) => ReactElement;
       keyField?: string;
     }
   },

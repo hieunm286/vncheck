@@ -15,7 +15,7 @@ export const harvestingDetail: RenderInfoDetail = [
       'planting.estimatedHarvestTime': {title: 'Thời gian thu hoạch dự kiến',},
       'planting.landLot.code': {
         title: 'Lô gieo trồng',
-        formatter: (cell: any, row: any, rowIndex: any) => cell.toUpperCase(),
+        formatter: (cell: any, row: any) => cell.toUpperCase(),
       },
       'planting.expectedQuantity': {title: 'Sản lượng dự kiến',},
     }

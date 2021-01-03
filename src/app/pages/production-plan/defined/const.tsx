@@ -1,4 +1,9 @@
-import {ModifyForm, ModifyPanel, SearchModel,} from '../../../common-library/common-types/common-type';
+import {
+  ModifyForm,
+  ModifyPanel,
+  RenderInfoDetail,
+  SearchModel,
+} from '../../../common-library/common-types/common-type';
 import {GenerateAllFormField} from '../../../common-library/helpers/common-function';
 import * as ProductPackagingService from '../../product-packaging/product-packaging.service';
 import * as SpeciesService from '../../species/species.service';
@@ -9,6 +14,7 @@ import _ from 'lodash';
 import React from 'react';
 import {useIntl} from 'react-intl';
 import store from '../../../../redux/store';
+import {DisplayCoordinates, DisplayImage} from "../../../common-library/helpers/detail-helpers";
 
 export const headerTitle = 'PRODUCT_TYPE.MASTER.HEADER.TITLE';
 export const bodyTitle = 'PRODUCT_TYPE.MASTER.BODY.TITLE';
@@ -615,7 +621,7 @@ export const allFormField: any = {
   ),
 };
 
-export const PlantingDetailDialog:any = [
+export const PlantingDetailDialog: any = [
   {
     header: 'THÔNG TIN CHUNG',
     className: 'row',
@@ -754,222 +760,93 @@ export const PlantingDetailDialog:any = [
   },
 ];
 
-export const SeedingDetailDialog:any = [
+export const SeedingDetailDialog: RenderInfoDetail = [
   {
     header: 'THÔNG TIN CHUNG',
     className: 'row',
-    data: [
-      [
-        {
-          type: 'string',
-          title: 'SEEDING.CODE',
-          keyField: 'seeding.code',
-        },
-        {
-          type: 'image',
-          title: 'SEEDING.CERTIFICATE',
-          keyField: 'seeding.certificates',
-        },
-        {
-          type: 'image',
-          title: 'SEEDING.INVOICE',
-          keyField: 'seeding.buyInvoice',
-        },
-        {
-          type: 'date-time',
-          title: 'SEEDING.SEEDING_TIME',
-          keyField: 'seeding.seedingTime',
-        },
-        {
-          type: 'date-time',
-          title: 'SEEDING.ESTIMATED_PLANTING_TIME',
-          keyField: 'seeding.estimatedPlantingTime',
-        },
-        {
-          type: 'string',
-          title: 'SEEDING.LAND_LOT',
-          keyField: 'seeding.landLot.code',
-          convertFn: (t: any) => t.toUpperCase(),
-        },
-      ],
-      [
-        {
-          type: 'string',
-          title: 'SEEDING.FARM_LOCATION',
-          keyField: 'seeding.farmLocation.[coordinates]',
-        },
-        {
-          type: 'string',
-          title: 'SEEDING.SPECIES_NAME',
-          keyField: 'seeding.species.name',
-        },
-        {
-          type: 'string',
-          title: 'SEEDING.GTIN',
-          keyField: 'seeding.species.barcode',
-        },
-        {
-          type: 'string',
-          title: 'SEEDING.SEEDING_AREA',
-          keyField: 'seeding.area',
-        },
-        {
-          type: 'string',
-          title: 'SEEDING.NUMBER_OF_SEED',
-          keyField: 'seeding.numberOfSeed',
-        },
-        {
-          type: 'string',
-          title: 'SEEDING.EXPECTED_QUANTITY',
-          keyField: 'seeding.expectedQuantity',
-        },
-      ],
-    ],
+    data: {
+      'seeding.code': {title: 'SEEDING.CODE',},
+      'seeding.certificates': {
+        title: 'SEEDING.CERTIFICATE',
+        formatter: DisplayImage
+      },
+      'seeding.buyInvoice': {
+        title: 'SEEDING.INVOICE',
+        formatter: DisplayImage
+      },
+      'seeding.seedingTime': {title: 'SEEDING.SEEDING_TIME',},
+      'seeding.estimatedPlantingTime': {title: 'SEEDING.ESTIMATED_PLANTING_TIME',},
+      'seeding.landLot.code': {title: 'SEEDING.LAND_LOT',},
+      'seeding.farmLocation.[coordinates]': {
+        title: 'SEEDING.FARM_LOCATION',
+        formatter: DisplayCoordinates
+      },
+      'seeding.species.name': {title: 'SEEDING.SPECIES_NAME',},
+      'seeding.species.barcode': {title: 'SEEDING.GTIN',},
+      'seeding.area': {title: 'SEEDING.SEEDING_AREA',},
+      'seeding.numberOfSeed': {title: 'SEEDING.NUMBER_OF_SEED',},
+      'seeding.expectedQuantity': {title: 'SEEDING.EXPECTED_QUANTITY',},
+    },
   },
-  {
-    header: 'THÔNG TIN MÔI TRƯỜNG',
-    className: 'row',
-    data: [
-      [
-        {
-          type: 'string',
-          title: 'Nhiệt độ',
-          keyField: 'planting.temperature',
-          convertFn: (t: string) => t + '°C',
-        },
-        {
-          type: 'string',
-          title: 'Độ ẩm',
-          keyField: 'planting.humidity',
-          convertFn: (t: string) => t + '%',
-        },
-        {
-          type: 'string',
-          title: 'Độ xốp',
-          keyField: 'planting.porosity',
-          convertFn: (t: string) => t + '%',
-        },
-      ],
-      []
-    ],
-  },
-  {
-    header: 'THÔNG TIN QUẢN TRỊ',
-    data: [
-      [
-        {
-          type: 'string',
-          title: 'Thông tin Giám đốc/TGĐ',
-          keyField: 'planting.manager.lastName',
-        },
-        {
-          type: 'string',
-          title: 'Tổ trưởng gieo trồng',
-          keyField: 'planting.[leader].lastName',
-          separator: ', ',
-        },
-        {
-          type: 'string',
-          title: 'Công nhân gieo trồng',
-          keyField: 'planting.[worker].lastName',
-        },
-        {
-          type: 'table',
-          title: 'Thông tin Giám đốc/TGĐ',
-          keyField: 'planting.worker',
-          columns: {
-            _id: {
-              dataField: '_id',
-              text: `ID`,
-              align: 'center',
-              classes: 'text-left',
-            },
-            firstName: {
-              dataField: 'firstName',
-              text: `Họ`,
-              align: 'center',
-              classes: 'text-left',
-            },
-            lastName: {
-              dataField: 'lastName',
-              text: `Tên`,
-              align: 'center',
-              classes: 'text-left',
-            },
-            fullName: {
-              dataField: 'fullName',
-              text: `Họ và tên`,
-              align: 'center',
-              classes: 'text-left',
-            },
-          }
-        },
-      ],
-      []
-    ],
-  },
-  {
-    header: 'THÔNG TIN CÔNG NHÂN',
-    className: 'row',
-    data: [
-      [
-        {
-          type: 'table',
-          title: 'Thông tin Giám đốc/TGĐ',
-          keyField: 'planting.worker',
-          columns: {
-            _id: {
-              dataField: '_id',
-              text: `ID`,
-              align: 'center',
-              classes: 'text-left',
-            },
-            firstName: {
-              dataField: 'firstName',
-              text: `Họ`,
-              align: 'center',
-              classes: 'text-left',
-            },
-            lastName: {
-              dataField: 'lastName',
-              text: `Tên`,
-              align: 'center',
-              classes: 'text-left',
-            },
-            fullName: {
-              dataField: 'fullName',
-              text: `Họ và tên`,
-              align: 'center',
-              classes: 'text-left',
-            },
-          }
-        },
-      ],
-    ],
-  },
-  {
-    header: 'HÌNH ẢNH',
-    className: 'row',
-    data: [
-      [
-        {
-          type: 'image',
-          title: 'Hình ảnh định vị lô luống',
-          keyField: 'seeding.landLotImage',
-        },
-      ],
-      [
-        {
-          type: 'image',
-          title: 'Hình ảnh trước khi đưa vào nuôi trồng',
-          keyField: 'planting.imageAfter',
-        },
-      ],
-    ],
-  },
+  // {
+  //   header: 'THÔNG TIN MÔI TRƯỜNG',
+  //   className: 'row',
+  //   data: {
+  //     'planting.temperature': {
+  //       title: 'Nhiệt độ',
+  //       formatter: (cell: any, row: any) => (<>{cell + '°C'}</>),
+  //     },
+  //     'planting.humidity': {
+  //       title: 'Độ ẩm',
+  //       formatter: (cell: any, row: any) => (<>{cell + '%'}</>),
+  //     },
+  //     'planting.porosity': {
+  //       title: 'Độ xốp',
+  //       formatter: (cell: any, row: any) => (<>{cell + '%'}</>),
+  //     },
+  //   },
+  // },
+  // {
+  //   header: 'THÔNG TIN QUẢN TRỊ',
+  //   data: {
+  //     'planting.manager.lastName': {
+  //       title: 'Thông tin Giám đốc/TGĐ',
+  //     },
+  //     'planting.[leader].lastName': {
+  //       title: 'Tổ trưởng gieo trồng',
+  //     },
+  //     'planting.[worker].lastName': {
+  //       title: 'Công nhân gieo trồng',
+  //     },
+  //     'planting.worker': {
+  //       title: 'Thông tin Giám đốc/TGĐ',
+  //     },
+  //   },
+  // },
+  // {
+  //   header: 'THÔNG TIN CÔNG NHÂN',
+  //   className: 'row',
+  //   data: {
+  //     'planting.worker': {
+  //       title: 'Thông tin Giám đốc/TGĐ',
+  //     },
+  //   },
+  // },
+  // {
+  //   header: 'HÌNH ẢNH',
+  //   className: 'row',
+  //   data: {
+  //     'seeding.landLotImage': {
+  //       title: 'Hình ảnh định vị lô luống',
+  //     },
+  //     'planting.imageAfter': {
+  //       title: 'Hình ảnh trước khi đưa vào nuôi trồng',
+  //     },
+  //   },
+  // }
 ];
 
-export const masterEntityDetailDialog2:any = [
+export const masterEntityDetailDialog2: any = [
   {
     header: 'THÔNG TIN CHUNG',
     data: [
@@ -1443,8 +1320,8 @@ export const packingValidate = {
         (!this.parent.estimatedExpireTimeEnd || this.parent.estimatedExpireTimeEnd === '') &&
         !value) ||
       (value &&
-        CompareDate(new Date(value), new Date()) 
-       )
+        CompareDate(new Date(value), new Date())
+      )
     );
   }),
   
