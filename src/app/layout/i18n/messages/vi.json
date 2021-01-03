@@ -392,6 +392,7 @@
   "PRODUCT_PACKAGING.MODULE_NAME": "Quy cách đóng gói",
   "PRODUCT_PACKAGING.CREATE.TITLE": "Tạo quy cách mới",
   "PRODUCT_PACKAGING.UPDATE.TITLE": "Chỉnh sửa quy cách đóng gói",
+  "PRODUCT_PACKAGING.VIEW.TITLE": "Chi tiết {moduleName}",
   "VALIDATE.ERROR.PACKING.PACKING_HAS_BEEN_USED": "Quy cách đóng gói đã tồn tại",
   "PRODUCTION_PLAN.CODE": "Mã kế hoạch",
   "PRODUCTION_PLAN.HARVESTING_CODE": "Mã thu hoạch",

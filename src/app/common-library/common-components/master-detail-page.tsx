@@ -6,15 +6,13 @@ import {useHistory} from 'react-router-dom';
 import _ from 'lodash';
 import {RenderInfoDetail} from "../common-types/common-type";
 
-const getFieldV3 = (field: any, fieldName: string) => {
+export const getFieldV3 = (field: any, fieldName: string) => {
   const ifNested = (fN: string) => fN.indexOf('.') === -1;
   const ifArray = (k: string) => k.indexOf('[') > -1;
-  
-  if (ifNested(fieldName)) {
+    if (ifNested(fieldName)) {
     return [field[fieldName]];
   }
   const arrName = fieldName.split('.');
-  // let ke/y = arrName[0];
   let fields: any[] = [field];
   arrName.forEach((k, iK) => {
     let newFields: any[] = [];
@@ -34,7 +32,6 @@ const getFieldV3 = (field: any, fieldName: string) => {
     // console.log('newFields',newFields);
     fields = newFields;
   });
-  console.log(fields);
   return fields;
 };
 
