@@ -238,6 +238,10 @@ function ProductionPlanCrud({
       )) {
         return { status: false, field: 'preliminaryTreatment.estimatedTime', message: 'Không thu hoạch thì sơ chế kiểu gì?' };
       }
+
+    if (values.planting.expectedQuantity && values.preliminaryTreatment.estimatedQuantity && values.planting.expectedQuantity < values.preliminaryTreatment.estimatedQuantity) {
+      return { status: false, field: 'preliminaryTreatment.estimatedQuantity', message: 'Sản lượng sơ chế không được lớn hơn sản lượng thu hoạch' }
+    }
     if (
       values.preliminaryTreatment.estimatedTime &&
       values.cleaning.estimatedTime &&
@@ -248,6 +252,9 @@ function ProductionPlanCrud({
     ) {
       return { status: false, field: 'cleaning.estimatedTime', message: 'Có thằng nào làm sạch xong mới sơ chế không?' };
     }
+    if (values.preliminaryTreatment.estimatedQuantity && values.cleaning.estimatedQuantity && values.preliminaryTreatment.estimatedQuantity < values.cleaning.estimatedQuantity) {
+      return { status: false, field: 'cleaning.estimatedQuantity', message: 'Sản lượng làm sạch không được lớn hơn sản lượng sơ chế' }
+    }
     if (
       values.cleaning.estimatedTime &&
       values.packing.estimatedTime &&
@@ -257,6 +264,9 @@ function ProductionPlanCrud({
       )
     ) {
       return { status: false, field: 'packing.estimatedTime', message: 'Nhập đúng ngày tháng hộ cái mệt vkl' };
+    }
+    if (values.cleaning.estimatedQuantity && values.packing.estimatedQuantity && values.cleaning.estimatedQuantity < values.packing.estimatedQuantity) {
+      return { status: false, field: 'packing.estimatedQuantity', message: 'Sản lượng đóng gói không được lớn hơn sản lượng làm sạch' }
     }
     if (
       values.packing.estimatedTime &&
