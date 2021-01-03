@@ -12,7 +12,7 @@ import { DeleteEntityDialog } from '../../common-library/common-components/delet
 import DeleteManyEntitiesDialog from '../../common-library/common-components/delete-many-entities-dialog';
 import {
   ModifyForm,
-  ModifyInputGroup,
+  ModifyInputGroup, RenderInfoDetail,
   SearchModel,
 } from '../../common-library/common-types/common-type';
 import {
@@ -31,6 +31,7 @@ import ProductPackagingDetailDialog from './product-packaging-detail-dialog';
 import * as ProductTypeService from '../species/species.service';
 import _ from 'lodash';
 import ModifyEntityDialog from '../../common-library/common-components/modify-entity-dialog';
+import {MasterEntityDetailDialog} from "../../common-library/common-components/master-entity-detail-dialog";
 
 const headerTitle = 'PRODUCT_PACKAGING.MASTER.HEADER.TITLE';
 const bodyTitle = 'PRODUCT_PACKAGING.MASTER.BODY.TITLE';
@@ -38,6 +39,7 @@ const moduleName = 'PRODUCT_PACKAGING.MODULE_NAME';
 const deleteDialogTitle = 'PRODUCT_PACKAGING.DELETE_DIALOG.TITLE';
 const createTitle = 'PRODUCT_PACKAGING.CREATE.TITLE';
 const updateTitle = 'PRODUCT_PACKAGING.UPDATE.TITLE';
+const viewTitle = 'PRODUCT_PACKAGING.VIEW.TITLE';
 const homeURL = `${window.location.pathname}`;
 
 const ProductPackagingSchema = Yup.object().shape({
@@ -160,17 +162,15 @@ function ProductPackaging() {
       style: { minWidth: '130px' },
     },
   };
-
-  const masterEntityDetailDialog = [
+  const masterEntityDetailDialog: RenderInfoDetail = useMemo((): RenderInfoDetail => [
     {
-      header: 'THÔNG TIN 1',
       data: {
         code: { title: 'PRODUCT_PACKAGING.MASTER.DETAIL_DIALOG.CODE' },
-        species: { title: 'PRODUCT_PACKAGING.MASTER.DETAIL_DIALOG.NAME', refField: 'name' },
+        'species.name': { title: 'PRODUCT_PACKAGING.MASTER.DETAIL_DIALOG.NAME'},
         weight: { title: 'PRODUCT_PACKAGING.MASTER.DETAIL_DIALOG.GRAM' },
       },
     },
-  ];
+  ],[]);
 
   const productTypeSearchModel: SearchModel = {
     code: {
@@ -287,11 +287,13 @@ function ProductPackaging() {
 
   return (
     <Fragment>
-      <ProductPackagingDetailDialog
+      <MasterEntityDetailDialog
+        title={viewTitle}
+        moduleName={moduleName}
         show={showDetail}
         entity={detailEntity}
         renderInfo={masterEntityDetailDialog}
-        onClose={() => {
+        onHide={() => {
           setShowDetail(false);
         }}
       />

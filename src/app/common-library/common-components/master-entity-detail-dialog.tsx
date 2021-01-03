@@ -5,6 +5,8 @@ import {useIntl} from 'react-intl';
 import {iconStyle} from "../common-consts/const";
 import {getField} from "../helpers/common-function";
 import {RenderInfoDetail} from "../common-types/common-type";
+import _ from "lodash";
+import {getFieldV3} from "./master-detail-page";
 
 export function MasterEntityDetailDialog({
                                            title = 'COMMON_COMPONENT.DETAIL_DIALOG.HEADER_TITLE',
@@ -55,22 +57,20 @@ export function MasterEntityDetailDialog({
 export function MasterEntityDetail({
                                      entity,
                                      renderInfo,
-                                     convertFunctions = {},
                                    }: {
   renderInfo: RenderInfoDetail;
   entity: any;
-  convertFunctions?: { [V: string]: (input: any) => string };
 }) {
   const intl = useIntl();
   return entity ? (
     <Modal.Body>
       <div className={`row`}>
-        {renderInfo.map((value: any, key: any) => (
-          <div key={key} className={`${value.className ?? 'col-12'}`}>
+        {renderInfo.map((value, index) => (
+          <div key={index} className={`${value.className ?? 'col-12'}`}>
             {value.header && value.header !== '' && <p className="text-primary detail-dialog-subtitle">
               {intl.formatMessage({id: value.header})}
             </p>}
-            {Object.keys(value.data).map((dataKey: any) => (
+            {Object.keys(value.data).map((dataKey) => (
               <div className={`detail-dialog-row-info row`} key={dataKey}>
                 {value.data[dataKey].title && value.data[dataKey].title !== '' &&
                 <div className={`${value.titleClassName ?? 'col-4'}`}>
@@ -78,10 +78,13 @@ export function MasterEntityDetail({
                 </div>}
                 <div className={`${value.dataClassName ?? 'col-8'}`}>
                   {(() => {
-                    const displayData = value.data[dataKey].keyField ? getField(entity, value.data[dataKey].keyField) : entity[dataKey];
-                    return value.data[dataKey].formatter ?
-                      (<>{value.data[dataKey].formatter(displayData, entity)}</>)
-                      : (<>{displayData}</>)
+                    const displayInfo = value.data[dataKey];
+                    const fieldName = displayInfo.keyField ?? dataKey;
+                    const displayData = fieldName.indexOf("[") > -1 ?
+                      getFieldV3(entity, fieldName) :
+                      getFieldV3(entity, fieldName)[0]
+                    return displayInfo.formatter ? displayInfo.formatter(displayData, entity)
+                      : (<>{(_.isNumber(displayData) || _.isString(displayData)) ? displayData : JSON.stringify(displayData)}</>)
                   })()
                   }
                 </div>
