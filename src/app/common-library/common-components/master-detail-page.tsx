@@ -9,7 +9,7 @@ import {RenderInfoDetail} from "../common-types/common-type";
 export const getFieldV3 = (field: any, fieldName: string) => {
   const ifNested = (fN: string) => fN.indexOf('.') === -1;
   const ifArray = (k: string) => k.indexOf('[') > -1;
-    if (ifNested(fieldName)) {
+  if (ifNested(fieldName)) {
     return [field[fieldName]];
   }
   const arrName = fieldName.split('.');
@@ -70,23 +70,21 @@ export function MasterEntityDetailPage({
   }, [code]);
   return (
     <Card>
-      {renderInfo.map((value, index) => (
-        <CardHeader
-          className={'border-bottom-0 pl-0 large-font-size'}
-          title={(<a
-              onClick={() => history.goBack()}
-              className={'cursor-pointer text-primary font-weight-boldest'}>
-              <ArrowBackIosIcon/>
-              {intl
-                .formatMessage(
-                  {id: index == 0 ? header ?? value.header : value.header},
-                  {moduleName: intl.formatMessage({id: moduleName})},
-                )
-                .toUpperCase()}
-            </a>
-          )}
-        />
-      ))}
+      <CardHeader
+        className={'border-bottom-0 pl-0 large-font-size'}
+        title={(<a
+            onClick={() => history.goBack()}
+            className={'cursor-pointer text-primary font-weight-boldest'}>
+            <ArrowBackIosIcon/>
+            {intl
+              .formatMessage(
+                {id: header},
+                {moduleName: intl.formatMessage({id: moduleName})},
+              )
+              .toUpperCase()}
+          </a>
+        )}
+      />
       <CardBody className={'p-0'}>
         <div className={`row`}>
           {renderInfo.map((value, index) => (

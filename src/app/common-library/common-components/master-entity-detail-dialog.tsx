@@ -33,7 +33,6 @@ export function MasterEntityDetailDialog({
       onHide={onHide}
       aria-labelledby="example-modal-sizes-title-lg"
       dialogClassName="modal-detail"
-      // style={{width}}
     >
       <Modal.Header closeButton className="border-bottom-0">
         <Modal.Title id="example-modal-sizes-title-lg" className="text-primary">

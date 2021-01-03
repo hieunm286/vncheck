@@ -27,7 +27,6 @@ import * as Yup from 'yup';
 import { ProductPackagingModel } from './product-packaging.model';
 import * as ProductPackagingService from './product-packaging.service';
 import { GetAll } from './product-packaging.service';
-import ProductPackagingDetailDialog from './product-packaging-detail-dialog';
 import * as ProductTypeService from '../species/species.service';
 import _ from 'lodash';
 import ModifyEntityDialog from '../../common-library/common-components/modify-entity-dialog';
