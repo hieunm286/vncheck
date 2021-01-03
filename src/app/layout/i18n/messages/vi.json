@@ -1,5 +1,6 @@
 {
   "Network Error": "Cá mập cắn cáp rồi đại vương ơi",
+  "CLICK_TO_DOWNLOAD": "Ấn vào đây để xem",
   "INPUT.ERROR.REQUIRED": "Vui lòng nhập {label}",
   "RADIO.ERROR.REQUIRED": "Vui lòng chọn {label}",
   "INPUT.ERROR.INVALID_EMAIL": "Email không hợp lệ",

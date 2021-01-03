@@ -37,6 +37,7 @@ import {AgencyShippingAddress} from "./agency-shipping-address";
 import * as Yup from "yup";
 import AddIcon from "@material-ui/icons/Add";
 import _ from "lodash";
+import {DisplayAddress} from "../../common-library/helpers/detail-helpers";
 
 const headerTitle = 'AGENCY.MASTER.HEADER.TITLE';
 const tableTitle = 'SHIPPING_AGENCY.MASTER.TABLE.TITLE';
@@ -127,10 +128,7 @@ function AgencyPage() {
       address: {
         dataField: 'address',
         text: `${intl.formatMessage({id: 'AGENCY.MASTER.TABLE.AGENCY_ADDRESS_COLUMN'})}`,
-        formatter: (address: any, row: any, rowIndex: number) => {
-          const addressString = `${address.address}, ${address.district}, ${address.city}, ${address.state}`;
-          return (<>{addressString}</>);
-        },
+        formatter: DisplayAddress,
         ...NormalColumn,
         align: 'center',
       },

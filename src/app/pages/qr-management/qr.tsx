@@ -30,6 +30,7 @@ import User from "../account";
 import {MasterEntityDetailPage} from "../../common-library/common-components/master-detail-page";
 import {SeedingDetailDialog} from "../production-plan/defined/const";
 import * as ProductionPlanService from "../production-plan/production-plan.service";
+import {QrRenderDetail} from "./qr.render-info";
 
 const headerTitle = 'AGENCY.MASTER.HEADER.TITLE';
 const tableTitle = 'SHIPPING_AGENCY.MASTER.TABLE.TITLE';
@@ -225,7 +226,7 @@ function QrPage() {
         <Route exact path="/qr/:code">
           {({ history, match }) => (
             <MasterEntityDetailPage
-              renderInfo={SeedingDetailDialog}
+              renderInfo={QrRenderDetail}
               code={match && match.params.code}
               get={code => GetById(code)}
               onClose={() => {
