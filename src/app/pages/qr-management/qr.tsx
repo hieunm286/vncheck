@@ -231,7 +231,6 @@ function QrPage() {
               onClose={() => {
                 setShowDetail(false);
               }}
-              mode="line"
               header="THÔNG TIN GIEO GIỐNG"
             />
           )}

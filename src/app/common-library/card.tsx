@@ -76,10 +76,10 @@ export const CardHeader = forwardRef(
     return (
       <div
         ref={ref}
-        className="card-header"
+        className={clsx('card-header', className)}
         style={!sticky ? undefined : { top, position: 'sticky', backgroundColor: '#fff' }}>
         {title != null && (
-          <div ref={labelRef} className={clsx('card-title', className)}>
+          <div ref={labelRef} className={clsx('card-title')}>
             {icon}
 
             {/* Wrap string and fragments in CardHeaderTitle */

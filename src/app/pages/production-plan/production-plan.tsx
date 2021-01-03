@@ -1484,7 +1484,6 @@ function ProductionPlan() {
               onClose={() => {
                 setShowDetail(false);
               }}
-              mode="line"
               header="THÔNG TIN GIEO GIỐNG"
             />
           )}
@@ -1499,7 +1498,6 @@ function ProductionPlan() {
               onClose={() => {
                 setShowDetail(false);
               }}
-              mode="line"
               header="THÔNG TIN GIEO TRỒNG"
               homeURL={homeURL}
             />
@@ -1516,7 +1514,6 @@ function ProductionPlan() {
                 setShowDetail(false);
               }}
               allFormButton={currentTab === '1' && username === 'admin' && adminAllFormButton}
-              mode="split"
               header={`CHI TIẾT KẾ HOẠCH`}
             />
           )}
@@ -1526,7 +1523,6 @@ function ProductionPlan() {
             title={headerTitle}
             onSearch={value => {
               setPaginationProps(DefaultPagination);
-
               const cvValue = JSON.parse(JSON.stringify(value));
 
               if (

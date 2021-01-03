@@ -1,10 +1,8 @@
-import React, {Fragment, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useIntl} from 'react-intl';
 import {Card, CardBody, CardHeader} from '../card';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import {Link, useHistory} from 'react-router-dom';
-import {format} from 'date-fns';
-import {getField} from '../helpers/common-function';
+import {useHistory} from 'react-router-dom';
 import _ from 'lodash';
 import {RenderInfoDetail} from "../common-types/common-type";
 
@@ -46,7 +44,6 @@ export function MasterEntityDetailPage({
                                          entity,
                                          onClose,
                                          renderInfo,
-                                         mode,
                                          homeURL,
                                          code,
                                          get,
@@ -57,7 +54,6 @@ export function MasterEntityDetailPage({
   entity?: any;
   renderInfo: RenderInfoDetail;
   onClose: () => void;
-  mode: 'line' | 'split';
   homeURL?: string;
   code: string | null;
   get: (code: string) => any | null;
@@ -79,404 +75,54 @@ export function MasterEntityDetailPage({
     <Card>
       {renderInfo.map((value, index) => (
         <CardHeader
-          className={'border-bottom-0'}
-          title={
-            index == 0 ? (
-              <a
-                onClick={() => history.goBack()}
-                className={'cursor-pointer text-primary font-weight-boldest'}>
-                <ArrowBackIosIcon/>
-                {intl
-                  .formatMessage(
-                    {id: header},
-                    {moduleName: intl.formatMessage({id: moduleName})},
-                  )
-                  .toUpperCase()}
-              </a>
-            ) : (
-              <>
-                {intl
-                  .formatMessage(
-                    {id: value.header},
-                    {moduleName: intl.formatMessage({id: moduleName})},
-                  )
-                  .toUpperCase()}
-              </>
-            )
-          }
+          className={'border-bottom-0 pl-0 large-font-size'}
+          title={(<a
+              onClick={() => history.goBack()}
+              className={'cursor-pointer text-primary font-weight-boldest'}>
+              <ArrowBackIosIcon/>
+              {intl
+                .formatMessage(
+                  {id: index == 0 ? header ?? value.header : value.header},
+                  {moduleName: intl.formatMessage({id: moduleName})},
+                )
+                .toUpperCase()}
+            </a>
+          )}
         />
       ))}
-      
-      
-      {mode === 'line' && (
-        <LineMode
-          entityDetail={entityDetail}
-          renderInfo={renderInfo}
-          intl={intl}
-        />
-      )}
-      {mode === 'split' && (
-        <>
-          <SplitMode
-            title={header}
-            entityDetail={entityDetail}
-            renderInfo={renderInfo}
-            intl={intl}
-            moduleName={moduleName}
-            history={history}
-            homeURL={homeURL}
-            allFormButton={allFormButton}
-          />
-          {allFormButton && allFormButton.type === 'outside' && (
-            <div className="text-right mb-5 mr-20">
-              {Object.keys(allFormButton.data).map(keyss => {
-                switch (allFormButton['data'][keyss].role) {
-                  case 'submit':
-                    return (
-                      <button
-                        type={allFormButton['data'][keyss].type}
-                        onClick={() => {
-                          // handleSubmit();
-                          allFormButton['data'][keyss].onClick();
-                        }}
-                        className={allFormButton['data'][keyss].className}
-                        key={keyss}>
-                        {allFormButton['data'][keyss].icon} {allFormButton['data'][keyss].label}
-                      </button>
-                    );
-                  
-                  case 'special':
-                    return (
-                      <button
-                        type={allFormButton['data'][keyss].type}
-                        onClick={() => {
-                          // handleSubmit();
-                          allFormButton['data'][keyss].onClick(entityDetail);
-                          
-                        }}
-                        className={allFormButton['data'][keyss].className}
-                        key={keyss}>
-                        {allFormButton['data'][keyss].icon} {allFormButton['data'][keyss].label}
-                      </button>
-                    );
-                  
-                  case 'button':
-                    return (
-                      <button
-                        type={allFormButton['data'][keyss].type}
-                        className={allFormButton['data'][keyss].className}
-                        key={keyss}
-                        onClick={() => {
-                          allFormButton['data'][keyss].onClick(entityDetail);
-                        }}>
-                        {allFormButton['data'][keyss].icon} {allFormButton['data'][keyss].label}
-                      </button>
-                    );
-                  case 'link-button':
-                    return (
-                      <Link to={allFormButton['data'][keyss].linkto} key={keyss}>
-                        <button
-                          type={allFormButton['data'][keyss].type}
-                          className={allFormButton['data'][keyss].className}>
-                          {allFormButton['data'][keyss].icon} {allFormButton['data'][keyss].label}
-                        </button>
-                      </Link>
-                    );
-                }
-              })}
-            </div>
-          )}
-        </>
-      )}
-    </Card>
-  );
-}
-
-const LineMode = ({entityDetail, renderInfo, intl}: { entityDetail: any, renderInfo: RenderInfoDetail, intl: any }) => (
-  <CardBody>
-    <div className={`row`}>
-      {renderInfo.map((value, index) => (
-        <div key={index} className={`${value.className ?? 'col-12'}`}>
-          {value.header && value.header !== '' && <p className="text-primary detail-dialog-subtitle">
-            {intl.formatMessage({id: value.header})}
-          </p>}
-          {Object.keys(value.data).map((dataKey) => (
-            <div className={`detail-dialog-row-info row`} key={dataKey}>
-              {value.data[dataKey].title && value.data[dataKey].title !== '' &&
-              <div className={`${value.titleClassName ?? 'col-4'}`}>
-                {intl.formatMessage({id: value.data[dataKey].title})}:
-              </div>}
-              <div className={`${value.dataClassName ?? 'col-8'}`}>
-                {entityDetail && (() => {
-                  const displayInfo = value.data[dataKey];
-                  const displayData = getFieldV3(entityDetail, value.data[dataKey].keyField ?? dataKey);
-                  return displayInfo.formatter ? displayInfo.formatter(displayData, entityDetail)
-                    : (<>{displayData}</>)
-                })()
-                }
+      <CardBody className={'p-0'}>
+        <div className={`row`}>
+          {renderInfo.map((value, index) => (
+            <div key={index} className={`${value.className ?? 'col-md-6 col-12 border-bottom pb-10'}`}>
+              {value.header && value.header !== '' && <p className="text-primary detail-dialog-subtitle">
+                {intl.formatMessage({id: value.header})}
+              </p>}
+              <div className={'row no-gutters'}>
+                {Object.keys(value.data).map((dataKey) => (
+                  <>
+                    {value.data[dataKey].title && value.data[dataKey].title !== '' &&
+                    <div className={`${value.titleClassName ?? 'col-4 mb-10'}`}>
+                      {intl.formatMessage({id: value.data[dataKey].title})}:
+                    </div>}
+                    <div className={`${value.dataClassName ?? 'col-8 mb-10'}`}>
+                      {entityDetail && (() => {
+                        const displayInfo = value.data[dataKey];
+                        const fieldName = displayInfo.keyField ?? dataKey;
+                        const displayData = fieldName.indexOf("[") > -1 ?
+                          getFieldV3(entityDetail, fieldName) :
+                          getFieldV3(entityDetail, fieldName)[0]
+                        return displayInfo.formatter ? displayInfo.formatter(displayData, entityDetail)
+                          : (<>{(_.isNumber(displayData) || _.isString(displayData)) ? displayData : JSON.stringify(displayData)}</>)
+                      })()
+                      }
+                    </div>
+                  </>
+                ))}
               </div>
             </div>
           ))}
         </div>
-      ))}
-    </div>
-    {/**/}
-    {/*{renderInfo.map((value: any, key: any) => (*/}
-    {/*  <div key={key} className="mt-5">*/}
-    {/*    <p className="text-primary" style={{ fontWeight: 600 }}>{value.header}</p>*/}
-    {/*    <div className={value.className} style={{ color: '#000000' }}>*/}
-    {/*      {value.data.map((el: any, elKey: number) => (*/}
-    {/*        <div key={elKey} className={value.className ? `col-md-${12 / value.data.length} col-12 border-bottom pb-10` : `border-bottom pb-10`}>*/}
-    {/*          {el.map((child: any, childKey: string) => {*/}
-    {/*            const Separator = () =>*/}
-    {/*              child.separator ? (*/}
-    {/*                typeof child.separator === 'string' ? (*/}
-    {/*                  <Fragment>{child.separator}</Fragment>*/}
-    {/*                ) : (*/}
-    {/*                  child.separator*/}
-    {/*                )*/}
-    {/*              ) : (*/}
-    {/*                <Fragment>, </Fragment>*/}
-    {/*              );*/}
-    {/*            switch (child.type) {*/}
-    {/*              case 'string':*/}
-    {/*                return (*/}
-    {/*                  <div className="mt-3" key={childKey}>*/}
-    {/*                    <div className="row no-gutters">*/}
-    {/*                      <p className={value.className ? 'col-4' : 'col-2'}>{child.title}:</p>*/}
-    {/*                      <p className={value.className ? 'col-8' : 'col-10'}>*/}
-    {/*                        {entityDetail ? (*/}
-    {/*                          getFieldV3(entityDetail, child.keyField).map((f, i, arr) => {*/}
-    {/*                            return (*/}
-    {/*                              <Fragment>*/}
-    {/*                                {child.convertFn ? child.convertFn(f) : f}*/}
-    {/*                                {i < arr.length - 1 && <Separator />}*/}
-    {/*                              </Fragment>*/}
-    {/*                            );*/}
-    {/*                          })*/}
-    {/*                        ) : (*/}
-    {/*                          <Fragment>'Empty'</Fragment>*/}
-    {/*                        )}*/}
-    {/*                      </p>*/}
-    {/*                    </div>*/}
-    {/*                  </div>*/}
-    {/*                );*/}
-    {/*              case 'date-time':*/}
-    {/*                return (*/}
-    {/*                  <div className="mt-3" key={childKey}>*/}
-    {/*                    <div className="row no-gutters">*/}
-    {/*                      <p className={value.className ? 'col-4' : 'col-2'}>{child.title}:</p>*/}
-    {/*                      <p className={value.className ? 'col-8' : 'col-10'}>*/}
-    {/*                        {entityDetail ? (*/}
-    {/*                          getFieldV3(entityDetail, child.keyField).map((f, i, arr) => {*/}
-    {/*                            const date_input = new Date(f);*/}
-    {/*                            return (*/}
-    {/*                              <Fragment>*/}
-    {/*                                {child.convertFn*/}
-    {/*                                  ? child.convertFn(f)*/}
-    {/*                                  : format(*/}
-    {/*                                      date_input,*/}
-    {/*                                      child.format ? child.format : 'dd/MM/yyyy H:mma',*/}
-    {/*                                    )}*/}
-    {/*                                {i < arr.length - 1 && <Separator />}*/}
-    {/*                              </Fragment>*/}
-    {/*                            );*/}
-    {/*                          })*/}
-    {/*                        ) : (*/}
-    {/*                          <Fragment>'Empty'</Fragment>*/}
-    {/*                        )}*/}
-    {/*                      </p>*/}
-    {/*                    </div>*/}
-    {/*                  </div>*/}
-    {/*                );*/}
-    
-    {/*              case 'link':*/}
-    {/*                return (*/}
-    {/*                  <div className="mt-3" key={childKey}>*/}
-    {/*                    <div className="row no-gutters">*/}
-    {/*                      <p className="col-4">{child.title}:</p>*/}
-    {/*                      <div className="col-8">*/}
-    {/*                        <Link*/}
-    {/*                          to={*/}
-    {/*                            entityDetail ? `${child.path}/${entityDetail[child.params]}` : ''*/}
-    {/*                          }>*/}
-    {/*                          {entityDetail ? (*/}
-    {/*                            getFieldV3(entityDetail, child.keyField).map((f, i, arr) => {*/}
-    {/*                              return (*/}
-    {/*                                <Fragment>*/}
-    {/*                                  {child.convertFn ? child.convertFn(f) : f}*/}
-    {/*                                  {i < arr.length - 1 && <Separator />}*/}
-    {/*                                </Fragment>*/}
-    {/*                              );*/}
-    {/*                            })*/}
-    {/*                          ) : (*/}
-    {/*                            <Fragment>'Empty'</Fragment>*/}
-    {/*                          )}*/}
-    {/*                        </Link>*/}
-    {/*                      </div>*/}
-    {/*                    </div>*/}
-    {/*                  </div>*/}
-    {/*                );*/}
-    
-    {/*                case 'table':*/}
-    {/*                  const entities = entityDetail ? getField(entityDetail, child.keyField) : []*/}
-    {/*                  return (*/}
-    {/*                    <div className="mt-3" key={childKey}>*/}
-    {/*                      <BootstrapTable */}
-    {/*                        wrapperClasses="table-responsive"*/}
-    {/*                        bordered={false}*/}
-    {/*                        classes="table table-head-custom table-vertical-center overflow-hidden noBorderOnClick"*/}
-    {/*                        bootstrap4*/}
-    {/*                        remote*/}
-    {/*                        keyField="_id"*/}
-    {/*                        data={entities || []}*/}
-    {/*                        columns={Object.values(child.columns) || []}*/}
-    {/*                      />*/}
-    {/*                  </div>*/}
-    {/*                  )*/}
-    
-    {/*              case 'image':*/}
-    {/*                return (*/}
-    {/*                  <div className="mt-3" key={childKey}>*/}
-    {/*                    <ImgGallery*/}
-    {/*                      label={el[childKey].title}*/}
-    {/*                      labelWidth={4}*/}
-    {/*                      name={key}*/}
-    {/*                      isHorizontal*/}
-    {/*                      photos={entityDetail && getField(entityDetail, child.keyField)}*/}
-    {/*                    />*/}
-    {/*                  </div>*/}
-    {/*                );*/}
-    {/*            }*/}
-    {/*            return <></>;*/}
-    {/*          })}*/}
-    {/*        </div>*/}
-    {/*      ))}*/}
-    {/*    </div>*/}
-    {/*  </div>*/}
-    {/*))}*/}
-  </CardBody>
-);
-
-const SplitMode = ({
-                     entity,
-                     renderInfo,
-                     intl,
-                     title,
-                     moduleName,
-                     history,
-                     homeURL,
-                     allFormButton
-                   }: any) => (
-  <>
-    {renderInfo.map((value: any, key: any) => (
-      <React.Fragment key={key}>
-        <CardBody>
-          <div key={key} className="mt-5">
-            <p className="text-primary font-weight-bold">{value.header}</p>
-            <div className="row no-gutters">
-              {value.data.map((el: any, elKey: number) => (
-                <div key={elKey} className={`col-md-6 col-12`}>
-                  {el.map((child: any, childKey: string) => {
-                    const Separator = () =>
-                      child.separator ? (
-                        typeof child.separator === 'string' ? (
-                          <Fragment>{child.separator}</Fragment>
-                        ) : (
-                          child.separator
-                        )
-                      ) : (
-                        <Fragment>, </Fragment>
-                      );
-                    switch (el[childKey].type) {
-                      case 'string':
-                        return (
-                          <div className="mt-3" key={childKey}>
-                            <div className="row no-gutters">
-                              <p className="col-4">{el[childKey].title}:</p>
-                              <p className="col-8">
-                                {entity ? (
-                                  _.isArray(getField(entity, child.keyField)) ? (
-                                    getField(
-                                      entity,
-                                      child.keyField,
-                                    ).map((f: any, i: number) => <p key={i}>{f.lastName}</p>)
-                                  ) : (
-                                    getFieldV3(entity, child.keyField).map((f, i, arr) => {
-                                      return (
-                                        <Fragment>
-                                          {child.convertFn ? child.convertFn(f) : f}
-                                          {i < arr.length - 1 && <Separator/>}
-                                        </Fragment>
-                                      );
-                                    })
-                                  )
-                                ) : (
-                                  // getField(entityDetail, child.keyField)
-                                  <Fragment>'Empty'</Fragment>
-                                )}
-                              </p>
-                            </div>
-                          </div>
-                        );
-                      
-                      case 'array':
-                        const arr = entity ? getField(entity, child.keyField) : []
-                        return (
-                          <div className="mt-3" key={childKey}>
-                            <div className="row no-gutters">
-                              <p className="col-4">{el[childKey].title}:</p>
-                              <p className="col-8">
-                                {entity ? (
-                                  arr.map((f: any, i: number) => (
-                                    <span key={i}>{getField(f, el[childKey].target)}
-                                      {i < arr.length - 1 && ','}</span>
-                                  ))
-                                ) : (
-                                  <Fragment>'Empty'</Fragment>
-                                )}
-                              </p>
-                            </div>
-                          </div>
-                        );
-                      
-                      case 'date-time':
-                        return (
-                          <div className="mt-3" key={childKey}>
-                            <div className="row no-gutters">
-                              <p className="col-4">{child.title}:</p>
-                              <p className="col-8">
-                                {entity ? (
-                                  getFieldV3(entity, child.keyField).map((f, i, arr) => {
-                                    const date_input = new Date(f);
-                                    return (
-                                      <Fragment>
-                                        {child.convertFn
-                                          ? child.convertFn(f)
-                                          : format(
-                                            date_input,
-                                            child.format ? child.format : 'dd/MM/yyyy H:mma',
-                                          )}
-                                        {i < arr.length - 1 && <Separator/>}
-                                      </Fragment>
-                                    );
-                                  })
-                                ) : (
-                                  <Fragment>'Empty'</Fragment>
-                                )}
-                              </p>
-                            </div>
-                          </div>
-                        );
-                    }
-                    return <></>;
-                  })}
-                </div>
-              ))}
-            </div>
-          </div>
-        </CardBody>
-      </React.Fragment>
-    ))}
-  </>
-);
+      </CardBody>
+    </Card>
+  );
+}

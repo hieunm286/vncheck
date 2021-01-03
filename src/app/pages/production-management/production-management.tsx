@@ -629,7 +629,6 @@ function ProductionManagement() {
               onClose={() => {
                 setShowDetail(false);
               }}
-              mode="line"
               header="THÔNG TIN THU HOẠCH"
             />
           )}
@@ -644,7 +643,6 @@ function ProductionManagement() {
               onClose={() => {
                 setShowDetail(false);
               }}
-              mode="line"
               header="THÔNG TIN THU HOẠCH"
             />
           )}
@@ -659,7 +657,6 @@ function ProductionManagement() {
               onClose={() => {
                 setShowDetail(false);
               }}
-              mode="line"
               header="THÔNG TIN THU HOẠCH"
             />
           )}
@@ -674,7 +671,6 @@ function ProductionManagement() {
               onClose={() => {
                 setShowDetail(false);
               }}
-              mode="line"
               header="THÔNG TIN THU HOẠCH"
             />
           )}
@@ -689,7 +685,6 @@ function ProductionManagement() {
               onClose={() => {
                 setShowDetail(false);
               }}
-              mode="line"
               header="THÔNG TIN THU HOẠCH"
             />
           )}
