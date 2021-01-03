@@ -12,7 +12,7 @@ import DeleteManyEntitiesDialog from '../../common-library/common-components/del
 import {
   ModifyForm,
   ModifyInputGroup,
-  RenderInfoDetailDialog,
+  RenderInfoDetail,
   SearchModel
 } from '../../common-library/common-types/common-type';
 import {InitMasterProps, InitValues,} from '../../common-library/helpers/common-function';
@@ -146,7 +146,7 @@ function ShippingAgency() {
     }
   }, []);
   
-  const masterEntityDetailDialog: RenderInfoDetailDialog = useMemo((): RenderInfoDetailDialog => [
+  const masterEntityDetailDialog: RenderInfoDetail = useMemo((): RenderInfoDetail => [
     {
       header: 'SHIPPING_AGENCY.DETAIL_DIALOG.SHIPPING.SUBTITLE',
       className: 'col-7',
@@ -156,7 +156,7 @@ function ShippingAgency() {
         name: {title: 'SHIPPING_AGENCY.DETAIL_DIALOG.SHIPPING.NAME'},
         address: {
           title: 'SHIPPING_AGENCY.DETAIL_DIALOG.SHIPPING.ADDRESS',
-          formatter: (address: any, row: any, rowIndex: number) => {
+          formatter: (address: any, row: any) => {
             const addressString = `${address.address}, ${address.district}, ${address.city}, ${address.state}`;
             return (<>{addressString}</>);
           }
@@ -372,11 +372,11 @@ function ShippingAgency() {
   }, [createForm]);
   const validationSchema = useMemo(() => Yup.object().shape({
     phone: Yup.string()
-      .max(11, 'Số điện thoại không hợp lệ')
-      .min(8, 'Số điện thoại không hợp lệ'),
-    tax_id: Yup.string()
-      .min(10, 'Mã số thuế không hợp lệ')
-      .max(13, 'Mã số thuế không hợp lệ'),
+      .max(11, 'VALIDATE.ERROR.INVALID_INPUT')
+      .min(8, 'VALIDATE.ERROR.INVALID_INPUT'),
+    taxId: Yup.string()
+      .min(10, 'VALIDATE.ERROR.INVALID_INPUT')
+      .max(13, 'VALIDATE.ERROR.INVALID_INPUT'),
     owner: Yup.object().shape({
       phone: Yup.string()
         .max(11, 'VALIDATE.ERROR.INVALID_INPUT')

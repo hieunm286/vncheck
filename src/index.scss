@@ -120,6 +120,13 @@ input {
   letter-spacing: 0.1rem;
 }
 
+.detail-dialog-subtitle {
+  font-weight: 600;
+  padding-bottom: 25px;
+  margin-bottom: 0;
+  text-transform: uppercase;
+}
+
 .modal-detail {
   .modal-content {
     padding: 35px;
@@ -133,12 +140,7 @@ input {
     width: 1000px;
 
     .modal-content {
-      .detail-dialog-subtitle {
-        font-weight: 600;
-        padding-bottom: 25px;
-        margin-bottom: 0;
-        text-transform: uppercase;
-      }
+
 
       .detail-dialog-row-info {
         padding-bottom: 32px;
@@ -604,5 +606,8 @@ label {
   color: white
 }
 
+.large-font-size{
+  font-size: $large-font-size !important;
+}
 
 //.card.card-custom > .card-body

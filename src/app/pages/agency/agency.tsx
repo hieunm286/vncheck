@@ -25,7 +25,7 @@ import * as RoleService from '../role/role.service';
 import {
   ModifyForm,
   ModifyInputGroup,
-  RenderInfoDetailDialog,
+  RenderInfoDetail,
   SearchModel
 } from "../../common-library/common-types/common-type";
 import {MasterEntityDetailDialog} from "../../common-library/common-components/master-entity-detail-dialog";
@@ -167,7 +167,7 @@ function AgencyPage() {
   }, []);
   
   
-  const masterEntityDetailDialog: RenderInfoDetailDialog = useMemo((): RenderInfoDetailDialog => [
+  const masterEntityDetailDialog: RenderInfoDetail = useMemo((): RenderInfoDetail => [
     {
       header: 'AGENCY.DETAIL_DIALOG.SHIPPING.SUBTITLE',
       className: 'col-7',
@@ -176,7 +176,7 @@ function AgencyPage() {
         name: {title: 'AGENCY.DETAIL_DIALOG.SHIPPING.NAME'},
         address: {
           title: 'AGENCY.DETAIL_DIALOG.SHIPPING.ADDRESS',
-          formatter: (address: any, row: any, rowIndex: number) => {
+          formatter: (address: any, row: any) => {
             const addressString = `${address.address}, ${address.district}, ${address.city}, ${address.state}`;
             return (<>{addressString}</>);
           }
@@ -215,7 +215,7 @@ function AgencyPage() {
       data: {
         shippingAddress: {
           keyField: 'shippingAddress',
-          formatter: (addresses: any[], row: any, rowIndex: number) => {
+          formatter: (addresses: any[], row: any) => {
             let address = addresses.find(address => address.isDefault);
             address = address ?? addresses[0]
             const addressString = `${address.address}, ${address.district}, ${address.city}, ${address.state}`;
@@ -587,7 +587,7 @@ function AgencyPage() {
     phone: Yup.string()
       .max(11, 'VALIDATE.ERROR.INVALID_INPUT')
       .min(8, 'VALIDATE.ERROR.INVALID_INPUT'),
-    tax_id: Yup.string()
+    taxId: Yup.string()
       .min(10, 'VALIDATE.ERROR.INVALID_INPUT')
       .max(13, 'VALIDATE.ERROR.INVALID_INPUT'),
     owner: Yup.object().shape({

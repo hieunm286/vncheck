@@ -1,140 +1,54 @@
 import React from 'react';
-import { SortColumn } from '../../../common-library/common-consts/const';
+import {SortColumn} from '../../../common-library/common-consts/const';
+import {RenderInfoDetail} from "../../../common-library/common-types/common-type";
 
-export const harvestingDetail = [
+export const harvestingDetail: RenderInfoDetail = [
   {
     header: 'THÔNG TIN CHUNG',
     className: 'row',
-    data: [
-      [
-        {
-          type: 'link',
-          title: 'Mã gieo giống',
-          keyField: 'seeding.code',
-          path: '/production-plan/seeding',
-          params: '_id',
-        },
-        {
-          type: 'link',
-          title: 'Mã gieo trồng',
-          keyField: 'planting.code',
-          path: '/production-plan/planting',
-          params: '_id',
-        },
-        {
-          type: 'link',
-          title: 'Mã thu hoạch',
-          keyField: 'harvesting.code',
-          path: '/production-management/harvesting',
-          params: '_id',
-        },
-        {
-          type: 'string',
-          title: 'Tên chủng loại',
-          keyField: 'planting.species.name',
-        },
-        {
-          type: 'string',
-          title: 'GTIN',
-          keyField: 'planting.species.barcode',
-        },
-      ],
-      [
-        {
-          type: 'date-time',
-          title: 'Thời gian thu hoạch dự kiến',
-          keyField: 'planting.estimatedHarvestTime',
-        },
-        {
-          type: 'string',
-          title: 'Lô gieo trồng',
-          keyField: 'planting.landLot.code',
-          convertFn: (t: any) => t.toUpperCase(),
-        },
-        {
-          type: 'string',
-          title: 'Sản lượng dự kiến',
-          keyField: 'planting.expectedQuantity',
-        },
-      ],
-    ],
+    data: {
+      'seeding.code': {title: 'Mã gieo giống',},
+      'planting.code': {title: 'Mã gieo trồng',},
+      'harvesting.code': {title: 'Mã thu hoạch',},
+      'planting.species.name': {title: 'Tên chủng loại',},
+      'planting.species.barcode': {title: 'GTIN',},
+      'planting.estimatedHarvestTime': {title: 'Thời gian thu hoạch dự kiến',},
+      'planting.landLot.code': {
+        title: 'Lô gieo trồng',
+        formatter: (cell: any, row: any) => cell.toUpperCase(),
+      },
+      'planting.expectedQuantity': {title: 'Sản lượng dự kiến',},
+    }
   },
   {
     header: 'THÔNG TIN MÔI TRƯỜNG',
     className: 'row',
-    data: [
-      [
-        {
-          type: 'string',
-          title: 'Nhiệt độ',
-          keyField: 'planting.temperature',
-        },
-        {
-          type: 'string',
-          title: 'Độ ẩm',
-          keyField: 'planting.humidity',
-        },
-        {
-          type: 'string',
-          title: 'Độ xốp',
-          keyField: 'planting.porosity',
-        },
-      ],
-      [],
-    ],
+    data: {
+      'planting.temperature': {title: 'Nhiệt độ',},
+      'planting.humidity': {title: 'Độ ẩm',},
+      'planting.porosity': {title: 'Độ xốp',},
+    },
   },
   {
     header: 'THÔNG TIN QUẢN TRỊ',
     className: 'row',
-    data: [
-      [
-        {
-          type: 'string',
-          title: 'Tổ trưởng thu hoạch',
-          keyField: 'planting.[leader].lastName',
-        },
-        {
-          type: 'string',
-          title: 'Nông dân thu hoạch',
-          keyField: 'planting.[worker].lastName',
-        },
-        {
-          type: 'string',
-          title: 'Nhân viên kỹ thuật',
-          keyField: 'planting.[technical].lastName',
-        },
-      ],
-      [],
-    ],
+    data: {
+      'planting.[leader].lastName': {title: 'Tổ trưởng thu hoạch',},
+      'planting.[worker].lastName': {title: 'Nông dân thu hoạch',},
+      'planting.[technical].lastName': {title: 'Nhân viên kỹ thuật',},
+    },
   },
   {
     header: 'HÌNH ẢNH',
     className: 'row',
-    data: [
-      [
-        {
-          type: 'image',
-          title: 'Hình ảnh trước thu hoạch',
-          keyField: 'planting.imageBefore',
-        },
-        {
-          type: 'image',
-          title: 'Hình ảnh thực hiện thu hoạch',
-          keyField: 'planting.imageBefore',
-        },
-      ],
-      [
-        {
-          type: 'image',
-          title: 'Hình ảnh sau khi thu hoạch',
-          keyField: 'planting.imageAfter',
-        },
-      ],
-    ],
+    data: {
+      'planting.imageBefore': {title: 'Hình ảnh trước thu hoạch',},
+      'planting.imageAfter': {title: 'Hình ảnh sau khi thu hoạch',},
+    },
   },
 ];
 
-export const PreliminaryTreatmentDetail = [
+export const PreliminaryTreatmentDetail:any = [
   {
     header: 'THÔNG TIN CHUNG',
     className: 'row',
@@ -242,7 +156,7 @@ export const PreliminaryTreatmentDetail = [
   },
 ];
 
-export const CleaningDetail = [
+export const CleaningDetail :any= [
   {
     header: 'THÔNG TIN CHUNG',
     className: 'row',
@@ -357,7 +271,7 @@ export const CleaningDetail = [
   },
 ];
 
-export const PackingDetail = [
+export const PackingDetail:any = [
   {
     header: 'THÔNG TIN CHUNG',
     className: 'row',
@@ -470,7 +384,7 @@ export const PackingDetail = [
               dataField: '_id',
               text: 'STT',
               formatter: (cell: any, row: any, rowIndex: number) => <p>{rowIndex + 1}</p>,
-              style: { paddingTop: 20 },
+              style: {paddingTop: 20},
             },
             madinhdanh: {
               dataField: 'firstName',
@@ -582,116 +496,116 @@ export const PackingDetail = [
   },
 ];
 
-export const PreservationDetail = [
-    {
-      header: 'THÔNG TIN CHUNG',
-      className: 'row',
-      data: [
-        [
-          {
-            type: 'link',
-            title: 'Mã gieo giống',
-            keyField: 'seeding.code',
-            path: '/production-plan/seeding',
-            params: '_id',
-          },
-          {
-            type: 'link',
-            title: 'Mã gieo trồng',
-            keyField: 'planting.code',
-            path: '/production-plan/planting',
-            params: '_id',
-          },
-          {
-            type: 'link',
-            title: 'Mã thu hoạch',
-            keyField: 'harvesting.code',
-            path: '/production-management/harvesting',
-            params: '_id',
-          },
-          {
-            type: 'link',
-            title: 'Mã sơ chế',
-            keyField: 'harvesting.code',
-            path: '/production-management/preliminaryTreatment',
-            params: '_id',
-          },
-          {
-            type: 'link',
-            title: 'Mã làm sạch',
-            keyField: 'harvesting.code',
-            path: '/production-management/cleaning',
-            params: '_id',
-          },
-          {
-            type: 'link',
-            title: 'Mã đóng gói',
-            keyField: 'harvesting.code',
-            path: '/production-management/packing',
-            params: '_id',
-          },
-          {
-            type: 'string',
-            title: 'Mã bảo quản',
-            keyField: 'preservation.code',
-          },
-        ],
-        [
-          {
-            type: 'string',
-            title: 'Tên chủng loại',
-            keyField: 'planting.species.name',
-          },
-          {
-            type: 'string',
-            title: 'GTIN',
-            keyField: 'planting.species.barcode',
-          },
-          {
-            type: 'date-time',
-            title: 'Thời gian bảo quản dự kiến',
-            keyField: 'preservation.createdAt',
-          },
-          {
-            type: 'string',
-            title: 'Nhiệt độ bảo quản',
-            keyField: 'preservation.temperature',
-          },
-        ],
+export const PreservationDetail:any = [
+  {
+    header: 'THÔNG TIN CHUNG',
+    className: 'row',
+    data: [
+      [
+        {
+          type: 'link',
+          title: 'Mã gieo giống',
+          keyField: 'seeding.code',
+          path: '/production-plan/seeding',
+          params: '_id',
+        },
+        {
+          type: 'link',
+          title: 'Mã gieo trồng',
+          keyField: 'planting.code',
+          path: '/production-plan/planting',
+          params: '_id',
+        },
+        {
+          type: 'link',
+          title: 'Mã thu hoạch',
+          keyField: 'harvesting.code',
+          path: '/production-management/harvesting',
+          params: '_id',
+        },
+        {
+          type: 'link',
+          title: 'Mã sơ chế',
+          keyField: 'harvesting.code',
+          path: '/production-management/preliminaryTreatment',
+          params: '_id',
+        },
+        {
+          type: 'link',
+          title: 'Mã làm sạch',
+          keyField: 'harvesting.code',
+          path: '/production-management/cleaning',
+          params: '_id',
+        },
+        {
+          type: 'link',
+          title: 'Mã đóng gói',
+          keyField: 'harvesting.code',
+          path: '/production-management/packing',
+          params: '_id',
+        },
+        {
+          type: 'string',
+          title: 'Mã bảo quản',
+          keyField: 'preservation.code',
+        },
       ],
-    },
-    {
-      header: 'THÔNG TIN QUẢN TRỊ',
-      className: 'row',
-      data: [
-        [
-          {
-            type: 'string',
-            title: 'Nhân viên bảo quản',
-            keyField: 'preservation.[worker].lastName',
-          },
-          {
-            type: 'string',
-            title: 'Nhân viên kỹ thuật',
-            keyField: 'preservation.[technical].lastName',
-          },
-        ],
-        [],
+      [
+        {
+          type: 'string',
+          title: 'Tên chủng loại',
+          keyField: 'planting.species.name',
+        },
+        {
+          type: 'string',
+          title: 'GTIN',
+          keyField: 'planting.species.barcode',
+        },
+        {
+          type: 'date-time',
+          title: 'Thời gian bảo quản dự kiến',
+          keyField: 'preservation.createdAt',
+        },
+        {
+          type: 'string',
+          title: 'Nhiệt độ bảo quản',
+          keyField: 'preservation.temperature',
+        },
       ],
-    },
-    {
-      header: 'HÌNH ẢNH',
-      className: 'row',
-      data: [
-        [
-          {
-            type: 'image',
-            title: 'Hình ảnh kho lạnh',
-            keyField: 'planting.imageBefore',
-          },
-        ],
-        [],
+    ],
+  },
+  {
+    header: 'THÔNG TIN QUẢN TRỊ',
+    className: 'row',
+    data: [
+      [
+        {
+          type: 'string',
+          title: 'Nhân viên bảo quản',
+          keyField: 'preservation.[worker].lastName',
+        },
+        {
+          type: 'string',
+          title: 'Nhân viên kỹ thuật',
+          keyField: 'preservation.[technical].lastName',
+        },
       ],
-    },
-  ];
+      [],
+    ],
+  },
+  {
+    header: 'HÌNH ẢNH',
+    className: 'row',
+    data: [
+      [
+        {
+          type: 'image',
+          title: 'Hình ảnh kho lạnh',
+          keyField: 'planting.imageBefore',
+        },
+      ],
+      [],
+    ],
+  },
+];
   

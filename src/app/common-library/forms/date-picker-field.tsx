@@ -13,7 +13,7 @@ export function DatePickerField({
                                   mode, disabled, required, labelWidth, label, withFeedbackLabel = true,
                                   customFeedbackLabel, ...props
                                 }: InputDateTimeType) {
-  const {setFieldValue, errors, touched, values, setFieldTouched,getFieldMeta} = useFormikContext<any>();
+  const {setFieldValue, errors, touched, values, setFieldTouched, getFieldMeta} = useFormikContext<any>();
   const validate = useCallback((value: any): string | void => {
     if (required && !value) return 'RADIO.ERROR.REQUIRED';
   }, []);
@@ -49,9 +49,9 @@ export function DatePickerField({
                         setFieldValue(field.name, val);
                         setFieldTouched(field.name, true);
                         if (val) setFieldValue(field.name, moment(val).add(val.utcOffset(), 'm').utc().toISOString());
-                        else setFieldValue(field.name, undefined);
+                        else setFieldValue(field.name, required ? '' : undefined);
                       }}
-                      onBlur={(e)=>{
+                      onBlur={(e) => {
                         setFieldTouched(field.name, true);
                       }}
                       value={field.value ? moment(field.value).add(inverseOffset, 'm') : null}

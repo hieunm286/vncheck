@@ -629,8 +629,7 @@ function ProductionManagement() {
               onClose={() => {
                 setShowDetail(false);
               }}
-              mode="line"
-              title="THÔNG TIN THU HOẠCH"
+              header="THÔNG TIN THU HOẠCH"
             />
           )}
         </Route>
@@ -644,8 +643,7 @@ function ProductionManagement() {
               onClose={() => {
                 setShowDetail(false);
               }}
-              mode="line"
-              title="THÔNG TIN THU HOẠCH"
+              header="THÔNG TIN THU HOẠCH"
             />
           )}
         </Route>
@@ -659,8 +657,7 @@ function ProductionManagement() {
               onClose={() => {
                 setShowDetail(false);
               }}
-              mode="line"
-              title="THÔNG TIN THU HOẠCH"
+              header="THÔNG TIN THU HOẠCH"
             />
           )}
         </Route>
@@ -674,8 +671,7 @@ function ProductionManagement() {
               onClose={() => {
                 setShowDetail(false);
               }}
-              mode="line"
-              title="THÔNG TIN THU HOẠCH"
+              header="THÔNG TIN THU HOẠCH"
             />
           )}
         </Route>
@@ -689,8 +685,7 @@ function ProductionManagement() {
               onClose={() => {
                 setShowDetail(false);
               }}
-              mode="line"
-              title="THÔNG TIN THU HOẠCH"
+              header="THÔNG TIN THU HOẠCH"
             />
           )}
         </Route>

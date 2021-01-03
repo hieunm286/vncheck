@@ -1478,15 +1478,13 @@ function ProductionPlan() {
         <Route exact path="/production-plan/seeding/:code">
           {({ history, match }) => (
             <MasterEntityDetailPage
-              entity={history.location.state}
               renderInfo={SeedingDetailDialog}
               code={match && match.params.code}
               get={code => ProductionPlanService.GetById(code)}
               onClose={() => {
                 setShowDetail(false);
               }}
-              mode="line"
-              title="THÔNG TIN GIEO GIỐNG"
+              header="THÔNG TIN GIEO GIỐNG"
             />
           )}
         </Route>
@@ -1500,8 +1498,7 @@ function ProductionPlan() {
               onClose={() => {
                 setShowDetail(false);
               }}
-              mode="line"
-              title="THÔNG TIN GIEO TRỒNG"
+              header="THÔNG TIN GIEO TRỒNG"
               homeURL={homeURL}
             />
           )}
@@ -1517,8 +1514,7 @@ function ProductionPlan() {
                 setShowDetail(false);
               }}
               allFormButton={currentTab === '1' && username === 'admin' && adminAllFormButton}
-              mode="split"
-              title={`CHI TIẾT KẾ HOẠCH`}
+              header={`CHI TIẾT KẾ HOẠCH`}
             />
           )}
         </Route>
@@ -1527,7 +1523,6 @@ function ProductionPlan() {
             title={headerTitle}
             onSearch={value => {
               setPaginationProps(DefaultPagination);
-
               const cvValue = JSON.parse(JSON.stringify(value));
 
               if (
