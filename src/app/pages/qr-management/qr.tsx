@@ -1,35 +1,21 @@
-
-import React, {Fragment, useCallback, useEffect, useMemo, useState} from "react";
+import React, {Fragment, useEffect, useMemo} from "react";
 import {useIntl} from 'react-intl';
 
 import * as UserService from '../user/user.service';
-import {DisplayTime, InitMasterProps, InitValues} from "../../common-library/helpers/common-function";
+import {DisplayTime, InitMasterProps} from "../../common-library/helpers/common-function";
 import {Count, Create, Delete, DeleteMany, Get, GetAll, GetById, Update} from './qr.service';
 import {QrModel} from './qr.model';
 import {MasterHeader} from "../../common-library/common-components/master-header";
 import {MasterBody} from "../../common-library/common-components/master-body";
-import {
-  ActionsColumnFormatter,
-  TickColumnFormatter
-} from '../../common-library/common-components/actions-column-formatter';
 
-import {DefaultPagination, iconStyle, NormalColumn, SortColumn} from '../../common-library/common-consts/const';
+import {DefaultPagination, SortColumn} from '../../common-library/common-consts/const';
 
 
 import {DeleteEntityDialog} from "../../common-library/common-components/delete-entity-dialog";
 import DeleteManyEntitiesDialog from '../../common-library/common-components/delete-many-entities-dialog';
 import {Route, Switch, useHistory} from 'react-router-dom';
-import * as MultilevelSaleService from '../multilevel-sale/multilevel-sale.service';
-import {
-  ModifyForm,
-  ModifyInputGroup,
-  RenderInfoDetail,
-  SearchModel
-} from "../../common-library/common-types/common-type";
-import User from "../account";
+import {SearchModel} from "../../common-library/common-types/common-type";
 import {MasterEntityDetailPage} from "../../common-library/common-components/master-detail-page";
-import {SeedingDetailDialog} from "../production-plan/defined/const";
-import * as ProductionPlanService from "../production-plan/production-plan.service";
 import {QrRenderDetail} from "./qr.render-info";
 
 const headerTitle = 'AGENCY.MASTER.HEADER.TITLE';
@@ -224,7 +210,7 @@ function QrPage() {
           />
         </Route>
         <Route exact path="/qr/:code">
-          {({ history, match }) => (
+          {({history, match}) => (
             <MasterEntityDetailPage
               renderInfo={QrRenderDetail}
               code={match && match.params.code}
