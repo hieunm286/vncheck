@@ -13,12 +13,17 @@ import {DefaultPagination, SortColumn} from '../../common-library/common-consts/
 
 import {DeleteEntityDialog} from "../../common-library/common-components/delete-entity-dialog";
 import DeleteManyEntitiesDialog from '../../common-library/common-components/delete-many-entities-dialog';
-import {Route, Switch, useHistory} from 'react-router-dom';
+import {Link, Route, Switch, useHistory} from 'react-router-dom';
 import {SearchModel} from "../../common-library/common-types/common-type";
 import {MasterEntityDetailPage} from "../../common-library/common-components/master-detail-page";
 import {QrRenderDetail} from "./qr.render-info";
+import * as MultilevelSaleService from '../multilevel-sale/multilevel-sale.service';
+import User from "../account";
+import { bodyEntities, detailEntities } from "./qr-mock";
+import ModifyEntityDialog from "../../common-library/common-components/modify-entity-dialog";
+import { MasterQrParentDetail } from "./qr-detail";
 
-const headerTitle = 'AGENCY.MASTER.HEADER.TITLE';
+const headerTitle = 'QR.MASTER.HEADER.TITLE';
 const tableTitle = 'SHIPPING_AGENCY.MASTER.TABLE.TITLE';
 const detailDialogTitle = 'SHIPPING_AGENCY.DETAIL_DIALOG.TITLE';
 const moduleName = 'QR.MODULE_NAME';
@@ -29,7 +34,7 @@ const updateTitle = 'SHIPPING_AGENCY.UPDATE.HEADER';
 
 // const createTitle = 'PURCHASE_ORDER.CREATE.TITLE';
 // const updateTitle = 'PURCHASE_ORDER.UPDATE.TITLE';
-const bodyTitle = 'AGENCY.MASTER.BODY.TITLE';
+const bodyTitle = 'QR.MASTER.BODY.TITLE';
 
 
 function QrPage() {
@@ -91,12 +96,14 @@ function QrPage() {
         text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.CODE'})}`,
         ...SortColumn,
         align: 'center',
+        formatter: (cell: string, row: any, rowIndex: number) => {console.log(row.codeType === 'Đóng gói');return <Link to={'qr/' + (row.codeType === 'Đóng gói' ? 'qr-parent/' : 'qr-child/') + cell}>{cell}</Link>},
       },
       createdBy: {
         dataField: 'createdBy',
         text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.CREATED_BY'})}`,
         ...SortColumn,
         align: 'center',
+        formatter: (cell: any, row: any, rowIndex: number) => {return <>{cell.firstName + ' ' + cell.lastName}</>},
       },
       createdDate: {
         dataField: 'createdDate',
@@ -199,15 +206,50 @@ function QrPage() {
           <MasterBody
             title={bodyTitle}
             onCreate={() => {
-              history.push(`${window.location.pathname}/0000000`);
+              // history.push(`${window.location.pathname}/0000000`);
+              setShowCreate(true);
             }}
-            entities={entities}
+            entities={bodyEntities}
             total={total}
             columns={columns}
             loading={loading}
             paginationParams={paginationProps}
             setPaginationParams={setPaginationProps}
           />
+          <ModifyEntityDialog
+            show={showCreate}
+            formModel={{
+              _header: 'a',
+              // _className: '',
+              // _titlenpClassName: '',
+              // _dataClassName: '',
+              _panel1: {
+                _title: '',
+                group1: {
+                  _subTitle: '',
+                  codeType: {
+                    _type: 'string',
+                    label: 'QR.CODE_TYPE',
+                  },
+                  quantity: {
+                    _type: 'number',
+                    label: 'QR.QUANTITY',
+                  }
+                }
+              }
+              
+            }}
+            onHide={refreshData}
+            onModify={add}
+          />
+        </Route>
+        <Route path="/qr/qr-parent/123456">
+          <MasterQrParentDetail
+            entity={detailEntities}
+          />
+        </Route>
+        <Route path="/qr/qr-child/123456">
+
         </Route>
         <Route exact path="/qr/:code">
           {({history, match}) => (

@@ -568,5 +568,8 @@
   "PRODUCTION_MANAGEMENT_PRESERVATION": "Bảo quản",
   "PRODUCTION_MANAGEMENT.preliminaryTreatment.TIME": "Thời gian sơ chế",
   "PRODUCTION_MANAGEMENT.CLEANING.TIME": "Thời gian làm sạch",
-  "PRODUCTION_MANAGEMENT.PRESERVATION.TEMPERATURE": "Nhiệt độ bảo quản"
+  "PRODUCTION_MANAGEMENT.PRESERVATION.TEMPERATURE": "Nhiệt độ bảo quản",
+  "TEMPERATURE": "Nhiệt độ",
+  "HUMIDITY": "Độ ẩm",
+  "POROSITY": "Độ xốp"
 }
