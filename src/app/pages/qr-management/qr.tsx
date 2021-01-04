@@ -23,7 +23,7 @@ import { bodyEntities, detailEntities, detailModel } from "./qr-mock";
 import ModifyEntityDialog from "../../common-library/common-components/modify-entity-dialog";
 import { MasterQrChildDetail, MasterQrParentDetail } from "./qr-detail";
 import * as QrService from './services/qr.service';
-import {DisplayDateTime} from "../../common-library/helpers/detail-helpers";
+import {DisplayDate, DisplayDateTime} from "../../common-library/helpers/detail-helpers";
 
 const headerTitle = 'QR.MASTER.HEADER.TITLE';
 const tableTitle = 'SHIPPING_AGENCY.MASTER.TABLE.TITLE';
@@ -111,7 +111,7 @@ function QrPage() {
         dataField: 'createdDate',
         text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.CREATED_DATE'})}`,
         ...SortColumn,
-        formatter: DisplayDateTime,
+        formatter: (input: any) => (<DisplayDate input={input}/>),
         align: 'center',
       },
       activeBy: {
@@ -124,7 +124,7 @@ function QrPage() {
         dataField: 'activeAt',
         text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.ACTIVE_AT'})}`,
         ...SortColumn,
-        formatter: DisplayDateTime,
+        formatter: (input: any) => (<DisplayDate input={input}/>),
         align: 'center',
       },
       codeType: {
