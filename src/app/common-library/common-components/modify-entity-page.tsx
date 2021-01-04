@@ -20,18 +20,11 @@ import { getField } from '../helpers/common-function';
 
 export function ModifyEntityPage<T>({
                                       inputGroups,
-                                      entity,
-                                      // className = '',
                                       mode = 'horizontal',
                                     }: // tagData
                                       {
                                         inputGroups: InputGroups;
                                         mode?: 'horizontal' | 'vertical';
-                                        onChange?: any;
-                                        // className?: string;
-                                        handleChangeTag?: any;
-                                        values?: any;
-                                        entity?: any;
                                         errors?: any;
                                       }) {
   const intl = useIntl();
