@@ -22,8 +22,8 @@ export interface MainInputState {
 }
 
 export interface PaginationProps {
-  limit: number | undefined;
-  page: number | undefined;
+  limit?: number;
+  page?: number;
   sortType: string;
   sortBy: string;
 }
@@ -234,7 +234,7 @@ export type RenderInfoDetail = {
   data: {
     [T: string]: {
       title?: string;
-      formatter?: (value: any, entity?: any) => ReactElement;
+      formatter?: (value: any | any[], entity?: any) => ReactElement;
       keyField?: string;
     }
   },

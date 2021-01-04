@@ -1,4 +1,5 @@
 import {
+  MasterBodyColumns,
   ModifyForm,
   ModifyPanel,
   RenderInfoDetail,
@@ -18,10 +19,13 @@ import {
   DisplayArray,
   DisplayCelcius,
   DisplayCoordinates,
-  DisplayDateTime, DisplayImage,
+  DisplayDateTime,
+  DisplayImage,
   DisplayLink,
-  DisplayPercent
+  DisplayPercent,
+  DisplayTable
 } from "../../../common-library/helpers/detail-helpers";
+import {SortColumn} from "../../../common-library/common-consts/const";
 
 export const headerTitle = 'PRODUCT_TYPE.MASTER.HEADER.TITLE';
 export const bodyTitle = 'PRODUCT_TYPE.MASTER.BODY.TITLE';
@@ -860,6 +864,30 @@ export const SeedingDetailDialog: RenderInfoDetail = [
         'planting.imageAfter': {
           title: 'Hình ảnh trước khi đưa vào nuôi trồng',
           formatter: DisplayImage
+        },
+      },
+    },
+    {
+      header: 'Thử nghiệm bảng',
+      className: 'col-12',
+      titleClassName: 'col-0 hidden',
+      dataClassName: 'col-12',
+      data: {
+        'comments': {
+          formatter: (entities: any[]) => {
+            const columns: MasterBodyColumns = [{
+              dataField: 'content',
+              text: 'QR.MASTER.TABLE.NAME',
+              ...SortColumn,
+              align: 'center',
+            },{
+              dataField: '_id',
+              text: 'QR.MASTER.TABLE.CODE',
+              ...SortColumn,
+              align: 'center',
+            }]
+            return <DisplayTable entities={entities} columns={columns}/>
+          },
         },
       },
     }
