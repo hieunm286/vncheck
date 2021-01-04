@@ -21,7 +21,7 @@ import {
   DisplayCoordinates,
   DisplayDateTime,
   DisplayImage,
-  DisplayLink,
+  DisplayDownloadLink,
   DisplayPercent,
   DisplayTable,
   DisplayPersonNameByArray,
@@ -739,13 +739,13 @@ export const SeedingDetailDialog: RenderInfoDetail = [
       },
       'seeding.certificates': {
         title: 'SEEDING.CERTIFICATE',
-        formatter: input => DisplayLink(input, 'path'),
+        formatter: input => DisplayDownloadLink(input, 'path'),
       },
       'seeding.species.name': { title: 'SEEDING.SPECIES_NAME' },
 
       'seeding.buyInvoice': {
         title: 'SEEDING.INVOICE',
-        formatter: input => DisplayLink(input, 'path'),
+        formatter: input => DisplayDownloadLink(input, 'path'),
       },
       'seeding.species.barcode': { title: 'SEEDING.GTIN' },
 
@@ -865,13 +865,13 @@ export const masterEntityDetailDialog2: RenderInfoDetail = [
 
       'seeding.certificates': {
         title: 'SEEDING.CERTIFICATE',
-        formatter: input => DisplayLink(input, 'path'),
+        formatter: input => DisplayDownloadLink(input, 'path'),
       },
       'seeding.area': { title: 'SEEDING.SEEDING_AREA' },
 
       'seeding.buyInvoice': {
         title: 'SEEDING.INVOICE',
-        formatter: input => DisplayLink(input, 'path'),
+        formatter: input => DisplayDownloadLink(input, 'path'),
       },
       'planting.area': { title: 'SEEDING.SEEDING_AREA' },
 

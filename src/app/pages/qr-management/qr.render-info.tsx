@@ -5,7 +5,7 @@ import {
   DisplayCelcius,
   DisplayCoordinates,
   DisplayDateTime, DisplayImage,
-  DisplayLink, DisplayPercent
+  DisplayDownloadLink, DisplayPercent
 } from "../../common-library/helpers/detail-helpers";
 
 const producerInfo: RenderInfoDetail = [{
@@ -40,11 +40,11 @@ const seedingInfo: RenderInfoDetail = [{
   data: {
     'seeding.certificates': {
       title: 'SEEDING.CERTIFICATE',
-      formatter: (input)=>DisplayLink(input,'path')
+      formatter: (input)=>DisplayDownloadLink(input,'path')
     },
     'seeding.buyInvoice': {
       title: 'SEEDING.INVOICE',
-      formatter: (input)=>DisplayLink(input,'path')
+      formatter: (input)=>DisplayDownloadLink(input,'path')
     },
     'seeding.seedingTime': {
       title: 'SEEDING.SEEDING_TIME',
