@@ -61,7 +61,8 @@ export const DisplayDateTime = (input: string, _format?: string) => {
   const date_input = new Date(input);
   return (<>{format(date_input, _format ?? 'dd/MM/yyyy H:mma',)}</>)
 }
-export const DisplayLink = (input: any, key?: string) => {
+
+export const DisplayDownloadLink = (input: any, key?: string) => {
   const intl = useIntl();
   return (<a href={key ? input[key] : input} target={'_blank'}>
     {intl.formatMessage({id: 'CLICK_TO_DOWNLOAD'})}
