@@ -60,7 +60,7 @@ export const Get: GetProps<QrModel> = entity => {
 };
 
 export const GetById = (id: string) => {
-  return axios.get(`${API_URL}/${id}`);
+  return axios.get(`${API_BASE_URL + '/product-plan'}/${id}`);
 };
 
 export const Update: UpdateProps<QrModel> = (entity: QrModel) => {
