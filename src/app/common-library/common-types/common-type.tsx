@@ -234,7 +234,7 @@ export type RenderInfoDetail = {
   data: {
     [T: string]: {
       title?: string;
-      formatter?: (value: any, entity?: any) => ReactElement;
+      formatter?: (value: any | any[], entity?: any) => ReactElement;
       keyField?: string;
     }
   },
