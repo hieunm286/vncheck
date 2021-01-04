@@ -5,7 +5,6 @@ import {useIntl} from "react-intl";
 import {MasterTable} from "../common-components/master-table";
 import {MasterBodyColumns, PaginationProps} from "../common-types/common-type";
 import {GetCompareFunction} from "./common-function";
-import _ from 'lodash';
 
 export const DisplayString = (input: string) => {
   return (<>{input}</>)
@@ -22,12 +21,12 @@ export const DisplayPersonNameByArray = (
   person: any[],
 ) => {
   // if (!_.isArray(person)) return <></>;
-  return(
-  <>
-    {person.map(
-      (personInfo: any, key: number) => <React.Fragment key={key}>{personInfo.fullName}</React.Fragment>
-    )}
-  </>
+  return (
+    <>
+      {person.map(
+        (personInfo: any, key: number) => <React.Fragment key={key}>{personInfo.fullName}</React.Fragment>
+      )}
+    </>
   );
 };
 
@@ -48,8 +47,17 @@ export const DisplayAddress = (address: {
   const addressString = `${address.address}, ${address.district}, ${address.city}, ${address.state}`;
   return (<>{addressString}</>);
 }
+export const DisplayDate = ({input}: { input: string }) => {
+  const intl = useIntl();
+  return (<>
+          {input
+            ? new Intl.DateTimeFormat('en-GB').format(new Date(input))
+            : intl.formatMessage({id: 'NO_INFORMATION'})}
+        </>)
+}
 
 export const DisplayDateTime = (input: string, _format?: string) => {
+  if (!input) return (<></>)
   const date_input = new Date(input);
   return (<>{format(date_input, _format ?? 'dd/MM/yyyy H:mma',)}</>)
 }
