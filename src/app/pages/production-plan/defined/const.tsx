@@ -5,7 +5,7 @@ import {
   RenderInfoDetail,
   SearchModel,
 } from '../../../common-library/common-types/common-type';
-import {GenerateAllFormField} from '../../../common-library/helpers/common-function';
+import { GenerateAllFormField } from '../../../common-library/helpers/common-function';
 import * as ProductPackagingService from '../../product-packaging/product-packaging.service';
 import * as SpeciesService from '../../species/species.service';
 import * as Yup from 'yup';
@@ -13,7 +13,7 @@ import * as Yup from 'yup';
 import '../style/production-plan.scss';
 import _ from 'lodash';
 import React from 'react';
-import {useIntl} from 'react-intl';
+import { useIntl } from 'react-intl';
 import store from '../../../../redux/store';
 import {
   DisplayArray,
@@ -23,10 +23,10 @@ import {
   DisplayImage,
   DisplayLink,
   DisplayPercent,
-  DisplayTable
-} from "../../../common-library/helpers/detail-helpers";
+  DisplayTable,
+  DisplayPersonNameByArray,
+} from '../../../common-library/helpers/detail-helpers';
 import {SortColumn} from "../../../common-library/common-consts/const";
-
 export const headerTitle = 'PRODUCT_TYPE.MASTER.HEADER.TITLE';
 export const bodyTitle = 'PRODUCT_TYPE.MASTER.BODY.TITLE';
 export const moduleName = 'PRODUCT_TYPE.MODULE_NAME';
@@ -35,14 +35,14 @@ export const createTitle = 'PRODUCT_TYPE.CREATE.TITLE';
 export const updateTitle = 'PURCHASE_ORDER.UPDATE.TITLE';
 export const homeURL = `${window.location.pathname}`;
 
-export const Fix = ({title}: { title: string }) => {
+export const Fix = ({ title }: { title: string }) => {
   const intl = useIntl();
-  return <div style={{minWidth: 174}}>{intl.formatMessage({id: title})}</div>;
+  return <div style={{ minWidth: 174 }}>{intl.formatMessage({ id: title })}</div>;
 };
 
-const {users} = store.getState();
+const { users } = store.getState();
 
-const userData = users.entities
+const userData = users.entities;
 
 export const productPlanSearchModel1: SearchModel = {
   seedingCode: {
@@ -53,19 +53,19 @@ export const productPlanSearchModel1: SearchModel = {
   plantCode: {
     type: 'string',
     label: 'PRODUCTION_PLAN.PLANT_CODE',
-    name: 'product_plan.planting.code'
+    name: 'product_plan.planting.code',
   },
   species: {
     type: 'search-select',
     label: 'PRODUCTION_PLAN.SPECIES_NAME',
     onSearch: SpeciesService.GetAll,
     keyField: 'name',
-    name: 'product_plan.seeding.species'
+    name: 'product_plan.seeding.species',
   },
   estimatedHarvestTime: {
     type: 'date-time',
     name: 'product_plan.planting.estimatedHarvestTime',
-    label: <Fix title={'PRODUCTION_PLAN.HARVEST_DATE'}/>,
+    label: <Fix title={'PRODUCTION_PLAN.HARVEST_DATE'} />,
   },
 };
 
@@ -84,19 +84,19 @@ export const productPlanSearchModel2: SearchModel = {
   plantCode: {
     type: 'string',
     label: 'PRODUCTION_PLAN.PLANT_CODE',
-    name: 'product_plan.planting.code'
+    name: 'product_plan.planting.code',
   },
   species: {
     type: 'search-select',
     label: 'PRODUCTION_PLAN.SPECIES_NAME',
     onSearch: SpeciesService.GetAll,
     keyField: 'name',
-    name: 'product_plan.seeding.species'
+    name: 'product_plan.seeding.species',
   },
   estimatedHarvestTime: {
     type: 'date-time',
     name: 'product_plan.planting.estimatedHarvestTime',
-    label: <Fix title={'PRODUCTION_PLAN.HARVEST_DATE'}/>,
+    label: <Fix title={'PRODUCTION_PLAN.HARVEST_DATE'} />,
   },
 };
 
@@ -192,7 +192,7 @@ export const modifyModel: ModifyPanel = {
         },
       },
     },
-    
+
     // plantTime: {
     //   type: 'string',
     //   placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
@@ -632,563 +632,489 @@ export const allFormField: any = {
   ),
 };
 
-export const PlantingDetailDialog: any = [
+export const PlantingDetailDialog: RenderInfoDetail = [
   {
     header: 'THÔNG TIN CHUNG',
-    className: 'row',
-    data: [
-      [
-        {
-          type: 'link',
-          title: 'Mã gieo giống',
-          keyField: 'seeding.code',
-          path: '/production-plan/seeding',
-          params: '_id',
-        },
-        {
-          type: 'string',
-          title: 'Mã gieo trồng',
-          keyField: 'planting.code',
-        },
-        {
-          type: 'date-time',
-          title: 'Thời gian gieo trồng dự kiến',
-          keyField: 'planting.estimatedPlantingTime',
-        },
-        {
-          type: 'date-time',
-          title: 'Thời gian thu hoạch dự kiến',
-          keyField: 'planting.estimatedHarvestTime',
-        },
-        {
-          type: 'string',
-          title: 'Lô gieo trồng',
-          keyField: 'planting.landLot.code',
-          convertFn: (t: any) => t.toUpperCase(),
-        },
-        {
-          type: 'string',
-          title: 'Địa điểm Farm trồng',
-          keyField: 'planting.farmLocation.[coordinates]',
-        },
-      ],
-      [
-        {
-          type: 'string',
-          title: 'Tên chủng loại',
-          keyField: 'planting.species.name',
-        },
-        {
-          type: 'string',
-          title: 'GTIN',
-          keyField: 'planting.species.barcode',
-        },
-        {
-          type: 'string',
-          title: 'Diện tích gieo trồng',
-          keyField: 'planting.area',
-        },
-        {
-          type: 'string',
-          title: 'Số cây con đã trồng',
-          keyField: 'planting.numberOfPlants',
-        },
-        {
-          type: 'string',
-          title: 'Sản lượng dự kiến',
-          keyField: 'planting.expectedQuantity',
-        },
-      ],
-    ],
+    className: 'col-12',
+    titleClassName: 'col-md-2 col-4 mb-10',
+    dataClassName: 'col-md-4 col-8 mb-10 pl-5',
+    data: {
+      'seeding.code': {
+        title: 'SEEDING.CODE',
+        // formatter: input => DisplayLink(input, '/production-plan/seeding'),
+      },
+      'seeding.species.name': { title: 'SEEDING.SPECIES_NAME' },
+
+      'planting.code': { title: 'PLANTING.CODE' },
+      'planting.species.barcode': { title: 'SEEDING.GTIN' },
+      'planting.estimatedPlantingTime': {
+        title: 'Thời gian trồng dự kiến',
+        formatter: input => DisplayDateTime(input),
+      },
+
+      'planting.area': { title: 'SEEDING.SEEDING_AREA' },
+
+      'planting.estimatedHarvestTime': {
+        title: 'Thời gian thu hoạch dự kiến',
+        formatter: input => DisplayDateTime(input),
+      },
+      'planting.numberOfPlants': { title: 'SEEDING.NUMBER_OF_SEED' },
+      'planting.landLot.code': { title: 'SEEDING.LAND_LOT' },
+      'planting.expectedQuantity': { title: 'Sản lượng dự kiến' },
+
+      'planting.farmLocation.[coordinates]': {
+        title: 'PLANTING.FARM_LOCATION',
+        formatter: DisplayCoordinates,
+      },
+    },
   },
   {
     header: 'THÔNG TIN MÔI TRƯỜNG',
-    className: 'row',
-    data: [
-      [
-        {
-          type: 'string',
-          title: 'Nhiệt độ',
-          keyField: 'planting.temperature',
-        },
-        {
-          type: 'string',
-          title: 'Độ ẩm',
-          keyField: 'planting.humidity',
-        },
-        {
-          type: 'string',
-          title: 'Độ xốp',
-          keyField: 'planting.porosity',
-        },
-      ],
-      []
-    ],
+    className: 'col-12',
+    titleClassName: 'col-2 mb-10',
+    dataClassName: 'col-4 mb-10 pl-5',
+    data: {
+      'planting.temperature': {
+        title: 'Nhiệt độ',
+        formatter: DisplayCelcius,
+      },
+      'planting.humidity': {
+        title: 'Độ ẩm',
+        formatter: DisplayPercent,
+      },
+      'planting.porosity': {
+        title: 'Độ xốp',
+        formatter: DisplayPercent,
+      },
+    },
   },
   {
     header: 'THÔNG TIN QUẢN TRỊ',
-    className: 'row',
-    data: [
-      [
-        {
-          type: 'string',
-          title: 'Thông tin Giám đốc/TGĐ',
-          keyField: 'planting.manager.lastName',
-        },
-        {
-          type: 'string',
-          title: 'Tổ trưởng gieo trồng',
-          keyField: 'planting.[leader].lastName',
-        },
-        {
-          type: 'string',
-          title: 'Công nhân gieo trồng',
-          keyField: 'planting.[worker].lastName',
-        },
-      ],
-      []
-    ],
+    className: 'col-12',
+    titleClassName: 'col-2 mb-10',
+    dataClassName: 'col-4 mb-10 pl-5',
+    data: {
+      'planting.manager.fullName': {
+        title: 'Thông tin Giám đốc/TGĐ',
+      },
+      'planting.[leader].fullName': {
+        title: 'Tổ trưởng gieo trồng',
+        formatter: input => DisplayArray(input),
+      },
+      'planting.[worker].fullName': {
+        title: 'Công nhân gieo trồng',
+        formatter: input => DisplayArray(input),
+      },
+    },
   },
   {
     header: 'HÌNH ẢNH',
-    className: 'row',
-    data: [
-      [
-        {
-          type: 'image',
-          title: 'Hình ảnh trước nuôi trồng',
-          keyField: 'planting.imageBefore',
-        },
-      ],
-      [
-        {
-          type: 'image',
-          title: 'Hình ảnh sau nuôi trồng',
-          keyField: 'planting.imageAfter',
-        },
-      ],
-    ],
+    className: 'col-12',
+    titleClassName: 'col-2 mb-10',
+    dataClassName: 'col-4 mb-10 pl-5',
+    data: {
+      'seeding.landLotImage': {
+        title: 'Hình ảnh định vị lô luống',
+        formatter: DisplayImage,
+      },
+      'planting.imageAfter': {
+        title: 'Hình ảnh trước khi đưa vào nuôi trồng',
+        formatter: DisplayImage,
+      },
+    },
   },
 ];
 
 export const SeedingDetailDialog: RenderInfoDetail = [
-    {
-      header: 'THÔNG TIN CHUNG',
-      className: 'col-12',
-      titleClassName: 'col-2 mb-10',
-      dataClassName: 'col-4 mb-10 pl-5',
-      data: {
-        'seeding.code': {title: 'SEEDING.CODE',},
-        'seeding.farmLocation.[coordinates]': {
-          title: 'SEEDING.FARM_LOCATION',
-          formatter: DisplayCoordinates
-        },
-        'seeding.certificates': {
-          title: 'SEEDING.CERTIFICATE',
-          formatter: (input) => DisplayLink(input, 'path')
-        },
-        'seeding.species.name': {title: 'SEEDING.SPECIES_NAME',},
-        
-        'seeding.buyInvoice': {
-          title: 'SEEDING.INVOICE',
-          formatter: (input) => DisplayLink(input, 'path')
-        },
-        'seeding.species.barcode': {title: 'SEEDING.GTIN',},
-        
-        'seeding.seedingTime': {
-          title: 'SEEDING.SEEDING_TIME',
-          formatter: (input) => DisplayDateTime(input)
-        },
-        'seeding.area': {title: 'SEEDING.SEEDING_AREA',},
-        
-        'seeding.estimatedPlantingTime': {
-          title: 'SEEDING.ESTIMATED_PLANTING_TIME',
-          formatter: (input) => DisplayDateTime(input)
-        },
-        'seeding.numberOfSeed': {title: 'SEEDING.NUMBER_OF_SEED',},
-        
-        'seeding.landLot.code': {title: 'SEEDING.LAND_LOT',},
-        
-        'seeding.expectedQuantity': {title: 'SEEDING.EXPECTED_QUANTITY',},
-      },
-    },
-    {
-      header: 'THÔNG TIN MÔI TRƯỜNG',
-      className: 'col-12',
-      titleClassName: 'col-2 mb-10',
-      dataClassName: 'col-4 mb-10 pl-5',
-      data: {
-        'planting.temperature': {
-          title: 'Nhiệt độ',
-          formatter: DisplayCelcius,
-        },
-        'planting.humidity': {
-          title: 'Độ ẩm',
-          formatter: DisplayPercent,
-        },
-        'planting.porosity': {
-          title: 'Độ xốp',
-          formatter: DisplayPercent,
-        },
-      },
-    },
-    {
-      header: 'THÔNG TIN QUẢN TRỊ',
-      className: 'col-12',
-      titleClassName: 'col-2 mb-10',
-      dataClassName: 'col-4 mb-10 pl-5',
-      data: {
-        'planting.manager.fullName': {
-          title: 'Thông tin Giám đốc/TGĐ',
-        },
-        'planting.[leader].fullName': {
-          title: 'Tổ trưởng gieo trồng',
-          formatter: (input) => DisplayArray(input)
-        },
-        'planting.[worker].fullName': {
-          title: 'Công nhân gieo trồng',
-          formatter: (input) => DisplayArray(input)
-        },
-      },
-    },
-    {
-      header: 'HÌNH ẢNH',
-      className: 'col-12',
-      titleClassName: 'col-2 mb-10',
-      dataClassName: 'col-4 mb-10 pl-5',
-      data: {
-        'seeding.landLotImage': {
-          title: 'Hình ảnh định vị lô luống',
-          formatter: DisplayImage
-        },
-        'planting.imageAfter': {
-          title: 'Hình ảnh trước khi đưa vào nuôi trồng',
-          formatter: DisplayImage
-        },
-      },
-    },
-    {
-      header: 'Thử nghiệm bảng',
-      className: 'col-12',
-      titleClassName: 'col-0 hidden',
-      dataClassName: 'col-12',
-      data: {
-        'comments': {
-          formatter: (entities: any[]) => {
-            const columns: MasterBodyColumns = [{
-              dataField: 'content',
-              text: 'QR.MASTER.TABLE.NAME',
-              ...SortColumn,
-              align: 'center',
-            },{
-              dataField: '_id',
-              text: 'QR.MASTER.TABLE.CODE',
-              ...SortColumn,
-              align: 'center',
-            }]
-            return <DisplayTable entities={entities} columns={columns}/>
-          },
-        },
-      },
-    }
-  ]
-;
-
-export const masterEntityDetailDialog2: any = [
   {
     header: 'THÔNG TIN CHUNG',
-    data: [
-      [
-        {
-          type: 'string',
-          title: 'Mã kế hoạch',
-          keyField: 'code',
-        },
-        {
-          type: 'string',
-          title: 'Mã gieo giống',
-          keyField: 'seeding.code',
-        },
-        {
-          type: 'string',
-          title: 'Giấy chứng nhận giống',
-          keyField: 'seeding.certificates.path',
-        },
-        {
-          type: 'string',
-          title: 'Hóa đơn mua hàng',
-          keyField: 'seeding.buyInvoice.path',
-        },
-        {
-          type: 'date-time',
-          title: 'Thời gian gieo',
-          keyField: 'seeding.seedingTime',
-        },
-        {
-          type: 'string',
-          title: 'Lô gieo ươm',
-          keyField: 'seeding.landLot.code',
-        },
-        {
-          type: 'string',
-          title: 'Mã gieo trồng',
-          keyField: 'planting.code',
-        },
-        {
-          type: 'data-time',
-          title: 'Thời gian trồng',
-          keyField: 'planting.estimatedPlantingTime',
-        },
-        {
-          type: 'string',
-          title: 'Lô gieo trồng',
-          keyField: 'planting.landLot.code',
-        },
-      ],
-      [
-        {
-          type: 'string',
-          title: 'Tên chủng loại',
-          keyField: 'seeding.species.name',
-        },
-        {
-          type: 'string',
-          title: 'GTIN',
-          keyField: 'seeding.species.barcode',
-        },
-        {
-          type: 'string',
-          title: 'Diện tích gieo ươm',
-          keyField: 'seeding.area',
-        },
-        {
-          type: 'string',
-          title: 'Số cây con giống',
-          keyField: 'seeding.numberOfSeed',
-        },
-        {
-          type: 'string',
-          title: 'Địa chỉ farm giống',
-          keyField: 'seeding.farmLocation.[coordinates]',
-        },
-        {
-          type: 'string',
-          title: 'Diện tích gieo trồng',
-          keyField: 'planting.area',
-        },
-        {
-          type: 'string',
-          title: 'Số cây con trồng',
-          keyField: 'planting.numberOfPlants',
-        },
-        {
-          type: 'string',
-          title: 'Địa chỉ farm trồng',
-          keyField: 'planting.farmLocation.[coordinates]',
-        },
-      ],
-    ],
+    className: 'col-12',
+    titleClassName: 'col-md-2 col-4 mb-10',
+    dataClassName: 'col-md-4 col-8 mb-10 pl-5',
+    data: {
+      'seeding.code': { title: 'SEEDING.CODE' },
+      'seeding.farmLocation.[coordinates]': {
+        title: 'SEEDING.FARM_LOCATION',
+        formatter: DisplayCoordinates,
+      },
+      'seeding.certificates': {
+        title: 'SEEDING.CERTIFICATE',
+        formatter: input => DisplayLink(input, 'path'),
+      },
+      'seeding.species.name': { title: 'SEEDING.SPECIES_NAME' },
+
+      'seeding.buyInvoice': {
+        title: 'SEEDING.INVOICE',
+        formatter: input => DisplayLink(input, 'path'),
+      },
+      'seeding.species.barcode': { title: 'SEEDING.GTIN' },
+
+      'seeding.seedingTime': {
+        title: 'SEEDING.SEEDING_TIME',
+        formatter: input => DisplayDateTime(input),
+      },
+      'seeding.area': { title: 'SEEDING.SEEDING_AREA' },
+
+      'seeding.estimatedPlantingTime': {
+        title: 'SEEDING.ESTIMATED_PLANTING_TIME',
+        formatter: input => DisplayDateTime(input),
+      },
+      'seeding.numberOfSeed': { title: 'SEEDING.NUMBER_OF_SEED' },
+
+      'seeding.landLot.code': { title: 'SEEDING.LAND_LOT' },
+
+      'seeding.expectedQuantity': { title: 'SEEDING.EXPECTED_QUANTITY' },
+    },
+  },
+  {
+    header: 'THÔNG TIN MÔI TRƯỜNG',
+    className: 'col-12',
+    titleClassName: 'col-2 mb-10',
+    dataClassName: 'col-4 mb-10 pl-5',
+    data: {
+      'seeding.temperature': {
+        title: 'Nhiệt độ',
+        formatter: DisplayCelcius,
+      },
+      'seeding.humidity': {
+        title: 'Độ ẩm',
+        formatter: DisplayPercent,
+      },
+      'seeding.porosity': {
+        title: 'Độ xốp',
+        formatter: DisplayPercent,
+      },
+    },
   },
   {
     header: 'THÔNG TIN QUẢN TRỊ',
-    data: [
-      [
-        {
-          type: 'string',
-          title: 'Thông tin Giám đốc/TGĐ',
-          keyField: 'seeding.manager.fullName',
+    className: 'col-12',
+    titleClassName: 'col-2 mb-10',
+    dataClassName: 'col-4 mb-10 pl-5',
+    data: {
+      'seeding.manager.fullName': {
+        title: 'Thông tin Giám đốc/TGĐ',
+      },
+      'seeding.[leader].fullName': {
+        title: 'Tổ trưởng gieo trồng',
+        formatter: input => DisplayArray(input),
+      },
+      'seeding.[worker].fullName': {
+        title: 'Công nhân gieo trồng',
+        formatter: input => DisplayArray(input),
+      },
+    },
+  },
+  {
+    header: 'HÌNH ẢNH',
+    className: 'col-12',
+    titleClassName: 'col-2 mb-10',
+    dataClassName: 'col-4 mb-10 pl-5',
+    data: {
+      'seeding.landLotImage': {
+        title: 'Hình ảnh định vị lô luống',
+        formatter: DisplayImage,
+      },
+      'planting.imageAfter': {
+        title: 'Hình ảnh trước khi đưa vào nuôi trồng',
+        formatter: DisplayImage,
+      },
+    },
+  },
+  {
+    header: 'Thử nghiệm bảng',
+    className: 'col-12',
+    titleClassName: 'col-0 hidden',
+    dataClassName: 'col-12',
+    data: {
+      'comments': {
+        formatter: (entities: any[]) => {
+          const columns: MasterBodyColumns = [{
+            dataField: 'content',
+            text: 'QR.MASTER.TABLE.NAME',
+            ...SortColumn,
+            align: 'center',
+          },{
+            dataField: '_id',
+            text: 'QR.MASTER.TABLE.CODE',
+            ...SortColumn,
+            align: 'center',
+          }]
+          return <DisplayTable entities={entities} columns={columns}/>
         },
-        {
-          type: 'array',
-          title: 'Tổ trưởng gieo giống',
-          keyField: 'seeding.leader',
-          target: 'fullName',
-        },
-      ],
-      [
-        {
-          type: 'string',
-          title: 'Người lập kế hoạch',
-          keyField: 'planting.manager.fullName',
-        },
-        {
-          type: 'array',
-          title: 'Tổ trưởng gieo trồng',
-          keyField: 'planting.leader',
-          target: 'fullName',
-        },
-      ],
-    ],
+      },
+    },
+  }
+];
+
+export const masterEntityDetailDialog2: RenderInfoDetail = [
+  {
+    header: 'THÔNG TIN CHUNG',
+    className: 'col-12',
+    titleClassName: 'col-md-2 col-4 mb-10',
+    dataClassName: 'col-md-4 col-8 mb-10 pl-5',
+    data: {
+      code: { title: 'PRODUCTION_PLAN.CODE' },
+      farmLocation: {
+        title: 'SEEDING.FARM_LOCATION',
+      },
+      'seeding.code': { title: 'SEEDING.CODE' },
+      'seeding.species.name': { title: 'SEEDING.SPECIES_NAME' },
+      'planting.code': { title: 'PRODUCTION_PLAN.PLANT_CODE' },
+      'seeding.species.barcode': { title: 'SEEDING.GTIN' },
+
+      'seeding.certificates': {
+        title: 'SEEDING.CERTIFICATE',
+        formatter: input => DisplayLink(input, 'path'),
+      },
+      'seeding.area': { title: 'SEEDING.SEEDING_AREA' },
+
+      'seeding.buyInvoice': {
+        title: 'SEEDING.INVOICE',
+        formatter: input => DisplayLink(input, 'path'),
+      },
+      'planting.area': { title: 'SEEDING.SEEDING_AREA' },
+
+      'seeding.seedingTime': {
+        title: 'SEEDING.SEEDING_TIME',
+        formatter: input => DisplayDateTime(input),
+      },
+      'seeding.numberOfSeed': { title: 'SEEDING.NUMBER_OF_SEED' },
+
+      'seeding.estimatedPlantingTime': {
+        title: 'SEEDING.ESTIMATED_PLANTING_TIME',
+        formatter: input => DisplayDateTime(input),
+      },
+
+      'planting.numberOfPlants': { title: 'SEEDING.NUMBER_OF_SEED' },
+
+      'seeding.landLot.code': { title: 'SEEDING.LAND_LOT' },
+
+      'seeding.farmLocation.[coordinates]': {
+        title: 'SEEDING.FARM_LOCATION',
+        formatter: DisplayCoordinates,
+      },
+
+      'planting.landLot.code': { title: 'SEEDING.LAND_LOT' },
+
+      'planting.farmLocation.[coordinates]': {
+        title: 'SEEDING.FARM_LOCATION',
+        formatter: DisplayCoordinates,
+      },
+    },
+  },
+  {
+    header: 'THÔNG TIN QUẢN TRỊ',
+    className: 'col-12',
+    titleClassName: 'col-md-2 col-4 mb-10',
+    dataClassName: 'col-md-4 col-8 mb-10 pl-5',
+    data: {
+      'seeding.manager.fullName': { title: 'Thông tin Giám đốc/TGĐ' },
+      'planting.manager.fullName': { title: 'Người lập kế hoạch' },
+      'seeding.[leader]': {
+        title: 'SEEDING.FARM_LOCATION',
+        formatter: DisplayPersonNameByArray,
+      },
+      'planting.[leader]': {
+        title: 'SEEDING.FARM_LOCATION',
+        formatter: DisplayPersonNameByArray,
+      },
+    },
   },
   {
     header: 'THÔNG TIN THU HOẠCH',
-    data: [
-      [
-        {
-          type: 'date-time',
-          title: 'Thời gian thu hoạch (dự kiến)',
-          keyField: 'planting.estimatedHarvestTime',
-        },
-        {
-          type: 'string',
-          title: 'Sản lượng thu hoạch (dự kiến)',
-          keyField: 'planting.expectedQuantity',
-        },
-      ],
-      [
-        {
-          type: 'array',
-          title: 'Nhân viên kĩ thuật thu hoạch',
-          keyField: 'harvesting.technical',
-          target: 'user.fullName',
-        },
-        {
-          type: 'array',
-          title: 'Tổ trưởng thu hoạch',
-          keyField: 'harvesting.leader',
-          target: 'user.fullName',
-        },
-      ],
-    ],
+    className: 'col-12',
+    titleClassName: 'col-md-2 col-4 mb-10',
+    dataClassName: 'col-md-4 col-8 mb-10 pl-5',
+    data: {
+      'planting.estimatedHarvestTime': {
+        title: 'Thời gian thu hoạch (dự kiến)',
+        formatter: input => DisplayDateTime(input),
+      },
+      'harvesting.[technical]': {
+        title: 'Nhân viên kỹ thuật thu hoạch',
+        formatter: DisplayPersonNameByArray,
+      },
+      'planting.expectedQuantity': { title: 'Sản lượng thu hoạch (dự kiến)' },
+
+      'harvesting.[leader]': {
+        title: 'Tổ trưởng thu hoạch',
+        formatter: DisplayPersonNameByArray,
+      },
+    },
   },
   {
     header: 'THÔNG TIN SƠ CHẾ',
-    data: [
-      [
-        {
-          type: 'date-time',
-          title: 'Thời gian sơ chế (dự kiến)',
-          keyField: 'preliminaryTreatment.estimatedTime',
-        },
-        {
-          type: 'string',
-          title: 'Sản lượng sau sơ chế dự kiến (kg)',
-          keyField: 'preliminaryTreatment.estimatedQuantity',
-        },
-      ],
-      [
-        {
-          type: 'array',
-          title: 'Nhân viên kĩ thuật sơ chế',
-          keyField: 'preliminaryTreatment.technical',
-          target: 'user.fullName',
-        },
-        {
-          type: 'array',
-          title: 'Tổ trưởng sơ chế',
-          keyField: 'preliminaryTreatment.leader',
-          target: 'user.fullName',
-        },
-      ],
-    ],
+    className: 'col-12',
+    titleClassName: 'col-md-2 col-4 mb-10',
+    dataClassName: 'col-md-4 col-8 mb-10 pl-5',
+    data: {
+      'preliminaryTreatment.estimatedTime': {
+        title: 'SEEDING.SEEDING_TIME',
+        formatter: input => DisplayDateTime(input),
+      },
+      'preliminaryTreatment.[technical]': {
+        title: 'Nhân viên kỹ thuật sơ chế',
+        formatter: DisplayPersonNameByArray,
+      },
+      'preliminaryTreatment.estimatedQuantity': { title: 'Sản lượng sau sơ chế (dự kiến)' },
+
+      'preliminaryTreatment.[leader]': {
+        title: 'Tổ trưởng sơ chế',
+        formatter: DisplayPersonNameByArray,
+      },
+    },
   },
   {
     header: 'THÔNG TIN LÀM SẠCH',
-    data: [
-      [
-        {
-          type: 'date-time',
-          title: 'Thời gian làm sạch (dự kiến)',
-          keyField: 'cleaning.estimatedTime',
-        },
-        {
-          type: 'string',
-          title: 'Sản lượng sau làm sạch dự kiến (kg)',
-          keyField: 'cleaning.estimatedQuantity',
-        },
-      ],
-      [
-        {
-          type: 'array',
-          title: 'Nhân viên kĩ thuật làm sạch',
-          keyField: 'cleaning.technical',
-          target: 'user.fullName',
-        },
-        {
-          type: 'array',
-          title: 'Tổ trưởng làm sạch',
-          keyField: 'cleaning.leader',
-          target: 'user.fullName',
-        },
-      ],
-    ],
+    className: 'col-12',
+    titleClassName: 'col-md-2 col-4 mb-10',
+    dataClassName: 'col-md-4 col-8 mb-10 pl-5',
+    data: {
+      'cleaning.estimatedTime': {
+        title: 'SEEDING.SEEDING_TIME',
+        formatter: input => DisplayDateTime(input),
+      },
+      'cleaning.[technical]': {
+        title: 'Nhân viên kỹ thuật làm sạch',
+        formatter: DisplayPersonNameByArray,
+      },
+      'cleaning.estimatedQuantity': { title: 'Sản lượng sau làm sạch (dự kiến)' },
+
+      'cleaning.[leader]': {
+        title: 'Tổ trưởng làm sạch',
+        formatter: DisplayPersonNameByArray,
+      },
+    },
   },
   {
     header: 'THÔNG TIN ĐÓNG GÓI',
-    data: [
-      [
-        {
-          type: 'date-time',
-          title: 'Thời gian đóng gói (dự kiến)',
-          keyField: 'packing.estimatedTime',
-        },
-        {
-          type: 'date-time',
-          title: 'Hạn sử dụng bắt đầu (dự kiến)',
-          keyField: 'packing.estimatedExpireTimeStart',
-        },
-        {
-          type: 'date-time',
-          title: 'Hạn sử dụng kết thúc (dự kiến)',
-          keyField: 'packing.estimatedExpireTimeEnd',
-        },
-        {
-          type: 'string',
-          title: 'Quy cách đóng gói',
-          keyField: 'packing.packing.weight',
-        },
-      ],
-      [
-        {
-          type: 'string',
-          title: 'Số lượng đóng gói dự kiến',
-          keyField: 'packing.estimatedQuantity',
-        },
-        {
-          type: 'array',
-          title: 'KCS',
-          keyField: 'packing.technical',
-          target: 'user.fullName',
-        },
-        {
-          type: 'array',
-          title: 'Tổ trưởng đóng gói',
-          keyField: 'packing.leader',
-          target: 'user.fullName',
-        },
-      ],
-    ],
+    className: 'col-12',
+    titleClassName: 'col-md-2 col-4 mb-10',
+    dataClassName: 'col-md-4 col-8 mb-10 pl-5',
+    data: {
+      'packing.estimatedTime': {
+        title: 'Thời gian đóng gói (dự kiến)',
+        formatter: input => DisplayDateTime(input),
+      },
+      'packing.estimatedQuantity': { title: 'Sản lượng sau đóng gói (dự kiến)' },
+      'packing.estimatedExpireTimeStart': {
+        title: 'Hạn sử dụng (từ ngày)',
+        formatter: input => DisplayDateTime(input),
+      },
+      'packing.[technical]': {
+        title: 'KCS',
+        formatter: DisplayPersonNameByArray,
+      },
+      'packing.estimatedExpireTimeEnd': {
+        title: 'Hạn sử dụng (đến ngày)',
+        formatter: input => DisplayDateTime(input),
+      },
+      'packing.[leader]': {
+        title: 'Tổ trưởng đóng gói',
+        formatter: DisplayPersonNameByArray,
+      },
+      'packing.packing.weight': {
+        title: 'Quy cách đóng gói',
+      },
+    },
   },
   {
     header: 'THÔNG TIN BẢO QUẢN',
-    data: [
-      [
-        {
-          type: 'date-time',
-          title: 'Thời gian bắt đầu bảo quản (dự kiến)',
-          keyField: 'preservation.estimatedStartTime',
-        },
-        {
-          type: 'date-time',
-          title: 'Thời gian kết thúc bảo quản (dự kiến)',
-          keyField: 'preservation.estimatedEndTime',
-        },
-      ],
-      [
-        {
-          type: 'array',
-          title: 'Nhân viên kĩ thuật bảo quản',
-          keyField: 'preservation.technical',
-          target: 'user.fullName',
-        },
-      ],
-    ],
+    className: 'col-12',
+    titleClassName: 'col-md-2 col-4 mb-10',
+    dataClassName: 'col-md-4 col-8 mb-10 pl-5',
+    data: {
+      'preservation.estimatedStartTime': {
+        title: 'Thời gian bảo quản (từ ngày)',
+        formatter: input => DisplayDateTime(input),
+      },
+      'preservation.[technical]': {
+        title: 'Nhân viên kỹ thuật bảo quản',
+        formatter: DisplayPersonNameByArray,
+      },
+      'preservation.estimatedEndTime': {
+        title: 'Thời gian bảo quản (đến ngày)',
+        formatter: input => DisplayDateTime(input),
+      },
+    },
   },
+
+  // {
+  //   header: 'THÔNG TIN ĐÓNG GÓI',
+  //   data: [
+  //     [
+  //       {
+  //         type: 'date-time',
+  //         title: 'Thời gian đóng gói (dự kiến)',
+  //         keyField: 'packing.estimatedTime',
+  //       },
+  //       {
+  //         type: 'date-time',
+  //         title: 'Hạn sử dụng bắt đầu (dự kiến)',
+  //         keyField: 'packing.estimatedExpireTimeStart',
+  //       },
+  //       {
+  //         type: 'date-time',
+  //         title: 'Hạn sử dụng kết thúc (dự kiến)',
+  //         keyField: 'packing.estimatedExpireTimeEnd',
+  //       },
+  //       {
+  //         type: 'string',
+  //         title: 'Quy cách đóng gói',
+  //         keyField: 'packing.packing.weight',
+  //       },
+  //     ],
+  //     [
+  //       {
+  //         type: 'string',
+  //         title: 'Số lượng đóng gói dự kiến',
+  //         keyField: 'packing.estimatedQuantity',
+  //       },
+  //       {
+  //         type: 'array',
+  //         title: 'KCS',
+  //         keyField: 'packing.technical',
+  //         target: 'user.fullName',
+  //       },
+  //       {
+  //         type: 'array',
+  //         title: 'Tổ trưởng đóng gói',
+  //         keyField: 'packing.leader',
+  //         target: 'user.fullName',
+  //       },
+  //     ],
+  //   ],
+  // },
+  // {
+  //   header: 'THÔNG TIN BẢO QUẢN',
+  //   data: [
+  //     [
+  //       {
+  //         type: 'date-time',
+  //         title: 'Thời gian bắt đầu bảo quản (dự kiến)',
+  //         keyField: 'preservation.estimatedStartTime',
+  //       },
+  //       {
+  //         type: 'date-time',
+  //         title: 'Thời gian kết thúc bảo quản (dự kiến)',
+  //         keyField: 'preservation.estimatedEndTime',
+  //       },
+  //     ],
+  //     [
+  //       {
+  //         type: 'array',
+  //         title: 'Nhân viên kĩ thuật bảo quản',
+  //         keyField: 'preservation.technical',
+  //         target: 'user.fullName',
+  //       },
+  //     ],
+  //   ],
 ];
 
 export const addInitField = (obj1: any, obj2: any) => {
-  const rs = {...obj1};
-  
+  const rs = { ...obj1 };
+
   Object.keys(obj2).forEach(key => {
     if (rs[key]) {
       Object.keys(obj2[key]).forEach(keys => {
@@ -1198,7 +1124,7 @@ export const addInitField = (obj1: any, obj2: any) => {
       });
     }
   });
-  
+
   return rs;
 };
 
@@ -1216,7 +1142,7 @@ export const initProductPlanForm = {
     estimatedExpireTimeStart: null,
     estimatedExpireTimeEnd: null,
     estimatedQuantity: undefined,
-    packing: null
+    packing: null,
   },
   preservation: {
     estimatedStartTime: null,
@@ -1227,10 +1153,10 @@ export const initProductPlanForm = {
 export const halfValidate = {
   estimatedHarvestTime: Yup.mixed(),
   expectedQuantity: Yup.number(),
-  technical: Yup.array().test('oneOfRequired', 'INPUT_ALL', function (value: any) {
-    console.log(this.schema)
-    console.log(this.path)
-    console.log(this.options)
+  technical: Yup.array().test('oneOfRequired', 'INPUT_ALL', function(value: any) {
+    console.log(this.schema);
+    console.log(this.path);
+    console.log(this.options);
     return (
       (this.parent.leader.length > 0 &&
         this.parent.expectedQuantity > 0 &&
@@ -1243,7 +1169,7 @@ export const halfValidate = {
       value.length > 0
     );
   }),
-  leader: Yup.array().test('oneOfRequired', 'INPUT_ALL', function (value: any) {
+  leader: Yup.array().test('oneOfRequired', 'INPUT_ALL', function(value: any) {
     return (
       (this.parent.technical.length > 0 &&
         this.parent.estimatedQuantity > 0 &&
@@ -1264,7 +1190,7 @@ export const CompareDate = (date1: Date, date2: Date) => {
 };
 
 export const validate = {
-  estimatedTime: Yup.mixed().test('oneOfRequired', 'DATE_VALIDATE', function (value: any) {
+  estimatedTime: Yup.mixed().test('oneOfRequired', 'DATE_VALIDATE', function(value: any) {
     return (
       (this.parent.leader.length > 0 &&
         this.parent.technical.length > 0 &&
@@ -1278,7 +1204,7 @@ export const validate = {
       (value && CompareDate(new Date(value), new Date()))
     );
   }),
-  estimatedQuantity: Yup.number().test('oneOfRequired', 'INPUT_ALL', function (value: any) {
+  estimatedQuantity: Yup.number().test('oneOfRequired', 'INPUT_ALL', function(value: any) {
     return (
       (this.parent.leader.length > 0 &&
         this.parent.technical.length > 0 &&
@@ -1291,7 +1217,7 @@ export const validate = {
       (value && value > 0)
     );
   }),
-  technical: Yup.array().test('oneOfRequired', 'INPUT_ALL', function (value: any) {
+  technical: Yup.array().test('oneOfRequired', 'INPUT_ALL', function(value: any) {
     console.log(value);
     return (
       (this.parent.leader.length > 0 &&
@@ -1305,7 +1231,7 @@ export const validate = {
       value.length > 0
     );
   }),
-  leader: Yup.array().test('oneOfRequired', 'INPUT_ALL', function (value: any) {
+  leader: Yup.array().test('oneOfRequired', 'INPUT_ALL', function(value: any) {
     return (
       (this.parent.technical.length > 0 &&
         this.parent.estimatedQuantity > 0 &&
@@ -1321,7 +1247,7 @@ export const validate = {
 };
 
 export const packingValidate = {
-  estimatedTime: Yup.mixed().test('oneOfRequired', 'DATE_VALIDATE', function (value: any) {
+  estimatedTime: Yup.mixed().test('oneOfRequired', 'DATE_VALIDATE', function(value: any) {
     return (
       (this.parent.leader.length > 0 &&
         this.parent.technical.length > 0 &&
@@ -1345,8 +1271,10 @@ export const packingValidate = {
       (value && CompareDate(new Date(value), new Date()))
     );
   }),
-  
-  estimatedExpireTimeStart: Yup.mixed().test('oneOfRequired', 'DATE_VALIDATE', function (value: any) {
+
+  estimatedExpireTimeStart: Yup.mixed().test('oneOfRequired', 'DATE_VALIDATE', function(
+    value: any,
+  ) {
     return (
       (this.parent.leader.length > 0 &&
         this.parent.technical.length > 0 &&
@@ -1367,13 +1295,11 @@ export const packingValidate = {
         (!this.parent.estimatedTime || this.parent.estimatedTime === '') &&
         (!this.parent.estimatedExpireTimeEnd || this.parent.estimatedExpireTimeEnd === '') &&
         !value) ||
-      (value &&
-        CompareDate(new Date(value), new Date())
-      )
+      (value && CompareDate(new Date(value), new Date()))
     );
   }),
-  
-  estimatedExpireTimeEnd: Yup.mixed().test('oneOfRequired', 'DATE_VALIDATE', function (value: any) {
+
+  estimatedExpireTimeEnd: Yup.mixed().test('oneOfRequired', 'DATE_VALIDATE', function(value: any) {
     return (
       (this.parent.leader.length > 0 &&
         this.parent.technical.length > 0 &&
@@ -1400,8 +1326,8 @@ export const packingValidate = {
         CompareDate(new Date(value), new Date(this.parent.estimatedExpireTimeStart)))
     );
   }),
-  
-  packing: Yup.mixed().test('oneOfRequired', 'INPUT_ALL', function (value: any) {
+
+  packing: Yup.mixed().test('oneOfRequired', 'INPUT_ALL', function(value: any) {
     console.log(value);
     return (
       (this.parent.leader.length > 0 &&
@@ -1410,25 +1336,23 @@ export const packingValidate = {
         this.parent.estimatedTime &&
         this.parent.estimatedExpireTimeStart &&
         this.parent.estimatedExpireTimeEnd &&
-        value)
+        value) ||
       // && _.isString(value))
-      ||
       ((!this.parent.leader || this.parent.leader.length === 0) &&
         (!this.parent.technical || this.parent.technical.length === 0) &&
         !this.parent.estimatedTime &&
         !this.parent.estimatedExpireTimeStart &&
         !this.parent.estimatedExpireTimeEnd &&
         (!this.parent.estimatedQuantity || this.parent.estimatedQuantity === 0) &&
-        !value)
+        !value) ||
       // !value.label)
-      ||
-      (value)
+      value
       // && _.isString(value)) ||
       // (!_.isString(value) && value.label)
     );
   }),
-  
-  estimatedQuantity: Yup.number().test('oneOfRequired', 'INPUT_ALL', function (value: any) {
+
+  estimatedQuantity: Yup.number().test('oneOfRequired', 'INPUT_ALL', function(value: any) {
     return (
       (this.parent.leader.length > 0 &&
         this.parent.technical.length > 0 &&
@@ -1451,7 +1375,7 @@ export const packingValidate = {
       (value && value > 0)
     );
   }),
-  technical: Yup.array().test('oneOfRequired', 'INPUT_ALL', function (value: any) {
+  technical: Yup.array().test('oneOfRequired', 'INPUT_ALL', function(value: any) {
     return (
       (this.parent.leader.length > 0 &&
         this.parent.estimatedQuantity > 0 &&
@@ -1474,7 +1398,7 @@ export const packingValidate = {
       value.length > 0
     );
   }),
-  leader: Yup.array().test('oneOfRequired', 'INPUT_ALL', function (value: any) {
+  leader: Yup.array().test('oneOfRequired', 'INPUT_ALL', function(value: any) {
     return (
       (this.parent.technical.length > 0 &&
         this.parent.estimatedQuantity > 0 &&
@@ -1500,7 +1424,7 @@ export const packingValidate = {
 };
 
 export const preservationValidate = {
-  estimatedStartTime: Yup.mixed().test('oneOfRequired', 'DATE_VALIDATE', function (value: any) {
+  estimatedStartTime: Yup.mixed().test('oneOfRequired', 'DATE_VALIDATE', function(value: any) {
     return (
       (this.parent.technical.length > 0 &&
         this.parent.estimatedEndTime &&
@@ -1515,7 +1439,7 @@ export const preservationValidate = {
         CompareDate(new Date(this.parent.estimatedEndTime), new Date(value)))
     );
   }),
-  estimatedEndTime: Yup.mixed().test('oneOfRequired', 'DATE_VALIDATE', function (value: any) {
+  estimatedEndTime: Yup.mixed().test('oneOfRequired', 'DATE_VALIDATE', function(value: any) {
     return (
       (this.parent.technical.length > 0 &&
         this.parent.estimatedStartTime &&
@@ -1530,7 +1454,7 @@ export const preservationValidate = {
         CompareDate(new Date(value), new Date(this.parent.estimatedStartTime)))
     );
   }),
-  technical: Yup.array().test('oneOfRequired', 'INPUT_ALL', function (value: any) {
+  technical: Yup.array().test('oneOfRequired', 'INPUT_ALL', function(value: any) {
     return (
       (this.parent.estimatedStartTime && this.parent.estimatedEndTime && value.length > 0) ||
       (!this.parent.estimatedStartTime &&

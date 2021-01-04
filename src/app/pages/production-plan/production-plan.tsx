@@ -38,6 +38,7 @@ import Visibility from '@material-ui/icons/Visibility';
 import _ from 'lodash';
 import { ModifyForm, ModifyPanel } from '../../common-library/common-types/common-type';
 import * as ProductPackagingService from '../product-packaging/product-packaging.service';
+import { ProductionPlanDetail } from './production-plan-detail';
 
 const headerTitle = 'PRODUCT_TYPE.MASTER.HEADER.TITLE';
 const bodyTitle = 'PRODUCT_TYPE.MASTER.BODY.TITLE';
@@ -1505,7 +1506,7 @@ function ProductionPlan() {
         </Route>
         <Route exact path="/production-plan/plan-view/:code">
           {({ history, match }) => (
-            <MasterEntityDetailPage
+            <ProductionPlanDetail
               entity={history.location.state}
               renderInfo={masterEntityDetailDialog2}
               code={match && match.params.code}
