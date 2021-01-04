@@ -416,7 +416,7 @@ function ShippingAgency() {
             formModel={createForm}
             entity={initCreateValues}
             actions={actions}
-            // validation={validationSchema}
+            validation={validationSchema}
           />
         </Route>
         <Route path={`/shipping-agency/:code`}>
