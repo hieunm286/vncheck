@@ -49,7 +49,7 @@ function CustomImageUpload({
   }, [disabled, values]);
   
   const handleChange = useCallback((imageList: any[], addUpdateIndex: any, key: string) => {
-    const newArr = getNewImage(field.value, imageList);
+    const newArr = getNewImage(isArray ? field.value : [field.value ], imageList);
     const promise = getImageMetaList(newArr, key);
     promise.then((metadataList) => {
       const arr = imageList.map((image: any, index) => {

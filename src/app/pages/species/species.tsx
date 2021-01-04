@@ -292,21 +292,6 @@ function Species() {
       label: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.EXPIRY',
       required: true,
     },
-    // chekbox: {
-    //   _type: 'checkbox',
-    //   label: 'test check box',
-    //   selectedEntities: selectedEntities,
-    //   onSelectMany: setSelectedEntities,
-    //   selectColumnPosition: 'right',
-    //   data: entities,
-    //   columns: {
-    //     value: {
-    //       dataField: 'name',
-    //       text: `Doanh nghiệp sản xuất`,
-    //       classes: 'text-left',
-    //     },
-    //   },
-    // },
   }), [entities, selectedEntities, setSelectedEntities]);
   
   const createForm = useMemo(
@@ -400,37 +385,20 @@ function Species() {
           <EntityCrudPage
             entity={initForm}
             onModify={add}
-            // reduxModel="purchaseOrder"
             get={() => null}
             formModel={createForm}
-            // allFormField={allFormField}
             actions={allFormButton}
             validation={schema}
             loading={loading}
-            // autoFill={{
-            //   field: 'code',
-            //   data: GenerateCode(data),
-            // }}
           />
         </Route>
         <Route path={`/species/:code`}>
           {({history, match}) => (
-            // <ModifyEntityPage
-            //   entity={editEntity}
-            //   onModify={update}
-            //   title={updateTitle}
-            //   modifyModel={modifyModel}
-            //   reduxModel="purchaseOrder"
-            //   code={match && match.params.code}
-            //   get={PurchaseOrderService.GetById}
-            // />
             <EntityCrudPage
-              entity={editEntity}
               onModify={update}
               code={match && match.params.code}
               get={ProductTypeService.GetById}
               formModel={updateForm}
-              // allFormField={allFormField}
               actions={allFormButton}
               validation={schema}
               loading={loading}
