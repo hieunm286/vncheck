@@ -1,4 +1,5 @@
 import {
+  MasterBodyColumns,
   ModifyForm,
   ModifyPanel,
   RenderInfoDetail,
@@ -22,9 +23,10 @@ import {
   DisplayImage,
   DisplayLink,
   DisplayPercent,
+  DisplayTable,
   DisplayPersonNameByArray,
 } from '../../../common-library/helpers/detail-helpers';
-
+import {SortColumn} from "../../../common-library/common-consts/const";
 export const headerTitle = 'PRODUCT_TYPE.MASTER.HEADER.TITLE';
 export const bodyTitle = 'PRODUCT_TYPE.MASTER.BODY.TITLE';
 export const moduleName = 'PRODUCT_TYPE.MODULE_NAME';
@@ -819,6 +821,30 @@ export const SeedingDetailDialog: RenderInfoDetail = [
       },
     },
   },
+  {
+    header: 'Thử nghiệm bảng',
+    className: 'col-12',
+    titleClassName: 'col-0 hidden',
+    dataClassName: 'col-12',
+    data: {
+      'comments': {
+        formatter: (entities: any[]) => {
+          const columns: MasterBodyColumns = [{
+            dataField: 'content',
+            text: 'QR.MASTER.TABLE.NAME',
+            ...SortColumn,
+            align: 'center',
+          },{
+            dataField: '_id',
+            text: 'QR.MASTER.TABLE.CODE',
+            ...SortColumn,
+            align: 'center',
+          }]
+          return <DisplayTable entities={entities} columns={columns}/>
+        },
+      },
+    },
+  }
 ];
 
 export const masterEntityDetailDialog2: RenderInfoDetail = [

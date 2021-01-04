@@ -22,8 +22,8 @@ export interface MainInputState {
 }
 
 export interface PaginationProps {
-  limit: number | undefined;
-  page: number | undefined;
+  limit?: number;
+  page?: number;
   sortType: string;
   sortBy: string;
 }

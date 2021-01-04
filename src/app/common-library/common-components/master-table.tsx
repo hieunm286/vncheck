@@ -67,23 +67,23 @@ export function MasterTable<T>({
                                  entities,
                                  selectedEntities,
                                  total,
-                                 loading,
+                                 loading = false,
                                  paginationParams,
                                  setPaginationParams,
                                  onSelectMany,
                                  columns,
-                                 removeSelectRow,
+                                 disablePagination,
                                  selectColumnPosition = "left"
                                }: {
-  total: number;
-  loading: boolean;
+  total?: number;
+  loading?: boolean;
   onSelectMany?: (entities: T[]) => void;
-  selectedEntities: T[];
+  selectedEntities?: T[];
   columns: MasterBodyColumns;
+  disablePagination?: boolean,
   entities: T[];
   paginationParams: PaginationProps;
   setPaginationParams: (data: PaginationProps) => void;
-  removeSelectRow?: boolean;
   selectColumnPosition?: 'left' | 'right'
   // [T: string]: any;
 }) {
@@ -105,7 +105,7 @@ export function MasterTable<T>({
     <PaginationProvider pagination={paginationFactory(paginationOptions)}>
       {({paginationProps, paginationTableProps}) => {
         return (
-          <Pagination isLoading={loading} paginationProps={paginationProps}>
+          <Pagination disabled={disablePagination} isLoading={loading} paginationProps={paginationProps}>
             <BootstrapTable
               wrapperClasses="table-responsive"
               bordered={false}
@@ -117,7 +117,7 @@ export function MasterTable<T>({
               data={entities}
               columns={Object.values(columns)}
               defaultSorted={SortDefault as any}
-              selectRow={(removeSelectRow || onSelectMany == null) ? undefined : {
+              selectRow={(!onSelectMany || !selectedEntities) ? undefined : {
                 ...GetSelectRow({
                   entities: entities,
                   selectedEntities: selectedEntities,

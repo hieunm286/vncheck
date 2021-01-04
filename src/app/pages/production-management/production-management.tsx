@@ -716,9 +716,6 @@ function ProductionManagement() {
                 loading={loading}
                 paginationParams={paginationProps}
                 setPaginationParams={setPaginationProps}
-                onSelectMany={setSelectedEntities}
-                selectedEntities={selectedEntities}
-                removeSelectRow
               />
             </CardBody>
           </Card>

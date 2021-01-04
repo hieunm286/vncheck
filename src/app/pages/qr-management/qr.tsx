@@ -2,7 +2,7 @@ import React, {Fragment, useEffect, useMemo} from "react";
 import {useIntl} from 'react-intl';
 
 import * as UserService from '../user/user.service';
-import {DisplayTime, InitMasterProps} from "../../common-library/helpers/common-function";
+import {InitMasterProps} from "../../common-library/helpers/common-function";
 import {Count, Create, Delete, DeleteMany, Get, GetAll, GetById, Update} from './qr.service';
 import {QrModel} from './qr.model';
 import {MasterHeader} from "../../common-library/common-components/master-header";
@@ -13,12 +13,19 @@ import {DefaultPagination, SortColumn} from '../../common-library/common-consts/
 
 import {DeleteEntityDialog} from "../../common-library/common-components/delete-entity-dialog";
 import DeleteManyEntitiesDialog from '../../common-library/common-components/delete-many-entities-dialog';
-import {Route, Switch, useHistory} from 'react-router-dom';
+import {Link, Route, Switch, useHistory} from 'react-router-dom';
 import {SearchModel} from "../../common-library/common-types/common-type";
 import {MasterEntityDetailPage} from "../../common-library/common-components/master-detail-page";
 import {QrRenderDetail} from "./qr.render-info";
+import * as MultilevelSaleService from '../multilevel-sale/multilevel-sale.service';
+import User from "../account";
+import { bodyEntities, detailEntities, detailModel } from "./qr-mock";
+import ModifyEntityDialog from "../../common-library/common-components/modify-entity-dialog";
+import { MasterQrChildDetail, MasterQrParentDetail } from "./qr-detail";
+import * as QrService from './services/qr.service';
+import {DisplayDateTime} from "../../common-library/helpers/detail-helpers";
 
-const headerTitle = 'AGENCY.MASTER.HEADER.TITLE';
+const headerTitle = 'QR.MASTER.HEADER.TITLE';
 const tableTitle = 'SHIPPING_AGENCY.MASTER.TABLE.TITLE';
 const detailDialogTitle = 'SHIPPING_AGENCY.DETAIL_DIALOG.TITLE';
 const moduleName = 'QR.MODULE_NAME';
@@ -29,7 +36,7 @@ const updateTitle = 'SHIPPING_AGENCY.UPDATE.HEADER';
 
 // const createTitle = 'PURCHASE_ORDER.CREATE.TITLE';
 // const updateTitle = 'PURCHASE_ORDER.UPDATE.TITLE';
-const bodyTitle = 'AGENCY.MASTER.BODY.TITLE';
+const bodyTitle = 'QR.MASTER.BODY.TITLE';
 
 
 function QrPage() {
@@ -91,18 +98,20 @@ function QrPage() {
         text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.CODE'})}`,
         ...SortColumn,
         align: 'center',
+        formatter: (cell: string, row: any, rowIndex: number) => {console.log(row.codeType === 'Đóng gói');return <Link to={'qr/' + (row.codeType === 'Đóng gói' ? 'qr-parent/' : 'qr-child/') + cell}>{cell}</Link>},
       },
       createdBy: {
         dataField: 'createdBy',
         text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.CREATED_BY'})}`,
-        ...SortColumn,
+      ...SortColumn,
         align: 'center',
+        formatter: (cell: any, row: any, rowIndex: number) => {return <>{cell.firstName + ' ' + cell.lastName}</>},
       },
       createdDate: {
         dataField: 'createdDate',
         text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.CREATED_DATE'})}`,
         ...SortColumn,
-        formatter: (cell: any, row: any, rowIndex: number) => (<DisplayTime value={cell}/>),
+        formatter: DisplayDateTime,
         align: 'center',
       },
       activeBy: {
@@ -115,7 +124,7 @@ function QrPage() {
         dataField: 'activeAt',
         text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.ACTIVE_AT'})}`,
         ...SortColumn,
-        formatter: (cell: any, row: any, rowIndex: number) => (<DisplayTime value={cell}/>),
+        formatter: DisplayDateTime,
         align: 'center',
       },
       codeType: {
@@ -199,15 +208,73 @@ function QrPage() {
           <MasterBody
             title={bodyTitle}
             onCreate={() => {
-              history.push(`${window.location.pathname}/0000000`);
+              // history.push(`${window.location.pathname}/0000000`);
+              setShowCreate(true);
             }}
-            entities={entities}
+            entities={bodyEntities}
             total={total}
             columns={columns}
             loading={loading}
             paginationParams={paginationProps}
             setPaginationParams={setPaginationProps}
           />
+          <ModifyEntityDialog
+            show={showCreate}
+            formModel={{
+              _header: 'a',
+              // _className: '',
+              // _titlenpClassName: '',
+              // _dataClassName: '',
+              _panel1: {
+                _title: '',
+                group1: {
+                  _subTitle: '',
+                  codeType: {
+                    _type: 'string',
+                    label: 'QR.CODE_TYPE',
+                  },
+                  quantity: {
+                    _type: 'number',
+                    label: 'QR.QUANTITY',
+                  }
+                }
+              }
+              
+            }}
+            onHide={refreshData}
+            onModify={add}
+          />
+        </Route>
+        <Route path="/qr/qr-parent/123456">
+          {({history, match}) => {
+            return (
+            // <MasterQrParentDetail
+            //   entity={detailEntities}
+            //   code={match && match.params.code}
+            //   get={code => GetById(code)}
+            //   onClose={() => {
+            //     setShowDetail(false);
+            //   }}
+            //   header="THÔNG TIN GIEO GIỐNG"
+            // />
+            <MasterEntityDetailPage
+              entity={detailEntities}
+              renderInfo={detailModel}
+              // mode='line'
+              code={match && match.params.code}
+              onClose={() => history.push('/qr')}
+              get={QrService.GetById}
+            />
+          );}}
+        </Route>
+        <Route path="/qr/qr-child/123456">
+          {({history, match}) => {
+            return (
+            <MasterQrChildDetail
+              entity={{}}
+              columns={Object.values(columns)}
+            />
+          );}}
         </Route>
         <Route exact path="/qr/:code">
           {({history, match}) => (
