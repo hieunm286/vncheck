@@ -6,7 +6,7 @@ export type QrModel = CommonQr & {
   activeBy: any;
   activeAt: Date;
   codeType: string;
-  seeding: {
+  seeding?: {
     
   }
 }
