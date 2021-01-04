@@ -486,10 +486,7 @@ function ProductionPlanCrud({
 
                     <CardBody>
                       <ModifyEntityPage
-                        // entity={entityForEdit}
                         inputGroups={panel}
-                        // tagData={tagData}
-                        // handleChangeTag={handleChangeTag}
                         errors={errors}
                       />
 
