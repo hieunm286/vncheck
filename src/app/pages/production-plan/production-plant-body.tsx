@@ -27,6 +27,7 @@ function ProductionPlanBody({
     setEntities([])
     setPaginationProps(DefaultPagination)
   }
+  console.log(tabData)
   
   
   return (

@@ -32,6 +32,7 @@ export const getFieldV3 = (field: any, fieldName: string) => {
     // console.log('newFields',newFields);
     fields = newFields;
   });
+  // console.log(fields);
   return fields;
 };
 
@@ -53,16 +54,19 @@ export function MasterEntityDetailPage({
   onClose: () => void;
   homeURL?: string;
   code: string | null;
-  get: (code: string) => any | null;
+  get: ((code: string) => any | null) | null;
   allFormButton?: any;
 }) {
   const intl = useIntl();
-  
-  const [entityDetail, setEntityDetail] = useState(entity);
-  
+
+  const [entityDetail, setEntityDetail] = useState(entity || null);
+
   const history = useHistory();
+
+  // console.log(entityDetail);
+
   useEffect(() => {
-    if (code) {
+    if (code && get) {
       get(code).then((res: { data: any }) => {
         setEntityDetail(res.data);
       });

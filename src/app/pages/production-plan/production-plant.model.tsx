@@ -4,7 +4,7 @@
 
 // }
 
-export interface ProductionPlanModel {
+export type ProductionPlanModel = {
   step: string;
   isFulfilled: boolean;
   confirmationStatus: string;
@@ -34,7 +34,11 @@ export interface ProductionPlanModel {
     code: string;
     seedingTime: Date;
     estimatedPlantingTime: Date;
-    landLot: string;
+    landLot: string | {
+      code: string;
+      lot: string;
+      subLot: string;
+    };
     species: {
       _id: string;
       name: string;
