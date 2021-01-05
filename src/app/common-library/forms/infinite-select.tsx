@@ -73,7 +73,7 @@ export function InfiniteSelect({
   const CustomAsyncPaginate = withAsyncPaginate(AtlaskitSelect);
   const validate = useCallback((value: any): string | void => {
     if (required && !value && value === '') return 'RADIO.ERROR.REQUIRED';
-  }, [required]);
+  }, [required,values]);
   
   const [field, fieldMeta, fieldHelper] = useField({name, validate});
   const intl = useIntl();

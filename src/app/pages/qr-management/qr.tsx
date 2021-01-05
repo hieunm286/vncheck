@@ -1,4 +1,4 @@
-import React, {Fragment, useEffect, useMemo} from "react";
+import React, {Fragment, useEffect, useMemo, useState} from "react";
 import {useIntl} from 'react-intl';
 
 import * as UserService from '../user/user.service';
@@ -23,6 +23,7 @@ import { bodyEntities, detailEntities, detailModel } from "./qr-mock";
 import ModifyEntityDialog from "../../common-library/common-components/modify-entity-dialog";
 import { MasterQrChildDetail, MasterQrParentDetail } from "./qr-detail";
 import * as QrService from './services/qr.service';
+import * as ProductionPlanService from '../production-plan/production-plan.service';
 import {DisplayDate, DisplayDateTime} from "../../common-library/helpers/detail-helpers";
 
 const headerTitle = 'QR.MASTER.HEADER.TITLE';
@@ -89,6 +90,8 @@ function QrPage() {
   useEffect(() => {
     getAll(filterProps);
   }, [paginationProps, filterProps]);
+
+  const [qrType, setQrType] = useState<string>();
   
   
   const columns = useMemo(() => {
@@ -98,9 +101,9 @@ function QrPage() {
         text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.CODE'})}`,
         ...SortColumn,
         align: 'center',
-        formatter: (cell: string, row: any, rowIndex: number) => {console.log(row.codeType === 'Đóng gói');return <Link to={'qr/' + (row.codeType === 'Đóng gói' ? 'qr-parent/' : 'qr-child/') + cell}>{cell}</Link>},
+        formatter: (cell: string, row: any, rowIndex: number) => {console.log(row.type === '1');return <Link to={'qr/' + (row.codeType === '1' ? '' : '') + row._id}>{cell}</Link>},
       },
-      createdBy: {
+      'createdBy': {
         dataField: 'createdBy',
         text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.CREATED_BY'})}`,
       ...SortColumn,
@@ -114,11 +117,12 @@ function QrPage() {
         formatter: (input: any) => (<DisplayDate input={input}/>),
         align: 'center',
       },
-      activeBy: {
+      'activeBy': {
         dataField: 'activeBy',
         text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.ACTIVE_BY'})}`,
         ...SortColumn,
         align: 'center',
+        formatter: (cell: any, row: any, rowIndex: number) => {return <>{cell.firstName + ' ' + cell.lastName}</>},
       },
       activeAt: {
         dataField: 'activeAt',
@@ -128,9 +132,10 @@ function QrPage() {
         align: 'center',
       },
       codeType: {
-        dataField: 'codeType',
+        dataField: 'type',
         text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.CODE_TYPE'})}`,
         ...SortColumn,
+        formatter: (cell: any, row: any, rowIndex: number) => cell === "1" ? (<>Sản phẩm</>) : (<>Đóng gói</>),
         align: 'center',
       },
     }
@@ -211,7 +216,8 @@ function QrPage() {
               // history.push(`${window.location.pathname}/0000000`);
               setShowCreate(true);
             }}
-            entities={bodyEntities}
+            // entities={bodyEntities}
+            entities={entities}
             total={total}
             columns={columns}
             loading={loading}
@@ -276,7 +282,16 @@ function QrPage() {
             />
           );}}
         </Route>
-        <Route exact path="/qr/:code">
+        {/* <Route path="/qr/qr-child/123456">
+          {({history, match}) => {
+            return (
+            <MasterQrChildDetail
+              entity={{}}
+              columns={Object.values(columns)}
+            />
+          );}}
+        </Route> */}
+        {/* <Route exact path="/qr/:code">
           {({history, match}) => (
             <MasterEntityDetailPage
               renderInfo={QrRenderDetail}
@@ -288,7 +303,7 @@ function QrPage() {
               header="THÔNG TIN GIEO GIỐNG"
             />
           )}
-        </Route>
+        </Route> */}
         <Route path="/qr/0000000">
           {/*<EntityCrudPage*/}
           {/*  moduleName={moduleName}*/}

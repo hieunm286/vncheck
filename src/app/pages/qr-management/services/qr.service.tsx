@@ -12,7 +12,7 @@ import {
 
 import * as ProductionPlanService from '../../production-plan/production-plan.service'
 
-export const API_URL = API_BASE_URL + '/qr';
+export const API_URL = API_BASE_URL + '/qrcode';
 
 export const BULK_API_URL = API_URL + '/bulk'
 
