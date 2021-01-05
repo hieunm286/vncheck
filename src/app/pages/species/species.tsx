@@ -106,7 +106,6 @@ function Species() {
     getAllServer: ProductTypeService.GetAll,
     updateServer: ProductTypeService.Update,
   });
-  console.log(entities);
   useEffect(() => {
     getAll(filterProps);
   }, [paginationProps, filterProps]);
@@ -161,48 +160,43 @@ function Species() {
   
   const schema = Yup.object().shape({
     name: Yup.string()
-      .required('SPECIES_NAME_CANNOT_EMPTY')
       .matches(
         /^[aAàÀảẢãÃáÁạẠăĂằẰẳẲẵẴắẮặẶâÂầẦẩẨẫẪấẤậẬbBcCdDđĐeEèÈẻẺẽẼéÉẹẸêÊềỀểỂễỄếẾệỆfFgGhHiIìÌỉỈĩĨíÍịỊjJkKlLmMnNoOòÒỏỎõÕóÓọỌôÔồỒổỔỗỖốỐộỘơƠờỜởỞỡỠớỚợỢpPqQrRsStTuUùÙủỦũŨúÚụỤưƯừỪửỬữỮứỨựỰvVwWxXyYỳỲỷỶỹỸýÝỵỴzZ ]+$/u,
         {
           message: 'SPECIES_NAME_IS_INVALID',
         },
-      )
-      .test('Exists validate', 'SPECIES_NAME_WAS_EXISTED', function (value) {
-        if (editEntity) {
-          const validArr = entities.filter(item => item._id !== editEntity._id);
-          const index = validArr.findIndex(el => el.name === value);
-          return index === -1;
-        }
-        
-        const index = entities.findIndex(el => el.name === value);
-        return index === -1;
-      }),
+      ),
+      // .test('Exists validate', 'SPECIES_NAME_WAS_EXISTED', function (value) {
+      //   if (editEntity) {
+      //     const validArr = entities.filter(item => item._id !== editEntity._id);
+      //     const index = validArr.findIndex(el => el.name === value);
+      //     return index === -1;
+      //   }
+      //
+      //   const index = entities.findIndex(el => el.name === value);
+      //   return index === -1;
+      // }),
     barcode: Yup.string()
-      .required('GTIN_CANNOT_EMPTY')
       .max(10, 'MAX_10_CHARACTERS')
       .matches(/^[0-9]+$/u, {
         message: '"GTIN_IS_INVALID',
-      })
-      .test('Exists validate', 'GTIN_WAS_EXISTED', function (value) {
-        if (editEntity) {
-          const validArr = entities.filter(item => item._id !== editEntity._id);
-          const index = validArr.findIndex(el => el.barcode === value);
-          return index === -1;
-        }
-        const index = entities.findIndex(el => el.barcode === value);
-        return index === -1;
       }),
+      // .test('Exists validate', 'GTIN_WAS_EXISTED', function (value) {
+      //   if (editEntity) {
+      //     const validArr = entities.filter(item => item._id !== editEntity._id);
+      //     const index = validArr.findIndex(el => el.barcode === value);
+      //     return index === -1;
+      //   }
+      //   const index = entities.findIndex(el => el.barcode === value);
+      //   return index === -1;
+      // }),
     growingDays: Yup.number()
-      .required('DATE_CANNOT_BE_EMPTY')
       .min(1, 'DAYS_MUST_BE_MORE_THAN_1')
       .typeError('INPUT_NUMBER'),
     plantingDays: Yup.number()
-      .required('DATE_CANNOT_BE_EMPTY')
       .min(1, 'DAYS_MUST_BE_MORE_THAN_1')
       .typeError('INPUT_NUMBER'),
     expiryDays: Yup.number()
-      .required('DATE_CANNOT_BE_EMPTY')
       .min(1, 'DAYS_MUST_BE_MORE_THAN_1')
       .typeError('INPUT_NUMBER'),
   });
@@ -258,7 +252,7 @@ function Species() {
       label: 'PRODUCT_TYPE.MASTER.TABLE.NAME_COLUMN',
     },
     barcode: {
-      _type: 'string',
+      _type: 'string-number',
       required: true,
       label: 'PRODUCT_TYPE.MASTER.TABLE.BARCODE_COLUMN',
     },
@@ -292,21 +286,6 @@ function Species() {
       label: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.EXPIRY',
       required: true,
     },
-    // chekbox: {
-    //   _type: 'checkbox',
-    //   label: 'test check box',
-    //   selectedEntities: selectedEntities,
-    //   onSelectMany: setSelectedEntities,
-    //   selectColumnPosition: 'right',
-    //   data: entities,
-    //   columns: {
-    //     value: {
-    //       dataField: 'name',
-    //       text: `Doanh nghiệp sản xuất`,
-    //       classes: 'text-left',
-    //     },
-    //   },
-    // },
   }), [entities, selectedEntities, setSelectedEntities]);
   
   const createForm = useMemo(
@@ -400,37 +379,20 @@ function Species() {
           <EntityCrudPage
             entity={initForm}
             onModify={add}
-            // reduxModel="purchaseOrder"
             get={() => null}
             formModel={createForm}
-            // allFormField={allFormField}
             actions={allFormButton}
             validation={schema}
             loading={loading}
-            // autoFill={{
-            //   field: 'code',
-            //   data: GenerateCode(data),
-            // }}
           />
         </Route>
         <Route path={`/species/:code`}>
           {({history, match}) => (
-            // <ModifyEntityPage
-            //   entity={editEntity}
-            //   onModify={update}
-            //   title={updateTitle}
-            //   modifyModel={modifyModel}
-            //   reduxModel="purchaseOrder"
-            //   code={match && match.params.code}
-            //   get={PurchaseOrderService.GetById}
-            // />
             <EntityCrudPage
-              entity={editEntity}
               onModify={update}
               code={match && match.params.code}
               get={ProductTypeService.GetById}
               formModel={updateForm}
-              // allFormField={allFormField}
               actions={allFormButton}
               validation={schema}
               loading={loading}

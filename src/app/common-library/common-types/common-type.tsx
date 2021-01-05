@@ -1,11 +1,12 @@
 import {AxiosResponse} from 'axios';
 import {ReactElement} from "react";
 import {ColumnDescription} from "react-bootstrap-table-next";
+import {FormikProps} from "formik/dist/types";
 
 
 export interface MainInputState {
   field: any; // { name, value, onChange, onBlur }
-  form: { touched: any; errors: any }; // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
+  form: FormikProps<any>; // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
   label: string | any;
   withFeedbackLabel: boolean;
   withValidation: any;
@@ -13,8 +14,10 @@ export interface MainInputState {
   mode: 'horizontal' | 'vertical';
   labelWidth: number;
   width: any;
+  meta: any;
   type: string;
   value: any;
+  placeholder: string;
   onChange?: (value: any, props: { setFieldValue: ((name: string, value: any) => void), values: any }) => any;
   required?: boolean | ((values: any) => boolean);
   disabled?: boolean | ((values: any) => boolean);
@@ -22,8 +25,8 @@ export interface MainInputState {
 }
 
 export interface PaginationProps {
-  limit: number | undefined;
-  page: number | undefined;
+  limit?: number;
+  page?: number;
   sortType: string;
   sortBy: string;
 }
@@ -234,7 +237,7 @@ export type RenderInfoDetail = {
   data: {
     [T: string]: {
       title?: string;
-      formatter?: (value: any, entity?: any) => ReactElement;
+      formatter?: (value: any | any[], entity?: any) => ReactElement;
       keyField?: string;
     }
   },

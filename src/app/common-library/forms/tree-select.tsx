@@ -35,6 +35,7 @@ function CustomTreeSelect(
     keyField = 'name',
     placeholder,
     labelWidth,
+    disabled,
     onSearch,
     mode, ...props
   }
@@ -56,11 +57,13 @@ function CustomTreeSelect(
     required?: boolean | ((values: any) => boolean);
     disabled?: boolean | ((values: any) => boolean);
   }) {
-  const intl = useIntl();
   const {
     setFieldValue, errors, touched, validateField,
     setFieldTouched, values,
   } = useFormikContext<any>();
+  const intl = useIntl();
+  const _label = useMemo(() => (_.isString(label) ? intl.formatMessage({id: label}) : label), []);
+  const _disabled = useMemo(() => (disabled ? typeof disabled === 'boolean' ? disabled : disabled(values) : disabled), [disabled]);
   
   
   const ConvertToTree = useCallback((data: any[]) => {
@@ -91,9 +94,9 @@ function CustomTreeSelect(
     <>
       <div className={mode === 'horizontal' ? 'row' : ''}>
         <div className={mode === 'horizontal' ? GetClassName(labelWidth, true) : ''}>
-          {label && (
+          {_label && (
             <label className={mode === 'horizontal' ? 'mb-0 mt-2' : ''}>
-              {label} {required && <span className="text-danger">*</span>}
+              {_label} {required && <span className="text-danger">*</span>}
             </label>
           )}
         </div>
@@ -108,10 +111,10 @@ function CustomTreeSelect(
             //   return onSearch({})
             // }}
             allowClear={true}
-            placeholder={placeholder}
+            disabled={_disabled}
+            placeholder={_disabled ? '' : intl.formatMessage({id: placeholder}, {label: _.isString(_label) ? _label : ''})}
             treeDefaultExpandAll
             onChange={(value: any) => {
-              console.log(value);
               onChange && onChange(value, {setFieldTouched, setFieldValue, values});
               setFieldTouched(name, true);
               setFieldValue(name, value ?? '');
@@ -119,7 +122,7 @@ function CustomTreeSelect(
             className={((!fieldMeta.touched) ? '' : fieldMeta.error ? 'is-invalid' : "is-valid") + ' ant-tree-select-custom'}
           />
           {withFeedbackLabel && (<ErrorMessage name={name}>
-            {msg => <DisplayError label={label} error={msg}/>
+            {msg => <DisplayError label={_label} error={msg}/>
             }
           </ErrorMessage>)}
         </div>

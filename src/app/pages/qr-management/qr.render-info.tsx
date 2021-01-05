@@ -5,7 +5,7 @@ import {
   DisplayCelcius,
   DisplayCoordinates,
   DisplayDateTime, DisplayDiffTime, DisplayImage,
-  DisplayLink, DisplayPercent
+  DisplayDownloadLink, DisplayPercent
 } from "../../common-library/helpers/detail-helpers";
 
 const producerInfo: RenderInfoDetail = [{
@@ -40,11 +40,11 @@ const seedingInfo: RenderInfoDetail = [{
   data: {
     'productPlan.seeding.certificates': {
       title: 'SEEDING.CERTIFICATE',
-      formatter: (input)=>DisplayLink(input,'path')
+      formatter: (input)=>DisplayDownloadLink(input,'path')
     },
     'productPlan.seeding.buyInvoice': {
       title: 'SEEDING.INVOICE',
-      formatter: (input)=>DisplayLink(input,'path')
+      formatter: (input)=>DisplayDownloadLink(input,'path')
     },
     'productPlan.seeding.seedingTime': {
       title: 'SEEDING.SEEDING_TIME',
@@ -371,9 +371,9 @@ const preservationInfo : RenderInfoDetail = [{
 
 
 export const QrRenderDetail: RenderInfoDetail = [
-  // ...producerInfo, 
-  // ...commonInfo, 
-  ...seedingInfo, 
+  // ...producerInfo,
+  // ...commonInfo,
+  ...seedingInfo,
   ...plantingInfo,
   ...harvestingInfo,
   ...preliminaryTreatmentInfo,

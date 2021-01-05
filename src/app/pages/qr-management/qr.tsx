@@ -2,7 +2,7 @@ import React, {Fragment, useEffect, useMemo, useState} from "react";
 import {useIntl} from 'react-intl';
 
 import * as UserService from '../user/user.service';
-import {DisplayTime, InitMasterProps} from "../../common-library/helpers/common-function";
+import {InitMasterProps} from "../../common-library/helpers/common-function";
 import {Count, Create, Delete, DeleteMany, Get, GetAll, GetById, Update} from './qr.service';
 import {QrModel} from './qr.model';
 import {MasterHeader} from "../../common-library/common-components/master-header";
@@ -24,6 +24,7 @@ import ModifyEntityDialog from "../../common-library/common-components/modify-en
 import { MasterQrChildDetail, MasterQrParentDetail } from "./qr-detail";
 import * as QrService from './services/qr.service';
 import * as ProductionPlanService from '../production-plan/production-plan.service';
+import {DisplayDate, DisplayDateTime} from "../../common-library/helpers/detail-helpers";
 
 const headerTitle = 'QR.MASTER.HEADER.TITLE';
 const tableTitle = 'SHIPPING_AGENCY.MASTER.TABLE.TITLE';
@@ -105,7 +106,7 @@ function QrPage() {
       'createdBy': {
         dataField: 'createdBy',
         text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.CREATED_BY'})}`,
-        ...SortColumn,
+      ...SortColumn,
         align: 'center',
         formatter: (cell: any, row: any, rowIndex: number) => {return <>{cell.firstName + ' ' + cell.lastName}</>},
       },
@@ -113,7 +114,7 @@ function QrPage() {
         dataField: 'createdDate',
         text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.CREATED_DATE'})}`,
         ...SortColumn,
-        formatter: (cell: any, row: any, rowIndex: number) => (<DisplayTime value={cell}/>),
+        formatter: (input: any) => (<DisplayDate input={input}/>),
         align: 'center',
       },
       'activeBy': {
@@ -127,7 +128,7 @@ function QrPage() {
         dataField: 'activeAt',
         text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.ACTIVE_AT'})}`,
         ...SortColumn,
-        formatter: (cell: any, row: any, rowIndex: number) => (<DisplayTime value={cell}/>),
+        formatter: (input: any) => (<DisplayDate input={input}/>),
         align: 'center',
       },
       codeType: {
@@ -250,17 +251,34 @@ function QrPage() {
             onModify={add}
           />
         </Route>
-        <Route path="/qr/:code">
+        <Route path="/qr/qr-parent/123456">
           {({history, match}) => {
             return (
+            // <MasterQrParentDetail
+            //   entity={detailEntities}
+            //   code={match && match.params.code}
+            //   get={code => GetById(code)}
+            //   onClose={() => {
+            //     setShowDetail(false);
+            //   }}
+            //   header="THÔNG TIN GIEO GIỐNG"
+            // />
             <MasterEntityDetailPage
-              // entity={detailEntities}
-              // renderInfo={detailModel}
-              renderInfo={QrRenderDetail}
+              entity={detailEntities}
+              renderInfo={detailModel}
               // mode='line'
               code={match && match.params.code}
               onClose={() => history.push('/qr')}
               get={QrService.GetById}
+            />
+          );}}
+        </Route>
+        <Route path="/qr/qr-child/123456">
+          {({history, match}) => {
+            return (
+            <MasterQrChildDetail
+              entity={{}}
+              columns={Object.values(columns)}
             />
           );}}
         </Route>

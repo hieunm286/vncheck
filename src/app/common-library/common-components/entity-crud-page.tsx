@@ -62,7 +62,6 @@ function EntityCrudPage({
           onModify(values).then(() => {
             history.push(GetHomePage(window.location.pathname))
           }).catch((err) => {
-            console.log(err);
             // setSubmitting(false);
           });
         }}>

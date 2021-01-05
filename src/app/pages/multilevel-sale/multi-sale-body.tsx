@@ -93,9 +93,6 @@ const MultiLevelSaleBody: React.FC<MultilevelSaleBodyProp> = ({
                           loading={item.prop.loading}
                           paginationParams={item.prop.paginationParams}
                           setPaginationParams={item.prop.setPaginationParams}
-                          onSelectMany={item.prop.onSelectMany}
-                          selectedEntities={item.prop.selectedEntities}
-                          removeSelectRow
                         />
                       </div>
                     </div>

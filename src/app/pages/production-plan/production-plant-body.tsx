@@ -45,9 +45,6 @@ function ProductionPlanBody({
                 loading={item.loading}
                 paginationParams={item.paginationParams}
                 setPaginationParams={item.setPaginationParams}
-                onSelectMany={item.onSelectMany}
-                selectedEntities={item.selectedEntities}
-                removeSelectRow
               />
             </TabPane>
           ))}

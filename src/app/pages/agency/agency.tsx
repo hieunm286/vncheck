@@ -666,7 +666,7 @@ function AgencyPage() {
             formModel={createForm}
             actions={actions}
             entity={initCreateValues}
-            // validation={validationSchema}
+            validation={validationSchema}
           />
         </Route>
         <Route path="/agency/:code">

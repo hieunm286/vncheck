@@ -6,6 +6,8 @@ import AtlaskitSelect from "@atlaskit/select";
 import {StylesConfig} from "react-select/src/styles";
 import {useIntl} from 'react-intl';
 import {DisplayError} from "./field-feedback-label";
+import _ from "lodash";
+import {Select} from "antd";
 
 const getCSSClasses = (errorName: any, isTouched: any): string => {
   const classes: string[] = [];
@@ -32,6 +34,7 @@ export function InfiniteSelect({
                                  loadOptions,
                                  onChange,
                                  required,
+                                 placeholder,
                                  keyField,
                                  disabled,
                                  selectField,
@@ -57,7 +60,6 @@ export function InfiniteSelect({
   disabled?: boolean | ((values: any) => boolean);
   
 }) {
-  const intl = useIntl();
   const {
     setFieldValue,
     errors,
@@ -74,7 +76,9 @@ export function InfiniteSelect({
   }, [required,values]);
   
   const [field, fieldMeta, fieldHelper] = useField({name, validate});
-  
+  const intl = useIntl();
+  const _label = useMemo(() => (_.isString(label) ? intl.formatMessage({id: label}) : label), []);
+  const _disabled = useMemo(() => (disabled ? typeof disabled === 'boolean' ? disabled : disabled(values) : disabled), [disabled]);
   useEffect(() => {
     setTimeout(() => {
       validateField(name);
@@ -136,10 +140,11 @@ export function InfiniteSelect({
     <>
       <div className={mode === 'horizontal' ? 'row' : ''}>
         <div className={mode === 'horizontal' ? GetClassName(labelWidth, true) : ''}>
-          <label className={mode === 'horizontal' ? 'mb-0 mt-2' : ''}>
-            {label}
-            {required ? <span className="text-danger">*</span> : <></>}
-          </label>
+          {_label && (
+            <label className={mode === 'horizontal' ? 'mb-0 mt-2' : ''}>
+              {_label}{required && <span className="text-danger">*</span>}
+            </label>
+          )}
         </div>
         <div className={mode === 'horizontal' ? GetClassName(labelWidth, false) : ''}>
           <CustomAsyncPaginate
@@ -165,12 +170,13 @@ export function InfiniteSelect({
             onBlur={(e) => {
               setFieldTouched(name, true);
             }}
+            placeholder={_disabled ? '' : intl.formatMessage({id: placeholder}, {label: _.isString(_label) ? _label : ''})}
             styles={styles}
             isDisabled={disabled ? typeof disabled === 'boolean' ? disabled : disabled(values) : disabled}
             // className={`${errors[name] ? 'border-danger' : 'input-search-select'}`}
           />
           {withFeedbackLabel && (<ErrorMessage name={name}>
-            {msg => <DisplayError label={label} error={msg}/>
+            {msg => <DisplayError label={_label} error={msg}/>
             }
           </ErrorMessage>)}
         </div>

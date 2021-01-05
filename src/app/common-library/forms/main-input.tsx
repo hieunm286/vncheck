@@ -1,13 +1,16 @@
-import React from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import './custom.css';
-import {DisplayError, FieldFeedbackLabel} from './field-feedback-label';
+import {DisplayError} from './field-feedback-label';
 import {GetClassName, GetFieldCSSClasses} from "../helpers/common-function";
 import {ErrorMessage, useFormikContext} from "formik";
 import {MainInputState} from "../common-types/common-type";
+import _ from "lodash";
+import {useIntl} from "react-intl";
 
 export function MainInput({
-                            field, // { name, value, onChange, onBlur }
-                            form: {touched, errors}, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
+                            field,
+                            form, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
+                            meta,
                             label,
                             withFeedbackLabel = true,
                             withValidation,
@@ -19,26 +22,29 @@ export function MainInput({
                             type = 'text',
                             disabled,
                             required,
+                            placeholder,
                             ...props
                           }: MainInputState) {
   const styleInput = {
     marginRight: 0,
   };
-  const {setFieldValue, values, handleChange, getFieldMeta, handleBlur} = useFormikContext<any>();
-  
-  // console.log(errors)
-  // console.log(GetError(errors, field.name))
-  // console.log(touched)
-  // console.log(GetTouched(touched, field.name))
+  const {setFieldValue, values, handleChange, getFieldMeta, handleBlur, setFieldError} = useFormikContext<any>();
+  const intl = useIntl();
+  const _label = useMemo(() => (_.isString(label) ? intl.formatMessage({id: label}) : label), []);
+  const _disabled = useMemo(() => (disabled ? typeof disabled === 'boolean' ? disabled : disabled(values) : disabled), [disabled]);
+  const [_error, setError] = useState<string | null | undefined>(null);
+  useEffect(() => {
+    if (form.isSubmitting) setError(null);
+  }, [form.isSubmitting])
   return (
     <>
       <div className={mode === 'horizontal' ? 'row' : ''}>
-        {label && (
+        {_label && (
           <div className={mode === 'horizontal' ? GetClassName(labelWidth, true) : ''}>
             <label className={mode === 'horizontal' ? 'mb-0 mt-2' : ''}>
-              {label}{required && <span className="text-danger">*</span>}
+              {_label}{required && <span className="text-danger">*</span>}
             </label>
-        </div>
+          </div>
         )}
         <div className={mode === 'horizontal' ? GetClassName(labelWidth, false) : ''}>
           <input
@@ -52,13 +58,18 @@ export function MainInput({
                 : ''
             }
             min={type === 'number' ? 0 : undefined}
-            disabled={disabled ? typeof disabled === 'boolean' ? disabled : disabled(values) : disabled}
+            disabled={_disabled}
             {...field}
             {...props}
+            placeholder={_disabled ? '' : intl.formatMessage({id: placeholder}, {label: _.isString(_label) ? _label : ''})}
             value={field.value ?? ''}
             onChange={(e) => {
               if (type === 'string-number') {
-                e.target.value = e.target.value.replace(/\D/g, '');
+                const test = /^\d+$/.test(e.target.value);
+                if (!test) {
+                  e.target.value = e.target.value.replace(/\D/g, '');
+                  setError('INPUT.ERROR.TYPE_ONLY_NUMBER');
+                } else setError(null);
               }
               handleChange(e);
               onChange && onChange(e, {setFieldValue, values})
@@ -66,32 +77,12 @@ export function MainInput({
             onBlur={(e) => {
               handleBlur(e)
             }}
-          
           />
-          {/*
-          { GetError(errors, field.name) && 
-             <div className="invalid-feedback">
-             <FormattedMessage id={error}></FormattedMessage>
-             {GetError(errors, field.name)}
-           </div>
-          <span className="text-danger">
-            {GetError(errors, field.name)}
-          </span>
-           
-          } */}
+          {_error && withFeedbackLabel && (<DisplayError label={_label} error={_error}/>)}
           {withFeedbackLabel && (<ErrorMessage name={field.name}>
-            {msg =>   <DisplayError label={label} error={msg} />
+            {msg => <DisplayError label={_label} error={msg}/>
             }
           </ErrorMessage>)}
-          {/*{withFeedbackLabel && (*/}
-          {/*  <FieldFeedbackLabel*/}
-          {/*    error={GetError(errors, field.name)}*/}
-          {/*    touched={GetTouched(touched, field.name)}*/}
-          {/*    label={label}*/}
-          {/*    type={type}*/}
-          {/*    customFeedbackLabel={customFeedbackLabel}*/}
-          {/*  />*/}
-          {/*)}*/}
         </div>
       </div>
     </>

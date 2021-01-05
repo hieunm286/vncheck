@@ -9,7 +9,7 @@ import { Steps } from 'antd';
 import { DefaultPagination, SortColumn } from '../../common-library/common-consts/const';
 import { MasterHeader } from '../../common-library/common-components/master-header';
 import { SearchModel } from '../../common-library/common-types/common-type';
-import * as ProductTypeService from '../species/species.service';
+import * as SpeciesService from '../species/species.service';
 import { Fix } from '../production-plan/defined/const';
 import * as ProductionPlanService from '../production-plan/production-plan.service';
 import { ProductionPlanModel } from '../production-plan/production-plant.model';
@@ -27,142 +27,142 @@ const cleaningCode = 'PRODUCTION_PLAN.CLEANING.CODE';
 const packingCode = 'PRODUCTION_PLAN.PACKING.CODE';
 const preservationCode = 'PRODUCTION_PLAN.PACKING.CODE';
 
-const extendSearchField = {
+const extendSearchField: SearchModel = {
   species: {
     type: 'search-select',
-    placeholder: 'COMMON_COMPONENT.SELECT.PLACEHOLDER',
-    label: 'PRODUCT_PACKAGING.MASTER.TABLE.NAME_COLUMN',
-    onSearch: ProductTypeService.GetAll,
-    selectField: '_id',
+    label: 'PRODUCTION_PLAN.SPECIES_NAME',
+    onSearch: SpeciesService.GetAll,
     keyField: 'name',
+    name: 'product_plan.seeding.species',
   },
   GTIN: {
     type: 'string',
     label: 'GTIN',
+    name: 'product_plan.seeding.species.barcode',
   },
   estimatedHarvestTime: {
     type: 'date-time',
-    name: 'planting.estimatedHarvestTime',
+    name: 'product_plan.planting.estimatedHarvestTime',
     label: <Fix title={'PRODUCTION_PLAN.HARVEST_DATE'} />,
   },
 };
 
 const PM_HarvestingSearchModel: SearchModel = {
-  plCode: {
+  code: {
     type: 'string',
     label: productPlanCode,
   },
-  code: {
+  harvestingCode: {
     type: 'string',
     label: harvestingCode,
+    name: 'product_plan.harvesting.code',
   },
-  species: {
-    type: 'search-select',
-    placeholder: 'COMMON_COMPONENT.SELECT.PLACEHOLDER',
-    label: 'PRODUCT_PACKAGING.MASTER.TABLE.NAME_COLUMN',
-    onSearch: ProductTypeService.GetAll,
-    selectField: '_id',
-    keyField: 'name',
-  },
-  GTIN: {
-    type: 'string',
-    label: 'GTIN',
-  },
-  estimatedHarvestTime: {
-    type: 'date-time',
-    name: 'planting.estimatedHarvestTime',
-    label: <Fix title={'PRODUCTION_PLAN.HARVEST_DATE'} />,
-  },
+  ...extendSearchField,
   landLot: {
     type: 'string',
     label: 'PLANTING_LAND_LOT',
+    name: 'product_plan.planting.landlot',
   },
 };
 
 const PM_PreliminaryTreatmentSearchModel: SearchModel = {
-  plCode: {
+  code: {
     type: 'string',
     label: productPlanCode,
   },
   harvestingCode: {
     type: 'string',
     label: harvestingCode,
+    name: 'product_plan.harvesting.code',
   },
-  code: {
+  preliminaryTreatmentCode: {
     type: 'string',
     label: preliminaryTreatmentCode,
+    name: 'product_plan.preliminaryTreatment.code',
   },
-  ...(extendSearchField as any),
+  ...extendSearchField,
 };
 
 const PM_CleaningSearchModel: SearchModel = {
-  plCode: {
+  code: {
     type: 'string',
     label: productPlanCode,
   },
   harvestingCode: {
     type: 'string',
     label: harvestingCode,
+    name: 'product_plan.harvesting.code',
   },
-  PreliminaryTreatment: {
+  preliminaryTreatmentCode: {
     type: 'string',
     label: preliminaryTreatmentCode,
+    name: 'product_plan.preliminaryTreatment.code',
   },
-  code: {
+  cleaningCode: {
     type: 'string',
     label: cleaningCode,
+    name: 'product_plan.cleaning.code',
   },
-  ...(extendSearchField as any),
+  ...extendSearchField,
 };
 
 const PM_PackingSearchModel: SearchModel = {
-  plCode: {
+  code: {
     type: 'string',
     label: productPlanCode,
   },
   harvestingCode: {
     type: 'string',
     label: harvestingCode,
+    name: 'product_plan.harvesting.code',
   },
-  PreliminaryTreatment: {
+  preliminaryTreatmentCode: {
     type: 'string',
     label: preliminaryTreatmentCode,
+    name: 'product_plan.preliminaryTreatment.code',
   },
-  cleaning: {
+  cleaningCode: {
     type: 'string',
     label: cleaningCode,
+    name: 'product_plan.cleaning.code',
   },
-  code: {
+  packingCode: {
     type: 'string',
     label: 'PRODUCTION_PLAN.PACKING.CODE',
+    name: 'product_plan.packing.code',
   },
-  ...(extendSearchField as any),
+  ...extendSearchField,
 };
 
 const PM_PreservationSearchModel: SearchModel = {
-  plCode: {
+  code: {
     type: 'string',
     label: productPlanCode,
   },
   harvestingCode: {
     type: 'string',
     label: harvestingCode,
+    name: 'product_plan.harvesting.code',
   },
-  PreliminaryTreatment: {
+  preliminaryTreatmentCode: {
     type: 'string',
     label: preliminaryTreatmentCode,
+    name: 'product_plan.preliminaryTreatment.code',
   },
-  cleaning: {
+  cleaningCode: {
     type: 'string',
     label: cleaningCode,
+    name: 'product_plan.cleaning.code',
   },
-  packing: {
+  packingCode: {
     type: 'string',
-    label: packingCode,
+    label: 'PRODUCTION_PLAN.PACKING.CODE',
+    name: 'product_plan.packing.code',
   },
-  code: {
+  preservationCode: {
     type: 'string',
     label: preservationCode,
+    name: 'product_plan.preservation.code',
   },
   ...(extendSearchField as any),
 };
@@ -597,7 +597,7 @@ function ProductionManagement() {
   }
 
   useEffect(() => {
-    getAll({ ...(filterProps as any), step: '0', isMaster: true, process: currentStep + 2 + '' });
+    getAll({ ...(filterProps as any), step: '1', isMaster: true, confirmationStatus: '2', process: currentStep + 2 + '' });
   }, [paginationProps, filterProps, currentStep]);
 
   const getSearchModel = useCallback((): SearchModel => {
@@ -716,9 +716,6 @@ function ProductionManagement() {
                 loading={loading}
                 paginationParams={paginationProps}
                 setPaginationParams={setPaginationProps}
-                onSelectMany={setSelectedEntities}
-                selectedEntities={selectedEntities}
-                removeSelectRow
               />
             </CardBody>
           </Card>

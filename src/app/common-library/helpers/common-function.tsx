@@ -21,13 +21,18 @@ export const CapitalizeFirstLetter = (string: string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
 };
 
-export const DisplayTime = ({value}: { value: string }) => {
-  const intl = useIntl();
-  return (<span>
-          {value
-            ? new Intl.DateTimeFormat('en-GB').format(new Date(value))
-            : intl.formatMessage({id: 'NO_INFORMATION'})}
-        </span>)
+export const GetCompareFunction = ({key, orderType}: { key: string, orderType: 1 | -1 }) => {
+  return (a: any, b: any) => {
+    const _a = key && key != '' ? a[key] : a;
+    const _b = key && key != '' ? b[key] : b;
+    if (_a < _b) {
+      return -1 * orderType;
+    }
+    if (_a > _b) {
+      return 1 * orderType;
+    }
+    return 0;
+  }
 }
 
 const _initValues = ({inputs}: any): any => {
@@ -340,7 +345,7 @@ export function InitMasterProps<T>({
   const [spinning, setSpinning] = useState(false)
   const [error, setError] = useState({error: ''});
   
-  const notifyError = useCallback((error: string) => {
+ const notifyError = useCallback((error: string) => {
     const getError = (error: string): string | ({ message: string, additional: string }[]) => {
       try {
         return JSON.parse(error)

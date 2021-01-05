@@ -1,21 +1,27 @@
 import {Switch} from 'antd';
-import React, {useCallback} from 'react';
+import React, {useCallback, useMemo} from 'react';
 import './custom.css';
 import {ErrorMessage, useField, useFormikContext} from 'formik';
 import {GetClassName} from "../helpers/common-function";
 import {CheckOutlined} from "@material-ui/icons";
 import {InputBooleanType} from "../common-components/common-input";
 import {DisplayError} from "./field-feedback-label";
+import {useIntl} from "react-intl";
+import _ from "lodash";
 
 export function SwitchField({
                               mode, disabled, required, onChange, withFeedbackLabel = true,
-                              trueFalse = {true: 'true', false: 'false'},
+                              trueFalse = {true: 'true', false: 'false'},label,
                               ...props
                             }: InputBooleanType) {
   const {setFieldValue, errors, setFieldTouched, values} = useFormikContext<any>();
   const validate = useCallback((value: any): string | void => {
     if (required && (disabled ? typeof disabled === 'boolean' ? !disabled : !disabled(values) : true) && !value && value !== '') return 'RADIO.ERROR.REQUIRED';
   }, []);
+  
+  const intl = useIntl();
+  const _label = useMemo(() => (_.isString(label) ? intl.formatMessage({id: label}) : label), []);
+  
   const [field] = useField({
     validate,
     ...props,
@@ -26,9 +32,9 @@ export function SwitchField({
     <>
       <div className={mode === 'horizontal' ? 'row' : ''}>
         <div className={mode === 'horizontal' ? GetClassName(props.labelWidth, true) : ''}>
-          {props.label && (
+          {_label && (
             <label className={mode === 'horizontal' ? 'mb-0 mt-4' : ''}>
-              {props.label}{required && <span className="text-danger">*</span>}
+              {_label}{required && <span className="text-danger">*</span>}
             </label>
           )}
         </div>
@@ -48,7 +54,7 @@ export function SwitchField({
             />
           }
           {withFeedbackLabel && (<ErrorMessage name={field.name}>
-            {msg => <DisplayError label={props.label} error={msg}/>
+            {msg => <DisplayError label={_label} error={msg}/>
             }
           </ErrorMessage>)}
         </div>

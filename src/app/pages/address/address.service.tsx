@@ -1,23 +1,12 @@
 import STATE_LIST from './state.json';
 import CITY_LIST from './city.json';
 import DISTRICT_LIST from './district.json';
+import {GetCompareFunction} from "../../common-library/helpers/common-function";
 
 const StateList = Object.values(STATE_LIST);
 const CityList = Object.values(CITY_LIST);
 const DistrictList = Object.values(DISTRICT_LIST);
-const GetCompareFunction = ({key, orderType}: { key: string, orderType: 1 | -1 }) => {
-  return (a: any, b: any) => {
-    const _a = key && key != '' ? a[key] : a;
-    const _b = key && key != '' ? b[key] : b;
-    if (_a < _b) {
-      return -1 * orderType;
-    }
-    if (_a > _b) {
-      return 1 * orderType;
-    }
-    return 0;
-  }
-}
+
 
 export const GetState = ({queryProps, paginationProps}: any): Promise<any> => {
   // console.log(queryProps);
