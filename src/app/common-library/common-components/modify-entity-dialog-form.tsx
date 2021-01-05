@@ -28,8 +28,8 @@ function ModifyEntityDialogForm<T>({
 }) {
   const intl = useIntl();
   const {_title, ...inputGroups} = modifyPanel;
-  const [entityForEdit, setEntityForEdit] = useState(entity);
   const initValues = useMemo(() => InitValues({_header: '', panel1: modifyPanel}), [modifyPanel]);
+  const [entityForEdit, setEntityForEdit] = useState(initValues);
   
   useEffect(() => {
      setEntityForEdit(entity ?? initValues);

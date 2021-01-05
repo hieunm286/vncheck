@@ -137,7 +137,6 @@ export type InputCheckBoxType = {
 };
 
 export const InputNumber = ({label, required, placeholder, className, ...props}: InputNumberType) => {
-  const intl = useIntl();
   const validate = useCallback((value: any): string | void => {
     if (required && !value) return 'INPUT.ERROR.REQUIRED';
   }, [required]);
@@ -147,8 +146,8 @@ export const InputNumber = ({label, required, placeholder, className, ...props}:
         validate={validate}
         {...props}
         component={MainInput}
-        placeholder={intl.formatMessage({id: placeholder ?? DefaultPlaceholder.number})}
-        label={_.isString(label) ? intl.formatMessage({id: label}) : label}
+        placeholder={placeholder ?? DefaultPlaceholder.number}
+        label={label}
         type="number"
         required={required}
       />
@@ -156,7 +155,6 @@ export const InputNumber = ({label, required, placeholder, className, ...props}:
   );
 };
 export const InputStringNumber = ({label, required, placeholder, className, ...props}: InputNumberType) => {
-  const intl = useIntl();
   const validate = useCallback((value: any): string | void => {
     if (required && !value) return 'INPUT.ERROR.REQUIRED';
   }, [required]);
@@ -166,8 +164,8 @@ export const InputStringNumber = ({label, required, placeholder, className, ...p
         validate={validate}
         {...props}
         component={MainInput}
-        placeholder={intl.formatMessage({id: placeholder ?? DefaultPlaceholder.number})}
-        label={_.isString(label) ? intl.formatMessage({id: label}) : label}
+        placeholder={placeholder ?? DefaultPlaceholder.number}
+        label={label}
         type="string-number"
         required={required}
       />
@@ -176,7 +174,6 @@ export const InputStringNumber = ({label, required, placeholder, className, ...p
 };
 
 export const InputString = ({label, required, placeholder, className, ...props}: InputStringType) => {
-  const intl = useIntl();
   const validate = useCallback((value: any): string | void => {
     if (required && !value) return 'INPUT.ERROR.REQUIRED';
     if (props.type === 'email') {
@@ -191,8 +188,8 @@ export const InputString = ({label, required, placeholder, className, ...props}:
         validate={validate}
         {...props}
         component={MainInput}
-        placeholder={intl.formatMessage({id: placeholder ?? DefaultPlaceholder.string})}
-        label={_.isString(label) ? intl.formatMessage({id: label}) : label}
+        placeholder={placeholder ?? DefaultPlaceholder.string}
+        label={label}
         required={required}
       />
     </div>
@@ -200,50 +197,45 @@ export const InputString = ({label, required, placeholder, className, ...props}:
 };
 
 export const InputRadio = ({label, placeholder, className, ...props}: InputRadioType) => {
-  const intl = useIntl();
   return (
     <div className={className}>
       <RadioField
         {...props}
-        label={_.isString(label) ? intl.formatMessage({id: label}) : label}
+        label={label}
       />
     </div>
   );
 };
 
 export const InputDateTime = ({label, placeholder, className, ...props}: InputDateTimeType) => {
-  const intl = useIntl();
   return (
     <div className={className}>
       <DatePickerField
         {...props}
-        placeholder={intl.formatMessage({id: placeholder ?? DefaultPlaceholder['date-time']})}
-        label={_.isString(label) ? intl.formatMessage({id: label}) : label}
+        placeholder={placeholder ?? DefaultPlaceholder['date-time']}
+        label={label}
       />
     </div>
   );
 };
 
 export const InputBoolean = ({label, placeholder, className, ...props}: InputBooleanType) => {
-  const intl = useIntl();
   return (
     <div className={className}>
       <SwitchField
         {...props}
-        placeholder={intl.formatMessage({id: placeholder ?? DefaultPlaceholder['date-time']})}
-        label={_.isString(label) ? intl.formatMessage({id: label}) : label}
+        label={label}
       />
     </div>
   );
 };
 export const InputImage = ({label, className, value, ...props}: InputImageType) => {
-  const intl = useIntl();
   return (
     <div className={className}>
       <CustomImageUpload
         value={value}
         {...props}
-        label={_.isString(label) ? intl.formatMessage({id: label}) : label}
+        label={label}
       />
     </div>
   );
@@ -256,13 +248,12 @@ export const InputTag = ({
                            tagData,
                            ...props
                          }: InputTagType) => {
-  const intl = useIntl();
   return (
     <div className={className}>
       <TagInput
         {...props}
-        label={_.isString(label) ? intl.formatMessage({id: label}) : label}
-        placeholder={intl.formatMessage({id: placeholder ?? DefaultPlaceholder.boolean})}
+        placeholder={placeholder ?? DefaultPlaceholder.tag}
+        label={label}
         // handleChange={handleChangeTag}
         data={data || []}
         tagData={tagData || []}
@@ -282,7 +273,6 @@ export const InputSearchSelect = ({
                                     selectField,
                                     ...props
                                   }: InputSearchSelectType) => {
-  const intl = useIntl();
   const loadOptions = useCallback(
     async (search: string, prevOptions: any, {page}: any) => {
       const queryProps: any = {};
@@ -318,8 +308,8 @@ export const InputSearchSelect = ({
         name={name}
         keyField={keyField}
         selectField={selectField}
-        placeholder={intl.formatMessage({id: placeholder ?? DefaultPlaceholder['search-select']})}
-        label={_.isString(label) ? intl.formatMessage({id: label}) : label}
+        placeholder={placeholder ?? DefaultPlaceholder['search-select']}
+        label={label}
         loadOptions={loadOptions}
         additional={{
           page: DefaultPagination.page,
@@ -336,13 +326,12 @@ export const InputTreeSelect = ({
                                   onSearch,
                                   ...props
                                 }: InputTreeSelectType) => {
-  const intl = useIntl();
   return (
     <div className={className}>
       <CustomTreeSelect
         {...props}
-        placeholder={intl.formatMessage({id: placeholder ?? DefaultPlaceholder['tree-select']})}
-        label={_.isString(label) ? intl.formatMessage({id: label}) : label}
+        placeholder={placeholder ?? DefaultPlaceholder['tree-select']}
+        label={label}
         onSearch={onSearch}
       />
     </div>

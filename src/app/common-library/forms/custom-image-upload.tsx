@@ -3,9 +3,11 @@ import ImageUploading from 'react-images-uploading';
 import {GetClassName, getNewImage} from '../helpers/common-function';
 import exifr from 'exifr';
 import './custom-image-upload.scss';
-import {useField, useFormikContext} from 'formik';
+import {ErrorMessage, useField, useFormikContext} from 'formik';
 import {DetailImage} from "../common-components/detail/detail-image";
 import _ from "lodash";
+import {useIntl} from "react-intl";
+import {DisplayError} from "./field-feedback-label";
 
 interface ImageUploadPros {
   value: any[];
@@ -43,7 +45,8 @@ function CustomImageUpload({
     if (required && !value) return 'RADIO.ERROR.REQUIRED';
   }, []);
   const [field, fieldMeta, fieldHelper] = useField({validate, name});
-  
+  const intl = useIntl();
+  const _label = useMemo(() => (_.isString(label) ? intl.formatMessage({id: label}) : label), []);
   const _disabled = useMemo(() => {
     return disabled ? typeof disabled === 'boolean' ? disabled : disabled(values) : disabled;
   }, [disabled, values]);
@@ -73,16 +76,13 @@ function CustomImageUpload({
   
   return (
     <div className={mode === 'horizontal' ? 'row' : ''}>
-      <div className={GetClassName(labelWidth, true)}>
-        {typeof label === 'string' ? (
+      {_label && (
+        <div className={mode === 'horizontal' ? GetClassName(labelWidth, true) : ''}>
           <label className={mode === 'horizontal' ? 'mb-0 mt-2' : ''}>
-            {label}
-            {required && <span className="text-danger"> *</span>}
+            {_label}{required && <span className="text-danger">*</span>}
           </label>
-        ) : (
-          label
-        )}
-      </div>
+        </div>
+      )}
       <div className={GetClassName(labelWidth, false)}>
         <ImageUploading
           multiple={maxNumber > 1}
@@ -141,11 +141,10 @@ function CustomImageUpload({
                     </button>
                   )}
                 </div>
-                {errors[name] && touched[name] ? (
-                  <div className="invalid-feedback">{errors[name]}</div>
-                ) : (
-                  <></>
-                )}
+                {(<ErrorMessage name={field.name}>
+                  {msg => <DisplayError label={_label} error={msg}/>
+                  }
+                </ErrorMessage>)}
               </>
             )
           }}

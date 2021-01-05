@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useMemo} from 'react';
 import {ErrorMessage, useField, useFormikContext} from 'formik';
 import 'react-datepicker/dist/react-datepicker.css'
 import "react-datepicker/dist/react-datepicker-cssmodules.css";
@@ -8,10 +8,12 @@ import moment, {Moment} from 'moment';
 import {GetClassName, GetFieldCSSClasses,} from "../helpers/common-function";
 import {InputDateTimeType} from "../common-components/common-input";
 import {DisplayError} from "./field-feedback-label";
+import {useIntl} from "react-intl";
+import _ from "lodash";
 
 export function DatePickerField({
                                   mode, disabled, required, labelWidth, label, withFeedbackLabel = true,
-                                  customFeedbackLabel, ...props
+                                  customFeedbackLabel,placeholder, ...props
                                 }: InputDateTimeType) {
   const {setFieldValue, errors, touched, values, setFieldTouched, getFieldMeta} = useFormikContext<any>();
   const validate = useCallback((value: any): string | void => {
@@ -23,14 +25,15 @@ export function DatePickerField({
   });
   const timestamp = new Date();
   const inverseOffset = moment(timestamp).utcOffset() * -1;
-  // console.log(mode);
+  const intl = useIntl();
+  const _label = useMemo(() => (_.isString(label) ? intl.formatMessage({id: label}) : label), []);
   return (
     <>
       <div className={mode == 'horizontal' ? 'row' : ''}>
         <div className={mode === 'horizontal' ? GetClassName(labelWidth, true) : ''}>
-          {label && (
+          {_label && (
             <label className={mode === 'horizontal' ? 'mb-0 mt-2' : ''}>
-              {label}{required && <span className="text-danger">*</span>}
+              {_label}{required && <span className="text-danger">*</span>}
             </label>
           )}
         </div>
@@ -42,6 +45,7 @@ export function DatePickerField({
                           GetFieldCSSClasses(getFieldMeta(field.name).touched, getFieldMeta(field.name).error)}
                       locale={locale}
                       {...props}
+                      placeholder={intl.formatMessage({id: placeholder},  {label:_.isString(_label) ? _label:''})}
                       disabled={disabled ? typeof disabled === 'boolean' ? disabled : disabled(values) : disabled}
                       format={props.format ?? "DD/MM/yyyy"}
                       onChange={(val: Moment | null, dateString: string) => {
@@ -55,10 +59,9 @@ export function DatePickerField({
                         setFieldTouched(field.name, true);
                       }}
                       value={field.value ? moment(field.value).add(inverseOffset, 'm') : null}
-          
           />
           {withFeedbackLabel && (<ErrorMessage name={field.name}>
-            {msg => <DisplayError label={label} error={msg}/>
+            {msg => <DisplayError label={_label} error={msg}/>
             }
           </ErrorMessage>)}
         </div>

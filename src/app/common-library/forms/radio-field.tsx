@@ -28,6 +28,8 @@ export function RadioField({
                              ...props
                            }: InputRadioType) {
   const {setFieldValue, handleChange, values, handleBlur, validateField, setFieldTouched} = useFormikContext<any>();
+  const intl = useIntl();
+  const _label = useMemo(() => (_.isString(label) ? intl.formatMessage({id: label}) : label), []);
   
   const getValue = useCallback((value: any, fieldValue: any) => {
     // console.log(value, fieldValue);
@@ -53,14 +55,13 @@ export function RadioField({
     if (_.isArray(options)) setInnerOptions(options);
     else setInnerOptions(options({field, values, setFieldValue, setFieldTouched}));
   }, [field.value]);
-  const intl = useIntl();
   return (
     <>
       <div className={mode === 'horizontal' ? 'row' : ''}>
-        {label && (
+        {_label && (
           <div className={mode === 'horizontal' ? GetClassName(labelWidth, true) : ''}>
             <label className={mode === 'horizontal' ? 'mb-0 mt-2' : ''}>
-              {label}{required && <span className="text-danger">*</span>}
+              {_label}{required && <span className="text-danger">*</span>}
             </label>
           </div>
         )}
@@ -97,7 +98,7 @@ export function RadioField({
             </div>
           </RadioGroup>
           {withFeedbackLabel && (<ErrorMessage name={name}>
-            {msg => <DisplayError label={label} error={msg}/>
+            {msg => <DisplayError label={_label} error={msg}/>
             }
           </ErrorMessage>)}
         </div>
