@@ -1,7 +1,7 @@
 import React from 'react';
 import { SortColumn } from '../../../common-library/common-consts/const';
-import { RenderInfoDetail } from '../../../common-library/common-types/common-type';
-import { DisplayCelcius, DisplayCoordinates, DisplayDateTime, DisplayImage, DisplayPercent, DisplayPersonNameByArray } from '../../../common-library/helpers/detail-helpers';
+import { MasterBodyColumns, RenderInfoDetail } from '../../../common-library/common-types/common-type';
+import { DisplayCelcius, DisplayCoordinates, DisplayDateTime, DisplayImage, DisplayPercent, DisplayPersonNameByArray, DisplayTable } from '../../../common-library/helpers/detail-helpers';
 
 export const harvestingDetail: RenderInfoDetail = [
   {
@@ -155,122 +155,58 @@ export const CleaningDetail: RenderInfoDetail = [
   },
 ];
 
-export const PackingDetail: any = [
+export const PackingDetail: RenderInfoDetail = [
   {
     header: 'THÔNG TIN CHUNG',
-    className: 'row',
-    data: [
-      [
-        {
-          type: 'link',
-          title: 'Mã gieo giống',
-          keyField: 'seeding.code',
-          path: '/production-plan/seeding',
-          params: '_id',
-        },
-        {
-          type: 'link',
-          title: 'Mã gieo trồng',
-          keyField: 'planting.code',
-          path: '/production-plan/planting',
-          params: '_id',
-        },
-        {
-          type: 'link',
-          title: 'Mã thu hoạch',
-          keyField: 'harvesting.code',
-          path: '/production-management/harvesting',
-          params: '_id',
-        },
-        {
-          type: 'link',
-          title: 'Mã sơ chế',
-          keyField: 'harvesting.code',
-          path: '/production-management/preliminaryTreatment',
-          params: '_id',
-        },
-        {
-          type: 'link',
-          title: 'Mã làm sạch',
-          keyField: 'harvesting.code',
-          path: '/production-management/cleaning',
-          params: '_id',
-        },
-        {
-          type: 'string',
-          title: 'Mã đóng gói',
-          keyField: 'packing.code',
-        },
-      ],
-      [
-        {
-          type: 'string',
-          title: 'Tên chủng loại',
-          keyField: 'planting.species.name',
-        },
-        {
-          type: 'string',
-          title: 'GTIN',
-          keyField: 'planting.species.barcode',
-        },
-        {
-          type: 'date-time',
-          title: 'Thời gian đóng gói',
-          keyField: 'cleaning.createdAt',
-        },
-        {
-          type: 'string',
-          title: 'Quy cách đóng gói',
-          keyField: 'packing.packing.weight',
-        },
-        {
-          type: 'string',
-          title: 'Số lượng gói/lô thực tế',
-          keyField: 'packing.quantity',
-        },
-      ],
-    ],
+    className: 'col-12',
+    titleClassName: 'col-md-2 col-4 mb-10',
+    dataClassName: 'col-md-4 col-8 mb-10 pl-5',
+    data: {
+      'seeding.code': { title: 'Mã gieo giống' },
+      'planting.species.name': { title: 'Tên chủng loại' },
+      'planting.code': { title: 'Mã gieo trồng' },
+      'planting.species.barcode': { title: 'GTIN' },
+      
+      'harvesting.code': { title: 'Mã thu hoạch' },
+      'cleaning.estimatedTime': {
+        title: 'SEEDING.SEEDING_TIME',
+        formatter: input => DisplayDateTime(input),
+      },
+      'preliminaryTreatment.code': { title: 'Mã sơ chế' },
+      'planting.farmLocation.[coordinates]': { title: 'Địa điểm đóng gói', formatter: DisplayCoordinates, },
+      'cleaning.code': { title: 'Mã làm sạch' },
+      'packing.packing.weight': { title: 'Quy cách đóng gói' },
+      'packing.code': { title: 'Mã đóng gói' },
+      'packing.estimatedQuantity': { title: 'Số lượng gói/lô thực tế' },
+    },
   },
   {
     header: 'THÔNG TIN QUẢN TRỊ',
-    className: 'row',
-    data: [
-      [
-        {
-          type: 'string',
-          title: 'Tổ trưởng làm sạch',
-          keyField: 'cleaning.[leader].lastName',
-        },
-        {
-          type: 'string',
-          title: 'Nông dân làm sạch',
-          keyField: 'cleaning.[worker].lastName',
-        },
-        {
-          type: 'string',
-          title: 'Nhân viên làm sạch',
-          keyField: 'cleaning.[technical].lastName',
-        },
-      ],
-      [],
-    ],
+    className: 'col-12',
+    titleClassName: 'col-md-2 col-4 mb-10',
+    dataClassName: 'col-md-4 col-8 mb-10 pl-5',
+    data: {
+      'packing.[leader]': { title: 'Tổ trưởng đóng gói', formatter: DisplayPersonNameByArray, },
+      'packing.[worker]': { title: 'Người gán mã QR', formatter: DisplayPersonNameByArray, },
+      'packing.[technical]': { title: 'Người kích hoạt mã QR (KCS)', formatter: DisplayPersonNameByArray, },
+    },
   },
   {
     header: 'THÔNG TIN SẢN PHẨM',
-    data: [
-      [
-        {
-          type: 'table',
-          title: 'Thông tin Giám đốc/TGĐ',
-          keyField: 'planting.worker',
-          columns: {
-            _id: {
+    className: 'col-12',
+    titleClassName: 'col-0 hidden',
+    dataClassName: 'col-12',
+    data: {
+      'comments': {
+        formatter: (entities: any[]) => {
+          const columns: MasterBodyColumns = [
+            {
               dataField: '_id',
               text: 'STT',
               formatter: (cell: any, row: any, rowIndex: number) => <p>{rowIndex + 1}</p>,
               style: { paddingTop: 20 },
             },
-            madinhdanh: {
+            {
               dataField: 'firstName',
               text: `Mã định danh`,
               align: 'center',
@@ -278,7 +214,7 @@ export const PackingDetail: any = [
               classes: 'text-center',
               headerClasses: 'text-center',
             },
-            lastName: {
+            {
               dataField: 'lastName',
               text: `Mã QR`,
               align: 'center',
@@ -286,7 +222,7 @@ export const PackingDetail: any = [
               classes: 'text-center',
               headerClasses: 'text-center',
             },
-            fullName: {
+            {
               dataField: 'planting.estimatedHarvestTime',
               text: `Ngày gán mã QR`,
               formatter: (cell: any, row: any, rowIndex: number) => (
@@ -301,7 +237,7 @@ export const PackingDetail: any = [
               classes: 'text-center',
               headerClasses: 'text-center',
             },
-            createdBy: {
+            {
               dataField: 'lastName',
               text: `Người gán mã QR`,
               align: 'center',
@@ -309,7 +245,7 @@ export const PackingDetail: any = [
               classes: 'text-center',
               headerClasses: 'text-center',
             },
-            activeDate: {
+            {
               dataField: 'planting.createdAt',
               text: `Ngày gán mã QR`,
               formatter: (cell: any, row: any, rowIndex: number) => (
@@ -324,7 +260,7 @@ export const PackingDetail: any = [
               classes: 'text-center',
               headerClasses: 'text-center',
             },
-            activeBy: {
+            {
               dataField: 'lastName',
               text: `Người kích hoạt`,
               align: 'center',
@@ -332,7 +268,7 @@ export const PackingDetail: any = [
               classes: 'text-center',
               headerClasses: 'text-center',
             },
-            expiryDate: {
+            {
               dataField: 'planting.createdAt',
               text: `Ngày gán mã QR`,
               formatter: (cell: any, row: any, rowIndex: number) => (
@@ -347,36 +283,22 @@ export const PackingDetail: any = [
               classes: 'text-center',
               headerClasses: 'text-center',
             },
-          },
+          ]
+          return <DisplayTable entities={entities} columns={columns}/>
         },
-      ],
-      [],
-    ],
+      },
+    },
   },
+  
   {
     header: 'HÌNH ẢNH',
-    className: 'row',
-    data: [
-      [
-        {
-          type: 'image',
-          title: 'Hình ảnh trước làm sạch',
-          keyField: 'planting.imageBefore',
-        },
-        {
-          type: 'image',
-          title: 'Hình ảnh thực hiện làm sạch',
-          keyField: 'planting.imageBefore',
-        },
-      ],
-      [
-        {
-          type: 'image',
-          title: 'Hình ảnh sau khi làm sạch',
-          keyField: 'planting.imageAfter',
-        },
-      ],
-    ],
+    className: 'col-12',
+    titleClassName: 'col-md-2 col-4 mb-10',
+    dataClassName: 'col-md-4 col-8 mb-10 pl-5',
+    data: {
+      'packing.sampleImage': { title: 'Sản phẩm đại diện', formatter: DisplayImage, },
+      'packing.packingImage': { title: 'Hình ảnh đóng gói', formatter: DisplayImage, },
+    },
   },
 ];
 
