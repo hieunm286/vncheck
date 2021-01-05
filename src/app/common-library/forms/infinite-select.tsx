@@ -7,7 +7,6 @@ import {StylesConfig} from "react-select/src/styles";
 import {useIntl} from 'react-intl';
 import {DisplayError} from "./field-feedback-label";
 import _ from "lodash";
-import {Select} from "antd";
 
 const getCSSClasses = (errorName: any, isTouched: any): string => {
   const classes: string[] = [];
@@ -129,7 +128,7 @@ export function InfiniteSelect({
         return {...base, padding: "0.41rem 0px !important", color: "#B5B5C3"}
       },
       placeholder: (styles) => {
-        return {...styles, color: "#B5B5C3", fontSize: "12px", margin: "0 0 0 0",}
+        return {...styles, whiteSpace: "nowrap", color: "#B5B5C3", fontSize: "12px", margin: "0 0 0 0",}
       },
       option: (styles, {data, isDisabled, isFocused, isSelected}) => {
         return {...styles}

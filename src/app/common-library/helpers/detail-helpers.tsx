@@ -91,7 +91,7 @@ export const DisplayTable = ({entities, columns}: { entities: any[], columns: Ma
   }, [entities, paginationParams]);
   useEffect(() => {
     setColumns(Object.values(columns).map(c => ({...c, text: intl.formatMessage({id: c.text})})));
-  })
+  },[columns])
   return (<MasterTable entities={_innerEntities}
                        columns={_innerColumns}
                        paginationParams={paginationParams}
@@ -103,7 +103,7 @@ export const DisplayTable = ({entities, columns}: { entities: any[], columns: Ma
 export const DisplayCoordinates = (arr: string[]) => {
   return (
     <a
-      href={`https://maps.google.com/?ll=${arr[1]},${arr[0]}`}
+      href={`https://google.com/maps/search/${arr[1]},+${arr[0]}`}
       target={'_blank'}>{`${arr[0]}, ${arr[1]}`}</a>
   );
 };
