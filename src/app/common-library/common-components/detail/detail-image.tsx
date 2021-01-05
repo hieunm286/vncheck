@@ -3,7 +3,7 @@ import {Image} from 'antd';
 import {Skeleton} from "@material-ui/lab";
 import {CloseOutlined} from "@material-ui/icons";
 import _ from "lodash";
-import {useIntl} from "react-intl";
+import {IntlShape, useIntl} from "react-intl";
 
 export const DetailImage = ({
                               thumbnailField = 'thumbnail',
@@ -14,7 +14,7 @@ export const DetailImage = ({
                               renderInfo,
                               values,
                               onImageRemove,
-                            }: { onImageRemove?: (...props: any) => void, width?: string | number, height?: string | number, thumbnailField?: any, pathField?: any, images: any, renderInfo?: { title?: string, data?: { [KeyField: string]: string }, component?: (value: any, values?: any) => ReactElement }, values?: any }) => {
+                            }: { onImageRemove?: (...props: any) => void, width?: string | number, height?: string | number, thumbnailField?: any, pathField?: any, images: any, renderInfo?: { title?: string, data?: { [KeyField: string]: string }, component?: (value: any, values?: any, intl?:IntlShape) => ReactElement }, values?: any }) => {
   const container = useRef<any>(null);
   const intl = useIntl();
   const [showIndex, setShow] = useState(-1);
@@ -58,7 +58,7 @@ export const DetailImage = ({
           <div className={'titleeee mb-1'}
                key={key}>{intl.formatMessage({id: (renderInfo as any).data[key]})} {_images[showIndex][key]}</div>
         ))}
-        {renderInfo?.component && renderInfo?.component(_images[showIndex], values)}
+        {renderInfo?.component && renderInfo?.component(_images[showIndex], values, intl)}
       </div>)}
     </Fragment>
   );

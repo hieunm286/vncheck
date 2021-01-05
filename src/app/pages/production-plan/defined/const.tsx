@@ -5,7 +5,7 @@ import {
   RenderInfoDetail,
   SearchModel,
 } from '../../../common-library/common-types/common-type';
-import { GenerateAllFormField } from '../../../common-library/helpers/common-function';
+import {GenerateAllFormField} from '../../../common-library/helpers/common-function';
 import * as ProductPackagingService from '../../product-packaging/product-packaging.service';
 import * as SpeciesService from '../../species/species.service';
 import * as Yup from 'yup';
@@ -13,20 +13,21 @@ import * as Yup from 'yup';
 import '../style/production-plan.scss';
 import _ from 'lodash';
 import React from 'react';
-import { useIntl } from 'react-intl';
+import {IntlShape, useIntl} from 'react-intl';
 import store from '../../../../redux/store';
 import {
   DisplayArray,
   DisplayCelcius,
   DisplayCoordinates,
   DisplayDateTime,
-  DisplayImage,
   DisplayDownloadLink,
+  DisplayImage,
   DisplayPercent,
-  DisplayTable,
   DisplayPersonNameByArray,
+  DisplayTable,
 } from '../../../common-library/helpers/detail-helpers';
 import {SortColumn} from "../../../common-library/common-consts/const";
+
 export const headerTitle = 'PRODUCT_TYPE.MASTER.HEADER.TITLE';
 export const bodyTitle = 'PRODUCT_TYPE.MASTER.BODY.TITLE';
 export const moduleName = 'PRODUCT_TYPE.MODULE_NAME';
@@ -35,12 +36,12 @@ export const createTitle = 'PRODUCT_TYPE.CREATE.TITLE';
 export const updateTitle = 'PURCHASE_ORDER.UPDATE.TITLE';
 export const homeURL = `${window.location.pathname}`;
 
-export const Fix = ({ title }: { title: string }) => {
+export const Fix = ({title}: { title: string }) => {
   const intl = useIntl();
-  return <div style={{ minWidth: 174 }}>{intl.formatMessage({ id: title })}</div>;
+  return <div style={{minWidth: 174}}>{intl.formatMessage({id: title})}</div>;
 };
 
-const { users } = store.getState();
+const {users} = store.getState();
 
 const userData = users.entities;
 
@@ -65,7 +66,7 @@ export const productPlanSearchModel1: SearchModel = {
   estimatedHarvestTime: {
     type: 'date-time',
     name: 'product_plan.planting.estimatedHarvestTime',
-    label: <Fix title={'PRODUCTION_PLAN.HARVEST_DATE'} />,
+    label: <Fix title={'PRODUCTION_PLAN.HARVEST_DATE'}/>,
   },
 };
 
@@ -96,7 +97,7 @@ export const productPlanSearchModel2: SearchModel = {
   estimatedHarvestTime: {
     type: 'date-time',
     name: 'product_plan.planting.estimatedHarvestTime',
-    label: <Fix title={'PRODUCTION_PLAN.HARVEST_DATE'} />,
+    label: <Fix title={'PRODUCTION_PLAN.HARVEST_DATE'}/>,
   },
 };
 
@@ -192,7 +193,7 @@ export const modifyModel: ModifyPanel = {
         },
       },
     },
-
+    
     // plantTime: {
     //   type: 'string',
     //   placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
@@ -643,25 +644,25 @@ export const PlantingDetailDialog: RenderInfoDetail = [
         title: 'SEEDING.CODE',
         // formatter: input => DisplayLink(input, '/production-plan/seeding'),
       },
-      'seeding.species.name': { title: 'SEEDING.SPECIES_NAME' },
-
-      'planting.code': { title: 'PLANTING.CODE' },
-      'planting.species.barcode': { title: 'SEEDING.GTIN' },
+      'seeding.species.name': {title: 'SEEDING.SPECIES_NAME'},
+      
+      'planting.code': {title: 'PLANTING.CODE'},
+      'planting.species.barcode': {title: 'SEEDING.GTIN'},
       'planting.estimatedPlantingTime': {
         title: 'Thời gian trồng dự kiến',
         formatter: input => DisplayDateTime(input),
       },
-
-      'planting.area': { title: 'SEEDING.SEEDING_AREA' },
-
+      
+      'planting.area': {title: 'SEEDING.SEEDING_AREA'},
+      
       'planting.estimatedHarvestTime': {
         title: 'Thời gian thu hoạch dự kiến',
         formatter: input => DisplayDateTime(input),
       },
-      'planting.numberOfPlants': { title: 'SEEDING.NUMBER_OF_SEED' },
-      'planting.landLot.code': { title: 'SEEDING.LAND_LOT' },
-      'planting.expectedQuantity': { title: 'Sản lượng dự kiến' },
-
+      'planting.numberOfPlants': {title: 'SEEDING.NUMBER_OF_SEED'},
+      'planting.landLot.code': {title: 'SEEDING.LAND_LOT'},
+      'planting.expectedQuantity': {title: 'Sản lượng dự kiến'},
+      
       'planting.farmLocation.[coordinates]': {
         title: 'PLANTING.FARM_LOCATION',
         formatter: DisplayCoordinates,
@@ -732,7 +733,7 @@ export const SeedingDetailDialog: RenderInfoDetail = [
     titleClassName: 'col-md-2 col-4 mb-10',
     dataClassName: 'col-md-4 col-8 mb-10 pl-5',
     data: {
-      'seeding.code': { title: 'SEEDING.CODE' },
+      'seeding.code': {title: 'SEEDING.CODE'},
       'seeding.farmLocation.[coordinates]': {
         title: 'SEEDING.FARM_LOCATION',
         formatter: DisplayCoordinates,
@@ -741,29 +742,29 @@ export const SeedingDetailDialog: RenderInfoDetail = [
         title: 'SEEDING.CERTIFICATE',
         formatter: input => DisplayDownloadLink(input, 'path'),
       },
-      'seeding.species.name': { title: 'SEEDING.SPECIES_NAME' },
-
+      'seeding.species.name': {title: 'SEEDING.SPECIES_NAME'},
+      
       'seeding.buyInvoice': {
         title: 'SEEDING.INVOICE',
         formatter: input => DisplayDownloadLink(input, 'path'),
       },
-      'seeding.species.barcode': { title: 'SEEDING.GTIN' },
-
+      'seeding.species.barcode': {title: 'SEEDING.GTIN'},
+      
       'seeding.seedingTime': {
         title: 'SEEDING.SEEDING_TIME',
         formatter: input => DisplayDateTime(input),
       },
-      'seeding.area': { title: 'SEEDING.SEEDING_AREA' },
-
+      'seeding.area': {title: 'SEEDING.SEEDING_AREA'},
+      
       'seeding.estimatedPlantingTime': {
         title: 'SEEDING.ESTIMATED_PLANTING_TIME',
         formatter: input => DisplayDateTime(input),
       },
-      'seeding.numberOfSeed': { title: 'SEEDING.NUMBER_OF_SEED' },
-
-      'seeding.landLot.code': { title: 'SEEDING.LAND_LOT' },
-
-      'seeding.expectedQuantity': { title: 'SEEDING.EXPECTED_QUANTITY' },
+      'seeding.numberOfSeed': {title: 'SEEDING.NUMBER_OF_SEED'},
+      
+      'seeding.landLot.code': {title: 'SEEDING.LAND_LOT'},
+      
+      'seeding.expectedQuantity': {title: 'SEEDING.EXPECTED_QUANTITY'},
     },
   },
   {
@@ -825,7 +826,18 @@ export const SeedingDetailDialog: RenderInfoDetail = [
       },
       'planting.imageAfter': {
         title: 'Hình ảnh trước khi đưa vào nuôi trồng',
-        formatter: DisplayImage,
+        formatter: (image, entity) => {
+          const renderInfo = {
+            title: 'IMAGE_INFO',
+            component: (image: any, _: any, intl: IntlShape) => {
+              return (<>
+                <div className={'titleeee mb-1'}>{intl.formatMessage({id: 'HASH'})} {image.hash}</div>
+                <div className={'titleeee mb-1'}>{intl.formatMessage({id: 'USER'})} {entity?.user?.name}</div>
+              </>)
+            }
+          }
+          return DisplayImage(image, renderInfo)
+        }
       },
     },
   },
@@ -842,7 +854,7 @@ export const SeedingDetailDialog: RenderInfoDetail = [
             text: 'QR.MASTER.TABLE.NAME',
             ...SortColumn,
             align: 'center',
-          },{
+          }, {
             dataField: '_id',
             text: 'QR.MASTER.TABLE.CODE',
             ...SortColumn,
@@ -862,49 +874,49 @@ export const masterEntityDetailDialog2: RenderInfoDetail = [
     titleClassName: 'col-md-2 col-4 mb-10',
     dataClassName: 'col-md-4 col-8 mb-10 pl-5',
     data: {
-      code: { title: 'PRODUCTION_PLAN.CODE' },
+      code: {title: 'PRODUCTION_PLAN.CODE'},
       farmLocation: {
         title: 'SEEDING.FARM_LOCATION',
       },
-      'seeding.code': { title: 'SEEDING.CODE' },
-      'seeding.species.name': { title: 'SEEDING.SPECIES_NAME' },
-      'planting.code': { title: 'PRODUCTION_PLAN.PLANT_CODE' },
-      'seeding.species.barcode': { title: 'SEEDING.GTIN' },
-
+      'seeding.code': {title: 'SEEDING.CODE'},
+      'seeding.species.name': {title: 'SEEDING.SPECIES_NAME'},
+      'planting.code': {title: 'PRODUCTION_PLAN.PLANT_CODE'},
+      'seeding.species.barcode': {title: 'SEEDING.GTIN'},
+      
       'seeding.certificates': {
         title: 'SEEDING.CERTIFICATE',
         formatter: input => DisplayDownloadLink(input, 'path'),
       },
-      'seeding.area': { title: 'SEEDING.SEEDING_AREA' },
-
+      'seeding.area': {title: 'SEEDING.SEEDING_AREA'},
+      
       'seeding.buyInvoice': {
         title: 'SEEDING.INVOICE',
         formatter: input => DisplayDownloadLink(input, 'path'),
       },
-      'planting.area': { title: 'SEEDING.SEEDING_AREA' },
-
+      'planting.area': {title: 'SEEDING.SEEDING_AREA'},
+      
       'seeding.seedingTime': {
         title: 'SEEDING.SEEDING_TIME',
         formatter: input => DisplayDateTime(input),
       },
-      'seeding.numberOfSeed': { title: 'SEEDING.NUMBER_OF_SEED' },
-
+      'seeding.numberOfSeed': {title: 'SEEDING.NUMBER_OF_SEED'},
+      
       'seeding.estimatedPlantingTime': {
         title: 'SEEDING.ESTIMATED_PLANTING_TIME',
         formatter: input => DisplayDateTime(input),
       },
-
-      'planting.numberOfPlants': { title: 'SEEDING.NUMBER_OF_SEED' },
-
-      'seeding.landLot.code': { title: 'SEEDING.LAND_LOT' },
-
+      
+      'planting.numberOfPlants': {title: 'SEEDING.NUMBER_OF_SEED'},
+      
+      'seeding.landLot.code': {title: 'SEEDING.LAND_LOT'},
+      
       'seeding.farmLocation.[coordinates]': {
         title: 'SEEDING.FARM_LOCATION',
         formatter: DisplayCoordinates,
       },
-
-      'planting.landLot.code': { title: 'SEEDING.LAND_LOT' },
-
+      
+      'planting.landLot.code': {title: 'SEEDING.LAND_LOT'},
+      
       'planting.farmLocation.[coordinates]': {
         title: 'SEEDING.FARM_LOCATION',
         formatter: DisplayCoordinates,
@@ -917,8 +929,8 @@ export const masterEntityDetailDialog2: RenderInfoDetail = [
     titleClassName: 'col-md-2 col-4 mb-10',
     dataClassName: 'col-md-4 col-8 mb-10 pl-5',
     data: {
-      'seeding.manager.fullName': { title: 'Thông tin Giám đốc/TGĐ' },
-      'planting.manager.fullName': { title: 'Người lập kế hoạch' },
+      'seeding.manager.fullName': {title: 'Thông tin Giám đốc/TGĐ'},
+      'planting.manager.fullName': {title: 'Người lập kế hoạch'},
       'seeding.[leader]': {
         title: 'SEEDING.FARM_LOCATION',
         formatter: DisplayPersonNameByArray,
@@ -943,8 +955,8 @@ export const masterEntityDetailDialog2: RenderInfoDetail = [
         title: 'Nhân viên kỹ thuật thu hoạch',
         formatter: DisplayPersonNameByArray,
       },
-      'planting.expectedQuantity': { title: 'Sản lượng thu hoạch (dự kiến)' },
-
+      'planting.expectedQuantity': {title: 'Sản lượng thu hoạch (dự kiến)'},
+      
       'harvesting.[leader]': {
         title: 'Tổ trưởng thu hoạch',
         formatter: DisplayPersonNameByArray,
@@ -965,8 +977,8 @@ export const masterEntityDetailDialog2: RenderInfoDetail = [
         title: 'Nhân viên kỹ thuật sơ chế',
         formatter: DisplayPersonNameByArray,
       },
-      'preliminaryTreatment.estimatedQuantity': { title: 'Sản lượng sau sơ chế (dự kiến)' },
-
+      'preliminaryTreatment.estimatedQuantity': {title: 'Sản lượng sau sơ chế (dự kiến)'},
+      
       'preliminaryTreatment.[leader]': {
         title: 'Tổ trưởng sơ chế',
         formatter: DisplayPersonNameByArray,
@@ -987,8 +999,8 @@ export const masterEntityDetailDialog2: RenderInfoDetail = [
         title: 'Nhân viên kỹ thuật làm sạch',
         formatter: DisplayPersonNameByArray,
       },
-      'cleaning.estimatedQuantity': { title: 'Sản lượng sau làm sạch (dự kiến)' },
-
+      'cleaning.estimatedQuantity': {title: 'Sản lượng sau làm sạch (dự kiến)'},
+      
       'cleaning.[leader]': {
         title: 'Tổ trưởng làm sạch',
         formatter: DisplayPersonNameByArray,
@@ -1005,7 +1017,7 @@ export const masterEntityDetailDialog2: RenderInfoDetail = [
         title: 'Thời gian đóng gói (dự kiến)',
         formatter: input => DisplayDateTime(input),
       },
-      'packing.estimatedQuantity': { title: 'Sản lượng sau đóng gói (dự kiến)' },
+      'packing.estimatedQuantity': {title: 'Sản lượng sau đóng gói (dự kiến)'},
       'packing.estimatedExpireTimeStart': {
         title: 'Hạn sử dụng (từ ngày)',
         formatter: input => DisplayDateTime(input),
@@ -1047,7 +1059,7 @@ export const masterEntityDetailDialog2: RenderInfoDetail = [
       },
     },
   },
-
+  
   // {
   //   header: 'THÔNG TIN ĐÓNG GÓI',
   //   data: [
@@ -1121,8 +1133,8 @@ export const masterEntityDetailDialog2: RenderInfoDetail = [
 ];
 
 export const addInitField = (obj1: any, obj2: any) => {
-  const rs = { ...obj1 };
-
+  const rs = {...obj1};
+  
   Object.keys(obj2).forEach(key => {
     if (rs[key]) {
       Object.keys(obj2[key]).forEach(keys => {
@@ -1132,7 +1144,7 @@ export const addInitField = (obj1: any, obj2: any) => {
       });
     }
   });
-
+  
   return rs;
 };
 
@@ -1161,7 +1173,7 @@ export const initProductPlanForm = {
 export const halfValidate = {
   estimatedHarvestTime: Yup.mixed(),
   expectedQuantity: Yup.number(),
-  technical: Yup.array().test('oneOfRequired', 'INPUT_ALL', function(value: any) {
+  technical: Yup.array().test('oneOfRequired', 'INPUT_ALL', function (value: any) {
     console.log(this.schema);
     console.log(this.path);
     console.log(this.options);
@@ -1177,7 +1189,7 @@ export const halfValidate = {
       value.length > 0
     );
   }),
-  leader: Yup.array().test('oneOfRequired', 'INPUT_ALL', function(value: any) {
+  leader: Yup.array().test('oneOfRequired', 'INPUT_ALL', function (value: any) {
     return (
       (this.parent.technical.length > 0 &&
         this.parent.estimatedQuantity > 0 &&
@@ -1198,7 +1210,7 @@ export const CompareDate = (date1: Date, date2: Date) => {
 };
 
 export const validate = {
-  estimatedTime: Yup.mixed().test('oneOfRequired', 'DATE_VALIDATE', function(value: any) {
+  estimatedTime: Yup.mixed().test('oneOfRequired', 'DATE_VALIDATE', function (value: any) {
     return (
       (this.parent.leader.length > 0 &&
         this.parent.technical.length > 0 &&
@@ -1212,7 +1224,7 @@ export const validate = {
       (value && CompareDate(new Date(value), new Date()))
     );
   }),
-  estimatedQuantity: Yup.number().test('oneOfRequired', 'INPUT_ALL', function(value: any) {
+  estimatedQuantity: Yup.number().test('oneOfRequired', 'INPUT_ALL', function (value: any) {
     return (
       (this.parent.leader.length > 0 &&
         this.parent.technical.length > 0 &&
@@ -1225,7 +1237,7 @@ export const validate = {
       (value && value > 0)
     );
   }),
-  technical: Yup.array().test('oneOfRequired', 'INPUT_ALL', function(value: any) {
+  technical: Yup.array().test('oneOfRequired', 'INPUT_ALL', function (value: any) {
     console.log(value);
     return (
       (this.parent.leader.length > 0 &&
@@ -1239,7 +1251,7 @@ export const validate = {
       value.length > 0
     );
   }),
-  leader: Yup.array().test('oneOfRequired', 'INPUT_ALL', function(value: any) {
+  leader: Yup.array().test('oneOfRequired', 'INPUT_ALL', function (value: any) {
     return (
       (this.parent.technical.length > 0 &&
         this.parent.estimatedQuantity > 0 &&
@@ -1255,7 +1267,7 @@ export const validate = {
 };
 
 export const packingValidate = {
-  estimatedTime: Yup.mixed().test('oneOfRequired', 'DATE_VALIDATE', function(value: any) {
+  estimatedTime: Yup.mixed().test('oneOfRequired', 'DATE_VALIDATE', function (value: any) {
     return (
       (this.parent.leader.length > 0 &&
         this.parent.technical.length > 0 &&
@@ -1279,8 +1291,8 @@ export const packingValidate = {
       (value && CompareDate(new Date(value), new Date()))
     );
   }),
-
-  estimatedExpireTimeStart: Yup.mixed().test('oneOfRequired', 'DATE_VALIDATE', function(
+  
+  estimatedExpireTimeStart: Yup.mixed().test('oneOfRequired', 'DATE_VALIDATE', function (
     value: any,
   ) {
     return (
@@ -1306,8 +1318,8 @@ export const packingValidate = {
       (value && CompareDate(new Date(value), new Date()))
     );
   }),
-
-  estimatedExpireTimeEnd: Yup.mixed().test('oneOfRequired', 'DATE_VALIDATE', function(value: any) {
+  
+  estimatedExpireTimeEnd: Yup.mixed().test('oneOfRequired', 'DATE_VALIDATE', function (value: any) {
     return (
       (this.parent.leader.length > 0 &&
         this.parent.technical.length > 0 &&
@@ -1334,8 +1346,8 @@ export const packingValidate = {
         CompareDate(new Date(value), new Date(this.parent.estimatedExpireTimeStart)))
     );
   }),
-
-  packing: Yup.mixed().test('oneOfRequired', 'INPUT_ALL', function(value: any) {
+  
+  packing: Yup.mixed().test('oneOfRequired', 'INPUT_ALL', function (value: any) {
     console.log(value);
     return (
       (this.parent.leader.length > 0 &&
@@ -1359,8 +1371,8 @@ export const packingValidate = {
       // (!_.isString(value) && value.label)
     );
   }),
-
-  estimatedQuantity: Yup.number().test('oneOfRequired', 'INPUT_ALL', function(value: any) {
+  
+  estimatedQuantity: Yup.number().test('oneOfRequired', 'INPUT_ALL', function (value: any) {
     return (
       (this.parent.leader.length > 0 &&
         this.parent.technical.length > 0 &&
@@ -1383,7 +1395,7 @@ export const packingValidate = {
       (value && value > 0)
     );
   }),
-  technical: Yup.array().test('oneOfRequired', 'INPUT_ALL', function(value: any) {
+  technical: Yup.array().test('oneOfRequired', 'INPUT_ALL', function (value: any) {
     return (
       (this.parent.leader.length > 0 &&
         this.parent.estimatedQuantity > 0 &&
@@ -1406,7 +1418,7 @@ export const packingValidate = {
       value.length > 0
     );
   }),
-  leader: Yup.array().test('oneOfRequired', 'INPUT_ALL', function(value: any) {
+  leader: Yup.array().test('oneOfRequired', 'INPUT_ALL', function (value: any) {
     return (
       (this.parent.technical.length > 0 &&
         this.parent.estimatedQuantity > 0 &&
@@ -1432,7 +1444,7 @@ export const packingValidate = {
 };
 
 export const preservationValidate = {
-  estimatedStartTime: Yup.mixed().test('oneOfRequired', 'DATE_VALIDATE', function(value: any) {
+  estimatedStartTime: Yup.mixed().test('oneOfRequired', 'DATE_VALIDATE', function (value: any) {
     return (
       (this.parent.technical.length > 0 &&
         this.parent.estimatedEndTime &&
@@ -1447,7 +1459,7 @@ export const preservationValidate = {
         CompareDate(new Date(this.parent.estimatedEndTime), new Date(value)))
     );
   }),
-  estimatedEndTime: Yup.mixed().test('oneOfRequired', 'DATE_VALIDATE', function(value: any) {
+  estimatedEndTime: Yup.mixed().test('oneOfRequired', 'DATE_VALIDATE', function (value: any) {
     return (
       (this.parent.technical.length > 0 &&
         this.parent.estimatedStartTime &&
@@ -1462,7 +1474,7 @@ export const preservationValidate = {
         CompareDate(new Date(value), new Date(this.parent.estimatedStartTime)))
     );
   }),
-  technical: Yup.array().test('oneOfRequired', 'INPUT_ALL', function(value: any) {
+  technical: Yup.array().test('oneOfRequired', 'INPUT_ALL', function (value: any) {
     return (
       (this.parent.estimatedStartTime && this.parent.estimatedEndTime && value.length > 0) ||
       (!this.parent.estimatedStartTime &&
