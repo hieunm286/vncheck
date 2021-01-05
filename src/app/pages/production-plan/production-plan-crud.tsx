@@ -15,8 +15,25 @@ import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined';
 import { Input } from 'antd';
 import './style/production-plan.scss';
+import { FormControl } from 'react-bootstrap';
+import { TextareaAutosize } from '@material-ui/core';
+import {toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const { TextArea } = Input;
+
+const notifyError = (error: string) => {
+  toast.error(error
+    , {
+      position: 'top-right',
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+};
 
 const diff = (obj1: any, obj2: any) => {
   if (!obj2 || Object.prototype.toString.call(obj2) !== '[object Object]') {
@@ -180,9 +197,7 @@ function ProductionPlanCrud({
   const [confirmModal, setConfirmModal] = useState(false);
   const [noticeModal, setNoticeModal] = useState(false);
 
-  const [comment, setComment] = useState({
-    content: '',
-  });
+  const valueRef = React.useRef<any>({ value: '' })
 
   const [commentsArr, setCommentArr] = useState(entity.comments || []);
 
@@ -222,7 +237,8 @@ function ProductionPlanCrud({
     onComments(entityForEdit, comment)
       .then(res => {
         setCommentArr(res.data);
-        setComment({ content: '' });
+        // setComment({ content: '' });
+        valueRef.current.value = ''
       })
       .catch(err => {
         throw err;
@@ -539,20 +555,32 @@ function ProductionPlanCrud({
                       <div className="col-10">
                         <div className="row">
                           <div className="col-11">
-                            <TextArea
+                            {/* <TextArea
                               rows={1}
                               placeholder="Viết bình luận..."
-                              autoSize
-                              value={comment.content}
-                              onChange={(e: any) => setComment({ content: e.target.value })}
-                            />
+                              style={{ width: '100%' }}
+                              // autoSize
+                              // value={valueRef.current}
+                              ref={r => valueRef = r as any}
+                              // onChange={(e: any) => {
+                              //   valueRef.current = e.target.value
+                              // }}
+                            /> */}
+                            <TextareaAutosize className="form-control" rowsMin={1} aria-label="empty textarea" ref={valueRef} placeholder="Viết bình luận..." />
+                            {/* <FormControl as="textarea" aria-label="With textarea" rows={1} ref={valueRef} /> */}
+                            
                           </div>
                           <div className="col-1">
                             <button
                               className="btn btn-primary pl-11 pr-11"
-                              style={{ cursor: comment.content === '' ? 'not-allowed' : 'pointer' }}
-                              onClick={() => handleComment(comment)}
-                              disabled={comment.content === ''}>
+                              onClick={() => {
+                                if (valueRef.current.value !== '') {
+                                  handleComment({ content: valueRef.current.value })
+                                } else {
+                                  notifyError('Bình luận không được để trống nha')
+                                }
+                              }}
+                              >
                               Gửi
                             </button>
                           </div>
