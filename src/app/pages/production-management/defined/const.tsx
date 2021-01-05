@@ -211,16 +211,12 @@ export const PackingDetail: RenderInfoDetail = [
               text: `Mã định danh`,
               align: 'center',
               ...SortColumn,
-              classes: 'text-center',
-              headerClasses: 'text-center',
             },
             {
               dataField: 'lastName',
               text: `Mã QR`,
               align: 'center',
               ...SortColumn,
-              classes: 'text-center',
-              headerClasses: 'text-center',
             },
             {
               dataField: 'planting.estimatedHarvestTime',
@@ -234,16 +230,12 @@ export const PackingDetail: RenderInfoDetail = [
                 </span>
               ),
               ...SortColumn,
-              classes: 'text-center',
-              headerClasses: 'text-center',
             },
             {
               dataField: 'lastName',
               text: `Người gán mã QR`,
               align: 'center',
               ...SortColumn,
-              classes: 'text-center',
-              headerClasses: 'text-center',
             },
             {
               dataField: 'planting.createdAt',
@@ -257,16 +249,12 @@ export const PackingDetail: RenderInfoDetail = [
                 </span>
               ),
               ...SortColumn,
-              classes: 'text-center',
-              headerClasses: 'text-center',
             },
             {
               dataField: 'lastName',
               text: `Người kích hoạt`,
               align: 'center',
               ...SortColumn,
-              classes: 'text-center',
-              headerClasses: 'text-center',
             },
             {
               dataField: 'planting.createdAt',
@@ -280,8 +268,6 @@ export const PackingDetail: RenderInfoDetail = [
                 </span>
               ),
               ...SortColumn,
-              classes: 'text-center',
-              headerClasses: 'text-center',
             },
           ]
           return <DisplayTable entities={entities} columns={columns}/>

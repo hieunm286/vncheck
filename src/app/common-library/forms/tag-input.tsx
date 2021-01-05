@@ -1,9 +1,10 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useMemo} from 'react';
 import {Select} from 'antd';
 import {ErrorMessage, useField, useFormikContext} from 'formik';
 import {GetClassName} from '../helpers/common-function';
 import {useIntl} from 'react-intl';
 import {DisplayError} from "./field-feedback-label";
+import _ from "lodash";
 
 const {Option} = Select;
 
@@ -39,25 +40,21 @@ function TagInput({
   placeholder?: string;
   [X: string]: any;
 }) {
-  const intl = useIntl();
   const validate = useCallback((value: any): string | void => {
     if (required && !value) return 'RADIO.ERROR.REQUIRED';
   }, [required, value]);
   const [field] = useField({name, validate});
   const {setFieldValue, errors, touched, getFieldMeta, values} = useFormikContext<any>();
-
-  console.log('------')
-  console.log(field.name)
-  console.log(field.value)
-  console.log('------')
-  console.log(values)
+  
+  const intl = useIntl();
+  const _label = useMemo(() => (_.isString(label) ? intl.formatMessage({id: label}) : label), []);
   return (
     <>
       <div className={mode === 'horizontal' ? 'row' : ''}>
         <div className={mode === 'horizontal' ? GetClassName(labelWidth, true) : ''}>
-          {label && (
+          {_label && (
             <label className={mode === 'horizontal' ? 'mb-0 mt-2' : ''}>
-              {label}{required && <span className="text-danger">*</span>}
+              {_label}{required && <span className="text-danger">*</span>}
             </label>
           )}
         </div>
@@ -66,7 +63,7 @@ function TagInput({
             mode="multiple"
             style={{width: '100%'}}
             defaultValue={getDefautltTag(field.value) || []}
-            placeholder={placeholder}
+            placeholder={intl.formatMessage({id: placeholder},  {label:_.isString(_label) ? _label:''})}
             onChange={(value: any) => {
               // handleChange(value);
               setFieldValue(name, value);
@@ -77,7 +74,6 @@ function TagInput({
             }
             disabled={disabled ? typeof disabled === 'boolean' ? disabled : disabled(values) : disabled}
             className={`${getFieldMeta(field.name).touched && getFieldMeta(field.name).error ? 'border border-danger rounded' : ''}`}
-            // className={'default-behave ' + getFieldCSSClasses(getTouched(touched, name), getError(errors, name))}
           
           >
             {tagData && tagData.map((item: any, key: any) => (
@@ -87,7 +83,7 @@ function TagInput({
             ))}
           </Select>
           {withFeedbackLabel && (<ErrorMessage name={field.name}>
-            {msg => <DisplayError label={label} error={msg}/>
+            {msg => <DisplayError label={_label} error={msg}/>
             }
           </ErrorMessage>)}
         </div>
