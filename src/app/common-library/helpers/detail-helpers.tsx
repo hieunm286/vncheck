@@ -7,9 +7,11 @@ import {MasterBodyColumns, PaginationProps} from "../common-types/common-type";
 import {GetCompareFunction} from "./common-function";
 
 export const DisplayString = (input: string) => {
+  if (!input) return <></>
   return (<>{input}</>)
 }
 export const DisplayCelcius = (input: string) => {
+  if (!input) return <></>
   return (<>{input + '°C'}</>)
 }
 
@@ -24,13 +26,14 @@ export const DisplayPersonNameByArray = (
   return (
     <>
       {person.map(
-        (personInfo: any, key: number) => <React.Fragment key={key}>{personInfo.fullName}</React.Fragment>
+        (personInfo: any, key: number) => <React.Fragment key={key}>{personInfo.user ? personInfo.user.fullName : personInfo.fullName}</React.Fragment>
       )}
     </>
   );
 };
 
 export const DisplayPercent = (input: string) => {
+  if (!input) return <></>
   return (<>{input + '%'}</>)
 }
 
@@ -49,6 +52,7 @@ export const DisplayAddress = (address: {
 }
 export const DisplayDate = ({input}: { input: string }) => {
   const intl = useIntl();
+  if (!input) return <></>
   return (<>
           {input
             ? new Intl.DateTimeFormat('en-GB').format(new Date(input))
@@ -64,6 +68,7 @@ export const DisplayDateTime = (input: string, _format?: string) => {
 
 export const DisplayDownloadLink = (input: any, key?: string) => {
   const intl = useIntl();
+  if (!input) return <></>
   return (<a href={key ? input[key] : input} target={'_blank'}>
     {intl.formatMessage({id: 'CLICK_TO_DOWNLOAD'})}
   </a>)

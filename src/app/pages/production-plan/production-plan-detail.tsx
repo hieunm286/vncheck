@@ -89,7 +89,9 @@ export function ProductionPlanDetail({
                               const displayData =
                                 fieldName.indexOf('[') > -1
                                   ? getFieldV3(entityDetail, fieldName)
-                                  : getFieldV3(entityDetail, fieldName)[0];
+																	: getFieldV3(entityDetail, fieldName)[0];
+																	console.log(entityDetail)
+																	console.log(fieldName)
                               console.log(displayData);
                               return displayInfo.formatter ? (
                                 displayInfo.formatter(displayData, entityDetail)

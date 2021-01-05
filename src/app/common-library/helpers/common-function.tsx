@@ -345,7 +345,7 @@ export function InitMasterProps<T>({
   const [spinning, setSpinning] = useState(false)
   const [error, setError] = useState({error: ''});
   
-  const notifyError = useCallback((error: string) => {
+ const notifyError = useCallback((error: string) => {
     const getError = (error: string): string | ({ message: string, additional: string }[]) => {
       try {
         return JSON.parse(error)
