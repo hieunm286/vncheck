@@ -7,6 +7,7 @@
   "INPUT.ERROR.INVALID_EMAIL": "Email không hợp lệ",
   "INPUT.ERROR.TYPE_ONLY_NUMBER": "Vui lòng chỉ nhập số",
   "EMPTY": " ",
+  "IMAGE_INFO": "THÔNG TIN HÌNH ẢNH",
   "ROLE.MANAGER": "Quản lý",
   "ROLE.FARMER": "Nông dân",
   "ROLE.TECHNICIAN": "Nhân viên kỹ thuật",

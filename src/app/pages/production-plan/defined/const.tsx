@@ -813,7 +813,15 @@ export const SeedingDetailDialog: RenderInfoDetail = [
     data: {
       'seeding.landLotImage': {
         title: 'Hình ảnh định vị lô luống',
-        formatter: DisplayImage,
+        formatter: (image) => {
+          const renderInfo = {
+            title: 'IMAGE_INFO',
+            data: {
+              hash: 'HASH'
+            }
+          }
+          return DisplayImage(image, renderInfo)
+        }
       },
       'planting.imageAfter': {
         title: 'Hình ảnh trước khi đưa vào nuôi trồng',
