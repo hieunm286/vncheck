@@ -112,3 +112,11 @@ export const DisplayCoordinates = (arr: string[]) => {
 export const DisplayImage = (images: any, renderInfo?: { title?: string, data?: { [KeyField: string]: string } }) => {
   return (<DetailImage images={images} renderInfo={renderInfo}/>)
 }
+
+export const DisplayDiffTime = (input: any, entity: any) => {return (
+  <>
+    {(entity.endTime && entity.startTime) ? entity.endTime.toLocaleString() + ', ' + entity.startTime.toLocaleString() 
+    : ''
+    }
+  </>
+  )}

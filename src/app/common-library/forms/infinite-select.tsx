@@ -72,12 +72,12 @@ export function InfiniteSelect({
   const CustomAsyncPaginate = withAsyncPaginate(AtlaskitSelect);
   const validate = useCallback((value: any): string | void => {
     if (required && !value && value === '') return 'RADIO.ERROR.REQUIRED';
-  }, [required]);
+  }, [required,values]);
   
   const [field, fieldMeta, fieldHelper] = useField({name, validate});
   const intl = useIntl();
   const _label = useMemo(() => (_.isString(label) ? intl.formatMessage({id: label}) : label), []);
-  const _disabled = useMemo(() => (disabled ? typeof disabled === 'boolean' ? disabled : disabled(values) : disabled), [disabled]);
+  const _disabled = useMemo(() => (disabled ? typeof disabled === 'boolean' ? disabled : disabled(values) : disabled), [disabled,values]);
   useEffect(() => {
     setTimeout(() => {
       validateField(name);
@@ -171,7 +171,7 @@ export function InfiniteSelect({
             }}
             placeholder={_disabled ? '' : intl.formatMessage({id: placeholder}, {label: _.isString(_label) ? _label : ''})}
             styles={styles}
-            isDisabled={disabled ? typeof disabled === 'boolean' ? disabled : disabled(values) : disabled}
+            isDisabled={_disabled}
             // className={`${errors[name] ? 'border-danger' : 'input-search-select'}`}
           />
           {withFeedbackLabel && (<ErrorMessage name={name}>
