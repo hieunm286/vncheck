@@ -43,13 +43,11 @@ const homeURL = `${window.location.pathname}`;
 
 const ProductPackagingSchema = Yup.object().shape({
   species: Yup.mixed()
-    .required('SPECIES_NAME_CANNOT_EMPTY')
     .test('test name', 'SPECIES_NAME_IS_INVALID', function(value) {
       console.log(value);
       return value;
     }),
   weight: Yup.number()
-    .required('GRAM_CANNOT_BE_EMPTY')
     .min(0, 'GRAM_MUST_BE_MORE_THAN_0')
     .typeError('INPUT_NUMBER'),
 });
@@ -224,10 +222,6 @@ function ProductPackaging() {
     },
   };
 
-  const allFormField: any = {
-    ...GenerateAllFormField(modifyModel),
-  };
-
   const [group1, setGroup1] = useState<ModifyInputGroup>({
     _subTitle: '',
     code: {
@@ -321,10 +315,8 @@ function ProductPackaging() {
       />
       <ModifyEntityDialog
         show={showCreate}
-        entity={generateInitForm(allFormField)}
         onModify={(values: any) => {
           const cvEntity = { ...values };
-
           if (values.species && _.isObject(values.species)) {
             cvEntity.species = values.species._id;
           }

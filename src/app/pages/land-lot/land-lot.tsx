@@ -277,7 +277,6 @@ function LandLot() {
       <ModifyEntityDialog
         formModel={createForm}
         show={showCreate}
-        entity={createEntity}
         onModify={add}
         onHide={() => {
           setShowCreate(false);
