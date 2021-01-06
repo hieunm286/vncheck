@@ -15,11 +15,41 @@ export function ActionsColumnFormatter<T>(
   cellContent: any,
   row: any,
   rowIndex: number,
-  {onShowDetail, onDelete, onEdit, intl}: ActionColumnProps<T> & { intl: IntlShape },
+  {onShowDetail, onDelete, onEdit,onLock, onChangeRole, intl}: ActionColumnProps<T> & { intl: IntlShape },
 ) {
   return (
     <>
-      {onShowDetail && (<a 
+      {onChangeRole && (<a
+        // to={`/purchase-order/${row.code}`}
+        // title={intl.formatMessage({id: 'COMMON_COMPONENT.MASTER_BODY.TABLE.EDIT_BTN'})}
+        className="btn btn-icon btn-light btn-hover-primary btn-sm mx-1"
+        onClick={(e) => {
+          onChangeRole(row);
+          e.preventDefault();
+        }}>
+        <span className="svg-icon svg-icon-md svg-icon-primary">
+          <SVG
+            src={ToAbsoluteUrl('/media/svg/vncheck/account.svg')}
+            title={intl.formatMessage({id: 'COMMON_COMPONENT.MASTER_BODY.TABLE.EDIT_BTN'})}
+          />
+        </span>
+      </a>)}
+      {onLock && (<a
+        // to={`/purchase-order/${row.code}`}
+        // title={intl.formatMessage({id: 'COMMON_COMPONENT.MASTER_BODY.TABLE.EDIT_BTN'})}
+        className="btn btn-icon btn-light btn-hover-primary btn-sm mx-1"
+        onClick={(e) => {
+          onLock(row);
+          e.preventDefault();
+        }}>
+        <span className="svg-icon svg-icon-md svg-icon-primary">
+          <SVG
+            src={ToAbsoluteUrl('/media/svg/vncheck/lock.svg')}
+            title={intl.formatMessage({id: 'COMMON_COMPONENT.MASTER_BODY.TABLE.EDIT_BTN'})}
+          />
+        </span>
+      </a>)}
+      {onShowDetail && (<a
         title={intl.formatMessage({id: 'COMMON_COMPONENT.MASTER_BODY.TABLE.SHOW_DETAIL_BTN'})}
         className="btn btn-icon btn-light btn-hover-primary btn-sm visibility"
         onClick={(e) => {

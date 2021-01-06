@@ -606,8 +606,21 @@ label {
   color: white
 }
 
-.large-font-size{
+.large-font-size {
   font-size: $large-font-size !important;
+}
+
+.svg-icon-primary {
+  color: $primary;
+}
+
+.svg-icon-primary:hover {
+  color: white;
+}
+.btn-hover-primary:hover{
+  .svg-icon-primary{
+    color: white;
+  }
 }
 
 //.card.card-custom > .card-body

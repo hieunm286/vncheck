@@ -1,4 +1,4 @@
-import React, {Fragment} from 'react';
+import React, {Fragment, useMemo} from 'react';
 import {Card, CardBody, CardHeader} from '../card';
 import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined';
 import AddIcon from '@material-ui/icons/Add';
@@ -6,6 +6,7 @@ import {useIntl} from 'react-intl';
 import {iconStyle} from '../common-consts/const';
 import {MasterTable} from './master-table';
 import {MasterBodyColumns, PaginationProps} from '../common-types/common-type';
+import _ from "lodash";
 
 export interface BasicUnitDataProps {
   showModal: any;
@@ -49,33 +50,31 @@ export function MasterBody<T>({
   title?: string;
 }) {
   const intl = useIntl();
-  
+  const idColumn = useMemo(() => ({
+    dataField: '_id',
+    text: 'STT',
+    formatter: (cell: any, row: any, rowIndex: number) => (
+      <Fragment>
+        {rowIndex + 1 + ((paginationParams.page ?? 0) - 1) * (paginationParams.limit ?? 0)}
+      </Fragment>
+    ),
+    headerClasses: 'text-center',
+    align: 'center'
+  }), []);
   const masterColumn = isShowId
-    ? {
-      _id: {
-        dataField: '_id',
-        text: 'STT',
-        formatter: (cell: any, row: any, rowIndex: number) => (
-          <Fragment>
-            {rowIndex + 1 + ((paginationParams.page ?? 0) - 1) * (paginationParams.limit ?? 0)}
-          </Fragment>
-        ),
-        headerClasses: 'text-center',
-        align: 'center'
-      },
-      ...columns,
-    }
+    ? _.isArray(columns) ? [idColumn, ...columns] :
+      {_id: idColumn, ...columns}
     : columns;
   
   return (
-    <Card className={'master-body-card'} >
+    <Card className={'master-body-card'}>
       {title && <CardHeader title={intl.formatMessage({id: title}).toUpperCase()}/>}
       <CardBody>
         <div className="row no-gutters mb-10">
-            <button type="button" className="btn btn-primary fixed-btn-width mr-8" onClick={onCreate}>
-              <AddIcon style={iconStyle}/>
-              {intl.formatMessage({id: 'COMMON_COMPONENT.MASTER_BODY.HEADER.ADD_BTN'})}
-            </button>
+          <button type="button" className="btn btn-primary fixed-btn-width mr-8" onClick={onCreate}>
+            <AddIcon style={iconStyle}/>
+            {intl.formatMessage({id: 'COMMON_COMPONENT.MASTER_BODY.HEADER.ADD_BTN'})}
+          </button>
           {onDeleteMany && <button
             type="button"
             className="btn btn-outline-primary fixed-btn-width"
