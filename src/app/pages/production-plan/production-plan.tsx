@@ -1045,7 +1045,7 @@ function ProductionPlan() {
             fullName: {
               _type: 'string',
               // placeholder: 'Mã gieo giống',
-              label: 'DIRECTOR_INFO',
+              label: 'ADMIN_DIRECTOR_INFO',
               required: false,
               disabled: true,
             },
@@ -1151,14 +1151,14 @@ function ProductionPlan() {
       _title: '',
       _validationField: 'preliminaryTreatment',
       group1: {
-        _subTitle: 'THÔNG TIN SƠ CHẾ',
+        _subTitle: 'PRELIMINARY_TREATMENT_INFO',
         _className: 'col-6 pl-xl-15 pl-md-10 pl-5',
         preliminaryTreatment: {
           _type: 'object',
           estimatedTime: {
             _type: 'date-time',
             // placeholder: 'Mã gieo giống',
-            label: 'Thời gian sơ chế (dự kiến)',
+            label: 'PRELIMINARY_TREATMENT_TIME',
             disabled: (values: any) => {
               return _.parseInt(values.process) >= preliminaryTreatmentProcess;
             },
@@ -1166,7 +1166,7 @@ function ProductionPlan() {
           estimatedQuantity: {
             _type: 'number',
             // placeholder: 'Mã gieo giống',
-            label: 'Sản lượng sau sơ chế dự kiến (kg)',
+            label: 'PRELIMINARY_TREATMENT_QUANTITY',
             disabled: (values: any) => {
               return _.parseInt(values.process) >= preliminaryTreatmentProcess;
             },
@@ -1182,7 +1182,7 @@ function ProductionPlan() {
             _type: 'tag',
             // placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
             tagData: userData,
-            label: 'Nhân viên kỹ thuật sơ chế',
+            label: 'PRELIMINARY_TREATMENT_TECHNICAL',
             disabled: (values: any) => {
               return _.parseInt(values.process) >= preliminaryTreatmentProcess;
             },
@@ -1190,7 +1190,7 @@ function ProductionPlan() {
           leader: {
             _type: 'tag',
             // placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
-            label: 'Tổ trưởng sơ chế',
+            label: 'PRELIMINARY_TREATMENT_LEADER',
             tagData: userData,
             disabled: (values: any) => {
               return _.parseInt(values.process) >= preliminaryTreatmentProcess;
@@ -1207,14 +1207,14 @@ function ProductionPlan() {
       _title: '',
       _validationField: 'cleaning',
       cleaning: {
-        _subTitle: 'THÔNG TIN LÀM SẠCH',
+        _subTitle: 'CLEANING_INFO',
         _className: 'col-6 pl-xl-15 pl-md-10 pl-5',
         cleaning: {
           _type: 'object',
           estimatedTime: {
             _type: 'date-time',
             // placeholder: 'Mã gieo giống',
-            label: 'Thời gian làm sạch (dự kiến)',
+            label: 'CLEANING_TIME',
             disabled: (values: any) => {
               return _.parseInt(values.process) >= cleaningProcess;
             },
@@ -1222,7 +1222,7 @@ function ProductionPlan() {
           estimatedQuantity: {
             _type: 'number',
             // placeholder: 'Mã gieo giống',
-            label: 'Sản lượng sau làm sạch dự kiến (kg)',
+            label: 'CLEANING_QUANTITY',
             disabled: (values: any) => {
               return _.parseInt(values.process) >= cleaningProcess;
             },
@@ -1237,7 +1237,7 @@ function ProductionPlan() {
           technical: {
             _type: 'tag',
             // placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
-            label: 'Nhân viên kỹ thuật làm sạch',
+            label: 'CLEANING_TEACHNICAL',
             root: 'cleaning',
             tagData: userData,
             disabled: (values: any) => {
@@ -1247,7 +1247,7 @@ function ProductionPlan() {
           leader: {
             _type: 'tag',
             // placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
-            label: 'Tổ trưởng làm sạch',
+            label: 'CLEANING_LEADER',
             root: 'cleaning',
             tagData: userData,
             disabled: (values: any) => {
@@ -1265,14 +1265,14 @@ function ProductionPlan() {
       _title: '',
       _validationField: 'packing',
       group1: {
-        _subTitle: 'THÔNG TIN ĐÓNG GÓI',
+        _subTitle: 'PACKING_INFO',
         _className: 'col-6 pl-xl-15 pl-md-10 pl-5',
         packing: {
           _type: 'object',
           estimatedTime: {
             _type: 'date-time',
             // placeholder: 'Mã gieo giống',
-            label: 'Thời gian đóng gói (dự kiến)',
+            label: 'PACKING_TIME',
             disabled: (values: any) => {
               return _.parseInt(values.process) >= packingProcess;
             },
@@ -1280,7 +1280,7 @@ function ProductionPlan() {
           estimatedExpireTimeStart: {
             _type: 'date-time',
             // placeholder: 'Hạn sử dụng',
-            label: 'Hạn sử dụng bắt đầu (dự kiến)',
+            label: 'PACKING_EXPIRY_START',
             disabled: (values: any) => {
               return _.parseInt(values.process) >= packingProcess;
             },
@@ -1288,7 +1288,7 @@ function ProductionPlan() {
           estimatedExpireTimeEnd: {
             _type: 'date-time',
             // placeholder: 'Hạn sử dụng',
-            label: 'Hạn sử dụng kết thúc (dự kiến)',
+            label: 'PACKING_EXPIRY_END',
             disabled: (values: any) => {
               return _.parseInt(values.process) >= packingProcess;
             },
@@ -1296,7 +1296,7 @@ function ProductionPlan() {
           packing: {
             _type: 'search-select',
             // placeholder: 'Quy cách',
-            label: 'Quy cách đóng gói',
+            label: 'MENU.DATA.PRODUCT.PACK',
             onSearch: ({ queryProps, paginationProps }: any) => {
               if (editEntity && editEntity.seeding && editEntity.seeding.species) {
                 queryProps.species = editEntity.seeding.species._id;
@@ -1323,7 +1323,7 @@ function ProductionPlan() {
           estimatedQuantity: {
             _type: 'number',
             // placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
-            label: 'Số lượng đóng gói dự kiến',
+            label: 'PACKING_QUANTITY',
             disabled: (values: any) => {
               return _.parseInt(values.process) >= packingProcess;
             },
@@ -1340,7 +1340,7 @@ function ProductionPlan() {
           leader: {
             _type: 'tag',
             // placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.PLANTING',
-            label: 'Tổ trưởng đóng gói',
+            label: 'PACKING_LEADER',
             tagData: userData,
             disabled: (values: any) => {
               return _.parseInt(values.process) >= packingProcess;
@@ -1357,14 +1357,14 @@ function ProductionPlan() {
       _title: '',
       _validationField: 'preservation',
       group1: {
-        _subTitle: 'THÔNG TIN BẢO QUẢN',
+        _subTitle: 'PRESERVATION_INFO',
         _className: 'col-6 pl-xl-15 pl-md-10 pl-5',
         preservation: {
           _type: 'object',
           estimatedStartTime: {
             _type: 'date-time',
             // placeholder: 'Mã gieo giống',
-            label: 'Thời gian bắt đầu bảo quản (dự kiến)',
+            label: 'PRESERVATION_TIME_START',
             disabled: (values: any) => {
               return _.parseInt(values.process) >= preservationProcess;
             },
@@ -1372,7 +1372,7 @@ function ProductionPlan() {
           estimatedEndTime: {
             _type: 'date-time',
             // placeholder: 'Mã gieo giống',
-            label: 'Thời gian kết thúc bảo quản (dự kiến)',
+            label: 'PRESERVATION_TIME_END',
             disabled: (values: any) => {
               return _.parseInt(values.process) >= preservationProcess;
             },
@@ -1388,7 +1388,7 @@ function ProductionPlan() {
             _type: 'tag',
             tagData: userData,
             // placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
-            label: 'Nhân viên kỹ thuật bảo quản',
+            label: 'PRESERVATION_TECHNICAL',
             disabled: (values: any) => {
               return _.parseInt(values.process) >= preservationProcess;
             },
@@ -1401,7 +1401,7 @@ function ProductionPlan() {
 
   const updateForm = useMemo(
     (): ModifyForm => ({
-      _header: 'test',
+      _header: 'PRODUCTION_PLAN_CREATE',
       panel1: modifyModel,
       panel2: modifyModel2,
       panel3: modifyModel3,

@@ -13,194 +13,194 @@ import {
 
 export const harvestingDetail: RenderInfoDetail = [
   {
-    header: 'THÔNG TIN CHUNG',
+    header: 'GENERAL_INFO',
     className: 'col-12',
     titleClassName: 'col-md-2 col-4 mb-10',
     dataClassName: 'col-md-4 col-8 mb-10 pl-5',
     data: {
-      'seeding.code': {title: 'Mã gieo giống'},
-      'planting.estimatedHarvestTime': {title: 'Thời gian thu hoạch dự kiến'},
-      'planting.code': {title: 'Mã gieo trồng'},
-      'planting.farmLocation.[coordinates]': {title: 'Địa điểm thu hoạch', formatter: DisplayCoordinates,},
-      'harvesting.code': {title: 'Mã thu hoạch'},
+      'seeding.code': { title: 'SEEDING.CODE' },
+      'planting.estimatedHarvestTime': { title: 'PRODUCTION_PLAN.HARVEST_DATE' },
+      'planting.code': { title: 'PRODUCTION_PLAN.PLANT_CODE' },
+      'planting.farmLocation.[coordinates]': { title: 'HARVESTING_LOCATION', formatter: DisplayCoordinates, },
+      'harvesting.code': { title: 'PRODUCTION_PLAN.HARVESTING_CODE' },
       'planting.landLot.code': {
-        title: 'Lô gieo trồng',
+        title: 'PLANTING_LAND_LOT',
         formatter: (cell: any, row: any) => cell.toUpperCase(),
       },
-      'planting.species.name': {title: 'Tên chủng loại'},
-      'planting.expectedQuantity': {title: 'Sản lượng dự kiến'},
-      'planting.species.barcode': {title: 'GTIN'},
+      'planting.species.name': { title: 'PRODUCT_TYPE.MASTER.TABLE.NAME_COLUMN' },
+      'planting.expectedQuantity': { title: 'SEEDING.EXPECTED_QUANTITY' },
+      'planting.species.barcode': { title: 'GTIN' },
     },
   },
   {
-    header: 'THÔNG TIN MÔI TRƯỜNG',
+    header: 'ENVIRONMENT_INFO',
     className: 'col-12',
     titleClassName: 'col-md-2 col-4 mb-10',
     dataClassName: 'col-md-4 col-8 mb-10 pl-5',
     data: {
-      'planting.temperature': {title: 'Nhiệt độ', formatter: DisplayCelcius,},
-      'planting.humidity': {title: 'Độ ẩm', formatter: DisplayPercent,},
-      'planting.porosity': {title: 'Độ xốp', formatter: DisplayPercent,},
+      'planting.temperature': { title: 'TEMPERATURE', formatter: DisplayCelcius, },
+      'planting.humidity': { title: 'HUMIDITY', formatter: DisplayPercent, },
+      'planting.porosity': { title: 'POROSITY', formatter: DisplayPercent, },
     },
   },
   {
-    header: 'THÔNG TIN QUẢN TRỊ',
+    header: 'ADMIN_INFO',
     className: 'col-12',
     titleClassName: 'col-md-2 col-4 mb-10',
     dataClassName: 'col-md-4 col-8 mb-10 pl-5',
     data: {
-      'planting.[leader]': {title: 'Tổ trưởng thu hoạch', formatter: DisplayPersonNameByArray,},
-      'planting.[worker]': {title: 'Nông dân thu hoạch', formatter: DisplayPersonNameByArray,},
-      'planting.[technical]': {title: 'Nhân viên kỹ thuật', formatter: DisplayPersonNameByArray,},
+      'planting.[leader]': { title: 'HARVESTING_LEADER', formatter: DisplayPersonNameByArray, },
+      'planting.[worker]': { title: 'HARVESTING_WORKER', formatter: DisplayPersonNameByArray, },
+      'planting.[technical]': { title: 'ROLE.TECHNICIAN', formatter: DisplayPersonNameByArray, },
     },
   },
   {
-    header: 'HÌNH ẢNH',
+    header: 'IMAGE_STORAGE',
     className: 'col-12',
     titleClassName: 'col-md-2 col-4 mb-10',
     dataClassName: 'col-md-4 col-8 mb-10 pl-5',
     data: {
-      'planting.imageBefore': {title: 'Hình ảnh trước thu hoạch', formatter: DisplayImage,},
-      'planting.imageAfter': {title: 'Hình ảnh sau khi thu hoạch', formatter: DisplayImage,},
-      'planting.imageInProgress': {title: 'Hình ảnh trong khi thu hoạch', formatter: DisplayImage,},
+      'planting.imageBefore': { title: 'HARVESTING_IMAGE_BEFORE', formatter: DisplayImage, },
+      'planting.imageAfter': { title: 'HARVESTING_IMAGE_AFTER', formatter: DisplayImage, },
+      'planting.imageInProgress': { title: 'HARVESTING_IMAGE_PROCESSING', formatter: DisplayImage, },
     },
   },
 ];
 
 export const PreliminaryTreatmentDetail: RenderInfoDetail = [
   {
-    header: 'THÔNG TIN CHUNG',
+    header: 'GENERAL_INFO',
     className: 'col-12',
     titleClassName: 'col-md-2 col-4 mb-10',
     dataClassName: 'col-md-4 col-8 mb-10 pl-5',
     data: {
-      'seeding.code': {title: 'Mã gieo giống'},
-      'planting.species.name': {title: 'Tên chủng loại'},
-      'planting.code': {title: 'Mã gieo trồng'},
-      'planting.species.barcode': {title: 'GTIN'},
+      'seeding.code': { title: 'SEEDING.CODE' },
+      'planting.species.name': { title: 'PRODUCT_TYPE.MASTER.TABLE.NAME_COLUMN' },
+      'planting.code': { title: 'PRODUCTION_PLAN.PLANT_CODE' },
+      'planting.species.barcode': { title: 'GTIN' },
       
-      'harvesting.code': {title: 'Mã thu hoạch'},
+      'harvesting.code': { title: 'PRODUCTION_PLAN.HARVESTING_CODE' },
       'preliminaryTreatment.estimatedTime': {
         title: 'SEEDING.SEEDING_TIME',
         formatter: input => DisplayDateTime(input),
       },
-      'preliminaryTreatment.code': {title: 'Mã sơ chế'},
-      'planting.farmLocation.[coordinates]': {title: 'Địa điểm thu hoạch', formatter: DisplayCoordinates,},
-      '': {title: 'EMPTY'},
-      'planting.estimatedQuantity': {title: 'Sản lượng sơ chế (dự kiến)'},
+      'preliminaryTreatment.code': { title: 'PRODUCTION_PLAN.PreliminaryTreatment_CODE' },
+      'planting.farmLocation.[coordinates]': { title: 'HARVESTING_LOCATION', formatter: DisplayCoordinates, },
+      '': { title: 'EMPTY' },
+      'planting.estimatedQuantity': { title: 'PRELIMINARY_TREATMENT' },
       
     },
   },
   {
-    header: 'THÔNG TIN QUẢN TRỊ',
+    header: 'ADMIN_INFO',
     className: 'col-12',
     titleClassName: 'col-md-2 col-4 mb-10',
     dataClassName: 'col-md-4 col-8 mb-10 pl-5',
     data: {
-      'preliminaryTreatment.[leader]': {title: 'Tổ trưởng sơ chế', formatter: DisplayPersonNameByArray,},
-      'preliminaryTreatment.[worker]': {title: 'Nông dân sơ chế', formatter: DisplayPersonNameByArray,},
-      'preliminaryTreatment.[technical]': {title: 'Nhân viên kỹ thuật', formatter: DisplayPersonNameByArray,},
+      'preliminaryTreatment.[leader]': { title: 'PRELIMINARY_TREATMENT_LEADER', formatter: DisplayPersonNameByArray, },
+      'preliminaryTreatment.[worker]': { title: 'PRELIMINARY_TREATMENT_WORKER', formatter: DisplayPersonNameByArray, },
+      'preliminaryTreatment.[technical]': { title: 'ROLE.TECHNICIAN', formatter: DisplayPersonNameByArray, },
     },
   },
   {
-    header: 'HÌNH ẢNH',
+    header: 'IMAGE_STORAGE',
     className: 'col-12',
     titleClassName: 'col-md-2 col-4 mb-10',
     dataClassName: 'col-md-4 col-8 mb-10 pl-5',
     data: {
-      'preliminaryTreatment.imageBefore': {title: 'Hình ảnh trước sơ chế', formatter: DisplayImage,},
-      'preliminaryTreatment.imageAfter': {title: 'Hình ảnh sau khi sơ chế', formatter: DisplayImage,},
-      'preliminaryTreatment.imageInProgress': {title: 'Hình ảnh trong khi sơ chế', formatter: DisplayImage,},
+      'preliminaryTreatment.imageBefore': { title: 'PRELIMINARY_TREATMENT_IMAGE_BEFORE', formatter: DisplayImage, },
+      'preliminaryTreatment.imageAfter': { title: 'PRELIMINARY_TREATMENT_IMAGE_AFTER', formatter: DisplayImage, },
+      'preliminaryTreatment.imageInProgress': { title: 'PRELIMINARY_TREATMENT_IMAGE_PROCESSING', formatter: DisplayImage, },
     },
   },
 ];
 
 export const CleaningDetail: RenderInfoDetail = [
   {
-    header: 'THÔNG TIN CHUNG',
+    header: 'GENERAL_INFO',
     className: 'col-12',
     titleClassName: 'col-md-2 col-4 mb-10',
     dataClassName: 'col-md-4 col-8 mb-10 pl-5',
     data: {
-      'seeding.code': {title: 'Mã gieo giống'},
-      'planting.species.name': {title: 'Tên chủng loại'},
-      'planting.code': {title: 'Mã gieo trồng'},
-      'planting.species.barcode': {title: 'GTIN'},
+      'seeding.code': { title: 'SEEDING.CODE' },
+      'planting.species.name': { title: 'PRODUCT_TYPE.MASTER.TABLE.NAME_COLUMN' },
+      'planting.code': { title: 'PRODUCTION_PLAN.PLANT_CODE' },
+      'planting.species.barcode': { title: 'GTIN' },
       
-      'harvesting.code': {title: 'Mã thu hoạch'},
+      'harvesting.code': { title: 'PRODUCTION_PLAN.HARVESTING_CODE' },
       'cleaning.estimatedTime': {
         title: 'SEEDING.SEEDING_TIME',
         formatter: input => DisplayDateTime(input),
       },
-      'preliminaryTreatment.code': {title: 'Mã sơ chế'},
-      'planting.farmLocation.[coordinates]': {title: 'Địa điểm thu hoạch', formatter: DisplayCoordinates,},
-      'cleaning.code': {title: 'Mã làm sạch'},
-      'planting.estimatedQuantity': {title: 'Sản lượng sơ chế (dự kiến)'},
+      'preliminaryTreatment.code': { title: 'PRODUCTION_PLAN.PreliminaryTreatment_CODE' },
+      'planting.farmLocation.[coordinates]': { title: 'HARVESTING_LOCATION', formatter: DisplayCoordinates, },
+      'cleaning.code': { title: 'PRODUCTION_PLAN.CLEANING.CODE' },
+      'planting.estimatedQuantity': { title: 'PRELIMINARY_TREATMENT' },
       
     },
   },
   {
-    header: 'THÔNG TIN QUẢN TRỊ',
+    header: 'ADMIN_INFO',
     className: 'col-12',
     titleClassName: 'col-md-2 col-4 mb-10',
     dataClassName: 'col-md-4 col-8 mb-10 pl-5',
     data: {
-      'cleaning.[leader]': {title: 'Tổ trưởng làm sạch', formatter: DisplayPersonNameByArray,},
-      'cleaning.[worker]': {title: 'Nông dân làm sạch', formatter: DisplayPersonNameByArray,},
-      'cleaning.[technical]': {title: 'Nhân viên kỹ thuật', formatter: DisplayPersonNameByArray,},
+      'cleaning.[leader]': { title: 'CLEANING_LEADER', formatter: DisplayPersonNameByArray, },
+      'cleaning.[worker]': { title: 'CLEANING_WORKER', formatter: DisplayPersonNameByArray, },
+      'cleaning.[technical]': { title: 'ROLE.TECHNICIAN', formatter: DisplayPersonNameByArray, },
     },
   },
   {
-    header: 'HÌNH ẢNH',
+    header: 'IMAGE_STORAGE',
     className: 'col-12',
     titleClassName: 'col-md-2 col-4 mb-10',
     dataClassName: 'col-md-4 col-8 mb-10 pl-5',
     data: {
-      'cleaning.imageBefore': {title: 'Hình ảnh trước làm sạch', formatter: DisplayImage,},
-      'cleaning.imageAfter': {title: 'Hình ảnh sau khi làm sạch', formatter: DisplayImage,},
-      'cleaning.imageInProgress': {title: 'Hình ảnh trong khi làm sạch', formatter: DisplayImage,},
+      'cleaning.imageBefore': { title: 'CLEANING_IMAGE_BEFORE', formatter: DisplayImage, },
+      'cleaning.imageAfter': { title: 'CLEANING_IMAGE_AFTER', formatter: DisplayImage, },
+      'cleaning.imageInProgress': { title: 'CLEANING_IMAGE_PROCESSING', formatter: DisplayImage, },
     },
   },
 ];
 
 export const PackingDetail: RenderInfoDetail = [
   {
-    header: 'THÔNG TIN CHUNG',
+    header: 'GENERAL_INFO',
     className: 'col-12',
     titleClassName: 'col-md-2 col-4 mb-10',
     dataClassName: 'col-md-4 col-8 mb-10 pl-5',
     data: {
-      'seeding.code': {title: 'Mã gieo giống'},
-      'planting.species.name': {title: 'Tên chủng loại'},
-      'planting.code': {title: 'Mã gieo trồng'},
-      'planting.species.barcode': {title: 'GTIN'},
+      'seeding.code': { title: 'SEEDING.CODE' },
+      'planting.species.name': { title: 'PRODUCT_TYPE.MASTER.TABLE.NAME_COLUMN' },
+      'planting.code': { title: 'PRODUCTION_PLAN.PLANT_CODE' },
+      'planting.species.barcode': { title: 'GTIN' },
       
-      'harvesting.code': {title: 'Mã thu hoạch'},
+      'harvesting.code': { title: 'PRODUCTION_PLAN.HARVESTING_CODE' },
       'cleaning.estimatedTime': {
         title: 'SEEDING.SEEDING_TIME',
         formatter: input => DisplayDateTime(input),
       },
-      'preliminaryTreatment.code': {title: 'Mã sơ chế'},
-      'planting.farmLocation.[coordinates]': {title: 'Địa điểm đóng gói', formatter: DisplayCoordinates,},
-      'cleaning.code': {title: 'Mã làm sạch'},
-      'packing.packing.weight': {title: 'Quy cách đóng gói'},
-      'packing.code': {title: 'Mã đóng gói'},
-      'packing.estimatedQuantity': {title: 'Số lượng gói/lô thực tế'},
+      'preliminaryTreatment.code': { title: 'PRODUCTION_PLAN.PreliminaryTreatment_CODE' },
+      'planting.farmLocation.[coordinates]': { title: 'PACKING_LOCATION', formatter: DisplayCoordinates, },
+      'cleaning.code': { title: 'PRODUCTION_PLAN.CLEANING.CODE' },
+      'packing.packing.weight': { title: 'PRODUCT_PACKAGING.MODULE_NAME' },
+      'packing.code': { title: 'PRODUCTION_PLAN.PACKING.CODE' },
+      'packing.estimatedQuantity': { title: 'PACKING_REAL_QUANTITY' },
     },
   },
   {
-    header: 'THÔNG TIN QUẢN TRỊ',
+    header: 'ADMIN_INFO',
     className: 'col-12',
     titleClassName: 'col-md-2 col-4 mb-10',
     dataClassName: 'col-md-4 col-8 mb-10 pl-5',
     data: {
-      'packing.[leader]': {title: 'Tổ trưởng đóng gói', formatter: DisplayPersonNameByArray,},
-      'packing.[worker]': {title: 'Người gán mã QR', formatter: DisplayPersonNameByArray,},
-      'packing.[technical]': {title: 'Người kích hoạt mã QR (KCS)', formatter: DisplayPersonNameByArray,},
+      'packing.[leader]': { title: 'PACKING_LEADER', formatter: DisplayPersonNameByArray, },
+      'packing.[worker]': { title: 'PERSON_ASSIGN_QR', formatter: DisplayPersonNameByArray, },
+      'packing.[technical]': { title: 'KCS_ACTIVE_QR', formatter: DisplayPersonNameByArray, },
     },
   },
   {
-    header: 'THÔNG TIN SẢN PHẨM',
+    header: 'PRODUCTION_INFO',
     className: 'col-12',
     titleClassName: 'col-0 hidden',
     dataClassName: 'col-12',
@@ -241,7 +241,7 @@ export const PackingDetail: RenderInfoDetail = [
             },
             {
               dataField: 'lastName',
-              text: `Người gán mã QR`,
+              text: `PERSON_ASSIGN_QR`,
               align: 'center',
               ...SortColumn,
             },
@@ -285,13 +285,13 @@ export const PackingDetail: RenderInfoDetail = [
   },
   
   {
-    header: 'HÌNH ẢNH',
+    header: 'IMAGE_STORAGE',
     className: 'col-12',
     titleClassName: 'col-md-2 col-4 mb-10',
     dataClassName: 'col-md-4 col-8 mb-10 pl-5',
     data: {
       'packing.sampleImage': {
-        title: 'Sản phẩm đại diện', formatter: (image) => {
+        title: 'PACKING_EXAMPLE_PRODUCTION', formatter: (image) => {
           const renderInfo = {
             title: 'IMAGE_INFO',
             data: {
@@ -301,62 +301,62 @@ export const PackingDetail: RenderInfoDetail = [
           return DisplayImage(image, renderInfo)
         }
       },
-      'packing.packingImage': {title: 'Hình ảnh đóng gói', formatter: DisplayImage,},
+      'packing.packingImage': {title: 'PACKING_IMAGE', formatter: DisplayImage,},
     },
   },
 ];
 
 export const PreservationDetail: RenderInfoDetail = [
   {
-    header: 'THÔNG TIN CHUNG',
+    header: 'GENERAL_INFO',
     className: 'col-12',
     titleClassName: 'col-md-2 col-4 mb-10',
     dataClassName: 'col-md-4 col-8 mb-10 pl-5',
     data: {
-      'seeding.code': {title: 'Mã gieo giống'},
-      'planting.species.name': {title: 'Tên chủng loại'},
+      'seeding.code': { title: 'SEEDING.CODE' },     
+      'planting.species.name': { title: 'PRODUCT_TYPE.MASTER.TABLE.NAME_COLUMN' },
+
+      'planting.code': { title: 'PRODUCTION_PLAN.PLANT_CODE' },
+      'planting.species.barcode': { title: 'GTIN' },
       
-      'planting.code': {title: 'Mã gieo trồng'},
-      'planting.species.barcode': {title: 'GTIN'},
-      
-      'harvesting.code': {title: 'Mã thu hoạch'},
+      'harvesting.code': { title: 'PRODUCTION_PLAN.HARVESTING_CODE' },
       'preservation.estimatedStartTime': {
-        title: 'Thời gian bảo quản dự kiến (từ ngày)',
+        title: 'PRESERVATION_ESTIMATED_TIME_START',
         formatter: input => DisplayDateTime(input),
       },
-      
-      'preliminaryTreatment.code': {title: 'Mã sơ chế'},
+
+      'preliminaryTreatment.code': { title: 'PRODUCTION_PLAN.PreliminaryTreatment_CODE' },
       'preservation.estimatedEndTime': {
-        title: 'Thời gian bảo quản dự kiến (đến ngày)',
+        title: 'PRESERVATION_ESTIMATED_TIME_END',
         formatter: input => DisplayDateTime(input),
       },
-      
-      'cleaning.code': {title: 'Mã làm sạch'},
-      'planting.farmLocation.[coordinates]': {title: 'Địa điểm bảo quản', formatter: DisplayCoordinates,},
-      
-      'packing.code': {title: 'Mã đóng gói'},
-      'preservation.temperature': {title: 'Nhiệt độ bảo quản', formatter: DisplayCelcius},
-      'preservation.code': {title: 'Mã bảo quản'},
-      
+
+      'cleaning.code': { title: 'PRODUCTION_PLAN.CLEANING.CODE' },
+      'planting.farmLocation.[coordinates]': { title: 'PRESERVATION_LOCATION', formatter: DisplayCoordinates, },
+
+      'packing.code': { title: 'PRODUCTION_PLAN.PACKING.CODE' },
+      'preservation.temperature': { title: 'PRODUCTION_MANAGEMENT.PRESERVATION.TEMPERATURE', formatter: DisplayCelcius },
+      'preservation.code': { title: 'PRODUCTION_PLAN.PRESERVATION.CODE' },
+            
     },
   },
   {
-    header: 'THÔNG TIN QUẢN TRỊ',
+    header: 'ADMIN_INFO',
     className: 'col-12',
     titleClassName: 'col-md-2 col-4 mb-10',
     dataClassName: 'col-md-4 col-8 mb-10 pl-5',
     data: {
-      'preservation.[worker]': {title: 'Nhân viên bảo quản', formatter: DisplayPersonNameByArray,},
-      'preservation.[technical]': {title: 'Nhân viên kỹ thuật', formatter: DisplayPersonNameByArray,},
+      'preservation.[worker]': { title: 'PRESERVATION_WORKER', formatter: DisplayPersonNameByArray, },
+      'preservation.[technical]': { title: 'ROLE.TECHNICIAN', formatter: DisplayPersonNameByArray, },
     },
   },
   {
-    header: 'HÌNH ẢNH',
+    header: 'IMAGE_STORAGE',
     className: 'col-12',
     titleClassName: 'col-md-2 col-4 mb-10',
     dataClassName: 'col-md-4 col-8 mb-10 pl-5',
     data: {
-      'preservation.storageImage': {title: 'Hình ảnh kho lạnh', formatter: DisplayImage,},
+      'preservation.storageImage': { title: 'PRESERVATION_IMAGE', formatter: DisplayImage, },
     },
   },
 ];
