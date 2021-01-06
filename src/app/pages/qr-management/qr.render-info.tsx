@@ -377,8 +377,8 @@ export const QrRenderDetail: RenderInfoDetail = [
   ...seedingInfo,
   ...plantingInfo,
   ...harvestingInfo,
-  // ...preliminaryTreatmentInfo,
-  // ...cleaningInfo,
-  // ...packingInfo,
-  // ...preservationInfo,
+  ...preliminaryTreatmentInfo,
+  ...cleaningInfo,
+  ...packingInfo,
+  ...preservationInfo,
 ];

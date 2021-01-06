@@ -20,10 +20,10 @@ export const groupSeeding = {
   ],
   worker: [
     {
-      fullName: 'Người công dân gieo giống 1',
+      fullName: 'Người công nhân gieo giống 1',
     }, 
     {
-      fullName: 'Người công dân gieo giống 2',
+      fullName: 'Người công nhân gieo giống 2',
     }
   ],
 };
@@ -60,7 +60,7 @@ export const groupPlanting = {
 
 export const groupHarvesting = {
   manager: {
-    fullName: 'Người quản lý thu hoạch'
+    fullName: 'Tổng giám đốc thu hoạch'
   },
   leader: [
     {
@@ -80,10 +80,19 @@ export const groupHarvesting = {
   ],
   worker: [
     {
-      fullName: 'Người công dân thu hoạch 1',
+      fullName: 'Người công nhân thu hoạch 1',
     }, 
     {
-      fullName: 'Người công dân thu hoạch 2',
+      fullName: 'Người công nhân thu hoạch 2',
+    }
+  ],
+
+  // Redundant field
+  technicalStaff: [
+    {
+      _id: 'redundant field',
+      isRecieved: false,
+      info: 'redundant field'
     }
   ],
 };

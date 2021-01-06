@@ -86,92 +86,19 @@ export const detailEntityMock: QrModel = {
       ...image.imageSeeding,
       ...plan.planSeeding,
       ...group.groupSeeding,
-      
-      // Redundant species field
-      species: {
-        _id: 'mongoid@qprtmzfaw24a4hfharftwbe',
-        name: 'Rau muống',
-        barcode: 'GTIN@123456',
-        seedingDays: 10,
-        plantingDays: 4,
-        expiryDays: 2,
-        code: 'RM01'
-      },
     },
     planting: {
-      farmLocation: {
-        coordinates: ['24N', '34E'],
-        type: 'latitude',
-      },
-      imageAfter: {
-        path: 'upload/path-to-imagexxx.png',
-        hash: 'hash@9gy2ahfq3o234asfd96LKWQFOPW',
-      },
-      imageBefore: {
-        path: 'upload/path-to-imagexxx.png',
-        hash: 'hash@9gy2ahfa234asfd96LKWQA3FOPW',
-      },
       _id: 'mongoid@q24rirjifa2hgrezrtqnb',
-      estimatedPlantingTime: new Date(),
-      estimatedHarvestTime: new Date(),
       code: '234112e',
-      area: 42,
-      numberOfPlants: 150,
-      expectedQuantity: 135,
-      temperature: 26,
-      humidity: 31,
-      porosity: 5,
-      landLot: 'A34',
-      species: {
-        _id: 'mongoid@qprtmzfaw24a4hfharftwbe',
-        name: 'Rau muống',
-        barcode: 'GTIN@123456',
-        seedingDays: 10,
-        plantingDays: 4,
-        expiryDays: 2,
-        code: 'RM01'
-      },
-      ...group.groupPlanting
+      ...image.imagePlanting,
+      ...plan.planPlanting,
+      ...group.groupPlanting,
     },
     harvesting: {
-      startTime: new Date(),
-      endTime: new Date(),
-      farmLocation: {
-        coordinates: ['24N', '34E'],
-        type: 'latitude',
-      },
-      imageAfter: {
-        path: 'upload/path-to-imagexxx.png',
-        hash: 'hash@9gy2ahfq3o234asfd96LKWQFOPW',
-      },
-      imageBefore: {
-        path: 'upload/path-to-imagexxx.png',
-        hash: 'hash@9gy2ahfa234asfd96LKWQA3FOPW',
-      },
-      leader: ['Tổ trưởng 1', 'tổ trưởng 2'],
-      worker: ['Công nhân 1', 'công nhân 2'],
-      manager: 'Quản lý',
       _id: 'mongoid@q24rirjifa2hgrezrtqnb',
-      // estimatedPlantingTime: new Date(),
-      // estimatedHarvestTime: new Date(),
-      code: '234112e',
-      area: 42,
-      // numberOfPlants: 150,
-      // expectedQuantity: 135,
-      realQuantity: 135,
-      temperature: 26,
-      humidity: 31,
-      porosity: 5,
-      landLot: 'A34',
-
-      // Redundant field
-      technicalStaff: [
-        {
-          _id: 'redundant field',
-          isRecieved: false,
-          info: 'redundant field'
-        }
-      ],
+      ...group.groupHarvesting,
+      ...image.imageHarvesting,
+      ...plan.planHarvesting,
     },
   }
 }

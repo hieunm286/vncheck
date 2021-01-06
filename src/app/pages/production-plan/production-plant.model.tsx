@@ -97,8 +97,8 @@ export type ProductionPlanModel = {
   },
   harvesting: {
     _id: string;
-    leader: { _id: string; isRecieved: boolean; info: string }[] | string[];
-    technicalStaff: { _id: string; isRecieved: boolean; info: string }[];
+    leader: { _id: string; isRecieved: boolean; info: string }[] | UserModel[];
+    technicalStaff: { _id: string; isRecieved: boolean; info: string }[] | UserModel[];
   },
   preliminaryTreatment: {
     _id: string;

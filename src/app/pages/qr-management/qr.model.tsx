@@ -1,5 +1,5 @@
 import { ProductionPlanModel } from "../production-plan/production-plant.model";
-import { UserModel } from '../user/user.model';
+import { UserModelForQR as UserModel } from '../user/user.model';
 
 export type QrModel = CommonQr & {
   _id?: string;
@@ -12,9 +12,10 @@ export type QrModel = CommonQr & {
       technical: string[] | {fullName: string}[];
     },
     harvesting: {
-      leader: string[];
-      worker: string[];
-      manager: string;
+      leader: string[] | UserModel[];
+      worker: string[] | UserModel[];
+      manager: string | UserModel;
+      technical: string[] | UserModel[];
       farmLocation: Location | Image;
       imageBefore: Location | Image;
       imageAfter: Location | Image;

@@ -16,3 +16,33 @@ export const imageSeeding = {
     hash: 'hash@9gy2ahfqtjh34aslq96LK86FsPo',
   },
 }
+
+export const imagePlanting = {
+  farmLocation: {
+    coordinates: ['24N', '34E'],
+    type: 'latitude',
+  },
+  imageAfter: {
+    path: 'upload/path-to-imagexxx.png',
+    hash: 'hash@9gy2ahfq3o234asfd96LKWQFOPW',
+  },
+  imageBefore: {
+    path: 'upload/path-to-imagexxx.png',
+    hash: 'hash@9gy2ahfa234asfd96LKWQA3FOPW',
+  },
+};
+
+export const imageHarvesting = {
+  farmLocation: {
+    coordinates: ['24N', '34E'],
+    type: 'latitude',
+  },
+  imageAfter: {
+    path: 'upload/path-to-imagexxx.png',
+    hash: 'hash@9gy2ahfq3o234asfd96LKWQFOPW',
+  },
+  imageBefore: {
+    path: 'upload/path-to-imagexxx.png',
+    hash: 'hash@9gy2ahfa234asfd96LKWQA3FOPW',
+  },
+}
