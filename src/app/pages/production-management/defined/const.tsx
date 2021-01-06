@@ -1,7 +1,15 @@
 import React from 'react';
-import { SortColumn } from '../../../common-library/common-consts/const';
-import { MasterBodyColumns, RenderInfoDetail } from '../../../common-library/common-types/common-type';
-import { DisplayCelcius, DisplayCoordinates, DisplayDateTime, DisplayImage, DisplayPercent, DisplayPersonNameByArray, DisplayTable } from '../../../common-library/helpers/detail-helpers';
+import {SortColumn} from '../../../common-library/common-consts/const';
+import {MasterBodyColumns, RenderInfoDetail} from '../../../common-library/common-types/common-type';
+import {
+  DisplayCelcius,
+  DisplayCoordinates,
+  DisplayDateTime,
+  DisplayImage,
+  DisplayPercent,
+  DisplayPersonNameByArray,
+  DisplayTable
+} from '../../../common-library/helpers/detail-helpers';
 
 export const harvestingDetail: RenderInfoDetail = [
   {
@@ -204,7 +212,7 @@ export const PackingDetail: RenderInfoDetail = [
               dataField: '_id',
               text: 'STT',
               formatter: (cell: any, row: any, rowIndex: number) => <p>{rowIndex + 1}</p>,
-              style: { paddingTop: 20 },
+              style: {paddingTop: 20},
             },
             {
               dataField: 'firstName',
@@ -282,8 +290,18 @@ export const PackingDetail: RenderInfoDetail = [
     titleClassName: 'col-md-2 col-4 mb-10',
     dataClassName: 'col-md-4 col-8 mb-10 pl-5',
     data: {
-      'packing.sampleImage': { title: 'PACKING_EXAMPLE_PRODUCTION', formatter: DisplayImage, },
-      'packing.packingImage': { title: 'PACKING_IMAGE', formatter: DisplayImage, },
+      'packing.sampleImage': {
+        title: 'PACKING_EXAMPLE_PRODUCTION', formatter: (image) => {
+          const renderInfo = {
+            title: 'IMAGE_INFO',
+            data: {
+              hash: 'HASH'
+            }
+          }
+          return DisplayImage(image, renderInfo)
+        }
+      },
+      'packing.packingImage': {title: 'PACKING_IMAGE', formatter: DisplayImage,},
     },
   },
 ];

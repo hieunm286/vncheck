@@ -7,6 +7,7 @@
   "INPUT.ERROR.INVALID_EMAIL": "Email không hợp lệ",
   "INPUT.ERROR.TYPE_ONLY_NUMBER": "Vui lòng chỉ nhập số",
   "EMPTY": " ",
+  "IMAGE_INFO": "THÔNG TIN HÌNH ẢNH",
   "ROLE.MANAGER": "Quản lý",
   "ROLE.FARMER": "Nông dân",
   "ROLE.TECHNICIAN": "Nhân viên kỹ thuật",
@@ -605,5 +606,6 @@
   "PRESERVATION_ESTIMATED_TIME_END": "Thời gian bảo quản dự kiến (đến ngày)",
   "PRESERVATION_LOCATION": "Địa điểm bảo quản",
   "PRESERVATION_WORKER": "Nhân viên bảo quản",
-  "PRESERVATION_IMAGE": "Hình ảnh kho lạnh"
+  "PRESERVATION_IMAGE": "Hình ảnh kho lạnh",
+  "ESTIMATED_QUANTITY_VALIDATE": "Vui lòng nhập số hợp lệ"
 }
