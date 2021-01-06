@@ -559,6 +559,24 @@
   "SEEDING.NUMBER_OF_SEED": "Số cây con giống",
   "SEEDING.EXPECTED_QUANTITY": "Sản lượng dự kiến",
 
+  "USER.MASTER.TABLE.TITLE": "Danh mục người dùng",
+  "USER.MASTER.SEARCH.ORGANIZATION": "Đơn vị quản lý",
+  "USER.MASTER.SEARCH.ROLE": "Vai trò",
+  "USER.MASTER.SEARCH.CODE": "Mã người dùng",
+  "USER.MASTER.SEARCH.USER_NAME": "Tên đăng nhập",
+  "USER.MASTER.SEARCH.WORK_AT": "Nơi làm việc",
+  "USER.MASTER.SEARCH.EMAIL": "Email",
+  "USER.MASTER.SEARCH.PHONE": "Số điện thoại",
+
+
+  "USER.MASTER.TABLE.ORGANIZATION": "Đơn vị quản lý",
+  "USER.MASTER.TABLE.ACTION_COLUMN": "Hành động",
+  "USER.MASTER.TABLE.STATUS_COLUMN": "Trạng thái",
+  "USER.MASTER.TABLE.DISPLAY_NAME": "Tên hiển thị",
+  "USER.MASTER.TABLE.WORK_AT": "Nơi làm việc",
+  "USER.MASTER.TABLE.EMAIL": "Email",
+  "USER.MASTER.TABLE.PHONE": "Số điện thoại",
+
   "VALIDATE.ERROR.INVALID_INPUT": "{label} không hợp lệ",
   "VALIDATE.ERROR.MUST_LESS_THAN_TODAY": "{label} không được lớn hơn ngày hiện tại",
   "VALIDATE.ERROR.MISSING_START_TIME": "Vui lòng nhập ngày bắt đầu",

@@ -28,7 +28,6 @@ import {
 } from './defined/const';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import ProductionPlanCrud from './production-plan-crud';
-import {fetchAllUser} from '../account/_redux/user-action';
 import * as Yup from 'yup';
 import Visibility from '@material-ui/icons/Visibility';
 import _ from 'lodash';
@@ -278,13 +277,6 @@ function ProductionPlan() {
   const userData = usersState.entities;
   
   console.log(spinning);
-  
-  const dispatch = useDispatch();
-  
-  useEffect(() => {
-    dispatch(fetchAllUser());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch]);
   
   useEffect(() => {
     if (currentTab === '0') {

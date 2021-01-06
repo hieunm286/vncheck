@@ -41,10 +41,6 @@ export const Fix = ({title}: { title: string }) => {
   return <div style={{minWidth: 174}}>{intl.formatMessage({id: title})}</div>;
 };
 
-const {users} = store.getState();
-
-const userData = users.entities;
-
 export const productPlanSearchModel1: SearchModel = {
   seedingCode: {
     type: 'string',
@@ -368,7 +364,7 @@ export const modifyModel3: ModifyPanel = {
         _type: 'tag',
         // placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
         label: 'Nhân viên kỹ thuật thu hoạch',
-        tagData: userData,
+        // tagData: userData,
         required: true,
         process: '2',
       },
@@ -412,7 +408,7 @@ export const modifyModel4: ModifyPanel = {
       technical: {
         _type: 'tag',
         // placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
-        tagData: userData,
+        // tagData: userData,
         label: 'Nhân viên kỹ thuật sơ chế',
         process: '3',
       },
