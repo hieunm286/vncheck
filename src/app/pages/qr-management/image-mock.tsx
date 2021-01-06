@@ -1,0 +1,18 @@
+export const imageSeeding = {
+  certificates: {
+    path: 'upload/path-to-imagexxx.png',
+    hash: 'hash@9gy2ahfqp7234asf396LKWQFOPW',
+  },
+  buyInvoice: {
+    path: 'upload/path-to-imagexxx.png',
+    hash: 'hash@9gy2ahfqt7h34asf396LKW6FsPo',
+  },
+  farmLocation: {
+    coordinates: ['24N', '34E'],
+    type: 'latitude',
+  },
+  landLotImage: {
+    path: 'upload/path-to-imagexxx.png',
+    hash: 'hash@9gy2ahfqtjh34aslq96LK86FsPo',
+  },
+}

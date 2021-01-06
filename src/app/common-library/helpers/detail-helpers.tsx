@@ -39,6 +39,7 @@ export const DisplayPercent = (input: string) => {
 }
 
 export const DisplayArray = (arr: string[], separator: string = ', ') => {
+  console.log(arr)
   return (<>{arr.join(separator)}</>)
 }
 

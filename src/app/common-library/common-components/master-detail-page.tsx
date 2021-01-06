@@ -63,7 +63,7 @@ export function MasterEntityDetailPage({
 
   const history = useHistory();
 
-  // console.log(entityDetail);
+  console.log(entityDetail);
 
   useEffect(() => {
     if (code && get) {
@@ -110,6 +110,7 @@ export function MasterEntityDetailPage({
                         const displayData = fieldName.indexOf("[") > -1 ?
                           getFieldV3(entityDetail, fieldName) :
                           getFieldV3(entityDetail, fieldName)[0]
+                          console.log(fieldName)
                           console.log(displayData)
                         return displayInfo.formatter ? displayInfo.formatter(displayData, entityDetail)
                           : (<>{(_.isNumber(displayData) || _.isString(displayData)) ? displayData : JSON.stringify(displayData)}</>)

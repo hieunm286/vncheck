@@ -4,7 +4,7 @@ import { useHistory } from 'react-router';
 import { MasterEntityDetailPage } from '../../common-library/common-components/master-detail-page';
 import { MasterTable } from '../../common-library/common-components/master-table';
 import { NoRecordsFoundMessage, PleaseWaitMessage } from '../../common-library/helpers/pagination-helper';
-import { detailModel, childQrBodyEntities } from './qr-mock';
+import { childQrBodyEntities } from './qr-mock';
 import { QrChild, QrParent } from './qr.model';
 import * as QrService from './services/qr.service';
 
@@ -32,14 +32,14 @@ export function MasterQrParentDetail({entity, code,...props }: MasterQrParentDet
   
   return (
     <>
-      <MasterEntityDetailPage
+      {/* <MasterEntityDetailPage
         entity={entity}
         renderInfo={detailModel}
         // mode='line'
         code={code}
         onClose={() => history.push('/qr')}
         get={QrService.GetById}
-        />
+        /> */}
     </>
   )
 }
