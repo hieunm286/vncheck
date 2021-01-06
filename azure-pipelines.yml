@@ -7,7 +7,7 @@ trigger:
 - dev
 
 pool:
-  name: 'Production'
+  name: 'default'
 
 steps:
 - task: CmdLine@2
