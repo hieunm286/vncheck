@@ -241,8 +241,10 @@ export const modifyModel: ModifyPanel = {
         _type: 'object',
         coordinates: {
           _type: 'string',
-          // placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
           label: 'Địa chỉ farm giống',
+          onClick: (e:any) => {
+            console.log(e)
+          },
           disabled: true,
           required: true,
         },

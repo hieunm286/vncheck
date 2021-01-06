@@ -235,13 +235,17 @@ function QrPage() {
                 _title: '',
                 group1: {
                   _subTitle: '',
-                  codeType: {
+                  type: {
                     _type: 'string',
                     label: 'QR.CODE_TYPE',
                   },
-                  quantity: {
+                  total: {
                     _type: 'number',
                     label: 'QR.QUANTITY',
+                  },
+                  createdBy:{
+                    _type: 'string',
+                    label: 'TEMP_TO_CREATE'
                   }
                 }
               }
