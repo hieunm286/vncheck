@@ -1002,7 +1002,6 @@ function ProductionPlan() {
               // placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
               label: 'SEEDING_LOCATION',
               onClick: (arr: any) => {
-                console.log(arr);
                 window.open(`https://google.com/maps/search/${arr[1]},+${arr[0]}`, '_blank');
               },
               style: {textDecoration: 'underline', cursor: 'pointer', color: '#27AE60'},
@@ -1032,7 +1031,6 @@ function ProductionPlan() {
             coordinates: {
               _type: 'string',
               onClick: (arr: any) => {
-                console.log(arr);
                 window.open(`https://google.com/maps/search/${arr[1]},+${arr[0]}`, '_blank');
               },
               label: 'PLANTING_LOCATION',
