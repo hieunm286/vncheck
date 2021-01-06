@@ -1,7 +1,7 @@
 import { ProductionPlanModel } from "../production-plan/production-plant.model";
 import { UserModelForQR as UserModel } from '../user/user.model';
 
-export type QrModel = CommonQr & {
+export type QrModel = CommonQr & Partial<QrPdf> & {
   _id?: string;
   code: string;
   activeBy: any;
@@ -50,4 +50,9 @@ type Location = {
 type Image = {
   hash: string;
   path: string;
+}
+
+export type QrPdf = {
+  // buffers: {data: BlobPart[]}[];
+  buffers: any;
 }
