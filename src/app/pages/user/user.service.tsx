@@ -1,6 +1,14 @@
 import axios from 'axios';
 import {API_BASE_URL} from '../../common-library/common-consts/enviroment';
-import {CreateProps, GetAllPropsServer,} from '../../common-library/common-types/common-type';
+import {
+  CountProps,
+  CreateProps, DeleteManyProps, DeleteProps,
+  GetAllPropsServer,
+  GetProps,
+  UpdateProps,
+} from '../../common-library/common-types/common-type';
+import {AgencyTypeModel} from "../agency-type-2/agency-type.model";
+import {UserModel} from "./user.model";
 
 
 export const API_URL = API_BASE_URL + '/user';
@@ -24,40 +32,33 @@ export const GetAll: GetAllPropsServer<any> = ({
   });
 };
 
-// const GetCompareFunction = ({key, orderType}: { key: string, orderType: 1 | -1 }) => {
-//   return (a: any, b: any) => {
-//     const _a = key && key != '' ? a[key] : a;
-//     const _b = key && key != '' ? b[key] : b;
-//     if (_a < _b) {
-//       return -1 * orderType;
-//     }
-//     if (_a > _b) {
-//       return 1 * orderType;
-//     }
-//     return 0;
-//   }
-// }
-// export const RoleList = ['ROLE.MANAGER', 'ROLE.ADMIN', 'ROLE.FARMER', 'ROLE.TECHNICIAN']
-//
-// export const GetRole = ({queryProps, paginationProps}: any, convertFn?: (value: string) => string): Promise<any> => {
-//   return new Promise((resolve, reject) => {
-//     const _roleList = convertFn ? RoleList.map(convertFn) : RoleList;
-//     const totalData = _roleList.filter((val, index, arr) => {
-//       return val.toLowerCase().indexOf(queryProps.role.toLowerCase()) > -1;
-//     })
-//     const data = totalData.sort(GetCompareFunction({
-//       key: paginationProps.sortBy,
-//       orderType: paginationProps.sortType === 'asc' ? 1 : -1
-//     })).slice((paginationProps.page - 1) * paginationProps.limit, paginationProps.page * paginationProps.limit);
-//
-//     resolve({
-//       code: 200,
-//       data: {
-//         data: data,
-//         paging: {page: paginationProps.page, limit: paginationProps.limit, total: totalData.length}
-//       },
-//       success: true
-//     })
-//   })
-// }
+
+export const Count: CountProps<UserModel> = (queryProps) => {
+  return axios.get(`${API_URL}/get/count`, {
+    params: {...queryProps},
+  });
+};
+
+export const GetById = (id: string) => {
+  return axios.get(`${API_BASE_URL + '/product-plan'}/${id}`);
+};
+
+
+export const Get: GetProps<UserModel> = (entity) => {
+  return axios.get(`${API_URL}/${entity._id}`);
+};
+
+export const Update: UpdateProps<UserModel> = (entity) => {
+  return axios.put(`${API_URL}/${entity._id}`, entity);
+};
+
+export const Delete: DeleteProps<UserModel> = (entity) => {
+  return axios.delete(`${API_URL}/${entity._id}`);
+};
+
+export const DeleteMany: DeleteManyProps<UserModel> = (entities) => {
+  return axios.delete(API_URL, {
+    data: {arrayEntities: entities}
+  });
+};
 

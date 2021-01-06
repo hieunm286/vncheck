@@ -18,12 +18,10 @@ import {SearchModel} from "../../common-library/common-types/common-type";
 import {MasterEntityDetailPage} from "../../common-library/common-components/master-detail-page";
 import {QrRenderDetail} from "./qr.render-info";
 import * as MultilevelSaleService from '../multilevel-sale/multilevel-sale.service';
-import User from "../account";
 import { bodyEntities, detailEntityMock } from "./qr-mock";
 import ModifyEntityDialog from "../../common-library/common-components/modify-entity-dialog";
 import { MasterQrChildDetail, MasterQrParentDetail } from "./qr-detail";
 import * as QrService from './services/qr.service';
-import * as ProductionPlanService from '../production-plan/production-plan.service';
 import {DisplayDate, DisplayDateTime} from "../../common-library/helpers/detail-helpers";
 
 const headerTitle = 'QR.MASTER.HEADER.TITLE';

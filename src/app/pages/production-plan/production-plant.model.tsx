@@ -4,7 +4,7 @@
 
 // }
 
-import { UserModel } from '../user/user.model';
+import { UserModelForQR as UserModel } from '../user/user.model';
 
 export type ProductionPlanModel = {
   step: string;
