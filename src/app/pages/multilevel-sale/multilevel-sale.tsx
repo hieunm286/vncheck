@@ -156,13 +156,6 @@ function MultilevelSale() {
   
   const MultilevelSaleSchema = Yup.object().shape({
     name: Yup.string()
-      .required('MULTIVELEVEL_SALE_NAME_CANNOT_BE_EMPTY')
-      .matches(
-        /^[aAàÀảẢãÃáÁạẠăĂằẰẳẲẵẴắẮặẶâÂầẦẩẨẫẪấẤậẬbBcCdDđĐeEèÈẻẺẽẼéÉẹẸêÊềỀểỂễỄếẾệỆfFgGhHiIìÌỉỈĩĨíÍịỊjJkKlLmMnNoOòÒỏỎõÕóÓọỌôÔồỒổỔỗỖốỐộỘơƠờỜởỞỡỠớỚợỢpPqQrRsStTuUùÙủỦũŨúÚụỤưƯừỪửỬữỮứỨựỰvVwWxXyYỳỲỷỶỹỸýÝỵỴzZ ]+$/u,
-        {
-          message: 'MULTIVELEVEL_SALE_NAME_IS_INVALID',
-        },
-      )
       .test('Exists validate', 'MULTIVELEVEL_SALE_NAME_WAS_EXISTED', function (value) {
         if (editEntity) {
           const validArr = entities.filter(item => item._id !== editEntity._id);
@@ -208,9 +201,6 @@ function MultilevelSale() {
     },
     name: {
       _type: 'string',
-      placeholder: intl.formatMessage({
-        id: 'COMMON_COMPONENT.INPUT.PLACEHOLDER',
-      }),
       required: true,
       label: intl.formatMessage({id: 'MULTILEVEL_SALE.MASTER.NAME_COLUMN'}),
     },

@@ -19,6 +19,7 @@ export interface MainInputState {
   value: any;
   placeholder: string;
   onChange?: (value: any, props: { setFieldValue: ((name: string, value: any) => void), values: any }) => any;
+  onClick?: (value: any) => any;
   required?: boolean | ((values: any) => boolean);
   disabled?: boolean | ((values: any) => boolean);
   name: string;
