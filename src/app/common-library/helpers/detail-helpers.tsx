@@ -71,7 +71,7 @@ export const DisplayDateTime = (input: string, _format?: string) => {
 export const DisplayDownloadLink = (input: any, key?: string) => {
   const intl = useIntl();
   if (!input) return <></>
-  return (<a href={key ? input[key] : input} target={'_blank'}>
+  return (<a href={key ? input[key] : input} rel="noopener noreferrer" target={'_blank'}>
     {intl.formatMessage({id: 'CLICK_TO_DOWNLOAD'})}
   </a>)
 }
@@ -106,6 +106,7 @@ export const DisplayCoordinates = (arr: string[]) => {
   return (
     <a
       href={`https://google.com/maps/search/${arr[1]},+${arr[0]}`}
+      rel="noopener noreferrer"
       target={'_blank'}>{`${arr[0]}, ${arr[1]}`}</a>
   );
 };
