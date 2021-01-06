@@ -45,4 +45,52 @@ export const imageHarvesting = {
     path: 'upload/path-to-imagexxx.png',
     hash: 'hash@9gy2ahfa234asfd96LKWQA3FOPW',
   },
-}
+};
+
+export const imagePreliminary = {
+  imageAfter: {
+    path: 'upload/path-to-imagexxx.png',
+    hash: 'hash@9gy2ahfq3o234asfd96LKWQFOPW',
+  },
+  imageBefore: {
+    path: 'upload/path-to-imagexxx.png',
+    hash: 'hash@9gy2ahfa234asfd96LKWQA3FOPW',
+  },
+  imageInProgress: {
+    path: 'upload/path-to-imagexxx.png',
+    hash: 'hash@9gy2ahfa234asfd96LKWQA3FOPW',
+  },
+};
+
+export const imageCleaning = {
+  imageAfter: {
+    path: 'upload/path-to-imagexxx.png',
+    hash: 'hash@9gy2ahfq3o234asfd96LKWQFOPW',
+  },
+  imageBefore: {
+    path: 'upload/path-to-imagexxx.png',
+    hash: 'hash@9gy2ahfa234asfd96LKWQA3FOPW',
+  },
+  imageInProgress: {
+    path: 'upload/path-to-imagexxx.png',
+    hash: 'hash@9gy2ahfa234asfd96LKWQA3FOPW',
+  },
+};
+
+export const imagePacking = {
+  sampleImage: {
+    path: 'upload/path-to-imagexxx.png',
+    hash: 'hash@9gy2ahfq3o234asfd96LKWQFOPW',
+  },
+  packingImage: {
+    path: 'upload/path-to-imagexxx.png',
+    hash: 'hash@9gy2ahfa234asfd96LKWQA3FOPW',
+  },
+};
+
+export const imagePreservation = {
+  storageImage: {
+    path: 'upload/path-to-imagexxx.png',
+    hash: 'hash@9gy2ahfq3o234asfd96LKWQFOPW',
+  },
+};

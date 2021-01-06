@@ -96,3 +96,105 @@ export const groupHarvesting = {
     }
   ],
 };
+
+export const groupPreliminary = {
+  manager: {
+    fullName: 'Tổng giám đốc sơ chế'
+  },
+  leader: [
+    {
+      fullName: 'Người tổ trưởng sơ chế 1',
+    }, 
+    {
+      fullName: 'Người tổ trưởng sơ chế 2',
+    }
+  ],
+  technical: [
+    {
+      fullName: 'Người kĩ thuật sơ chế 1',
+    }, 
+    {
+      fullName: 'Người kĩ thuật sơ chế 2',
+    }
+  ],
+  worker: [
+    {
+      fullName: 'Người công nhân sơ chế 1',
+    }, 
+    {
+      fullName: 'Người công nhân sơ chế 2',
+    }
+  ],
+};
+
+export const groupCleaning = {
+  manager: {
+    fullName: 'Tổng giám đốc làm sạch'
+  },
+  leader: [
+    {
+      fullName: 'Người tổ trưởng làm sạch 1',
+    }, 
+    {
+      fullName: 'Người tổ trưởng làm sạch 2',
+    }
+  ],
+  technical: [
+    {
+      fullName: 'Người kĩ thuật làm sạch 1',
+    }, 
+    {
+      fullName: 'Người kĩ thuật làm sạch 2',
+    }
+  ],
+  worker: [
+    {
+      fullName: 'Người công nhân làm sạch 1',
+    }, 
+    {
+      fullName: 'Người công nhân làm sạch 2',
+    }
+  ],
+
+  // Redundant field
+  technicalStaff: [
+    {
+      _id: 'redundant field',
+      isRecieved: false,
+      info: 'redundant field'
+    }
+  ],
+};
+
+export const groupPacking = {
+  manager: {
+    fullName: 'Tổng giám đốc đóng gói'
+  },
+  leader: [
+    {
+      fullName: 'Người tổ trưởng đóng gói 1',
+    }, 
+    {
+      fullName: 'Người tổ trưởng đóng gói 2',
+    }
+  ],
+};
+
+export const groupPreservation = {
+  technical: [
+    {
+      fullName: 'Người kĩ thuật bảo quản 1',
+    }, 
+    {
+      fullName: 'Người kĩ thuật bảo quản 2',
+    }
+  ],
+  worker: [
+    {
+      fullName: 'Người công nhân bảo quản 1',
+    }, 
+    {
+      fullName: 'Người công nhân bảo quản 2',
+    }
+  ],
+};

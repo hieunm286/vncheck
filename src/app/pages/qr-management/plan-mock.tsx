@@ -64,4 +64,25 @@ export const planHarvesting = {
   landLot: 'A34',
   startTime: new Date(),
   endTime: new Date(),
-}
+};
+
+export const planPreliminary = {
+  startTime: new Date(),
+  endTime: new Date(),
+  realQuantity: 11,
+};
+
+export const planCleaning = {
+  startTime: new Date(),
+  endTime: new Date(),
+  realQuantity: 11,
+};
+
+export const planPacking = {
+
+};
+
+export const planPreservation = {
+
+};
+

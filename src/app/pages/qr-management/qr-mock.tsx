@@ -18,8 +18,14 @@ export const bodyEntities: QrModel[] = [
       _id: '',
       firstName: 'Nguyễn',
       lastName: 'Đức Chiến',
+      fullName: 'Nguyễn Đức Chiến',
     }, 
-    activeBy: '3', 
+    activeBy: {
+      _id: '',
+      firstName: 'Nguyễn',
+      lastName: 'Đức Chiến',
+      fullName: 'Nguyễn Đức Chiến',
+    }, 
     createdAt: new Date(),
     activeAt: new Date(), 
     codeType: 'Sản phẩm', 
@@ -30,8 +36,14 @@ export const bodyEntities: QrModel[] = [
       _id: '',
       firstName: 'Phạm',
       lastName: 'Minh Nguyệt',
+      fullName: 'Phạm Minh Nguyệt',
     }, 
-    activeBy: '3', 
+    activeBy: {
+      _id: '',
+      firstName: 'Phạm',
+      lastName: 'Minh Nguyệt',
+      fullName: 'Phạm Minh Nguyệt',
+    }, 
     createdAt: new Date(),
     activeAt: new Date(), 
     codeType: 'Đóng gói', 
@@ -45,8 +57,14 @@ export const childQrBodyEntities: QrModel[] = [
       _id: '',
       firstName: 'Nguyễn',
       lastName: 'Đức Chiến',
+      fullName: 'Nguyễn Đức Chiến',
     }, 
-    activeBy: '3', 
+    activeBy: {
+      _id: '',
+      firstName: 'Nguyễn',
+      lastName: 'Đức Chiến',
+      fullName: 'Nguyễn Đức Chiến',
+    }, 
     createdAt: new Date(),
     activeAt: new Date(), 
     codeType: 'Sản phẩm', 
@@ -57,8 +75,14 @@ export const childQrBodyEntities: QrModel[] = [
       _id: '',
       firstName: 'Phạm',
       lastName: 'Minh Nguyệt',
+      fullName: 'Phạm Minh Nguyệt',
     }, 
-    activeBy: '3', 
+    activeBy: {
+      _id: '',
+      firstName: 'Phạm',
+      lastName: 'Minh Nguyệt',
+      fullName: 'Phạm Minh Nguyệt',
+    },  
     createdAt: new Date(),
     activeAt: new Date(), 
     codeType: 'Sản phẩm', 
@@ -74,8 +98,14 @@ export const detailEntityMock: QrModel = {
     _id: '',
     firstName: 'Nguyễn',
     lastName: 'Đức Chiến',
+    fullName: 'Nguyễn Đức Chiến',
   }, 
-  activeBy: '3', 
+  activeBy: {
+    _id: '',
+    firstName: 'Nguyễn',
+    lastName: 'Đức Chiến',
+    fullName: 'Nguyễn Đức Chiến',
+  }, 
   createdAt: new Date(),
   activeAt: new Date(), 
   codeType: 'Sản phẩm', 
@@ -100,6 +130,66 @@ export const detailEntityMock: QrModel = {
       ...image.imageHarvesting,
       ...plan.planHarvesting,
     },
+    preliminaryTreatment: {
+      _id: 'mongoid@q2rRVagnq10jgnArabzpr',
+      ...plan.planPreliminary,
+      ...image.imagePreliminary,
+      ...group.groupPreliminary,
+      
+      // Redundant fields
+      time: new Date(),
+      quantity: 12,
+      technicalStaff: [
+        {
+          _id: '',
+          isRecieved: false,
+          info: '', 
+        },
+      ],
+    },
+    cleaning: {
+      _id: 'mongoid@q2rRVagnq10jgnArabzpr',
+      ...plan.planCleaning,
+      ...image.imageCleaning,
+      ...group.groupCleaning,
+      
+      // Redundant fields
+      time: new Date(),
+      quantity: 12,
+      technicalStaff: [
+        {
+          _id: '',
+          isRecieved: false,
+          info: '', 
+        },
+      ],
+    },
+    packing: {
+      _id: 'mongoid@q2rRVagnq10jgnArabzpr',
+      ...group.groupPacking,
+      
+      // Redundant fields
+      quantity: 12,
+    },
+    preservation: {
+      _id: 'mongoid@q2rRVagnq10jgnArabzpr',
+      startTime: new Date(),
+      endTime: new Date(),
+      location: {
+        type: 'latitude',
+        coordinates: ['24N', '34E'],
+      },
+      temperature: 8,
+      ...group.groupPreservation,
+
+      technicalStaff: [
+        {
+          _id: '',
+          isRecieved: false,
+          info: '', 
+        },
+      ],
+    }
   }
 }
 

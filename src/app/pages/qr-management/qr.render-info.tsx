@@ -161,8 +161,13 @@ const harvestingInfo : RenderInfoDetail = [{
     'productPlan.harvesting.time' : {
       title: 'Thời gian thu hoạch',
       formatter: (input, entity) => {return (
-        <>{entity.productPlan.harvesting.startTime.toLocaleDateString() + ', ' + 
-        entity.productPlan.harvesting.endTime.toLocaleDateString()}</>
+        <>{ (entity.productPlan.harvesting.startTime && entity.productPlan.harvesting.endTime) 
+          ?
+            (entity.productPlan.harvesting.startTime.toLocaleDateString() + ', ' + 
+            entity.productPlan.harvesting.endTime.toLocaleDateString())
+          : 
+            ''
+        }</>
       )},
     },
     'productPlan.harvesting.realQuantity' : {
@@ -218,9 +223,17 @@ const preliminaryTreatmentInfo : RenderInfoDetail = [{
   data: {
     'productPlan.preliminaryTreatment.time' : {
       title: 'Thời gian sơ chế',
-      formatter: (input, entity) => DisplayDiffTime(input, entity)
+      formatter: (input, entity) => {return (<>
+        { (entity.productPlan.preliminaryTreatment.startTime && entity.productPlan.preliminaryTreatment.endTime) 
+          ?
+            (entity.productPlan.preliminaryTreatment.startTime.toLocaleDateString() + ', ' + 
+            entity.productPlan.preliminaryTreatment.endTime.toLocaleDateString())
+          : 
+            ''
+        }</>
+      )},
     },
-    'productPlan.preliminaryTreatment.' : {
+    'productPlan.preliminaryTreatment.realQuantity' : {
       title: 'Sản lượng sau sơ chế',
     },
     'productPlan.preliminaryTreatment.imageBefore' : {
@@ -261,9 +274,17 @@ const cleaningInfo : RenderInfoDetail = [{
   data: {
     'productPlan.cleaning.time' : {
       title: 'Thời gian làm sạch',
-      formatter: (input, entity) => DisplayDiffTime(input, entity)
+      formatter: (input, entity) => {return (<>
+        { (entity.productPlan.cleaning.startTime && entity.productPlan.cleaning.endTime) 
+          ?
+            (entity.productPlan.cleaning.startTime.toLocaleDateString() + ', ' + 
+            entity.productPlan.cleaning.endTime.toLocaleDateString())
+          : 
+            ''
+        }</>
+      )},
     },
-    'productPlan.cleaning.' : {
+    'productPlan.cleaning.realQuantity' : {
       title: 'Sản lượng sau làm sạch',
     },
     'productPlan.cleaning.imageBefore' : {
@@ -319,17 +340,19 @@ const packingInfo : RenderInfoDetail = [{
       title: 'Hình ảnh sau khi đóng gói',
       formatter: DisplayImage
     },
-    'productPlan.packing.4' : {
+    'createdAt' : {
       title: 'Ngày gán QR',
+      formatter: (input) => DisplayDateTime(input)
     },
-    'productPlan.packing.5' : {
+    'activeBy.fullName' : {
       title: 'Người gán QR',
     },
-    'productPlan.packing.6' : {
+    'createdBy.fullName' : {
       title: 'Người kích hoạt',
     },
-    'productPlan.packing.7' : {
+    'activeAt' : {
       title: 'Ngày kích hoạt',
+      formatter: (input) => DisplayDateTime(input)
     },
     'productPlan.packing.manager.fullName' : {
       title: 'Tổng giám đốc',
@@ -347,16 +370,27 @@ const preservationInfo : RenderInfoDetail = [{
   titleClassName: 'col-3 mb-10',
   dataClassName: 'col-9 mb-10 pl-5',
   data: {
-    'productPlan.preservation.1' : {
+    'productPlan.preservation.time' : {
       title: 'Thời gian bảo quản',
+      formatter: (input, entity) => {return (<>
+        { (entity.productPlan.preservation.startTime && entity.productPlan.preservation.endTime) 
+          ?
+            (entity.productPlan.preservation.startTime.toLocaleDateString() + ', ' + 
+            entity.productPlan.preservation.endTime.toLocaleDateString())
+          : 
+            ''
+        }</>
+      )},
     },
-    'productPlan.preservation.2' : {
+    'productPlan.preservation.location.[coordinates]' : {
       title: 'Địa điểm bảo quản',
+      formatter: DisplayCoordinates,
     },
-    'productPlan.preservation.3' : {
+    'productPlan.preservation.temperature' : {
       title: 'Nhiệt độ bảo quản',
+      formatter: DisplayCelcius
     },
-    'productPlan.preservation.4' : {
+    'productPlan.preservation.storageImage' : {
       title: 'Hình ảnh bảo quản',
       formatter: DisplayImage
     },

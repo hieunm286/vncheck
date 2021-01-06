@@ -4,7 +4,12 @@ import { UserModelForQR as UserModel } from '../user/user.model';
 export type QrModel = CommonQr & Partial<QrPdf> & {
   _id?: string;
   code: string;
-  activeBy: any;
+  activeBy: {
+    _id: string;
+    firstName: string;
+    lastName: string;
+    fullName: string;
+  },
   activeAt: Date;
   codeType: string;
   productPlan?: CommonQr & {
@@ -28,6 +33,39 @@ export type QrModel = CommonQr & Partial<QrPdf> & {
       code: string;
       startTime: Date;
       endTime: Date;
+    },
+    preliminaryTreatment: {
+      startTime: Date;
+      endTime: Date;
+      realQuantity: number;
+      imageInProgress: Location | Image;
+      imageBefore: Location | Image;
+      imageAfter: Location | Image;
+    },
+    cleaning: {
+      startTime: Date;
+      endTime: Date;
+      realQuantity: number;
+      imageInProgress: Location | Image;
+      imageBefore: Location | Image;
+      imageAfter: Location | Image;
+      leader: string[] | UserModel[];
+      worker: string[] | UserModel[];
+      manager: string | UserModel;
+      technical: string[] | UserModel[];
+    },
+    packing: {
+      leader: string[] | UserModel[];
+      manager: string | UserModel;
+      quantity: number;
+    },
+    preservation: {
+      startTime: Date;
+      endTime: Date;
+      temperature: number;
+      worker: string[] | UserModel[];
+      technical: string[] | UserModel[];
+      location: Location;
     }
   };
 }

@@ -127,6 +127,7 @@ export type ProductionPlanModel = {
     _id: string;
     firstName: string;
     lastName: string;
+    fullName: string;
   },
   comments?: any[];
   createdAt: Date;
