@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react"
 import {DetailImage} from "../common-components/detail/detail-image";
 import {format} from "date-fns";
-import {useIntl} from "react-intl";
+import {IntlShape, useIntl} from "react-intl";
 import {MasterTable} from "../common-components/master-table";
 import {MasterBodyColumns, PaginationProps} from "../common-types/common-type";
 import {GetCompareFunction} from "./common-function";
@@ -111,14 +111,31 @@ export const DisplayCoordinates = (arr: string[]) => {
   );
 };
 
+export const Display3Info = (image: any, _: any, intl: IntlShape) => {
+  return (<>
+    <div className={'titleeee mb-1'}>{intl.formatMessage({id: 'IMAGE.TAKEN_BY'})}
+      {image.takenBy?.fullName ?? intl.formatMessage({id: 'NO_INFORMATION'})}
+    </div>
+    <div
+      className={'titleeee mb-1'}>{intl.formatMessage({id: 'IMAGE.TAKEN_TIME'})}
+      {image.takenTime ? DisplayDateTime(image.takenTime) : intl.formatMessage({id: 'NO_INFORMATION'})}</div>
+    <div
+      className={'titleeee mb-1'}>{intl.formatMessage({id: 'IMAGE.LOCATION'})}
+      {image.location?.coordinates ? DisplayCoordinates(image.location?.coordinates) : intl.formatMessage({id: 'NO_INFORMATION'})}
+    </div>
+  </>)
+}
+
 export const DisplayImage = (images: any, renderInfo?: { title?: string, data?: { [KeyField: string]: string } }) => {
   return (<DetailImage images={images} renderInfo={renderInfo}/>)
 }
 
-export const DisplayDiffTime = (input: any, entity: any) => {return (
-  <>
-    {(entity.endTime && entity.startTime) ? entity.endTime.toLocaleString() + ', ' + entity.startTime.toLocaleString() 
-    : ''
-    }
-  </>
-  )}
+export const DisplayDiffTime = (input: any, entity: any) => {
+  return (
+    <>
+      {(entity.endTime && entity.startTime) ? entity.endTime.toLocaleString() + ', ' + entity.startTime.toLocaleString()
+        : ''
+      }
+    </>
+  )
+}
