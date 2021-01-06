@@ -1033,6 +1033,7 @@ function ProductionPlan() {
               onClick: (arr: any) => {
                 window.open(`https://google.com/maps/search/${arr[1]},+${arr[0]}`, '_blank');
               },
+              style: {textDecoration: 'underline', cursor: 'pointer', color: '#27AE60'},
               label: 'PLANTING_LOCATION',
               disabled: true,
               required: true,
