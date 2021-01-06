@@ -23,6 +23,7 @@ export function MainInput({
                             disabled,
                             required,
                             placeholder,
+                            onClick,
                             ...props
                           }: MainInputState) {
   const styleInput = {
@@ -46,7 +47,10 @@ export function MainInput({
             </label>
           </div>
         )}
-        <div className={mode === 'horizontal' ? GetClassName(labelWidth, false) : ''}>
+        <div onClick={(e) => {
+          onClick && onClick(field.value)
+        }}
+             className={mode === 'horizontal' ? GetClassName(labelWidth, false) : ''}>
           <input
             type={type === 'string-number' ? 'text' : type}
             style={width && styleInput}
@@ -58,11 +62,11 @@ export function MainInput({
                 : ''
             }
             min={type === 'number' ? 0 : undefined}
-            disabled={_disabled}
             {...field}
             {...props}
             placeholder={_disabled ? '' : intl.formatMessage({id: placeholder}, {label: _.isString(_label) ? _label : ''})}
             value={field.value ?? ''}
+            disabled={_disabled}
             onChange={(e) => {
               if (type === 'string-number') {
                 const test = /^\d+$/.test(e.target.value);

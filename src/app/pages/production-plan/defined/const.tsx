@@ -66,7 +66,7 @@ export const productPlanSearchModel1: SearchModel = {
   estimatedHarvestTime: {
     type: 'date-time',
     name: 'product_plan.planting.estimatedHarvestTime',
-    label: <Fix title={'PRODUCTION_PLAN.HARVEST_DATE'}/>,
+    label: 'PRODUCTION_PLAN.HARVEST_DATE',
   },
 };
 
@@ -74,7 +74,6 @@ export const productPlanSearchModel2: SearchModel = {
   code: {
     type: 'string',
     label: 'PRODUCTION_PLAN.CODE',
-    placeholder: 'PRODUCTION_PLAN.INPUT',
     keyField: 'planCode',
   },
   seedingCode: {
@@ -241,7 +240,6 @@ export const modifyModel: ModifyPanel = {
         _type: 'object',
         coordinates: {
           _type: 'string',
-          // placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
           label: 'Địa chỉ farm giống',
           disabled: true,
           required: true,

@@ -6,7 +6,7 @@ import {MasterBody} from '../../common-library/common-components/master-body';
 import {ActionsColumnFormatter} from '../../common-library/common-components/actions-column-formatter';
 import {DeleteEntityDialog} from '../../common-library/common-components/delete-entity-dialog';
 import DeleteManyEntitiesDialog from '../../common-library/common-components/delete-many-entities-dialog';
-import {InitMasterProps,} from '../../common-library/helpers/common-function';
+import {InitMasterProps, InitValues,} from '../../common-library/helpers/common-function';
 import {Route, Switch, useHistory} from 'react-router-dom';
 import EntityCrudPage from '../../common-library/common-components/entity-crud-page';
 import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
@@ -301,18 +301,6 @@ function Species() {
   );
   const updateForm = useMemo((): ModifyForm => ({...createForm, _header: updateTitle}), [createForm]);
   
-  const initForm = useMemo(
-    () => ({
-      code: '',
-      name: '',
-      barcode: '',
-      images: [],
-      growingDays: '',
-      plantingDays: '',
-      expiryDays: '',
-    }),
-    [],
-  );
   
   const allFormButton: any = {
     type: 'inside',
@@ -337,6 +325,9 @@ function Species() {
       },
     },
   };
+  const initValues = useMemo(() =>( {
+    ...InitValues(createForm), code: undefined
+  }), [createForm]);
   
   return (
     <Fragment>
@@ -377,7 +368,7 @@ function Species() {
       <Switch>
         <Route path="/species/new">
           <EntityCrudPage
-            entity={initForm}
+            entity={initValues}
             onModify={add}
             get={() => null}
             formModel={createForm}
