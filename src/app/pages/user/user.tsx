@@ -102,7 +102,7 @@ function User() {
       align: 'center',
     },
       {
-        dataField: 'displayName',
+        dataField: 'fullName',
         text: `${intl.formatMessage({id: 'USER.MASTER.TABLE.DISPLAY_NAME'})}`,
         ...SortColumn,
         align: 'center',
