@@ -7,6 +7,7 @@ import {Link, Route, Switch, useHistory} from 'react-router-dom';
 import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import * as ProductionPlanService from './production-plan.service';
+import * as UserService from '../user/user.service';
 import {ProductionPlanModel} from './production-plant.model';
 import ProductionPlanBody from './production-plant-body';
 import './style/production-plan.scss';
@@ -265,18 +266,22 @@ function ProductionPlan() {
   
   const [step, setStep] = useState('0');
   
-  const {authState, usersState} = useSelector(
+  const [userData, setUserData] = useState<any[]>([]);
+  
+  useEffect(() => {
+    UserService.GetAll({queryProps:{}}).then(e=>{
+      console.log(e);
+      setUserData(e.data);
+    })
+  },[])
+  
+  const {authState} = useSelector(
     (state: any) => ({
       authState: state.auth,
-      usersState: state.users,
     }),
     shallowEqual,
   );
   const {username, role} = authState;
-  
-  const userData = usersState.entities;
-  
-  console.log(spinning);
   
   useEffect(() => {
     if (currentTab === '0') {
@@ -1148,8 +1153,6 @@ function ProductionPlan() {
     }),
     [userData],
   );
-  
-  console.log(userData);
   
   const modifyModel4 = useMemo(
     (): ModifyPanel => ({
