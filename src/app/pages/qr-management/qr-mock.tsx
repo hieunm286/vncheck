@@ -1,11 +1,9 @@
-import { RenderInfoDetail } from "../../common-library/common-types/common-type";
-import { QrModel, QrParent } from "./qr.model";
 import * as React from 'react';
-import * as group from './mocks/user-mock'; 
+import * as group from './mocks/user-mock';
 import * as image from './mocks/image-mock';
 import * as plan from './mocks/plan-mock';
 
-import { createIntl, createIntlCache } from 'react-intl';
+import {createIntl, createIntlCache} from 'react-intl';
 import viMessage from '../../layout/i18n/messages/vi.json'; //your messages translated with id
 
 const cache = createIntlCache();
@@ -56,15 +54,15 @@ export const mobileSaleMock = {
   }
 };
 
-export const bodyEntities: QrModel[] = [
+export const bodyEntities: any[] = [
   {
-    code: '123456', 
+    code: '123456',
     createdBy: {
       _id: '',
       firstName: 'Nguyễn',
       lastName: 'Đức Chiến',
       fullName: 'Nguyễn Đức Chiến',
-    }, 
+    },
     activeBy: {
       _id: '',
       firstName: 'Nguyễn',
@@ -111,15 +109,15 @@ export const bodyEntities: QrModel[] = [
   },
 ];
 
-export const childQrBodyEntities: QrModel[] = [
+export const childQrBodyEntities: any[] = [
   {
-    code: '1tql', 
+    code: '1tql',
     createdBy: {
       _id: '',
       firstName: 'Nguyễn',
       lastName: 'Đức Chiến',
       fullName: 'Nguyễn Đức Chiến',
-    }, 
+    },
     activeBy: {
       _id: '',
       firstName: 'Nguyễn',
@@ -167,16 +165,14 @@ export const childQrBodyEntities: QrModel[] = [
 ];
 
 
-
-
-export const detailEntityMock: QrModel = {
-  code: '1tql', 
+export const detailEntityMock: any = {
+  code: '1tql',
   createdBy: {
     _id: '',
     firstName: 'Nguyễn',
     lastName: 'Đức Chiến',
     fullName: 'Nguyễn Đức Chiến',
-  }, 
+  },
   activeBy: {
     _id: '',
     firstName: 'Nguyễn',

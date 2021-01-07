@@ -1,19 +1,19 @@
 import React from "react";
-import { SortColumn } from "../../common-library/common-consts/const";
-import {MasterBodyColumns, RenderInfoDetail} from "../../common-library/common-types/common-type";
+import {SortColumn} from "../../common-library/common-consts/const";
+import {RenderInfoDetail} from "../../common-library/common-types/common-type";
 import {
   DisplayArray,
   DisplayCelcius,
   DisplayCoordinates,
-  DisplayDateTime, DisplayDiffTime, DisplayImage,
-  DisplayDownloadLink, DisplayPercent, DisplayTable
+  DisplayDateTime,
+  DisplayDownloadLink,
+  DisplayImage,
+  DisplayPercent,
+  DisplayTable
 } from "../../common-library/helpers/detail-helpers";
-import {
-  ActionsColumnFormatter,
-  TickColumnFormatter
-} from '../../common-library/common-components/actions-column-formatter';
 
-import { mobileSaleMock } from './qr-mock';
+import {mobileSaleMock} from './qr-mock';
+import {ColumnDescription} from "react-bootstrap-table-next";
 
 export const producerInfo: RenderInfoDetail = [{
   header: 'Doanh nghiệp sản xuất',
@@ -414,11 +414,13 @@ export const preservationInfo : RenderInfoDetail = [{
 }];
 
 
-export const shippingInfoColumns : MasterBodyColumns = [
+export const shippingInfoColumns: ColumnDescription[] = [
   {
     dataField: 'exportTime',
     text: 'Thời gian xuất hàng',
-    formatter: (date: string) => {return DisplayDateTime(date);},
+    formatter: (date: string) => {
+      return DisplayDateTime(date);
+    },
     ...SortColumn,
     align: 'center',
   },
