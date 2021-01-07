@@ -113,7 +113,11 @@ export const DisplayCoordinates = (arr: string[]) => {
 };
 
 export const DisplayImage = (images: any, renderInfo?: { title?: string, data?: { [KeyField: string]: string } }) => {
+  console.log(images)
+  console.log(renderInfo)
+  
   return (<DetailImage images={images} renderInfo={renderInfo}/>)
+  // return (<DetailImage width={width} height={height} images={images} renderInfo={renderInfo}/>)
 }
 
 export const DisplayDiffTime = (input: any, entity: any) => {return (

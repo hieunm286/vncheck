@@ -30,12 +30,13 @@ import { bodyEntities, detailEntityMock, mobileSaleMock } from "./qr-mock";
 import ModifyEntityDialog from "../../common-library/common-components/modify-entity-dialog";
 import { MasterQrChildDetail, MasterQrParentDetail } from "./qr-detail";
 import * as QrService from './qr.service';
-import {DisplayArray, DisplayDate, DisplayDateTime, DisplayTable} from "../../common-library/helpers/detail-helpers";
+import {DisplayArray, DisplayDate, DisplayDateTime, DisplayImage, DisplayTable} from "../../common-library/helpers/detail-helpers";
 import {toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import _, {isArray, isEmpty} from 'lodash';
 import {AxiosResponse} from 'axios';
 import { ActionsColumnFormatter } from "../../common-library/common-components/actions-column-formatter";
+import { MasterEntityDetailDialog } from "../../common-library/common-components/master-entity-detail-dialog";
 
 const headerTitle = 'QR.MASTER.HEADER.TITLE';
 const tableTitle = 'SHIPPING_AGENCY.MASTER.TABLE.TITLE';
@@ -103,6 +104,7 @@ function QrPage() {
   }, [paginationProps, filterProps]);
 
   const [qrType, setQrType] = useState<string>();
+  const [showImage, setShowImage] = useState<boolean>(false);
   
   
   const columns = useMemo(() => {
@@ -216,7 +218,7 @@ function QrPage() {
           return (
           <>
             {ActionsColumnFormatter(cell, row, rowIndex, {
-              onShowDetail: (cell: any) => console.log(cell),
+              onShowDetail: (cell: any) => {setShowImage(true)},
               intl
             })}
           </>
@@ -254,6 +256,49 @@ function QrPage() {
     ...shippingInfo,
     ...distributionInfo,
     ...sellStatus
+  ];
+
+  const imageRenderDetail: RenderInfoDetail = [
+    {
+      header: '',
+      className: 'col-12',
+      titleClassName: '',
+      dataClassName: 'col-12',
+      data: {
+        'productPlan.packing.packingImage' : {
+          title: '',
+          formatter: DisplayImage,
+        },
+      },
+    },
+    {
+      header: '',
+      className: 'col-12',
+      titleClassName: '',
+      dataClassName: 'row mb-3 pl-5',
+      data: {
+        'code' : {
+          title: 'Mã QR sản phẩm',
+        },
+        'productPlan.seeding.species.name' : {
+          title: 'Thông tin sản phẩm',
+        },
+        'productPlan.packing.1' : {
+          title: 'Người chụp',
+        },
+        'activeBy.fullName' : {
+          title: 'Người gán mã',
+        },
+        'activeAt' : {
+          title: 'Thời gian gán mã',
+          formatter: (date: string) => DisplayDateTime(date),
+        },
+        'productPlan.packing.2' : {
+          title: 'Địa điểm chụp',
+        },
+      },
+      // titleClassName: 'col-3'
+    },
   ];
   
   return (
@@ -346,14 +391,29 @@ function QrPage() {
         <Route path="/qr/:code">
           {({history, match}) => {
             return (
-            <MasterEntityDetailPage
-              entity={detailEntityMock}
-              renderInfo={QrRenderDetail} // renderInfo={detailModel}
-              code={match && match.params.code}
-              onClose={() => history.push('/qr')}
-              // get={QrService.GetById}
-              get={null}
-            />
+              <>
+              <MasterEntityDetailPage
+                entity={detailEntityMock}
+                renderInfo={QrRenderDetail} // renderInfo={detailModel}
+                code={match && match.params.code}
+                onClose={() => history.push('/qr')}
+                // get={QrService.GetById}
+                get={null}
+              />
+
+              <MasterEntityDetailDialog
+                title='Hình ảnh'
+                moduleName='Hình ảnh'
+                show={showImage}
+                entity={detailEntityMock}
+                renderInfo={imageRenderDetail}
+                onHide={() => {
+                    setShowImage(false)
+                  }
+                }
+                size='sm'
+              />
+            </>
           );}}
         </Route>
         <Route path="/qr/qr-child/123456">
