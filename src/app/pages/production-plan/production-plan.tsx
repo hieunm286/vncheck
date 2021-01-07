@@ -1189,6 +1189,7 @@ function ProductionPlan() {
             disabled: (values: any) => {
               return _.parseInt(values.process) >= preliminaryTreatmentProcess;
             },
+           
           },
           estimatedQuantity: {
             _type: 'number',
@@ -1245,6 +1246,7 @@ function ProductionPlan() {
             disabled: (values: any) => {
               return _.parseInt(values.process) >= cleaningProcess;
             },
+           
           },
           estimatedQuantity: {
             _type: 'number',
@@ -1303,6 +1305,7 @@ function ProductionPlan() {
             disabled: (values: any) => {
               return _.parseInt(values.process) >= packingProcess;
             },
+           
           },
           estimatedExpireTimeStart: {
             _type: 'date-time',
@@ -1311,6 +1314,7 @@ function ProductionPlan() {
             disabled: (values: any) => {
               return _.parseInt(values.process) >= packingProcess;
             },
+            
           },
           estimatedExpireTimeEnd: {
             _type: 'date-time',
@@ -1319,6 +1323,7 @@ function ProductionPlan() {
             disabled: (values: any) => {
               return _.parseInt(values.process) >= packingProcess;
             },
+            
           },
           packing: {
             _type: 'search-select',
@@ -1395,6 +1400,7 @@ function ProductionPlan() {
             disabled: (values: any) => {
               return _.parseInt(values.process) >= preservationProcess;
             },
+          
           },
           estimatedEndTime: {
             _type: 'date-time',
@@ -1403,6 +1409,7 @@ function ProductionPlan() {
             disabled: (values: any) => {
               return _.parseInt(values.process) >= preservationProcess;
             },
+          
           },
         },
       },
@@ -1552,7 +1559,7 @@ function ProductionPlan() {
             onSearch={value => {
               setPaginationProps(DefaultPagination);
               const cvValue = JSON.parse(JSON.stringify(value));
-
+          
               if (
                 value.product_plan &&
                 value.product_plan.seeding &&

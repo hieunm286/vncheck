@@ -743,18 +743,27 @@ function ProductionManagement() {
               title={'Tìm kiếm'}
               onSearch={value => {
                 setPaginationProps(DefaultPagination);
-                const cvValue = JSON.parse(JSON.stringify(value));
+                // if (!value || _.isEmpty(value) || ) {
+                //   setFilterProps({});
+                // } else {
+                  const cvValue = JSON.parse(JSON.stringify(value));
 
-                if (
-                  value.product_plan &&
-                  value.product_plan.seeding &&
-                  value.product_plan.seeding.species &&
-                  _.isObject(value.product_plan.seeding.species)
-                ) {
-                  cvValue.product_plan.seeding.species = value.product_plan.seeding.species._id;
-                }
+                  if (
+                    value.product_plan &&
+                    value.product_plan.seeding &&
+                    value.product_plan.seeding.species &&
+                    _.isObject(value.product_plan.seeding.species)
+                  ) {
+                    cvValue.product_plan.seeding.species = value.product_plan.seeding.species._id;
+                  }
+  
+                  // ProductionPlanService.Search(value, {DefaultPagination}).then(res => {
+                  //   const data: any = res.data
+                  //   setEntities(data.data ? data.data : data);
+                  // })
+                
+                  setFilterProps({ ...cvValue });
 
-                setFilterProps({ ...cvValue });
               }}
               searchModel={getSearchModel()}
             />

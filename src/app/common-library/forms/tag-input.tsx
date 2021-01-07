@@ -43,6 +43,7 @@ function TagInput({
   const validate = useCallback((value: any): string | void => {
     if (required && !value) return 'RADIO.ERROR.REQUIRED';
   }, [required, value]);
+  console.log(tagData)
   const [field] = useField({name, validate});
   const {setFieldValue, errors, touched, getFieldMeta, values} = useFormikContext<any>();
   
