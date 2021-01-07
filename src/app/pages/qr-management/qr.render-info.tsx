@@ -79,7 +79,7 @@ export const seedingInfo: RenderInfoDetail = [{
       title: 'Độ xốp',
       formatter: DisplayPercent,
     },
-    'productPlan.seeding.imageAfter': {
+    'productPlan.planting.imageBefore': {
       title: 'Hình ảnh trước khi đưa vào nuôi trồng',
       formatter: DisplayImage
     },
@@ -121,7 +121,7 @@ export const plantingInfo: RenderInfoDetail = [{
       title: 'PLANTING.FARM_LOCATION',
       formatter: DisplayCoordinates
     },
-    'productPlan.planting.landLotImage': {
+    'productPlan.seeding.landLotImage': {
       title: 'Hình ảnh định vị lô luống',
       formatter: DisplayImage
     },

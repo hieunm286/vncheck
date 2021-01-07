@@ -12,6 +12,8 @@ export type QrModel = CommonQr & Partial<QrPdf> & {
   },
   activeAt: Date;
   codeType: string;
+  takenBy: UserModel;
+  takenLocation: Location;
   productPlan?: CommonQr & {
     seeding: {
       technical: string[] | {fullName: string}[];
@@ -24,7 +26,7 @@ export type QrModel = CommonQr & Partial<QrPdf> & {
       farmLocation: Location | Image;
       imageBefore: Location | Image;
       imageAfter: Location | Image;
-      imageInProgress: Location[] | Image[];
+      imageInProgress: Location[] | Image[] | (Location & Image)[];
       area: number;
       realQuantity: number;
       temperature: number;
@@ -61,7 +63,8 @@ export type QrModel = CommonQr & Partial<QrPdf> & {
       quantity: number;
       packing: {
         code: string;
-      }
+      };
+      packingImage: Image | Location;
     };
     preservation: {
       startTime: Date;

@@ -30,14 +30,17 @@ import { bodyEntities, detailEntityMock, mobileSaleMock } from "./qr-mock";
 import ModifyEntityDialog from "../../common-library/common-components/modify-entity-dialog";
 import { MasterQrChildDetail, MasterQrParentDetail } from "./qr-detail";
 import * as QrService from './qr.service';
-import {DisplayArray, DisplayDate, DisplayDateTime, DisplayImage, DisplayTable} from "../../common-library/helpers/detail-helpers";
+import {DisplayArray, DisplayCoordinates, DisplayDate, DisplayDateTime, DisplayImage, DisplayTable} from "../../common-library/helpers/detail-helpers";
 import {toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import _, {isArray, isEmpty} from 'lodash';
 import {AxiosResponse} from 'axios';
 import { ActionsColumnFormatter } from "../../common-library/common-components/actions-column-formatter";
 import { MasterEntityDetailDialog } from "../../common-library/common-components/master-entity-detail-dialog";
+import { DetailImage } from "../../common-library/common-components/detail/detail-image";
+import { Select } from 'antd';
 
+const Option = { Select };
 const headerTitle = 'QR.MASTER.HEADER.TITLE';
 const tableTitle = 'SHIPPING_AGENCY.MASTER.TABLE.TITLE';
 const detailDialogTitle = 'SHIPPING_AGENCY.DETAIL_DIALOG.TITLE';
@@ -267,7 +270,9 @@ function QrPage() {
       data: {
         'productPlan.packing.packingImage' : {
           title: '',
-          formatter: DisplayImage,
+          formatter: (input, entity) => { 
+            return (<DetailImage images={input} renderInfo={entity} className='text-center' width={300} height={300} />);
+          }
         },
       },
     },
@@ -283,7 +288,7 @@ function QrPage() {
         'productPlan.seeding.species.name' : {
           title: 'Thông tin sản phẩm',
         },
-        'productPlan.packing.1' : {
+        'takenBy.fullName' : {
           title: 'Người chụp',
         },
         'activeBy.fullName' : {
@@ -293,8 +298,9 @@ function QrPage() {
           title: 'Thời gian gán mã',
           formatter: (date: string) => DisplayDateTime(date),
         },
-        'productPlan.packing.2' : {
+        'takenLocation.coordinates' : {
           title: 'Địa điểm chụp',
+          formatter: DisplayCoordinates,
         },
       },
       // titleClassName: 'col-3'
@@ -363,15 +369,25 @@ function QrPage() {
                   _subTitle: '',
                   type: {
                     _type: 'string',
-                    label: 'QR.CODE_TYPE',
+                    label: 'QR.EDIT.CODE_TYPE',
+                    // component: () => {
+                    //   return (
+                    //     <>
+                    //       <Select>
+                    //         <Option value="1">Sản phẩm</Option>
+                    //         <Option value="1">Đóng gói</Option>
+                    //       </Select>
+                    //     </>
+                    //   )
+                    // }
                   },
                   total: {
                     _type: 'number',
-                    label: 'QR.QUANTITY',
+                    label: 'QR.EDIT.QUANTITY',
                   },
                   createdBy:{
                     _type: 'string',
-                    label: 'TEMP_TO_CREATE'
+                    label: 'QR.EDIT.ACTIVATOR'
                   }
                 }
               }

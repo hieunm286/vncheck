@@ -545,6 +545,10 @@
   "QR.MASTER.TABLE.ACTIVE_BY": "Người kích hoạt",
   "QR.MASTER.TABLE.ACTIVE_AT": "Ngày kích hoạt",
   "QR.MASTER.TABLE.CODE_TYPE": "Loại mã",
+  "QR.EDIT.CODE_TYPE": "Loại mã",
+  "QR.EDIT.QUANTITY": "Số lượng",
+  "QR.EDIT.ACTIVATOR": "Người kích hoạt",
+
 
   "SEEDING.CODE": "Mã gieo giống",
   "SEEDING.CERTIFICATE": "Giấy chứng nhận giống",
