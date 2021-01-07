@@ -27,7 +27,7 @@ import {
   SeedingDetailDialog,
   validate,
 } from './defined/const';
-import {shallowEqual, useDispatch, useSelector} from 'react-redux';
+import {shallowEqual, useSelector} from 'react-redux';
 import ProductionPlanCrud from './production-plan-crud';
 import * as Yup from 'yup';
 import Visibility from '@material-ui/icons/Visibility';
@@ -269,11 +269,11 @@ function ProductionPlan() {
   const [userData, setUserData] = useState<any[]>([]);
   
   useEffect(() => {
-    UserService.GetAll({queryProps:{}}).then(e=>{
+    UserService.GetAll({queryProps: {}}).then(e => {
       console.log(e);
       setUserData(e.data);
     })
-  },[])
+  }, [])
   
   const {authState} = useSelector(
     (state: any) => ({
@@ -282,15 +282,22 @@ function ProductionPlan() {
     shallowEqual,
   );
   const {username, role} = authState;
-  
+  const [prevTab, setPrevTab] = useState<string | undefined>('0');
   useEffect(() => {
     if (currentTab === '0') {
-      getAll({...(filterProps as any), step: '0', isMaster: true});
+      const t = (prevTab !== currentTab && paginationProps.sortBy === 'updatedAt') ? {
+        sortBy: '_id',
+        sortType: 'desc'
+      } : paginationProps;
+      getAll({...(filterProps as any), step: '0', isMaster: true, ...t});
     } else if (currentTab === '1') {
-      getAll({...(filterProps as any), step: '0', confirmationStatus: '1,3'});
+      const t = (prevTab !== currentTab) ? {sortBy: 'updatedAt', sortType: 'desc'} : paginationProps;
+      getAll({...(filterProps as any), step: '0', confirmationStatus: '1,3', ...t});
     } else if (currentTab === '2') {
-      getAll({...(filterProps as any), step: '1', confirmationStatus: '2', isMaster: true});
+      const t = (prevTab !== currentTab) ? {sortBy: 'updatedAt', sortType: 'desc'} : paginationProps;
+      getAll({...(filterProps as any), step: '1', confirmationStatus: '2', isMaster: true, ...t});
     }
+    setPrevTab(currentTab);
   }, [paginationProps, filterProps, currentTab]);
   
   const columns = {
@@ -595,7 +602,7 @@ function ProductionPlan() {
       columns: columns3,
       total: total,
       loading: loading,
-      paginationParams: paginationProps,
+      paginationParams: {paginationProps},
       setPaginationParams: setPaginationProps,
       onSelectMany: setSelectedEntities,
       selectedEntities: selectedEntities,

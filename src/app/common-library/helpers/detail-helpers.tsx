@@ -5,6 +5,7 @@ import {IntlShape, useIntl} from "react-intl";
 import {MasterTable} from "../common-components/master-table";
 import {MasterBodyColumns, PaginationProps} from "../common-types/common-type";
 import {GetCompareFunction} from "./common-function";
+import {Link} from "react-router-dom";
 
 export const DisplayString = (input: string) => {
   if (!input) return <></>
@@ -74,6 +75,14 @@ export const DisplayDownloadLink = (input: any, key?: string) => {
   return (<a href={key ? input[key] : input} rel="noopener noreferrer" target={'_blank'}>
     {intl.formatMessage({id: 'CLICK_TO_DOWNLOAD'})}
   </a>)
+}
+
+export const DisplayInnerLink = (link: any, title?: string) => {
+  const intl = useIntl();
+  if (!link) return (<></>);
+  return (<Link to={link}>
+    {title ?? intl.formatMessage({id: 'CLICK_TO_VIEW'})}
+  </Link>)
 }
 
 export const DisplayTable = ({entities, columns}: { entities: any[], columns: MasterBodyColumns }) => {
