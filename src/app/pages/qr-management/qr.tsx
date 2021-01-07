@@ -3,8 +3,8 @@ import {useIntl} from 'react-intl';
 
 import * as UserService from '../user/user.service';
 import {InitMasterProps} from "../../common-library/helpers/common-function";
-import {Count, Create, Delete, DeleteMany, Get, GetAll, GetById, Update} from './qr.service';
-import {QrModel, QrPdf} from './qr.model';
+import {Count, Create, Delete, DeleteMany, Get, GetAll, Update} from './qr.service';
+import {QrModel} from './qr.model';
 import {MasterHeader} from "../../common-library/common-components/master-header";
 import {MasterBody} from "../../common-library/common-components/master-body";
 
@@ -16,31 +16,36 @@ import DeleteManyEntitiesDialog from '../../common-library/common-components/del
 import {Link, Route, Switch, useHistory} from 'react-router-dom';
 import {MasterBodyColumns, RenderInfoDetail, SearchModel} from "../../common-library/common-types/common-type";
 import {MasterEntityDetailPage} from "../../common-library/common-components/master-detail-page";
-import {seedingInfo,plantingInfo,
-  harvestingInfo,
-  preliminaryTreatmentInfo,
+import {
   cleaningInfo,
+  harvestingInfo,
   packingInfo,
+  plantingInfo,
+  preliminaryTreatmentInfo,
   preservationInfo,
-  shippingInfo,
+  seedingInfo,
   sellStatus,
-  shippingInfoColumns} from "./qr.render-info";
-import * as MultilevelSaleService from '../multilevel-sale/multilevel-sale.service';
-import { bodyEntities, detailEntityMock, mobileSaleMock } from "./qr-mock";
+  shippingInfo,
+  shippingInfoColumns
+} from "./qr.render-info";
+import {detailEntityMock, mobileSaleMock} from "./qr-mock";
 import ModifyEntityDialog from "../../common-library/common-components/modify-entity-dialog";
-import { MasterQrChildDetail, MasterQrParentDetail } from "./qr-detail";
-import * as QrService from './qr.service';
-import {DisplayArray, DisplayCoordinates, DisplayDate, DisplayDateTime, DisplayImage, DisplayTable} from "../../common-library/helpers/detail-helpers";
-import {toast} from 'react-toastify';
+import {MasterQrChildDetail} from "./qr-detail";
+import {
+  DisplayArray,
+  DisplayCoordinates,
+  DisplayDate,
+  DisplayDateTime,
+  DisplayTable
+} from "../../common-library/helpers/detail-helpers";
 import 'react-toastify/dist/ReactToastify.css';
-import _, {isArray, isEmpty} from 'lodash';
 import {AxiosResponse} from 'axios';
-import { ActionsColumnFormatter } from "../../common-library/common-components/actions-column-formatter";
-import { MasterEntityDetailDialog } from "../../common-library/common-components/master-entity-detail-dialog";
-import { DetailImage } from "../../common-library/common-components/detail/detail-image";
-import { Select } from 'antd';
+import {ActionsColumnFormatter} from "../../common-library/common-components/actions-column-formatter";
+import {MasterEntityDetailDialog} from "../../common-library/common-components/master-entity-detail-dialog";
+import {DetailImage} from "../../common-library/common-components/detail/detail-image";
+import {Select} from 'antd';
 
-const Option = { Select };
+const Option = {Select};
 const headerTitle = 'QR.MASTER.HEADER.TITLE';
 const tableTitle = 'SHIPPING_AGENCY.MASTER.TABLE.TITLE';
 const detailDialogTitle = 'SHIPPING_AGENCY.DETAIL_DIALOG.TITLE';
@@ -123,7 +128,7 @@ function QrPage() {
           >{cell}</Link>},
       },
       'createdBy': {
-        dataField: 'createdBy',
+        dataField: 'createdBy.fullName',
         text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.CREATED_BY'})}`,
         ...SortColumn,
         align: 'center',
@@ -141,7 +146,7 @@ function QrPage() {
         text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.ACTIVE_BY'})}`,
         ...SortColumn,
         align: 'center',
-        formatter: (cell: any, row: any, rowIndex: number) => {return <>{(row.activeBy && row.activeBy.fullName) ? 
+        formatter: (cell: any, row: any, rowIndex: number) => {return <>{(row.activeBy && row.activeBy.fullName) ?
           (row.activeBy.fullName) : 'NO_INFORMATION'}</>},
       },
       activeAt: {
@@ -170,6 +175,8 @@ function QrPage() {
     createdBy: {
       type: 'search-select',
       label: 'QR.MASTER.SEARCH.CREATED_BY',
+      selectField: '_id',
+      keyField: 'fullName',
       onSearch: UserService.GetAll,
     },
     createdDate: {
@@ -179,6 +186,8 @@ function QrPage() {
     activeBy: {
       type: 'search-select',
       label: 'QR.MASTER.SEARCH.ACTIVE_BY',
+      selectField: '_id',
+      keyField: 'fullName',
       onSearch: UserService.GetAll,
     },
     activeAt: {
@@ -273,7 +282,7 @@ function QrPage() {
       data: {
         'productPlan.packing.packingImage' : {
           title: '',
-          formatter: (input, entity) => { 
+          formatter: (input, entity) => {
             return (<DetailImage images={input} renderInfo={entity} className='text-center' width={300} height={300} />);
           }
         },
@@ -403,7 +412,7 @@ function QrPage() {
             }}
             onHide={refreshData}
             onModify={(e: QrModel) => {
-              add(e).then((res: AxiosResponse<QrModel>) => {
+              return add(e).then((res: AxiosResponse<QrModel>) => {
                 const a = document.createElement("a"); //Create <a>
                 a.href = "data:application/octet-stream;base64," + res.data.buffers; //Image Base64 Goes here
                 a.download = "file.tif"; //File name Here
