@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from "react"
 import {DetailImage} from "../common-components/detail/detail-image";
 import {format} from "date-fns";
-import {useIntl} from "react-intl";
+import {IntlShape, useIntl} from "react-intl";
 import {MasterTable} from "../common-components/master-table";
 import {MasterBodyColumns, PaginationProps} from "../common-types/common-type";
 import {GetCompareFunction} from "./common-function";
+import {Link} from "react-router-dom";
 
 export const DisplayString = (input: string) => {
   if (!input) return <></>
@@ -71,9 +72,17 @@ export const DisplayDateTime = (input: string, _format?: string) => {
 export const DisplayDownloadLink = (input: any, key?: string) => {
   const intl = useIntl();
   if (!input) return <></>
-  return (<a href={key ? input[key] : input} target={'_blank'}>
+  return (<a href={key ? input[key] : input} rel="noopener noreferrer" target={'_blank'}>
     {intl.formatMessage({id: 'CLICK_TO_DOWNLOAD'})}
   </a>)
+}
+
+export const DisplayInnerLink = (link: any, title?: string) => {
+  const intl = useIntl();
+  if (!link) return (<></>);
+  return (<Link to={link}>
+    {title ?? intl.formatMessage({id: 'CLICK_TO_VIEW'})}
+  </Link>)
 }
 
 export const DisplayTable = ({entities, columns}: { entities: any[], columns: MasterBodyColumns }) => {
@@ -108,19 +117,36 @@ export const DisplayCoordinates = (arr: string[]) => {
   return (
     <a
       href={`https://google.com/maps/search/${arr[1]},+${arr[0]}`}
+      rel="noopener noreferrer"
       target={'_blank'}>{`${arr[0]}, ${arr[1]}`}</a>
   );
 };
 
-export const DisplayImage = (images: any, renderInfo?: { title?: string, data?: { [KeyField: string]: string }}) => {
-  
-  return (<DetailImage images={images} renderInfo={renderInfo}/>);
+export const Display3Info = (image: any, _: any, intl: IntlShape) => {
+  return (<>
+    <div className={'titleeee mb-1'}>{intl.formatMessage({id: 'IMAGE.TAKEN_BY'})}
+      {image.takenBy?.fullName ?? intl.formatMessage({id: 'NO_INFORMATION'})}
+    </div>
+    <div
+      className={'titleeee mb-1'}>{intl.formatMessage({id: 'IMAGE.TAKEN_TIME'})}
+      {image.takenTime ? DisplayDateTime(image.takenTime) : intl.formatMessage({id: 'NO_INFORMATION'})}</div>
+    <div
+      className={'titleeee mb-1'}>{intl.formatMessage({id: 'IMAGE.LOCATION'})}
+      {image.location?.coordinates ? DisplayCoordinates(image.location?.coordinates) : intl.formatMessage({id: 'NO_INFORMATION'})}
+    </div>
+  </>)
 }
 
-export const DisplayDiffTime = (input: any, entity: any) => {return (
-  <>
-    {(entity.endTime && entity.startTime) ? entity.endTime.toLocaleString() + ', ' + entity.startTime.toLocaleString() 
-    : ''
-    }
-  </>
-  )}
+export const DisplayImage = (images: any, renderInfo?: { title?: string, data?: { [KeyField: string]: string } }) => {
+  return (<DetailImage images={images} renderInfo={renderInfo}/>)
+}
+
+export const DisplayDiffTime = (input: any, entity: any) => {
+  return (
+    <>
+      {(entity.endTime && entity.startTime) ? entity.endTime.toLocaleString() + ', ' + entity.startTime.toLocaleString()
+        : ''
+      }
+    </>
+  )
+}

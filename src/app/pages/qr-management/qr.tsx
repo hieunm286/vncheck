@@ -1,10 +1,10 @@
-import React, {Fragment, useCallback, useEffect, useMemo, useState} from "react";
+import React, {Fragment, useEffect, useMemo, useState} from "react";
 import {useIntl} from 'react-intl';
 
 import * as UserService from '../user/user.service';
 import {InitMasterProps} from "../../common-library/helpers/common-function";
-import {Count, Create, Delete, DeleteMany, Get, GetAll, GetById, Update} from './qr.service';
-import {QrModel, QrPdf} from './qr.model';
+import {Count, Create, Delete, DeleteMany, Get, GetAll, Update} from './qr.service';
+import {QrModel} from './qr.model';
 import {MasterHeader} from "../../common-library/common-components/master-header";
 import {MasterBody} from "../../common-library/common-components/master-body";
 
@@ -33,7 +33,6 @@ import * as QrService from './qr.service';
 import {DisplayArray, DisplayCoordinates, DisplayDate, DisplayDateTime, DisplayImage, DisplayTable} from "../../common-library/helpers/detail-helpers";
 import {toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import _, {isArray, isEmpty} from 'lodash';
 import {AxiosResponse} from 'axios';
 import { ActionsColumnFormatter } from "../../common-library/common-components/actions-column-formatter";
 import { MasterEntityDetailDialog } from "../../common-library/common-components/master-entity-detail-dialog";
@@ -118,7 +117,7 @@ function QrPage() {
         formatter: (cell: string, row: any, rowIndex: number) => {console.log(row.type === '1');return <Link to={'qr/' + (row.codeType === '1' ? '' : '') + row._id}>{cell}</Link>},
       },
       'createdBy': {
-        dataField: 'createdBy',
+        dataField: 'createdBy.fullName',
         text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.CREATED_BY'})}`,
         ...SortColumn,
         align: 'center',
@@ -136,7 +135,7 @@ function QrPage() {
         text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.ACTIVE_BY'})}`,
         ...SortColumn,
         align: 'center',
-        formatter: (cell: any, row: any, rowIndex: number) => {return <>{(row.activeBy && row.activeBy.fullName) ? 
+        formatter: (cell: any, row: any, rowIndex: number) => {return <>{(row.activeBy && row.activeBy.fullName) ?
           (row.activeBy.fullName) : 'NO_INFORMATION'}</>},
       },
       activeAt: {
@@ -165,6 +164,8 @@ function QrPage() {
     createdBy: {
       type: 'search-select',
       label: 'QR.MASTER.SEARCH.CREATED_BY',
+      selectField: '_id',
+      keyField: 'fullName',
       onSearch: UserService.GetAll,
     },
     createdDate: {
@@ -174,6 +175,8 @@ function QrPage() {
     activeBy: {
       type: 'search-select',
       label: 'QR.MASTER.SEARCH.ACTIVE_BY',
+      selectField: '_id',
+      keyField: 'fullName',
       onSearch: UserService.GetAll,
     },
     activeAt: {
@@ -268,7 +271,7 @@ function QrPage() {
       data: {
         'productPlan.packing.packingImage' : {
           title: '',
-          formatter: (input, entity) => { 
+          formatter: (input, entity) => {
             return (<DetailImage images={input} renderInfo={entity} className='text-center' width={300} height={300} />);
           }
         },
@@ -383,7 +386,7 @@ function QrPage() {
             }}
             onHide={refreshData}
             onModify={(e: QrModel) => {
-              add(e).then((res: AxiosResponse<QrModel>) => {
+              return add(e).then((res: AxiosResponse<QrModel>) => {
                 const a = document.createElement("a"); //Create <a>
                 a.href = "data:application/octet-stream;base64," + res.data.buffers; //Image Base64 Goes here
                 a.download = "file.tif"; //File name Here

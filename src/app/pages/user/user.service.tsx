@@ -2,12 +2,13 @@ import axios from 'axios';
 import {API_BASE_URL} from '../../common-library/common-consts/enviroment';
 import {
   CountProps,
-  CreateProps, DeleteManyProps, DeleteProps,
+  CreateProps,
+  DeleteManyProps,
+  DeleteProps,
   GetAllPropsServer,
   GetProps,
   UpdateProps,
 } from '../../common-library/common-types/common-type';
-import {AgencyTypeModel} from "../agency-type-2/agency-type.model";
 import {UserModel} from "./user.model";
 
 
@@ -26,9 +27,6 @@ export const GetAll: GetAllPropsServer<any> = ({
                                                }) => {
   return axios.get(`${API_URL}`, {
     params: {...queryProps, ...paginationProps, sortList},
-  }).then(t => {
-    console.log(t);
-    return t;
   });
 };
 

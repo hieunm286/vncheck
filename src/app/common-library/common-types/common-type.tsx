@@ -202,7 +202,7 @@ export type GetAllPropsServer<T> = ({
   queryProps: any;
   sortList?: SortProps[];
   paginationProps?: PaginationProps;
-}) => (Promise<AxiosResponse<T[]>>);
+}) => (Promise<AxiosResponse<{ data: T[], paging: any }>>);
 export type _ModifyModelInput =
   ({ _type: 'object', [S: string]: any })
   | ({ _type: 'image', value?: any, pathField?: string, width?: string | number, height?: string | number } & _CommonProps)
@@ -237,15 +237,15 @@ export type RenderInfoDetail = {
   className?: string;
   titleClassName?: string;
   dataClassName?: string;
-  data: {
-    [T: string]: {
-      title?: string;
-      formatter?: (value: any | any[], entity?: any) => ReactElement;
-      keyField?: string;
-    }
-  },
-  
+  data: RenderInfoDetailColumn,
 }[]
+export type RenderInfoDetailColumn = {
+  [T: string]: {
+    title?: string;
+    formatter?: (value: any | any[], entity?: any) => ReactElement;
+    keyField?: string;
+  }
+}
 export type GetProps<T> = (entity: T) => Promise<AxiosResponse>;
 export type UpdateProps<T> = (entity: T) => Promise<AxiosResponse>;
 export type DeleteProps<T> = (entity: T) => Promise<AxiosResponse>;

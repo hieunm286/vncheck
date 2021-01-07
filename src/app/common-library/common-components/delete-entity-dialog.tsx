@@ -1,13 +1,11 @@
-import React from 'react';
+import React, {useMemo} from 'react';
 import {Modal} from 'react-bootstrap';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
-import DeleteIcon from '@material-ui/icons/Delete';
 import {useIntl} from 'react-intl';
 import {DeleteDialogProps} from '../common-types/common-type';
 import {iconStyle} from '../common-consts/const';
-import {ModalProgressBar} from '../modal-progress-bar';
 import {CapitalizeFirstLetter} from '../helpers/common-function';
-import { AnimateLoading } from '../../../_metronic/_partials/controls';
+import _ from "lodash";
 
 export function DeleteEntityDialog<T>({
                                         isShow,
@@ -25,13 +23,19 @@ export function DeleteEntityDialog<T>({
                                         error = {error: ''},
                                       }: DeleteDialogProps<T>) {
   const intl = useIntl();
-  
+  const _innerError = useMemo((): string | ({ message: string, additional: string }[]) => {
+    try {
+      return JSON.parse(error.error)
+    } catch (e) {
+      return error?.error
+    }
+  }, [error]);
   return (<><Modal
     show={isShow && (error.error === '')}
     onHide={onHide}
     aria-labelledby="example-modal-sizes-title-lg"
     dialogClassName="modal-delete">
-    {loading && <ModalProgressBar />}
+    {/*{loading && <ModalProgressBar />}*/}
     <Modal.Header className="border-bottom-0" closeButton>
       <Modal.Title id="example-modal-sizes-title-lg" className="text-primary">
         {intl
@@ -84,8 +88,16 @@ export function DeleteEntityDialog<T>({
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        {error.error !== '' && typeof error.error === 'string' ? (
-          <p className='text-danger'>{intl.formatMessage({id: error.error})}</p>) : error.error}
+        {!loading && error.error !== '' && (
+          <>
+            {_.isString(_innerError) ?
+              (<p className='text-danger'>{intl.formatMessage({id: _innerError}, {additional: ''})}</p>)
+              : _innerError.map((e, index) => (
+                (<p key={`abc${index}`} className='text-danger'>{intl.formatMessage({id: e.message}, e)}</p>)
+              ))
+            }
+          </>
+        )}
       </Modal.Body>
       <Modal.Footer className="border-top-0">
         <button type="button" onClick={onHide} className="btn btn-outline-primary fixed-btn-width">

@@ -1,5 +1,4 @@
 import {
-  MasterBodyColumns,
   ModifyForm,
   ModifyPanel,
   RenderInfoDetail,
@@ -13,9 +12,9 @@ import * as Yup from 'yup';
 import '../style/production-plan.scss';
 import _ from 'lodash';
 import React from 'react';
-import {IntlShape, useIntl} from 'react-intl';
-import store from '../../../../redux/store';
+import {useIntl} from 'react-intl';
 import {
+  Display3Info,
   DisplayArray,
   DisplayCelcius,
   DisplayCoordinates,
@@ -24,9 +23,7 @@ import {
   DisplayImage,
   DisplayPercent,
   DisplayPersonNameByArray,
-  DisplayTable,
 } from '../../../common-library/helpers/detail-helpers';
-import {SortColumn} from "../../../common-library/common-consts/const";
 
 export const headerTitle = 'PRODUCT_TYPE.MASTER.HEADER.TITLE';
 export const bodyTitle = 'PRODUCT_TYPE.MASTER.BODY.TITLE';
@@ -710,11 +707,23 @@ export const PlantingDetailDialog: RenderInfoDetail = [
     data: {
       'seeding.landLotImage': {
         title: 'Hình ảnh định vị lô luống',
-        formatter: DisplayImage,
+        formatter: (image, entity) => {
+          const renderInfo = {
+            title: 'IMAGE_INFO',
+            component: Display3Info
+          }
+          return DisplayImage(image, renderInfo)
+        }
       },
       'planting.imageAfter': {
         title: 'Hình ảnh trước khi đưa vào nuôi trồng',
-        formatter: DisplayImage,
+        formatter: (image, entity) => {
+          const renderInfo = {
+            title: 'IMAGE_INFO',
+            component: Display3Info
+          }
+          return DisplayImage(image, renderInfo)
+        }
       },
     },
   },
@@ -808,12 +817,10 @@ export const SeedingDetailDialog: RenderInfoDetail = [
     data: {
       'seeding.landLotImage': {
         title: 'Hình ảnh định vị lô luống',
-        formatter: (image) => {
+        formatter: (image, entity) => {
           const renderInfo = {
             title: 'IMAGE_INFO',
-            data: {
-              hash: 'HASH'
-            }
+            component: Display3Info
           }
           return DisplayImage(image, renderInfo)
         }
@@ -823,42 +830,37 @@ export const SeedingDetailDialog: RenderInfoDetail = [
         formatter: (image, entity) => {
           const renderInfo = {
             title: 'IMAGE_INFO',
-            component: (image: any, _: any, intl: IntlShape) => {
-              return (<>
-                <div className={'titleeee mb-1'}>{intl.formatMessage({id: 'HASH'})} {image.hash}</div>
-                <div className={'titleeee mb-1'}>{intl.formatMessage({id: 'USER'})} {entity?.user?.name}</div>
-              </>)
-            }
+            component: Display3Info
           }
           return DisplayImage(image, renderInfo)
         }
       },
     },
   },
-  {
-    header: 'Thử nghiệm bảng',
-    className: 'col-12',
-    titleClassName: 'col-0 hidden',
-    dataClassName: 'col-12',
-    data: {
-      'comments': {
-        formatter: (entities: any[]) => {
-          const columns: MasterBodyColumns = [{
-            dataField: 'content',
-            text: 'QR.MASTER.TABLE.NAME',
-            ...SortColumn,
-            align: 'center',
-          }, {
-            dataField: '_id',
-            text: 'QR.MASTER.TABLE.CODE',
-            ...SortColumn,
-            align: 'center',
-          }]
-          return <DisplayTable entities={entities} columns={columns}/>
-        },
-      },
-    },
-  }
+  // {
+  //   header: 'Thử nghiệm bảng',
+  //   className: 'col-12',
+  //   titleClassName: 'col-0 hidden',
+  //   dataClassName: 'col-12',
+  //   data: {
+  //     'comments': {
+  //       formatter: (entities: any[]) => {
+  //         const columns: MasterBodyColumns = [{
+  //           dataField: 'content',
+  //           text: 'QR.MASTER.TABLE.NAME',
+  //           ...SortColumn,
+  //           align: 'center',
+  //         }, {
+  //           dataField: '_id',
+  //           text: 'QR.MASTER.TABLE.CODE',
+  //           ...SortColumn,
+  //           align: 'center',
+  //         }]
+  //         return <DisplayTable entities={entities} columns={columns}/>
+  //       },
+  //     },
+  //   },
+  // }
 ];
 
 export const masterEntityDetailDialog2: RenderInfoDetail = [
@@ -1011,7 +1013,7 @@ export const masterEntityDetailDialog2: RenderInfoDetail = [
         title: 'Thời gian đóng gói (dự kiến)',
         formatter: input => DisplayDateTime(input),
       },
-      'packing.estimatedQuantity': {title: 'Sản lượng sau đóng gói (dự kiến)'},
+      'packing.estimatedQuantity': {title: 'PACKING_QUANTITY'},
       'packing.estimatedExpireTimeStart': {
         title: 'Hạn sử dụng (từ ngày)',
         formatter: input => DisplayDateTime(input),
@@ -1443,14 +1445,12 @@ export const preservationValidate = {
       (this.parent.technical.length > 0 &&
         this.parent.estimatedEndTime &&
         value &&
-        CompareDate(new Date(value), new Date()) &&
-        CompareDate(new Date(this.parent.estimatedEndTime), new Date(value))) ||
+        CompareDate(new Date(value), new Date())) ||
       ((!this.parent.technical || this.parent.technical.length === 0) &&
         !this.parent.estimatedEndTime &&
         !value) ||
       (value &&
-        CompareDate(new Date(value), new Date()) &&
-        CompareDate(new Date(this.parent.estimatedEndTime), new Date(value)))
+        CompareDate(new Date(value), new Date()))
     );
   }),
   estimatedEndTime: Yup.mixed().test('oneOfRequired', 'DATE_VALIDATE', function (value: any) {
