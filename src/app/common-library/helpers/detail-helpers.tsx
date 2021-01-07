@@ -77,6 +77,8 @@ export const DisplayDownloadLink = (input: any, key?: string) => {
 }
 
 export const DisplayTable = ({entities, columns}: { entities: any[], columns: MasterBodyColumns }) => {
+  console.log(entities)
+  console.log(columns)
   const [paginationParams, setPaginationParams] = useState<PaginationProps>({sortBy: '', sortType: ''});
   const [_innerEntities, setEntities] = useState(entities);
   const [_innerColumns, setColumns] = useState(columns);

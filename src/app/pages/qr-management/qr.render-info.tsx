@@ -1,12 +1,14 @@
 import React from "react";
-import {RenderInfoDetail} from "../../common-library/common-types/common-type";
+import {MasterBodyColumns, RenderInfoDetail} from "../../common-library/common-types/common-type";
 import {
   DisplayArray,
   DisplayCelcius,
   DisplayCoordinates,
   DisplayDateTime, DisplayDiffTime, DisplayImage,
-  DisplayDownloadLink, DisplayPercent
+  DisplayDownloadLink, DisplayPercent, DisplayTable
 } from "../../common-library/helpers/detail-helpers";
+
+import { mobileSaleMock } from './qr-mock';
 
 const producerInfo: RenderInfoDetail = [{
   header: 'Doanh nghiệp sản xuất',
@@ -323,10 +325,11 @@ const packingInfo : RenderInfoDetail = [{
   titleClassName: 'col-3 mb-10',
   dataClassName: 'col-9 mb-10 pl-5',
   data: {
-    'productPlan.packing.1' : {
+    'productPlan.harvesting.[imageInprogress].[coordinates]' : {
       title: 'Địa điểm Farm đóng gói',
+      formatter: DisplayCoordinates
     },
-    'productPlan.packing.2' : {
+    'productPlan.packing.packing.code' : {
       title: 'Quy cách đóng gói',
     },
     'productPlan.packing.3' : {
@@ -406,6 +409,99 @@ const preservationInfo : RenderInfoDetail = [{
 }];
 
 
+const shippingInfoColumns : MasterBodyColumns = [
+  {
+    dataField: 'exportTime',
+    text: 'Thời gian xuất hàng',
+    formatter: (date: string) => {return DisplayDateTime(date);}
+  },
+  {
+    text: 'Địa điểm xuất hàng',
+    dataField: 'exportAddress',
+    formatter: (input) => {return DisplayArray(input)},
+  },
+  {
+    text: 'Nhân viên xuất hàng',
+    dataField: 'exportStaff.fullName',
+  },
+  {
+    text: 'Nhân viên vận chuyển',
+    dataField: 'shipper.fullName'
+  },
+];
+
+const distributionInfoColumns : MasterBodyColumns = [
+  ...shippingInfoColumns,
+  {
+    dataField: 'receiveTime',
+    text: 'Thời gian nhận hàng',
+    formatter: (date: string) => {return DisplayDateTime(date);}
+  },
+  {
+    text: 'Địa điểm nhận hàng',
+    dataField: 'receiveAddress',
+    formatter: (input) => {return DisplayArray(input)},
+  },
+  {
+    dataField: 'receiveStaff.fullName',
+    text: 'Nhân viên xuất hàng',
+  },
+  {
+    dataField: 'image.path',
+    text: 'Hình ảnh',
+  },
+];
+
+
+const shippingInfo : RenderInfoDetail = [{
+  
+  header: 'THÔNG TIN VẬN CHUYỂN',
+  className: 'col-12',
+  titleClassName: 'col-3 mb-10',
+  dataClassName: 'col-9 mb-10 pl-5',
+  data: {
+    'sellStatus': {
+      title: '',
+      formatter: (entity: any[]) => {
+
+        return <DisplayTable entities={mobileSaleMock.shippingInfo} columns={shippingInfoColumns} />
+      }
+    }
+  },
+}];
+
+const distributionInfo : RenderInfoDetail = [{
+  
+  header: 'THÔNG TIN PHÂN PHỐI',
+  className: 'col-12',
+  titleClassName: 'col-3 mb-10',
+  dataClassName: 'col-9 mb-10 pl-5',
+  data: {
+    'sellStatus': {
+      title: '',
+      formatter: (entity: any[]) => {
+
+        return <DisplayTable entities={mobileSaleMock.distributionInfo} columns={distributionInfoColumns} />
+      }
+    }
+  },
+}];
+
+const sellStatus : RenderInfoDetail = [{
+  
+  header: 'TRẠNG THÁI',
+  className: 'col-12',
+  titleClassName: 'col-3 mb-10',
+  dataClassName: 'col-9 mb-10 pl-5',
+  data: {
+    'sellStatus.status': {
+      title: 'Trạng thái',
+      formatter: (sold: boolean) => (<>{sold ? 'Đã bán' : 'Còn hàng'}</>),
+    },
+  },
+}];
+
+
 
 export const QrRenderDetail: RenderInfoDetail = [
   ...seedingInfo,
@@ -415,4 +511,7 @@ export const QrRenderDetail: RenderInfoDetail = [
   ...cleaningInfo,
   ...packingInfo,
   ...preservationInfo,
+  ...shippingInfo,
+  ...distributionInfo,
+  ...sellStatus
 ];

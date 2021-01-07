@@ -15,7 +15,7 @@ export type QrModel = CommonQr & Partial<QrPdf> & {
   productPlan?: CommonQr & {
     seeding: {
       technical: string[] | {fullName: string}[];
-    },
+    };
     harvesting: {
       leader: string[] | UserModel[];
       worker: string[] | UserModel[];
@@ -24,6 +24,7 @@ export type QrModel = CommonQr & Partial<QrPdf> & {
       farmLocation: Location | Image;
       imageBefore: Location | Image;
       imageAfter: Location | Image;
+      imageInProgress: Location[] | Image[];
       area: number;
       realQuantity: number;
       temperature: number;
@@ -33,7 +34,7 @@ export type QrModel = CommonQr & Partial<QrPdf> & {
       code: string;
       startTime: Date;
       endTime: Date;
-    },
+    };
     preliminaryTreatment: {
       startTime: Date;
       endTime: Date;
@@ -41,7 +42,7 @@ export type QrModel = CommonQr & Partial<QrPdf> & {
       imageInProgress: Location | Image;
       imageBefore: Location | Image;
       imageAfter: Location | Image;
-    },
+    };
     cleaning: {
       startTime: Date;
       endTime: Date;
@@ -53,12 +54,15 @@ export type QrModel = CommonQr & Partial<QrPdf> & {
       worker: string[] | UserModel[];
       manager: string | UserModel;
       technical: string[] | UserModel[];
-    },
+    };
     packing: {
       leader: string[] | UserModel[];
       manager: string | UserModel;
       quantity: number;
-    },
+      packing: {
+        code: string;
+      }
+    };
     preservation: {
       startTime: Date;
       endTime: Date;
@@ -66,7 +70,30 @@ export type QrModel = CommonQr & Partial<QrPdf> & {
       worker: string[] | UserModel[];
       technical: string[] | UserModel[];
       location: Location;
-    }
+    };
+  };
+  distributionInfo: {
+    exportTime: Date;
+    exportAddress: string[]
+    exportStaff: UserModel;
+    shipper: UserModel;
+    receiveTime: Date;
+    receiveAddress: string[];
+    receiveStaff: UserModel;
+    image: Image | Location;
+  }[];
+  shippingInfo: {
+    exportTime: Date;
+    exportAddress: string[]
+    exportStaff: UserModel;
+    shipper: UserModel;
+  }[];
+  sellStatus: {
+    status: boolean;
+    dateOfSell: Date;
+    sellAddress: string[];
+    seller: UserModel;
+    customerPhoneNumber: string;
   };
 }
 

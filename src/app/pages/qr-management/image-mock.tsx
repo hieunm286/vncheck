@@ -45,6 +45,20 @@ export const imageHarvesting = {
     path: 'upload/path-to-imagexxx.png',
     hash: 'hash@9gy2ahfa234asfd96LKWQA3FOPW',
   },
+  imageInProgress: [
+    {
+      coordinates: ['24N', '34E'],
+      type: 'latitude',
+    },
+    {
+      coordinates: ['24N', '34E'],
+      type: 'latitude',
+    },
+    {
+      coordinates: ['24N', '34E'],
+      type: 'latitude',
+    },
+  ]
 };
 
 export const imagePreliminary = {

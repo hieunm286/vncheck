@@ -11,6 +11,51 @@ import viMessage from '../../layout/i18n/messages/vi.json'; //your messages tran
 const cache = createIntlCache();
 const intl = createIntl({ locale: 'vi-VN', messages: viMessage, }, cache);//locale and message can come from Redux or regular import
 
+export const mobileSaleMock = {
+  distributionInfo: [ 
+    {
+      exportTime: new Date(),
+      exportAddress: ['Ngõ 219 Trung Kính', 'Cầu Giấy'],
+      exportStaff: {
+        fullName: 'N.V.A',
+      },
+      shipper: {
+        fullName: 'H.D.M',
+      },
+      receiveTime: new Date(),
+      receiveAddress:  ['Đại học kinh tế Quốc dân'],
+      receiveStaff: {
+        fullName: 'N.D.A',
+      },
+      image: {
+        path: 'tisbbjs',
+        hash: 'aoghbz',
+      }
+    },
+  ],
+  shippingInfo: [
+    {
+      exportTime: new Date(),
+      exportAddress: ['Ngõ 219 Trung Kính', 'Cầu Giấy'],
+      exportStaff: {
+        fullName: 'N.V.A',
+      },
+      shipper: {
+        fullName: 'H.D.M',
+      }
+    },
+  ],
+  sellStatus: {
+    status: true,
+    dateOfSell: new Date(),
+    sellAddress: ['Cửa hàng A'],
+    seller: {
+      fullName: 'N.V.A'
+    },
+    customerPhoneNumber: '032246178',
+  }
+};
+
 export const bodyEntities: QrModel[] = [
   {
     code: '123456', 
@@ -28,7 +73,8 @@ export const bodyEntities: QrModel[] = [
     }, 
     createdAt: new Date(),
     activeAt: new Date(), 
-    codeType: 'Sản phẩm', 
+    codeType: 'Sản phẩm',   
+   ...mobileSaleMock,
   },
   {
     code: '123456', 
@@ -47,7 +93,8 @@ export const bodyEntities: QrModel[] = [
     createdAt: new Date(),
     activeAt: new Date(), 
     codeType: 'Đóng gói', 
-  }
+    ...mobileSaleMock,
+  },
 ];
 
 export const childQrBodyEntities: QrModel[] = [
@@ -67,7 +114,8 @@ export const childQrBodyEntities: QrModel[] = [
     }, 
     createdAt: new Date(),
     activeAt: new Date(), 
-    codeType: 'Sản phẩm', 
+    codeType: 'Sản phẩm',
+    ...mobileSaleMock, 
   },
   {
     code: '123456', 
@@ -86,7 +134,8 @@ export const childQrBodyEntities: QrModel[] = [
     createdAt: new Date(),
     activeAt: new Date(), 
     codeType: 'Sản phẩm', 
-  }
+    ...mobileSaleMock,
+  },
 ];
 
 
@@ -167,7 +216,9 @@ export const detailEntityMock: QrModel = {
     packing: {
       _id: 'mongoid@q2rRVagnq10jgnArabzpr',
       ...group.groupPacking,
-      
+      packing: {
+        code: 'Mã đóng gói',
+      },
       // Redundant fields
       quantity: 12,
     },
@@ -189,10 +240,10 @@ export const detailEntityMock: QrModel = {
           info: '', 
         },
       ],
-    }
-  }
-}
-
+    },
+  },
+  ...mobileSaleMock,
+};
 
 // export const detailEntities : QrParent = 
 //   {
