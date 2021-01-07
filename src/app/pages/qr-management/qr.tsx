@@ -3,7 +3,7 @@ import {useIntl} from 'react-intl';
 
 import * as UserService from '../user/user.service';
 import {InitMasterProps} from "../../common-library/helpers/common-function";
-import {Count, Create, Delete, DeleteMany, Get, GetAll, GetType, Update} from './qr.service';
+import {Count, Create, Delete, DeleteMany, Get, GetAll, GetType, QrTypeList, Update} from './qr.service';
 import {QrModel} from './qr.model';
 import {MasterHeader} from "../../common-library/common-components/master-header";
 import {MasterBody} from "../../common-library/common-components/master-body";
@@ -131,9 +131,7 @@ function QrPage() {
         text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.CREATED_BY'})}`,
         ...SortColumn,
         align: 'center',
-        formatter: (cell: any, row: any, rowIndex: number) => {
-          return <>{cell.fullName}</>
-        },
+        formatter: (cell: any, row: any, rowIndex: number) => (<>{cell}</>),
       },
       createdAt: {
         dataField: 'createdAt',
@@ -143,27 +141,26 @@ function QrPage() {
         align: 'center',
       },
       'activeBy': {
-        dataField: 'activeBy',
+        dataField: 'activeBy.fullName',
         text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.ACTIVE_BY'})}`,
         ...SortColumn,
         align: 'center',
-        formatter: (cell: any, row: any, rowIndex: number) => {
-          return <>{(row.activeBy && row.activeBy.fullName) ?
-            (row.activeBy.fullName) : 'NO_INFORMATION'}</>
-        },
+        formatter: (cell: any, row: any, rowIndex: number) => (<>{cell ?? intl.formatMessage({id: 'NO_INFORMATION'})}</>),
       },
       activeAt: {
         dataField: 'activeAt',
         text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.ACTIVE_AT'})}`,
         ...SortColumn,
-        formatter: (input: any) => (<DisplayDate input={input}/>),
+        formatter: (input: any) => (input ?
+          <DisplayDate input={input}/> : (<>{intl.formatMessage({id: 'NO_INFORMATION'})}</>)),
         align: 'center',
       },
       type: {
         dataField: 'type',
         text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.CODE_TYPE'})}`,
         ...SortColumn,
-        formatter: (cell: any, row: any, rowIndex: number) => cell === "1" ? (<>Sản phẩm</>) : (<>Đóng gói</>),
+        formatter: (cell: any, row: any, rowIndex: number) =>
+          (<>{QrTypeList.find(t => t.code === cell)?.name}</>),
         align: 'center',
       },
     }
@@ -171,7 +168,7 @@ function QrPage() {
   
   
   const searchModel: SearchModel = {
-    code: {
+    '_id': {
       type: 'string',
       label: 'QR.MASTER.SEARCH.CODE',
     },
@@ -182,7 +179,7 @@ function QrPage() {
       keyField: 'fullName',
       onSearch: UserService.GetAll,
     },
-    createdDate: {
+    createdAt: {
       type: 'date-time',
       label: 'QR.MASTER.SEARCH.CREATED_DATE',
     },
@@ -197,25 +194,34 @@ function QrPage() {
       type: 'date-time',
       label: 'QR.MASTER.SEARCH.ACTIVE_AT',
     },
-    codeType: {
+    __type: {
       type: 'search-select',
       label: 'QR.MASTER.SEARCH.CODE_TYPE',
-      onSearch: console.log
+      onSearch: GetType,
+      keyField: 'name',
+      selectField: 'code',
+      onChange: (e, {setFieldValue}) => {
+        setFieldValue('type', e?.code);
+      }
     },
   };
-
-  const shippingInfoColumns : MasterBodyColumns = [
+  
+  const shippingInfoColumns: MasterBodyColumns = [
     {
       dataField: 'exportTime',
       text: 'Thời gian xuất hàng',
-      formatter: (date: string) => {return DisplayDateTime(date);},
+      formatter: (date: string) => {
+        return DisplayDateTime(date);
+      },
       ...SortColumn,
       align: 'center',
     },
     {
       text: 'Địa điểm xuất hàng',
       dataField: 'exportAddress',
-      formatter: (input) => {return DisplayArray(input)},
+      formatter: (input) => {
+        return DisplayArray(input)
+      },
       ...SortColumn,
       align: 'center',
     },
@@ -234,7 +240,7 @@ function QrPage() {
   ];
   
   
-  const shippingInfo : RenderInfoDetail = [{
+  const shippingInfo: RenderInfoDetail = [{
     
     header: 'THÔNG TIN VẬN CHUYỂN',
     className: 'col-12',
@@ -244,13 +250,13 @@ function QrPage() {
       'sellStatus': {
         title: '',
         formatter: (entity: any[]) => {
-  
-          return <DisplayTable entities={mobileSaleMock.shippingInfo} columns={shippingInfoColumns} />
+          
+          return <DisplayTable entities={mobileSaleMock.shippingInfo} columns={shippingInfoColumns}/>
         }
       }
     },
   }];
-
+  
   
   const distributionInfoColumns: MasterBodyColumns = [
     ...shippingInfoColumns,
@@ -386,7 +392,7 @@ function QrPage() {
       // titleClassName: 'col-3'
     },
   ];
-
+  
   const QrRenderDetail2 = [
     ...shippingInfo,
     ...distributionInfo,
@@ -487,7 +493,7 @@ function QrPage() {
                   // get={QrService.GetById}
                   get={null}
                 />
-    
+  
                 <MasterEntityDetailDialog
                   title='Hình ảnh'
                   moduleName='Hình ảnh'
