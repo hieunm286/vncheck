@@ -1,4 +1,5 @@
 import React from "react";
+import { SortColumn } from "../../common-library/common-consts/const";
 import {MasterBodyColumns, RenderInfoDetail} from "../../common-library/common-types/common-type";
 import {
   DisplayArray,
@@ -413,20 +414,28 @@ const shippingInfoColumns : MasterBodyColumns = [
   {
     dataField: 'exportTime',
     text: 'Thời gian xuất hàng',
-    formatter: (date: string) => {return DisplayDateTime(date);}
+    formatter: (date: string) => {return DisplayDateTime(date);},
+    ...SortColumn,
+    align: 'center',
   },
   {
     text: 'Địa điểm xuất hàng',
     dataField: 'exportAddress',
     formatter: (input) => {return DisplayArray(input)},
+    ...SortColumn,
+    align: 'center',
   },
   {
     text: 'Nhân viên xuất hàng',
     dataField: 'exportStaff.fullName',
+    ...SortColumn,
+    align: 'center',
   },
   {
     text: 'Nhân viên vận chuyển',
-    dataField: 'shipper.fullName'
+    dataField: 'shipper.fullName',
+    ...SortColumn,
+    align: 'center',
   },
 ];
 
@@ -435,20 +444,28 @@ const distributionInfoColumns : MasterBodyColumns = [
   {
     dataField: 'receiveTime',
     text: 'Thời gian nhận hàng',
-    formatter: (date: string) => {return DisplayDateTime(date);}
+    formatter: (date: string) => {return DisplayDateTime(date);},
+    ...SortColumn,
+    align: 'center',
   },
   {
     text: 'Địa điểm nhận hàng',
     dataField: 'receiveAddress',
     formatter: (input) => {return DisplayArray(input)},
+    ...SortColumn,
+    align: 'center',
   },
   {
     dataField: 'receiveStaff.fullName',
     text: 'Nhân viên xuất hàng',
+    ...SortColumn,
+    align: 'center',
   },
   {
     dataField: 'image.path',
     text: 'Hình ảnh',
+    ...SortColumn,
+    align: 'center',
   },
 ];
 

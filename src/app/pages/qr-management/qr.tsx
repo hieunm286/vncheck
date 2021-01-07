@@ -108,9 +108,9 @@ function QrPage() {
       'createdBy': {
         dataField: 'createdBy',
         text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.CREATED_BY'})}`,
-      ...SortColumn,
+        ...SortColumn,
         align: 'center',
-        formatter: (cell: any, row: any, rowIndex: number) => {return <>{cell.firstName + ' ' + cell.lastName}</>},
+        formatter: (cell: any, row: any, rowIndex: number) => {return <>{cell.fullName}</>},
       },
       createdAt: {
         dataField: 'createdAt',
@@ -124,8 +124,8 @@ function QrPage() {
         text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.ACTIVE_BY'})}`,
         ...SortColumn,
         align: 'center',
-        formatter: (cell: any, row: any, rowIndex: number) => {return <>{(row.activeBy && row.activeBy.firstName && row.activeBy.lastName) ? 
-          (row.activeBy.firstName + ' ' + row.activeBy.lastName) : 'NO_INFORMATION'}</>},
+        formatter: (cell: any, row: any, rowIndex: number) => {return <>{(row.activeBy && row.activeBy.fullName) ? 
+          (row.activeBy.fullName) : 'NO_INFORMATION'}</>},
       },
       activeAt: {
         dataField: 'activeAt',
@@ -254,7 +254,7 @@ function QrPage() {
             onHide={refreshData}
             onModify={(e: QrModel) => {
               add(e).then((res: AxiosResponse<QrModel>) => {
-                var a = document.createElement("a"); //Create <a>
+                const a = document.createElement("a"); //Create <a>
                 a.href = "data:application/octet-stream;base64," + res.data.buffers; //Image Base64 Goes here
                 a.download = "file.tif"; //File name Here
                 a.click();
