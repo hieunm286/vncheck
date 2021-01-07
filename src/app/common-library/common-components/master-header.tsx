@@ -25,12 +25,14 @@ export function MasterHeader<T>({
                                   searchModel,
                                   initValue = {},
                                   value,
+                                  showButtons = true,
                                 }: {
   searchModel: SearchModel;
   title: string;
   initValue?: any;
   value?: any;
   onSearch: (data: any) => void;
+  showButtons?: boolean;
 }) {
   const intl = useIntl();
   const defaultClassName = "col-xxl-2 col-md-3 master-header-search-input-margin";
@@ -339,20 +341,25 @@ export function MasterHeader<T>({
                 )}
               </div>
               
-              <div className="row no-gutters">
-                <button className="btn btn-primary mr-8 fixed-btn-width" type="submit">
-                  <SearchIcon style={iconStyle}/>
-                  {intl.formatMessage({id: 'COMMON_COMPONENT.MASTER_HEADER.SEARCH_BTN'})}
-                </button>
-                <button
-                  className="btn btn-outline-primary fixed-btn-width"
-                  type="reset"
-                  onClick={() => handleResetForm(resetForm)}>
-                  <SVG src={ToAbsoluteUrl('/media/svg/vncheck/reset-filter.svg')}
-                       style={iconStyle}/>
-                  {intl.formatMessage({id: 'COMMON_COMPONENT.MASTER_HEADER.RESET_FILTER_BTN'})}
-                </button>
-              </div>
+              {
+                showButtons && (
+                  <div className="row no-gutters">
+                  <button className="btn btn-primary mr-8 fixed-btn-width" type="submit">
+                    <SearchIcon style={iconStyle}/>
+                    {intl.formatMessage({id: 'COMMON_COMPONENT.MASTER_HEADER.SEARCH_BTN'})}
+                  </button>
+                  <button
+                    className="btn btn-outline-primary fixed-btn-width"
+                    type="reset"
+                    onClick={() => handleResetForm(resetForm)}>
+                    <SVG src={ToAbsoluteUrl('/media/svg/vncheck/reset-filter.svg')}
+                        style={iconStyle}/>
+                    {intl.formatMessage({id: 'COMMON_COMPONENT.MASTER_HEADER.RESET_FILTER_BTN'})}
+                  </button>
+                </div>
+                )
+              }
+              
             </form>
           )}
         </Formik>

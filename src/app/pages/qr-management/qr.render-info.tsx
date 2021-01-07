@@ -19,7 +19,7 @@ export const producerInfo: RenderInfoDetail = [{
   header: 'Doanh nghiệp sản xuất',
   className: 'col-12',
   titleClassName: 'col-3 mb-10',
-  dataClassName: 'col-9 mb-10 pl-5',
+  dataClassName: 'col-9 mb-3 pl-5',
   data: {
     '_name': {title: 'Tên doanh nghiệp', formatter: (input: any) => (<>UniFarm</>)},
     '_tax': {title: 'Mã số thuế', formatter: (input: any) => (<>0123456789</>)},
@@ -33,7 +33,7 @@ export const commonInfo: RenderInfoDetail = [{
   header: 'Thông tin chung',
   className: 'col-12',
   titleClassName: 'col-3 mb-10',
-  dataClassName: 'col-9 mb-10 pl-5',
+  dataClassName: 'col-9 mb-3 pl-5',
   data: {
     'productPlan.seeding.species.name': {title: 'SEEDING.SPECIES_NAME',},
     'productPlan.seeding.species.barcode': {title: 'SEEDING.GTIN',},
@@ -43,7 +43,7 @@ export const seedingInfo: RenderInfoDetail = [{
   header: 'Thông tin gieo giống',
   className: 'col-12',
   titleClassName: 'col-3 mb-10',
-  dataClassName: 'col-9 mb-10 pl-5',
+  dataClassName: 'col-9 mb-3 pl-5',
   data: {
     'productPlan.seeding.certificates': {
       title: 'SEEDING.CERTIFICATE',
@@ -109,7 +109,7 @@ export const plantingInfo: RenderInfoDetail = [{
   header: 'Thông tin gieo trồng',
   className: 'col-12',
   titleClassName: 'col-3 mb-10',
-  dataClassName: 'col-9 mb-10 pl-5',
+  dataClassName: 'col-9 mb-3 pl-5',
   data: {
     'productPlan.planting.numberOfPlants': {
       title: 'Số cây đã con trồng',
@@ -163,7 +163,7 @@ export const harvestingInfo : RenderInfoDetail = [{
   header: 'THÔNG TIN THU HOẠCH',
   className: 'col-12',
   titleClassName: 'col-3 mb-10',
-  dataClassName: 'col-9 mb-10 pl-5',
+  dataClassName: 'col-9 mb-3 pl-5',
   data: {
     'productPlan.harvesting.time' : {
       title: 'Thời gian thu hoạch',
@@ -226,7 +226,7 @@ export const preliminaryTreatmentInfo : RenderInfoDetail = [{
   header: 'THÔNG TIN SƠ CHẾ',
   className: 'col-12',
   titleClassName: 'col-3 mb-10',
-  dataClassName: 'col-9 mb-10 pl-5',
+  dataClassName: 'col-9 mb-3 pl-5',
   data: {
     'productPlan.preliminaryTreatment.time' : {
       title: 'Thời gian sơ chế',
@@ -277,7 +277,7 @@ export const cleaningInfo : RenderInfoDetail = [{
   header: 'THÔNG TIN LÀM SẠCH',
   className: 'col-12',
   titleClassName: 'col-3 mb-10',
-  dataClassName: 'col-9 mb-10 pl-5',
+  dataClassName: 'col-9 mb-3 pl-5',
   data: {
     'productPlan.cleaning.time' : {
       title: 'Thời gian làm sạch',
@@ -328,7 +328,7 @@ export const packingInfo : RenderInfoDetail = [{
   header: 'THÔNG TIN ĐÓNG GÓI',
   className: 'col-12',
   titleClassName: 'col-3 mb-10',
-  dataClassName: 'col-9 mb-10 pl-5',
+  dataClassName: 'col-9 mb-3 pl-5',
   data: {
     'productPlan.harvesting.[imageInprogress].[coordinates]' : {
       title: 'Địa điểm Farm đóng gói',
@@ -376,7 +376,7 @@ export const preservationInfo : RenderInfoDetail = [{
   header: 'THÔNG TIN BẢO QUẢN',
   className: 'col-12',
   titleClassName: 'col-3 mb-10',
-  dataClassName: 'col-9 mb-10 pl-5',
+  dataClassName: 'col-9 mb-3 pl-5',
   data: {
     'productPlan.preservation.time' : {
       title: 'Thời gian bảo quản',
@@ -420,7 +420,7 @@ export const sellStatus : RenderInfoDetail = [{
   header: 'TRẠNG THÁI',
   className: 'col-12',
   titleClassName: 'col-3 mb-10',
-  dataClassName: 'col-9 mb-10 pl-5',
+  dataClassName: 'col-9 mb-3 pl-5',
   data: {
     'sellStatus.status': {
       title: 'Trạng thái',

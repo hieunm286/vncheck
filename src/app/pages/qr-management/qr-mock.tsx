@@ -58,7 +58,9 @@ export const mobileSaleMock = {
 
 export const bodyEntities: QrModel[] = [
   {
+    _id: '5ff71af72306f200417fda1f',
     code: '123456', 
+    type: '1',
     createdBy: {
       _id: '',
       firstName: 'Nguyễn',
@@ -84,7 +86,9 @@ export const bodyEntities: QrModel[] = [
    ...mobileSaleMock,
   },
   {
+    _id: '5ff71af72306f200417fda1c',
     code: '123456', 
+    type: '2',
     createdBy: {
       _id: '',
       firstName: 'Phạm',
@@ -113,7 +117,9 @@ export const bodyEntities: QrModel[] = [
 
 export const childQrBodyEntities: QrModel[] = [
   {
+    _id: '5ff71af72306f200417fda1d',
     code: '1tql', 
+    type: '1',
     createdBy: {
       _id: '',
       firstName: 'Nguyễn',
@@ -139,7 +145,9 @@ export const childQrBodyEntities: QrModel[] = [
     ...mobileSaleMock, 
   },
   {
+    _id: '5ff71af72306f200417fda1e',
     code: '123456', 
+    type: '2',
     createdBy: {
       _id: '',
       firstName: 'Phạm',
@@ -170,7 +178,9 @@ export const childQrBodyEntities: QrModel[] = [
 
 
 export const detailEntityMock: QrModel = {
+  _id: '5ff71af72306f200417fda1b',
   code: '1tql', 
+  type: '1',
   createdBy: {
     _id: '',
     firstName: 'Nguyễn',

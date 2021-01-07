@@ -26,7 +26,7 @@ import {
   seedingInfo,
   sellStatus,
 } from "./qr.render-info";
-import {detailEntityMock, mobileSaleMock} from "./qr-mock";
+import {childQrBodyEntities, detailEntityMock, mobileSaleMock} from "./qr-mock";
 import ModifyEntityDialog from "../../common-library/common-components/modify-entity-dialog";
 import {MasterQrChildDetail} from "./qr-detail";
 import {
@@ -122,7 +122,7 @@ function QrPage() {
         align: 'center',
         formatter: (cell: string, row: any, rowIndex: number) => {
           console.log(row.type === '1');
-          return <Link to={'qr/' + (row.type === '1' ? '' : '') + row._id} onClick={(e: MouseEvent<HTMLAnchorElement>) => {setQrType(row.type)}}
+          return <Link to={'/qr/' + (row.type === '1' ? '' : '') + row._id} onClick={(e: MouseEvent<HTMLAnchorElement>) => {console.log(row.type);setQrType(row.type)}}
           >{cell}</Link>},
       },
       'createdBy': {
@@ -130,7 +130,6 @@ function QrPage() {
         text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.CREATED_BY'})}`,
         ...SortColumn,
         align: 'center',
-        formatter: (cell: any, row: any, rowIndex: number) => {return <>{cell.fullName}</>},
       },
       createdAt: {
         dataField: 'createdAt',
@@ -159,6 +158,58 @@ function QrPage() {
         text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.CODE_TYPE'})}`,
         ...SortColumn,
         formatter: (cell: any, row: any, rowIndex: number) => cell === "1" ? (<>Sản phẩm</>) : (<>Đóng gói</>),
+        align: 'center',
+      },
+    }
+  }, []);
+
+  const columns2 = useMemo(() => {
+    return {
+      STT: {
+        dataField: '_id',
+        text: `${intl.formatMessage({id: 'ORDINAL'})}`,
+        ...SortColumn,
+        align: 'center',
+        formatter: (cell: string, row: any, rowIndex: number) => {
+          return (<>{rowIndex + 1}</>)  
+        },
+      },
+      _id: {
+        dataField: '_id',
+        text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.CODE'})}`,
+        ...SortColumn,
+        align: 'center',
+        formatter: (cell: string, row: any, rowIndex: number) => {
+          console.log(row.type === '1');
+          return <Link to={'/qr/' + (row.type === '1' ? '' : '') + row._id} onClick={(e: MouseEvent<HTMLAnchorElement>) => {console.log(row.type);setQrType(row.type)}}
+          >{cell}</Link>},
+      },
+      'createdBy': {
+        dataField: 'createdBy.fullName',
+        text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.CREATED_BY'})}`,
+        ...SortColumn,
+        align: 'center',
+      },
+      createdAt: {
+        dataField: 'createdAt',
+        text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.CREATED_DATE'})}`,
+        ...SortColumn,
+        formatter: (input: any) => (<DisplayDate input={input}/>),
+        align: 'center',
+      },
+      'activeBy': {
+        dataField: 'activeBy',
+        text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.ACTIVE_BY'})}`,
+        ...SortColumn,
+        align: 'center',
+        formatter: (cell: any, row: any, rowIndex: number) => {return <>{(row.activeBy && row.activeBy.fullName) ?
+          (row.activeBy.fullName) : 'NO_INFORMATION'}</>},
+      },
+      activeAt: {
+        dataField: 'activeAt',
+        text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.ACTIVE_AT'})}`,
+        ...SortColumn,
+        formatter: (input: any) => (<DisplayDate input={input}/>),
         align: 'center',
       },
     }
@@ -196,6 +247,29 @@ function QrPage() {
       type: 'search-select',
       label: 'QR.MASTER.SEARCH.CODE_TYPE',
       onSearch: console.log
+    },
+  };
+
+  const searchModel2: SearchModel = {
+    code: {
+      type: 'string',
+      label: 'QR.MASTER.SEARCH.CODE',
+      disabled: true,
+    },
+    createdBy: {
+      type: 'string',
+      label: 'QR.MASTER.SEARCH.CREATED_BY',
+      disabled: true,
+    },
+    createdDate: {
+      type: 'date-time',
+      label: 'QR.MASTER.SEARCH.CREATED_DATE',
+      disabled: true,
+    },
+    codeType: {
+      type: 'string',
+      label: 'QR.MASTER.SEARCH.CODE_TYPE',
+      disabled: true,
     },
   };
 
@@ -360,16 +434,96 @@ function QrPage() {
     ...cleaningInfo,
     ...packingInfo,
     ...preservationInfo,
-    ...shippingInfo,
     ...distributionInfo,
+    ...shippingInfo,
     ...sellStatus
   ];
 
+  const parentQrInfo : RenderInfoDetail = [{
+    header: 'THÔNG TIN LOGISTIC',
+    className: 'col-12',
+    titleClassName: 'col-3 mb-3',
+    dataClassName: 'col-9 mb-3 pl-5',
+    data: {
+      
+      'createdBy.fullName': {
+        title: 'Người tạo QR logistics',
+      },
+      'createdAt': {
+        title: 'Thời điểm tạo',
+        formatter: (date: string) => DisplayDateTime(date),
+      },
+      '_id': {
+        title: 'ID QR cha',
+      },
+    },
+  }];
+
+  const childQrInfo : RenderInfoDetail = [{
+  
+    header: '',
+    className: 'col-12',
+    titleClassName: 'mb-3',
+    dataClassName: 'col-12 mb-3',
+    data: {
+      'childrenCode': {
+        title: 'ID QR con',
+        formatter: (entity: any[]) => {
+          return <DisplayTable entities={childQrBodyEntities} columns={columns2} />
+        }
+      }
+    },
+  }];
 
   const QrRenderDetail2 = [
-    ...shippingInfo,
+    ...parentQrInfo,
+    ...childQrInfo,
     ...distributionInfo,
-  ]
+    ...shippingInfo,
+  ];
+
+  const imageRenderDetail2: RenderInfoDetail = [
+    {
+      header: '',
+      className: '',
+      titleClassName: 'col-12',
+      dataClassName: 'col-12',
+      data: {
+        '//TODO' : {
+          title: 'Ảnh xuất kho',
+          formatter: (input, entity) => {
+            return (
+              <div className="row no-gutters d-flex text-center align-items-center">
+                <DetailImage images={input} renderInfo={entity} className='text-center' width={100} height={100} />
+                <DetailImage images={input} renderInfo={entity} className='text-center' width={100} height={100} />
+                <DetailImage images={input} renderInfo={entity} className='text-center' width={100} height={100} />
+              </div>
+            );
+          }
+        },
+      },
+    },
+    {
+      header: '',
+      className: '',
+      titleClassName: 'col-12',
+      dataClassName: '',
+      data: {
+        '//TODO' : {
+          title: 'Ảnh nhập kho',
+          formatter: (input, entity) => {
+            return (
+              <div className="row no-gutters">
+                <DetailImage images={input} renderInfo={entity} className='text-center' width={100} height={100} />
+                <DetailImage images={input} renderInfo={entity} className='text-center' width={100} height={100} />
+                <DetailImage images={input} renderInfo={entity} className='text-center' width={100} height={100} />
+              </div>
+            );
+          }
+        },
+      },
+    },
+  ];
   
   return (
     <Fragment>
@@ -475,6 +629,7 @@ function QrPage() {
             return qrType ? (qrType === '1' ? (
               <>
               <MasterEntityDetailPage
+                header='THÔNG TIN TRUY XUẤT'
                 entity={detailEntityMock}
                 renderInfo={QrRenderDetail} // renderInfo={detailModel}
                 code={match && match.params.code}
@@ -499,7 +654,17 @@ function QrPage() {
           ) : (
 
             <>
+              <MasterHeader
+                showButtons={false}
+                title={headerTitle}
+                onSearch={(value) => {
+                  setPaginationProps(DefaultPagination)
+                  setFilterProps(value)
+                }}
+                searchModel={searchModel2}
+              />
               <MasterEntityDetailPage
+                header='THÔNG TIN TRUY XUẤT'
                 entity={detailEntityMock}
                 renderInfo={QrRenderDetail2} // renderInfo={detailModel}
                 code={match && match.params.code}
@@ -507,20 +672,23 @@ function QrPage() {
                 // get={QrService.GetById}
                 get={null}
               />
+              <MasterEntityDetailDialog
+                title='Hình ảnh'
+                moduleName='Hình ảnh'
+                show={showImage}
+                entity={detailEntityMock}
+                renderInfo={imageRenderDetail2}
+                onHide={() => {
+                    setShowImage(false)
+                  }
+                }
+                size='sm'
+              />
             </>
           )) : (
             <></>
           );
           }}
-        </Route>
-        <Route path="/qr/qr-child/123456">
-          {({history, match}) => {
-            return (
-            <MasterQrChildDetail
-              entity={{}}
-              columns={Object.values(columns)}
-            />
-          );}}
         </Route>
       </Switch>
     </Fragment>

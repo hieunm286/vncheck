@@ -542,7 +542,7 @@
   "QR.MASTER.HEADER.TITLE": "Quản lý QR",
   "QR.MASTER.BODY.TITLE": "Danh mục quản lý QR",
   "QR.MODULE_NAME": "quản lý qr",
-  "QR.MASTER.SEARCH.CODE": "Mã đơn vị",
+  "QR.MASTER.SEARCH.CODE": "Mã QR",
   "QR.MASTER.SEARCH.CREATED_BY": "Người tạo",
   "QR.MASTER.SEARCH.CREATED_DATE": "Ngày tạo mã",
   "QR.MASTER.SEARCH.ACTIVE_BY": "Người kích hoạt",
@@ -648,5 +648,7 @@
   "HARVESTING_END_TIME": "Thời gian kết thúc thu hoạch",
   "PRODUCTION_PLAN.HARVEST_REAL_DATE": "Thời gian thu hoạch",
   "UPDATE.ERROR.STORE_LEVEL.EXISTED_NAME": "Cấp bán hàng đã tồn tại nha",
-  "PRESERVATION_TIME": "Thời gian bảo quản"
+  "PRESERVATION_TIME": "Thời gian bảo quản",
+
+  "ORDINAL": "STT"
 }
