@@ -266,6 +266,7 @@ function ProductionManagement() {
       formatter: (cell: any, row: any, rowIndex: number) => (
         <p>{rowIndex + 1 + ((paginationProps.page ?? 0) - 1) * (paginationProps.limit ?? 0)}</p>
       ),
+      classes: 'text-center',
       style: { paddingTop: 20 },
     },
     code: {
