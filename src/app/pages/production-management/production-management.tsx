@@ -1,18 +1,18 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { useIntl } from 'react-intl';
-import { Link, Route, Switch, useHistory } from 'react-router-dom';
-import { Card, CardBody } from '../../common-library/card';
-import { InitMasterProps } from '../../common-library/helpers/common-function';
-import { Steps } from 'antd';
-import { DefaultPagination, SortColumn } from '../../common-library/common-consts/const';
-import { MasterHeader } from '../../common-library/common-components/master-header';
-import { SearchModel } from '../../common-library/common-types/common-type';
+import React, {useCallback, useEffect, useState} from 'react';
+import {useIntl} from 'react-intl';
+import {Link, Route, Switch, useHistory} from 'react-router-dom';
+import {Card, CardBody} from '../../common-library/card';
+import {InitMasterProps} from '../../common-library/helpers/common-function';
+import {Steps} from 'antd';
+import {DefaultPagination, SortColumn} from '../../common-library/common-consts/const';
+import {MasterHeader} from '../../common-library/common-components/master-header';
+import {SearchModel} from '../../common-library/common-types/common-type';
 import * as SpeciesService from '../species/species.service';
-import { Fix } from '../production-plan/defined/const';
+import {Fix} from '../production-plan/defined/const';
 import * as ProductionPlanService from '../production-plan/production-plan.service';
-import { ProductionPlanModel } from '../production-plan/production-plant.model';
-import { MasterTable } from '../../common-library/common-components/master-table';
-import { MasterEntityDetailPage } from '../../common-library/common-components/master-detail-page';
+import {ProductionPlanModel} from '../production-plan/production-plant.model';
+import {MasterTable} from '../../common-library/common-components/master-table';
+import {MasterEntityDetailPage} from '../../common-library/common-components/master-detail-page';
 import {
   CleaningDetail,
   harvestingDetail,
@@ -22,7 +22,7 @@ import {
 } from './defined/const';
 import _ from 'lodash';
 
-const { Step } = Steps;
+const {Step} = Steps;
 
 const productPlanCode = 'PRODUCTION_PLAN.CODE';
 const harvestingCode = 'PRODUCTION_PLAN.HARVESTING_CODE';
@@ -36,6 +36,11 @@ const extendSearchField: SearchModel = {
     type: 'search-select',
     label: 'PRODUCTION_PLAN.SPECIES_NAME',
     onSearch: SpeciesService.GetAll,
+    onChange: (value, {setFieldValue, values}) => {
+      console.log(value, values);
+      if (value) value.barcode = values.product_plan?.seeding?.species?.barcode;
+      else return {barcode: values.product_plan?.seeding?.species?.barcode}
+    },
     keyField: 'name',
     name: 'product_plan.seeding.species',
   },
