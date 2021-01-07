@@ -21,7 +21,7 @@ import * as MultilevelSaleService from '../multilevel-sale/multilevel-sale.servi
 import { bodyEntities, detailEntityMock } from "./qr-mock";
 import ModifyEntityDialog from "../../common-library/common-components/modify-entity-dialog";
 import { MasterQrChildDetail, MasterQrParentDetail } from "./qr-detail";
-import * as QrService from './services/qr.service';
+import * as QrService from './qr.service';
 import {DisplayDate, DisplayDateTime} from "../../common-library/helpers/detail-helpers";
 import {toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -201,10 +201,7 @@ function QrPage() {
       />
       
       <Switch>
-        {/* <Redirect from="/agency/:code" to="/agency" /> */}
         <Route path="/qr" exact={true}>
-          {/* <MasterHeader title={headerTitle} onSearch={setFilterProps} searchModel={purchaseOrderSearchModel} */}
-          {/* initValue={filterProps}/> */}
           <MasterHeader
             title={headerTitle}
             onSearch={(value) => {
@@ -268,15 +265,6 @@ function QrPage() {
         <Route path="/qr/:code">
           {({history, match}) => {
             return (
-            // <MasterQrParentDetail
-            //   entity={detailEntities}
-            //   code={match && match.params.code}
-            //   get={code => GetById(code)}
-            //   onClose={() => {
-            //     setShowDetail(false);
-            //   }}
-            //   header="THÔNG TIN GIEO GIỐNG"
-            // />
             <MasterEntityDetailPage
               entity={detailEntityMock}
               renderInfo={QrRenderDetail} // renderInfo={detailModel}
@@ -295,51 +283,6 @@ function QrPage() {
               columns={Object.values(columns)}
             />
           );}}
-        </Route>
-        {/* <Route path="/qr/qr-child/123456">
-          {({history, match}) => {
-            return (
-            <MasterQrChildDetail
-              entity={{}}
-              columns={Object.values(columns)}
-            />
-          );}}
-        </Route> */}
-        {/* <Route exact path="/qr/:code">
-          {({history, match}) => (
-            <MasterEntityDetailPage
-              renderInfo={QrRenderDetail}
-              code={match && match.params.code}
-              get={code => GetById(code)}
-              onClose={() => {
-                setShowDetail(false);
-              }}
-              header="THÔNG TIN GIEO GIỐNG"
-            />
-          )}
-        </Route> */}
-        <Route path="/qr/0000000">
-          {/*<EntityCrudPage*/}
-          {/*  moduleName={moduleName}*/}
-          {/*  onModify={add}*/}
-          {/*  formModel={createForm}*/}
-          {/*  actions={actions}*/}
-          {/*  entity={initCreateValues}*/}
-          {/*  // validation={validationSchema}*/}
-          {/*/>*/}
-        </Route>
-        <Route path="/qr/:code">
-          {/*{({history, match}) => (*/}
-          {/*  <EntityCrudPage*/}
-          {/*    onModify={update}*/}
-          {/*    moduleName={moduleName}*/}
-          {/*    code={match && match.params.code}*/}
-          {/*    get={AgencyService.GetById}*/}
-          {/*    formModel={updateForm}*/}
-          {/*    actions={actions}*/}
-          {/*    validation={validationSchema}*/}
-          {/*  />*/}
-          {/*)}*/}
         </Route>
       </Switch>
     </Fragment>

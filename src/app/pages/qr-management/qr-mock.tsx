@@ -1,9 +1,9 @@
 import { RenderInfoDetail } from "../../common-library/common-types/common-type";
 import { QrModel, QrParent } from "./qr.model";
 import * as React from 'react';
-import * as group from './user-mock'; 
-import * as image from './image-mock';
-import * as plan from './plan-mock';
+import * as group from './mocks/user-mock'; 
+import * as image from './mocks/image-mock';
+import * as plan from './mocks/plan-mock';
 
 import { createIntl, createIntlCache } from 'react-intl';
 import viMessage from '../../layout/i18n/messages/vi.json'; //your messages translated with id
