@@ -114,7 +114,7 @@ export const harvestingDetail: RenderInfoDetail = [
     titleClassName: 'col-md-2 col-4 mb-10',
     dataClassName: 'col-md-4 col-8 mb-10 pl-5',
     data: {
-      'planting.imageBefore': {
+      'harvesting.imageBefore': {
         title: 'HARVESTING_IMAGE_BEFORE', formatter: (image, entity) => {
           const renderInfo = {
             title: 'IMAGE_INFO',
@@ -123,7 +123,7 @@ export const harvestingDetail: RenderInfoDetail = [
           return DisplayImage(image, renderInfo)
         }
       },
-      'planting.imageAfter': {
+      'harvesting.imageAfter': {
         title: 'HARVESTING_IMAGE_AFTER', formatter: (image, entity) => {
           const renderInfo = {
             title: 'IMAGE_INFO',
@@ -132,7 +132,7 @@ export const harvestingDetail: RenderInfoDetail = [
           return DisplayImage(image, renderInfo)
         }
       },
-      'planting.imageInProgress': {
+      'harvesting.imageInProgress': {
         title: 'HARVESTING_IMAGE_PROCESSING', formatter: (image, entity) => {
           const renderInfo = {
             title: 'IMAGE_INFO',
