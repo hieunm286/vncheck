@@ -283,7 +283,7 @@ function ProductionManagement() {
       headerClasses: 'text-center',
     },
     landlot: {
-      dataField: 'planting.landLot',
+      dataField: 'planting.landLot.code',
       text: `${intl.formatMessage({ id: 'PLANTING_LAND_LOT' })}`,
       ...SortColumn,
       classes: 'text-center',
