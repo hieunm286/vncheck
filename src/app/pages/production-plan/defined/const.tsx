@@ -1206,20 +1206,20 @@ export const CompareDate = (date1: Date, date2: Date) => {
 };
 
 export const validate = {
-  // estimatedTime: Yup.mixed().test('oneOfRequired', 'DATE_VALIDATE', function (value: any) {
-  //   return (
-  //     (this.parent.leader.length > 0 &&
-  //       this.parent.technical.length > 0 &&
-  //       this.parent.estimatedQuantity > 0 &&
-  //       value &&
-  //       CompareDate(new Date(value), new Date())) ||
-  //     ((!this.parent.leader || this.parent.leader.length === 0) &&
-  //       (!this.parent.technical || this.parent.technical.length === 0) &&
-  //       (!this.parent.estimatedQuantity || this.parent.estimatedQuantity === 0) &&
-  //       !value) ||
-  //     (value && CompareDate(new Date(value), new Date()))
-  //   );
-  // }),
+  estimatedTime: Yup.mixed().test('oneOfRequired', 'DATE_VALIDATE', function (value: any) {
+    return (
+      (this.parent.leader.length > 0 &&
+        this.parent.technical.length > 0 &&
+        this.parent.estimatedQuantity > 0 &&
+        value &&
+        CompareDate(new Date(value), new Date())) ||
+      ((!this.parent.leader || this.parent.leader.length === 0) &&
+        (!this.parent.technical || this.parent.technical.length === 0) &&
+        (!this.parent.estimatedQuantity || this.parent.estimatedQuantity === 0) &&
+        !value) ||
+      (value && CompareDate(new Date(value), new Date()))
+    );
+  }),
   estimatedQuantity: Yup.number().test('oneOfRequired', 'ESTIMATED_QUANTITY_VALIDATE', function (value: any) {
     return (
       (this.parent.leader.length > 0 &&

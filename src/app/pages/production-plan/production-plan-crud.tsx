@@ -218,7 +218,7 @@ function ProductionPlanCrud({
   const submitHandle = (
     values: any,
     curValues: any,
-    { setSubmitting, setFieldError, resetForm }: any,
+    { setSubmitting, setFieldError }: any,
   ) => {
     onModify(values)
       .then((res: any) => {
@@ -331,7 +331,7 @@ function ProductionPlanCrud({
         initialValues={entityForEdit || initForm}
         // initialValues={initForm}
         validationSchema={validation}
-        onSubmit={(values, { setSubmitting, setFieldError, resetForm }) => {
+        onSubmit={(values, { setSubmitting, setFieldError }) => {
           const vResult = validate(values)
           if (!vResult.status && vResult.field && vResult.message) {
             setFieldError(vResult.field, vResult.message)
@@ -433,7 +433,7 @@ function ProductionPlanCrud({
             console.log(values);
 
             if (step === '0') {
-              submitHandle(updateValue, values, { setSubmitting, setFieldError, resetForm });
+              submitHandle(updateValue, values, { setSubmitting, setFieldError });
             } else if (step === '1' && currentTab !== '2') {
               // if (!updateValue.step || updateValue.step !== '1') {
               //   updateValue.step = '1';

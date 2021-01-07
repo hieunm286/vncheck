@@ -1189,8 +1189,7 @@ function ProductionPlan() {
             disabled: (values: any) => {
               return _.parseInt(values.process) >= preliminaryTreatmentProcess;
             },
-            showTime: true,
-            format: 'DD/MM/yyyy HH:mm'
+           
           },
           estimatedQuantity: {
             _type: 'number',
@@ -1247,8 +1246,7 @@ function ProductionPlan() {
             disabled: (values: any) => {
               return _.parseInt(values.process) >= cleaningProcess;
             },
-            showTime: true,
-            format: 'DD/MM/yyyy HH:mm'
+           
           },
           estimatedQuantity: {
             _type: 'number',
@@ -1307,8 +1305,7 @@ function ProductionPlan() {
             disabled: (values: any) => {
               return _.parseInt(values.process) >= packingProcess;
             },
-            showTime: true,
-            format: 'DD/MM/yyyy HH:mm'
+           
           },
           estimatedExpireTimeStart: {
             _type: 'date-time',
@@ -1317,8 +1314,7 @@ function ProductionPlan() {
             disabled: (values: any) => {
               return _.parseInt(values.process) >= packingProcess;
             },
-            showTime: true,
-            format: 'DD/MM/yyyy HH:mm'
+            
           },
           estimatedExpireTimeEnd: {
             _type: 'date-time',
@@ -1327,8 +1323,7 @@ function ProductionPlan() {
             disabled: (values: any) => {
               return _.parseInt(values.process) >= packingProcess;
             },
-            showTime: true,
-            format: 'DD/MM/yyyy HH:mm'
+            
           },
           packing: {
             _type: 'search-select',
@@ -1405,8 +1400,7 @@ function ProductionPlan() {
             disabled: (values: any) => {
               return _.parseInt(values.process) >= preservationProcess;
             },
-            showTime: true,
-            format: 'DD/MM/yyyy HH:mm'
+          
           },
           estimatedEndTime: {
             _type: 'date-time',
@@ -1415,8 +1409,7 @@ function ProductionPlan() {
             disabled: (values: any) => {
               return _.parseInt(values.process) >= preservationProcess;
             },
-            showTime: true,
-            format: 'DD/MM/yyyy HH:mm'
+          
           },
         },
       },
@@ -1566,7 +1559,7 @@ function ProductionPlan() {
             onSearch={value => {
               setPaginationProps(DefaultPagination);
               const cvValue = JSON.parse(JSON.stringify(value));
-
+          
               if (
                 value.product_plan &&
                 value.product_plan.seeding &&
