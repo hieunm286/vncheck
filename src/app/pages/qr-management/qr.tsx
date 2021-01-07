@@ -25,8 +25,6 @@ import {
   preservationInfo,
   seedingInfo,
   sellStatus,
-  shippingInfo,
-  shippingInfoColumns
 } from "./qr.render-info";
 import {detailEntityMock, mobileSaleMock} from "./qr-mock";
 import ModifyEntityDialog from "../../common-library/common-components/modify-entity-dialog";

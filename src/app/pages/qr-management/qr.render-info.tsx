@@ -414,53 +414,6 @@ export const preservationInfo : RenderInfoDetail = [{
 }];
 
 
-export const shippingInfoColumns : MasterBodyColumns = [
-  {
-    dataField: 'exportTime',
-    text: 'Thời gian xuất hàng',
-    formatter: (date: string) => {return DisplayDateTime(date);},
-    ...SortColumn,
-    align: 'center',
-  },
-  {
-    text: 'Địa điểm xuất hàng',
-    dataField: 'exportAddress',
-    formatter: (input) => {return DisplayArray(input)},
-    ...SortColumn,
-    align: 'center',
-  },
-  {
-    text: 'Nhân viên xuất hàng',
-    dataField: 'exportStaff.fullName',
-    ...SortColumn,
-    align: 'center',
-  },
-  {
-    text: 'Nhân viên vận chuyển',
-    dataField: 'shipper.fullName',
-    ...SortColumn,
-    align: 'center',
-  },
-];
-
-
-export const shippingInfo : RenderInfoDetail = [{
-  
-  header: 'THÔNG TIN VẬN CHUYỂN',
-  className: 'col-12',
-  titleClassName: 'col-3 mb-10',
-  dataClassName: 'col-12 mb-10',
-  data: {
-    'sellStatus': {
-      title: '',
-      formatter: (entity: any[]) => {
-
-        return <DisplayTable entities={mobileSaleMock.shippingInfo} columns={shippingInfoColumns} />
-      }
-    }
-  },
-}];
-
 
 export const sellStatus : RenderInfoDetail = [{
   
