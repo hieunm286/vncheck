@@ -3,8 +3,6 @@ import { useIntl } from 'react-intl';
 import { Link, Route, Switch, useHistory } from 'react-router-dom';
 import { Card, CardBody } from '../../common-library/card';
 import { InitMasterProps } from '../../common-library/helpers/common-function';
-import { ProductionManagementModel } from './production-management.model';
-import * as ProductionManagementService from './production-management.service';
 import { Steps } from 'antd';
 import { DefaultPagination, SortColumn } from '../../common-library/common-consts/const';
 import { MasterHeader } from '../../common-library/common-components/master-header';

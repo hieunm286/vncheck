@@ -80,14 +80,14 @@ export const PreliminaryTreatmentDetail: RenderInfoDetail = [
       'planting.species.barcode': { title: 'GTIN' },
       
       'harvesting.code': { title: 'PRODUCTION_PLAN.HARVESTING_CODE' },
-      'preliminaryTreatment.estimatedTime': {
+      'seeding.estimatedPlantingTime': {
         title: 'SEEDING.SEEDING_TIME',
         formatter: input => DisplayDateTime(input),
       },
       'preliminaryTreatment.code': { title: 'PRODUCTION_PLAN.PreliminaryTreatment_CODE' },
       'planting.farmLocation.[coordinates]': { title: 'HARVESTING_LOCATION', formatter: DisplayCoordinates, },
       '': { title: 'EMPTY' },
-      'planting.estimatedQuantity': { title: 'PRELIMINARY_TREATMENT' },
+      'preliminaryTreatment.estimatedQuantity': { title: 'PRELIMINARY_TREATMENT' },
       
     },
   },
@@ -128,14 +128,14 @@ export const CleaningDetail: RenderInfoDetail = [
       'planting.species.barcode': { title: 'GTIN' },
       
       'harvesting.code': { title: 'PRODUCTION_PLAN.HARVESTING_CODE' },
-      'cleaning.estimatedTime': {
+      'seeding.estimatedPlantingTime': {
         title: 'SEEDING.SEEDING_TIME',
         formatter: input => DisplayDateTime(input),
       },
       'preliminaryTreatment.code': { title: 'PRODUCTION_PLAN.PreliminaryTreatment_CODE' },
       'planting.farmLocation.[coordinates]': { title: 'HARVESTING_LOCATION', formatter: DisplayCoordinates, },
       'cleaning.code': { title: 'PRODUCTION_PLAN.CLEANING.CODE' },
-      'planting.estimatedQuantity': { title: 'PRELIMINARY_TREATMENT' },
+      'cleaning.estimatedQuantity': { title: 'CLEANING_QUANTITY' },
       
     },
   },
@@ -176,7 +176,7 @@ export const PackingDetail: RenderInfoDetail = [
       'planting.species.barcode': { title: 'GTIN' },
       
       'harvesting.code': { title: 'PRODUCTION_PLAN.HARVESTING_CODE' },
-      'cleaning.estimatedTime': {
+      'seeding.estimatedPlantingTime': {
         title: 'SEEDING.SEEDING_TIME',
         formatter: input => DisplayDateTime(input),
       },
