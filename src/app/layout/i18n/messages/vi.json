@@ -421,6 +421,8 @@
   "PRELIMINARY_TREATMENT": "Sản lượng sơ chế (dự kiến)",
   "IMAGE_STORAGE": "Hình ảnh",
   "HARVESTING_LOCATION": "Địa điểm thu hoạch",
+  "PRELIMINARYTREATMENT_LOCATION": "Địa điểm sơ chế",
+  "CLEANING_LOCATION": "Địa điểm làm sạch",
   "GENERAL_INFO": "THÔNG TIN CHUNG",
   "ENVIRONMENT_INFO": "THÔNG TIN MÔI TRƯỜNG",
   "DATE_VALIDATE": "Vui lòng nhập ngày tháng hợp lệ",
@@ -636,5 +638,6 @@
   "HARVESTING_START_TIME": "Thời gian bắt đầu thu hoạch",
   "HARVESTING_END_TIME": "Thời gian kết thúc thu hoạch",
   "PRODUCTION_PLAN.HARVEST_REAL_DATE": "Thời gian thu hoạch",
-  "UPDATE.ERROR.STORE_LEVEL.EXISTED_NAME": "Cấp bán hàng đã tồn tại nha"
+  "UPDATE.ERROR.STORE_LEVEL.EXISTED_NAME": "Cấp bán hàng đã tồn tại nha",
+  "PRESERVATION_TIME": "Thời gian bảo quản"
 }
