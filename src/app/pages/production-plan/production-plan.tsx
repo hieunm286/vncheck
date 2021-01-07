@@ -266,12 +266,13 @@ function ProductionPlan() {
   
   const [step, setStep] = useState('0');
   
-  const [userData, setUserData] = useState<any[]>([]);
+  const [userData, setUserData] = useState<any>();
   
   useEffect(() => {
-    UserService.GetAll({queryProps: {}}).then(e => {
+    UserService.GetAll({queryProps: {}}).then((e) => {
       console.log(e);
-      setUserData(e.data);
+      const rs = e.data as any
+      setUserData(rs.data);
     })
   }, [])
   

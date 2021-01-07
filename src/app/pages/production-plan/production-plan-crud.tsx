@@ -246,13 +246,16 @@ function ProductionPlanCrud({
   };
 
   const validate = (values: any) => {
+    if (values.packing.estimatedQuantity && !_.isInteger(values.packing.estimatedQuantity)) {
+      return { status: false, field: 'packing.estimatedQuantity', message: 'Số lượng đóng gói phải là số nguyên' };
+    }
     if (values.harvesting.estimatedTime &&
       values.preliminaryTreatment.estimatedTime &&
       !CompareDate(
         new Date(values.preliminaryTreatment.estimatedTime),
         new Date(values.harvesting.estimatedTime),
       )) {
-        return { status: false, field: 'preliminaryTreatment.estimatedTime', message: 'Không thu hoạch thì sơ chế kiểu gì?' };
+        return { status: false, field: 'preliminaryTreatment.estimatedTime', message: 'Ngày sơ chế không được nhỏ hơn ngày thu hoạch' };
       }
 
     if (values.planting.expectedQuantity && values.preliminaryTreatment.estimatedQuantity && values.planting.expectedQuantity < values.preliminaryTreatment.estimatedQuantity) {
@@ -266,7 +269,7 @@ function ProductionPlanCrud({
         new Date(values.preliminaryTreatment.estimatedTime),
       )
     ) {
-      return { status: false, field: 'cleaning.estimatedTime', message: 'Có thằng nào làm sạch xong mới sơ chế không?' };
+      return { status: false, field: 'cleaning.estimatedTime', message: 'Ngày làm sạch không được nhỏ hơn ngày sơ chế' };
     }
     if (values.preliminaryTreatment.estimatedQuantity && values.cleaning.estimatedQuantity && values.preliminaryTreatment.estimatedQuantity < values.cleaning.estimatedQuantity) {
       return { status: false, field: 'cleaning.estimatedQuantity', message: 'Sản lượng làm sạch không được lớn hơn sản lượng sơ chế' }
@@ -279,7 +282,7 @@ function ProductionPlanCrud({
         new Date(values.cleaning.estimatedTime),
       )
     ) {
-      return { status: false, field: 'packing.estimatedTime', message: 'Nhập đúng ngày tháng hộ cái mệt vkl' };
+      return { status: false, field: 'packing.estimatedTime', message: 'Ngày đóng gói không được nhỏ hơn ngày làm sạch' };
     }
     if (values.cleaning.estimatedQuantity && values.packing.estimatedQuantity && values.cleaning.estimatedQuantity < values.packing.estimatedQuantity) {
       return { status: false, field: 'packing.estimatedQuantity', message: 'Sản lượng đóng gói không được lớn hơn sản lượng làm sạch' }
@@ -292,7 +295,7 @@ function ProductionPlanCrud({
         new Date(values.packing.estimatedTime),
       )
     ) {
-      return { status: false, field: 'preservation.estimatedStartTime', message: 'Nói mãi không nghe à?' };
+      return { status: false, field: 'preservation.estimatedStartTime', message: 'Ngày bảo quản không được nhỏ hơn ngày đóng gói' };
     }
     return { status: true };
   };
