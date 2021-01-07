@@ -14,16 +14,38 @@ import {DefaultPagination, SortColumn} from '../../common-library/common-consts/
 import {DeleteEntityDialog} from "../../common-library/common-components/delete-entity-dialog";
 import DeleteManyEntitiesDialog from '../../common-library/common-components/delete-many-entities-dialog';
 import {Link, Route, Switch, useHistory} from 'react-router-dom';
-import {SearchModel} from "../../common-library/common-types/common-type";
+import {MasterBodyColumns, RenderInfoDetail, SearchModel} from "../../common-library/common-types/common-type";
 import {MasterEntityDetailPage} from "../../common-library/common-components/master-detail-page";
-import {QrRenderDetail} from "./qr.render-info";
-import {detailEntityMock} from "./qr-mock";
+import {
+  cleaningInfo,
+  harvestingInfo,
+  packingInfo,
+  plantingInfo,
+  preliminaryTreatmentInfo,
+  preservationInfo,
+  seedingInfo,
+  sellStatus,
+  shippingInfo,
+  shippingInfoColumns
+} from "./qr.render-info";
+import {detailEntityMock, mobileSaleMock} from "./qr-mock";
 import ModifyEntityDialog from "../../common-library/common-components/modify-entity-dialog";
 import {MasterQrChildDetail} from "./qr-detail";
-import {DisplayDate} from "../../common-library/helpers/detail-helpers";
+import {
+  DisplayArray,
+  DisplayCoordinates,
+  DisplayDate,
+  DisplayDateTime,
+  DisplayTable
+} from "../../common-library/helpers/detail-helpers";
 import 'react-toastify/dist/ReactToastify.css';
 import {AxiosResponse} from 'axios';
+import {ActionsColumnFormatter} from "../../common-library/common-components/actions-column-formatter";
+import {MasterEntityDetailDialog} from "../../common-library/common-components/master-entity-detail-dialog";
+import {DetailImage} from "../../common-library/common-components/detail/detail-image";
+import {Select} from 'antd';
 
+const Option = {Select};
 const headerTitle = 'QR.MASTER.HEADER.TITLE';
 const tableTitle = 'SHIPPING_AGENCY.MASTER.TABLE.TITLE';
 const detailDialogTitle = 'SHIPPING_AGENCY.DETAIL_DIALOG.TITLE';
@@ -90,6 +112,7 @@ function QrPage() {
   }, [paginationProps, filterProps]);
 
   const [qrType, setQrType] = useState<string>();
+  const [showImage, setShowImage] = useState<boolean>(false);
   
   
   const columns = useMemo(() => {
@@ -106,9 +129,7 @@ function QrPage() {
         text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.CREATED_BY'})}`,
         ...SortColumn,
         align: 'center',
-        formatter: (cell: any, row: any, rowIndex: number) => {
-          return <>{row.createdBy.firstName + ' ' + row.createdBy.lastName}</>
-        },
+        formatter: (cell: any, row: any, rowIndex: number) => {return <>{cell.fullName}</>},
       },
       createdAt: {
         dataField: 'createdAt',
@@ -122,8 +143,8 @@ function QrPage() {
         text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.ACTIVE_BY'})}`,
         ...SortColumn,
         align: 'center',
-        formatter: (cell: any, row: any, rowIndex: number) => {return <>{(row.activeBy && row.activeBy.firstName && row.activeBy.lastName) ? 
-          (row.activeBy.firstName + ' ' + row.activeBy.lastName) : 'NO_INFORMATION'}</>},
+        formatter: (cell: any, row: any, rowIndex: number) => {return <>{(row.activeBy && row.activeBy.fullName) ?
+          (row.activeBy.fullName) : 'NO_INFORMATION'}</>},
       },
       activeAt: {
         dataField: 'activeAt',
@@ -176,6 +197,124 @@ function QrPage() {
       onSearch: console.log
     },
   };
+
+  
+
+
+  const distributionInfoColumns : MasterBodyColumns = [
+    ...shippingInfoColumns,
+    {
+      dataField: 'receiveTime',
+      text: 'Thời gian nhận hàng',
+      formatter: (date: string) => {return DisplayDateTime(date);},
+      ...SortColumn,
+      align: 'center',
+    },
+    {
+      text: 'Địa điểm nhận hàng',
+      dataField: 'receiveAddress',
+      formatter: (input) => {return DisplayArray(input)},
+      ...SortColumn,
+      align: 'center',
+    },
+    {
+      dataField: 'receiveStaff.fullName',
+      text: 'Nhân viên xuất hàng',
+      ...SortColumn,
+      align: 'center',
+    },
+    {
+      dataField: 'image.path',
+      text: 'Hình ảnh',
+      formatter: (cell: any, row: any, rowIndex: number) => {
+          return (
+          <>
+            {ActionsColumnFormatter(cell, row, rowIndex, {
+              onShowDetail: (cell: any) => {setShowImage(true)},
+              intl
+            })}
+          </>
+      )},
+      ...SortColumn,
+      align: 'center',
+    },
+  ];
+
+  const distributionInfo : RenderInfoDetail = [{
+  
+    header: 'THÔNG TIN PHÂN PHỐI',
+    className: 'col-12',
+    titleClassName: 'col-3 mb-10',
+    dataClassName: 'col-12 mb-10',
+    data: {
+      'sellStatus': {
+        title: '',
+        formatter: (entity: any[]) => {
+  
+          return <DisplayTable entities={mobileSaleMock.distributionInfo} columns={distributionInfoColumns} />
+        }
+      }
+    },
+  }];
+
+  const QrRenderDetail: RenderInfoDetail = [
+    ...seedingInfo,
+    ...plantingInfo,
+    ...harvestingInfo,
+    ...preliminaryTreatmentInfo,
+    ...cleaningInfo,
+    ...packingInfo,
+    ...preservationInfo,
+    ...shippingInfo,
+    ...distributionInfo,
+    ...sellStatus
+  ];
+
+  const imageRenderDetail: RenderInfoDetail = [
+    {
+      header: '',
+      className: 'col-12',
+      titleClassName: '',
+      dataClassName: 'col-12',
+      data: {
+        'productPlan.packing.packingImage' : {
+          title: '',
+          formatter: (input, entity) => {
+            return (<DetailImage images={input} renderInfo={entity} className='text-center' width={300} height={300} />);
+          }
+        },
+      },
+    },
+    {
+      header: '',
+      className: 'col-12',
+      titleClassName: '',
+      dataClassName: 'row mb-3 pl-5',
+      data: {
+        'code' : {
+          title: 'Mã QR sản phẩm',
+        },
+        'productPlan.seeding.species.name' : {
+          title: 'Thông tin sản phẩm',
+        },
+        'takenBy.fullName' : {
+          title: 'Người chụp',
+        },
+        'activeBy.fullName' : {
+          title: 'Người gán mã',
+        },
+        'activeAt' : {
+          title: 'Thời gian gán mã',
+          formatter: (date: string) => DisplayDateTime(date),
+        },
+        'takenLocation.coordinates' : {
+          title: 'Địa điểm chụp',
+          formatter: DisplayCoordinates,
+        },
+      },
+      // titleClassName: 'col-3'
+    },
+  ];
   
   return (
     <Fragment>
@@ -203,10 +342,7 @@ function QrPage() {
       />
       
       <Switch>
-        {/* <Redirect from="/agency/:code" to="/agency" /> */}
         <Route path="/qr" exact={true}>
-          {/* <MasterHeader title={headerTitle} onSearch={setFilterProps} searchModel={purchaseOrderSearchModel} */}
-          {/* initValue={filterProps}/> */}
           <MasterHeader
             title={headerTitle}
             onSearch={(value) => {
@@ -242,15 +378,25 @@ function QrPage() {
                   _subTitle: '',
                   type: {
                     _type: 'string',
-                    label: 'QR.CODE_TYPE',
+                    label: 'QR.EDIT.CODE_TYPE',
+                    // component: () => {
+                    //   return (
+                    //     <>
+                    //       <Select>
+                    //         <Option value="1">Sản phẩm</Option>
+                    //         <Option value="1">Đóng gói</Option>
+                    //       </Select>
+                    //     </>
+                    //   )
+                    // }
                   },
                   total: {
                     _type: 'number',
-                    label: 'QR.QUANTITY',
+                    label: 'QR.EDIT.QUANTITY',
                   },
                   createdBy:{
                     _type: 'string',
-                    label: 'TEMP_TO_CREATE'
+                    label: 'QR.EDIT.ACTIVATOR'
                   }
                 }
               }
@@ -259,7 +405,7 @@ function QrPage() {
             onHide={refreshData}
             onModify={(e: QrModel) => {
               return add(e).then((res: AxiosResponse<QrModel>) => {
-                var a = document.createElement("a"); //Create <a>
+                const a = document.createElement("a"); //Create <a>
                 a.href = "data:application/octet-stream;base64," + res.data.buffers; //Image Base64 Goes here
                 a.download = "file.tif"; //File name Here
                 a.click();
@@ -270,23 +416,29 @@ function QrPage() {
         <Route path="/qr/:code">
           {({history, match}) => {
             return (
-            // <MasterQrParentDetail
-            //   entity={detailEntities}
-            //   code={match && match.params.code}
-            //   get={code => GetById(code)}
-            //   onClose={() => {
-            //     setShowDetail(false);
-            //   }}
-            //   header="THÔNG TIN GIEO GIỐNG"
-            // />
-            <MasterEntityDetailPage
-              entity={detailEntityMock}
-              renderInfo={QrRenderDetail} // renderInfo={detailModel}
-              code={match && match.params.code}
-              onClose={() => history.push('/qr')}
-              // get={QrService.GetById}
-              get={null}
-            />
+              <>
+              <MasterEntityDetailPage
+                entity={detailEntityMock}
+                renderInfo={QrRenderDetail} // renderInfo={detailModel}
+                code={match && match.params.code}
+                onClose={() => history.push('/qr')}
+                // get={QrService.GetById}
+                get={null}
+              />
+
+              <MasterEntityDetailDialog
+                title='Hình ảnh'
+                moduleName='Hình ảnh'
+                show={showImage}
+                entity={detailEntityMock}
+                renderInfo={imageRenderDetail}
+                onHide={() => {
+                    setShowImage(false)
+                  }
+                }
+                size='sm'
+              />
+            </>
           );}}
         </Route>
         <Route path="/qr/qr-child/123456">
@@ -297,51 +449,6 @@ function QrPage() {
               columns={Object.values(columns)}
             />
           );}}
-        </Route>
-        {/* <Route path="/qr/qr-child/123456">
-          {({history, match}) => {
-            return (
-            <MasterQrChildDetail
-              entity={{}}
-              columns={Object.values(columns)}
-            />
-          );}}
-        </Route> */}
-        {/* <Route exact path="/qr/:code">
-          {({history, match}) => (
-            <MasterEntityDetailPage
-              renderInfo={QrRenderDetail}
-              code={match && match.params.code}
-              get={code => GetById(code)}
-              onClose={() => {
-                setShowDetail(false);
-              }}
-              header="THÔNG TIN GIEO GIỐNG"
-            />
-          )}
-        </Route> */}
-        <Route path="/qr/0000000">
-          {/*<EntityCrudPage*/}
-          {/*  moduleName={moduleName}*/}
-          {/*  onModify={add}*/}
-          {/*  formModel={createForm}*/}
-          {/*  actions={actions}*/}
-          {/*  entity={initCreateValues}*/}
-          {/*  // validation={validationSchema}*/}
-          {/*/>*/}
-        </Route>
-        <Route path="/qr/:code">
-          {/*{({history, match}) => (*/}
-          {/*  <EntityCrudPage*/}
-          {/*    onModify={update}*/}
-          {/*    moduleName={moduleName}*/}
-          {/*    code={match && match.params.code}*/}
-          {/*    get={AgencyService.GetById}*/}
-          {/*    formModel={updateForm}*/}
-          {/*    actions={actions}*/}
-          {/*    validation={validationSchema}*/}
-          {/*  />*/}
-          {/*)}*/}
         </Route>
       </Switch>
     </Fragment>

@@ -79,10 +79,17 @@ export const planCleaning = {
 };
 
 export const planPacking = {
-
+  packing: {
+    code: 'Mã đóng gói',
+  },
 };
 
 export const planPreservation = {
-
+  startTime: new Date(),
+  endTime: new Date(),
+  location: {
+    type: 'latitude',
+    coordinates: ['24N', '34E'],
+  },
 };
 

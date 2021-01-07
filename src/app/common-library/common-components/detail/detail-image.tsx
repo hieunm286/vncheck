@@ -14,11 +14,22 @@ export const DetailImage = ({
                               renderInfo,
                               values,
                               onImageRemove,
-                            }: { onImageRemove?: (...props: any) => void, width?: string | number, height?: string | number, thumbnailField?: any, pathField?: any, images: any, renderInfo?: { title?: string, data?: { [KeyField: string]: string }, component?: (value: any, values?: any, intl?:IntlShape) => ReactElement }, values?: any }) => {
+                              className
+                            }: { 
+                              className?: string,
+                              onImageRemove?: (...props: any) => void, 
+                              width?: string | number, 
+                              height?: string | number, 
+                              thumbnailField?: any, 
+                              pathField?: any, 
+                              images: any, 
+                              renderInfo?: { title?: string, data?: { [KeyField: string]: string }, 
+                              component?: (value: any, values?: any, intl?:IntlShape) => ReactElement }, values?: any },
+                            ) => {
   const container = useRef<any>(null);
   const intl = useIntl();
   const [showIndex, setShow] = useState(-1);
-  const Img = useCallback(({image, index}: any) => (<div className="image-item imagePreview mr-1">
+  const Img = useCallback(({image, index}: any) => (<div className= {className ? (className + " image-item imagePreview mr-1") : "image-item imagePreview mr-1"}>
     <Image
       width={width}
       height={height}
@@ -48,9 +59,11 @@ export const DetailImage = ({
   return (
     <Fragment>
       <div ref={container}/>
-      {_images.map((image: any, index: any) => (
-        <Img key={index} index={index} image={image}/>
-      ))}
+        {/* <div className="row no-gutters"> */}
+          {_images.map((image: any, index: any) => (
+            <Img key={index} index={index} image={image}/>
+          ))}
+        {/* </div> */}
       {renderInfo && showIndex > -1 &&  (<div className={'image-detail-info pl-10 pt-13 pr-10 pb-12'}>
         {renderInfo.title && (
           <div className={'pb-3'} style={{fontSize: '24px'}}>{intl.formatMessage({id: renderInfo.title})}</div>)}
