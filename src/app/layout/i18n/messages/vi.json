@@ -384,7 +384,7 @@
   "MULTIVELEVEL_SALE_NAME_WAS_EXISTED": "Tên cấp bán hàng đã tồn tại",
   "MULTIVELEVEL_SALE_TREE_DATA": "Danh sách cấp phân phối",
   "MULTIVELEVEL_SALE_AGENCY_DATA": "Danh sách các đơn vị bán hàng",
-  "INPUT_ALL": "Không thể bỏ trống trường dữ liệu này hộ em với",
+  "INPUT_ALL": "Không được bỏ trống trường dữ liệu này",
   "INPUT_MUTS_ACCORDING_ORDER": "Vui lòng nhập đầy đủ theo thứ tự",
   "PRODUCT_PACKAGING.MASTER.TABLE.CODE_COLUMN": "Mã quy cách",
   "PRODUCT_PACKAGING.MASTER.TABLE.NAME_COLUMN": "Tên chủng loại",

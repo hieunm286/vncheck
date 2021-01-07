@@ -284,9 +284,9 @@ function ProductionPlanCrud({
     ) {
       return { status: false, field: 'packing.estimatedTime', message: 'Ngày đóng gói không được nhỏ hơn ngày làm sạch' };
     }
-    if (values.cleaning.estimatedQuantity && values.packing.estimatedQuantity && values.cleaning.estimatedQuantity < values.packing.estimatedQuantity) {
-      return { status: false, field: 'packing.estimatedQuantity', message: 'Sản lượng đóng gói không được lớn hơn sản lượng làm sạch' }
-    }
+    // if (values.cleaning.estimatedQuantity && values.packing.estimatedQuantity && values.cleaning.estimatedQuantity < values.packing.estimatedQuantity) {
+    //   return { status: false, field: 'packing.estimatedQuantity', message: 'Sản lượng đóng gói không được lớn hơn sản lượng làm sạch' }
+    // }
     if (
       values.packing.estimatedTime &&
       values.preservation.estimatedStartTime &&
