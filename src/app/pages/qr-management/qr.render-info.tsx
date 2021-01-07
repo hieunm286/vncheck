@@ -1,6 +1,7 @@
 import React from "react";
 import {RenderInfoDetail} from "../../common-library/common-types/common-type";
 import {
+  Display3Info,
   DisplayArray,
   DisplayCelcius,
   DisplayCoordinates,
@@ -21,13 +22,13 @@ export const producerInfo: RenderInfoDetail = [{
     'enterprise.taxId': {title: 'ENTERPRISE.TAX_ID'},
     'enterprise.address': {title: 'ENTERPRISE.ADDRESS'},
     'enterprise.phone': {title: 'ENTERPRISE.PHONE'},
-    'enterprise.representedBy': {title: 'ENTERPRISE.REPRESENTED_BY'},
+    'enterprise.presentedBy': {title: 'ENTERPRISE.REPRESENTED_BY'},
     'enterprise.gln': {title: 'ENTERPRISE.GLN'},
   }
 }];
 
 export const commonInfo: RenderInfoDetail = [{
-  header: 'COMMON_INFO',
+  header: 'GENERAL_INFO',
   className: 'col-12',
   titleClassName: 'col-3 mb-10',
   dataClassName: 'col-9 mb-10 pl-5',
@@ -61,43 +62,60 @@ export const seedingInfo: RenderInfoDetail = [{
     'productPlan.seeding.numberOfSeed': {title: 'SEEDING.NUMBER_OF_SEED',},
     'productPlan.seeding.landLot.code': {title: 'SEEDING.LAND_LOT',},
     'productPlan.seeding.area': {
-      title: 'Diện tích gieo/ươm',
-      formatter: (input) => {return (<>{input + 'm2'}</>)},
+      title: 'SEEDING_AREA',
+      formatter: (input) => {
+        return (<>{input ? (input + ' m2') : ''}</>)
+      },
     },
     'productPlan.seeding.temperature': {
-      title: 'Nhiệt độ',
+      title: 'TEMPERATURE',
       formatter: DisplayCelcius,
     },
     'productPlan.seeding.humidity': {
-      title: 'Độ ẩm',
+      title: 'HUMIDITY',
       formatter: DisplayPercent,
     },
     'productPlan.seeding.porosity': {
-      title: 'Độ xốp',
+      title: 'POROSITY',
       formatter: DisplayPercent,
     },
     'productPlan.planting.imageBefore': {
-      title: 'Hình ảnh trước khi đưa vào nuôi trồng',
-      formatter: DisplayImage
+      title: 'PLANTING_IMAGE_BEFORE',
+      formatter: (image, entity) => {
+        const renderInfo = {
+          title: 'IMAGE_INFO',
+          component: Display3Info
+        }
+        return DisplayImage(image, renderInfo)
+      }
     },
     'productPlan.seeding.landLotImage': {
-      title: 'Hình ảnh định vị lô luống',
-      formatter: DisplayImage
+      title: 'PLANTING_LAND_LOT_IMAGE',
+      formatter: (image, entity) => {
+        const renderInfo = {
+          title: 'IMAGE_INFO',
+          component: Display3Info
+        }
+        return DisplayImage(image, renderInfo)
+      }
     },
     'productPlan.seeding.manager.fullName': {
-      title: 'Tổng giám đốc',
+      title: 'ADMIN_DIRECTOR_INFO',
     },
     'productPlan.seeding.[leader].fullName': {
-      title: 'Tổ trưởng',
+      title: 'ADMIN_SEEDING_LEADER',
       formatter: (input) => DisplayArray(input)
     },
     'productPlan.seeding.[technical].fullName': {
-      title: 'Kĩ thuật',
+      title: 'ROLE.TECHNICIAN',
       formatter: (input) => DisplayArray(input)
     },
     'productPlan.seeding.[worker].fullName': {
-      title: 'Công nhân thực hiện',
-      formatter: (input) => {console.log(input); return DisplayArray(input)}
+      title: 'SEEDING_WORKER',
+      formatter: (input) => {
+        console.log(input);
+        return DisplayArray(input)
+      }
     },
   }
 }];
@@ -109,48 +127,63 @@ export const plantingInfo: RenderInfoDetail = [{
   dataClassName: 'col-9 mb-10 pl-5',
   data: {
     'productPlan.planting.numberOfPlants': {
-      title: 'Số cây đã con trồng',
+      title: 'PLATING_QUANTITY',
     },
     'productPlan.planting.area': {
-      title: 'Diện tích gieo trồng',
+      title: 'PLANTING_AREA',
+      formatter: (input) => {
+        return (<>{input + ' m2'}</>)
+      },
     },
     'productPlan.planting.farmLocation.[coordinates]': {
       title: 'PLANTING.FARM_LOCATION',
       formatter: DisplayCoordinates
     },
-    'productPlan.seeding.landLotImage': {
-      title: 'Hình ảnh định vị lô luống',
-      formatter: DisplayImage
+    'productPlan.planting.landLotImage': {
+      title: 'PLANTING_LAND_LOT_IMAGE',
+      formatter: (image, entity) => {
+        const renderInfo = {
+          title: 'IMAGE_INFO',
+          component: Display3Info
+        }
+        return DisplayImage(image, renderInfo)
+      }
     },
-    'productPlan.planting.imageAfter': {
-      title: 'Hình ảnh khi đưa vào nuôi trồng',
-      formatter: DisplayImage
+    'productPlan.planting.imageBefore': {
+      title: 'PLANTING_IMAGE_BEFORE',
+      formatter: (image, entity) => {
+        const renderInfo = {
+          title: 'IMAGE_INFO',
+          component: Display3Info
+        }
+        return DisplayImage(image, renderInfo)
+      }
     },
     'productPlan.planting.temperature': {
-      title: 'Nhiệt độ',
+      title: 'TEMPERATURE',
       formatter: DisplayCelcius,
     },
     'productPlan.planting.humidity': {
-      title: 'Độ ẩm',
+      title: 'HUMIDITY',
       formatter: DisplayPercent,
     },
     'productPlan.planting.porosity': {
-      title: 'Độ xốp',
+      title: 'POROSITY',
       formatter: DisplayPercent,
     },
     'productPlan.planting.manager.fullName': {
-      title: 'Tổng giám đốc',
+      title: 'ADMIN_DIRECTOR_INFO',
     },
     'productPlan.planting.[leader].fullName': {
-      title: 'Tổ trưởng',
+      title: 'ADMIN_SEEDING_LEADER',
       formatter: (input) => DisplayArray(input)
     },
     'productPlan.planting.[technical].fullName': {
-      title: 'Kĩ thuật',
+      title: 'ROLE.TECHNICIAN',
       formatter: (input) => DisplayArray(input)
     },
     'productPlan.planting.[worker].fullName': {
-      title: 'Nông dân',
+      title: 'PLANTING_WORKER',
       formatter: (input) => DisplayArray(input)
     },
   }
@@ -164,49 +197,67 @@ export const harvestingInfo : RenderInfoDetail = [{
   data: {
     'productPlan.harvesting.time': {
       keyField: 'productPlan.harvesting', title: 'PRODUCTION_PLAN.HARVEST_DATE', formatter: (e) => {
-        return (<>{DisplayDateTime(e.startTime)} {e.endTime && (<> - {DisplayDateTime(e.endTime)}</>)}</>);
+        return e ? (<>{DisplayDateTime(e.startTime)} {e.endTime && (<> - {DisplayDateTime(e.endTime)}</>)}</>) : (<></>);
       }
     },
     'productPlan.harvesting.realQuantity': {
-      title: 'Sản lượng thực tế',
+      title: 'ADMIN_HARVESTING_LEADER',
     },
     'productPlan.harvesting.imageBefore': {
-      title: 'Hình ảnh trước khi thu hoạch',
-      formatter: DisplayImage
+      title: 'HARVESTING_IMAGE_BEFORE',
+      formatter: (image, entity) => {
+        const renderInfo = {
+          title: 'IMAGE_INFO',
+          component: Display3Info
+        }
+        return DisplayImage(image, renderInfo)
+      }
     },
     'productPlan.harvesting.imageInProgress': {
-      title: 'Hình ảnh khi thu hoạch',
-      formatter: DisplayImage
+      title: 'HARVESTING_IMAGE_PROCESSING',
+      formatter: (image, entity) => {
+        const renderInfo = {
+          title: 'IMAGE_INFO',
+          component: Display3Info
+        }
+        return DisplayImage(image, renderInfo)
+      }
     },
     'productPlan.harvesting.imageAfter' : {
-      title: 'Hình ảnh sau khi thu hoạch',
-      formatter: DisplayImage
+      title: 'HARVESTING_IMAGE_AFTER',
+      formatter: (image, entity) => {
+        const renderInfo = {
+          title: 'IMAGE_INFO',
+          component: Display3Info
+        }
+        return DisplayImage(image, renderInfo)
+      }
     },
     'productPlan.harvesting.temperature' : {
-      title: 'Nhiệt độ',
+      title: 'TEMPERATURE',
       formatter: DisplayCelcius
     },
     'productPlan.harvesting.humidity' : {
-      title: 'Độ ẩm',
+      title: 'HUMIDITY',
       formatter: DisplayPercent
     },
     'productPlan.harvesting.porosity' : {
-      title: 'Độ xốp',
+      title: 'POROSITY',
       formatter: DisplayPercent
     },
     'productPlan.harvesting.manager.fullName' : {
-      title: 'Tổng giám đốc',
+      title: 'ADMIN_DIRECTOR_INFO',
     },
     'productPlan.harvesting.[leader].fullName' : {
-      title: 'Tổ trưởng',
+      title: 'ADMIN_HARVESTING_LEADER',
       formatter: (input) => DisplayArray(input),
     },
     'productPlan.harvesting.[technical].fullName' : {
-      title: 'Kĩ thuật',
+      title: 'ROLE.TECHNICIAN',
       formatter: (input) => DisplayArray(input),
     },
     'productPlan.harvesting.[worker].fullName' : {
-      title: 'Nông dân',
+      title: 'HARVESTING_WORKER',
       formatter: (input) => DisplayArray(input),
     },
   }
@@ -236,15 +287,33 @@ export const preliminaryTreatmentInfo : RenderInfoDetail = [{
     },
     'productPlan.preliminaryTreatment.imageBefore' : {
       title: 'Hình ảnh trước khi sơ chế',
-      formatter: DisplayImage
+      formatter: (image, entity) => {
+        const renderInfo = {
+          title: 'IMAGE_INFO',
+          component: Display3Info
+        }
+        return DisplayImage(image, renderInfo)
+      }
     },
     'productPlan.preliminaryTreatment.imageInProgress' : {
       title: 'Hình ảnh sơ chế',
-      formatter: DisplayImage
+      formatter: (image, entity) => {
+        const renderInfo = {
+          title: 'IMAGE_INFO',
+          component: Display3Info
+        }
+        return DisplayImage(image, renderInfo)
+      }
     },
     'productPlan.preliminaryTreatment.imageAfter' : {
       title: 'Hình ảnh sau khi sơ chế',
-      formatter: DisplayImage
+      formatter: (image, entity) => {
+        const renderInfo = {
+          title: 'IMAGE_INFO',
+          component: Display3Info
+        }
+        return DisplayImage(image, renderInfo)
+      }
     },
     'productPlan.preliminaryTreatment.manager.fullName' : {
       title: 'Tổng giám đốc',
@@ -288,15 +357,33 @@ export const cleaningInfo : RenderInfoDetail = [{
     },
     'productPlan.cleaning.imageBefore' : {
       title: 'Hình ảnh trước khi làm sạch',
-      formatter: DisplayImage
+      formatter: (image, entity) => {
+        const renderInfo = {
+          title: 'IMAGE_INFO',
+          component: Display3Info
+        }
+        return DisplayImage(image, renderInfo)
+      }
     },
     'productPlan.cleaning.imageInProgress' : {
       title: 'Hình ảnh khi làm sạch',
-      formatter: DisplayImage
+      formatter: (image, entity) => {
+        const renderInfo = {
+          title: 'IMAGE_INFO',
+          component: Display3Info
+        }
+        return DisplayImage(image, renderInfo)
+      }
     },
     'productPlan.cleaning.imageAfter' : {
       title: 'Hình ảnh sau khi làm sạch',
-      formatter: DisplayImage
+      formatter: (image, entity) => {
+        const renderInfo = {
+          title: 'IMAGE_INFO',
+          component: Display3Info
+        }
+        return DisplayImage(image, renderInfo)
+      }
     },
     'productPlan.cleaning.manager.fullName' : {
       title: 'Tổng giám đốc',
@@ -334,11 +421,23 @@ export const packingInfo : RenderInfoDetail = [{
     },
     'productPlan.packing.sampleImage' : {
       title: 'Hình ảnh sản phẩm',
-      formatter: DisplayImage
+      formatter: (image, entity) => {
+        const renderInfo = {
+          title: 'IMAGE_INFO',
+          component: Display3Info
+        }
+        return DisplayImage(image, renderInfo)
+      }
     },
     'productPlan.packing.packingImage' : {
       title: 'Hình ảnh sau khi đóng gói',
-      formatter: DisplayImage
+      formatter: (image, entity) => {
+        const renderInfo = {
+          title: 'IMAGE_INFO',
+          component: Display3Info
+        }
+        return DisplayImage(image, renderInfo)
+      }
     },
     'createdAt' : {
       title: 'Ngày gán QR',
@@ -393,7 +492,13 @@ export const preservationInfo : RenderInfoDetail = [{
     },
     'productPlan.preservation.storageImage' : {
       title: 'Hình ảnh bảo quản',
-      formatter: DisplayImage
+      formatter: (image, entity) => {
+        const renderInfo = {
+          title: 'IMAGE_INFO',
+          component: Display3Info
+        }
+        return DisplayImage(image, renderInfo)
+      }
     },
     'productPlan.preservation.[technical].fullName' : {
       title: 'Kĩ thuật',

@@ -115,12 +115,12 @@ export const DisplayTable = ({entities, columns}: { entities: any[], columns: Ma
 }
 
 export const DisplayCoordinates = (arr: string[]) => {
-  return (
+  return arr ? (
     <a
       href={`https://google.com/maps/search/${arr[1]},+${arr[0]}`}
       rel="noopener noreferrer"
       target={'_blank'}>{`${arr[0]}, ${arr[1]}`}</a>
-  );
+  ) : (<></>);
 };
 
 export const Display3Info = (image: any, _: any, intl: IntlShape) => {

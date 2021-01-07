@@ -16,7 +16,7 @@ import DeleteManyEntitiesDialog from '../../common-library/common-components/del
 import {Link, Route, Switch, useHistory} from 'react-router-dom';
 import {MasterBodyColumns, RenderInfoDetail, SearchModel} from "../../common-library/common-types/common-type";
 import {MasterEntityDetailPage} from "../../common-library/common-components/master-detail-page";
-import {producerInfo,} from "./qr.render-info";
+import {commonInfo, harvestingInfo, plantingInfo, producerInfo, seedingInfo,} from "./qr.render-info";
 import {detailEntityMock, mobileSaleMock} from "./qr-mock";
 import ModifyEntityDialog from "../../common-library/common-components/modify-entity-dialog";
 import {MasterQrChildDetail} from "./qr-detail";
@@ -327,19 +327,6 @@ function QrPage() {
     })
   }, []);
   
-  const QrRenderDetail: RenderInfoDetail = [
-    ...producerInfo,
-    // ...seedingInfo,
-    // ...plantingInfo,
-    // ...harvestingInfo,
-    // ...preliminaryTreatmentInfo,
-    // ...cleaningInfo,
-    // ...packingInfo,
-    // ...preservationInfo,
-    // ...shippingInfo,
-    // ...distributionInfo,
-    // ...sellStatus
-  ];
   
   const imageRenderDetail: RenderInfoDetail = [
     {
@@ -392,12 +379,42 @@ function QrPage() {
     ...distributionInfo,
   ]
   
+  const renderInfoProduct: RenderInfoDetail = useMemo(() => ([
+    ...producerInfo,
+    ...commonInfo,
+    ...seedingInfo,
+    ...plantingInfo,
+    ...harvestingInfo,
+    // ...preliminaryTreatmentInfo,
+    // ...cleaningInfo,
+    // ...packingInfo,
+    // ...preservationInfo,
+    // ...shippingInfo,
+    // ...distributionInfo,
+    // ...sellStatus
+  ]), []);
+  const renderInfoPacking: RenderInfoDetail = useMemo(() => ([
+    ...producerInfo,
+    ...commonInfo,
+    // ...seedingInfo,
+    // ...plantingInfo,
+    // ...harvestingInfo,
+    // ...preliminaryTreatmentInfo,
+    // ...cleaningInfo,
+    // ...packingInfo,
+    // ...preservationInfo,
+    // ...shippingInfo,
+    // ...distributionInfo,
+    // ...sellStatus
+  ]), []);
   const [dE, setDE] = useState<any>(null);
   const [matchId, setMatchId] = useState<any>(null);
+  const [renderInfo, setRenderInfo] = useState(renderInfoProduct);
   useEffect(() => {
     matchId && get({_id: matchId} as any).then(e => {
-      console.log(e);
-      setDE(e);
+      const qr = e.data;
+      setRenderInfo(qr.type === '1' ? renderInfoProduct : renderInfoPacking);
+      setDE(qr);
     });
   }, [matchId]);
   return (
@@ -490,7 +507,7 @@ function QrPage() {
               <>
                 <MasterEntityDetailPage
                   entity={dE}
-                  renderInfo={QrRenderDetail} // renderInfo={detailModel}
+                  renderInfo={renderInfo} // renderInfo={detailModel}
                   code={match && match.params.code}
                   onClose={() => history.push('/qr')}
                 />
