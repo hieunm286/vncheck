@@ -7,6 +7,7 @@
   "INPUT.ERROR.INVALID_EMAIL": "Email không hợp lệ",
   "INPUT.ERROR.TYPE_ONLY_NUMBER": "Vui lòng chỉ nhập số",
   "EMPTY": " ",
+  "CLICK_TO_VIEW": "Ấn vào đây để xem",
   "IMAGE_INFO": "THÔNG TIN HÌNH ẢNH",
   "IMAGE.TAKEN_BY": "Người chụp: ",
   "IMAGE.TAKEN_TIME": "Thời gian chụp: ",

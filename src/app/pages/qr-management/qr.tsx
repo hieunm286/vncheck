@@ -8,7 +8,7 @@ import {QrModel} from './qr.model';
 import {MasterHeader} from "../../common-library/common-components/master-header";
 import {MasterBody} from "../../common-library/common-components/master-body";
 
-import {DefaultPagination, SortColumn} from '../../common-library/common-consts/const';
+import {DefaultPagination, NormalColumn, SortColumn} from '../../common-library/common-consts/const';
 import {Link, Route, Switch, useHistory} from 'react-router-dom';
 import {MasterBodyColumns, RenderInfoDetail, SearchModel} from "../../common-library/common-types/common-type";
 import {MasterEntityDetailPage} from "../../common-library/common-components/master-detail-page";
@@ -131,7 +131,8 @@ function QrPage() {
         text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.CREATED_BY'})}`,
         ...SortColumn,
         align: 'center',
-        formatter: (cell: any, row: any, rowIndex: number) => (<>{cell}</>),
+        formatter: (cell: any, row: any, rowIndex: number) => (row?.createdBy ?
+          <DisplayPersonName {...row.createdBy}/> : (<>{intl.formatMessage({id: 'NO_INFORMATION'})}</>)),
       },
       createdAt: {
         dataField: 'createdAt',
@@ -145,14 +146,14 @@ function QrPage() {
         text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.ACTIVE_BY'})}`,
         ...SortColumn,
         align: 'center',
-        formatter: (cell: any, row: any, rowIndex: number) => (<>{cell ?? intl.formatMessage({id: 'NO_INFORMATION'})}</>),
+        formatter: (cell: any, row: any, rowIndex: number) => (row?.activeBy ?
+          <DisplayPersonName {...row.activeBy}/> : (<>{intl.formatMessage({id: 'NO_INFORMATION'})}</>)),
       },
       activeAt: {
         dataField: 'activeAt',
         text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.ACTIVE_AT'})}`,
         ...SortColumn,
-        formatter: (input: any) => (input ?
-          <DisplayDate input={input}/> : (<>{intl.formatMessage({id: 'NO_INFORMATION'})}</>)),
+        formatter: (input: any) => (input ? DisplayDateTime(input) : (<>{intl.formatMessage({id: 'NO_INFORMATION'})}</>)),
         align: 'center',
       },
       type: {
@@ -388,7 +389,7 @@ function QrPage() {
   ]), []);
   
   const childQrColumns = useMemo(() => [{
-    dataField: '_id',
+    dataField: '_',
     text: `${intl.formatMessage({id: 'ORDINAL'})}`,
     align: 'center',
     formatter: (cell: string, row: any, rowIndex: number) => {
@@ -398,13 +399,15 @@ function QrPage() {
     dataField: '_id',
     text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.CODE'})}`,
     align: 'center',
-    formatter: (cell: string, row: any, rowIndex: number) =>
-      (DisplayInnerLink(`/qr/${row._id}`, row._id))
+    ...NormalColumn,
+    formatter: (e: any) => <DisplayInnerLink link={`/qr/${e}`} title={e}/>
   }, {
     dataField: 'createdBy.fullName',
     text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.CREATED_BY'})}`,
     ...SortColumn,
     align: 'center',
+    formatter: (cell: any, row: any, rowIndex: number) => (row?.createdBy ?
+      <DisplayPersonName {...row.createdBy}/> : (<>{intl.formatMessage({id: 'NO_INFORMATION'})}</>)),
   }, {
     dataField: 'createdAt',
     text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.CREATED_DATE'})}`,
@@ -412,16 +415,17 @@ function QrPage() {
     formatter: (input: any) => (<DisplayDate input={input}/>),
     align: 'center',
   }, {
-    dataField: 'activeBy',
+    dataField: 'activeBy.fullName',
     text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.ACTIVE_BY'})}`,
     ...SortColumn,
     align: 'center',
-    formatter: (cell: any, row: any, rowIndex: number) => (<DisplayPersonName {...cell}/>),
+    formatter: (cell: any, row: any, rowIndex: number) => (row?.activeBy ?
+      <DisplayPersonName {...row.activeBy}/> : (<>{intl.formatMessage({id: 'NO_INFORMATION'})}</>)),
   }, {
     dataField: 'activeAt',
     text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.ACTIVE_AT'})}`,
     ...SortColumn,
-    formatter: (input: any) => DisplayDateTime(input),
+    formatter: (input: any) => (input ? DisplayDateTime(input) : (<>{intl.formatMessage({id: 'NO_INFORMATION'})}</>)),
     align: 'center',
   },], []);
   const childQrInfo: RenderInfoDetail = useMemo(() => ([

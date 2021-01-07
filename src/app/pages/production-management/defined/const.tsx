@@ -18,37 +18,38 @@ import {ProductData} from '../production-management.model';
 const seedingCode: RenderInfoDetailColumn = {
   'seeding.code': {
     title: 'SEEDING.CODE',
-    formatter: (e, entity) => DisplayInnerLink(`/production-plan/seeding/${entity._id}`, e)
+    formatter: (e, entity) => <DisplayInnerLink link={`/production-plan/seeding/${entity._id}`} title={e}/>
   }
 };
 const plantingCode: RenderInfoDetailColumn = {
   'planting.code': {
     title: 'PRODUCTION_PLAN.PLANT_CODE',
-    formatter: (e, entity) => DisplayInnerLink(`/production-plan/planting/${entity._id}`, e)
+    formatter: (e, entity) => <DisplayInnerLink link={`/production-plan/planting/${entity._id}`} title={e}/>
   },
 };
 const harvestingCode: RenderInfoDetailColumn = {
   'harvesting.code': {
     title: 'PRODUCTION_PLAN.HARVESTING_CODE',
-    formatter: (e, entity) => DisplayInnerLink(`/production-management/harvesting/${entity._id}`, e)
+    formatter: (e, entity) => <DisplayInnerLink link={`/production-plan/harvesting/${entity._id}`} title={e}/>
   },
 };
 const preliminaryTreatmentCode: RenderInfoDetailColumn = {
   'preliminaryTreatment.code': {
     title: 'PRODUCTION_PLAN.PreliminaryTreatment_CODE',
-    formatter: (e, entity) => DisplayInnerLink(`/production-management/preliminaryTreatment/${entity._id}`, e)
+    formatter: (e, entity) => <DisplayInnerLink link={`/production-management/preliminaryTreatment/${entity._id}`}
+                                                title={e}/>
   },
 };
 const cleaningCode: RenderInfoDetailColumn = {
   'cleaning.code': {
     title: 'PRODUCTION_PLAN.CLEANING.CODE',
-    formatter: (e, entity) => DisplayInnerLink(`/production-management/cleaning/${entity._id}`, e)
+    formatter: (e, entity) => <DisplayInnerLink link={`/production-management/cleaning/${entity._id}`} title={e}/>
   },
 };
 const packingCode: RenderInfoDetailColumn = {
   'packing.code': {
     title: 'PRODUCTION_PLAN.PACKING.CODE',
-    formatter: (e, entity) => DisplayInnerLink(`/production-management/packing/${entity._id}`, e)
+    formatter: (e, entity) => <DisplayInnerLink link={`/production-management/packing/${entity._id}`} title={e}/>
   },
 };
 

@@ -19,7 +19,10 @@ export const DisplayCelcius = (input: string) => {
 
 export const DisplayPersonName = (name: { firstName?: string; lastName?: string, fullName?: string }) => {
   const intl = useIntl();
-  return (<>      {name.fullName ?? name.firstName ? `${name.firstName} ${name.lastName}` : intl.formatMessage({id: 'NO_INFORMATION'})}
+  return (<>{name.fullName ??
+  name.firstName ? `${name.firstName} ${name.lastName}` :
+    intl.formatMessage({id: 'NO_INFORMATION'})
+  }
   </>);
 };
 
@@ -86,7 +89,7 @@ export const DisplayDownloadLink = (input: any, key?: string) => {
   </a>)
 }
 
-export const DisplayInnerLink = (link: any, title?: string) => {
+export const DisplayInnerLink = ({link, title}: { link: any, title?: string }) => {
   const intl = useIntl();
   if (!link) return (<></>);
   return (<Link to={link}>
