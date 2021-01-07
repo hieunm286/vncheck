@@ -1,4 +1,6 @@
+import _ from 'lodash';
 import React from 'react';
+import { ColumnDescription } from 'react-bootstrap-table-next';
 import {SortColumn} from '../../../common-library/common-consts/const';
 import {
   MasterBodyColumns,
@@ -18,6 +20,7 @@ import {
   DisplayPersonNameByArray,
   DisplayTable
 } from '../../../common-library/helpers/detail-helpers';
+import { ProductData } from '../production-management.model';
 
 const seedingCode: RenderInfoDetailColumn = {
   'seeding.code': {
@@ -90,7 +93,7 @@ export const harvestingDetail: RenderInfoDetail = [
     header: 'ENVIRONMENT_INFO',
     className: 'col-12',
     titleClassName: 'col-md-2 col-4 mb-10',
-    dataClassName: 'col-md-4 col-8 mb-10 pl-5',
+    dataClassName: 'col-md-10 col-8 mb-10 pl-5',
     data: {
       'planting.temperature': {title: 'TEMPERATURE', formatter: DisplayCelcius,},
       'planting.humidity': {title: 'HUMIDITY', formatter: DisplayPercent,},
@@ -101,11 +104,11 @@ export const harvestingDetail: RenderInfoDetail = [
     header: 'ADMIN_INFO',
     className: 'col-12',
     titleClassName: 'col-md-2 col-4 mb-10',
-    dataClassName: 'col-md-4 col-8 mb-10 pl-5',
+    dataClassName: 'col-md-10 col-8 mb-10 pl-5',
     data: {
-      'planting.[leader]': {title: 'HARVESTING_LEADER', formatter: DisplayPersonNameByArray,},
-      'planting.[worker]': {title: 'HARVESTING_WORKER', formatter: DisplayPersonNameByArray,},
-      'planting.[technical]': {title: 'ROLE.TECHNICIAN', formatter: DisplayPersonNameByArray,},
+      'harvesting.[leader]': {title: 'HARVESTING_LEADER', formatter: DisplayPersonNameByArray,},
+      'harvesting.[worker]': {title: 'HARVESTING_WORKER', formatter: DisplayPersonNameByArray,},
+      'harvesting.[technical]': {title: 'ROLE.TECHNICIAN', formatter: DisplayPersonNameByArray,},
     },
   },
   {
@@ -340,7 +343,7 @@ export const PackingDetail: RenderInfoDetail = [
     data: {
       'comments': {
         formatter: (entities: any[]) => {
-          const columns: MasterBodyColumns = [
+          const columns: ColumnDescription<any, any>[] = [
             {
               dataField: '_id',
               text: 'STT',
@@ -348,52 +351,58 @@ export const PackingDetail: RenderInfoDetail = [
               style: {paddingTop: 20},
             },
             {
-              dataField: 'firstName',
+              dataField: 'identification',
               text: `Mã định danh`,
               align: 'center',
               ...SortColumn,
             },
             {
-              dataField: 'lastName',
+              dataField: '_id',
               text: `Mã QR`,
               align: 'center',
-              formatter: (input) => DisplayInnerLink(input, input),
+              // formatter: (cell: any, row: any, rowIndex: number) => DisplayInnerLink(''),
               ...SortColumn,
             },
             {
-              dataField: 'planting.estimatedHarvestTime',
+              dataField: 'assignDate',
               text: `Ngày gán mã QR`,
-              formatter: (cell: any, row: any, rowIndex: number) => DisplayDate(cell),
+              formatter: (cell: any, row: any, rowIndex: number) => {
+                return <span>{JSON.stringify(row.assignDate)}</span>
+              },
               ...SortColumn,
             },
             {
-              dataField: 'lastName',
+              dataField: 'scanBy.fullName',
               text: `PERSON_ASSIGN_QR`,
               align: 'center',
-              formatter: (cell: any, row: any, rowIndex: number) => DisplayPersonName(cell),
+              // formatter: (cell: any, row: any, rowIndex: number) => DisplayPersonName(cell),
               ...SortColumn,
             },
             {
-              dataField: 'planting.createdAt',
-              text: `Ngày gán mã QR`,
-              formatter: (cell: any, row: any, rowIndex: number) => DisplayDate(cell),
+              dataField: 'activeAt',
+              text: `Ngày kích hoạt`,
+              formatter: (cell: any, row: any, rowIndex: number) => {
+                return <span>{JSON.stringify(row.assignDate)}</span>
+              },
               ...SortColumn,
             },
             {
-              dataField: 'lastName',
+              dataField: 'activeBy.fullName',
               text: `Người kích hoạt`,
               align: 'center',
-              formatter: (cell: any, row: any, rowIndex: number) => DisplayPersonName(cell),
+              // formatter: (cell: any, row: any, rowIndex: number) => DisplayPersonName(cell),
               ...SortColumn,
             },
             {
-              dataField: 'planting.createdAt',
-              text: `Ngày gán mã QR`,
-              formatter: (cell: any, row: any, rowIndex: number) => DisplayDate(cell),
+              dataField: 'expiry',
+              text: `Hạn sử dụng`,
+              formatter: (cell: any, row: any, rowIndex: number) => {
+                return <span>{JSON.stringify(row.assignDate)}</span>
+              },
               ...SortColumn,
             },
           ]
-          return <DisplayTable entities={entities} columns={columns}/>
+          return <DisplayTable entities={ProductData} columns={columns}/>
         },
       },
     },
