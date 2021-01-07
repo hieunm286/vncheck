@@ -1,4 +1,4 @@
-import React, {Fragment, useCallback, useEffect, useMemo, useState} from "react";
+import React, {Fragment, MouseEvent, useCallback, useEffect, useMemo, useState} from "react";
 import {useIntl} from 'react-intl';
 
 import * as UserService from '../user/user.service';
@@ -117,7 +117,10 @@ function QrPage() {
         text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.CODE'})}`,
         ...SortColumn,
         align: 'center',
-        formatter: (cell: string, row: any, rowIndex: number) => {console.log(row.type === '1');return <Link to={'qr/' + (row.codeType === '1' ? '' : '') + row._id}>{cell}</Link>},
+        formatter: (cell: string, row: any, rowIndex: number) => {
+          console.log(row.type === '1');
+          return <Link to={'qr/' + (row.codeType === '1' ? '' : '') + row._id} onClick={(e: MouseEvent<HTMLAnchorElement>) => {setQrType(row.codeType)}}
+          >{cell}</Link>},
       },
       'createdBy': {
         dataField: 'createdBy',
@@ -306,6 +309,11 @@ function QrPage() {
       // titleClassName: 'col-3'
     },
   ];
+
+  const QrRenderDetail2 = [
+    ...shippingInfo,
+    ...distributionInfo,
+  ]
   
   return (
     <Fragment>
@@ -406,7 +414,7 @@ function QrPage() {
         </Route>
         <Route path="/qr/:code">
           {({history, match}) => {
-            return (
+            return qrType === '1' ? (
               <>
               <MasterEntityDetailPage
                 entity={detailEntityMock}
@@ -430,7 +438,20 @@ function QrPage() {
                 size='sm'
               />
             </>
-          );}}
+          ) : (
+
+            <>
+              <MasterEntityDetailPage
+                entity={detailEntityMock}
+                renderInfo={QrRenderDetail2} // renderInfo={detailModel}
+                code={match && match.params.code}
+                onClose={() => history.push('/qr')}
+                // get={QrService.GetById}
+                get={null}
+              />
+            </>
+          );
+          }}
         </Route>
         <Route path="/qr/qr-child/123456">
           {({history, match}) => {
