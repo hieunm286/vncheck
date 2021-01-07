@@ -83,6 +83,14 @@ export const bodyEntities: QrModel[] = [
       type: 'latitude',
       coordinates: ['24N', '34E'],
     },
+    enterprise: {
+      name: 'Tên doanh nghiệp',
+      taxId: '0123456789',
+      address: '123 Trung Kính, Cầu Giấy',
+      phone: '032276584',
+      presentedBy: 'Nguyễn Văn A',
+      gln: '123456',
+    },
    ...mobileSaleMock,
   },
   {
@@ -111,6 +119,14 @@ export const bodyEntities: QrModel[] = [
       type: 'latitude',
       coordinates: ['24N', '34E'],
     },
+    enterprise: {
+      name: 'Tên doanh nghiệp',
+      taxId: '0123456789',
+      address: '123 Trung Kính, Cầu Giấy',
+      phone: '032276584',
+      presentedBy: 'Nguyễn Văn A',
+      gln: '123456',
+    },
     ...mobileSaleMock,
   },
 ];
@@ -137,6 +153,14 @@ export const childQrBodyEntities: QrModel[] = [
     codeType: 'Sản phẩm',
     takenBy: {
       fullName: 'Nguyễn Đức Chiến',
+    },
+    enterprise: {
+      name: 'Tên doanh nghiệp',
+      taxId: '0123456789',
+      address: '123 Trung Kính, Cầu Giấy',
+      phone: '032276584',
+      presentedBy: 'Nguyễn Văn A',
+      gln: '123456',
     },
     takenLocation: {
       type: 'latitude',
@@ -170,6 +194,14 @@ export const childQrBodyEntities: QrModel[] = [
       type: 'latitude',
       coordinates: ['24N', '34E'],
     },
+    enterprise: {
+      name: 'Tên doanh nghiệp',
+      taxId: '0123456789',
+      address: '123 Trung Kính, Cầu Giấy',
+      phone: '032276584',
+      presentedBy: 'Nguyễn Văn A',
+      gln: '123456',
+    },
     ...mobileSaleMock,
   },
 ];
@@ -202,6 +234,14 @@ export const detailEntityMock: QrModel = {
   takenLocation: {
     type: 'latitude',
     coordinates: ['24N', '34E'],
+  },
+  enterprise: {
+    name: 'Tên doanh nghiệp',
+    taxId: '0123456789',
+    address: '123 Trung Kính, Cầu Giấy',
+    phone: '032276584',
+    presentedBy: 'Nguyễn Văn A',
+    gln: '123456',
   },
   productPlan: {
     seeding: {

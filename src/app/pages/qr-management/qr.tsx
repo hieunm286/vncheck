@@ -18,11 +18,13 @@ import {MasterBodyColumns, RenderInfoDetail, SearchModel} from "../../common-lib
 import {MasterEntityDetailPage} from "../../common-library/common-components/master-detail-page";
 import {
   cleaningInfo,
+  commonInfo,
   harvestingInfo,
   packingInfo,
   plantingInfo,
   preliminaryTreatmentInfo,
   preservationInfo,
+  producerInfo,
   seedingInfo,
   sellStatus,
 } from "./qr.render-info";
@@ -307,8 +309,8 @@ function QrPage() {
     
     header: 'THÔNG TIN VẬN CHUYỂN',
     className: 'col-12',
-    titleClassName: 'col-3 mb-10',
-    dataClassName: 'col-12 mb-10',
+    titleClassName: 'col-3 mb-3',
+    dataClassName: 'col-12 mb-3',
     data: {
       'sellStatus': {
         title: '',
@@ -366,8 +368,8 @@ function QrPage() {
   
     header: 'THÔNG TIN PHÂN PHỐI',
     className: 'col-12',
-    titleClassName: 'col-3 mb-10',
-    dataClassName: 'col-12 mb-10',
+    titleClassName: 'col-3 mb-3',
+    dataClassName: 'col-12 mb-3',
     data: {
       'sellStatus': {
         title: '',
@@ -427,6 +429,8 @@ function QrPage() {
   ];
 
   const QrRenderDetail: RenderInfoDetail = [
+    ...producerInfo,
+    ...commonInfo,
     ...seedingInfo,
     ...plantingInfo,
     ...harvestingInfo,
