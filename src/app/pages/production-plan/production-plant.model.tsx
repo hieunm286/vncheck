@@ -4,6 +4,8 @@
 
 // }
 
+import { UserModelForQR as UserModel } from '../user/user.model';
+
 export type ProductionPlanModel = {
   step: string;
   isFulfilled: boolean;
@@ -28,8 +30,8 @@ export type ProductionPlanModel = {
       path: string;
       hash: string;
     },
-    leader: string[];
-    worker: string[];
+    leader: string[] | UserModel[];
+    worker: string[] | UserModel[];
     _id: string;
     code: string;
     seedingTime: Date;
@@ -54,7 +56,7 @@ export type ProductionPlanModel = {
     temperature: number;
     humidity: number;
     porosity: number;
-    manager: string;
+    manager: string | UserModel;
   },
   planting: {
     farmLocation: {
@@ -69,8 +71,8 @@ export type ProductionPlanModel = {
       path: string;
       hash: string;
     },
-    leader: string[];
-    worker: string[];
+    leader: string[] | UserModel[];
+    worker: string[] | UserModel[];
     _id: string;
     estimatedPlantingTime: Date;
     estimatedHarvestTime: Date;
@@ -91,31 +93,31 @@ export type ProductionPlanModel = {
       expiryDays: number;
       code: string;
     };
-    manager: string;
+    manager: string | UserModel;
   },
   harvesting: {
     _id: string;
-    leader: { _id: string; isRecieved: boolean; info: string }[];
+    leader: { _id: string; isRecieved: boolean; info: string }[] | string[];
     technicalStaff: { _id: string; isRecieved: boolean; info: string }[];
   },
   preliminaryTreatment: {
     _id: string;
     time: Date;
     quantity: number;
-    leader: { _id: string; isRecieved: boolean; info: string }[];
+    leader: { _id: string; isRecieved: boolean; info: string }[] | UserModel[];
     technicalStaff: { _id: string; isRecieved: boolean; info: string }[];
   },
   cleaning: {
     _id: string;
     time: Date;
     quantity: number;
-    leader: { _id: string; isRecieved: boolean; info: string }[];
+    leader: { _id: string; isRecieved: boolean; info: string }[] | UserModel[];
     technicalStaff: { _id: string; isRecieved: boolean; info: string }[];
   },
   packing: {
     _id: string;
     quantity: number;
-    leader: { _id: string; isRecieved: boolean; info: string }[];
+    leader: { _id: string; isRecieved: boolean; info: string }[] | UserModel[];
   },
   preservation: {
     _id: string;

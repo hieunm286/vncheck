@@ -159,13 +159,6 @@ function Species() {
   };
   
   const schema = Yup.object().shape({
-    name: Yup.string()
-      .matches(
-        /^[aAàÀảẢãÃáÁạẠăĂằẰẳẲẵẴắẮặẶâÂầẦẩẨẫẪấẤậẬbBcCdDđĐeEèÈẻẺẽẼéÉẹẸêÊềỀểỂễỄếẾệỆfFgGhHiIìÌỉỈĩĨíÍịỊjJkKlLmMnNoOòÒỏỎõÕóÓọỌôÔồỒổỔỗỖốỐộỘơƠờỜởỞỡỠớỚợỢpPqQrRsStTuUùÙủỦũŨúÚụỤưƯừỪửỬữỮứỨựỰvVwWxXyYỳỲỷỶỹỸýÝỵỴzZ ]+$/u,
-        {
-          message: 'SPECIES_NAME_IS_INVALID',
-        },
-      ),
       // .test('Exists validate', 'SPECIES_NAME_WAS_EXISTED', function (value) {
       //   if (editEntity) {
       //     const validArr = entities.filter(item => item._id !== editEntity._id);

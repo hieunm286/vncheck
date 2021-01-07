@@ -1,4 +1,4 @@
-export interface UserModel {
+export type UserModel = {
   _id: string;
   code: string;
   name: string;
@@ -9,5 +9,9 @@ export interface UserModel {
     city: string;
     district: string;
     address: string;
-  }
+  };
+}
+
+export type UserModelForQR = Partial<UserModel> & {
+  fullName: string;
 }

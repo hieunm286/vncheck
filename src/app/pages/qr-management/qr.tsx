@@ -16,7 +16,9 @@ import DeleteManyEntitiesDialog from '../../common-library/common-components/del
 import {Link, Route, Switch, useHistory} from 'react-router-dom';
 import {SearchModel} from "../../common-library/common-types/common-type";
 import {MasterEntityDetailPage} from "../../common-library/common-components/master-detail-page";
-import { bodyEntities, detailEntities, detailModel } from "./qr-mock";
+import {QrRenderDetail} from "./qr.render-info";
+import * as MultilevelSaleService from '../multilevel-sale/multilevel-sale.service';
+import { bodyEntities, detailEntityMock } from "./qr-mock";
 import ModifyEntityDialog from "../../common-library/common-components/modify-entity-dialog";
 import { MasterQrChildDetail, MasterQrParentDetail } from "./qr-detail";
 import * as QrService from './services/qr.service';
@@ -251,7 +253,7 @@ function QrPage() {
             onModify={add}
           />
         </Route>
-        <Route path="/qr/qr-parent/123456">
+        <Route path="/qr/:code">
           {({history, match}) => {
             return (
             // <MasterQrParentDetail
@@ -264,12 +266,12 @@ function QrPage() {
             //   header="THÔNG TIN GIEO GIỐNG"
             // />
             <MasterEntityDetailPage
-              entity={detailEntities}
-              renderInfo={detailModel}
-              // mode='line'
+              entity={detailEntityMock}
+              renderInfo={QrRenderDetail} // renderInfo={detailModel}
               code={match && match.params.code}
               onClose={() => history.push('/qr')}
-              get={QrService.GetById}
+              // get={QrService.GetById}
+              get={null}
             />
           );}}
         </Route>

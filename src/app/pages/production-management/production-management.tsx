@@ -1,24 +1,27 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { useIntl } from 'react-intl';
-import { Link, Route, Switch, useHistory } from 'react-router-dom';
-import { Card, CardBody } from '../../common-library/card';
-import { InitMasterProps } from '../../common-library/helpers/common-function';
-import { ProductionManagementModel } from './production-management.model';
-import * as ProductionManagementService from './production-management.service';
-import { Steps } from 'antd';
-import { DefaultPagination, SortColumn } from '../../common-library/common-consts/const';
-import { MasterHeader } from '../../common-library/common-components/master-header';
-import { SearchModel } from '../../common-library/common-types/common-type';
+import React, {useCallback, useEffect, useState} from 'react';
+import {useIntl} from 'react-intl';
+import {Link, Route, Switch, useHistory} from 'react-router-dom';
+import {Card, CardBody} from '../../common-library/card';
+import {InitMasterProps} from '../../common-library/helpers/common-function';
+import {Steps} from 'antd';
+import {DefaultPagination, SortColumn} from '../../common-library/common-consts/const';
+import {MasterHeader} from '../../common-library/common-components/master-header';
+import {SearchModel} from '../../common-library/common-types/common-type';
 import * as SpeciesService from '../species/species.service';
-import { Fix } from '../production-plan/defined/const';
+import {Fix} from '../production-plan/defined/const';
 import * as ProductionPlanService from '../production-plan/production-plan.service';
-import { ProductionPlanModel } from '../production-plan/production-plant.model';
-import { MasterTable } from '../../common-library/common-components/master-table';
-import _ from 'lodash';
-import { MasterEntityDetailPage } from '../../common-library/common-components/master-detail-page';
-import { harvestingDetail, PreliminaryTreatmentDetail, CleaningDetail, PackingDetail, PreservationDetail } from './defined/const';
+import {ProductionPlanModel} from '../production-plan/production-plant.model';
+import {MasterTable} from '../../common-library/common-components/master-table';
+import {MasterEntityDetailPage} from '../../common-library/common-components/master-detail-page';
+import {
+  CleaningDetail,
+  harvestingDetail,
+  PackingDetail,
+  PreliminaryTreatmentDetail,
+  PreservationDetail
+} from './defined/const';
 
-const { Step } = Steps;
+const {Step} = Steps;
 
 const productPlanCode = 'PRODUCTION_PLAN.CODE';
 const harvestingCode = 'PRODUCTION_PLAN.HARVESTING_CODE';
@@ -40,12 +43,16 @@ const extendSearchField: SearchModel = {
     label: 'GTIN',
     name: 'product_plan.seeding.species.barcode',
   },
+};
+
+const estimatedHarvestTime: SearchModel = {
   estimatedHarvestTime: {
     type: 'date-time',
     name: 'product_plan.planting.estimatedHarvestTime',
-    label: <Fix title={'PRODUCTION_PLAN.HARVEST_DATE'} />,
+    label: <Fix title={'PRODUCTION_PLAN.HARVEST_DATE'}/>,
   },
 };
+
 
 const PM_HarvestingSearchModel: SearchModel = {
   code: {
@@ -58,6 +65,16 @@ const PM_HarvestingSearchModel: SearchModel = {
     name: 'product_plan.harvesting.code',
   },
   ...extendSearchField,
+  startTime: {
+    type: 'date-time',
+    label: <Fix title={'HARVESTING_START_TIME'}/>,
+    name: 'product_plan.harvesting.startTime',
+  },
+  endTime: {
+    type: 'date-time',
+    label: <Fix title={'HARVESTING_END_TIME'}/>,
+    name: 'product_plan.harvesting.endTime',
+  },
   landLot: {
     type: 'string',
     label: 'PLANTING_LAND_LOT',
@@ -284,7 +301,7 @@ function ProductionManagement() {
     },
     landlot: {
       dataField: 'planting.landLot.code',
-      text: `${intl.formatMessage({ id: 'PLANTING_LAND_LOT' })}`,
+      text: `${intl.formatMessage({id: 'PLANTING_LAND_LOT'})}`,
       ...SortColumn,
       classes: 'text-center',
       headerClasses: 'text-center',
@@ -629,7 +646,7 @@ function ProductionManagement() {
               onClose={() => {
                 setShowDetail(false);
               }}
-              header="THÔNG TIN THU HOẠCH"
+              header="HARVESTING_INFO"
             />
           )}
         </Route>
@@ -643,7 +660,7 @@ function ProductionManagement() {
               onClose={() => {
                 setShowDetail(false);
               }}
-              header="THÔNG TIN THU HOẠCH"
+              header="PRELIMINARY_TREATMENT_INFO"
             />
           )}
         </Route>
@@ -657,7 +674,7 @@ function ProductionManagement() {
               onClose={() => {
                 setShowDetail(false);
               }}
-              header="THÔNG TIN THU HOẠCH"
+              header="CLEANING_INFO"
             />
           )}
         </Route>
@@ -671,7 +688,7 @@ function ProductionManagement() {
               onClose={() => {
                 setShowDetail(false);
               }}
-              header="THÔNG TIN THU HOẠCH"
+              header="PACKING_INFO"
             />
           )}
         </Route>
@@ -685,7 +702,7 @@ function ProductionManagement() {
               onClose={() => {
                 setShowDetail(false);
               }}
-              header="THÔNG TIN THU HOẠCH"
+              header="PRESERVATION_INFO"
             />
           )}
         </Route>
