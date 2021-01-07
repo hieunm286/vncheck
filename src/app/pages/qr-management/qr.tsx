@@ -124,7 +124,7 @@ function QrPage() {
         align: 'center',
         formatter: (cell: string, row: any, rowIndex: number) => {
           console.log(row.type === '1');
-          return <Link to={'qr/' + (row.codeType === '1' ? '' : '') + row._id} onClick={(e: MouseEvent<HTMLAnchorElement>) => {setQrType(row.codeType)}}
+          return <Link to={'qr/' + (row.type === '1' ? '' : '') + row._id} onClick={(e: MouseEvent<HTMLAnchorElement>) => {setQrType(row.type)}}
           >{cell}</Link>},
       },
       'createdBy': {
@@ -201,6 +201,53 @@ function QrPage() {
     },
   };
 
+  const shippingInfoColumns : MasterBodyColumns = [
+    {
+      dataField: 'exportTime',
+      text: 'Thời gian xuất hàng',
+      formatter: (date: string) => {return DisplayDateTime(date);},
+      ...SortColumn,
+      align: 'center',
+    },
+    {
+      text: 'Địa điểm xuất hàng',
+      dataField: 'exportAddress',
+      formatter: (input) => {return DisplayArray(input)},
+      ...SortColumn,
+      align: 'center',
+    },
+    {
+      text: 'Nhân viên xuất hàng',
+      dataField: 'exportStaff.fullName',
+      ...SortColumn,
+      align: 'center',
+    },
+    {
+      text: 'Nhân viên vận chuyển',
+      dataField: 'shipper.fullName',
+      ...SortColumn,
+      align: 'center',
+    },
+  ];
+  
+  
+  const shippingInfo : RenderInfoDetail = [{
+    
+    header: 'THÔNG TIN VẬN CHUYỂN',
+    className: 'col-12',
+    titleClassName: 'col-3 mb-10',
+    dataClassName: 'col-12 mb-10',
+    data: {
+      'sellStatus': {
+        title: '',
+        formatter: (entity: any[]) => {
+  
+          return <DisplayTable entities={mobileSaleMock.shippingInfo} columns={shippingInfoColumns} />
+        }
+      }
+    },
+  }];
+
   
 
 
@@ -260,19 +307,7 @@ function QrPage() {
     },
   }];
 
-  const QrRenderDetail: RenderInfoDetail = [
-    ...seedingInfo,
-    ...plantingInfo,
-    ...harvestingInfo,
-    ...preliminaryTreatmentInfo,
-    ...cleaningInfo,
-    ...packingInfo,
-    ...preservationInfo,
-    ...shippingInfo,
-    ...distributionInfo,
-    ...sellStatus
-  ];
-
+  
   const imageRenderDetail: RenderInfoDetail = [
     {
       header: '',
@@ -318,6 +353,20 @@ function QrPage() {
       // titleClassName: 'col-3'
     },
   ];
+
+  const QrRenderDetail: RenderInfoDetail = [
+    ...seedingInfo,
+    ...plantingInfo,
+    ...harvestingInfo,
+    ...preliminaryTreatmentInfo,
+    ...cleaningInfo,
+    ...packingInfo,
+    ...preservationInfo,
+    ...shippingInfo,
+    ...distributionInfo,
+    ...sellStatus
+  ];
+
 
   const QrRenderDetail2 = [
     ...shippingInfo,
@@ -423,7 +472,9 @@ function QrPage() {
         </Route>
         <Route path="/qr/:code">
           {({history, match}) => {
-            return qrType === '1' ? (
+            console.log(typeof qrType)
+            console.log(qrType)
+            return qrType ? (qrType === '1' ? (
               <>
               <MasterEntityDetailPage
                 entity={detailEntityMock}
@@ -459,6 +510,8 @@ function QrPage() {
                 get={null}
               />
             </>
+          )) : (
+            <></>
           );
           }}
         </Route>
