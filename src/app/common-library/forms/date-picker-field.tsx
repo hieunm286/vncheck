@@ -44,10 +44,11 @@ export function DatePickerField({
                           GetFieldCSSClasses(getFieldMeta(field.name).touched, getFieldMeta(field.name).error) :
                           GetFieldCSSClasses(getFieldMeta(field.name).touched, getFieldMeta(field.name).error)}
                       locale={locale}
+                      showTime
                       {...props}
                       placeholder={intl.formatMessage({id: placeholder},  {label:_.isString(_label) ? _label:''})}
                       disabled={disabled ? typeof disabled === 'boolean' ? disabled : disabled(values) : disabled}
-                      format={props.format ?? "DD/MM/yyyy"}
+                      format={props.format ?? "DD/MM/yyyy HH:mm"}
                       onChange={(val: Moment | null, dateString: string) => {
                         setFieldTouched(field.name, true);
                         setFieldValue(field.name, val);
