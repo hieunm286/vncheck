@@ -106,7 +106,7 @@ export const seedingInfo: RenderInfoDetail = [{
       title: 'ADMIN_SEEDING_LEADER',
       formatter: (input) => DisplayArray(input)
     },
-    'productPlan.seeding.[technical].fullName': {
+    'productPlan.seeding.[technical].user.fullName': {
       title: 'ROLE.TECHNICIAN',
       formatter: (input) => DisplayArray(input)
     },
@@ -132,7 +132,7 @@ export const plantingInfo: RenderInfoDetail = [{
     'productPlan.planting.area': {
       title: 'PLANTING_AREA',
       formatter: (input) => {
-        return (<>{input + ' m2'}</>)
+        return (<>{input ? (input + ' m2') : ''}</>)
       },
     },
     'productPlan.planting.farmLocation.[coordinates]': {
@@ -178,7 +178,7 @@ export const plantingInfo: RenderInfoDetail = [{
       title: 'ADMIN_SEEDING_LEADER',
       formatter: (input) => DisplayArray(input)
     },
-    'productPlan.planting.[technical].fullName': {
+    'productPlan.planting.[technical].user.fullName': {
       title: 'ROLE.TECHNICIAN',
       formatter: (input) => DisplayArray(input)
     },
@@ -196,12 +196,12 @@ export const harvestingInfo : RenderInfoDetail = [{
   dataClassName: 'col-9 mb-10 pl-5',
   data: {
     'productPlan.harvesting.time': {
-      keyField: 'productPlan.harvesting', title: 'PRODUCTION_PLAN.HARVEST_DATE', formatter: (e) => {
+      keyField: 'productPlan.harvesting', title: 'HARVESTING_DATE', formatter: (e) => {
         return e ? (<>{DisplayDateTime(e.startTime)} {e.endTime && (<> - {DisplayDateTime(e.endTime)}</>)}</>) : (<></>);
       }
     },
-    'productPlan.harvesting.realQuantity': {
-      title: 'ADMIN_HARVESTING_LEADER',
+    'productPlan.harvesting.quantity': {
+      title: 'HARVESTING_REAL_QUANTITY',
     },
     'productPlan.harvesting.imageBefore': {
       title: 'HARVESTING_IMAGE_BEFORE',
@@ -248,15 +248,15 @@ export const harvestingInfo : RenderInfoDetail = [{
     'productPlan.harvesting.manager.fullName' : {
       title: 'ADMIN_DIRECTOR_INFO',
     },
-    'productPlan.harvesting.[leader].fullName' : {
+    'productPlan.harvesting.[leader].user.fullName': {
       title: 'ADMIN_HARVESTING_LEADER',
       formatter: (input) => DisplayArray(input),
     },
-    'productPlan.harvesting.[technical].fullName' : {
+    'productPlan.harvesting.[technical].user.fullName': {
       title: 'ROLE.TECHNICIAN',
       formatter: (input) => DisplayArray(input),
     },
-    'productPlan.harvesting.[worker].fullName' : {
+    'productPlan.harvesting.[worker].user.fullName': {
       title: 'HARVESTING_WORKER',
       formatter: (input) => DisplayArray(input),
     },
@@ -270,23 +270,15 @@ export const preliminaryTreatmentInfo : RenderInfoDetail = [{
   dataClassName: 'col-9 mb-10 pl-5',
   data: {
     'productPlan.preliminaryTreatment.time': {
-      title: 'Thời gian sơ chế',
-      formatter: (input, entity) => {
-        return (<>
-            {(entity.productPlan.preliminaryTreatment.startTime && entity.productPlan.preliminaryTreatment.endTime)
-              ?
-              (entity.productPlan.preliminaryTreatment.startTime.toLocaleDateString() + ', ' +
-            entity.productPlan.preliminaryTreatment.endTime.toLocaleDateString())
-          : 
-            ''
-        }</>
-      )},
+      keyField: 'productPlan.preliminaryTreatment', title: 'PRELIMINARY_TREATMENT_DATE', formatter: (e) => {
+        return e ? (<>{DisplayDateTime(e.startTime)} {e.endTime && (<> - {DisplayDateTime(e.endTime)}</>)}</>) : (<></>);
+      }
     },
-    'productPlan.preliminaryTreatment.realQuantity' : {
-      title: 'Sản lượng sau sơ chế',
+    'productPlan.preliminaryTreatment.quantity': {
+      title: 'PRELIMINARY_TREATMENT_QUANTITY_REAL',
     },
-    'productPlan.preliminaryTreatment.imageBefore' : {
-      title: 'Hình ảnh trước khi sơ chế',
+    'productPlan.preliminaryTreatment.imageBefore': {
+      title: 'PRELIMINARY_TREATMENT_IMAGE_BEFORE',
       formatter: (image, entity) => {
         const renderInfo = {
           title: 'IMAGE_INFO',
@@ -295,8 +287,8 @@ export const preliminaryTreatmentInfo : RenderInfoDetail = [{
         return DisplayImage(image, renderInfo)
       }
     },
-    'productPlan.preliminaryTreatment.imageInProgress' : {
-      title: 'Hình ảnh sơ chế',
+    'productPlan.preliminaryTreatment.imageInProgress': {
+      title: 'PRELIMINARY_TREATMENT_IMAGE_PROCESSING',
       formatter: (image, entity) => {
         const renderInfo = {
           title: 'IMAGE_INFO',
@@ -305,8 +297,8 @@ export const preliminaryTreatmentInfo : RenderInfoDetail = [{
         return DisplayImage(image, renderInfo)
       }
     },
-    'productPlan.preliminaryTreatment.imageAfter' : {
-      title: 'Hình ảnh sau khi sơ chế',
+    'productPlan.preliminaryTreatment.imageAfter': {
+      title: 'PRELIMINARY_TREATMENT_IMAGE_AFTER',
       formatter: (image, entity) => {
         const renderInfo = {
           title: 'IMAGE_INFO',
@@ -315,19 +307,19 @@ export const preliminaryTreatmentInfo : RenderInfoDetail = [{
         return DisplayImage(image, renderInfo)
       }
     },
-    'productPlan.preliminaryTreatment.manager.fullName' : {
-      title: 'Tổng giám đốc',
+    'productPlan.preliminaryTreatment.manager.fullName': {
+      title: 'ADMIN_DIRECTOR_INFO',
     },
-    'productPlan.preliminaryTreatment.[leader].fullName' : {
-      title: 'Tổ trưởng',
+    'productPlan.preliminaryTreatment.[leader].user.fullName': {
+      title: 'PRELIMINARY_TREATMENT_LEADER',
       formatter: (input) => DisplayArray(input),
     },
-    'productPlan.preliminaryTreatment.[technical].fullName' : {
-      title: 'Kĩ thuật',
+    'productPlan.preliminaryTreatment.[technical].user.fullName': {
+      title: 'PRELIMINARY_TREATMENT_TECHNICAL',
       formatter: (input) => DisplayArray(input),
     },
-    'productPlan.preliminaryTreatment.[worker].fullName' : {
-      title: 'Nông dân',
+    'productPlan.preliminaryTreatment.[worker].user.fullName': {
+      title: 'PRELIMINARY_TREATMENT_WORKER',
       formatter: (input) => DisplayArray(input),
     },
   }
@@ -340,23 +332,15 @@ export const cleaningInfo : RenderInfoDetail = [{
   dataClassName: 'col-9 mb-10 pl-5',
   data: {
     'productPlan.cleaning.time': {
-      title: 'Thời gian làm sạch',
-      formatter: (input, entity) => {
-        return (<>
-            {(entity.productPlan.cleaning.startTime && entity.productPlan.cleaning.endTime)
-              ?
-              (entity.productPlan.cleaning.startTime.toLocaleDateString() + ', ' +
-            entity.productPlan.cleaning.endTime.toLocaleDateString())
-          : 
-            ''
-        }</>
-      )},
+      keyField: 'productPlan.cleaning', title: 'CLEANING_TIME', formatter: (e) => {
+        return e ? (<>{DisplayDateTime(e.startTime)} {e.endTime && (<> - {DisplayDateTime(e.endTime)}</>)}</>) : (<></>);
+      }
     },
-    'productPlan.cleaning.realQuantity' : {
+    'productPlan.cleaning.quantity': {
       title: 'Sản lượng sau làm sạch',
     },
     'productPlan.cleaning.imageBefore' : {
-      title: 'Hình ảnh trước khi làm sạch',
+      title: 'CLEANING_IMAGE_BEFORE',
       formatter: (image, entity) => {
         const renderInfo = {
           title: 'IMAGE_INFO',
@@ -366,7 +350,7 @@ export const cleaningInfo : RenderInfoDetail = [{
       }
     },
     'productPlan.cleaning.imageInProgress' : {
-      title: 'Hình ảnh khi làm sạch',
+      title: 'CLEANING_IMAGE_PROCESSING',
       formatter: (image, entity) => {
         const renderInfo = {
           title: 'IMAGE_INFO',
@@ -375,8 +359,8 @@ export const cleaningInfo : RenderInfoDetail = [{
         return DisplayImage(image, renderInfo)
       }
     },
-    'productPlan.cleaning.imageAfter' : {
-      title: 'Hình ảnh sau khi làm sạch',
+    'productPlan.cleaning.imageAfter': {
+      title: 'CLEANING_IMAGE_AFTER',
       formatter: (image, entity) => {
         const renderInfo = {
           title: 'IMAGE_INFO',
@@ -385,19 +369,19 @@ export const cleaningInfo : RenderInfoDetail = [{
         return DisplayImage(image, renderInfo)
       }
     },
-    'productPlan.cleaning.manager.fullName' : {
-      title: 'Tổng giám đốc',
+    'productPlan.cleaning.manager.fullName': {
+      title: 'ADMIN_DIRECTOR_INFO',
     },
-    'productPlan.cleaning.[leader].fullName' : {
-      title: 'Tổ trưởng',
+    'productPlan.cleaning.[leader].user.fullName': {
+      title: 'CLEANING_LEADER',
       formatter: (input) => DisplayArray(input),
     },
-    'productPlan.cleaning.[technical].fullName' : {
-      title: 'Kĩ thuật',
+    'productPlan.cleaning.[technical].user.fullName': {
+      title: 'CLEANING_TECHNICAL',
       formatter: (input) => DisplayArray(input),
     },
-    'productPlan.cleaning.[worker].fullName' : {
-      title: 'Nông dân',
+    'productPlan.cleaning.[worker].user.fullName': {
+      title: 'CLEANING_WORKER',
       formatter: (input) => DisplayArray(input),
     },
   }
@@ -409,17 +393,19 @@ export const packingInfo : RenderInfoDetail = [{
   titleClassName: 'col-3 mb-10',
   dataClassName: 'col-9 mb-10 pl-5',
   data: {
-    'productPlan.harvesting.[imageInprogress].[coordinates]': {
+    'productPlan.harvesting.scanLocation': {
       title: 'Địa điểm Farm đóng gói',
       formatter: DisplayCoordinates
     },
     'productPlan.packing.packing.code': {
       title: 'Quy cách đóng gói',
     },
-    'productPlan.packing.3' : {
-      title: 'Hạn sử dụng',
+    'productPlan.packing.exp': {
+      keyField: 'productPlan.packing', title: 'Hạn sử dụng', formatter: (e) => {
+        return e ? (<>{DisplayDateTime(e.estimatedExpireTimeStart)} {e.estimatedExpireTimeEnd && (<> - {DisplayDateTime(e.estimatedExpireTimeEnd)}</>)}</>) : (<></>);
+      }
     },
-    'productPlan.packing.sampleImage' : {
+    'productPlan.packing.sampleImage': {
       title: 'Hình ảnh sản phẩm',
       formatter: (image, entity) => {
         const renderInfo = {
@@ -439,25 +425,25 @@ export const packingInfo : RenderInfoDetail = [{
         return DisplayImage(image, renderInfo)
       }
     },
-    'createdAt' : {
+    'scanAt': {
       title: 'Ngày gán QR',
       formatter: (input) => DisplayDateTime(input)
     },
-    'activeBy.fullName' : {
+    'scanBy.fullName': {
       title: 'Người gán QR',
     },
-    'createdBy.fullName' : {
-      title: 'Người kích hoạt',
+    'activeBy.fullName': {
+      title: 'QR_ACTIVATE_BY',
     },
-    'activeAt' : {
-      title: 'Ngày kích hoạt',
+    'activeAt': {
+      title: 'QR_ACTIVATE_AT',
       formatter: (input) => DisplayDateTime(input)
     },
-    'productPlan.packing.manager.fullName' : {
-      title: 'Tổng giám đốc',
+    'productPlan.packing.manager.fullName': {
+      title: 'ADMIN_DIRECTOR_INFO',
     },
-    'productPlan.packing.[leader].fullName' : {
-      title: 'Tổ trưởng',
+    'productPlan.packing.[leader].user.fullName': {
+      title: 'PACKING_LEADER',
       formatter: (input) => DisplayArray(input),
     },
   }
@@ -470,19 +456,11 @@ export const preservationInfo : RenderInfoDetail = [{
   dataClassName: 'col-9 mb-10 pl-5',
   data: {
     'productPlan.preservation.time': {
-      title: 'Thời gian bảo quản',
-      formatter: (input, entity) => {
-        return (<>
-            {(entity.productPlan.preservation.startTime && entity.productPlan.preservation.endTime)
-              ?
-              (entity.productPlan.preservation.startTime.toLocaleDateString() + ', ' +
-            entity.productPlan.preservation.endTime.toLocaleDateString())
-          : 
-            ''
-        }</>
-      )},
+      keyField: 'productPlan.preservation', title: 'Thời gian bảo quản', formatter: (e) => {
+        return e ? (<>{DisplayDateTime(e.startTime)} {e.endTime && (<> - {DisplayDateTime(e.endTime)}</>)}</>) : (<></>);
+      }
     },
-    'productPlan.preservation.location.[coordinates]' : {
+    'productPlan.preservation.storageImage.location.[coordinates]': {
       title: 'Địa điểm bảo quản',
       formatter: DisplayCoordinates,
     },
@@ -500,11 +478,11 @@ export const preservationInfo : RenderInfoDetail = [{
         return DisplayImage(image, renderInfo)
       }
     },
-    'productPlan.preservation.[technical].fullName' : {
+    'productPlan.preservation.[technical].user.fullName': {
       title: 'Kĩ thuật',
       formatter: (input) => DisplayArray(input),
     },
-    'productPlan.preservation.[worker].fullName' : {
+    'productPlan.preservation.[worker].user.fullName': {
       title: 'Nhân viên',
       formatter: (input) => DisplayArray(input),
     },

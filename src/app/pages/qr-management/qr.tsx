@@ -16,7 +16,18 @@ import DeleteManyEntitiesDialog from '../../common-library/common-components/del
 import {Link, Route, Switch, useHistory} from 'react-router-dom';
 import {MasterBodyColumns, RenderInfoDetail, SearchModel} from "../../common-library/common-types/common-type";
 import {MasterEntityDetailPage} from "../../common-library/common-components/master-detail-page";
-import {commonInfo, harvestingInfo, plantingInfo, producerInfo, seedingInfo,} from "./qr.render-info";
+import {
+  cleaningInfo,
+  commonInfo,
+  harvestingInfo,
+  packingInfo,
+  plantingInfo,
+  preliminaryTreatmentInfo,
+  preservationInfo,
+  producerInfo,
+  seedingInfo,
+  sellStatus,
+} from "./qr.render-info";
 import {detailEntityMock, mobileSaleMock} from "./qr-mock";
 import ModifyEntityDialog from "../../common-library/common-components/modify-entity-dialog";
 import {MasterQrChildDetail} from "./qr-detail";
@@ -385,13 +396,13 @@ function QrPage() {
     ...seedingInfo,
     ...plantingInfo,
     ...harvestingInfo,
-    // ...preliminaryTreatmentInfo,
-    // ...cleaningInfo,
-    // ...packingInfo,
-    // ...preservationInfo,
-    // ...shippingInfo,
-    // ...distributionInfo,
-    // ...sellStatus
+    ...preliminaryTreatmentInfo,
+    ...cleaningInfo,
+    ...packingInfo,
+    ...preservationInfo,
+    ...shippingInfo,
+    ...distributionInfo,
+    ...sellStatus
   ]), []);
   const renderInfoPacking: RenderInfoDetail = useMemo(() => ([
     ...producerInfo,

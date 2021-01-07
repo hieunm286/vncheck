@@ -51,8 +51,6 @@ export function DatePickerField({
                       format={props.format ?? "DD/MM/yyyy"}
                       onChange={(val: Moment | null, dateString: string) => {
                         setFieldTouched(field.name, true);
-                        setFieldValue(field.name, val);
-                        setFieldTouched(field.name, true);
                         if (val) setFieldValue(field.name, moment(val).add(val.utcOffset(), 'm').utc().toISOString());
                         else setFieldValue(field.name, required ? '' : undefined);
                       }}

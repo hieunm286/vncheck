@@ -6,6 +6,7 @@ import {MasterTable} from "../common-components/master-table";
 import {MasterBodyColumns, PaginationProps} from "../common-types/common-type";
 import {GetCompareFunction} from "./common-function";
 import {Link} from "react-router-dom";
+import moment from "moment";
 
 export const DisplayString = (input: string) => {
   if (!input) return <></>
@@ -40,7 +41,7 @@ export const DisplayPercent = (input: string) => {
 }
 
 export const DisplayArray = (arr: string[], separator: string = ', ') => {
-  console.log(arr)
+  if (!arr) return <></>
   return (<>{arr.join(separator)}</>)
 }
 
@@ -57,9 +58,12 @@ export const DisplayDate = ({input, _format}: { input: string, _format?: string 
   const intl = useIntl();
   if (!input) return <></>
   const date_input = new Date(input);
+  const timestamp = new Date();
+  const inverseOffset = moment(timestamp).utcOffset() * -1;
+  
   return (<>
     {input
-      ? format(date_input, _format ?? 'dd/MM/yyyy')
+      ? format(moment(date_input).add(inverseOffset, 'm').toDate(), _format ?? 'dd/MM/yyyy')
       : intl.formatMessage({id: 'NO_INFORMATION'})}
   </>)
 }
@@ -67,7 +71,9 @@ export const DisplayDate = ({input, _format}: { input: string, _format?: string 
 export const DisplayDateTime = (input: string, _format?: string) => {
   if (!input) return (<></>)
   const date_input = new Date(input);
-  return (<>{format(date_input, _format ?? 'dd/MM/yyyy H:mma')}</>)
+  const timestamp = new Date();
+  const inverseOffset = moment(timestamp).utcOffset() * -1;
+  return (<>{format(moment(date_input).add(inverseOffset, 'm').toDate(), _format ?? 'dd/MM/yyyy H:mma')}</>)
 }
 
 export const DisplayDownloadLink = (input: any, key?: string) => {
@@ -87,8 +93,6 @@ export const DisplayInnerLink = (link: any, title?: string) => {
 }
 
 export const DisplayTable = ({entities, columns}: { entities: any[], columns: MasterBodyColumns }) => {
-  console.log(entities)
-  console.log(columns)
   const [paginationParams, setPaginationParams] = useState<PaginationProps>({sortBy: '', sortType: ''});
   const [_innerEntities, setEntities] = useState(entities);
   const [_innerColumns, setColumns] = useState(columns);
@@ -115,7 +119,7 @@ export const DisplayTable = ({entities, columns}: { entities: any[], columns: Ma
 }
 
 export const DisplayCoordinates = (arr: string[]) => {
-  return arr ? (
+  return arr && arr.length == 2 ? (
     <a
       href={`https://google.com/maps/search/${arr[1]},+${arr[0]}`}
       rel="noopener noreferrer"
@@ -126,7 +130,7 @@ export const DisplayCoordinates = (arr: string[]) => {
 export const Display3Info = (image: any, _: any, intl: IntlShape) => {
   return (<>
     <div className={'titleeee mb-1'}>{intl.formatMessage({id: 'IMAGE.TAKEN_BY'})}
-      {image.takenBy?.fullName ?? intl.formatMessage({id: 'NO_INFORMATION'})}
+      {image.takenBy?.fullName ?? image.takenBy?.firstName ? `${image.takenBy?.firstName} ${image.takenBy?.lastName}` : intl.formatMessage({id: 'NO_INFORMATION'})}
     </div>
     <div
       className={'titleeee mb-1'}>{intl.formatMessage({id: 'IMAGE.TAKEN_TIME'})}
