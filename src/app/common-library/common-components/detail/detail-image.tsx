@@ -48,9 +48,11 @@ export const DetailImage = ({
   return (
     <Fragment>
       <div ref={container}/>
-      {_images.map((image: any, index: any) => (
-        <Img key={index} index={index} image={image}/>
-      ))}
+        {/* <div className="row no-gutters"> */}
+          {_images.map((image: any, index: any) => (
+            <Img key={index} index={index} image={image}/>
+          ))}
+        {/* </div> */}
       {renderInfo && showIndex > -1 &&  (<div className={'image-detail-info pl-10 pt-13 pr-10 pb-12'}>
         {renderInfo.title && (
           <div className={'pb-3'} style={{fontSize: '24px'}}>{intl.formatMessage({id: renderInfo.title})}</div>)}

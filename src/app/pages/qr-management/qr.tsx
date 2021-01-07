@@ -14,19 +14,28 @@ import {DefaultPagination, SortColumn} from '../../common-library/common-consts/
 import {DeleteEntityDialog} from "../../common-library/common-components/delete-entity-dialog";
 import DeleteManyEntitiesDialog from '../../common-library/common-components/delete-many-entities-dialog';
 import {Link, Route, Switch, useHistory} from 'react-router-dom';
-import {SearchModel} from "../../common-library/common-types/common-type";
+import {MasterBodyColumns, RenderInfoDetail, SearchModel} from "../../common-library/common-types/common-type";
 import {MasterEntityDetailPage} from "../../common-library/common-components/master-detail-page";
-import {QrRenderDetail} from "./qr.render-info";
+import {seedingInfo,plantingInfo,
+  harvestingInfo,
+  preliminaryTreatmentInfo,
+  cleaningInfo,
+  packingInfo,
+  preservationInfo,
+  shippingInfo,
+  sellStatus,
+  shippingInfoColumns} from "./qr.render-info";
 import * as MultilevelSaleService from '../multilevel-sale/multilevel-sale.service';
-import { bodyEntities, detailEntityMock } from "./qr-mock";
+import { bodyEntities, detailEntityMock, mobileSaleMock } from "./qr-mock";
 import ModifyEntityDialog from "../../common-library/common-components/modify-entity-dialog";
 import { MasterQrChildDetail, MasterQrParentDetail } from "./qr-detail";
 import * as QrService from './qr.service';
-import {DisplayDate, DisplayDateTime} from "../../common-library/helpers/detail-helpers";
+import {DisplayArray, DisplayDate, DisplayDateTime, DisplayTable} from "../../common-library/helpers/detail-helpers";
 import {toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import _, {isArray, isEmpty} from 'lodash';
 import {AxiosResponse} from 'axios';
+import { ActionsColumnFormatter } from "../../common-library/common-components/actions-column-formatter";
 
 const headerTitle = 'QR.MASTER.HEADER.TITLE';
 const tableTitle = 'SHIPPING_AGENCY.MASTER.TABLE.TITLE';
@@ -174,6 +183,78 @@ function QrPage() {
       onSearch: console.log
     },
   };
+
+  
+
+
+  const distributionInfoColumns : MasterBodyColumns = [
+    ...shippingInfoColumns,
+    {
+      dataField: 'receiveTime',
+      text: 'Thời gian nhận hàng',
+      formatter: (date: string) => {return DisplayDateTime(date);},
+      ...SortColumn,
+      align: 'center',
+    },
+    {
+      text: 'Địa điểm nhận hàng',
+      dataField: 'receiveAddress',
+      formatter: (input) => {return DisplayArray(input)},
+      ...SortColumn,
+      align: 'center',
+    },
+    {
+      dataField: 'receiveStaff.fullName',
+      text: 'Nhân viên xuất hàng',
+      ...SortColumn,
+      align: 'center',
+    },
+    {
+      dataField: 'image.path',
+      text: 'Hình ảnh',
+      formatter: (cell: any, row: any, rowIndex: number) => {
+          return (
+          <>
+            {ActionsColumnFormatter(cell, row, rowIndex, {
+              onShowDetail: (cell: any) => console.log(cell),
+              intl
+            })}
+          </>
+      )},
+      ...SortColumn,
+      align: 'center',
+    },
+  ];
+
+  const distributionInfo : RenderInfoDetail = [{
+  
+    header: 'THÔNG TIN PHÂN PHỐI',
+    className: 'col-12',
+    titleClassName: 'col-3 mb-10',
+    dataClassName: 'col-12 mb-10',
+    data: {
+      'sellStatus': {
+        title: '',
+        formatter: (entity: any[]) => {
+  
+          return <DisplayTable entities={mobileSaleMock.distributionInfo} columns={distributionInfoColumns} />
+        }
+      }
+    },
+  }];
+
+  const QrRenderDetail: RenderInfoDetail = [
+    ...seedingInfo,
+    ...plantingInfo,
+    ...harvestingInfo,
+    ...preliminaryTreatmentInfo,
+    ...cleaningInfo,
+    ...packingInfo,
+    ...preservationInfo,
+    ...shippingInfo,
+    ...distributionInfo,
+    ...sellStatus
+  ];
   
   return (
     <Fragment>
