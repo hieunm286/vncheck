@@ -11,12 +11,13 @@ import {
 
 import {QrModel} from './qr.model';
 import {GetCompareFunction} from "../../common-library/helpers/common-function";
+import {API_BASE_URL} from "../../common-library/common-consts/enviroment";
 
-export const API_URL = 'http://13.251.125.228:3000/api/qrcode';
+export const API_URL = API_BASE_URL + '/qrcode';
 
-export const BULK_API_URL = 'http://13.251.125.228:3000/api/qrcode/bulk'
+export const BULK_API_URL = API_URL + '/bulk'
 
-export const API_FILE_URL = 'http://13.251.125.228:3000/api/qrcode/file';
+export const API_FILE_URL = API_BASE_URL + '/file';
 
 export const Create: CreateProps<QrModel> = (data: QrModel) => {
   return axios.post<QrModel>(API_URL, {...data, type: data.type.code});

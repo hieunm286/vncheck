@@ -17,8 +17,10 @@ export const DisplayCelcius = (input: string) => {
   return (<>{input + '°C'}</>)
 }
 
-export const DisplayPersonName = (name: { firstName: string; lastName: string }) => {
-  return <>{`${name.firstName} ${name.lastName}`}</>;
+export const DisplayPersonName = (name: { firstName?: string; lastName?: string, fullName?: string }) => {
+  const intl = useIntl();
+  return (<>      {name.fullName ?? name.firstName ? `${name.firstName} ${name.lastName}` : intl.formatMessage({id: 'NO_INFORMATION'})}
+  </>);
 };
 
 export const DisplayPersonNameByArray = (
@@ -131,7 +133,7 @@ export const Display3Info = (image: any, _: any, intl?: IntlShape) => {
   intl = intl ?? useIntl();
   return (<>
     <div className={'titleeee mb-1'}>{intl.formatMessage({id: 'IMAGE.TAKEN_BY'})}
-      {image.takenBy?.fullName ?? image.takenBy?.firstName ? `${image.takenBy?.firstName} ${image.takenBy?.lastName}` : intl.formatMessage({id: 'NO_INFORMATION'})}
+      <DisplayPersonName {...image.takenBy}/>
     </div>
     <div
       className={'titleeee mb-1'}>{intl.formatMessage({id: 'IMAGE.TAKEN_TIME'})}

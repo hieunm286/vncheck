@@ -1,26 +1,19 @@
-import _ from 'lodash';
 import React from 'react';
-import { ColumnDescription } from 'react-bootstrap-table-next';
+import {ColumnDescription} from 'react-bootstrap-table-next';
 import {SortColumn} from '../../../common-library/common-consts/const';
-import {
-  MasterBodyColumns,
-  RenderInfoDetail,
-  RenderInfoDetailColumn
-} from '../../../common-library/common-types/common-type';
+import {RenderInfoDetail, RenderInfoDetailColumn} from '../../../common-library/common-types/common-type';
 import {
   Display3Info,
   DisplayCelcius,
   DisplayCoordinates,
-  DisplayDate,
   DisplayDateTime,
   DisplayImage,
   DisplayInnerLink,
   DisplayPercent,
-  DisplayPersonName,
   DisplayPersonNameByArray,
   DisplayTable
 } from '../../../common-library/helpers/detail-helpers';
-import { ProductData } from '../production-management.model';
+import {ProductData} from '../production-management.model';
 
 const seedingCode: RenderInfoDetailColumn = {
   'seeding.code': {

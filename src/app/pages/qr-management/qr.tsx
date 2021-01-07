@@ -9,10 +9,6 @@ import {MasterHeader} from "../../common-library/common-components/master-header
 import {MasterBody} from "../../common-library/common-components/master-body";
 
 import {DefaultPagination, SortColumn} from '../../common-library/common-consts/const';
-
-
-import {DeleteEntityDialog} from "../../common-library/common-components/delete-entity-dialog";
-import DeleteManyEntitiesDialog from '../../common-library/common-components/delete-many-entities-dialog';
 import {Link, Route, Switch, useHistory} from 'react-router-dom';
 import {MasterBodyColumns, RenderInfoDetail, SearchModel} from "../../common-library/common-types/common-type";
 import {MasterEntityDetailPage} from "../../common-library/common-components/master-detail-page";
@@ -30,12 +26,13 @@ import {
 } from "./qr.render-info";
 import {mobileSaleMock} from "./qr-mock";
 import ModifyEntityDialog from "../../common-library/common-components/modify-entity-dialog";
-import {MasterQrChildDetail} from "./qr-detail";
 import {
   Display3Info,
   DisplayArray,
   DisplayDate,
   DisplayDateTime,
+  DisplayInnerLink,
+  DisplayPersonName,
   DisplayTable
 } from "../../common-library/helpers/detail-helpers";
 import 'react-toastify/dist/ReactToastify.css';
@@ -50,7 +47,7 @@ import {DetailImage} from "../../common-library/common-components/detail/detail-
 const Option = {Select};
 const headerTitle = 'QR.MASTER.HEADER.TITLE';
 const tableTitle = 'SHIPPING_AGENCY.MASTER.TABLE.TITLE';
-const detailDialogTitle = 'SHIPPING_AGENCY.DETAIL_DIALOG.TITLE';
+const detailTitle = 'QR.DETAIL.TITLE';
 const moduleName = 'QR.MODULE_NAME';
 const deleteDialogTitle = 'SHIPPING_AGENCY.DELETE_DIALOG.TITLE';
 const deleteDialogBodyTitle = 'SHIPPING_AGENCY.DELETE_DIALOG.BODY_TITLE';
@@ -369,10 +366,80 @@ function QrPage() {
   }, []);
   
   
-  const QrRenderDetail2 = [
-    ...shippingInfo,
-    ...distributionInfo,
-  ]
+  const parentQrInfo: RenderInfoDetail = useMemo(() => ([
+    {
+      header: 'THÔNG TIN LOGISTIC',
+      className: 'col-12',
+      titleClassName: 'col-3 mb-3',
+      dataClassName: 'col-9 mb-3 pl-5',
+      data: {
+        'createdBy.fullName': {
+          title: 'Người tạo QR logistics',
+        },
+        'createdAt': {
+          title: 'Thời điểm tạo',
+          formatter: (date: string) => DisplayDateTime(date),
+        },
+        '_id': {
+          title: 'ID QR cha',
+        },
+      },
+    }
+  ]), []);
+  
+  const childQrColumns = useMemo(() => [{
+    dataField: '_id',
+    text: `${intl.formatMessage({id: 'ORDINAL'})}`,
+    align: 'center',
+    formatter: (cell: string, row: any, rowIndex: number) => {
+      return (<>{rowIndex + 1}</>)
+    }
+  }, {
+    dataField: '_id',
+    text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.CODE'})}`,
+    align: 'center',
+    formatter: (cell: string, row: any, rowIndex: number) =>
+      (DisplayInnerLink(`/qr/${row._id}`, row._id))
+  }, {
+    dataField: 'createdBy.fullName',
+    text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.CREATED_BY'})}`,
+    ...SortColumn,
+    align: 'center',
+  }, {
+    dataField: 'createdAt',
+    text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.CREATED_DATE'})}`,
+    ...SortColumn,
+    formatter: (input: any) => (<DisplayDate input={input}/>),
+    align: 'center',
+  }, {
+    dataField: 'activeBy',
+    text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.ACTIVE_BY'})}`,
+    ...SortColumn,
+    align: 'center',
+    formatter: (cell: any, row: any, rowIndex: number) => (<DisplayPersonName {...cell}/>),
+  }, {
+    dataField: 'activeAt',
+    text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.ACTIVE_AT'})}`,
+    ...SortColumn,
+    formatter: (input: any) => DisplayDateTime(input),
+    align: 'center',
+  },], []);
+  const childQrInfo: RenderInfoDetail = useMemo(() => ([
+    {
+      header: '',
+      className: 'col-12',
+      titleClassName: 'mb-10',
+      dataClassName: 'col-12 mb-10',
+      data: {
+        'children': {
+          title: 'ID QR con',
+          formatter: (entity: any[]) => {
+            return <DisplayTable entities={entity ?? []} columns={childQrColumns}/>
+          }
+        }
+      },
+    }
+  ]), []);
   
   const renderInfoProduct: RenderInfoDetail = useMemo(() => ([
     ...producerInfo,
@@ -389,18 +456,10 @@ function QrPage() {
     ...sellStatus
   ]), []);
   const renderInfoPacking: RenderInfoDetail = useMemo(() => ([
-    ...producerInfo,
-    ...commonInfo,
-    // ...seedingInfo,
-    // ...plantingInfo,
-    // ...harvestingInfo,
-    // ...preliminaryTreatmentInfo,
-    // ...cleaningInfo,
-    // ...packingInfo,
-    // ...preservationInfo,
-    // ...shippingInfo,
-    // ...distributionInfo,
-    // ...sellStatus
+    ...parentQrInfo,
+    ...childQrInfo,
+    ...distributionInfo,
+    ...shippingInfo,
   ]), []);
   const [dE, setDE] = useState<any>(null);
   const [matchId, setMatchId] = useState<any>(null);
@@ -414,29 +473,6 @@ function QrPage() {
   }, [matchId]);
   return (
     <Fragment>
-      <DeleteEntityDialog
-        moduleName={moduleName}
-        entity={deleteEntity}
-        onDelete={deleteFn}
-        isShow={showDelete}
-        onHide={() => {
-          setShowDelete(false);
-        }}
-        loading={loading}
-        error={error}
-      />
-      <DeleteManyEntitiesDialog
-        moduleName={moduleName}
-        selectedEntities={selectedEntities}
-        loading={loading}
-        isShow={showDeleteMany}
-        onDelete={deleteMany}
-        onHide={() => {
-          setShowDeleteMany(false);
-        }}
-        error={error}
-      />
-      
       <Switch>
         <Route path="/qr" exact={true}>
           <MasterHeader
@@ -502,6 +538,7 @@ function QrPage() {
               <>
                 <MasterEntityDetailPage
                   entity={dE}
+                  header={detailTitle}
                   renderInfo={renderInfo} // renderInfo={detailModel}
                   code={match && match.params.code}
                   onClose={() => history.push('/qr')}
@@ -518,16 +555,6 @@ function QrPage() {
                   size='sm'
                 />
               </>
-            );
-          }}
-        </Route>
-        <Route path="/qr/qr-child/123456">
-          {({history, match}) => {
-            return (
-              <MasterQrChildDetail
-                entity={{}}
-                columns={Object.values(columns)}
-              />
             );
           }}
         </Route>

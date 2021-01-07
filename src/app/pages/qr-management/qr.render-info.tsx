@@ -523,4 +523,3 @@ export const sellStatus : RenderInfoDetail = [{
 }];
 
 
-
