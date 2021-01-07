@@ -53,12 +53,13 @@ export const DisplayAddress = (address: {
   const addressString = `${address.address}, ${address.district}, ${address.city}, ${address.state}`;
   return (<>{addressString}</>);
 }
-export const DisplayDate = ({input}: { input: string }) => {
+export const DisplayDate = ({input, _format}: { input: string, _format?: string }) => {
   const intl = useIntl();
   if (!input) return <></>
+  const date_input = new Date(input);
   return (<>
     {input
-      ? new Intl.DateTimeFormat('en-GB').format(new Date(input))
+      ? format(date_input, _format ?? 'dd/MM/yyyy')
       : intl.formatMessage({id: 'NO_INFORMATION'})}
   </>)
 }
@@ -66,7 +67,7 @@ export const DisplayDate = ({input}: { input: string }) => {
 export const DisplayDateTime = (input: string, _format?: string) => {
   if (!input) return (<></>)
   const date_input = new Date(input);
-  return (<>{format(date_input, _format ?? 'dd/MM/yyyy H:mma',)}</>)
+  return (<>{format(date_input, _format ?? 'dd/MM/yyyy H:mma')}</>)
 }
 
 export const DisplayDownloadLink = (input: any, key?: string) => {

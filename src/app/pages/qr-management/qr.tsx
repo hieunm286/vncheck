@@ -16,16 +16,7 @@ import DeleteManyEntitiesDialog from '../../common-library/common-components/del
 import {Link, Route, Switch, useHistory} from 'react-router-dom';
 import {MasterBodyColumns, RenderInfoDetail, SearchModel} from "../../common-library/common-types/common-type";
 import {MasterEntityDetailPage} from "../../common-library/common-components/master-detail-page";
-import {
-  cleaningInfo,
-  harvestingInfo,
-  packingInfo,
-  plantingInfo,
-  preliminaryTreatmentInfo,
-  preservationInfo,
-  seedingInfo,
-  sellStatus,
-} from "./qr.render-info";
+import {producerInfo,} from "./qr.render-info";
 import {detailEntityMock, mobileSaleMock} from "./qr-mock";
 import ModifyEntityDialog from "../../common-library/common-components/modify-entity-dialog";
 import {MasterQrChildDetail} from "./qr-detail";
@@ -43,6 +34,7 @@ import {MasterEntityDetailDialog} from "../../common-library/common-components/m
 import {DetailImage} from "../../common-library/common-components/detail/detail-image";
 import {Select} from 'antd';
 import * as Yup from "yup";
+import {format} from "date-fns";
 
 const Option = {Select};
 const headerTitle = 'QR.MASTER.HEADER.TITLE';
@@ -327,24 +319,26 @@ function QrPage() {
   }];
   const downloadQrFile = useCallback((e: QrModel) => {
     return add(e).then((res: AxiosResponse<QrModel>) => {
+      const date_input = new Date();
       const a = document.createElement("a"); //Create <a>
       a.href = "data:application/octet-stream;base64," + res.data.buffers; //Image Base64 Goes here
-      a.download = "qr-code.tiff"; //File name Here
+      a.download = `qr-code-${format(date_input, 'dd-MM-yyyy')}.tiff`; //File name Here
       a.click();
     })
   }, []);
   
   const QrRenderDetail: RenderInfoDetail = [
-    ...seedingInfo,
-    ...plantingInfo,
-    ...harvestingInfo,
-    ...preliminaryTreatmentInfo,
-    ...cleaningInfo,
-    ...packingInfo,
-    ...preservationInfo,
-    ...shippingInfo,
-    ...distributionInfo,
-    ...sellStatus
+    ...producerInfo,
+    // ...seedingInfo,
+    // ...plantingInfo,
+    // ...harvestingInfo,
+    // ...preliminaryTreatmentInfo,
+    // ...cleaningInfo,
+    // ...packingInfo,
+    // ...preservationInfo,
+    // ...shippingInfo,
+    // ...distributionInfo,
+    // ...sellStatus
   ];
   
   const imageRenderDetail: RenderInfoDetail = [
@@ -398,6 +392,14 @@ function QrPage() {
     ...distributionInfo,
   ]
   
+  const [dE, setDE] = useState<any>(null);
+  const [matchId, setMatchId] = useState<any>(null);
+  useEffect(() => {
+    matchId && get({_id: matchId} as any).then(e => {
+      console.log(e);
+      setDE(e);
+    });
+  }, [matchId]);
   return (
     <Fragment>
       <DeleteEntityDialog
@@ -483,17 +485,15 @@ function QrPage() {
         </Route>
         <Route path="/qr/:code">
           {({history, match}) => {
+            setMatchId(match && match.params.code);
             return (
               <>
                 <MasterEntityDetailPage
-                  entity={detailEntityMock}
+                  entity={dE}
                   renderInfo={QrRenderDetail} // renderInfo={detailModel}
                   code={match && match.params.code}
                   onClose={() => history.push('/qr')}
-                  // get={QrService.GetById}
-                  get={null}
                 />
-  
                 <MasterEntityDetailDialog
                   title='Hình ảnh'
                   moduleName='Hình ảnh'

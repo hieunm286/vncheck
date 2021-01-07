@@ -1,5 +1,4 @@
 import React from "react";
-import {SortColumn} from "../../common-library/common-consts/const";
 import {RenderInfoDetail} from "../../common-library/common-types/common-type";
 import {
   DisplayArray,
@@ -8,29 +7,27 @@ import {
   DisplayDateTime,
   DisplayDownloadLink,
   DisplayImage,
-  DisplayPercent,
-  DisplayTable
+  DisplayPercent
 } from "../../common-library/helpers/detail-helpers";
 
-import {mobileSaleMock} from './qr-mock';
-import {ColumnDescription} from "react-bootstrap-table-next";
 
 export const producerInfo: RenderInfoDetail = [{
-  header: 'Doanh nghiệp sản xuất',
+  header: 'ENTERPRISE_INFO',
   className: 'col-12',
   titleClassName: 'col-3 mb-10',
   dataClassName: 'col-9 mb-10 pl-5',
   data: {
-    '_name': {title: 'Tên doanh nghiệp', formatter: (input: any) => (<>UniFarm</>)},
-    '_tax': {title: 'Mã số thuế', formatter: (input: any) => (<>0123456789</>)},
-    '_addr': {title: 'Địa chỉ', formatter: (input: any) => (<>123 Trung Kính, Cầu Giấy</>)},
-    '_representer': {title: 'Người đại diện', formatter: (input: any) => (<>Nguyễn Văn A</>)},
-    '_gln': {title: 'GLN', formatter: (input: any) => (<>123456</>)},
+    'enterprise.name': {title: 'ENTERPRISE.NAME'},
+    'enterprise.taxId': {title: 'ENTERPRISE.TAX_ID'},
+    'enterprise.address': {title: 'ENTERPRISE.ADDRESS'},
+    'enterprise.phone': {title: 'ENTERPRISE.PHONE'},
+    'enterprise.representedBy': {title: 'ENTERPRISE.REPRESENTED_BY'},
+    'enterprise.gln': {title: 'ENTERPRISE.GLN'},
   }
 }];
 
 export const commonInfo: RenderInfoDetail = [{
-  header: 'Thông tin chung',
+  header: 'COMMON_INFO',
   className: 'col-12',
   titleClassName: 'col-3 mb-10',
   dataClassName: 'col-9 mb-10 pl-5',
@@ -40,14 +37,14 @@ export const commonInfo: RenderInfoDetail = [{
   }
 }]
 export const seedingInfo: RenderInfoDetail = [{
-  header: 'Thông tin gieo giống',
+  header: 'SEEDING_INFO',
   className: 'col-12',
   titleClassName: 'col-3 mb-10',
   dataClassName: 'col-9 mb-10 pl-5',
   data: {
     'productPlan.seeding.certificates': {
       title: 'SEEDING.CERTIFICATE',
-      formatter: (input)=>DisplayDownloadLink(input,'path')
+      formatter: (input) => DisplayDownloadLink(input, 'path')
     },
     'productPlan.seeding.buyInvoice': {
       title: 'SEEDING.INVOICE',
@@ -106,7 +103,7 @@ export const seedingInfo: RenderInfoDetail = [{
 }];
 
 export const plantingInfo: RenderInfoDetail = [{
-  header: 'Thông tin gieo trồng',
+  header: 'PLANTING_INFO',
   className: 'col-12',
   titleClassName: 'col-3 mb-10',
   dataClassName: 'col-9 mb-10 pl-5',
@@ -160,31 +157,24 @@ export const plantingInfo: RenderInfoDetail = [{
 }];
 
 export const harvestingInfo : RenderInfoDetail = [{
-  header: 'THÔNG TIN THU HOẠCH',
+  header: 'HARVESTING_INFO',
   className: 'col-12',
   titleClassName: 'col-3 mb-10',
   dataClassName: 'col-9 mb-10 pl-5',
   data: {
-    'productPlan.harvesting.time' : {
-      title: 'Thời gian thu hoạch',
-      formatter: (input, entity) => {return (
-        <>{ (entity.productPlan.harvesting.startTime && entity.productPlan.harvesting.endTime) 
-          ?
-            (entity.productPlan.harvesting.startTime.toLocaleDateString() + ', ' + 
-            entity.productPlan.harvesting.endTime.toLocaleDateString())
-          : 
-            ''
-        }</>
-      )},
+    'productPlan.harvesting.time': {
+      keyField: 'productPlan.harvesting', title: 'PRODUCTION_PLAN.HARVEST_DATE', formatter: (e) => {
+        return (<>{DisplayDateTime(e.startTime)} {e.endTime && (<> - {DisplayDateTime(e.endTime)}</>)}</>);
+      }
     },
-    'productPlan.harvesting.realQuantity' : {
+    'productPlan.harvesting.realQuantity': {
       title: 'Sản lượng thực tế',
     },
-    'productPlan.harvesting.imageBefore' : {
+    'productPlan.harvesting.imageBefore': {
       title: 'Hình ảnh trước khi thu hoạch',
       formatter: DisplayImage
     },
-    'productPlan.harvesting.imageInProgress' : {
+    'productPlan.harvesting.imageInProgress': {
       title: 'Hình ảnh khi thu hoạch',
       formatter: DisplayImage
     },
@@ -223,17 +213,18 @@ export const harvestingInfo : RenderInfoDetail = [{
 }];
 
 export const preliminaryTreatmentInfo : RenderInfoDetail = [{
-  header: 'THÔNG TIN SƠ CHẾ',
+  header: 'PRELIMINARY_TREATMENT_INFO',
   className: 'col-12',
   titleClassName: 'col-3 mb-10',
   dataClassName: 'col-9 mb-10 pl-5',
   data: {
-    'productPlan.preliminaryTreatment.time' : {
+    'productPlan.preliminaryTreatment.time': {
       title: 'Thời gian sơ chế',
-      formatter: (input, entity) => {return (<>
-        { (entity.productPlan.preliminaryTreatment.startTime && entity.productPlan.preliminaryTreatment.endTime) 
-          ?
-            (entity.productPlan.preliminaryTreatment.startTime.toLocaleDateString() + ', ' + 
+      formatter: (input, entity) => {
+        return (<>
+            {(entity.productPlan.preliminaryTreatment.startTime && entity.productPlan.preliminaryTreatment.endTime)
+              ?
+              (entity.productPlan.preliminaryTreatment.startTime.toLocaleDateString() + ', ' +
             entity.productPlan.preliminaryTreatment.endTime.toLocaleDateString())
           : 
             ''
@@ -274,17 +265,18 @@ export const preliminaryTreatmentInfo : RenderInfoDetail = [{
 }];
 
 export const cleaningInfo : RenderInfoDetail = [{
-  header: 'THÔNG TIN LÀM SẠCH',
+  header: 'CLEANING_INFO',
   className: 'col-12',
   titleClassName: 'col-3 mb-10',
   dataClassName: 'col-9 mb-10 pl-5',
   data: {
-    'productPlan.cleaning.time' : {
+    'productPlan.cleaning.time': {
       title: 'Thời gian làm sạch',
-      formatter: (input, entity) => {return (<>
-        { (entity.productPlan.cleaning.startTime && entity.productPlan.cleaning.endTime) 
-          ?
-            (entity.productPlan.cleaning.startTime.toLocaleDateString() + ', ' + 
+      formatter: (input, entity) => {
+        return (<>
+            {(entity.productPlan.cleaning.startTime && entity.productPlan.cleaning.endTime)
+              ?
+              (entity.productPlan.cleaning.startTime.toLocaleDateString() + ', ' +
             entity.productPlan.cleaning.endTime.toLocaleDateString())
           : 
             ''
@@ -325,16 +317,16 @@ export const cleaningInfo : RenderInfoDetail = [{
 }];
 
 export const packingInfo : RenderInfoDetail = [{
-  header: 'THÔNG TIN ĐÓNG GÓI',
+  header: 'PACKING_INFO',
   className: 'col-12',
   titleClassName: 'col-3 mb-10',
   dataClassName: 'col-9 mb-10 pl-5',
   data: {
-    'productPlan.harvesting.[imageInprogress].[coordinates]' : {
+    'productPlan.harvesting.[imageInprogress].[coordinates]': {
       title: 'Địa điểm Farm đóng gói',
       formatter: DisplayCoordinates
     },
-    'productPlan.packing.packing.code' : {
+    'productPlan.packing.packing.code': {
       title: 'Quy cách đóng gói',
     },
     'productPlan.packing.3' : {
@@ -373,17 +365,18 @@ export const packingInfo : RenderInfoDetail = [{
 }];
 
 export const preservationInfo : RenderInfoDetail = [{
-  header: 'THÔNG TIN BẢO QUẢN',
+  header: 'PRESERVATION_INFO',
   className: 'col-12',
   titleClassName: 'col-3 mb-10',
   dataClassName: 'col-9 mb-10 pl-5',
   data: {
-    'productPlan.preservation.time' : {
+    'productPlan.preservation.time': {
       title: 'Thời gian bảo quản',
-      formatter: (input, entity) => {return (<>
-        { (entity.productPlan.preservation.startTime && entity.productPlan.preservation.endTime) 
-          ?
-            (entity.productPlan.preservation.startTime.toLocaleDateString() + ', ' + 
+      formatter: (input, entity) => {
+        return (<>
+            {(entity.productPlan.preservation.startTime && entity.productPlan.preservation.endTime)
+              ?
+              (entity.productPlan.preservation.startTime.toLocaleDateString() + ', ' +
             entity.productPlan.preservation.endTime.toLocaleDateString())
           : 
             ''
@@ -417,7 +410,7 @@ export const preservationInfo : RenderInfoDetail = [{
 
 export const sellStatus : RenderInfoDetail = [{
   
-  header: 'TRẠNG THÁI',
+  header: 'STATUS_INFO',
   className: 'col-12',
   titleClassName: 'col-3 mb-10',
   dataClassName: 'col-9 mb-10 pl-5',
@@ -426,7 +419,7 @@ export const sellStatus : RenderInfoDetail = [{
       title: 'Trạng thái',
       formatter: (sold: boolean) => (<>{sold ? 'Đã bán' : 'Còn hàng'}</>),
     },
-    'sellStatus.dateOfSell' : {
+    'sellStatus.dateOfSell': {
       title: 'Ngày bán',
       formatter: (date: string) => DisplayDateTime(date),
     },
