@@ -10,9 +10,8 @@ import {
   UpdateProps,
 } from '../../common-library/common-types/common-type';
 
-import * as ProductionPlanService from '../production-plan/production-plan.service'
-
 import {QrModel} from './qr.model';
+import {GetCompareFunction} from "../../common-library/helpers/common-function";
 
 export const API_URL = API_BASE_URL + '/qrcode';
 
@@ -21,7 +20,7 @@ export const BULK_API_URL = API_URL + '/bulk'
 export const API_FILE_URL = API_BASE_URL + '/file';
 
 export const Create: CreateProps<QrModel> = (data: QrModel) => {
-  return axios.post<QrModel>(API_URL, data);
+  return axios.post<QrModel>(API_URL, {...data, type: data.type.code});
 };
 
 export const GetAll: GetAllPropsServer<any> = ({
@@ -29,13 +28,33 @@ export const GetAll: GetAllPropsServer<any> = ({
                                                  sortList,
                                                  paginationProps,
                                                }) => {
-  console.log(111);
   return axios.get(`${API_URL}`, {
     params: {...queryProps, ...paginationProps},
     // paramsSerializer: ParamsSerializer
   });
 };
-
+export const QrTypeList = [{code: "1", name: "Sản phẩm"}, {code: "2", name: "Đóng gói"}];
+export const GetType = ({queryProps, paginationProps}: any): Promise<any> => {
+  // console.log(queryProps);
+  return new Promise((resolve, reject) => {
+    const totalData = QrTypeList.filter((val, index, arr) => {
+      return Object.values(queryProps).some((query: any) => val.name.toLowerCase().indexOf(query.toLowerCase()) > -1);
+    });
+    const data = totalData.sort(GetCompareFunction({
+      key: paginationProps.sortBy,
+      orderType: paginationProps.sortType === 'asc' ? 1 : -1
+    })).slice((paginationProps.page - 1) * paginationProps.limit, paginationProps.page * paginationProps.limit);
+    // console.log(data);
+    resolve({
+      code: 200,
+      data: {
+        data: data,
+        paging: {page: paginationProps.page, limit: paginationProps.limit, total: totalData.length}
+      },
+      success: true
+    })
+  })
+}
 
 export const Count: CountProps<any> = ({
                                          queryProps,

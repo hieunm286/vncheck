@@ -557,8 +557,7 @@
   "QR.EDIT.CODE_TYPE": "Loại mã",
   "QR.EDIT.QUANTITY": "Số lượng",
   "QR.EDIT.ACTIVATOR": "Người kích hoạt",
-
-
+  "QR.CREATE.HEADER": "Thêm mới mã QR",
   "SEEDING.CODE": "Mã gieo giống",
   "SEEDING.CERTIFICATE": "Giấy chứng nhận giống",
   "SEEDING.INVOICE": "Hóa đơn mua giống",
@@ -597,6 +596,7 @@
   "USER.DETAIL_DIALOG.ADDRESS": "Địa chỉ",
   "USER.DETAIL_DIALOG.ROLE": "Vai trò",
   "VALIDATE.ERROR.INVALID_INPUT": "{label} không hợp lệ",
+  "VALIDATE.ERROR.MIN_1": "Chọn {label} ít nhất là 1",
   "VALIDATE.ERROR.MUST_LESS_THAN_TODAY": "{label} không được lớn hơn ngày hiện tại",
   "VALIDATE.ERROR.MISSING_START_TIME": "Vui lòng nhập ngày bắt đầu",
   "VALIDATE.ERROR.START_TIME_MUST_LESS_THAN_END_TIME": "Ngày bắt đầu phải nhỏ hơn ngày kết thúc",
