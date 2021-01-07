@@ -16,31 +16,36 @@ import DeleteManyEntitiesDialog from '../../common-library/common-components/del
 import {Link, Route, Switch, useHistory} from 'react-router-dom';
 import {MasterBodyColumns, RenderInfoDetail, SearchModel} from "../../common-library/common-types/common-type";
 import {MasterEntityDetailPage} from "../../common-library/common-components/master-detail-page";
-import {seedingInfo,plantingInfo,
-  harvestingInfo,
-  preliminaryTreatmentInfo,
+import {
   cleaningInfo,
+  harvestingInfo,
   packingInfo,
+  plantingInfo,
+  preliminaryTreatmentInfo,
   preservationInfo,
-  shippingInfo,
+  seedingInfo,
   sellStatus,
-  shippingInfoColumns} from "./qr.render-info";
-import * as MultilevelSaleService from '../multilevel-sale/multilevel-sale.service';
-import { bodyEntities, detailEntityMock, mobileSaleMock } from "./qr-mock";
+  shippingInfo,
+  shippingInfoColumns
+} from "./qr.render-info";
+import {detailEntityMock, mobileSaleMock} from "./qr-mock";
 import ModifyEntityDialog from "../../common-library/common-components/modify-entity-dialog";
-import { MasterQrChildDetail, MasterQrParentDetail } from "./qr-detail";
-import * as QrService from './qr.service';
-import {DisplayArray, DisplayCoordinates, DisplayDate, DisplayDateTime, DisplayImage, DisplayTable} from "../../common-library/helpers/detail-helpers";
-import {toast} from 'react-toastify';
+import {MasterQrChildDetail} from "./qr-detail";
+import {
+  DisplayArray,
+  DisplayCoordinates,
+  DisplayDate,
+  DisplayDateTime,
+  DisplayTable
+} from "../../common-library/helpers/detail-helpers";
 import 'react-toastify/dist/ReactToastify.css';
 import {AxiosResponse} from 'axios';
-import { ActionsColumnFormatter } from "../../common-library/common-components/actions-column-formatter";
-import { MasterEntityDetailDialog } from "../../common-library/common-components/master-entity-detail-dialog";
-import { DetailImage } from "../../common-library/common-components/detail/detail-image";
-import { DetailImage } from "../../common-library/common-components/detail/detail-image";
-import { Select } from 'antd';
+import {ActionsColumnFormatter} from "../../common-library/common-components/actions-column-formatter";
+import {MasterEntityDetailDialog} from "../../common-library/common-components/master-entity-detail-dialog";
+import {DetailImage} from "../../common-library/common-components/detail/detail-image";
+import {Select} from 'antd';
 
-const Option = { Select };
+const Option = {Select};
 const headerTitle = 'QR.MASTER.HEADER.TITLE';
 const tableTitle = 'SHIPPING_AGENCY.MASTER.TABLE.TITLE';
 const detailDialogTitle = 'SHIPPING_AGENCY.DETAIL_DIALOG.TITLE';
