@@ -1,16 +1,21 @@
 import React from "react";
-import {MasterBodyColumns, RenderInfoDetail} from "../../common-library/common-types/common-type";
+import {SortColumn} from "../../common-library/common-consts/const";
+import {RenderInfoDetail} from "../../common-library/common-types/common-type";
 import {
   DisplayArray,
   DisplayCelcius,
   DisplayCoordinates,
-  DisplayDateTime, DisplayDiffTime, DisplayImage,
-  DisplayDownloadLink, DisplayPercent, DisplayTable
+  DisplayDateTime,
+  DisplayDownloadLink,
+  DisplayImage,
+  DisplayPercent,
+  DisplayTable
 } from "../../common-library/helpers/detail-helpers";
 
-import { mobileSaleMock } from './qr-mock';
+import {mobileSaleMock} from './qr-mock';
+import {ColumnDescription} from "react-bootstrap-table-next";
 
-const producerInfo: RenderInfoDetail = [{
+export const producerInfo: RenderInfoDetail = [{
   header: 'Doanh nghiệp sản xuất',
   className: 'col-12',
   titleClassName: 'col-3 mb-10',
@@ -24,7 +29,7 @@ const producerInfo: RenderInfoDetail = [{
   }
 }];
 
-const commonInfo: RenderInfoDetail = [{
+export const commonInfo: RenderInfoDetail = [{
   header: 'Thông tin chung',
   className: 'col-12',
   titleClassName: 'col-3 mb-10',
@@ -34,7 +39,7 @@ const commonInfo: RenderInfoDetail = [{
     'productPlan.seeding.species.barcode': {title: 'SEEDING.GTIN',},
   }
 }]
-const seedingInfo: RenderInfoDetail = [{
+export const seedingInfo: RenderInfoDetail = [{
   header: 'Thông tin gieo giống',
   className: 'col-12',
   titleClassName: 'col-3 mb-10',
@@ -74,7 +79,7 @@ const seedingInfo: RenderInfoDetail = [{
       title: 'Độ xốp',
       formatter: DisplayPercent,
     },
-    'productPlan.seeding.imageAfter': {
+    'productPlan.planting.imageBefore': {
       title: 'Hình ảnh trước khi đưa vào nuôi trồng',
       formatter: DisplayImage
     },
@@ -100,7 +105,7 @@ const seedingInfo: RenderInfoDetail = [{
   }
 }];
 
-const plantingInfo: RenderInfoDetail = [{
+export const plantingInfo: RenderInfoDetail = [{
   header: 'Thông tin gieo trồng',
   className: 'col-12',
   titleClassName: 'col-3 mb-10',
@@ -116,7 +121,7 @@ const plantingInfo: RenderInfoDetail = [{
       title: 'PLANTING.FARM_LOCATION',
       formatter: DisplayCoordinates
     },
-    'productPlan.planting.landLotImage': {
+    'productPlan.seeding.landLotImage': {
       title: 'Hình ảnh định vị lô luống',
       formatter: DisplayImage
     },
@@ -154,7 +159,7 @@ const plantingInfo: RenderInfoDetail = [{
   }
 }];
 
-const harvestingInfo : RenderInfoDetail = [{
+export const harvestingInfo : RenderInfoDetail = [{
   header: 'THÔNG TIN THU HOẠCH',
   className: 'col-12',
   titleClassName: 'col-3 mb-10',
@@ -217,7 +222,7 @@ const harvestingInfo : RenderInfoDetail = [{
   }
 }];
 
-const preliminaryTreatmentInfo : RenderInfoDetail = [{
+export const preliminaryTreatmentInfo : RenderInfoDetail = [{
   header: 'THÔNG TIN SƠ CHẾ',
   className: 'col-12',
   titleClassName: 'col-3 mb-10',
@@ -268,7 +273,7 @@ const preliminaryTreatmentInfo : RenderInfoDetail = [{
   }
 }];
 
-const cleaningInfo : RenderInfoDetail = [{
+export const cleaningInfo : RenderInfoDetail = [{
   header: 'THÔNG TIN LÀM SẠCH',
   className: 'col-12',
   titleClassName: 'col-3 mb-10',
@@ -319,7 +324,7 @@ const cleaningInfo : RenderInfoDetail = [{
   }
 }];
 
-const packingInfo : RenderInfoDetail = [{
+export const packingInfo : RenderInfoDetail = [{
   header: 'THÔNG TIN ĐÓNG GÓI',
   className: 'col-12',
   titleClassName: 'col-3 mb-10',
@@ -367,7 +372,7 @@ const packingInfo : RenderInfoDetail = [{
   }
 }];
 
-const preservationInfo : RenderInfoDetail = [{
+export const preservationInfo : RenderInfoDetail = [{
   header: 'THÔNG TIN BẢO QUẢN',
   className: 'col-12',
   titleClassName: 'col-3 mb-10',
@@ -409,85 +414,8 @@ const preservationInfo : RenderInfoDetail = [{
 }];
 
 
-const shippingInfoColumns : MasterBodyColumns = [
-  {
-    dataField: 'exportTime',
-    text: 'Thời gian xuất hàng',
-    formatter: (date: string) => {return DisplayDateTime(date);}
-  },
-  {
-    text: 'Địa điểm xuất hàng',
-    dataField: 'exportAddress',
-    formatter: (input) => {return DisplayArray(input)},
-  },
-  {
-    text: 'Nhân viên xuất hàng',
-    dataField: 'exportStaff.fullName',
-  },
-  {
-    text: 'Nhân viên vận chuyển',
-    dataField: 'shipper.fullName'
-  },
-];
 
-const distributionInfoColumns : MasterBodyColumns = [
-  ...shippingInfoColumns,
-  {
-    dataField: 'receiveTime',
-    text: 'Thời gian nhận hàng',
-    formatter: (date: string) => {return DisplayDateTime(date);}
-  },
-  {
-    text: 'Địa điểm nhận hàng',
-    dataField: 'receiveAddress',
-    formatter: (input) => {return DisplayArray(input)},
-  },
-  {
-    dataField: 'receiveStaff.fullName',
-    text: 'Nhân viên xuất hàng',
-  },
-  {
-    dataField: 'image.path',
-    text: 'Hình ảnh',
-  },
-];
-
-
-const shippingInfo : RenderInfoDetail = [{
-  
-  header: 'THÔNG TIN VẬN CHUYỂN',
-  className: 'col-12',
-  titleClassName: 'col-3 mb-10',
-  dataClassName: 'col-12 mb-10',
-  data: {
-    'sellStatus': {
-      title: '',
-      formatter: (entity: any[]) => {
-
-        return <DisplayTable entities={mobileSaleMock.shippingInfo} columns={shippingInfoColumns} />
-      }
-    }
-  },
-}];
-
-const distributionInfo : RenderInfoDetail = [{
-  
-  header: 'THÔNG TIN PHÂN PHỐI',
-  className: 'col-12',
-  titleClassName: 'col-3 mb-10',
-  dataClassName: 'col-12 mb-10',
-  data: {
-    'sellStatus': {
-      title: '',
-      formatter: (entity: any[]) => {
-
-        return <DisplayTable entities={mobileSaleMock.distributionInfo} columns={distributionInfoColumns} />
-      }
-    }
-  },
-}];
-
-const sellStatus : RenderInfoDetail = [{
+export const sellStatus : RenderInfoDetail = [{
   
   header: 'TRẠNG THÁI',
   className: 'col-12',
@@ -518,15 +446,3 @@ const sellStatus : RenderInfoDetail = [{
 
 
 
-export const QrRenderDetail: RenderInfoDetail = [
-  ...seedingInfo,
-  ...plantingInfo,
-  ...harvestingInfo,
-  ...preliminaryTreatmentInfo,
-  ...cleaningInfo,
-  ...packingInfo,
-  ...preservationInfo,
-  ...shippingInfo,
-  ...distributionInfo,
-  ...sellStatus
-];

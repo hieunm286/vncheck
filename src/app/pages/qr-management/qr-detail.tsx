@@ -6,7 +6,7 @@ import { MasterTable } from '../../common-library/common-components/master-table
 import { NoRecordsFoundMessage, PleaseWaitMessage } from '../../common-library/helpers/pagination-helper';
 import { childQrBodyEntities } from './qr-mock';
 import { QrChild, QrParent } from './qr.model';
-import * as QrService from './services/qr.service';
+import * as QrService from './qr.service';
 
 type QrParentProps = {
   entity: QrParent;

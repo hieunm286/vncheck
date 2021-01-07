@@ -1,5 +1,5 @@
-import { ProductionPlanModel } from "../production-plan/production-plant.model";
-import { UserModelForQR as UserModel } from '../user/user.model';
+import {ProductionPlanModel} from "../production-plan/production-plant.model";
+import {UserModelForQR as UserModel} from '../user/user.model';
 
 export type QrModel = CommonQr & Partial<QrPdf> & {
   _id?: string;
@@ -12,9 +12,11 @@ export type QrModel = CommonQr & Partial<QrPdf> & {
   },
   activeAt: Date;
   codeType: string;
+  takenBy: UserModel;
+  takenLocation: Location;
   productPlan?: CommonQr & {
     seeding: {
-      technical: string[] | {fullName: string}[];
+      technical: string[] | { fullName: string }[];
     };
     harvesting: {
       leader: string[] | UserModel[];
@@ -24,7 +26,7 @@ export type QrModel = CommonQr & Partial<QrPdf> & {
       farmLocation: Location | Image;
       imageBefore: Location | Image;
       imageAfter: Location | Image;
-      imageInProgress: Location[] | Image[];
+      imageInProgress: Location[] | Image[] | (Location & Image)[];
       area: number;
       realQuantity: number;
       temperature: number;
@@ -61,7 +63,8 @@ export type QrModel = CommonQr & Partial<QrPdf> & {
       quantity: number;
       packing: {
         code: string;
-      }
+      };
+      packingImage: Image | Location;
     };
     preservation: {
       startTime: Date;
@@ -95,15 +98,12 @@ export type QrModel = CommonQr & Partial<QrPdf> & {
     seller: UserModel;
     customerPhoneNumber: string;
   };
+  type: { code: string, name: string };
 }
 
-export type QrParent = CommonQr & {
+export type QrParent = CommonQr & {}
 
-}
-
-export type QrChild = CommonQr & {
-  
-}
+export type QrChild = CommonQr & {}
 
 type CommonQr = Partial<ProductionPlanModel>;
 

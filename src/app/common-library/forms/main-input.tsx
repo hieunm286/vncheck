@@ -70,7 +70,7 @@ export function MainInput({
             onChange={(e) => {
               if (type === 'string-number') {
                 const test = /^\d+$/.test(e.target.value);
-                if (!test) {
+                if (e.target.value !== '' && !test) {
                   e.target.value = e.target.value.replace(/\D/g, '');
                   setError('INPUT.ERROR.TYPE_ONLY_NUMBER');
                 } else setError(null);
