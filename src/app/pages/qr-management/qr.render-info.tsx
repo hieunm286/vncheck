@@ -1,12 +1,14 @@
 import React from "react";
-import {RenderInfoDetail} from "../../common-library/common-types/common-type";
+import {MasterBodyColumns, RenderInfoDetail} from "../../common-library/common-types/common-type";
 import {
   DisplayArray,
   DisplayCelcius,
   DisplayCoordinates,
   DisplayDateTime, DisplayDiffTime, DisplayImage,
-  DisplayDownloadLink, DisplayPercent
+  DisplayDownloadLink, DisplayPercent, DisplayTable
 } from "../../common-library/helpers/detail-helpers";
+
+import { mobileSaleMock } from './qr-mock';
 
 const producerInfo: RenderInfoDetail = [{
   header: 'Doanh nghiệp sản xuất',
@@ -161,8 +163,13 @@ const harvestingInfo : RenderInfoDetail = [{
     'productPlan.harvesting.time' : {
       title: 'Thời gian thu hoạch',
       formatter: (input, entity) => {return (
-        <>{entity.productPlan.harvesting.startTime.toLocaleDateString() + ', ' + 
-        entity.productPlan.harvesting.endTime.toLocaleDateString()}</>
+        <>{ (entity.productPlan.harvesting.startTime && entity.productPlan.harvesting.endTime) 
+          ?
+            (entity.productPlan.harvesting.startTime.toLocaleDateString() + ', ' + 
+            entity.productPlan.harvesting.endTime.toLocaleDateString())
+          : 
+            ''
+        }</>
       )},
     },
     'productPlan.harvesting.realQuantity' : {
@@ -218,9 +225,17 @@ const preliminaryTreatmentInfo : RenderInfoDetail = [{
   data: {
     'productPlan.preliminaryTreatment.time' : {
       title: 'Thời gian sơ chế',
-      formatter: (input, entity) => DisplayDiffTime(input, entity)
+      formatter: (input, entity) => {return (<>
+        { (entity.productPlan.preliminaryTreatment.startTime && entity.productPlan.preliminaryTreatment.endTime) 
+          ?
+            (entity.productPlan.preliminaryTreatment.startTime.toLocaleDateString() + ', ' + 
+            entity.productPlan.preliminaryTreatment.endTime.toLocaleDateString())
+          : 
+            ''
+        }</>
+      )},
     },
-    'productPlan.preliminaryTreatment.' : {
+    'productPlan.preliminaryTreatment.realQuantity' : {
       title: 'Sản lượng sau sơ chế',
     },
     'productPlan.preliminaryTreatment.imageBefore' : {
@@ -261,9 +276,17 @@ const cleaningInfo : RenderInfoDetail = [{
   data: {
     'productPlan.cleaning.time' : {
       title: 'Thời gian làm sạch',
-      formatter: (input, entity) => DisplayDiffTime(input, entity)
+      formatter: (input, entity) => {return (<>
+        { (entity.productPlan.cleaning.startTime && entity.productPlan.cleaning.endTime) 
+          ?
+            (entity.productPlan.cleaning.startTime.toLocaleDateString() + ', ' + 
+            entity.productPlan.cleaning.endTime.toLocaleDateString())
+          : 
+            ''
+        }</>
+      )},
     },
-    'productPlan.cleaning.' : {
+    'productPlan.cleaning.realQuantity' : {
       title: 'Sản lượng sau làm sạch',
     },
     'productPlan.cleaning.imageBefore' : {
@@ -302,10 +325,11 @@ const packingInfo : RenderInfoDetail = [{
   titleClassName: 'col-3 mb-10',
   dataClassName: 'col-9 mb-10 pl-5',
   data: {
-    'productPlan.packing.1' : {
+    'productPlan.harvesting.[imageInprogress].[coordinates]' : {
       title: 'Địa điểm Farm đóng gói',
+      formatter: DisplayCoordinates
     },
-    'productPlan.packing.2' : {
+    'productPlan.packing.packing.code' : {
       title: 'Quy cách đóng gói',
     },
     'productPlan.packing.3' : {
@@ -319,17 +343,19 @@ const packingInfo : RenderInfoDetail = [{
       title: 'Hình ảnh sau khi đóng gói',
       formatter: DisplayImage
     },
-    'productPlan.packing.4' : {
+    'createdAt' : {
       title: 'Ngày gán QR',
+      formatter: (input) => DisplayDateTime(input)
     },
-    'productPlan.packing.5' : {
+    'activeBy.fullName' : {
       title: 'Người gán QR',
     },
-    'productPlan.packing.6' : {
+    'createdBy.fullName' : {
       title: 'Người kích hoạt',
     },
-    'productPlan.packing.7' : {
+    'activeAt' : {
       title: 'Ngày kích hoạt',
+      formatter: (input) => DisplayDateTime(input)
     },
     'productPlan.packing.manager.fullName' : {
       title: 'Tổng giám đốc',
@@ -347,16 +373,27 @@ const preservationInfo : RenderInfoDetail = [{
   titleClassName: 'col-3 mb-10',
   dataClassName: 'col-9 mb-10 pl-5',
   data: {
-    'productPlan.preservation.1' : {
+    'productPlan.preservation.time' : {
       title: 'Thời gian bảo quản',
+      formatter: (input, entity) => {return (<>
+        { (entity.productPlan.preservation.startTime && entity.productPlan.preservation.endTime) 
+          ?
+            (entity.productPlan.preservation.startTime.toLocaleDateString() + ', ' + 
+            entity.productPlan.preservation.endTime.toLocaleDateString())
+          : 
+            ''
+        }</>
+      )},
     },
-    'productPlan.preservation.2' : {
+    'productPlan.preservation.location.[coordinates]' : {
       title: 'Địa điểm bảo quản',
+      formatter: DisplayCoordinates,
     },
-    'productPlan.preservation.3' : {
+    'productPlan.preservation.temperature' : {
       title: 'Nhiệt độ bảo quản',
+      formatter: DisplayCelcius
     },
-    'productPlan.preservation.4' : {
+    'productPlan.preservation.storageImage' : {
       title: 'Hình ảnh bảo quản',
       formatter: DisplayImage
     },
@@ -372,13 +409,124 @@ const preservationInfo : RenderInfoDetail = [{
 }];
 
 
+const shippingInfoColumns : MasterBodyColumns = [
+  {
+    dataField: 'exportTime',
+    text: 'Thời gian xuất hàng',
+    formatter: (date: string) => {return DisplayDateTime(date);}
+  },
+  {
+    text: 'Địa điểm xuất hàng',
+    dataField: 'exportAddress',
+    formatter: (input) => {return DisplayArray(input)},
+  },
+  {
+    text: 'Nhân viên xuất hàng',
+    dataField: 'exportStaff.fullName',
+  },
+  {
+    text: 'Nhân viên vận chuyển',
+    dataField: 'shipper.fullName'
+  },
+];
+
+const distributionInfoColumns : MasterBodyColumns = [
+  ...shippingInfoColumns,
+  {
+    dataField: 'receiveTime',
+    text: 'Thời gian nhận hàng',
+    formatter: (date: string) => {return DisplayDateTime(date);}
+  },
+  {
+    text: 'Địa điểm nhận hàng',
+    dataField: 'receiveAddress',
+    formatter: (input) => {return DisplayArray(input)},
+  },
+  {
+    dataField: 'receiveStaff.fullName',
+    text: 'Nhân viên xuất hàng',
+  },
+  {
+    dataField: 'image.path',
+    text: 'Hình ảnh',
+  },
+];
+
+
+const shippingInfo : RenderInfoDetail = [{
+  
+  header: 'THÔNG TIN VẬN CHUYỂN',
+  className: 'col-12',
+  titleClassName: 'col-3 mb-10',
+  dataClassName: 'col-12 mb-10',
+  data: {
+    'sellStatus': {
+      title: '',
+      formatter: (entity: any[]) => {
+
+        return <DisplayTable entities={mobileSaleMock.shippingInfo} columns={shippingInfoColumns} />
+      }
+    }
+  },
+}];
+
+const distributionInfo : RenderInfoDetail = [{
+  
+  header: 'THÔNG TIN PHÂN PHỐI',
+  className: 'col-12',
+  titleClassName: 'col-3 mb-10',
+  dataClassName: 'col-12 mb-10',
+  data: {
+    'sellStatus': {
+      title: '',
+      formatter: (entity: any[]) => {
+
+        return <DisplayTable entities={mobileSaleMock.distributionInfo} columns={distributionInfoColumns} />
+      }
+    }
+  },
+}];
+
+const sellStatus : RenderInfoDetail = [{
+  
+  header: 'TRẠNG THÁI',
+  className: 'col-12',
+  titleClassName: 'col-3 mb-10',
+  dataClassName: 'col-9 mb-10 pl-5',
+  data: {
+    'sellStatus.status': {
+      title: 'Trạng thái',
+      formatter: (sold: boolean) => (<>{sold ? 'Đã bán' : 'Còn hàng'}</>),
+    },
+    'sellStatus.dateOfSell' : {
+      title: 'Ngày bán',
+      formatter: (date: string) => DisplayDateTime(date),
+    },
+    'sellStatus.sellAddress': {
+      title: 'Nơi bán',
+      formatter: (arr: string[]) => DisplayArray(arr),
+    },
+    'sellStatus.seller.fullName': {
+      title: 'Nhân viên bán hàng',
+    },
+    'sellStatus.customerPhoneNumber': {
+      title: 'Số điện thoại khách hàng',
+    }
+
+  },
+}];
+
+
 
 export const QrRenderDetail: RenderInfoDetail = [
   ...seedingInfo,
   ...plantingInfo,
   ...harvestingInfo,
-  // ...preliminaryTreatmentInfo,
-  // ...cleaningInfo,
-  // ...packingInfo,
-  // ...preservationInfo,
+  ...preliminaryTreatmentInfo,
+  ...cleaningInfo,
+  ...packingInfo,
+  ...preservationInfo,
+  ...shippingInfo,
+  ...distributionInfo,
+  ...sellStatus
 ];

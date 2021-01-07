@@ -12,14 +12,16 @@ import {
 
 import * as ProductionPlanService from '../../production-plan/production-plan.service'
 
+import {QrModel} from '../qr.model';
+
 export const API_URL = API_BASE_URL + '/qrcode';
 
 export const BULK_API_URL = API_URL + '/bulk'
 
 export const API_FILE_URL = API_BASE_URL + '/file';
 
-export const Create: CreateProps<any> = (data: any) => {
-  return axios.post(API_URL, data);
+export const Create: CreateProps<QrModel> = (data: QrModel) => {
+  return axios.post<QrModel>(API_URL, data);
 };
 
 export const GetAll: GetAllPropsServer<any> = ({

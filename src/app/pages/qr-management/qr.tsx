@@ -3,7 +3,7 @@ import {useIntl} from 'react-intl';
 
 import * as UserService from '../user/user.service';
 import {InitMasterProps} from "../../common-library/helpers/common-function";
-import {Count, Create, Delete, DeleteMany, Get, GetAll, GetById, Update} from './qr.service';
+import {Count, Create, Delete, DeleteMany, Get, GetAll, Update} from './qr.service';
 import {QrModel} from './qr.model';
 import {MasterHeader} from "../../common-library/common-components/master-header";
 import {MasterBody} from "../../common-library/common-components/master-body";
@@ -17,12 +17,12 @@ import {Link, Route, Switch, useHistory} from 'react-router-dom';
 import {SearchModel} from "../../common-library/common-types/common-type";
 import {MasterEntityDetailPage} from "../../common-library/common-components/master-detail-page";
 import {QrRenderDetail} from "./qr.render-info";
-import * as MultilevelSaleService from '../multilevel-sale/multilevel-sale.service';
-import { bodyEntities, detailEntityMock } from "./qr-mock";
+import {detailEntityMock} from "./qr-mock";
 import ModifyEntityDialog from "../../common-library/common-components/modify-entity-dialog";
-import { MasterQrChildDetail, MasterQrParentDetail } from "./qr-detail";
-import * as QrService from './services/qr.service';
-import {DisplayDate, DisplayDateTime} from "../../common-library/helpers/detail-helpers";
+import {MasterQrChildDetail} from "./qr-detail";
+import {DisplayDate} from "../../common-library/helpers/detail-helpers";
+import 'react-toastify/dist/ReactToastify.css';
+import {AxiosResponse} from 'axios';
 
 const headerTitle = 'QR.MASTER.HEADER.TITLE';
 const tableTitle = 'SHIPPING_AGENCY.MASTER.TABLE.TITLE';
@@ -84,7 +84,7 @@ function QrPage() {
     getAllServer: GetAll,
     updateServer: Update
   });
-  
+
   useEffect(() => {
     getAll(filterProps);
   }, [paginationProps, filterProps]);
@@ -94,22 +94,24 @@ function QrPage() {
   
   const columns = useMemo(() => {
     return {
-      code: {
-        dataField: 'code',
+      _id: {
+        dataField: '_id',
         text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.CODE'})}`,
         ...SortColumn,
         align: 'center',
         formatter: (cell: string, row: any, rowIndex: number) => {console.log(row.type === '1');return <Link to={'qr/' + (row.codeType === '1' ? '' : '') + row._id}>{cell}</Link>},
       },
       'createdBy': {
-        dataField: 'createdBy',
+        dataField: 'createdBy.fullName',
         text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.CREATED_BY'})}`,
-      ...SortColumn,
+        ...SortColumn,
         align: 'center',
-        formatter: (cell: any, row: any, rowIndex: number) => {return <>{cell.firstName + ' ' + cell.lastName}</>},
+        formatter: (cell: any, row: any, rowIndex: number) => {
+          return <>{row.createdBy.firstName + ' ' + row.createdBy.lastName}</>
+        },
       },
-      createdDate: {
-        dataField: 'createdDate',
+      createdAt: {
+        dataField: 'createdAt',
         text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.CREATED_DATE'})}`,
         ...SortColumn,
         formatter: (input: any) => (<DisplayDate input={input}/>),
@@ -120,7 +122,8 @@ function QrPage() {
         text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.ACTIVE_BY'})}`,
         ...SortColumn,
         align: 'center',
-        formatter: (cell: any, row: any, rowIndex: number) => {return <>{cell.firstName + ' ' + cell.lastName}</>},
+        formatter: (cell: any, row: any, rowIndex: number) => {return <>{(row.activeBy && row.activeBy.firstName && row.activeBy.lastName) ? 
+          (row.activeBy.firstName + ' ' + row.activeBy.lastName) : 'NO_INFORMATION'}</>},
       },
       activeAt: {
         dataField: 'activeAt',
@@ -129,7 +132,7 @@ function QrPage() {
         formatter: (input: any) => (<DisplayDate input={input}/>),
         align: 'center',
       },
-      codeType: {
+      type: {
         dataField: 'type',
         text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.CODE_TYPE'})}`,
         ...SortColumn,
@@ -148,6 +151,8 @@ function QrPage() {
     createdBy: {
       type: 'search-select',
       label: 'QR.MASTER.SEARCH.CREATED_BY',
+      selectField: '_id',
+      keyField: 'fullName',
       onSearch: UserService.GetAll,
     },
     createdDate: {
@@ -157,6 +162,8 @@ function QrPage() {
     activeBy: {
       type: 'search-select',
       label: 'QR.MASTER.SEARCH.ACTIVE_BY',
+      selectField: '_id',
+      keyField: 'fullName',
       onSearch: UserService.GetAll,
     },
     activeAt: {
@@ -250,7 +257,14 @@ function QrPage() {
               
             }}
             onHide={refreshData}
-            onModify={add}
+            onModify={(e: QrModel) => {
+              return add(e).then((res: AxiosResponse<QrModel>) => {
+                var a = document.createElement("a"); //Create <a>
+                a.href = "data:application/octet-stream;base64," + res.data.buffers; //Image Base64 Goes here
+                a.download = "file.tif"; //File name Here
+                a.click();
+              })
+            }}
           />
         </Route>
         <Route path="/qr/:code">

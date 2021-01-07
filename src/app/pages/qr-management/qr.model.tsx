@@ -1,23 +1,30 @@
 import { ProductionPlanModel } from "../production-plan/production-plant.model";
-import { UserModel } from '../user/user.model';
+import { UserModelForQR as UserModel } from '../user/user.model';
 
-export type QrModel = CommonQr & {
+export type QrModel = CommonQr & Partial<QrPdf> & {
   _id?: string;
   code: string;
-  activeBy: any;
+  activeBy: {
+    _id: string;
+    firstName: string;
+    lastName: string;
+    fullName: string;
+  },
   activeAt: Date;
   codeType: string;
   productPlan?: CommonQr & {
     seeding: {
       technical: string[] | {fullName: string}[];
-    },
+    };
     harvesting: {
-      leader: string[];
-      worker: string[];
-      manager: string;
+      leader: string[] | UserModel[];
+      worker: string[] | UserModel[];
+      manager: string | UserModel;
+      technical: string[] | UserModel[];
       farmLocation: Location | Image;
       imageBefore: Location | Image;
       imageAfter: Location | Image;
+      imageInProgress: Location[] | Image[];
       area: number;
       realQuantity: number;
       temperature: number;
@@ -27,7 +34,66 @@ export type QrModel = CommonQr & {
       code: string;
       startTime: Date;
       endTime: Date;
-    }
+    };
+    preliminaryTreatment: {
+      startTime: Date;
+      endTime: Date;
+      realQuantity: number;
+      imageInProgress: Location | Image;
+      imageBefore: Location | Image;
+      imageAfter: Location | Image;
+    };
+    cleaning: {
+      startTime: Date;
+      endTime: Date;
+      realQuantity: number;
+      imageInProgress: Location | Image;
+      imageBefore: Location | Image;
+      imageAfter: Location | Image;
+      leader: string[] | UserModel[];
+      worker: string[] | UserModel[];
+      manager: string | UserModel;
+      technical: string[] | UserModel[];
+    };
+    packing: {
+      leader: string[] | UserModel[];
+      manager: string | UserModel;
+      quantity: number;
+      packing: {
+        code: string;
+      }
+    };
+    preservation: {
+      startTime: Date;
+      endTime: Date;
+      temperature: number;
+      worker: string[] | UserModel[];
+      technical: string[] | UserModel[];
+      location: Location;
+    };
+  };
+  distributionInfo: {
+    exportTime: Date;
+    exportAddress: string[]
+    exportStaff: UserModel;
+    shipper: UserModel;
+    receiveTime: Date;
+    receiveAddress: string[];
+    receiveStaff: UserModel;
+    image: Image | Location;
+  }[];
+  shippingInfo: {
+    exportTime: Date;
+    exportAddress: string[]
+    exportStaff: UserModel;
+    shipper: UserModel;
+  }[];
+  sellStatus: {
+    status: boolean;
+    dateOfSell: Date;
+    sellAddress: string[];
+    seller: UserModel;
+    customerPhoneNumber: string;
   };
 }
 
@@ -49,4 +115,9 @@ type Location = {
 type Image = {
   hash: string;
   path: string;
+}
+
+export type QrPdf = {
+  // buffers: {data: BlobPart[]}[];
+  buffers: any;
 }

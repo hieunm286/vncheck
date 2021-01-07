@@ -355,7 +355,7 @@ export function InitMasterProps<T>({
     };
     const _innerError = getError(error);
     
-    toast.error(_.isString(_innerError) ? intl.formatMessage({id: _innerError ?? 'COMMON_COMPONENT.TOAST.DEFAULT_ERROR'}) :
+    toast.error(_.isString(_innerError) ? intl.formatMessage({id: _innerError ?? 'COMMON_COMPONENT.TOAST.DEFAULT_ERROR'}, {additional: ''}) :
       (<span>{_innerError.map((e, index) => (
         (<span key={`abc${index}`} style={{display: 'block'}}>{intl.formatMessage({id: e.message}, e)}</span>)
       ))}</span>)

@@ -11,6 +11,51 @@ import viMessage from '../../layout/i18n/messages/vi.json'; //your messages tran
 const cache = createIntlCache();
 const intl = createIntl({ locale: 'vi-VN', messages: viMessage, }, cache);//locale and message can come from Redux or regular import
 
+export const mobileSaleMock = {
+  distributionInfo: [ 
+    {
+      exportTime: new Date(),
+      exportAddress: ['Ngõ 219 Trung Kính', 'Cầu Giấy'],
+      exportStaff: {
+        fullName: 'N.V.A',
+      },
+      shipper: {
+        fullName: 'H.D.M',
+      },
+      receiveTime: new Date(),
+      receiveAddress:  ['Đại học kinh tế Quốc dân'],
+      receiveStaff: {
+        fullName: 'N.D.A',
+      },
+      image: {
+        path: 'tisbbjs',
+        hash: 'aoghbz',
+      }
+    },
+  ],
+  shippingInfo: [
+    {
+      exportTime: new Date(),
+      exportAddress: ['Ngõ 219 Trung Kính', 'Cầu Giấy'],
+      exportStaff: {
+        fullName: 'N.V.A',
+      },
+      shipper: {
+        fullName: 'H.D.M',
+      }
+    },
+  ],
+  sellStatus: {
+    status: true,
+    dateOfSell: new Date(),
+    sellAddress: ['Cửa hàng A'],
+    seller: {
+      fullName: 'N.V.A'
+    },
+    customerPhoneNumber: '032246178',
+  }
+};
+
 export const bodyEntities: QrModel[] = [
   {
     code: '123456', 
@@ -18,11 +63,18 @@ export const bodyEntities: QrModel[] = [
       _id: '',
       firstName: 'Nguyễn',
       lastName: 'Đức Chiến',
+      fullName: 'Nguyễn Đức Chiến',
     }, 
-    activeBy: '3', 
+    activeBy: {
+      _id: '',
+      firstName: 'Nguyễn',
+      lastName: 'Đức Chiến',
+      fullName: 'Nguyễn Đức Chiến',
+    }, 
     createdAt: new Date(),
     activeAt: new Date(), 
-    codeType: 'Sản phẩm', 
+    codeType: 'Sản phẩm',   
+   ...mobileSaleMock,
   },
   {
     code: '123456', 
@@ -30,12 +82,19 @@ export const bodyEntities: QrModel[] = [
       _id: '',
       firstName: 'Phạm',
       lastName: 'Minh Nguyệt',
+      fullName: 'Phạm Minh Nguyệt',
     }, 
-    activeBy: '3', 
+    activeBy: {
+      _id: '',
+      firstName: 'Phạm',
+      lastName: 'Minh Nguyệt',
+      fullName: 'Phạm Minh Nguyệt',
+    }, 
     createdAt: new Date(),
     activeAt: new Date(), 
     codeType: 'Đóng gói', 
-  }
+    ...mobileSaleMock,
+  },
 ];
 
 export const childQrBodyEntities: QrModel[] = [
@@ -45,11 +104,18 @@ export const childQrBodyEntities: QrModel[] = [
       _id: '',
       firstName: 'Nguyễn',
       lastName: 'Đức Chiến',
+      fullName: 'Nguyễn Đức Chiến',
     }, 
-    activeBy: '3', 
+    activeBy: {
+      _id: '',
+      firstName: 'Nguyễn',
+      lastName: 'Đức Chiến',
+      fullName: 'Nguyễn Đức Chiến',
+    }, 
     createdAt: new Date(),
     activeAt: new Date(), 
-    codeType: 'Sản phẩm', 
+    codeType: 'Sản phẩm',
+    ...mobileSaleMock, 
   },
   {
     code: '123456', 
@@ -57,12 +123,19 @@ export const childQrBodyEntities: QrModel[] = [
       _id: '',
       firstName: 'Phạm',
       lastName: 'Minh Nguyệt',
+      fullName: 'Phạm Minh Nguyệt',
     }, 
-    activeBy: '3', 
+    activeBy: {
+      _id: '',
+      firstName: 'Phạm',
+      lastName: 'Minh Nguyệt',
+      fullName: 'Phạm Minh Nguyệt',
+    },  
     createdAt: new Date(),
     activeAt: new Date(), 
     codeType: 'Sản phẩm', 
-  }
+    ...mobileSaleMock,
+  },
 ];
 
 
@@ -74,8 +147,14 @@ export const detailEntityMock: QrModel = {
     _id: '',
     firstName: 'Nguyễn',
     lastName: 'Đức Chiến',
+    fullName: 'Nguyễn Đức Chiến',
   }, 
-  activeBy: '3', 
+  activeBy: {
+    _id: '',
+    firstName: 'Nguyễn',
+    lastName: 'Đức Chiến',
+    fullName: 'Nguyễn Đức Chiến',
+  }, 
   createdAt: new Date(),
   activeAt: new Date(), 
   codeType: 'Sản phẩm', 
@@ -86,96 +165,85 @@ export const detailEntityMock: QrModel = {
       ...image.imageSeeding,
       ...plan.planSeeding,
       ...group.groupSeeding,
-      
-      // Redundant species field
-      species: {
-        _id: 'mongoid@qprtmzfaw24a4hfharftwbe',
-        name: 'Rau muống',
-        barcode: 'GTIN@123456',
-        seedingDays: 10,
-        plantingDays: 4,
-        expiryDays: 2,
-        code: 'RM01'
-      },
     },
     planting: {
-      farmLocation: {
-        coordinates: ['24N', '34E'],
-        type: 'latitude',
-      },
-      imageAfter: {
-        path: 'upload/path-to-imagexxx.png',
-        hash: 'hash@9gy2ahfq3o234asfd96LKWQFOPW',
-      },
-      imageBefore: {
-        path: 'upload/path-to-imagexxx.png',
-        hash: 'hash@9gy2ahfa234asfd96LKWQA3FOPW',
-      },
       _id: 'mongoid@q24rirjifa2hgrezrtqnb',
-      estimatedPlantingTime: new Date(),
-      estimatedHarvestTime: new Date(),
       code: '234112e',
-      area: 42,
-      numberOfPlants: 150,
-      expectedQuantity: 135,
-      temperature: 26,
-      humidity: 31,
-      porosity: 5,
-      landLot: 'A34',
-      species: {
-        _id: 'mongoid@qprtmzfaw24a4hfharftwbe',
-        name: 'Rau muống',
-        barcode: 'GTIN@123456',
-        seedingDays: 10,
-        plantingDays: 4,
-        expiryDays: 2,
-        code: 'RM01'
-      },
-      ...group.groupPlanting
+      ...image.imagePlanting,
+      ...plan.planPlanting,
+      ...group.groupPlanting,
     },
     harvesting: {
-      startTime: new Date(),
-      endTime: new Date(),
-      farmLocation: {
-        coordinates: ['24N', '34E'],
-        type: 'latitude',
-      },
-      imageAfter: {
-        path: 'upload/path-to-imagexxx.png',
-        hash: 'hash@9gy2ahfq3o234asfd96LKWQFOPW',
-      },
-      imageBefore: {
-        path: 'upload/path-to-imagexxx.png',
-        hash: 'hash@9gy2ahfa234asfd96LKWQA3FOPW',
-      },
-      leader: ['Tổ trưởng 1', 'tổ trưởng 2'],
-      worker: ['Công nhân 1', 'công nhân 2'],
-      manager: 'Quản lý',
       _id: 'mongoid@q24rirjifa2hgrezrtqnb',
-      // estimatedPlantingTime: new Date(),
-      // estimatedHarvestTime: new Date(),
-      code: '234112e',
-      area: 42,
-      // numberOfPlants: 150,
-      // expectedQuantity: 135,
-      realQuantity: 135,
-      temperature: 26,
-      humidity: 31,
-      porosity: 5,
-      landLot: 'A34',
-
-      // Redundant field
+      ...group.groupHarvesting,
+      ...image.imageHarvesting,
+      ...plan.planHarvesting,
+    },
+    preliminaryTreatment: {
+      _id: 'mongoid@q2rRVagnq10jgnArabzpr',
+      ...plan.planPreliminary,
+      ...image.imagePreliminary,
+      ...group.groupPreliminary,
+      
+      // Redundant fields
+      time: new Date(),
+      quantity: 12,
       technicalStaff: [
         {
-          _id: 'redundant field',
+          _id: '',
           isRecieved: false,
-          info: 'redundant field'
-        }
+          info: '', 
+        },
       ],
     },
-  }
-}
+    cleaning: {
+      _id: 'mongoid@q2rRVagnq10jgnArabzpr',
+      ...plan.planCleaning,
+      ...image.imageCleaning,
+      ...group.groupCleaning,
+      
+      // Redundant fields
+      time: new Date(),
+      quantity: 12,
+      technicalStaff: [
+        {
+          _id: '',
+          isRecieved: false,
+          info: '', 
+        },
+      ],
+    },
+    packing: {
+      _id: 'mongoid@q2rRVagnq10jgnArabzpr',
+      ...group.groupPacking,
+      packing: {
+        code: 'Mã đóng gói',
+      },
+      // Redundant fields
+      quantity: 12,
+    },
+    preservation: {
+      _id: 'mongoid@q2rRVagnq10jgnArabzpr',
+      startTime: new Date(),
+      endTime: new Date(),
+      location: {
+        type: 'latitude',
+        coordinates: ['24N', '34E'],
+      },
+      temperature: 8,
+      ...group.groupPreservation,
 
+      technicalStaff: [
+        {
+          _id: '',
+          isRecieved: false,
+          info: '', 
+        },
+      ],
+    },
+  },
+  ...mobileSaleMock,
+};
 
 // export const detailEntities : QrParent = 
 //   {
