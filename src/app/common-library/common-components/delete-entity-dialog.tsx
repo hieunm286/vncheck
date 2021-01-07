@@ -91,7 +91,7 @@ export function DeleteEntityDialog<T>({
         {!loading && error.error !== '' && (
           <>
             {_.isString(_innerError) ?
-              (<p className='text-danger'>{intl.formatMessage({id: _innerError})}</p>)
+              (<p className='text-danger'>{intl.formatMessage({id: _innerError}, {additional: ''})}</p>)
               : _innerError.map((e, index) => (
                 (<p key={`abc${index}`} className='text-danger'>{intl.formatMessage({id: e.message}, e)}</p>)
               ))
