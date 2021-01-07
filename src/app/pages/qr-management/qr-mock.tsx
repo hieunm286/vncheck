@@ -74,6 +74,13 @@ export const bodyEntities: QrModel[] = [
     createdAt: new Date(),
     activeAt: new Date(), 
     codeType: 'Sản phẩm',   
+    takenBy: {
+      fullName: 'Nguyễn Đức Chiến',
+    },
+    takenLocation: {
+      type: 'latitude',
+      coordinates: ['24N', '34E'],
+    },
    ...mobileSaleMock,
   },
   {
@@ -93,6 +100,13 @@ export const bodyEntities: QrModel[] = [
     createdAt: new Date(),
     activeAt: new Date(), 
     codeType: 'Đóng gói', 
+    takenBy: {
+      fullName: 'Nguyễn Đức Chiến',
+    },
+    takenLocation: {
+      type: 'latitude',
+      coordinates: ['24N', '34E'],
+    },
     ...mobileSaleMock,
   },
 ];
@@ -115,6 +129,13 @@ export const childQrBodyEntities: QrModel[] = [
     createdAt: new Date(),
     activeAt: new Date(), 
     codeType: 'Sản phẩm',
+    takenBy: {
+      fullName: 'Nguyễn Đức Chiến',
+    },
+    takenLocation: {
+      type: 'latitude',
+      coordinates: ['24N', '34E'],
+    },
     ...mobileSaleMock, 
   },
   {
@@ -134,6 +155,13 @@ export const childQrBodyEntities: QrModel[] = [
     createdAt: new Date(),
     activeAt: new Date(), 
     codeType: 'Sản phẩm', 
+    takenBy: {
+      fullName: 'Nguyễn Đức Chiến',
+    },
+    takenLocation: {
+      type: 'latitude',
+      coordinates: ['24N', '34E'],
+    },
     ...mobileSaleMock,
   },
 ];
@@ -158,6 +186,13 @@ export const detailEntityMock: QrModel = {
   createdAt: new Date(),
   activeAt: new Date(), 
   codeType: 'Sản phẩm', 
+  takenBy: {
+    fullName: 'Nguyễn Đức Chiến',
+  },
+  takenLocation: {
+    type: 'latitude',
+    coordinates: ['24N', '34E'],
+  },
   productPlan: {
     seeding: {
       _id: 'mongoid@q82ur9jQM52aptrz',
@@ -216,22 +251,17 @@ export const detailEntityMock: QrModel = {
     packing: {
       _id: 'mongoid@q2rRVagnq10jgnArabzpr',
       ...group.groupPacking,
-      packing: {
-        code: 'Mã đóng gói',
-      },
+      ...image.imagePacking,
+      ...plan.planPacking,
       // Redundant fields
       quantity: 12,
     },
     preservation: {
       _id: 'mongoid@q2rRVagnq10jgnArabzpr',
-      startTime: new Date(),
-      endTime: new Date(),
-      location: {
-        type: 'latitude',
-        coordinates: ['24N', '34E'],
-      },
       temperature: 8,
+      ...image.imagePreservation,
       ...group.groupPreservation,
+      ...plan.planPreservation,
 
       technicalStaff: [
         {

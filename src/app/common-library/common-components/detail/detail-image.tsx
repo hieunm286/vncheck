@@ -14,11 +14,22 @@ export const DetailImage = ({
                               renderInfo,
                               values,
                               onImageRemove,
-                            }: { onImageRemove?: (...props: any) => void, width?: string | number, height?: string | number, thumbnailField?: any, pathField?: any, images: any, renderInfo?: { title?: string, data?: { [KeyField: string]: string }, component?: (value: any, values?: any, intl?:IntlShape) => ReactElement }, values?: any }) => {
+                              className
+                            }: { 
+                              className?: string,
+                              onImageRemove?: (...props: any) => void, 
+                              width?: string | number, 
+                              height?: string | number, 
+                              thumbnailField?: any, 
+                              pathField?: any, 
+                              images: any, 
+                              renderInfo?: { title?: string, data?: { [KeyField: string]: string }, 
+                              component?: (value: any, values?: any, intl?:IntlShape) => ReactElement }, values?: any },
+                            ) => {
   const container = useRef<any>(null);
   const intl = useIntl();
   const [showIndex, setShow] = useState(-1);
-  const Img = useCallback(({image, index}: any) => (<div className="image-item imagePreview mr-1">
+  const Img = useCallback(({image, index}: any) => (<div className= {className ? (className + " image-item imagePreview mr-1") : "image-item imagePreview mr-1"}>
     <Image
       width={width}
       height={height}
