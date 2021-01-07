@@ -127,7 +127,8 @@ export const DisplayCoordinates = (arr: string[]) => {
   ) : (<></>);
 };
 
-export const Display3Info = (image: any, _: any, intl: IntlShape) => {
+export const Display3Info = (image: any, _: any, intl?: IntlShape) => {
+  intl = intl ?? useIntl();
   return (<>
     <div className={'titleeee mb-1'}>{intl.formatMessage({id: 'IMAGE.TAKEN_BY'})}
       {image.takenBy?.fullName ?? image.takenBy?.firstName ? `${image.takenBy?.firstName} ${image.takenBy?.lastName}` : intl.formatMessage({id: 'NO_INFORMATION'})}

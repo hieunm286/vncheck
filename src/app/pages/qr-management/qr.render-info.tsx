@@ -245,7 +245,7 @@ export const harvestingInfo : RenderInfoDetail = [{
       title: 'POROSITY',
       formatter: DisplayPercent
     },
-    'productPlan.harvesting.manager.fullName' : {
+    'productPlan.harvesting.manager.user.fullName': {
       title: 'ADMIN_DIRECTOR_INFO',
     },
     'productPlan.harvesting.[leader].user.fullName': {
@@ -307,7 +307,7 @@ export const preliminaryTreatmentInfo : RenderInfoDetail = [{
         return DisplayImage(image, renderInfo)
       }
     },
-    'productPlan.preliminaryTreatment.manager.fullName': {
+    'productPlan.preliminaryTreatment.manager.user.fullName': {
       title: 'ADMIN_DIRECTOR_INFO',
     },
     'productPlan.preliminaryTreatment.[leader].user.fullName': {
@@ -369,7 +369,7 @@ export const cleaningInfo : RenderInfoDetail = [{
         return DisplayImage(image, renderInfo)
       }
     },
-    'productPlan.cleaning.manager.fullName': {
+    'productPlan.cleaning.manager.user.fullName': {
       title: 'ADMIN_DIRECTOR_INFO',
     },
     'productPlan.cleaning.[leader].user.fullName': {
@@ -439,7 +439,7 @@ export const packingInfo : RenderInfoDetail = [{
       title: 'QR_ACTIVATE_AT',
       formatter: (input) => DisplayDateTime(input)
     },
-    'productPlan.packing.manager.fullName': {
+    'productPlan.packing.manager.user.fullName': {
       title: 'ADMIN_DIRECTOR_INFO',
     },
     'productPlan.packing.[leader].user.fullName': {
@@ -504,17 +504,19 @@ export const sellStatus : RenderInfoDetail = [{
     },
     'sellStatus.dateOfSell': {
       title: 'Ngày bán',
-      formatter: (date: string) => DisplayDateTime(date),
+      formatter: (date: string) => DisplayDateTime(new Date().toISOString()),
     },
     'sellStatus.sellAddress': {
       title: 'Nơi bán',
-      formatter: (arr: string[]) => DisplayArray(arr),
+      formatter: (arr: string[]) => (<>Cửa hàng A</>),
     },
     'sellStatus.seller.fullName': {
       title: 'Nhân viên bán hàng',
+      formatter: (arr: string[]) => (<>Nguyễn Văn C</>),
     },
     'sellStatus.customerPhoneNumber': {
       title: 'Số điện thoại khách hàng',
+      formatter: (arr: string[]) => (<>0912345677</>),
     }
 
   },

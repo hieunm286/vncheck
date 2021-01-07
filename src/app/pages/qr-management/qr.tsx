@@ -28,12 +28,12 @@ import {
   seedingInfo,
   sellStatus,
 } from "./qr.render-info";
-import {detailEntityMock, mobileSaleMock} from "./qr-mock";
+import {mobileSaleMock} from "./qr-mock";
 import ModifyEntityDialog from "../../common-library/common-components/modify-entity-dialog";
 import {MasterQrChildDetail} from "./qr-detail";
 import {
+  Display3Info,
   DisplayArray,
-  DisplayCoordinates,
   DisplayDate,
   DisplayDateTime,
   DisplayTable
@@ -42,10 +42,10 @@ import 'react-toastify/dist/ReactToastify.css';
 import {AxiosResponse} from 'axios';
 import {ActionsColumnFormatter} from "../../common-library/common-components/actions-column-formatter";
 import {MasterEntityDetailDialog} from "../../common-library/common-components/master-entity-detail-dialog";
-import {DetailImage} from "../../common-library/common-components/detail/detail-image";
 import {Select} from 'antd';
 import * as Yup from "yup";
 import {format} from "date-fns";
+import {DetailImage} from "../../common-library/common-components/detail/detail-image";
 
 const Option = {Select};
 const headerTitle = 'QR.MASTER.HEADER.TITLE';
@@ -295,7 +295,8 @@ function QrPage() {
           <>
             {ActionsColumnFormatter(cell, row, rowIndex, {
               onShowDetail: (cell: any) => {
-                setShowImage(true)
+                setShowImage(true);
+                setLogisticImage(row);
               },
               intl
             })}
@@ -306,7 +307,36 @@ function QrPage() {
       align: 'center',
     },
   ];
-  
+  const [logisticImageDetail, setLogisticImage] = useState<any>(null);
+  const logisticImageRenderDetail = useMemo((): RenderInfoDetail => ([
+    {
+      className: 'col-12',
+      titleClassName: 'col-12',
+      dataClassName: 'col-12 mb-10',
+      data: {
+        'imageBefore': {
+          title: 'Hình ảnh xuất kho',
+          formatter: (image, entity) => {
+            const renderInfo = {
+              title: 'IMAGE_INFO',
+              component: Display3Info
+            }
+            return <DetailImage images={image} renderInfo={renderInfo} width={90} height={90} className={'mt-3 mr-3'}/>
+          }
+        },
+        'imageAfter': {
+          title: 'Hình ảnh nhập kho',
+          formatter: (image, entity) => {
+            const renderInfo = {
+              title: 'IMAGE_INFO',
+              component: Display3Info
+            }
+            return <DetailImage images={image} renderInfo={renderInfo} width={90} height={90} className={'mt-3 mr-3'}/>
+          }
+        },
+      }
+    }
+  ]), []);
   const validationSchema = useMemo(() => Yup.object().shape({
     total: Yup.number()
       .min(1, 'VALIDATE.ERROR.MIN_1'),
@@ -338,52 +368,6 @@ function QrPage() {
     })
   }, []);
   
-  
-  const imageRenderDetail: RenderInfoDetail = [
-    {
-      header: '',
-      className: 'col-12',
-      titleClassName: '',
-      dataClassName: 'col-12',
-      data: {
-        'productPlan.packing.packingImage': {
-          title: '',
-          formatter: (input, entity) => {
-            return (<DetailImage images={input} renderInfo={entity} className='text-center' width={300} height={300}/>);
-          }
-        },
-      },
-    },
-    {
-      header: '',
-      className: 'col-12',
-      titleClassName: '',
-      dataClassName: 'row mb-3 pl-5',
-      data: {
-        'code': {
-          title: 'Mã QR sản phẩm',
-        },
-        'productPlan.seeding.species.name': {
-          title: 'Thông tin sản phẩm',
-        },
-        'takenBy.fullName': {
-          title: 'Người chụp',
-        },
-        'activeBy.fullName': {
-          title: 'Người gán mã',
-        },
-        'activeAt': {
-          title: 'Thời gian gán mã',
-          formatter: (date: string) => DisplayDateTime(date),
-        },
-        'takenLocation.coordinates': {
-          title: 'Địa điểm chụp',
-          formatter: DisplayCoordinates,
-        },
-      },
-      // titleClassName: 'col-3'
-    },
-  ];
   
   const QrRenderDetail2 = [
     ...shippingInfo,
@@ -523,11 +507,10 @@ function QrPage() {
                   onClose={() => history.push('/qr')}
                 />
                 <MasterEntityDetailDialog
-                  title='Hình ảnh'
-                  moduleName='Hình ảnh'
+                  title='EMPTY'
                   show={showImage}
-                  entity={detailEntityMock}
-                  renderInfo={imageRenderDetail}
+                  entity={logisticImageDetail}
+                  renderInfo={logisticImageRenderDetail}
                   onHide={() => {
                     setShowImage(false)
                   }
