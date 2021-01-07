@@ -327,19 +327,6 @@ function QrPage() {
     })
   }, []);
   
-  const QrRenderDetail: RenderInfoDetail = [
-    ...producerInfo,
-    // ...seedingInfo,
-    // ...plantingInfo,
-    // ...harvestingInfo,
-    // ...preliminaryTreatmentInfo,
-    // ...cleaningInfo,
-    // ...packingInfo,
-    // ...preservationInfo,
-    // ...shippingInfo,
-    // ...distributionInfo,
-    // ...sellStatus
-  ];
   
   const imageRenderDetail: RenderInfoDetail = [
     {
@@ -392,12 +379,40 @@ function QrPage() {
     ...distributionInfo,
   ]
   
+  const renderInfoProduct: RenderInfoDetail = useMemo(() => ([
+    ...producerInfo,
+    // ...seedingInfo,
+    // ...plantingInfo,
+    // ...harvestingInfo,
+    // ...preliminaryTreatmentInfo,
+    // ...cleaningInfo,
+    // ...packingInfo,
+    // ...preservationInfo,
+    // ...shippingInfo,
+    // ...distributionInfo,
+    // ...sellStatus
+  ]), []);
+  const renderInfoPacking: RenderInfoDetail = useMemo(() => ([
+    ...producerInfo,
+    // ...seedingInfo,
+    // ...plantingInfo,
+    // ...harvestingInfo,
+    // ...preliminaryTreatmentInfo,
+    // ...cleaningInfo,
+    // ...packingInfo,
+    // ...preservationInfo,
+    // ...shippingInfo,
+    // ...distributionInfo,
+    // ...sellStatus
+  ]), []);
   const [dE, setDE] = useState<any>(null);
   const [matchId, setMatchId] = useState<any>(null);
+  const [renderInfo, setRenderInfo] = useState(renderInfoProduct);
   useEffect(() => {
     matchId && get({_id: matchId} as any).then(e => {
-      console.log(e);
-      setDE(e);
+      const qr = e.data;
+      setRenderInfo(qr.type === '1' ? renderInfoProduct : renderInfoPacking);
+      setDE(qr);
     });
   }, [matchId]);
   return (
@@ -490,7 +505,7 @@ function QrPage() {
               <>
                 <MasterEntityDetailPage
                   entity={dE}
-                  renderInfo={QrRenderDetail} // renderInfo={detailModel}
+                  renderInfo={renderInfo} // renderInfo={detailModel}
                   code={match && match.params.code}
                   onClose={() => history.push('/qr')}
                 />

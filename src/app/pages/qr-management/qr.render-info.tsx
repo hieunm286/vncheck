@@ -21,7 +21,7 @@ export const producerInfo: RenderInfoDetail = [{
     'enterprise.taxId': {title: 'ENTERPRISE.TAX_ID'},
     'enterprise.address': {title: 'ENTERPRISE.ADDRESS'},
     'enterprise.phone': {title: 'ENTERPRISE.PHONE'},
-    'enterprise.representedBy': {title: 'ENTERPRISE.REPRESENTED_BY'},
+    'enterprise.presentedBy': {title: 'ENTERPRISE.REPRESENTED_BY'},
     'enterprise.gln': {title: 'ENTERPRISE.GLN'},
   }
 }];
