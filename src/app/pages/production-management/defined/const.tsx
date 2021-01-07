@@ -152,20 +152,21 @@ export const PreliminaryTreatmentDetail: RenderInfoDetail = [
     titleClassName: 'col-md-2 col-4 mb-10',
     dataClassName: 'col-md-4 col-8 mb-10 pl-5',
     data: {
-      ...seedingCode,
-      'planting.species.name': {title: 'PRODUCT_TYPE.MASTER.TABLE.NAME_COLUMN'},
-      ...plantingCode,
-      'planting.species.barcode': {title: 'GTIN'},
-      ...harvestingCode,
-      'preliminaryTreatment.estimatedTime': {
+      'seeding.code': { title: 'SEEDING.CODE' },
+      'planting.species.name': { title: 'PRODUCT_TYPE.MASTER.TABLE.NAME_COLUMN' },
+      'planting.code': { title: 'PRODUCTION_PLAN.PLANT_CODE' },
+      'planting.species.barcode': { title: 'GTIN' },
+      
+      'harvesting.code': { title: 'PRODUCTION_PLAN.HARVESTING_CODE' },
+      'seeding.estimatedPlantingTime': {
         title: 'SEEDING.SEEDING_TIME',
         formatter: input => DisplayDateTime(input),
       },
-      'preliminaryTreatment.code': {title: 'PRODUCTION_PLAN.PreliminaryTreatment_CODE'},
-      'planting.farmLocation.[coordinates]': {title: 'HARVESTING_LOCATION', formatter: DisplayCoordinates,},
-      '': {title: 'EMPTY'},
-      'planting.estimatedQuantity': {title: 'PRELIMINARY_TREATMENT'},
-  
+      'preliminaryTreatment.code': { title: 'PRODUCTION_PLAN.PreliminaryTreatment_CODE' },
+      'planting.farmLocation.[coordinates]': { title: 'HARVESTING_LOCATION', formatter: DisplayCoordinates, },
+      '': { title: 'EMPTY' },
+      'preliminaryTreatment.estimatedQuantity': { title: 'PRELIMINARY_TREATMENT' },
+      
     },
   },
   {
@@ -224,20 +225,21 @@ export const CleaningDetail: RenderInfoDetail = [
     titleClassName: 'col-md-2 col-4 mb-10',
     dataClassName: 'col-md-4 col-8 mb-10 pl-5',
     data: {
-      ...seedingCode,
-      'planting.species.name': {title: 'PRODUCT_TYPE.MASTER.TABLE.NAME_COLUMN'},
-      ...plantingCode,
-      'planting.species.barcode': {title: 'GTIN'},
-      ...harvestingCode,
-      'cleaning.estimatedTime': {
+      'seeding.code': { title: 'SEEDING.CODE' },
+      'planting.species.name': { title: 'PRODUCT_TYPE.MASTER.TABLE.NAME_COLUMN' },
+      'planting.code': { title: 'PRODUCTION_PLAN.PLANT_CODE' },
+      'planting.species.barcode': { title: 'GTIN' },
+      
+      'harvesting.code': { title: 'PRODUCTION_PLAN.HARVESTING_CODE' },
+      'seeding.estimatedPlantingTime': {
         title: 'SEEDING.SEEDING_TIME',
         formatter: input => DisplayDateTime(input),
       },
-      ...preliminaryTreatmentCode,
-      'planting.farmLocation.[coordinates]': {title: 'HARVESTING_LOCATION', formatter: DisplayCoordinates,},
-      'cleaning.code': {title: 'PRODUCTION_PLAN.CLEANING.CODE'},
-      'planting.estimatedQuantity': {title: 'PRELIMINARY_TREATMENT'},
-  
+      'preliminaryTreatment.code': { title: 'PRODUCTION_PLAN.PreliminaryTreatment_CODE' },
+      'planting.farmLocation.[coordinates]': { title: 'HARVESTING_LOCATION', formatter: DisplayCoordinates, },
+      'cleaning.code': { title: 'PRODUCTION_PLAN.CLEANING.CODE' },
+      'cleaning.estimatedQuantity': { title: 'CLEANING_QUANTITY' },
+      
     },
   },
   {
@@ -295,12 +297,13 @@ export const PackingDetail: RenderInfoDetail = [
     titleClassName: 'col-md-2 col-4 mb-10',
     dataClassName: 'col-md-4 col-8 mb-10 pl-5',
     data: {
-      ...seedingCode,
-      'planting.species.name': {title: 'PRODUCT_TYPE.MASTER.TABLE.NAME_COLUMN'},
-      ...plantingCode,
-      'planting.species.barcode': {title: 'GTIN'},
-      ...harvestingCode,
-      'cleaning.estimatedTime': {
+      'seeding.code': { title: 'SEEDING.CODE' },
+      'planting.species.name': { title: 'PRODUCT_TYPE.MASTER.TABLE.NAME_COLUMN' },
+      'planting.code': { title: 'PRODUCTION_PLAN.PLANT_CODE' },
+      'planting.species.barcode': { title: 'GTIN' },
+      
+      'harvesting.code': { title: 'PRODUCTION_PLAN.HARVESTING_CODE' },
+      'seeding.estimatedPlantingTime': {
         title: 'SEEDING.SEEDING_TIME',
         formatter: input => DisplayDateTime(input),
       },

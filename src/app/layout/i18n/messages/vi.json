@@ -632,5 +632,7 @@
   "PRESERVATION_LOCATION": "Địa điểm bảo quản",
   "PRESERVATION_WORKER": "Nhân viên bảo quản",
   "PRESERVATION_IMAGE": "Hình ảnh kho lạnh",
-  "ESTIMATED_QUANTITY_VALIDATE": "Vui lòng nhập số hợp lệ"
+  "ESTIMATED_QUANTITY_VALIDATE": "Vui lòng nhập số hợp lệ",
+  "HARVESTING_START_TIME": "Thời gian bắt đầu thu hoạch",
+  "HARVESTING_END_TIME": "Thời gian kết thúc thu hoạch"
 }

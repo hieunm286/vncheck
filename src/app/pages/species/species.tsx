@@ -32,6 +32,15 @@ const deleteDialogTitle = 'PRODUCT_TYPE.DELETE_DIALOG.TITLE';
 const createTitle = 'PRODUCT_TYPE.CREATE.TITLE';
 const updateTitle = 'PRODUCT_TYPE.UPDATE.TITLE';
 
+const standardizeamedName = (name: string) => {
+  let sName = name.trim();
+  sName.toLowerCase();
+  sName = sName.replace(/\s+/g, " ");
+  return sName.toLowerCase().replace(/(^|\s)\S/g, function (l) {
+    return l.toUpperCase();
+  });
+}
+
 export const GenerateCode = (data: any[]) => {
   const lastEntity = data[data.length - 1].code;
   let i;
@@ -362,7 +371,12 @@ function Species() {
         <Route path="/species/new">
           <EntityCrudPage
             entity={initValues}
-            onModify={add}
+            onModify={(values: SpeciesModel) => {
+              if (values.name) {
+                values.name = standardizeamedName(values.name)
+              }
+              return add(values)
+            }}
             get={() => null}
             formModel={createForm}
             actions={allFormButton}
@@ -373,7 +387,12 @@ function Species() {
         <Route path={`/species/:code`}>
           {({history, match}) => (
             <EntityCrudPage
-              onModify={update}
+              onModify={(values: SpeciesModel) => {
+                if (values.name) {
+                  values.name = standardizeamedName(values.name)
+                }
+                return update(values)
+              }}
               code={match && match.params.code}
               get={ProductTypeService.GetById}
               formModel={updateForm}

@@ -1,27 +1,28 @@
-import React, {useCallback, useEffect, useState} from 'react';
-import {useIntl} from 'react-intl';
-import {Link, Route, Switch, useHistory} from 'react-router-dom';
-import {Card, CardBody} from '../../common-library/card';
-import {InitMasterProps} from '../../common-library/helpers/common-function';
-import {Steps} from 'antd';
-import {DefaultPagination, SortColumn} from '../../common-library/common-consts/const';
-import {MasterHeader} from '../../common-library/common-components/master-header';
-import {SearchModel} from '../../common-library/common-types/common-type';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useIntl } from 'react-intl';
+import { Link, Route, Switch, useHistory } from 'react-router-dom';
+import { Card, CardBody } from '../../common-library/card';
+import { InitMasterProps } from '../../common-library/helpers/common-function';
+import { Steps } from 'antd';
+import { DefaultPagination, SortColumn } from '../../common-library/common-consts/const';
+import { MasterHeader } from '../../common-library/common-components/master-header';
+import { SearchModel } from '../../common-library/common-types/common-type';
 import * as SpeciesService from '../species/species.service';
-import {Fix} from '../production-plan/defined/const';
+import { Fix } from '../production-plan/defined/const';
 import * as ProductionPlanService from '../production-plan/production-plan.service';
-import {ProductionPlanModel} from '../production-plan/production-plant.model';
-import {MasterTable} from '../../common-library/common-components/master-table';
-import {MasterEntityDetailPage} from '../../common-library/common-components/master-detail-page';
+import { ProductionPlanModel } from '../production-plan/production-plant.model';
+import { MasterTable } from '../../common-library/common-components/master-table';
+import { MasterEntityDetailPage } from '../../common-library/common-components/master-detail-page';
 import {
   CleaningDetail,
   harvestingDetail,
   PackingDetail,
   PreliminaryTreatmentDetail,
-  PreservationDetail
+  PreservationDetail,
 } from './defined/const';
+import _ from 'lodash';
 
-const {Step} = Steps;
+const { Step } = Steps;
 
 const productPlanCode = 'PRODUCTION_PLAN.CODE';
 const harvestingCode = 'PRODUCTION_PLAN.HARVESTING_CODE';
@@ -49,10 +50,9 @@ const estimatedHarvestTime: SearchModel = {
   estimatedHarvestTime: {
     type: 'date-time',
     name: 'product_plan.planting.estimatedHarvestTime',
-    label: <Fix title={'PRODUCTION_PLAN.HARVEST_DATE'}/>,
+    label: <Fix title={'PRODUCTION_PLAN.HARVEST_DATE'} />,
   },
 };
-
 
 const PM_HarvestingSearchModel: SearchModel = {
   code: {
@@ -67,12 +67,12 @@ const PM_HarvestingSearchModel: SearchModel = {
   ...extendSearchField,
   startTime: {
     type: 'date-time',
-    label: <Fix title={'HARVESTING_START_TIME'}/>,
+    label: <Fix title={'HARVESTING_START_TIME'} />,
     name: 'product_plan.harvesting.startTime',
   },
   endTime: {
     type: 'date-time',
-    label: <Fix title={'HARVESTING_END_TIME'}/>,
+    label: <Fix title={'HARVESTING_END_TIME'} />,
     name: 'product_plan.harvesting.endTime',
   },
   landLot: {
@@ -244,14 +244,14 @@ function ProductionManagement() {
 
   const extendField = {
     species: {
-      dataField: 'planting.species.name',
+      dataField: 'seeding.species.name',
       text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.SPECIES_NAME' })}`,
       ...SortColumn,
       classes: 'text-center',
       headerClasses: 'text-center',
     },
     GTIN: {
-      dataField: 'planting.species.barcode',
+      dataField: 'seeding.species.barcode',
       text: `${intl.formatMessage({ id: 'GTIN' })}`,
       ...SortColumn,
       classes: 'text-center',
@@ -300,8 +300,8 @@ function ProductionManagement() {
       headerClasses: 'text-center',
     },
     landlot: {
-      dataField: 'planting.landLot.code',
-      text: `${intl.formatMessage({id: 'PLANTING_LAND_LOT'})}`,
+      dataField: 'seeding.landLot.code',
+      text: `${intl.formatMessage({ id: 'PLANTING_LAND_LOT' })}`,
       ...SortColumn,
       classes: 'text-center',
       headerClasses: 'text-center',
@@ -339,22 +339,28 @@ function ProductionManagement() {
       dataField: 'preliminaryTreatment.code',
       text: `${intl.formatMessage({ id: preliminaryTreatmentCode })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
-        <Link to={`/production-management/preliminaryTreatment/${row._id}`}>
-          {row.code}
-        </Link>
+        <Link to={`/production-management/preliminaryTreatment/${row._id}`}>{row.code}</Link>
       ),
       ...SortColumn,
       classes: 'text-center',
     },
     ...extendField,
     preliminaryTreatmentTime: {
-      dataField: 'preliminaryTreatment.createdAt',
+      dataField: 'preliminaryTreatment.startTime',
       text: `${intl.formatMessage({ id: 'PRODUCTION_MANAGEMENT.preliminaryTreatment.TIME' })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
         <span>
-          {row.preliminaryTreatment.createdAt
-            ? new Intl.DateTimeFormat('en-GB').format(new Date(row.preliminaryTreatment.createdAt))
-            : 'Không có thông tin'}
+          {row.preliminaryTreatment.startTime && row.preliminaryTreatment.endTime ? (
+            <span>
+              {new Intl.DateTimeFormat('en-GB').format(
+                new Date(row.preliminaryTreatment.startTime),
+              )}{' '}
+              -{' '}
+              {new Intl.DateTimeFormat('en-GB').format(new Date(row.preliminaryTreatment.endTime))}
+            </span>
+          ) : (
+            'Không có thông tin'
+          )}
         </span>
       ),
       ...SortColumn,
@@ -394,9 +400,7 @@ function ProductionManagement() {
       dataField: 'preliminaryTreatment.code',
       text: `${intl.formatMessage({ id: preliminaryTreatmentCode })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
-        <Link to={`/production-management/preliminaryTreatment/${row._id}`}>
-          {row.code}
-        </Link>
+        <Link to={`/production-management/preliminaryTreatment/${row._id}`}>{row.code}</Link>
       ),
       ...SortColumn,
       classes: 'text-center',
@@ -458,9 +462,7 @@ function ProductionManagement() {
       dataField: 'preliminaryTreatment.code',
       text: `${intl.formatMessage({ id: preliminaryTreatmentCode })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
-        <Link to={`/production-management/preliminaryTreatment/${row._id}`}>
-          {row.code}
-        </Link>
+        <Link to={`/production-management/preliminaryTreatment/${row._id}`}>{row.code}</Link>
       ),
       ...SortColumn,
       classes: 'text-center',
@@ -614,7 +616,13 @@ function ProductionManagement() {
   }
 
   useEffect(() => {
-    getAll({ ...(filterProps as any), step: '1', isMaster: true, confirmationStatus: '2', process: currentStep + 2 + '' });
+    getAll({
+      ...(filterProps as any),
+      step: '1',
+      isMaster: true,
+      confirmationStatus: '2',
+      process: currentStep + 2 + '',
+    });
   }, [paginationProps, filterProps, currentStep]);
 
   const getSearchModel = useCallback((): SearchModel => {
@@ -719,7 +727,18 @@ function ProductionManagement() {
               title={'Tìm kiếm'}
               onSearch={value => {
                 setPaginationProps(DefaultPagination);
-                setFilterProps({ ...value });
+                const cvValue = JSON.parse(JSON.stringify(value));
+
+                if (
+                  value.product_plan &&
+                  value.product_plan.seeding &&
+                  value.product_plan.seeding.species &&
+                  _.isObject(value.product_plan.seeding.species)
+                ) {
+                  cvValue.product_plan.seeding.species = value.product_plan.seeding.species._id;
+                }
+
+                setFilterProps({ ...cvValue });
               }}
               searchModel={getSearchModel()}
             />
