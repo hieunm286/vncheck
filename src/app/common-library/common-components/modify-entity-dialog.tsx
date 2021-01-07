@@ -19,7 +19,7 @@ function ModifyEntityDialog<T>({
   onHide: () => void;
   entity?: T;
   moduleName?: string;
-  onModify: (values: any, handleSuccess: () => void, handleError: () => void) => void;
+  onModify: (values: any) => Promise<any>;
   formModel: ModifyForm;
   size?: 'sm' | 'lg';
   actions?: any;

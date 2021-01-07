@@ -289,10 +289,20 @@ function ProductionManagement() {
     ...extendField,
     estimatedHarvestTime: {
       dataField: 'planting.estimatedHarvestTime',
-      text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.HARVEST_DATE' })}`,
+      text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.HARVEST_REAL_DATE' })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
+        // <span>
+        //   {new Intl.DateTimeFormat('en-GB').format(new Date(row.planting.estimatedHarvestTime))}
+        // </span>
         <span>
-          {new Intl.DateTimeFormat('en-GB').format(new Date(row.planting.estimatedHarvestTime))}
+          {row.harvesting.startTime && row.harvesting.endTime ? (
+            <span>
+              {new Intl.DateTimeFormat('en-GB').format(new Date(row.harvesting.startTime))} -{' '}
+              {new Intl.DateTimeFormat('en-GB').format(new Date(row.harvesting.endTime))}
+            </span>
+          ) : (
+            'Không có thông tin'
+          )}
         </span>
       ),
       ...SortColumn,
@@ -300,7 +310,7 @@ function ProductionManagement() {
       headerClasses: 'text-center',
     },
     landlot: {
-      dataField: 'seeding.landLot.code',
+      dataField: 'planting.landLot.code',
       text: `${intl.formatMessage({ id: 'PLANTING_LAND_LOT' })}`,
       ...SortColumn,
       classes: 'text-center',
