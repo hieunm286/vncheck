@@ -458,7 +458,7 @@ const shippingInfo : RenderInfoDetail = [{
   header: 'THÔNG TIN VẬN CHUYỂN',
   className: 'col-12',
   titleClassName: 'col-3 mb-10',
-  dataClassName: 'col-9 mb-10 pl-5',
+  dataClassName: 'col-12 mb-10',
   data: {
     'sellStatus': {
       title: '',
@@ -475,7 +475,7 @@ const distributionInfo : RenderInfoDetail = [{
   header: 'THÔNG TIN PHÂN PHỐI',
   className: 'col-12',
   titleClassName: 'col-3 mb-10',
-  dataClassName: 'col-9 mb-10 pl-5',
+  dataClassName: 'col-12 mb-10',
   data: {
     'sellStatus': {
       title: '',
@@ -498,6 +498,21 @@ const sellStatus : RenderInfoDetail = [{
       title: 'Trạng thái',
       formatter: (sold: boolean) => (<>{sold ? 'Đã bán' : 'Còn hàng'}</>),
     },
+    'sellStatus.dateOfSell' : {
+      title: 'Ngày bán',
+      formatter: (date: string) => DisplayDateTime(date),
+    },
+    'sellStatus.sellAddress': {
+      title: 'Nơi bán',
+      formatter: (arr: string[]) => DisplayArray(arr),
+    },
+    'sellStatus.seller.fullName': {
+      title: 'Nhân viên bán hàng',
+    },
+    'sellStatus.customerPhoneNumber': {
+      title: 'Số điện thoại khách hàng',
+    }
+
   },
 }];
 
