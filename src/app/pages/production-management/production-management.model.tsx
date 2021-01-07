@@ -10,10 +10,20 @@ export interface PackingProduct {
         fullName: string;
         [X: string]: any;
     };
-    activeAt: Date;
+    activeAt: Date | string;
     type: string;
     productPlan: string | any;
     enterprise: {
         [X: string]: string;
     };
+    code: string;
+    createdAt: Date | string;
+    updatedAt: Date | string;
+    scanAt: Date | string;
+    scanBy: {
+        _id: string;
+        fullName: string;
+        [X: string]: string;
+    };
+    
 }
