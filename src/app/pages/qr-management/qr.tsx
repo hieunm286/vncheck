@@ -37,7 +37,10 @@ import {AxiosResponse} from 'axios';
 import { ActionsColumnFormatter } from "../../common-library/common-components/actions-column-formatter";
 import { MasterEntityDetailDialog } from "../../common-library/common-components/master-entity-detail-dialog";
 import { DetailImage } from "../../common-library/common-components/detail/detail-image";
+import { DetailImage } from "../../common-library/common-components/detail/detail-image";
+import { Select } from 'antd';
 
+const Option = { Select };
 const headerTitle = 'QR.MASTER.HEADER.TITLE';
 const tableTitle = 'SHIPPING_AGENCY.MASTER.TABLE.TITLE';
 const detailDialogTitle = 'SHIPPING_AGENCY.DETAIL_DIALOG.TITLE';
@@ -370,15 +373,25 @@ function QrPage() {
                   _subTitle: '',
                   type: {
                     _type: 'string',
-                    label: 'QR.CODE_TYPE',
+                    label: 'QR.EDIT.CODE_TYPE',
+                    // component: () => {
+                    //   return (
+                    //     <>
+                    //       <Select>
+                    //         <Option value="1">Sản phẩm</Option>
+                    //         <Option value="1">Đóng gói</Option>
+                    //       </Select>
+                    //     </>
+                    //   )
+                    // }
                   },
                   total: {
                     _type: 'number',
-                    label: 'QR.QUANTITY',
+                    label: 'QR.EDIT.QUANTITY',
                   },
                   createdBy:{
                     _type: 'string',
-                    label: 'TEMP_TO_CREATE'
+                    label: 'QR.EDIT.ACTIVATOR'
                   }
                 }
               }
