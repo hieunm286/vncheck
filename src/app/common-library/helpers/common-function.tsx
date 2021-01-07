@@ -16,6 +16,7 @@ import {diff} from 'deep-object-diff';
 import {toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {useIntl} from "react-intl";
+import {getFieldV3} from "../common-components/master-detail-page";
 
 export const CapitalizeFirstLetter = (string: string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
@@ -23,8 +24,10 @@ export const CapitalizeFirstLetter = (string: string) => {
 
 export const GetCompareFunction = ({key, orderType}: { key: string, orderType: 1 | -1 }) => {
   return (a: any, b: any) => {
-    const _a = key && key != '' ? a[key] : a;
-    const _b = key && key != '' ? b[key] : b;
+    const _a = key && key != '' ? getFieldV3(a, key)[0] : a;
+    const _b = key && key != '' ? getFieldV3(b, key)[0] : b;
+    if (_a === undefined) return -1 * orderType;
+    if (_b === undefined) return 1 * orderType;
     if (_a < _b) {
       return -1 * orderType;
     }
@@ -306,7 +309,10 @@ export const ConvertStatusToBoolean = (data: any) => {
 }
 
 export const ConvertStatusToString = (data: any) => {
-  return (typeof data.status === 'boolean' || typeof data.status === 'string') ? {...data, status: (data.status || data.status == "true") ? "1" : "0"} : data;
+  return (typeof data.status === 'boolean' || typeof data.status === 'string') ? {
+    ...data,
+    status: (data.status || data.status == "true") ? "1" : "0"
+  } : data;
 }
 
 export function InitMasterProps<T>({
@@ -345,7 +351,7 @@ export function InitMasterProps<T>({
   const [spinning, setSpinning] = useState(false)
   const [error, setError] = useState({error: ''});
   
- const notifyError = useCallback((error: string) => {
+  const notifyError = useCallback((error: string) => {
     const getError = (error: string): string | ({ message: string, additional: string }[]) => {
       try {
         return JSON.parse(error)
