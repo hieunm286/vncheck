@@ -293,15 +293,13 @@ function MultilevelSale() {
               show={showCreate}
               entity={{name: '', status: true}}
               validation={MultilevelSaleSchema}
-              onModify={(values, handleSuccess, handleError) => {
-                console.log(values);
-                console.log(editEntity);
+              onModify={(values) => {
+
                 if (editEntity) {
-                  add({parentId: editEntity._id, ...ConvertStatusToString(values)});
+                  return add({parentId: editEntity._id, ...ConvertStatusToString(values)});
                 } else {
-                  add(ConvertStatusToString(values));
+                  return add(ConvertStatusToString(values));
                 }
-                history.push('/multilevel-sale');
               }}
               onHide={() => {
                 setShowCreate(false);
@@ -323,11 +321,10 @@ function MultilevelSale() {
               onModify={values => {
                 console.log(values);
                 if (editEntity) {
-                  update({parentId: editEntity._id, ...ConvertStatusToString(values)});
+                  return update({parentId: editEntity._id, ...ConvertStatusToString(values)});
                 } else {
-                  update(ConvertStatusToString(values));
+                  return update(ConvertStatusToString(values));
                 }
-                history.push('/multilevel-sale');
               }}
               loading={loading}
               onHide={() => {

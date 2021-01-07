@@ -55,8 +55,8 @@ function ProductionPlanVersion({
           loading={loading}
           paginationParams={paginationParams}
           setPaginationParams={setPaginationParams}
-          onSelectMany={onSelectMany}
-          selectedEntities={selectedEntities}
+          // onSelectMany={onSelectMany}
+          // selectedEntities={selectedEntities}
         />
       </CardBody>
     </Card>

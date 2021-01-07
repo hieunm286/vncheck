@@ -320,7 +320,7 @@ function ProductPackaging() {
           if (values.species && _.isObject(values.species)) {
             cvEntity.species = values.species._id;
           }
-          add(cvEntity);
+          return add(cvEntity);
         }}
         onHide={() => {
           setShowCreate(false);
@@ -341,7 +341,7 @@ function ProductPackaging() {
           if (values.species && _.isObject(values.species)) {
             cvEntity.species = values.species._id;
           }
-          update(cvEntity);
+          return update(cvEntity);
         }}
         onHide={() => {
           setShowEdit(false);

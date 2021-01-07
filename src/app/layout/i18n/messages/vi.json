@@ -634,5 +634,7 @@
   "PRESERVATION_IMAGE": "Hình ảnh kho lạnh",
   "ESTIMATED_QUANTITY_VALIDATE": "Vui lòng nhập số hợp lệ",
   "HARVESTING_START_TIME": "Thời gian bắt đầu thu hoạch",
-  "HARVESTING_END_TIME": "Thời gian kết thúc thu hoạch"
+  "HARVESTING_END_TIME": "Thời gian kết thúc thu hoạch",
+  "PRODUCTION_PLAN.HARVEST_REAL_DATE": "Thời gian thu hoạch",
+  "UPDATE.ERROR.STORE_LEVEL.EXISTED_NAME": "Cấp bán hàng đã tồn tại nha"
 }

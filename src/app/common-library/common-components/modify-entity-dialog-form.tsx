@@ -21,7 +21,7 @@ function ModifyEntityDialogForm<T>({
   moduleName?: string;
   entity?: any;
   onHide: () => void;
-  onModify: (values: any, handleSuccess: () => void, handleError: () => void) => void;
+  onModify: (values: any) => Promise<any>;
   modifyPanel: ModifyPanel;
   validation: any;
   loading?: boolean
@@ -42,15 +42,11 @@ function ModifyEntityDialogForm<T>({
       validationSchema={validation}
       onSubmit={(values, {setSubmitting}) => {
         // console.log(values);
-        onModify(
-          {...entity, ...values, __v: undefined},
-          () => {
-            onHide()
-          },
-          () => {
-            setSubmitting(false)
-          },
-        );
+        onModify({...entity, ...values, __v: undefined}).then(() => {
+          onHide()
+        }).catch((err) => {
+          setSubmitting(false)
+        });
       }}>
       {({handleSubmit}) => (
         <>
