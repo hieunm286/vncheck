@@ -271,7 +271,7 @@ function ProductionPlan() {
   useEffect(() => {
     UserService.GetAll({queryProps: {}}).then(e => {
       console.log(e);
-      setUserData(e.data);
+      setUserData(e.data.data);
     })
   }, [])
   
