@@ -12,9 +12,15 @@ import { Fix } from '../production-plan/defined/const';
 import * as ProductionPlanService from '../production-plan/production-plan.service';
 import { ProductionPlanModel } from '../production-plan/production-plant.model';
 import { MasterTable } from '../../common-library/common-components/master-table';
-import _ from 'lodash';
 import { MasterEntityDetailPage } from '../../common-library/common-components/master-detail-page';
-import { harvestingDetail, PreliminaryTreatmentDetail, CleaningDetail, PackingDetail, PreservationDetail } from './defined/const';
+import {
+  CleaningDetail,
+  harvestingDetail,
+  PackingDetail,
+  PreliminaryTreatmentDetail,
+  PreservationDetail,
+} from './defined/const';
+import _ from 'lodash';
 
 const { Step } = Steps;
 
@@ -38,6 +44,9 @@ const extendSearchField: SearchModel = {
     label: 'GTIN',
     name: 'product_plan.seeding.species.barcode',
   },
+};
+
+const estimatedHarvestTime: SearchModel = {
   estimatedHarvestTime: {
     type: 'date-time',
     name: 'product_plan.planting.estimatedHarvestTime',
@@ -56,6 +65,16 @@ const PM_HarvestingSearchModel: SearchModel = {
     name: 'product_plan.harvesting.code',
   },
   ...extendSearchField,
+  startTime: {
+    type: 'date-time',
+    label: <Fix title={'HARVESTING_START_TIME'} />,
+    name: 'product_plan.harvesting.startTime',
+  },
+  endTime: {
+    type: 'date-time',
+    label: <Fix title={'HARVESTING_END_TIME'} />,
+    name: 'product_plan.harvesting.endTime',
+  },
   landLot: {
     type: 'string',
     label: 'PLANTING_LAND_LOT',
@@ -225,14 +244,14 @@ function ProductionManagement() {
 
   const extendField = {
     species: {
-      dataField: 'planting.species.name',
+      dataField: 'seeding.species.name',
       text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.SPECIES_NAME' })}`,
       ...SortColumn,
       classes: 'text-center',
       headerClasses: 'text-center',
     },
     GTIN: {
-      dataField: 'planting.species.barcode',
+      dataField: 'seeding.species.barcode',
       text: `${intl.formatMessage({ id: 'GTIN' })}`,
       ...SortColumn,
       classes: 'text-center',
@@ -281,7 +300,7 @@ function ProductionManagement() {
       headerClasses: 'text-center',
     },
     landlot: {
-      dataField: 'planting.landLot.code',
+      dataField: 'seeding.landLot.code',
       text: `${intl.formatMessage({ id: 'PLANTING_LAND_LOT' })}`,
       ...SortColumn,
       classes: 'text-center',
@@ -320,22 +339,28 @@ function ProductionManagement() {
       dataField: 'preliminaryTreatment.code',
       text: `${intl.formatMessage({ id: preliminaryTreatmentCode })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
-        <Link to={`/production-management/preliminaryTreatment/${row._id}`}>
-          {row.code}
-        </Link>
+        <Link to={`/production-management/preliminaryTreatment/${row._id}`}>{row.code}</Link>
       ),
       ...SortColumn,
       classes: 'text-center',
     },
     ...extendField,
     preliminaryTreatmentTime: {
-      dataField: 'preliminaryTreatment.createdAt',
+      dataField: 'preliminaryTreatment.startTime',
       text: `${intl.formatMessage({ id: 'PRODUCTION_MANAGEMENT.preliminaryTreatment.TIME' })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
         <span>
-          {row.preliminaryTreatment.createdAt
-            ? new Intl.DateTimeFormat('en-GB').format(new Date(row.preliminaryTreatment.createdAt))
-            : 'Không có thông tin'}
+          {row.preliminaryTreatment.startTime && row.preliminaryTreatment.endTime ? (
+            <span>
+              {new Intl.DateTimeFormat('en-GB').format(
+                new Date(row.preliminaryTreatment.startTime),
+              )}{' '}
+              -{' '}
+              {new Intl.DateTimeFormat('en-GB').format(new Date(row.preliminaryTreatment.endTime))}
+            </span>
+          ) : (
+            'Không có thông tin'
+          )}
         </span>
       ),
       ...SortColumn,
@@ -375,9 +400,7 @@ function ProductionManagement() {
       dataField: 'preliminaryTreatment.code',
       text: `${intl.formatMessage({ id: preliminaryTreatmentCode })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
-        <Link to={`/production-management/preliminaryTreatment/${row._id}`}>
-          {row.code}
-        </Link>
+        <Link to={`/production-management/preliminaryTreatment/${row._id}`}>{row.code}</Link>
       ),
       ...SortColumn,
       classes: 'text-center',
@@ -439,9 +462,7 @@ function ProductionManagement() {
       dataField: 'preliminaryTreatment.code',
       text: `${intl.formatMessage({ id: preliminaryTreatmentCode })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
-        <Link to={`/production-management/preliminaryTreatment/${row._id}`}>
-          {row.code}
-        </Link>
+        <Link to={`/production-management/preliminaryTreatment/${row._id}`}>{row.code}</Link>
       ),
       ...SortColumn,
       classes: 'text-center',
@@ -595,7 +616,13 @@ function ProductionManagement() {
   }
 
   useEffect(() => {
-    getAll({ ...(filterProps as any), step: '1', isMaster: true, confirmationStatus: '2', process: currentStep + 2 + '' });
+    getAll({
+      ...(filterProps as any),
+      step: '1',
+      isMaster: true,
+      confirmationStatus: '2',
+      process: currentStep + 2 + '',
+    });
   }, [paginationProps, filterProps, currentStep]);
 
   const getSearchModel = useCallback((): SearchModel => {
@@ -627,7 +654,7 @@ function ProductionManagement() {
               onClose={() => {
                 setShowDetail(false);
               }}
-              header="THÔNG TIN THU HOẠCH"
+              header="HARVESTING_INFO"
             />
           )}
         </Route>
@@ -641,7 +668,7 @@ function ProductionManagement() {
               onClose={() => {
                 setShowDetail(false);
               }}
-              header="THÔNG TIN THU HOẠCH"
+              header="PRELIMINARY_TREATMENT_INFO"
             />
           )}
         </Route>
@@ -655,7 +682,7 @@ function ProductionManagement() {
               onClose={() => {
                 setShowDetail(false);
               }}
-              header="THÔNG TIN THU HOẠCH"
+              header="CLEANING_INFO"
             />
           )}
         </Route>
@@ -669,7 +696,7 @@ function ProductionManagement() {
               onClose={() => {
                 setShowDetail(false);
               }}
-              header="THÔNG TIN THU HOẠCH"
+              header="PACKING_INFO"
             />
           )}
         </Route>
@@ -683,7 +710,7 @@ function ProductionManagement() {
               onClose={() => {
                 setShowDetail(false);
               }}
-              header="THÔNG TIN THU HOẠCH"
+              header="PRESERVATION_INFO"
             />
           )}
         </Route>
@@ -700,7 +727,18 @@ function ProductionManagement() {
               title={'Tìm kiếm'}
               onSearch={value => {
                 setPaginationProps(DefaultPagination);
-                setFilterProps({ ...value });
+                const cvValue = JSON.parse(JSON.stringify(value));
+
+                if (
+                  value.product_plan &&
+                  value.product_plan.seeding &&
+                  value.product_plan.seeding.species &&
+                  _.isObject(value.product_plan.seeding.species)
+                ) {
+                  cvValue.product_plan.seeding.species = value.product_plan.seeding.species._id;
+                }
+
+                setFilterProps({ ...cvValue });
               }}
               searchModel={getSearchModel()}
             />

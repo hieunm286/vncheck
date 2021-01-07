@@ -1,13 +1,16 @@
 {
   "Network Error": "Cá mập cắn cáp rồi đại vương ơi",
   "CLICK_TO_DOWNLOAD": "Ấn vào đây để xem",
-  "NO_INFORMATION" : "Không có thông tin",
+  "NO_INFORMATION": "Không có thông tin",
   "INPUT.ERROR.REQUIRED": "Vui lòng nhập {label}",
   "RADIO.ERROR.REQUIRED": "Vui lòng chọn {label}",
   "INPUT.ERROR.INVALID_EMAIL": "Email không hợp lệ",
   "INPUT.ERROR.TYPE_ONLY_NUMBER": "Vui lòng chỉ nhập số",
   "EMPTY": " ",
   "IMAGE_INFO": "THÔNG TIN HÌNH ẢNH",
+  "IMAGE.TAKEN_BY": "Người chụp: ",
+  "IMAGE.TAKEN_TIME": "Thời gian chụp: ",
+  "IMAGE.LOCATION": "Địa điểm chụp: ",
   "ROLE.MANAGER": "Quản lý",
   "ROLE.FARMER": "Nông dân",
   "ROLE.TECHNICIAN": "Nhân viên kỹ thuật",
@@ -253,7 +256,6 @@
   "AGENCY.MODIFY.SHIPPING_ADDRESS.CITY": "Quận/Huyện",
   "AGENCY.MODIFY.SHIPPING_ADDRESS.DISTRICT": "Phường/Xã",
   "AGENCY.MODIFY.SHIPPING_ADDRESS.ADDRESS": "Địa chỉ giao hàng",
-
   "AGENCY.MODIFY.DEFAULT_SHIPPING_ADDRESS": "Địa chỉ mặc định",
   "AGENCY.EDIT.PLACEHOLDER.AGENCY_CODE": "Mã đơn vị bán hàng",
   "AGENCY.EDIT.PLACEHOLDER.AGENCY_NAME": "Tên đơn vị bán hàng",
@@ -429,6 +431,8 @@
   "PLANT_CODE": "Mã gieo trồng",
   "ESTIMATED_PLANTING_TIME": "Thời gian trồng",
   "PLANTING_LAND_LOT": "Lô gieo trồng",
+  "PLANTING.FARM_LOCATION": "Địa điểm Farm trồng",
+  "PLANTING.CODE": "Mã gieo trồng",
   "Tên chủng loại": "Tên chủng loại",
   "GTIN": "GTIN",
   "SEEDING_AREA": "Diện tích gieo ươm",
@@ -447,7 +451,7 @@
   "HARVESTING_QUANTITY": "Sản lượng thu hoạch dự kiến (kg)",
   "HARVESTING_WORKER": "Nông dân thu hoạch",
   "HARVESTING_LEADER": "Tổ trưởng thu hoạch",
-  "HARVESTOMG_TECHNICAL": "Nhân viên kỹ thuật thu hoạch",
+  "HARVESTING_TECHNICAL": "Nhân viên kỹ thuật thu hoạch",
   "PRELIMINARY_TREATMENT_INFO": "THÔNG TIN SƠ CHẾ",
   "PRELIMINARY_TREATMENT_TIME": "Thời gian sơ chế (dự kiến)",
   "PRELIMINARY_TREATMENT_QUANTITY": "Sản lượng sau sơ chế dự kiến (kg)",
@@ -529,7 +533,6 @@
   "SHIPPING_AGENCY.MODIFY.REPRESENT_IMAGE": "Hình ảnh đại diện",
   "SHIPPING_AGENCY.MODIFY.GENDER_OPTION.MALE": "Nam",
   "SHIPPING_AGENCY.MODIFY.GENDER_OPTION.FEMALE": "Nữ",
-
   "QR.MASTER.HEADER.TITLE": "Quản lý QR",
   "QR.MASTER.BODY.TITLE": "Danh mục quản lý QR",
   "QR.MODULE_NAME": "quản lý qr",
@@ -545,7 +548,6 @@
   "QR.MASTER.TABLE.ACTIVE_BY": "Người kích hoạt",
   "QR.MASTER.TABLE.ACTIVE_AT": "Ngày kích hoạt",
   "QR.MASTER.TABLE.CODE_TYPE": "Loại mã",
-
   "SEEDING.CODE": "Mã gieo giống",
   "SEEDING.CERTIFICATE": "Giấy chứng nhận giống",
   "SEEDING.INVOICE": "Hóa đơn mua giống",
@@ -558,7 +560,6 @@
   "SEEDING.SEEDING_AREA": "Diện tích gieo ươm giống",
   "SEEDING.NUMBER_OF_SEED": "Số cây con giống",
   "SEEDING.EXPECTED_QUANTITY": "Sản lượng dự kiến",
-
   "USER.MASTER.TABLE.TITLE": "Danh mục người dùng",
   "USER.MASTER.SEARCH.ORGANIZATION": "Đơn vị quản lý",
   "USER.MASTER.SEARCH.ROLE": "Vai trò",
@@ -567,8 +568,7 @@
   "USER.MASTER.SEARCH.WORK_AT": "Nơi làm việc",
   "USER.MASTER.SEARCH.EMAIL": "Email",
   "USER.MASTER.SEARCH.PHONE": "Số điện thoại",
-
-
+  "USER.MODULE_NAME": "người dùng",
   "USER.MASTER.TABLE.ORGANIZATION": "Đơn vị quản lý",
   "USER.MASTER.TABLE.ACTION_COLUMN": "Hành động",
   "USER.MASTER.TABLE.STATUS_COLUMN": "Trạng thái",
@@ -576,7 +576,15 @@
   "USER.MASTER.TABLE.WORK_AT": "Nơi làm việc",
   "USER.MASTER.TABLE.EMAIL": "Email",
   "USER.MASTER.TABLE.PHONE": "Số điện thoại",
-
+  "USER.CREATE.HEADER": "Tạo {moduleName} mới",
+  "USER.UPDATE.HEADER": "Chỉnh sửa thông tin {moduleName}",
+  "USER.DETAIL_DIALOG.TITLE": "Thông tin chi tiết",
+  "USER.DETAIL_DIALOG.AVATAR": "Ảnh đại diện",
+  "USER.DETAIL_DIALOG.WORK_AT": "Nơi làm việc",
+  "USER.DETAIL_DIALOG.PHONE": "Số điện thoại",
+  "USER.DETAIL_DIALOG.BIRTHDAY": "Ngày sinh",
+  "USER.DETAIL_DIALOG.ADDRESS": "Địa chỉ",
+  "USER.DETAIL_DIALOG.ROLE": "Vai trò",
   "VALIDATE.ERROR.INVALID_INPUT": "{label} không hợp lệ",
   "VALIDATE.ERROR.MUST_LESS_THAN_TODAY": "{label} không được lớn hơn ngày hiện tại",
   "VALIDATE.ERROR.MISSING_START_TIME": "Vui lòng nhập ngày bắt đầu",
@@ -603,7 +611,6 @@
   "TEMPERATURE": "Nhiệt độ",
   "HUMIDITY": "Độ ẩm",
   "POROSITY": "Độ xốp",
-
   "HARVESTING_IMAGE_BEFORE": "Hình ảnh trước thu hoạch",
   "HARVESTING_IMAGE_AFTER": "Hình ảnh sau khi thu hoạch",
   "HARVESTING_IMAGE_PROCESSING": "Hình ảnh trong khi thu hoạch",
@@ -612,7 +619,7 @@
   "PRELIMINARY_TREATMENT_IMAGE_PROCESSING": "Hình ảnh trong khi sơ chế",
   "CLEANING_IMAGE_BEFORE": "Hình ảnh trước làm sạch",
   "CLEANING_IMAGE_AFTER": "Hình ảnh sau khi làm sạch",
-  "CLEANING_IMAGE_PROCESSING": "Hình ảnh trong khi làm sạch",
+  "CLEANING_IMAGE_PROCESSING": "Hìfnh ảnh trong khi làm sạch",
   "PACKING_LOCATION": "Địa điểm đóng gói",
   "PACKING_REAL_QUANTITY": "Số lượng gói/lô thực tế",
   "PERSON_ASSIGN_QR": "Người gán mã QR",
@@ -625,5 +632,7 @@
   "PRESERVATION_LOCATION": "Địa điểm bảo quản",
   "PRESERVATION_WORKER": "Nhân viên bảo quản",
   "PRESERVATION_IMAGE": "Hình ảnh kho lạnh",
-  "ESTIMATED_QUANTITY_VALIDATE": "Vui lòng nhập số hợp lệ"
+  "ESTIMATED_QUANTITY_VALIDATE": "Vui lòng nhập số hợp lệ",
+  "HARVESTING_START_TIME": "Thời gian bắt đầu thu hoạch",
+  "HARVESTING_END_TIME": "Thời gian kết thúc thu hoạch"
 }

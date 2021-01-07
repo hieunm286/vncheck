@@ -93,7 +93,7 @@ const seedingInfo: RenderInfoDetail = [{
     },
     'productPlan.seeding.[worker].fullName': {
       title: 'Công nhân thực hiện',
-      formatter: (input) => DisplayArray(input)
+      formatter: (input) => {console.log(input); return DisplayArray(input)}
     },
   }
 }];
@@ -160,9 +160,12 @@ const harvestingInfo : RenderInfoDetail = [{
   data: {
     'productPlan.harvesting.time' : {
       title: 'Thời gian thu hoạch',
-      formatter: (input, entity) => DisplayDiffTime(input, entity)
+      formatter: (input, entity) => {return (
+        <>{entity.productPlan.harvesting.startTime.toLocaleDateString() + ', ' + 
+        entity.productPlan.harvesting.endTime.toLocaleDateString()}</>
+      )},
     },
-    'productPlan.harvesting.' : {
+    'productPlan.harvesting.realQuantity' : {
       title: 'Sản lượng thực tế',
     },
     'productPlan.harvesting.imageBefore' : {
@@ -371,13 +374,11 @@ const preservationInfo : RenderInfoDetail = [{
 
 
 export const QrRenderDetail: RenderInfoDetail = [
-  // ...producerInfo,
-  // ...commonInfo,
   ...seedingInfo,
   ...plantingInfo,
   ...harvestingInfo,
-  ...preliminaryTreatmentInfo,
-  ...cleaningInfo,
-  ...packingInfo,
-  ...preservationInfo,
+  // ...preliminaryTreatmentInfo,
+  // ...cleaningInfo,
+  // ...packingInfo,
+  // ...preservationInfo,
 ];

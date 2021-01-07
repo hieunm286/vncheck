@@ -237,15 +237,15 @@ export type RenderInfoDetail = {
   className?: string;
   titleClassName?: string;
   dataClassName?: string;
-  data: {
-    [T: string]: {
-      title?: string;
-      formatter?: (value: any | any[], entity?: any) => ReactElement;
-      keyField?: string;
-    }
-  },
-  
+  data: RenderInfoDetailColumn,
 }[]
+export type RenderInfoDetailColumn = {
+  [T: string]: {
+    title?: string;
+    formatter?: (value: any | any[], entity?: any) => ReactElement;
+    keyField?: string;
+  }
+}
 export type GetProps<T> = (entity: T) => Promise<AxiosResponse>;
 export type UpdateProps<T> = (entity: T) => Promise<AxiosResponse>;
 export type DeleteProps<T> = (entity: T) => Promise<AxiosResponse>;

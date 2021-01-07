@@ -26,15 +26,17 @@ import {GetCity, GetDistrict, GetState} from "../address/address.service";
 import * as RoleService from "../role/role.service";
 import * as Yup from "yup";
 import {Count, Create, Delete, DeleteMany, Get, GetAll, GetById, Update} from "./user.service";
+import {DisplayAddress, DisplayDate} from "../../common-library/helpers/detail-helpers";
+import {DetailImage} from "../../common-library/common-components/detail/detail-image";
 
 const headerTitle = 'PRODUCT_TYPE.MASTER.HEADER.TITLE';
 const tableTitle = 'USER.MASTER.TABLE.TITLE';
-const detailDialogTitle = 'SHIPPING_AGENCY.DETAIL_DIALOG.TITLE';
-const moduleName = 'SHIPPING_AGENCY.MODULE_NAME';
-const deleteDialogTitle = 'SHIPPING_AGENCY.DELETE_DIALOG.TITLE';
-const deleteDialogBodyTitle = 'SHIPPING_AGENCY.DELETE_DIALOG.BODY_TITLE';
-const createTitle = 'SHIPPING_AGENCY.CREATE.HEADER';
-const updateTitle = 'SHIPPING_AGENCY.UPDATE.HEADER';
+const detailDialogTitle = 'USER.DETAIL_DIALOG.TITLE';
+const moduleName = 'USER.MODULE_NAME';
+const deleteDialogTitle = 'USER.DELETE_DIALOG.TITLE';
+const deleteDialogBodyTitle = 'USER.DELETE_DIALOG.BODY_TITLE';
+const createTitle = 'USER.CREATE.HEADER';
+const updateTitle = 'USER.UPDATE.HEADER';
 
 function User() {
   const intl = useIntl();
@@ -161,42 +163,24 @@ function User() {
   
   const masterEntityDetailDialog: RenderInfoDetail = useMemo((): RenderInfoDetail => [
     {
-      header: 'SHIPPING_AGENCY.DETAIL_DIALOG.SHIPPING.SUBTITLE',
-      className: 'col-7',
-      dataClassName: 'col-7',
+      className: 'col-md-6 col-12',
+      dataClassName: 'col-md-6 col-12',
       data: {
-        code: {title: 'SHIPPING_AGENCY.DETAIL_DIALOG.SHIPPING.CODE'},
-        name: {title: 'SHIPPING_AGENCY.DETAIL_DIALOG.SHIPPING.NAME'},
-        address: {
-          title: 'SHIPPING_AGENCY.DETAIL_DIALOG.SHIPPING.ADDRESS',
-          formatter: (address: any, row: any) => {
-            const addressString = `${address.address}, ${address.district}, ${address.city}, ${address.state}`;
-            return (<>{addressString}</>);
-          }
-        },
-        phone: {title: 'SHIPPING_AGENCY.DETAIL_DIALOG.SHIPPING.PHONE_NUMBER'},
-        status: {
-          title: 'SHIPPING_AGENCY.DETAIL_DIALOG.SHIPPING.STATUS',
-          formatter: TickColumnFormatter
+        avatar: {
+          title: 'USER.DETAIL_DIALOG.AVATAR',
+          formatter: (input) => <DetailImage images={input} width={200} height={200}/>
         },
       },
     },
     {
-      header: 'SHIPPING_AGENCY.DETAIL_DIALOG.OWNER.SUBTITLE',
-      className: 'col-5',
-      titleClassName: 'col-5',
-      dataClassName: 'col-7',
+      className: 'col-md-6 col-12',
+      dataClassName: 'col-md-6 col-12',
       data: {
-        fullName: {
-          title: 'SHIPPING_AGENCY.DETAIL_DIALOG.OWNER.FULL_NAME',
-          keyField: 'owner.fullName'
-        }, email: {
-          title: 'SHIPPING_AGENCY.DETAIL_DIALOG.OWNER.EMAIL',
-          keyField: 'owner.email'
-        }, phone: {
-          title: 'SHIPPING_AGENCY.DETAIL_DIALOG.OWNER.PHONE_NUMBER',
-          keyField: 'owner.phone'
-        },
+        workAt: {title: 'USER.DETAIL_DIALOG.WORK_AT'},
+        phone: {title: 'USER.DETAIL_DIALOG.PHONE'},
+        birthDay: {title: 'USER.DETAIL_DIALOG.BIRTHDAY', formatter: (input) => DisplayDate({input})},
+        address: {title: 'USER.DETAIL_DIALOG.ADDRESS', formatter: DisplayAddress},
+        role: {title: 'USER.DETAIL_DIALOG.ROLE'},
       },
     },
   ], []);
@@ -438,7 +422,7 @@ function User() {
   return (
     <Fragment>
       <Switch>
-        <Route path="/shipping-agency/0000000">
+        <Route path="/account/user/0000000">
           <EntityCrudPage
             moduleName={moduleName}
             onModify={add}
@@ -448,7 +432,7 @@ function User() {
             validation={validationSchema}
           />
         </Route>
-        <Route path={`/shipping-agency/:code`}>
+        <Route path={`/account/user/:code`}>
           {({history, match}) => (
             <EntityCrudPage
               onModify={update}
@@ -462,7 +446,7 @@ function User() {
             />
           )}
         </Route>
-        <Route path="" exact={true}>
+        <Route path="/account/user" exact={true}>
           <MasterHeader
             title={headerTitle}
             onSearch={(value) => {
