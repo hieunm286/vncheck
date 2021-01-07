@@ -3,38 +3,55 @@ import {useIntl} from 'react-intl';
 
 import * as UserService from '../user/user.service';
 import {InitMasterProps} from "../../common-library/helpers/common-function";
-import {Count, Create, Delete, DeleteMany, Get, GetAll, GetById, Update} from './qr.service';
-import {QrModel, QrPdf} from './qr.model';
+import {Count, Create, Delete, DeleteMany, Get, GetAll, GetType, QrTypeList, Update} from './qr.service';
+import {QrModel} from './qr.model';
 import {MasterHeader} from "../../common-library/common-components/master-header";
 import {MasterBody} from "../../common-library/common-components/master-body";
 
-import {DefaultPagination, SortColumn} from '../../common-library/common-consts/const';
-
-
-import {DeleteEntityDialog} from "../../common-library/common-components/delete-entity-dialog";
-import DeleteManyEntitiesDialog from '../../common-library/common-components/delete-many-entities-dialog';
+import {DefaultPagination, NormalColumn, SortColumn} from '../../common-library/common-consts/const';
 import {Link, Route, Switch, useHistory} from 'react-router-dom';
-import {SearchModel} from "../../common-library/common-types/common-type";
+import {MasterBodyColumns, RenderInfoDetail, SearchModel} from "../../common-library/common-types/common-type";
 import {MasterEntityDetailPage} from "../../common-library/common-components/master-detail-page";
-import {QrRenderDetail} from "./qr.render-info";
-import * as MultilevelSaleService from '../multilevel-sale/multilevel-sale.service';
-import { bodyEntities, detailEntityMock } from "./qr-mock";
+import {
+  cleaningInfo,
+  commonInfo,
+  harvestingInfo,
+  packingInfo,
+  plantingInfo,
+  preliminaryTreatmentInfo,
+  preservationInfo,
+  producerInfo,
+  seedingInfo,
+  sellStatus,
+} from "./qr.render-info";
+import {mobileSaleMock} from "./qr-mock";
 import ModifyEntityDialog from "../../common-library/common-components/modify-entity-dialog";
-import { MasterQrChildDetail, MasterQrParentDetail } from "./qr-detail";
-import * as QrService from './services/qr.service';
-import {DisplayDate, DisplayDateTime} from "../../common-library/helpers/detail-helpers";
-import {toast} from 'react-toastify';
+import {
+  Display3Info,
+  DisplayArray,
+  DisplayDate,
+  DisplayDateTime,
+  DisplayInnerLink,
+  DisplayPersonName,
+  DisplayTable
+} from "../../common-library/helpers/detail-helpers";
 import 'react-toastify/dist/ReactToastify.css';
-import _, {isArray, isEmpty} from 'lodash';
 import {AxiosResponse} from 'axios';
+import {ActionsColumnFormatter} from "../../common-library/common-components/actions-column-formatter";
+import {MasterEntityDetailDialog} from "../../common-library/common-components/master-entity-detail-dialog";
+import {Select} from 'antd';
+import * as Yup from "yup";
+import {format} from "date-fns";
+import {DetailImage} from "../../common-library/common-components/detail/detail-image";
 
+const Option = {Select};
 const headerTitle = 'QR.MASTER.HEADER.TITLE';
 const tableTitle = 'SHIPPING_AGENCY.MASTER.TABLE.TITLE';
-const detailDialogTitle = 'SHIPPING_AGENCY.DETAIL_DIALOG.TITLE';
+const detailTitle = 'QR.DETAIL.TITLE';
 const moduleName = 'QR.MODULE_NAME';
 const deleteDialogTitle = 'SHIPPING_AGENCY.DELETE_DIALOG.TITLE';
 const deleteDialogBodyTitle = 'SHIPPING_AGENCY.DELETE_DIALOG.BODY_TITLE';
-const createTitle = 'SHIPPING_AGENCY.CREATE.HEADER';
+const createTitle = 'QR.CREATE.HEADER';
 const updateTitle = 'SHIPPING_AGENCY.UPDATE.HEADER';
 
 // const createTitle = 'PURCHASE_ORDER.CREATE.TITLE';
@@ -88,12 +105,13 @@ function QrPage() {
     getAllServer: GetAll,
     updateServer: Update
   });
-
+  
   useEffect(() => {
     getAll(filterProps);
   }, [paginationProps, filterProps]);
-
+  
   const [qrType, setQrType] = useState<string>();
+  const [showImage, setShowImage] = useState<boolean>(false);
   
   
   const columns = useMemo(() => {
@@ -103,14 +121,18 @@ function QrPage() {
         text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.CODE'})}`,
         ...SortColumn,
         align: 'center',
-        formatter: (cell: string, row: any, rowIndex: number) => {console.log(row.type === '1');return <Link to={'qr/' + (row.codeType === '1' ? '' : '') + row._id}>{cell}</Link>},
+        formatter: (cell: string, row: any, rowIndex: number) => {
+          console.log(row.type === '1');
+          return <Link to={'qr/' + (row.codeType === '1' ? '' : '') + row._id}>{cell}</Link>
+        },
       },
       'createdBy': {
-        dataField: 'createdBy',
+        dataField: 'createdBy.fullName',
         text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.CREATED_BY'})}`,
-      ...SortColumn,
+        ...SortColumn,
         align: 'center',
-        formatter: (cell: any, row: any, rowIndex: number) => {return <>{cell.firstName + ' ' + cell.lastName}</>},
+        formatter: (cell: any, row: any, rowIndex: number) => (row?.createdBy ?
+          <DisplayPersonName {...row.createdBy}/> : (<>{intl.formatMessage({id: 'NO_INFORMATION'})}</>)),
       },
       createdAt: {
         dataField: 'createdAt',
@@ -120,25 +142,26 @@ function QrPage() {
         align: 'center',
       },
       'activeBy': {
-        dataField: 'activeBy',
+        dataField: 'activeBy.fullName',
         text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.ACTIVE_BY'})}`,
         ...SortColumn,
         align: 'center',
-        formatter: (cell: any, row: any, rowIndex: number) => {return <>{(row.activeBy && row.activeBy.firstName && row.activeBy.lastName) ? 
-          (row.activeBy.firstName + ' ' + row.activeBy.lastName) : 'NO_INFORMATION'}</>},
+        formatter: (cell: any, row: any, rowIndex: number) => (row?.activeBy ?
+          <DisplayPersonName {...row.activeBy}/> : (<>{intl.formatMessage({id: 'NO_INFORMATION'})}</>)),
       },
       activeAt: {
         dataField: 'activeAt',
         text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.ACTIVE_AT'})}`,
         ...SortColumn,
-        formatter: (input: any) => (<DisplayDate input={input}/>),
+        formatter: (input: any) => (input ? DisplayDateTime(input) : (<>{intl.formatMessage({id: 'NO_INFORMATION'})}</>)),
         align: 'center',
       },
       type: {
         dataField: 'type',
         text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.CODE_TYPE'})}`,
         ...SortColumn,
-        formatter: (cell: any, row: any, rowIndex: number) => cell === "1" ? (<>Sản phẩm</>) : (<>Đóng gói</>),
+        formatter: (cell: any, row: any, rowIndex: number) =>
+          (<>{QrTypeList.find(t => t.code === cell)?.name}</>),
         align: 'center',
       },
     }
@@ -146,65 +169,316 @@ function QrPage() {
   
   
   const searchModel: SearchModel = {
-    code: {
+    '_id': {
       type: 'string',
       label: 'QR.MASTER.SEARCH.CODE',
     },
     createdBy: {
       type: 'search-select',
       label: 'QR.MASTER.SEARCH.CREATED_BY',
+      selectField: '_id',
+      keyField: 'fullName',
       onSearch: UserService.GetAll,
     },
-    createdDate: {
+    createdAt: {
       type: 'date-time',
       label: 'QR.MASTER.SEARCH.CREATED_DATE',
     },
     activeBy: {
       type: 'search-select',
       label: 'QR.MASTER.SEARCH.ACTIVE_BY',
+      selectField: '_id',
+      keyField: 'fullName',
       onSearch: UserService.GetAll,
     },
     activeAt: {
       type: 'date-time',
       label: 'QR.MASTER.SEARCH.ACTIVE_AT',
     },
-    codeType: {
+    __type: {
       type: 'search-select',
       label: 'QR.MASTER.SEARCH.CODE_TYPE',
-      onSearch: console.log
+      onSearch: GetType,
+      keyField: 'name',
+      selectField: 'code',
+      onChange: (e, {setFieldValue}) => {
+        setFieldValue('type', e?.code);
+      }
     },
   };
   
+  const shippingInfoColumns: MasterBodyColumns = [
+    {
+      dataField: 'exportTime',
+      text: 'Thời gian xuất hàng',
+      formatter: (date: string) => {
+        return DisplayDateTime(date);
+      },
+      ...SortColumn,
+      align: 'center',
+    },
+    {
+      text: 'Địa điểm xuất hàng',
+      dataField: 'exportAddress',
+      formatter: (input) => {
+        return DisplayArray(input)
+      },
+      ...SortColumn,
+      align: 'center',
+    },
+    {
+      text: 'Nhân viên xuất hàng',
+      dataField: 'exportStaff.fullName',
+      ...SortColumn,
+      align: 'center',
+    },
+    {
+      text: 'Nhân viên vận chuyển',
+      dataField: 'shipper.fullName',
+      ...SortColumn,
+      align: 'center',
+    },
+  ];
+  
+  
+  const shippingInfo: RenderInfoDetail = [{
+    
+    header: 'THÔNG TIN VẬN CHUYỂN',
+    className: 'col-12',
+    titleClassName: 'col-3 mb-10',
+    dataClassName: 'col-12 mb-10',
+    data: {
+      'sellStatus': {
+        title: '',
+        formatter: (entity: any[]) => {
+          
+          return <DisplayTable entities={mobileSaleMock.shippingInfo} columns={shippingInfoColumns}/>
+        }
+      }
+    },
+  }];
+  
+  
+  const distributionInfoColumns: MasterBodyColumns = [
+    ...shippingInfoColumns,
+    {
+      dataField: 'receiveTime',
+      text: 'Thời gian nhận hàng',
+      formatter: (date: string) => {
+        return DisplayDateTime(date);
+      },
+      ...SortColumn,
+      align: 'center',
+    },
+    {
+      text: 'Địa điểm nhận hàng',
+      dataField: 'receiveAddress',
+      formatter: (input) => {
+        return DisplayArray(input)
+      },
+      ...SortColumn,
+      align: 'center',
+    },
+    {
+      dataField: 'receiveStaff.fullName',
+      text: 'Nhân viên xuất hàng',
+      ...SortColumn,
+      align: 'center',
+    },
+    {
+      dataField: 'image.path',
+      text: 'Hình ảnh',
+      formatter: (cell: any, row: any, rowIndex: number) => {
+        return (
+          <>
+            {ActionsColumnFormatter(cell, row, rowIndex, {
+              onShowDetail: (cell: any) => {
+                setShowImage(true);
+                setLogisticImage(row);
+              },
+              intl
+            })}
+          </>
+        )
+      },
+      ...SortColumn,
+      align: 'center',
+    },
+  ];
+  const [logisticImageDetail, setLogisticImage] = useState<any>(null);
+  const logisticImageRenderDetail = useMemo((): RenderInfoDetail => ([
+    {
+      className: 'col-12',
+      titleClassName: 'col-12',
+      dataClassName: 'col-12 mb-10',
+      data: {
+        'imageBefore': {
+          title: 'Hình ảnh xuất kho',
+          formatter: (image, entity) => {
+            const renderInfo = {
+              title: 'IMAGE_INFO',
+              component: Display3Info
+            }
+            return <DetailImage images={image} renderInfo={renderInfo} width={90} height={90} className={'mt-3 mr-3'}/>
+          }
+        },
+        'imageAfter': {
+          title: 'Hình ảnh nhập kho',
+          formatter: (image, entity) => {
+            const renderInfo = {
+              title: 'IMAGE_INFO',
+              component: Display3Info
+            }
+            return <DetailImage images={image} renderInfo={renderInfo} width={90} height={90} className={'mt-3 mr-3'}/>
+          }
+        },
+      }
+    }
+  ]), []);
+  const validationSchema = useMemo(() => Yup.object().shape({
+    total: Yup.number()
+      .min(1, 'VALIDATE.ERROR.MIN_1'),
+  }), []);
+  
+  const distributionInfo: RenderInfoDetail = [{
+    
+    header: 'THÔNG TIN PHÂN PHỐI',
+    className: 'col-12',
+    titleClassName: 'col-3 mb-10',
+    dataClassName: 'col-12 mb-10',
+    data: {
+      'sellStatus': {
+        title: '',
+        formatter: (entity: any[]) => {
+          
+          return <DisplayTable entities={mobileSaleMock.distributionInfo} columns={distributionInfoColumns}/>
+        }
+      }
+    },
+  }];
+  const downloadQrFile = useCallback((e: QrModel) => {
+    return add(e).then((res: AxiosResponse<QrModel>) => {
+      const date_input = new Date();
+      const a = document.createElement("a"); //Create <a>
+      a.href = "data:application/octet-stream;base64," + res.data.buffers; //Image Base64 Goes here
+      a.download = `qr-code-${format(date_input, 'dd-MM-yyyy')}.tiff`; //File name Here
+      a.click();
+    })
+  }, []);
+  
+  
+  const parentQrInfo: RenderInfoDetail = useMemo(() => ([
+    {
+      header: 'THÔNG TIN LOGISTIC',
+      className: 'col-12',
+      titleClassName: 'col-3 mb-3',
+      dataClassName: 'col-9 mb-3 pl-5',
+      data: {
+        'createdBy.fullName': {
+          title: 'Người tạo QR logistics',
+        },
+        'createdAt': {
+          title: 'Thời điểm tạo',
+          formatter: (date: string) => DisplayDateTime(date),
+        },
+        '_id': {
+          title: 'ID QR cha',
+        },
+      },
+    }
+  ]), []);
+  
+  const childQrColumns = useMemo(() => [{
+    dataField: '_',
+    text: `${intl.formatMessage({id: 'ORDINAL'})}`,
+    align: 'center',
+    formatter: (cell: string, row: any, rowIndex: number) => {
+      return (<>{rowIndex + 1}</>)
+    }
+  }, {
+    dataField: '_id',
+    text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.CODE'})}`,
+    align: 'center',
+    ...NormalColumn,
+    formatter: (e: any) => <DisplayInnerLink link={`/qr/${e}`} title={e}/>
+  }, {
+    dataField: 'createdBy.fullName',
+    text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.CREATED_BY'})}`,
+    ...SortColumn,
+    align: 'center',
+    formatter: (cell: any, row: any, rowIndex: number) => (row?.createdBy ?
+      <DisplayPersonName {...row.createdBy}/> : (<>{intl.formatMessage({id: 'NO_INFORMATION'})}</>)),
+  }, {
+    dataField: 'createdAt',
+    text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.CREATED_DATE'})}`,
+    ...SortColumn,
+    formatter: (input: any) => (<DisplayDate input={input}/>),
+    align: 'center',
+  }, {
+    dataField: 'activeBy.fullName',
+    text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.ACTIVE_BY'})}`,
+    ...SortColumn,
+    align: 'center',
+    formatter: (cell: any, row: any, rowIndex: number) => (row?.activeBy ?
+      <DisplayPersonName {...row.activeBy}/> : (<>{intl.formatMessage({id: 'NO_INFORMATION'})}</>)),
+  }, {
+    dataField: 'activeAt',
+    text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.ACTIVE_AT'})}`,
+    ...SortColumn,
+    formatter: (input: any) => (input ? DisplayDateTime(input) : (<>{intl.formatMessage({id: 'NO_INFORMATION'})}</>)),
+    align: 'center',
+  },], []);
+  const childQrInfo: RenderInfoDetail = useMemo(() => ([
+    {
+      header: '',
+      className: 'col-12',
+      titleClassName: 'mb-10',
+      dataClassName: 'col-12 mb-10',
+      data: {
+        'children': {
+          title: 'ID QR con',
+          formatter: (entity: any[]) => {
+            return <DisplayTable entities={entity ?? []} columns={childQrColumns}/>
+          }
+        }
+      },
+    }
+  ]), []);
+  
+  const renderInfoProduct: RenderInfoDetail = useMemo(() => ([
+    ...producerInfo,
+    ...commonInfo,
+    ...seedingInfo,
+    ...plantingInfo,
+    ...harvestingInfo,
+    ...preliminaryTreatmentInfo,
+    ...cleaningInfo,
+    ...packingInfo,
+    ...preservationInfo,
+    ...shippingInfo,
+    ...distributionInfo,
+    ...sellStatus
+  ]), []);
+  const renderInfoPacking: RenderInfoDetail = useMemo(() => ([
+    ...parentQrInfo,
+    ...childQrInfo,
+    ...distributionInfo,
+    ...shippingInfo,
+  ]), []);
+  const [dE, setDE] = useState<any>(null);
+  const [matchId, setMatchId] = useState<any>(null);
+  const [renderInfo, setRenderInfo] = useState(renderInfoProduct);
+  useEffect(() => {
+    matchId && get({_id: matchId} as any).then(e => {
+      const qr = e.data;
+      setRenderInfo(qr.type === '1' ? renderInfoProduct : renderInfoPacking);
+      setDE(qr);
+    });
+  }, [matchId]);
   return (
     <Fragment>
-      <DeleteEntityDialog
-        moduleName={moduleName}
-        entity={deleteEntity}
-        onDelete={deleteFn}
-        isShow={showDelete}
-        onHide={() => {
-          setShowDelete(false);
-        }}
-        loading={loading}
-        error={error}
-      />
-      <DeleteManyEntitiesDialog
-        moduleName={moduleName}
-        selectedEntities={selectedEntities}
-        loading={loading}
-        isShow={showDeleteMany}
-        onDelete={deleteMany}
-        onHide={() => {
-          setShowDeleteMany(false);
-        }}
-        error={error}
-      />
-      
       <Switch>
-        {/* <Redirect from="/agency/:code" to="/agency" /> */}
         <Route path="/qr" exact={true}>
-          {/* <MasterHeader title={headerTitle} onSearch={setFilterProps} searchModel={purchaseOrderSearchModel} */}
-          {/* initValue={filterProps}/> */}
           <MasterHeader
             title={headerTitle}
             onSearch={(value) => {
@@ -229,117 +503,64 @@ function QrPage() {
           />
           <ModifyEntityDialog
             show={showCreate}
+            validation={validationSchema}
             formModel={{
-              _header: 'a',
-              // _className: '',
-              // _titlenpClassName: '',
-              // _dataClassName: '',
+              _header: createTitle,
               _panel1: {
-                _title: '',
+                _title: 'EMPTY',
                 group1: {
-                  _subTitle: '',
+                  _subTitle: 'EMPTY',
                   type: {
-                    _type: 'string',
-                    label: 'QR.CODE_TYPE',
+                    required: true,
+                    _type: 'search-select',
+                    onSearch: GetType,
+                    keyField: 'name',
+                    selectField: 'code',
+                    label: 'QR.EDIT.CODE_TYPE',
                   },
                   total: {
-                    _type: 'number',
-                    label: 'QR.QUANTITY',
+                    required: true,
+                    _type: 'string-number',
+                    onChange: (e, {setFieldValue, values}) => {
+                      setFieldValue('total', e.target.value && e.target.value !== '' && Number(e.target.value));
+                    },
+                    label: 'QR.EDIT.QUANTITY',
                   },
-                  createdBy:{
-                    _type: 'string',
-                    label: 'TEMP_TO_CREATE'
-                  }
                 }
               }
-              
+  
             }}
+            loading={loading}
             onHide={refreshData}
-            onModify={(e: QrModel) => {
-              add(e).then((res: AxiosResponse<QrModel>) => {
-                var a = document.createElement("a"); //Create <a>
-                a.href = "data:application/octet-stream;base64," + res.data.buffers; //Image Base64 Goes here
-                a.download = "file.tif"; //File name Here
-                a.click();
-              })
-            }}
+            onModify={downloadQrFile}
           />
         </Route>
         <Route path="/qr/:code">
           {({history, match}) => {
+            setMatchId(match && match.params.code);
             return (
-            // <MasterQrParentDetail
-            //   entity={detailEntities}
-            //   code={match && match.params.code}
-            //   get={code => GetById(code)}
-            //   onClose={() => {
-            //     setShowDetail(false);
-            //   }}
-            //   header="THÔNG TIN GIEO GIỐNG"
-            // />
-            <MasterEntityDetailPage
-              entity={detailEntityMock}
-              renderInfo={QrRenderDetail} // renderInfo={detailModel}
-              code={match && match.params.code}
-              onClose={() => history.push('/qr')}
-              // get={QrService.GetById}
-              get={null}
-            />
-          );}}
-        </Route>
-        <Route path="/qr/qr-child/123456">
-          {({history, match}) => {
-            return (
-            <MasterQrChildDetail
-              entity={{}}
-              columns={Object.values(columns)}
-            />
-          );}}
-        </Route>
-        {/* <Route path="/qr/qr-child/123456">
-          {({history, match}) => {
-            return (
-            <MasterQrChildDetail
-              entity={{}}
-              columns={Object.values(columns)}
-            />
-          );}}
-        </Route> */}
-        {/* <Route exact path="/qr/:code">
-          {({history, match}) => (
-            <MasterEntityDetailPage
-              renderInfo={QrRenderDetail}
-              code={match && match.params.code}
-              get={code => GetById(code)}
-              onClose={() => {
-                setShowDetail(false);
-              }}
-              header="THÔNG TIN GIEO GIỐNG"
-            />
-          )}
-        </Route> */}
-        <Route path="/qr/0000000">
-          {/*<EntityCrudPage*/}
-          {/*  moduleName={moduleName}*/}
-          {/*  onModify={add}*/}
-          {/*  formModel={createForm}*/}
-          {/*  actions={actions}*/}
-          {/*  entity={initCreateValues}*/}
-          {/*  // validation={validationSchema}*/}
-          {/*/>*/}
-        </Route>
-        <Route path="/qr/:code">
-          {/*{({history, match}) => (*/}
-          {/*  <EntityCrudPage*/}
-          {/*    onModify={update}*/}
-          {/*    moduleName={moduleName}*/}
-          {/*    code={match && match.params.code}*/}
-          {/*    get={AgencyService.GetById}*/}
-          {/*    formModel={updateForm}*/}
-          {/*    actions={actions}*/}
-          {/*    validation={validationSchema}*/}
-          {/*  />*/}
-          {/*)}*/}
+              <>
+                <MasterEntityDetailPage
+                  entity={dE}
+                  header={detailTitle}
+                  renderInfo={renderInfo} // renderInfo={detailModel}
+                  code={match && match.params.code}
+                  onClose={() => history.push('/qr')}
+                />
+                <MasterEntityDetailDialog
+                  title='EMPTY'
+                  show={showImage}
+                  entity={logisticImageDetail}
+                  renderInfo={logisticImageRenderDetail}
+                  onHide={() => {
+                    setShowImage(false)
+                  }
+                  }
+                  size='sm'
+                />
+              </>
+            );
+          }}
         </Route>
       </Switch>
     </Fragment>

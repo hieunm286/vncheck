@@ -1,58 +1,55 @@
 import React from 'react';
+import {ColumnDescription} from 'react-bootstrap-table-next';
 import {SortColumn} from '../../../common-library/common-consts/const';
-import {
-  MasterBodyColumns,
-  RenderInfoDetail,
-  RenderInfoDetailColumn
-} from '../../../common-library/common-types/common-type';
+import {RenderInfoDetail, RenderInfoDetailColumn} from '../../../common-library/common-types/common-type';
 import {
   Display3Info,
   DisplayCelcius,
   DisplayCoordinates,
-  DisplayDate,
   DisplayDateTime,
   DisplayImage,
   DisplayInnerLink,
   DisplayPercent,
-  DisplayPersonName,
   DisplayPersonNameByArray,
   DisplayTable
 } from '../../../common-library/helpers/detail-helpers';
+import {ProductData} from '../production-management.model';
 
 const seedingCode: RenderInfoDetailColumn = {
   'seeding.code': {
     title: 'SEEDING.CODE',
-    formatter: (e, entity) => DisplayInnerLink(`/production-plan/seeding/${entity._id}`, e)
+    formatter: (e, entity) => <DisplayInnerLink link={`/production-plan/seeding/${entity._id}`} title={e}/>
   }
 };
 const plantingCode: RenderInfoDetailColumn = {
   'planting.code': {
     title: 'PRODUCTION_PLAN.PLANT_CODE',
-    formatter: (e, entity) => DisplayInnerLink(`/production-plan/planting/${entity._id}`, e)
+    formatter: (e, entity) => <DisplayInnerLink link={`/production-plan/planting/${entity._id}`} title={e}/>
   },
 };
 const harvestingCode: RenderInfoDetailColumn = {
   'harvesting.code': {
     title: 'PRODUCTION_PLAN.HARVESTING_CODE',
-    formatter: (e, entity) => DisplayInnerLink(`/production-management/harvesting/${entity._id}`, e)
+    formatter: (e, entity) => <DisplayInnerLink link={`/production-plan/harvesting/${entity._id}`} title={e}/>
   },
 };
 const preliminaryTreatmentCode: RenderInfoDetailColumn = {
   'preliminaryTreatment.code': {
-    title: 'PRODUCTION_PLAN.PRELIMINARY_TREATMENT_CODE',
-    formatter: (e, entity) => DisplayInnerLink(`/production-management/preliminaryTreatment/${entity._id}`, e)
+    title: 'PRODUCTION_PLAN.PreliminaryTreatment_CODE',
+    formatter: (e, entity) => <DisplayInnerLink link={`/production-management/preliminaryTreatment/${entity._id}`}
+                                                title={e}/>
   },
 };
 const cleaningCode: RenderInfoDetailColumn = {
   'cleaning.code': {
-    title: 'PRODUCTION_PLAN.CLEANING_CODE',
-    formatter: (e, entity) => DisplayInnerLink(`/production-management/cleaning/${entity._id}`, e)
+    title: 'PRODUCTION_PLAN.CLEANING.CODE',
+    formatter: (e, entity) => <DisplayInnerLink link={`/production-management/cleaning/${entity._id}`} title={e}/>
   },
 };
 const packingCode: RenderInfoDetailColumn = {
   'packing.code': {
-    title: 'PRODUCTION_PLAN.PACKING_CODE',
-    formatter: (e, entity) => DisplayInnerLink(`/production-management/packing/${entity._id}`, e)
+    title: 'PRODUCTION_PLAN.PACKING.CODE',
+    formatter: (e, entity) => <DisplayInnerLink link={`/production-management/packing/${entity._id}`} title={e}/>
   },
 };
 
@@ -72,7 +69,7 @@ export const harvestingDetail: RenderInfoDetail = [
       // 'planting.estimatedHarvestTime': { title: 'PRODUCTION_PLAN.HARVEST_DATE' },
       ...plantingCode,
       'harvesting.address': {
-        keyField: 'harvesting.imageInProgress', title: 'PRODUCTION_PLAN.HARVESTING_ADDRESS',
+        keyField: 'harvesting.imageInProgress', title: 'HARVESTING_LOCATION',
         formatter: (e) => (<>{e && e[0]?.location && DisplayCoordinates(e[0].location)}</>)
       },
       // 'planting.farmLocation.[coordinates]': { title: 'HARVESTING_LOCATION', formatter: DisplayCoordinates, },
@@ -81,16 +78,16 @@ export const harvestingDetail: RenderInfoDetail = [
         title: 'PLANTING_LAND_LOT',
         formatter: (cell: any, row: any) => cell.toUpperCase(),
       },
-      'planting.species.name': {title: 'PRODUCTION_PLAN.SPECIES_NAME'},
+      'seeding.species.name': {title: 'PRODUCTION_PLAN.SPECIES_NAME'},
       'planting.expectedQuantity': {title: 'SEEDING.EXPECTED_QUANTITY'},
-      'planting.species.barcode': {title: 'GTIN'},
+      'seeding.species.barcode': {title: 'GTIN'},
     },
   },
   {
     header: 'ENVIRONMENT_INFO',
     className: 'col-12',
     titleClassName: 'col-md-2 col-4 mb-10',
-    dataClassName: 'col-md-4 col-8 mb-10 pl-5',
+    dataClassName: 'col-md-10 col-8 mb-10 pl-5',
     data: {
       'planting.temperature': {title: 'TEMPERATURE', formatter: DisplayCelcius,},
       'planting.humidity': {title: 'HUMIDITY', formatter: DisplayPercent,},
@@ -101,11 +98,11 @@ export const harvestingDetail: RenderInfoDetail = [
     header: 'ADMIN_INFO',
     className: 'col-12',
     titleClassName: 'col-md-2 col-4 mb-10',
-    dataClassName: 'col-md-4 col-8 mb-10 pl-5',
+    dataClassName: 'col-md-10 col-8 mb-10 pl-5',
     data: {
-      'planting.[leader]': {title: 'HARVESTING_LEADER', formatter: DisplayPersonNameByArray,},
-      'planting.[worker]': {title: 'HARVESTING_WORKER', formatter: DisplayPersonNameByArray,},
-      'planting.[technical]': {title: 'ROLE.TECHNICIAN', formatter: DisplayPersonNameByArray,},
+      'harvesting.[leader]': {title: 'HARVESTING_LEADER', formatter: DisplayPersonNameByArray,},
+      'harvesting.[worker]': {title: 'HARVESTING_WORKER', formatter: DisplayPersonNameByArray,},
+      'harvesting.[technical]': {title: 'ROLE.TECHNICIAN', formatter: DisplayPersonNameByArray,},
     },
   },
   {
@@ -114,7 +111,7 @@ export const harvestingDetail: RenderInfoDetail = [
     titleClassName: 'col-md-2 col-4 mb-10',
     dataClassName: 'col-md-4 col-8 mb-10 pl-5',
     data: {
-      'planting.imageBefore': {
+      'harvesting.imageBefore': {
         title: 'HARVESTING_IMAGE_BEFORE', formatter: (image, entity) => {
           const renderInfo = {
             title: 'IMAGE_INFO',
@@ -123,7 +120,7 @@ export const harvestingDetail: RenderInfoDetail = [
           return DisplayImage(image, renderInfo)
         }
       },
-      'planting.imageAfter': {
+      'harvesting.imageAfter': {
         title: 'HARVESTING_IMAGE_AFTER', formatter: (image, entity) => {
           const renderInfo = {
             title: 'IMAGE_INFO',
@@ -132,7 +129,7 @@ export const harvestingDetail: RenderInfoDetail = [
           return DisplayImage(image, renderInfo)
         }
       },
-      'planting.imageInProgress': {
+      'harvesting.imageInProgress': {
         title: 'HARVESTING_IMAGE_PROCESSING', formatter: (image, entity) => {
           const renderInfo = {
             title: 'IMAGE_INFO',
@@ -152,18 +149,21 @@ export const PreliminaryTreatmentDetail: RenderInfoDetail = [
     titleClassName: 'col-md-2 col-4 mb-10',
     dataClassName: 'col-md-4 col-8 mb-10 pl-5',
     data: {
-      'seeding.code': { title: 'SEEDING.CODE' },
-      'planting.species.name': { title: 'PRODUCT_TYPE.MASTER.TABLE.NAME_COLUMN' },
-      'planting.code': { title: 'PRODUCTION_PLAN.PLANT_CODE' },
-      'planting.species.barcode': { title: 'GTIN' },
-      
-      'harvesting.code': { title: 'PRODUCTION_PLAN.HARVESTING_CODE' },
-      'seeding.estimatedPlantingTime': {
-        title: 'SEEDING.SEEDING_TIME',
-        formatter: input => DisplayDateTime(input),
+      ...seedingCode,
+      'seeding.species.name': { title: 'PRODUCT_TYPE.MASTER.TABLE.NAME_COLUMN' },
+      ...plantingCode,
+      'seeding.species.barcode': { title: 'GTIN' },
+      ...harvestingCode,
+      'preliminaryTreatment.time': {
+        keyField: 'preliminaryTreatment', title: 'PRELIMINARY_TREATMENT_TIME', formatter: (e) => {
+          return (<>{DisplayDateTime(e.startTime)} {e.endTime && (<> - {DisplayDateTime(e.endTime)}</>)}</>);
+        }
       },
       'preliminaryTreatment.code': { title: 'PRODUCTION_PLAN.PreliminaryTreatment_CODE' },
-      'planting.farmLocation.[coordinates]': { title: 'HARVESTING_LOCATION', formatter: DisplayCoordinates, },
+      'preliminaryTreatment.address': {
+        keyField: 'preliminaryTreatment.imageInProgress', title: 'PRELIMINARYTREATMENT_LOCATION',
+        formatter: (e) => (<>{e && e[0]?.location && DisplayCoordinates(e[0].location)}</>)
+      },
       '': { title: 'EMPTY' },
       'preliminaryTreatment.estimatedQuantity': { title: 'PRELIMINARY_TREATMENT' },
       
@@ -225,18 +225,21 @@ export const CleaningDetail: RenderInfoDetail = [
     titleClassName: 'col-md-2 col-4 mb-10',
     dataClassName: 'col-md-4 col-8 mb-10 pl-5',
     data: {
-      'seeding.code': { title: 'SEEDING.CODE' },
-      'planting.species.name': { title: 'PRODUCT_TYPE.MASTER.TABLE.NAME_COLUMN' },
-      'planting.code': { title: 'PRODUCTION_PLAN.PLANT_CODE' },
-      'planting.species.barcode': { title: 'GTIN' },
-      
-      'harvesting.code': { title: 'PRODUCTION_PLAN.HARVESTING_CODE' },
-      'seeding.estimatedPlantingTime': {
-        title: 'SEEDING.SEEDING_TIME',
-        formatter: input => DisplayDateTime(input),
+      ...seedingCode,
+      'seeding.species.name': { title: 'PRODUCT_TYPE.MASTER.TABLE.NAME_COLUMN' },
+      ...plantingCode,
+      'seeding.species.barcode': { title: 'GTIN' },
+      ...harvestingCode,
+      'cleaning.time': {
+        keyField: 'cleaning', title: 'CLEANING_TIME', formatter: (e) => {
+          return (<>{DisplayDateTime(e.startTime)} {e.endTime && (<> - {DisplayDateTime(e.endTime)}</>)}</>);
+        }
       },
-      'preliminaryTreatment.code': { title: 'PRODUCTION_PLAN.PreliminaryTreatment_CODE' },
-      'planting.farmLocation.[coordinates]': { title: 'HARVESTING_LOCATION', formatter: DisplayCoordinates, },
+      ...preliminaryTreatmentCode,
+      'cleaning.address': {
+        keyField: 'cleaning.imageInProgress', title: 'CLEANING_LOCATION',
+        formatter: (e) => (<>{e && e[0]?.location && DisplayCoordinates(e[0].location)}</>)
+      },
       'cleaning.code': { title: 'PRODUCTION_PLAN.CLEANING.CODE' },
       'cleaning.estimatedQuantity': { title: 'CLEANING_QUANTITY' },
       
@@ -297,15 +300,15 @@ export const PackingDetail: RenderInfoDetail = [
     titleClassName: 'col-md-2 col-4 mb-10',
     dataClassName: 'col-md-4 col-8 mb-10 pl-5',
     data: {
-      'seeding.code': { title: 'SEEDING.CODE' },
-      'planting.species.name': { title: 'PRODUCT_TYPE.MASTER.TABLE.NAME_COLUMN' },
-      'planting.code': { title: 'PRODUCTION_PLAN.PLANT_CODE' },
-      'planting.species.barcode': { title: 'GTIN' },
-      
-      'harvesting.code': { title: 'PRODUCTION_PLAN.HARVESTING_CODE' },
-      'seeding.estimatedPlantingTime': {
-        title: 'SEEDING.SEEDING_TIME',
-        formatter: input => DisplayDateTime(input),
+      ...seedingCode,
+      'seeding.species.name': { title: 'PRODUCT_TYPE.MASTER.TABLE.NAME_COLUMN' },
+      ...plantingCode,
+      'seeding.species.barcode': { title: 'GTIN' },
+      ...harvestingCode,
+      'packing.time': {
+        keyField: 'packing', title: 'PACKING_TIME', formatter: (e) => {
+          return (<>{DisplayDateTime(e.startTime)} {e.endTime && (<> - {DisplayDateTime(e.endTime)}</>)}</>);
+        }
       },
       ...preliminaryTreatmentCode,
       'planting.farmLocation.[coordinates]': {title: 'PACKING_LOCATION', formatter: DisplayCoordinates,},
@@ -334,7 +337,7 @@ export const PackingDetail: RenderInfoDetail = [
     data: {
       'comments': {
         formatter: (entities: any[]) => {
-          const columns: MasterBodyColumns = [
+          const columns: ColumnDescription<any, any>[] = [
             {
               dataField: '_id',
               text: 'STT',
@@ -342,52 +345,58 @@ export const PackingDetail: RenderInfoDetail = [
               style: {paddingTop: 20},
             },
             {
-              dataField: 'firstName',
+              dataField: 'identification',
               text: `Mã định danh`,
               align: 'center',
               ...SortColumn,
             },
             {
-              dataField: 'lastName',
+              dataField: '_id',
               text: `Mã QR`,
               align: 'center',
-              formatter: (input) => DisplayInnerLink(input, input),
+              // formatter: (cell: any, row: any, rowIndex: number) => DisplayInnerLink(''),
               ...SortColumn,
             },
             {
-              dataField: 'planting.estimatedHarvestTime',
+              dataField: 'assignDate',
               text: `Ngày gán mã QR`,
-              formatter: (cell: any, row: any, rowIndex: number) => DisplayDate(cell),
+              formatter: (cell: any, row: any, rowIndex: number) => {
+                return <span>{JSON.stringify(row.assignDate)}</span>
+              },
               ...SortColumn,
             },
             {
-              dataField: 'lastName',
+              dataField: 'scanBy.fullName',
               text: `PERSON_ASSIGN_QR`,
               align: 'center',
-              formatter: (cell: any, row: any, rowIndex: number) => DisplayPersonName(cell),
+              // formatter: (cell: any, row: any, rowIndex: number) => DisplayPersonName(cell),
               ...SortColumn,
             },
             {
-              dataField: 'planting.createdAt',
-              text: `Ngày gán mã QR`,
-              formatter: (cell: any, row: any, rowIndex: number) => DisplayDate(cell),
+              dataField: 'activeAt',
+              text: `Ngày kích hoạt`,
+              formatter: (cell: any, row: any, rowIndex: number) => {
+                return <span>{JSON.stringify(row.assignDate)}</span>
+              },
               ...SortColumn,
             },
             {
-              dataField: 'lastName',
+              dataField: 'activeBy.fullName',
               text: `Người kích hoạt`,
               align: 'center',
-              formatter: (cell: any, row: any, rowIndex: number) => DisplayPersonName(cell),
+              // formatter: (cell: any, row: any, rowIndex: number) => DisplayPersonName(cell),
               ...SortColumn,
             },
             {
-              dataField: 'planting.createdAt',
-              text: `Ngày gán mã QR`,
-              formatter: (cell: any, row: any, rowIndex: number) => DisplayDate(cell),
+              dataField: 'expiry',
+              text: `Hạn sử dụng`,
+              formatter: (cell: any, row: any, rowIndex: number) => {
+                return <span>{JSON.stringify(row.assignDate)}</span>
+              },
               ...SortColumn,
             },
           ]
-          return <DisplayTable entities={entities} columns={columns}/>
+          return <DisplayTable entities={ProductData} columns={columns}/>
         },
       },
     },
@@ -429,19 +438,24 @@ export const PreservationDetail: RenderInfoDetail = [
     dataClassName: 'col-md-4 col-8 mb-10 pl-5',
     data: {
       ...seedingCode,
-      'planting.species.name': {title: 'PRODUCT_TYPE.MASTER.TABLE.NAME_COLUMN'},
+      'seeding.species.name': {title: 'PRODUCT_TYPE.MASTER.TABLE.NAME_COLUMN'},
       ...plantingCode,
-      'planting.species.barcode': {title: 'GTIN'},
+      'seeding.species.barcode': {title: 'GTIN'},
       ...harvestingCode,
-      'preservation.estimatedStartTime': {
-        title: 'PRESERVATION_ESTIMATED_TIME_START',
-        formatter: input => DisplayDateTime(input),
+      // 'preservation.estimatedStartTime': {
+      //   title: 'PRESERVATION_ESTIMATED_TIME_START',
+      //   formatter: input => DisplayDateTime(input),
+      // },
+      'preservation.time': {
+        keyField: 'preservation', title: 'PRESERVATION_TIME', formatter: (e) => {
+          return (<>{DisplayDateTime(e.estimatedStartTime && e.estimatedStartTime)} {e.estimatedEndTime && (<> - {DisplayDateTime(e.estimatedEndTime)}</>)}</>);
+        }
       },
       ...preliminaryTreatmentCode,
-      'preservation.estimatedEndTime': {
-        title: 'PRESERVATION_ESTIMATED_TIME_END',
-        formatter: input => DisplayDateTime(input),
-      },
+      // 'preservation.estimatedEndTime': {
+      //   title: 'PRESERVATION_ESTIMATED_TIME_END',
+      //   formatter: input => DisplayDateTime(input),
+      // },
       ...cleaningCode,
       'planting.farmLocation.[coordinates]': {title: 'PRESERVATION_LOCATION', formatter: DisplayCoordinates,},
       ...packingCode,

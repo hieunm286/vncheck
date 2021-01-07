@@ -1,18 +1,18 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { useIntl } from 'react-intl';
-import { Link, Route, Switch, useHistory } from 'react-router-dom';
-import { Card, CardBody } from '../../common-library/card';
-import { InitMasterProps } from '../../common-library/helpers/common-function';
-import { Steps } from 'antd';
-import { DefaultPagination, SortColumn } from '../../common-library/common-consts/const';
-import { MasterHeader } from '../../common-library/common-components/master-header';
-import { SearchModel } from '../../common-library/common-types/common-type';
+import React, {useCallback, useEffect, useState} from 'react';
+import {useIntl} from 'react-intl';
+import {Link, Route, Switch, useHistory} from 'react-router-dom';
+import {Card, CardBody} from '../../common-library/card';
+import {InitMasterProps} from '../../common-library/helpers/common-function';
+import {Steps} from 'antd';
+import {DefaultPagination, SortColumn} from '../../common-library/common-consts/const';
+import {MasterHeader} from '../../common-library/common-components/master-header';
+import {SearchModel} from '../../common-library/common-types/common-type';
 import * as SpeciesService from '../species/species.service';
-import { Fix } from '../production-plan/defined/const';
+import {Fix} from '../production-plan/defined/const';
 import * as ProductionPlanService from '../production-plan/production-plan.service';
-import { ProductionPlanModel } from '../production-plan/production-plant.model';
-import { MasterTable } from '../../common-library/common-components/master-table';
-import { MasterEntityDetailPage } from '../../common-library/common-components/master-detail-page';
+import {ProductionPlanModel} from '../production-plan/production-plant.model';
+import {MasterTable} from '../../common-library/common-components/master-table';
+import {MasterEntityDetailPage} from '../../common-library/common-components/master-detail-page';
 import {
   CleaningDetail,
   harvestingDetail,
@@ -22,7 +22,7 @@ import {
 } from './defined/const';
 import _ from 'lodash';
 
-const { Step } = Steps;
+const {Step} = Steps;
 
 const productPlanCode = 'PRODUCTION_PLAN.CODE';
 const harvestingCode = 'PRODUCTION_PLAN.HARVESTING_CODE';
@@ -36,6 +36,11 @@ const extendSearchField: SearchModel = {
     type: 'search-select',
     label: 'PRODUCTION_PLAN.SPECIES_NAME',
     onSearch: SpeciesService.GetAll,
+    onChange: (value, {setFieldValue, values}) => {
+      console.log(value, values);
+      if (value) value.barcode = values.product_plan?.seeding?.species?.barcode;
+      else return {barcode: values.product_plan?.seeding?.species?.barcode}
+    },
     keyField: 'name',
     name: 'product_plan.seeding.species',
   },
@@ -266,6 +271,7 @@ function ProductionManagement() {
       formatter: (cell: any, row: any, rowIndex: number) => (
         <p>{rowIndex + 1 + ((paginationProps.page ?? 0) - 1) * (paginationProps.limit ?? 0)}</p>
       ),
+      classes: 'text-center',
       style: { paddingTop: 20 },
     },
     code: {
@@ -737,18 +743,27 @@ function ProductionManagement() {
               title={'Tìm kiếm'}
               onSearch={value => {
                 setPaginationProps(DefaultPagination);
-                const cvValue = JSON.parse(JSON.stringify(value));
+                // if (!value || _.isEmpty(value) || ) {
+                //   setFilterProps({});
+                // } else {
+                  const cvValue = JSON.parse(JSON.stringify(value));
 
-                if (
-                  value.product_plan &&
-                  value.product_plan.seeding &&
-                  value.product_plan.seeding.species &&
-                  _.isObject(value.product_plan.seeding.species)
-                ) {
-                  cvValue.product_plan.seeding.species = value.product_plan.seeding.species._id;
-                }
+                  if (
+                    value.product_plan &&
+                    value.product_plan.seeding &&
+                    value.product_plan.seeding.species &&
+                    _.isObject(value.product_plan.seeding.species)
+                  ) {
+                    cvValue.product_plan.seeding.species = value.product_plan.seeding.species._id;
+                  }
+  
+                  // ProductionPlanService.Search(value, {DefaultPagination}).then(res => {
+                  //   const data: any = res.data
+                  //   setEntities(data.data ? data.data : data);
+                  // })
+                
+                  setFilterProps({ ...cvValue });
 
-                setFilterProps({ ...cvValue });
               }}
               searchModel={getSearchModel()}
             />

@@ -1013,7 +1013,7 @@ export const masterEntityDetailDialog2: RenderInfoDetail = [
         title: 'Thời gian đóng gói (dự kiến)',
         formatter: input => DisplayDateTime(input),
       },
-      'packing.estimatedQuantity': {title: 'Sản lượng sau đóng gói (dự kiến)'},
+      'packing.estimatedQuantity': {title: 'PACKING_QUANTITY'},
       'packing.estimatedExpireTimeStart': {
         title: 'Hạn sử dụng (từ ngày)',
         formatter: input => DisplayDateTime(input),
@@ -1301,7 +1301,8 @@ export const packingValidate = {
         // _.isString(this.parent.packing) &&
         // this.parent.packing !== '' &&
         value &&
-        CompareDate(new Date(value), new Date())) ||
+        CompareDate(new Date(value), new Date()) &&
+        CompareDate(new Date(value), new Date(this.parent.estimatedTime))) ||
       ((!this.parent.leader || this.parent.leader.length === 0) &&
         (!this.parent.technical || this.parent.technical.length === 0) &&
         // !this.parent.packing.label &&
@@ -1311,7 +1312,8 @@ export const packingValidate = {
         (!this.parent.estimatedTime || this.parent.estimatedTime === '') &&
         (!this.parent.estimatedExpireTimeEnd || this.parent.estimatedExpireTimeEnd === '') &&
         !value) ||
-      (value && CompareDate(new Date(value), new Date()))
+      (value && CompareDate(new Date(value), new Date()) &&
+      CompareDate(new Date(value), new Date(this.parent.estimatedTime)))
     );
   }),
   
@@ -1445,14 +1447,12 @@ export const preservationValidate = {
       (this.parent.technical.length > 0 &&
         this.parent.estimatedEndTime &&
         value &&
-        CompareDate(new Date(value), new Date()) &&
-        CompareDate(new Date(this.parent.estimatedEndTime), new Date(value))) ||
+        CompareDate(new Date(value), new Date())) ||
       ((!this.parent.technical || this.parent.technical.length === 0) &&
         !this.parent.estimatedEndTime &&
         !value) ||
       (value &&
-        CompareDate(new Date(value), new Date()) &&
-        CompareDate(new Date(this.parent.estimatedEndTime), new Date(value)))
+        CompareDate(new Date(value), new Date()))
     );
   }),
   estimatedEndTime: Yup.mixed().test('oneOfRequired', 'DATE_VALIDATE', function (value: any) {

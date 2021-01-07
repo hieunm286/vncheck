@@ -72,12 +72,12 @@ export function InfiniteSelect({
   const CustomAsyncPaginate = withAsyncPaginate(AtlaskitSelect);
   const validate = useCallback((value: any): string | void => {
     if (required && !value && value === '') return 'RADIO.ERROR.REQUIRED';
-  }, [required,values]);
+  }, [required, values]);
   
   const [field, fieldMeta, fieldHelper] = useField({name, validate});
   const intl = useIntl();
   const _label = useMemo(() => (_.isString(label) ? intl.formatMessage({id: label}) : label), []);
-  const _disabled = useMemo(() => (disabled ? typeof disabled === 'boolean' ? disabled : disabled(values) : disabled), [disabled,values]);
+  const _disabled = useMemo(() => (disabled ? typeof disabled === 'boolean' ? disabled : disabled(values) : disabled), [disabled, values]);
   useEffect(() => {
     setTimeout(() => {
       validateField(name);
@@ -150,7 +150,7 @@ export function InfiniteSelect({
             className={getCSSClasses(errors[name], touched[name])}
             {...props}
             {...field}
-            value={(keyField && keyField != '') ? field.value : [field.value]}
+            value={(keyField && keyField != '') ? (field.value && field.value[keyField]) ? field.value : '' : [field.value]}
             getOptionValue={option => {
               // console.log(option, selectField, selectField ? option[selectField] : option)
               return selectField ? option[selectField] : option
@@ -161,7 +161,9 @@ export function InfiniteSelect({
             }}
             loadOptions={loadOptions}
             onChange={(value: any, action) => {
-              onChange && onChange(value, {setFieldTouched, setFieldValue, values});
+              if (onChange) {
+                value = onChange(value, {setFieldTouched, setFieldValue, values}) ?? value;
+              }
               setFieldTouched(name, true);
               setFieldValue(name, value !== null ? value : '');
             }}

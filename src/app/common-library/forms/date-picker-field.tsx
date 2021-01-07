@@ -13,7 +13,7 @@ import _ from "lodash";
 
 export function DatePickerField({
                                   mode, disabled, required, labelWidth, label, withFeedbackLabel = true,
-                                  customFeedbackLabel,placeholder, ...props
+                                  customFeedbackLabel,placeholder, showTime = false, ...props
                                 }: InputDateTimeType) {
   const {setFieldValue, errors, touched, values, setFieldTouched, getFieldMeta} = useFormikContext<any>();
   const validate = useCallback((value: any): string | void => {
@@ -44,13 +44,12 @@ export function DatePickerField({
                           GetFieldCSSClasses(getFieldMeta(field.name).touched, getFieldMeta(field.name).error) :
                           GetFieldCSSClasses(getFieldMeta(field.name).touched, getFieldMeta(field.name).error)}
                       locale={locale}
+                      showTime={showTime}
                       {...props}
                       placeholder={intl.formatMessage({id: placeholder},  {label:_.isString(_label) ? _label:''})}
                       disabled={disabled ? typeof disabled === 'boolean' ? disabled : disabled(values) : disabled}
                       format={props.format ?? "DD/MM/yyyy"}
                       onChange={(val: Moment | null, dateString: string) => {
-                        setFieldTouched(field.name, true);
-                        setFieldValue(field.name, val);
                         setFieldTouched(field.name, true);
                         if (val) setFieldValue(field.name, moment(val).add(val.utcOffset(), 'm').utc().toISOString());
                         else setFieldValue(field.name, required ? '' : undefined);

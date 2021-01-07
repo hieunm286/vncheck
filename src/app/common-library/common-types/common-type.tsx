@@ -202,7 +202,7 @@ export type GetAllPropsServer<T> = ({
   queryProps: any;
   sortList?: SortProps[];
   paginationProps?: PaginationProps;
-}) => (Promise<AxiosResponse<T[]>>);
+}) => (Promise<AxiosResponse<{ data: T[], paging: any }>>);
 export type _ModifyModelInput =
   ({ _type: 'object', [S: string]: any })
   | ({ _type: 'image', value?: any, pathField?: string, width?: string | number, height?: string | number } & _CommonProps)

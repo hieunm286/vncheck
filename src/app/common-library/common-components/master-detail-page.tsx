@@ -53,18 +53,20 @@ export function MasterEntityDetailPage({
   renderInfo: RenderInfoDetail;
   onClose: () => void;
   homeURL?: string;
-  code: string | null;
-  get: ((code: string) => any | null) | null;
+  code?: string;
+  get?: ((code: string) => any | null) | null;
   allFormButton?: any;
 }) {
   const intl = useIntl();
-
+  
   const [entityDetail, setEntityDetail] = useState(entity || null);
-
+  
   const history = useHistory();
-
-  console.log(entityDetail);
-
+  
+  useEffect(() => {
+    setEntityDetail(entity);
+  }, [entity])
+  
   useEffect(() => {
     if (code && get) {
       get(code).then((res: { data: any }) => {

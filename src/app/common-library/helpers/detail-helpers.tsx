@@ -6,6 +6,7 @@ import {MasterTable} from "../common-components/master-table";
 import {MasterBodyColumns, PaginationProps} from "../common-types/common-type";
 import {GetCompareFunction} from "./common-function";
 import {Link} from "react-router-dom";
+import moment from "moment";
 
 export const DisplayString = (input: string) => {
   if (!input) return <></>
@@ -16,8 +17,13 @@ export const DisplayCelcius = (input: string) => {
   return (<>{input + '°C'}</>)
 }
 
-export const DisplayPersonName = (name: { firstName: string; lastName: string }) => {
-  return <>{`${name.firstName} ${name.lastName}`}</>;
+export const DisplayPersonName = (name: { firstName?: string; lastName?: string, fullName?: string }) => {
+  const intl = useIntl();
+  return (<>{name.fullName ??
+  name.firstName ? `${name.firstName} ${name.lastName}` :
+    intl.formatMessage({id: 'NO_INFORMATION'})
+  }
+  </>);
 };
 
 export const DisplayPersonNameByArray = (
@@ -40,7 +46,7 @@ export const DisplayPercent = (input: string) => {
 }
 
 export const DisplayArray = (arr: string[], separator: string = ', ') => {
-  console.log(arr)
+  if (!arr) return <></>
   return (<>{arr.join(separator)}</>)
 }
 
@@ -53,12 +59,16 @@ export const DisplayAddress = (address: {
   const addressString = `${address.address}, ${address.district}, ${address.city}, ${address.state}`;
   return (<>{addressString}</>);
 }
-export const DisplayDate = ({input}: { input: string }) => {
+export const DisplayDate = ({input, _format}: { input: string, _format?: string }) => {
   const intl = useIntl();
   if (!input) return <></>
+  const date_input = new Date(input);
+  const timestamp = new Date();
+  const inverseOffset = moment(timestamp).utcOffset() * -1;
+  
   return (<>
     {input
-      ? new Intl.DateTimeFormat('en-GB').format(new Date(input))
+      ? format(moment(date_input).add(inverseOffset, 'm').toDate(), _format ?? 'dd/MM/yyyy')
       : intl.formatMessage({id: 'NO_INFORMATION'})}
   </>)
 }
@@ -66,7 +76,9 @@ export const DisplayDate = ({input}: { input: string }) => {
 export const DisplayDateTime = (input: string, _format?: string) => {
   if (!input) return (<></>)
   const date_input = new Date(input);
-  return (<>{format(date_input, _format ?? 'dd/MM/yyyy H:mma',)}</>)
+  const timestamp = new Date();
+  const inverseOffset = moment(timestamp).utcOffset() * -1;
+  return (<>{format(moment(date_input).add(inverseOffset, 'm').toDate(), _format ?? 'dd/MM/yyyy H:mma')}</>)
 }
 
 export const DisplayDownloadLink = (input: any, key?: string) => {
@@ -77,7 +89,7 @@ export const DisplayDownloadLink = (input: any, key?: string) => {
   </a>)
 }
 
-export const DisplayInnerLink = (link: any, title?: string) => {
+export const DisplayInnerLink = ({link, title}: { link: any, title?: string }) => {
   const intl = useIntl();
   if (!link) return (<></>);
   return (<Link to={link}>
@@ -86,8 +98,6 @@ export const DisplayInnerLink = (link: any, title?: string) => {
 }
 
 export const DisplayTable = ({entities, columns}: { entities: any[], columns: MasterBodyColumns }) => {
-  console.log(entities)
-  console.log(columns)
   const [paginationParams, setPaginationParams] = useState<PaginationProps>({sortBy: '', sortType: ''});
   const [_innerEntities, setEntities] = useState(entities);
   const [_innerColumns, setColumns] = useState(columns);
@@ -114,18 +124,19 @@ export const DisplayTable = ({entities, columns}: { entities: any[], columns: Ma
 }
 
 export const DisplayCoordinates = (arr: string[]) => {
-  return (
+  return arr && arr.length == 2 ? (
     <a
       href={`https://google.com/maps/search/${arr[1]},+${arr[0]}`}
       rel="noopener noreferrer"
       target={'_blank'}>{`${arr[0]}, ${arr[1]}`}</a>
-  );
+  ) : (<></>);
 };
 
-export const Display3Info = (image: any, _: any, intl: IntlShape) => {
+export const Display3Info = (image: any, _: any, intl?: IntlShape) => {
+  intl = intl ?? useIntl();
   return (<>
     <div className={'titleeee mb-1'}>{intl.formatMessage({id: 'IMAGE.TAKEN_BY'})}
-      {image.takenBy?.fullName ?? intl.formatMessage({id: 'NO_INFORMATION'})}
+      <DisplayPersonName {...image.takenBy}/>
     </div>
     <div
       className={'titleeee mb-1'}>{intl.formatMessage({id: 'IMAGE.TAKEN_TIME'})}

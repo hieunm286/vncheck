@@ -1,5 +1,4 @@
 import axios from 'axios';
-import {API_BASE_URL} from '../../common-library/common-consts/enviroment';
 import {
   CountProps,
   CreateProps,
@@ -9,41 +8,53 @@ import {
   GetProps,
   UpdateProps,
 } from '../../common-library/common-types/common-type';
+
 import {QrModel} from './qr.model';
+import {GetCompareFunction} from "../../common-library/helpers/common-function";
+import {API_BASE_URL} from "../../common-library/common-consts/enviroment";
 
 export const API_URL = API_BASE_URL + '/qrcode';
 
+export const BULK_API_URL = API_URL + '/bulk'
+
+export const API_FILE_URL = API_BASE_URL + '/file';
+
 export const Create: CreateProps<QrModel> = (data: QrModel) => {
-  return axios.post(API_URL, data);
+  return axios.post<QrModel>(API_URL, {...data, type: data.type.code});
 };
 
-// const convertAddress = (address: any) => {
-//   let convertURL: string = `${API_URL}?`
-//
-//   Object.keys(address).forEach((key: string, index: number) => {
-//     convertURL = convertURL + `address.${key}=${address[key]}`
-//
-//     if (index !== Object.keys(address).length - 1) {
-//       convertURL = convertURL + '&'
-//     }
-//   })
-//
-//   return convertURL
-// }
-//
-export const GetAll: GetAllPropsServer<QrModel> = ({queryProps, sortList, paginationProps}) => {
-  // const convertQuery = { ...queryProps }
-  // if (queryProps && queryProps.address) {
-  //   delete convertQuery.address
-  //   return axios.get(convertAddress(queryProps.address), {
-  //     params: { ...convertQuery, ...paginationProps, sortList },
-  //     paramsSerializer: ParamsSerializer
-  // });
-  // }
+export const GetAll: GetAllPropsServer<any> = ({
+                                                 queryProps,
+                                                 sortList,
+                                                 paginationProps,
+                                               }) => {
   return axios.get(`${API_URL}`, {
-    params: {...queryProps, ...paginationProps, sortList},
+    params: {...queryProps, ...paginationProps},
+    // paramsSerializer: ParamsSerializer
   });
 };
+export const QrTypeList = [{code: "1", name: "Sản phẩm"}, {code: "2", name: "Đóng gói"}];
+export const GetType = ({queryProps, paginationProps}: any): Promise<any> => {
+  // console.log(queryProps);
+  return new Promise((resolve, reject) => {
+    const totalData = QrTypeList.filter((val, index, arr) => {
+      return Object.values(queryProps).some((query: any) => val.name.toLowerCase().indexOf(query.toLowerCase()) > -1);
+    });
+    const data = totalData.sort(GetCompareFunction({
+      key: paginationProps.sortBy,
+      orderType: paginationProps.sortType === 'asc' ? 1 : -1
+    })).slice((paginationProps.page - 1) * paginationProps.limit, paginationProps.page * paginationProps.limit);
+    // console.log(data);
+    resolve({
+      code: 200,
+      data: {
+        data: data,
+        paging: {page: paginationProps.page, limit: paginationProps.limit, total: totalData.length}
+      },
+      success: true
+    })
+  })
+}
 
 export const Count: CountProps<any> = ({
                                          queryProps,
@@ -55,24 +66,23 @@ export const Count: CountProps<any> = ({
   });
 };
 
-export const Get: GetProps<QrModel> = entity => {
+export const Get: GetProps<any> = entity => {
   return axios.get(`${API_URL}/${entity._id}`);
 };
 
-export const GetById = (id: string) => {
-  return axios.get(`${API_BASE_URL + '/product-plan'}/${id}`);
+export const GetById = (_id: string) => {
+  return axios.get(`${API_URL}/${_id}`);
 };
-
-export const Update: UpdateProps<QrModel> = (entity: QrModel) => {
+export const Update: UpdateProps<any> = (entity: any) => {
   return axios.put(`${API_URL}/${entity._id}`, entity);
 };
 
-export const Delete: DeleteProps<QrModel> = (entity: QrModel) => {
+export const Delete: DeleteProps<any> = (entity: any) => {
   return axios.delete(`${API_URL}/${entity._id}`);
 };
 
-export const DeleteMany: DeleteManyProps<QrModel> = (entities: QrModel[]) => {
-  return axios.delete(`${API_URL}/bulk`, {
-    data: {listAgencies: entities},
+export const DeleteMany: DeleteManyProps<any> = (entities: any[]) => {
+  return axios.delete(BULK_API_URL, {
+    data: {listSpecies: entities},
   });
 };
