@@ -1150,7 +1150,7 @@ function ProductionPlan() {
           technical: {
             _type: 'tag',
             // placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
-            label: 'HARVESTING_WORKER',
+            label: 'HARVESTING_TECHNICAL',
             tagData: userData,
             required: true,
             disabled: (values: any) => {
