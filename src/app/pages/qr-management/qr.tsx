@@ -1,4 +1,4 @@
-import React, {Fragment, useEffect, useMemo, useState} from "react";
+import React, {Fragment, MouseEvent, useCallback, useEffect, useMemo, useState} from "react";
 import {useIntl} from 'react-intl';
 
 import * as UserService from '../user/user.service';
@@ -122,7 +122,10 @@ function QrPage() {
         text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.CODE'})}`,
         ...SortColumn,
         align: 'center',
-        formatter: (cell: string, row: any, rowIndex: number) => {console.log(row.type === '1');return <Link to={'qr/' + (row.codeType === '1' ? '' : '') + row._id}>{cell}</Link>},
+        formatter: (cell: string, row: any, rowIndex: number) => {
+          console.log(row.type === '1');
+          return <Link to={'qr/' + (row.type === '1' ? '' : '') + row._id} onClick={(e: MouseEvent<HTMLAnchorElement>) => {setQrType(row.type)}}
+          >{cell}</Link>},
       },
       'createdBy': {
         dataField: 'createdBy.fullName',
@@ -198,6 +201,53 @@ function QrPage() {
     },
   };
 
+  const shippingInfoColumns : MasterBodyColumns = [
+    {
+      dataField: 'exportTime',
+      text: 'Thời gian xuất hàng',
+      formatter: (date: string) => {return DisplayDateTime(date);},
+      ...SortColumn,
+      align: 'center',
+    },
+    {
+      text: 'Địa điểm xuất hàng',
+      dataField: 'exportAddress',
+      formatter: (input) => {return DisplayArray(input)},
+      ...SortColumn,
+      align: 'center',
+    },
+    {
+      text: 'Nhân viên xuất hàng',
+      dataField: 'exportStaff.fullName',
+      ...SortColumn,
+      align: 'center',
+    },
+    {
+      text: 'Nhân viên vận chuyển',
+      dataField: 'shipper.fullName',
+      ...SortColumn,
+      align: 'center',
+    },
+  ];
+  
+  
+  const shippingInfo : RenderInfoDetail = [{
+    
+    header: 'THÔNG TIN VẬN CHUYỂN',
+    className: 'col-12',
+    titleClassName: 'col-3 mb-10',
+    dataClassName: 'col-12 mb-10',
+    data: {
+      'sellStatus': {
+        title: '',
+        formatter: (entity: any[]) => {
+  
+          return <DisplayTable entities={mobileSaleMock.shippingInfo} columns={shippingInfoColumns} />
+        }
+      }
+    },
+  }];
+
   
 
 
@@ -257,19 +307,7 @@ function QrPage() {
     },
   }];
 
-  const QrRenderDetail: RenderInfoDetail = [
-    ...seedingInfo,
-    ...plantingInfo,
-    ...harvestingInfo,
-    ...preliminaryTreatmentInfo,
-    ...cleaningInfo,
-    ...packingInfo,
-    ...preservationInfo,
-    ...shippingInfo,
-    ...distributionInfo,
-    ...sellStatus
-  ];
-
+  
   const imageRenderDetail: RenderInfoDetail = [
     {
       header: '',
@@ -315,6 +353,25 @@ function QrPage() {
       // titleClassName: 'col-3'
     },
   ];
+
+  const QrRenderDetail: RenderInfoDetail = [
+    ...seedingInfo,
+    ...plantingInfo,
+    ...harvestingInfo,
+    ...preliminaryTreatmentInfo,
+    ...cleaningInfo,
+    ...packingInfo,
+    ...preservationInfo,
+    ...shippingInfo,
+    ...distributionInfo,
+    ...sellStatus
+  ];
+
+
+  const QrRenderDetail2 = [
+    ...shippingInfo,
+    ...distributionInfo,
+  ]
   
   return (
     <Fragment>
@@ -415,7 +472,9 @@ function QrPage() {
         </Route>
         <Route path="/qr/:code">
           {({history, match}) => {
-            return (
+            console.log(typeof qrType)
+            console.log(qrType)
+            return qrType ? (qrType === '1' ? (
               <>
               <MasterEntityDetailPage
                 entity={detailEntityMock}
@@ -439,7 +498,22 @@ function QrPage() {
                 size='sm'
               />
             </>
-          );}}
+          ) : (
+
+            <>
+              <MasterEntityDetailPage
+                entity={detailEntityMock}
+                renderInfo={QrRenderDetail2} // renderInfo={detailModel}
+                code={match && match.params.code}
+                onClose={() => history.push('/qr')}
+                // get={QrService.GetById}
+                get={null}
+              />
+            </>
+          )) : (
+            <></>
+          );
+          }}
         </Route>
         <Route path="/qr/qr-child/123456">
           {({history, match}) => {
