@@ -86,24 +86,30 @@ const MasterTreeStructure: React.FC<TreeDataProp> = ({ data, onCreate, onEdit, o
               </td>
               <td>
                 <div className="text-right">
-                <button
-                  style={{ backgroundColor: 'white', border: 'none' }}
-                  onClick={() => handleAdd(childrenItem)}
-                  className="text-primary">
-                  <AddIcon />
-                </button>
-                <button
-                  style={{ backgroundColor: 'white', border: 'none' }}
-                  onClick={() => handleEdit(childrenItem)}
-                  className="text-primary">
-                  <EditIcon />
-                </button>
-                <button
-                  style={{ backgroundColor: 'white', border: 'none' }}
-                  onClick={() => handleDelete(childrenItem)}
-                  className="text-primary">
-                  <DeleteIcon />
-                </button>
+                {onCreate && (
+                  <button
+                    style={{ backgroundColor: 'white', border: 'none' }}
+                    onClick={() => handleAdd(childrenItem)}
+                    className="text-primary">
+                    <AddIcon />
+                  </button>
+                )}
+                {onEdit && (
+                  <button
+                    style={{ backgroundColor: 'white', border: 'none' }}
+                    onClick={() => handleEdit(childrenItem)}
+                    className="text-primary">
+                    <EditIcon />
+                  </button>
+                )}
+                {onDelete && (
+                  <button
+                    style={{ backgroundColor: 'white', border: 'none' }}
+                    onClick={() => handleDelete(childrenItem)}
+                    className="text-primary">
+                    <DeleteIcon />
+                  </button>
+                )}
                 </div>
               </td>
             </tr>
