@@ -107,6 +107,7 @@
   "COMMON_COMPONENT.DETAIL_DIALOG.MODULE_NAME": "Dữ liệu",
   "COMMON_COMPONENT.MODIFY_DIALOG.CLOSE_BTN": "Đóng",
   "COMMON_COMPONENT.MODIFY_DIALOG.SAVE_BTN": "Lưu",
+  "COMMON_COMPONENT.MODIFY_DIALOG.CANCEL_BTN": "Hủy",
   "COMMON_COMPONENT.DELETE_MANY_DIALOG.MODULE_NAME": "Dữ liệu",
   "COMMON_COMPONENT.DELETE_MANY_DIALOG.TITLE": "XÓA các {moduleName}",
   "COMMON_COMPONENT.DELETE_MANY_DIALOG.BODY_TITLE": "Các {moduleName} sẽ bị xóa vĩnh viễn và không thể khôi phục.",
@@ -673,5 +674,32 @@
   "ENTERPRISE.PHONE": "Số điện thoại",
   "ENTERPRISE.REPRESENTED_BY": "Người đại diện",
   "ENTERPRISE.GLN": "GLN",
-  "PRESERVATION_TIME": "Thời gian bảo quản"
+  "PRESERVATION_TIME": "Thời gian bảo quản",
+
+  "ROLE.MASTER.HEADER.TITLE": "Bộ lọc",
+  "ROLE.MASTER.BODY.TITLE": "Danh mục vai trò",
+  "ROLE.MASTER.TABLE.ROLE_CODE": "Mã vai trò",
+  "ROLE.MASTER.TABLE.ROLE_NAME": "Tên vai trò",
+  "ROLE.MASTER.TABLE.MANAGEMENT_ORGANIZATION": "Đơn vị quản lý",
+  "ROLE.MASTER.TABLE.STATUS": "Trạng thái",
+  "ROLE.MASTER.TABLE.ACTIONS": "Tác vụ",
+
+  "ROLE.VIEW.LABEL.ORGANIZATION_MANAGEMENT": "Đơn vị quản lý",
+  "ROLE.VIEW.LABEL.ROLE_CODE": "Mã vai trò",
+  "ROLE.VIEW.LABEL.STATUS": "Trạng thái",
+  "ROLE.VIEW.LABEL.ROLE_NAME": "Tên vai trò",
+  "ROLE.VIEW.HEADER": "Thông tin chi tiết",
+  "ROLE.MODULE_NAME": "Vai trò",
+
+  "ROLE.CREATE.HEADER": "Thêm mới",
+  "ROLE.CREATE.LABEL.ORGANIZATION_MANAGEMENT": "Đơn vị quản lý",
+  "ROLE.CREATE.LABEL.ROLE_CODE": "Mã vai trò",
+  "ROLE.CREATE.LABEL.STATUS": "Trạng thái",
+  "ROLE.CREATE.LABEL.ROLE_NAME": "Tên vai trò",
+
+  "ROLE.VALIDATION.REQUIRED.ORGANIZATION_MANAGEMENT": "Vui lòng chọn đơn vị quản lý",
+  "ROLE.VALIDATION.REQUIRED.ROLE_CODE": "Vui lòng chọn mã vai trò",
+  "ROLE.VALIDATION.REQUIRED.STATUS": "Vui lòng chọn trạng thái",
+  "ROLE.VALIDATION.REQUIRED.ROLE_NAME": "Vui lòng chọn tên vai trò"
+
 }

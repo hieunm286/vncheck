@@ -32,6 +32,7 @@ const ProductionPlan = lazy(() => import('./pages/production-plan/production-pla
 
 const ProductionManagement = lazy(() => import('./pages/production-management/production-management'))
 const QrManagement = lazy(() => import('./pages/qr-management/qr'))
+const RolePage = lazy(() => import('./pages/role/role'))
 
 
 export default function BasePage() {
@@ -65,6 +66,7 @@ export default function BasePage() {
         <Route path="/production-plan" component={ProductionPlan}/>
         <Route path="/production-management" component={ProductionManagement}/>
         <Route path="/qr" component={QrManagement}/>
+        <Route path="/account/role" component={RolePage}/>
         <Redirect to="/error/error-v1"/>
       </Switch>
     </Suspense>
