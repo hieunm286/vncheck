@@ -671,5 +671,8 @@
   "CLEANING_END_TIME": "Thời gian kết thúc làm sạch",
   "CLEANING_START_TIME": "Thời gian bắt đầu làm sạch",
   "PRESERVATION_START_TIME": "Thời gian bắt đầu bảo quản",
-  "PRESERVATION_END_TIME": "Thời gian kết thúc bảo quản"
+  "PRESERVATION_END_TIME": "Thời gian kết thúc bảo quản",
+  "CLEANING_TECHNICAL": "Nhân viên kỹ thuật làm sạch",
+  "PRODUCTION_PLAN_FORM_PACKING": "Quy cách đóng gói (g/gói)",
+  "PRODUCTION_PLAN_FORM_PACKING_QUANTITY": "Số lượng đóng gói (gói)"
 }

@@ -6,6 +6,7 @@ import _ from 'lodash';
 import { getFieldV3 } from '../../common-library/common-components/master-detail-page';
 import { Card, CardBody, CardHeader } from '../../common-library/card';
 import { RenderInfoDetail } from '../../common-library/common-types/common-type';
+import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined';
 
 export function ProductionPlanDetail({
   header = 'COMMON_COMPONENT.DETAIL_DIALOG.HEADER_TITLE',
@@ -89,9 +90,9 @@ export function ProductionPlanDetail({
                               const displayData =
                                 fieldName.indexOf('[') > -1
                                   ? getFieldV3(entityDetail, fieldName)
-																	: getFieldV3(entityDetail, fieldName)[0];
-																	console.log(entityDetail)
-																	console.log(fieldName)
+                                  : getFieldV3(entityDetail, fieldName)[0];
+                              console.log(entityDetail);
+                              console.log(fieldName);
                               console.log(displayData);
                               return displayInfo.formatter ? (
                                 displayInfo.formatter(displayData, entityDetail)
@@ -113,6 +114,35 @@ export function ProductionPlanDetail({
           </Card>
         </React.Fragment>
       ))}
+      <Card>
+        <CardBody className={'p-0'}>
+          <div className="mb-5 mt-5">
+            <span className="text-primary detail-dialog-subtitle mt-8">BÌNH LUẬN</span>
+            <div className="mt-8 border border-light rounded pt-5 pb-5">
+              {entityDetail && entityDetail.comments.length > 0 ? (
+                entityDetail.comments.map(
+                  (
+                    value: { createdBy: { _id: string; fullName: string }; content: string },
+                    key: number,
+                  ) => (
+                    <div key={key} className="row mb-3">
+                      <div className="col-1 text-center">
+                        <AccountCircleOutlinedIcon style={{ fontSize: 30 }} />
+                      </div>
+                      <div className="col-10 bg-light rounded p-3">
+                        <p className="font-bold">{value.createdBy.fullName}</p>
+                        <p>{value.content}</p>
+                      </div>
+                    </div>
+                  ),
+                )
+              ) : (
+                <span>Chưa có bình luận</span>
+              )}
+            </div>
+          </div>
+        </CardBody>
+      </Card>
       {allFormButton && allFormButton.type === 'outside' && (
         <div className="text-right mb-5 mr-20">
           {Object.keys(allFormButton.data).map(keyss => {
