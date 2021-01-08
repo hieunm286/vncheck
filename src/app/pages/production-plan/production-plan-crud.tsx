@@ -240,100 +240,6 @@ function ProductionPlanCrud({
       });
   };
 
-  const validate = (values: any) => {
-    if (values.packing.estimatedQuantity && !_.isInteger(values.packing.estimatedQuantity)) {
-      return {
-        status: false,
-        field: 'packing.estimatedQuantity',
-        message: 'Số lượng đóng gói phải là số nguyên',
-      };
-    }
-    if (
-      values.harvesting.estimatedTime &&
-      values.preliminaryTreatment.estimatedTime &&
-      !CompareDate(
-        new Date(values.preliminaryTreatment.estimatedTime),
-        new Date(values.harvesting.estimatedTime),
-      )
-    ) {
-      return {
-        status: false,
-        field: 'preliminaryTreatment.estimatedTime',
-        message: 'Ngày sơ chế không được nhỏ hơn ngày thu hoạch',
-      };
-    }
-
-    if (
-      values.planting.expectedQuantity &&
-      values.preliminaryTreatment.estimatedQuantity &&
-      values.planting.expectedQuantity < values.preliminaryTreatment.estimatedQuantity
-    ) {
-      return {
-        status: false,
-        field: 'preliminaryTreatment.estimatedQuantity',
-        message: 'Sản lượng sơ chế không được lớn hơn sản lượng thu hoạch',
-      };
-    }
-    if (
-      values.preliminaryTreatment.estimatedTime &&
-      values.cleaning.estimatedTime &&
-      !CompareDate(
-        new Date(values.cleaning.estimatedTime),
-        new Date(values.preliminaryTreatment.estimatedTime),
-      )
-    ) {
-      return {
-        status: false,
-        field: 'cleaning.estimatedTime',
-        message: 'Ngày làm sạch không được nhỏ hơn ngày sơ chế',
-      };
-    }
-    if (
-      values.preliminaryTreatment.estimatedQuantity &&
-      values.cleaning.estimatedQuantity &&
-      values.preliminaryTreatment.estimatedQuantity < values.cleaning.estimatedQuantity
-    ) {
-      return {
-        status: false,
-        field: 'cleaning.estimatedQuantity',
-        message: 'Sản lượng làm sạch không được lớn hơn sản lượng sơ chế',
-      };
-    }
-    if (
-      values.cleaning.estimatedTime &&
-      values.packing.estimatedTime &&
-      !CompareDate(new Date(values.packing.estimatedTime), new Date(values.cleaning.estimatedTime))
-    ) {
-      return {
-        status: false,
-        field: 'packing.estimatedTime',
-        message: 'Ngày đóng gói không được nhỏ hơn ngày làm sạch',
-      };
-    }
-    // if (values.cleaning.estimatedQuantity && values.packing.estimatedQuantity && values.cleaning.estimatedQuantity < values.packing.estimatedQuantity) {
-    //   return { status: false, field: 'packing.estimatedQuantity', message: 'Sản lượng đóng gói không được lớn hơn sản lượng làm sạch' }
-    // }
-    if (
-      values.packing.estimatedTime &&
-      values.preservation.estimatedStartTime &&
-      !CompareDate(
-        new Date(values.preservation.estimatedStartTime),
-        new Date(values.packing.estimatedTime),
-      )
-    ) {
-      return {
-        status: false,
-        field: 'preservation.estimatedStartTime',
-        message: 'Ngày bảo quản không được nhỏ hơn ngày đóng gói',
-      };
-    }
-    return { status: true };
-  };
-
-  const lengthArrayValidate = (arr1: any[], arr2: any[]) => {
-    return (arr1.length > 0 && arr2.length > 0) || (arr1.length === 0 && arr2.length === 0);
-  };
-
   const validationForm = (values: any) => {
     const errors: any = {
       // packing: {},
@@ -646,7 +552,7 @@ function ProductionPlanCrud({
               delete diffValue.packing.packing;
             }
 
-            if (clValue.packing && clValue.packing.packing) {
+            if (clValue && clValue.packing && clValue.packing.packing && diffValue && diffValue.packing) {
               diffValue.packing.packing = clValue.packing.packing._id;
             }
 
@@ -807,12 +713,15 @@ function ProductionPlanCrud({
                       {_validationField &&
                         errors[_validationField] &&
                         _.isString(errors[_validationField]) && (
-                          <span className="text-danger">{errors[_validationField]}</span>
+                          <span className="text-danger pl-xl-15 pl-md-10 pl-5">Vui lòng nhập đúng thứ tự các bước</span>
                         )}
                     </CardBody>
                   </Card>
                 );
               })}
+              {
+                errors && JSON.stringify(errors)
+              }
             </Form>
             <Card>
               <CardBody>
@@ -926,7 +835,7 @@ function ProductionPlanCrud({
                           }}
                           className={allFormButton.data[keyss].className}
                           key={keyss}>
-                          {allFormButton.data[keyss].icon} {allFormButton.data[keyss].label}
+                          {allFormButton.data[keyss].icon ?? <></>} {allFormButton.data[keyss].label}
                         </button>
                       );
 
