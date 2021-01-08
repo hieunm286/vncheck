@@ -44,7 +44,7 @@ const extendSearchField: SearchModel = {
     keyField: 'name',
     name: 'product_plan.seeding.species',
   },
-  GTIN: {
+  barcode: {
     type: 'string',
     label: 'GTIN',
     name: 'product_plan.seeding.species.barcode',
@@ -70,6 +70,11 @@ const PM_HarvestingSearchModel: SearchModel = {
     name: 'product_plan.harvesting.code',
   },
   ...extendSearchField,
+  // plantCode: {
+  //   type: 'string',
+  //   label: 'PRODUCTION_PLAN.PLANT_CODE',
+  //   name: 'product_plan.planting.species.barcode',
+  // },
   startTime: {
     type: 'date-time',
     label: <Fix title={'HARVESTING_START_TIME'} />,
@@ -790,6 +795,7 @@ function ProductionManagement() {
               title={'Tìm kiếm'}
               onSearch={value => {
                 setPaginationProps(DefaultPagination);
+                // setFilterProps(value);
                 if (!value || _.isEmpty(value)) {
                   setFilterProps({});
                 } else {
@@ -815,8 +821,8 @@ function ProductionManagement() {
                   })
                 
                   // setFilterProps({ ...cvValue });
-
-              }}}
+              }
+            }}
               searchModel={getSearchModel()}
             />
           </div>
