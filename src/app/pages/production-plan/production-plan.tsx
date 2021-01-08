@@ -1,23 +1,19 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { useIntl } from 'react-intl';
-import {
-  DefaultPagination,
-  NormalColumn,
-  SortColumn,
-} from '../../common-library/common-consts/const';
-import { MasterHeader } from '../../common-library/common-components/master-header';
-import { InitMasterProps } from '../../common-library/helpers/common-function';
-import { Link, Route, Switch, useHistory } from 'react-router-dom';
+import React, {useEffect, useMemo, useState} from 'react';
+import {useIntl} from 'react-intl';
+import {DefaultPagination, NormalColumn, SortColumn,} from '../../common-library/common-consts/const';
+import {MasterHeader} from '../../common-library/common-components/master-header';
+import {InitMasterProps} from '../../common-library/helpers/common-function';
+import {Link, Route, Switch, useHistory} from 'react-router-dom';
 import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import * as ProductionPlanService from './production-plan.service';
 import * as UserService from '../user/user.service';
-import { ProductionPlanModel } from './production-plant.model';
+import {ProductionPlanModel} from './production-plant.model';
 import ProductionPlanBody from './production-plant-body';
 import './style/production-plan.scss';
-import { ProductPlanActionsColumn } from './production-plan-actions-column';
+import {ProductPlanActionsColumn} from './production-plan-actions-column';
 import ProductionPlanVersion from './production-plan-version';
-import { MasterEntityDetailPage } from '../../common-library/common-components/master-detail-page';
+import {MasterEntityDetailPage} from '../../common-library/common-components/master-detail-page';
 import {
   allFormField,
   formPart,
@@ -31,14 +27,14 @@ import {
   SeedingDetailDialog,
   validate,
 } from './defined/const';
-import { shallowEqual, useSelector } from 'react-redux';
+import {shallowEqual, useSelector} from 'react-redux';
 import ProductionPlanCrud from './production-plan-crud';
 import * as Yup from 'yup';
 import Visibility from '@material-ui/icons/Visibility';
 import _ from 'lodash';
-import { ModifyForm, ModifyPanel } from '../../common-library/common-types/common-type';
+import {ModifyForm, ModifyPanel} from '../../common-library/common-types/common-type';
 import * as ProductPackagingService from '../product-packaging/product-packaging.service';
-import { ProductionPlanDetail } from './production-plan-detail';
+import {ProductionPlanDetail} from './production-plan-detail';
 
 const headerTitle = 'PRODUCT_TYPE.MASTER.HEADER.TITLE';
 const bodyTitle = 'PRODUCT_TYPE.MASTER.BODY.TITLE';
@@ -1266,7 +1262,7 @@ function ProductionPlan() {
           technical: {
             _type: 'tag',
             // placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
-            label: 'CLEANING_TEACHNICAL',
+            label: 'CLEANING_TECHNICAL',
             root: 'cleaning',
             tagData: userData,
             disabled: (values: any) => {

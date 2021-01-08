@@ -1,5 +1,4 @@
 import axios from 'axios';
-import {API_BASE_URL} from '../../common-library/common-consts/enviroment';
 import {
   CountProps,
   CreateProps,
@@ -12,6 +11,7 @@ import {
 
 import {QrModel} from './qr.model';
 import {GetCompareFunction} from "../../common-library/helpers/common-function";
+import {API_BASE_URL} from "../../common-library/common-consts/enviroment";
 
 export const API_URL = API_BASE_URL + '/qrcode';
 

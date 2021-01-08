@@ -7,10 +7,10 @@ import {createIntl, createIntlCache} from 'react-intl';
 import viMessage from '../../layout/i18n/messages/vi.json'; //your messages translated with id
 
 const cache = createIntlCache();
-const intl = createIntl({ locale: 'vi-VN', messages: viMessage, }, cache);//locale and message can come from Redux or regular import
-
+const intl = createIntl({locale: 'vi-VN', messages: viMessage,}, cache);//locale and message can come from Redux or regular import
+const exampleImage = JSON.parse('{"path":"uploads/304c1ffd64599beb63b39d6b1d7b9461.jpg","thumbnail":"uploads/304c1ffd64599beb63b39d6b1d7b9461-300x300.jpg","hash":"304c1ffd64599beb63b39d6b1d7b9461","location":{"type":"Point","coordinates":[105.7832972,21.034524]},"takenTime":"2021-01-08T03:19:37.000Z","takenBy":{"_id":"5ff6ff8cf77b100045b0be7e","username":"admin","firstName":"VnCheck","lastName":"Admin"}}');
 export const mobileSaleMock = {
-  distributionInfo: [ 
+  distributionInfo: [
     {
       exportTime: new Date(),
       exportAddress: ['Ngõ 219 Trung Kính', 'Cầu Giấy'],
@@ -21,14 +21,11 @@ export const mobileSaleMock = {
         fullName: 'H.D.M',
       },
       receiveTime: new Date(),
-      receiveAddress:  ['Đại học kinh tế Quốc dân'],
+      receiveAddress: ['Đại học kinh tế Quốc dân'],
       receiveStaff: {
         fullName: 'N.D.A',
       },
-      image: {
-        path: 'tisbbjs',
-        hash: 'aoghbz',
-      }
+      imageBefore: [exampleImage, exampleImage, exampleImage], imageAfter: [exampleImage, exampleImage, exampleImage]
     },
   ],
   shippingInfo: [
@@ -68,10 +65,10 @@ export const bodyEntities: any[] = [
       firstName: 'Nguyễn',
       lastName: 'Đức Chiến',
       fullName: 'Nguyễn Đức Chiến',
-    }, 
+    },
     createdAt: new Date(),
-    activeAt: new Date(), 
-    codeType: 'Sản phẩm',   
+    activeAt: new Date(),
+    codeType: 'Sản phẩm',
     takenBy: {
       fullName: 'Nguyễn Đức Chiến',
     },
@@ -79,25 +76,25 @@ export const bodyEntities: any[] = [
       type: 'latitude',
       coordinates: ['24N', '34E'],
     },
-   ...mobileSaleMock,
+    ...mobileSaleMock,
   },
   {
-    code: '123456', 
+    code: '123456',
     createdBy: {
       _id: '',
       firstName: 'Phạm',
       lastName: 'Minh Nguyệt',
       fullName: 'Phạm Minh Nguyệt',
-    }, 
+    },
     activeBy: {
       _id: '',
       firstName: 'Phạm',
       lastName: 'Minh Nguyệt',
       fullName: 'Phạm Minh Nguyệt',
-    }, 
+    },
     createdAt: new Date(),
-    activeAt: new Date(), 
-    codeType: 'Đóng gói', 
+    activeAt: new Date(),
+    codeType: 'Đóng gói',
     takenBy: {
       fullName: 'Nguyễn Đức Chiến',
     },
@@ -123,9 +120,9 @@ export const childQrBodyEntities: any[] = [
       firstName: 'Nguyễn',
       lastName: 'Đức Chiến',
       fullName: 'Nguyễn Đức Chiến',
-    }, 
+    },
     createdAt: new Date(),
-    activeAt: new Date(), 
+    activeAt: new Date(),
     codeType: 'Sản phẩm',
     takenBy: {
       fullName: 'Nguyễn Đức Chiến',
@@ -134,25 +131,25 @@ export const childQrBodyEntities: any[] = [
       type: 'latitude',
       coordinates: ['24N', '34E'],
     },
-    ...mobileSaleMock, 
+    ...mobileSaleMock,
   },
   {
-    code: '123456', 
+    code: '123456',
     createdBy: {
       _id: '',
       firstName: 'Phạm',
       lastName: 'Minh Nguyệt',
       fullName: 'Phạm Minh Nguyệt',
-    }, 
+    },
     activeBy: {
       _id: '',
       firstName: 'Phạm',
       lastName: 'Minh Nguyệt',
       fullName: 'Phạm Minh Nguyệt',
-    },  
+    },
     createdAt: new Date(),
-    activeAt: new Date(), 
-    codeType: 'Sản phẩm', 
+    activeAt: new Date(),
+    codeType: 'Sản phẩm',
     takenBy: {
       fullName: 'Nguyễn Đức Chiến',
     },
@@ -178,10 +175,10 @@ export const detailEntityMock: any = {
     firstName: 'Nguyễn',
     lastName: 'Đức Chiến',
     fullName: 'Nguyễn Đức Chiến',
-  }, 
+  },
   createdAt: new Date(),
-  activeAt: new Date(), 
-  codeType: 'Sản phẩm', 
+  activeAt: new Date(),
+  codeType: 'Sản phẩm',
   takenBy: {
     fullName: 'Nguyễn Đức Chiến',
   },
@@ -223,7 +220,7 @@ export const detailEntityMock: any = {
         {
           _id: '',
           isRecieved: false,
-          info: '', 
+          info: '',
         },
       ],
     },
@@ -240,7 +237,7 @@ export const detailEntityMock: any = {
         {
           _id: '',
           isRecieved: false,
-          info: '', 
+          info: '',
         },
       ],
     },
@@ -258,12 +255,12 @@ export const detailEntityMock: any = {
       ...image.imagePreservation,
       ...group.groupPreservation,
       ...plan.planPreservation,
-
+  
       technicalStaff: [
         {
           _id: '',
           isRecieved: false,
-          info: '', 
+          info: '',
         },
       ],
     },
