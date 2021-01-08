@@ -139,7 +139,7 @@ export const DisplayTable = ({
 export const DisplayCoordinates = (arr: string[]) => {
   return (
     <a
-      href={`https://google.com/maps/search/${arr[1]},+${arr[0]}`}
+      href={`https://google.com/maps/search/${arr[0]},+${arr[1]}`}
       rel="noopener noreferrer"
       target={'_blank'}>{`${arr[0]}, ${arr[1]}`}</a>
   );
@@ -170,9 +170,15 @@ export const Display3Info = (image: any, _: any, intl: IntlShape) => {
 
 export const DisplayImage = (
   images: any,
-  renderInfo?: { title?: string; data?: { [KeyField: string]: string } },
+  renderInfo?: { title?: string; data?: { [KeyField: string]: string }; },
+  filter?: string
 ) => {
-  return <DetailImage images={images} renderInfo={renderInfo} />;
+  let cvImages = { ...images }
+
+  if (filter) {
+    cvImages = images.filter((el: any) => el[filter] === true)
+  }
+  return <DetailImage images={cvImages} renderInfo={renderInfo} />;
 };
 
 export const DisplayDiffTime = (input: any, entity: any) => {

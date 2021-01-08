@@ -85,7 +85,7 @@ export const harvestingDetail: RenderInfoDetail = [
         formatter: (cell: any, row: any) => cell.toUpperCase(),
       },
       'seeding.species.name': {title: 'PRODUCTION_PLAN.SPECIES_NAME'},
-      'planting.expectedQuantity': {title: 'SEEDING.EXPECTED_QUANTITY'},
+      'harvesting.quantity': {title: 'HARVESTING.QUANTITY'},
       'seeding.species.barcode': {title: 'GTIN'},
     },
   },
@@ -95,9 +95,9 @@ export const harvestingDetail: RenderInfoDetail = [
     titleClassName: 'col-md-2 col-4 mb-10',
     dataClassName: 'col-md-10 col-8 mb-10 pl-5',
     data: {
-      'planting.temperature': {title: 'TEMPERATURE', formatter: DisplayCelcius,},
-      'planting.humidity': {title: 'HUMIDITY', formatter: DisplayPercent,},
-      'planting.porosity': {title: 'POROSITY', formatter: DisplayPercent,},
+      'harvesting.temperature': {title: 'TEMPERATURE', formatter: DisplayCelcius,},
+      'harvesting.humidity': {title: 'HUMIDITY', formatter: DisplayPercent,},
+      'harvesting.porosity': {title: 'POROSITY', formatter: DisplayPercent,},
     },
   },
   {
@@ -171,7 +171,7 @@ export const PreliminaryTreatmentDetail: RenderInfoDetail = [
         formatter: (e) => (<>{e && e[0]?.location && DisplayCoordinates(e[0].location)}</>)
       },
       '': { title: 'EMPTY' },
-      'preliminaryTreatment.estimatedQuantity': { title: 'PRELIMINARY_TREATMENT' },
+      'preliminaryTreatment.quantity': { title: 'PRELIMINARY_TREATMENT' },
       
     },
   },
@@ -215,9 +215,9 @@ export const PreliminaryTreatmentDetail: RenderInfoDetail = [
         formatter: (image, entity) => {
           const renderInfo = {
             title: 'IMAGE_INFO',
-            component: Display3Info
+            component: Display3Info,
           }
-          return DisplayImage(image, renderInfo)
+          return DisplayImage(image, renderInfo, 'isMaster')
         }
       },
     },
@@ -247,7 +247,7 @@ export const CleaningDetail: RenderInfoDetail = [
         formatter: (e) => (<>{e && e[0]?.location && DisplayCoordinates(e[0].location)}</>)
       },
       'cleaning.code': { title: 'PRODUCTION_PLAN.CLEANING.CODE' },
-      'cleaning.estimatedQuantity': { title: 'CLEANING_QUANTITY' },
+      'cleaning.quantity': { title: 'CLEANING_QUANTITY' },
       
     },
   },
@@ -321,7 +321,7 @@ export const PackingDetail: RenderInfoDetail = [
       ...cleaningCode,
       'packing.packing.weight': {title: 'PRODUCT_PACKAGING.MODULE_NAME'},
       'packing.code': {title: 'PRODUCTION_PLAN.PACKING.CODE'},
-      'packing.estimatedQuantity': {title: 'PACKING_REAL_QUANTITY'},
+      'packing.quantity': {title: 'PACKING_REAL_QUANTITY'},
     },
   },
   {
