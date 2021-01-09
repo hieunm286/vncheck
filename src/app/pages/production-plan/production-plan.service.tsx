@@ -28,12 +28,13 @@ export const GetAll: GetAllPropsServer<any> = ({ queryProps, sortList, paginatio
   });
 };
 
-export const Search = (entity: any, { paginationProps }: any) => {
+export const Search = (entity: any, { paginationProps, pr }: any) => {
+  const cvEntity = JSON.parse(JSON.stringify(entity))
   let pSpecies
   let speciesParams = ''
   if (entity.product_plan && entity.product_plan.seeding && entity.product_plan.seeding.species) {
     pSpecies = JSON.parse(JSON.stringify(entity.product_plan.seeding.species))
-    delete entity.product_plan.seeding.species
+    delete cvEntity.product_plan.seeding.species
   }
   if (pSpecies && pSpecies._id) {
     speciesParams += `product_plan.seeding.species=${pSpecies._id}&`
@@ -42,7 +43,7 @@ export const Search = (entity: any, { paginationProps }: any) => {
     speciesParams += `product_plan.seeding.species.barcode=${pSpecies.barcode}`
   }
   return axios.get(`${API_URL}?${speciesParams}`, {
-    params: { ...paginationProps, ...entity },
+    params: { ...paginationProps, ...cvEntity, ...pr },
   });
 }
 
