@@ -5,9 +5,10 @@ import { ActionsColumnFormatter, TickColumnFormatter } from '../../common-librar
 import { MasterBody } from '../../common-library/common-components/master-body';
 import { MasterHeader } from '../../common-library/common-components/master-header';
 import MasterTreeStructure from '../../common-library/common-components/master-tree-structure';
-import { NormalColumn, SortColumn } from '../../common-library/common-consts/const';
+import { DefaultPagination, NormalColumn, SortColumn } from '../../common-library/common-consts/const';
 import { InitMasterProps } from '../../common-library/helpers/common-function';
-import {Count, Create, Delete, DeleteMany, Get, GetAll, Update} from './role.service';
+import {Count, Create, Delete, DeleteMany, Get, GetAll, GetManagementOrganization, GetNames, GetStatus, Update} from './role.service';
+import {GetIds} from './role.service';
 import {RoleModel} from './role.model';
 import { MasterEntityDetailDialog } from '../../common-library/common-components/master-entity-detail-dialog';
 import { RenderInfoDetail } from '../../common-library/common-types/common-type';
@@ -27,6 +28,7 @@ import { Switch as SwitchField } from 'antd';
 
 const { Option } = Select;
 export default function ManagementOrganization() {
+  const headerTitle = 'ROLE.MASTER.HEADER.TITLE';
   const bodyTitle = 'ROLE.MASTER.BODY.TITLE';
   const createTitle = 'ROLE.CREATE.HEADER';
 
@@ -236,6 +238,30 @@ export default function ManagementOrganization() {
     }
   };
 
+  const searchModel: SearchModel = {
+    _id: {
+      type: 'search-select',
+      label: 'ROLE.HEADER.LABEL.ROLE_CODE',
+      onSearch: GetIds,
+    },
+    name: {
+      type: 'search-select',
+      label: 'ROLE.HEADER.LABEL.ROLE_NAME',
+      onSearch: GetNames,
+    },
+    managementOrganization: {
+      type: 'search-select',
+      label: 'ROLE.HEADER.LABEL.ORGANIZATION_MANAGEMENT',
+      onSearch: GetManagementOrganization,
+    },
+    status: {
+      type: 'search-select',
+      label: 'ROLE.HEADER.LABEL.STATUS',
+      onSearch: GetStatus,
+    },
+
+  }
+
   return (
     <>
       <MasterEntityDetailDialog
@@ -258,8 +284,14 @@ export default function ManagementOrganization() {
 
       <Switch>
         <Route path='/account/role' exact={true}>
-          {/* <MasterHeader
-          /> */}
+          <MasterHeader
+            title={headerTitle}
+            onSearch={(value) => {
+              setPaginationProps(DefaultPagination);
+              setFilterProps(value);
+            }}
+            searchModel={searchModel}
+          />
 
           <MasterBody
             title={bodyTitle}

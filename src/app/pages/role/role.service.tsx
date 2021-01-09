@@ -103,3 +103,91 @@ export const DeleteMany: DeleteManyProps<any> = (entities: any[]) => {
   });
 };
 
+const AtoZ = Array('Z'.charCodeAt(0) - 'A'.charCodeAt(0)).fill(null).map((x, i) => {
+  return String.fromCharCode('A'.charCodeAt(0) + i);
+})
+export const GetIds = ({queryProps}: any): Promise<any> => {
+  return new Promise((resolve, reject) => {
+    const data = AtoZ.filter((val, index, arr) => {
+      return val.indexOf(queryProps._id.toUpperCase()) > -1;
+    })
+    resolve({
+      code: 200,
+      data: {
+        data: data,
+        paging: {page: 1, limit: 100, total: data.length}
+      },
+      success: true
+    })
+  })
+}
+const From1to100 = Array(99).fill(null).map((x, i) => {
+  return (i + 1 + 1000).toString().substr(2);
+})
+export const GetSubLots = ({queryProps}: any): Promise<any> => {
+  return new Promise((resolve, reject) => {
+    console.log(queryProps);
+    const data = From1to100.filter((val, index, arr) => {
+      return val.indexOf(queryProps.subLot.toUpperCase()) > -1;
+    })
+    resolve({
+      code: 200,
+      data: {
+        data: data,
+        paging: {page: 1, limit: 100, total: data.length}
+      },
+      success: true
+    })
+  })
+}
+
+export const GetNames = ({queryProps}: any): Promise<any> => {
+  return new Promise((resolve, reject) => {
+    console.log(queryProps);
+    const data = From1to100.filter((val, index, arr) => {
+      return val.indexOf(queryProps.name.toUpperCase()) > -1;
+    })
+    resolve({
+      code: 200,
+      data: {
+        data: data,
+        paging: {page: 1, limit: 100, total: data.length}
+      },
+      success: true
+    })
+  })
+}
+
+export const GetManagementOrganization = ({queryProps}: any): Promise<any> => {
+  return new Promise((resolve, reject) => {
+    console.log(queryProps);
+    const data = From1to100.filter((val, index, arr) => {
+      return val.indexOf(queryProps.managementOrganization.toUpperCase()) > -1;
+    })
+    resolve({
+      code: 200,
+      data: {
+        data: data,
+        paging: {page: 1, limit: 100, total: data.length}
+      },
+      success: true
+    })
+  })
+}
+
+export const GetStatus = ({queryProps}: any): Promise<any> => {
+  return new Promise((resolve, reject) => {
+    console.log(queryProps);
+    const data = From1to100.filter((val, index, arr) => {
+      return val.indexOf(queryProps.status.toUpperCase()) > -1;
+    })
+    resolve({
+      code: 200,
+      data: {
+        data: data,
+        paging: {page: 1, limit: 100, total: data.length}
+      },
+      success: true
+    })
+  })
+}

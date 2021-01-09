@@ -697,6 +697,11 @@
   "ROLE.CREATE.LABEL.STATUS": "Trạng thái",
   "ROLE.CREATE.LABEL.ROLE_NAME": "Tên vai trò",
 
+  "ROLE.HEADER.LABEL.ORGANIZATION_MANAGEMENT": "Đơn vị quản lý",
+  "ROLE.HEADER.LABEL.ROLE_CODE": "Mã vai trò",
+  "ROLE.HEADER.LABEL.STATUS": "Trạng thái",
+  "ROLE.HEADER.LABEL.ROLE_NAME": "Tên vai trò",
+
   "ROLE.VALIDATION.REQUIRED.ORGANIZATION_MANAGEMENT": "Vui lòng chọn đơn vị quản lý",
   "ROLE.VALIDATION.REQUIRED.ROLE_CODE": "Vui lòng chọn mã vai trò",
   "ROLE.VALIDATION.REQUIRED.STATUS": "Vui lòng chọn trạng thái",
