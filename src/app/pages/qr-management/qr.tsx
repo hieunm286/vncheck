@@ -10,7 +10,12 @@ import {MasterBody} from "../../common-library/common-components/master-body";
 
 import {DefaultPagination, NormalColumn, SortColumn} from '../../common-library/common-consts/const';
 import {Link, Route, Switch, useHistory} from 'react-router-dom';
-import {MasterBodyColumns, RenderInfoDetail, SearchModel} from "../../common-library/common-types/common-type";
+import {
+  MasterBodyColumns,
+  ModifyForm,
+  RenderInfoDetail,
+  SearchModel
+} from "../../common-library/common-types/common-type";
 import {MasterEntityDetailPage} from "../../common-library/common-components/master-detail-page";
 import {
   cleaningInfo,
@@ -43,6 +48,7 @@ import {Select} from 'antd';
 import * as Yup from "yup";
 import {format} from "date-fns";
 import {DetailImage} from "../../common-library/common-components/detail/detail-image";
+import EntityCrudPage from "../../common-library/common-components/entity-crud-page";
 
 const Option = {Select};
 const headerTitle = 'QR.MASTER.HEADER.TITLE';
@@ -445,7 +451,25 @@ function QrPage() {
     }
   ]), []);
   
+  const [dE, setDE] = useState<any>(null);
+  
+  const headerInfo: RenderInfoDetail = useMemo(() => [
+    {
+      header: detailTitle,
+      className: 'col-12',
+      titleClassName: 'mb-10',
+      dataClassName: 'col-12 mb-10',
+      data: {
+        '_id': {
+          formatter: (entity: any[]) => {
+            return <EntityCrudPage entity={dE} formModel={form} actions={{data: {}}} onModify={null as any}/>
+          }
+        }
+      },
+    }
+  ], [dE]);
   const renderInfoProduct: RenderInfoDetail = useMemo(() => ([
+    ...headerInfo,
     ...producerInfo,
     ...commonInfo,
     ...seedingInfo,
@@ -465,9 +489,25 @@ function QrPage() {
     ...distributionInfo,
     ...shippingInfo,
   ]), []);
-  const [dE, setDE] = useState<any>(null);
   const [matchId, setMatchId] = useState<any>(null);
   const [renderInfo, setRenderInfo] = useState(renderInfoProduct);
+  
+  const form = useMemo((): ModifyForm => ({
+    _header: createTitle,
+    _panel1: {
+      _title: 'EMPTY',
+      group1: {
+        _subTitle: 'EMPTY',
+        createdAt: {
+          _type: 'date-time',
+          disabled: true,
+          label: 'Ngày tạo mã',
+        },
+        
+      }
+    }
+  }), []);
+  
   useEffect(() => {
     matchId && get({_id: matchId} as any).then(e => {
       const qr = e.data;
@@ -540,6 +580,13 @@ function QrPage() {
             setMatchId(match && match.params.code);
             return (
               <>
+                <MasterEntityDetailPage
+                  entity={dE}
+                  header={detailTitle}
+                  renderInfo={renderInfo} // renderInfo={detailModel}
+                  code={match && match.params.code}
+                  onClose={() => history.push('/qr')}
+                />
                 <MasterEntityDetailPage
                   entity={dE}
                   header={detailTitle}
