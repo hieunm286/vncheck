@@ -52,6 +52,7 @@ import {ModifyEntityPage} from "../../common-library/common-components/modify-en
 import {Formik} from "formik";
 import EntityCrudPage from "../../common-library/common-components/entity-crud-page";
 import * as ShippingAgencyService from "../shipping-agency/shipping-agency.service";
+import {useWindowSize} from "../auth/pages/auth-page";
 
 const Option = {Select};
 const headerTitle = 'QR.MASTER.HEADER.TITLE';
@@ -567,6 +568,7 @@ function QrPage() {
       setDE(qr);
     });
   }, [matchId]);
+  
   return (
     <Fragment>
       <Switch>
