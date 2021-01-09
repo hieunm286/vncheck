@@ -60,7 +60,7 @@ export function MasterBody<T>({
     ),
     headerClasses: 'text-center',
     align: 'center'
-  }), []);
+  }), [paginationParams]);
   const masterColumn = isShowId
     ? _.isArray(columns) ? [idColumn, ...columns] :
       {_id: idColumn, ...columns}
