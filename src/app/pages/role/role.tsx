@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useIntl } from 'react-intl';
-import { Route, Switch, useHistory } from 'react-router';
+import { Route, Switch, useHistory, match } from 'react-router';
 import { ActionsColumnFormatter, TickColumnFormatter } from '../../common-library/common-components/actions-column-formatter';
 import { MasterBody } from '../../common-library/common-components/master-body';
 import { MasterHeader } from '../../common-library/common-components/master-header';
@@ -11,7 +11,7 @@ import {Count, Create, Delete, DeleteMany, Get, GetAll, GetManagementOrganizatio
 import {GetIds} from './role.service';
 import {RoleModel} from './role.model';
 import { MasterEntityDetailDialog } from '../../common-library/common-components/master-entity-detail-dialog';
-import { RenderInfoDetail } from '../../common-library/common-types/common-type';
+import { RenderInfoDetail, _ModifyModelInput } from '../../common-library/common-types/common-type';
 import { DeleteEntityDialog } from '../../common-library/common-components/delete-entity-dialog';
 import EntityCrudPage from '../../common-library/common-components/entity-crud-page';
 import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
@@ -115,44 +115,46 @@ export default function ManagementOrganization() {
     name: Yup.string().required('ROLE.VALIDATION.REQUIRED.ROLE_NAME').nullable(),
   });
 
+  const group1 : ModifyInputGroup = {
+    _subTitle: '',
+    managementOrganization: {
+      _type: 'custom',
+      component: () => {
+        return (
+          <>
+            <Select style={{width: '200px'}}>
+              <Option value="0">Phòng Giám Đốc</Option>
+            </Select>
+          </>
+        )
+      }
+    },
+    name: {
+      _type: 'search-select',
+      label: 'ROLE.CREATE.LABEL.ROLE_NAME',
+      placeholder: 'EMPTY',
+      onSearch: GetNames,
+      onChange: (value, {setFieldValue, setFieldTouched, values}) => {
+      }
+    },
+    status: {
+      _type: 'custom',
+      label: 'ROLE.CREATE.LABEL.ROLE_NAME',
+      component: () => {
+        return (
+          <>
+            <SwitchField></SwitchField>
+          </>
+        )
+      }
+    },
+  };
+
   const createForm : ModifyForm = {
     _header: createTitle,
     panel1: {
       _title: 'EMPTY',
-      group1: {
-        _subTitle: '',
-        // managementOrganization: {
-        //   _type: 'custom',
-        //   component: () => {
-        //     return (
-        //       <>
-        //         <Select style={{width: '200px'}}>
-        //           <Option value="0">Phòng Giám Đốc</Option>
-        //         </Select>
-        //       </>
-        //     )
-        //   }
-        // },
-        // name: {
-        //   _type: 'search-select',
-        //   label: 'ROLE.CREATE.LABEL.ROLE_NAME',
-        //   placeholder: 'EMPTY',
-        //   onSearch: console.log(),
-        //   onChange: (value, {setFieldValue, setFieldTouched, values}) => {
-        //   }
-        // },
-        // status: {
-        //   _type: 'custom',
-        //   label: 'ROLE.CREATE.LABEL.ROLE_NAME',
-        //   component: () => {
-        //     return (
-        //       <>
-        //         <SwitchField></SwitchField>
-        //       </>
-        //     )
-        //   }
-        // },
-      }
+      group1: group1,
     },
   };
 
@@ -202,7 +204,7 @@ export default function ManagementOrganization() {
           },
           onEdit: (entity: RoleModel) => {
             setEditEntity(entity);
-            history.push(window.location.pathname + entity._id);
+            history.push(`${window.location.pathname}/${entity._id}`);
           },
           onDelete: (entity: RoleModel) => {
             setDeleteEntity(entity);
@@ -319,6 +321,20 @@ export default function ManagementOrganization() {
             validation={roleValidationSchema}
             loading={loading}
           />
+        </Route>
+        <Route path='/account/role/:code'>
+          {(history: History, match: match<{code: string}>) => (
+            <EntityCrudPage
+              moduleName='ROLE.MODULE_NAME'
+              entity={createEntity}
+              onModify={update}
+              code={match && match.params.code}
+              formModel={createForm}
+              actions={actions}
+              validation={roleValidationSchema}
+              loading={loading}
+            />
+          )}
         </Route>
       </Switch>
 
