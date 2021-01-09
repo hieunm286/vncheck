@@ -719,9 +719,6 @@ function ProductionPlanCrud({
                   </Card>
                 );
               })}
-              {
-                errors && JSON.stringify(errors)
-              }
             </Form>
             <Card>
               <CardBody>
