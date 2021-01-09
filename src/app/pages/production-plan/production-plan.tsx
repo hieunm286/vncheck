@@ -35,6 +35,7 @@ import _ from 'lodash';
 import {ModifyForm, ModifyPanel} from '../../common-library/common-types/common-type';
 import * as ProductPackagingService from '../product-packaging/product-packaging.service';
 import {ProductionPlanDetail} from './production-plan-detail';
+import moment from 'moment';
 
 const headerTitle = 'PRODUCT_TYPE.MASTER.HEADER.TITLE';
 const bodyTitle = 'PRODUCT_TYPE.MASTER.BODY.TITLE';
@@ -627,7 +628,7 @@ function ProductionPlan() {
         linkto: undefined,
         className: 'btn btn-primary mr-5 pl-8 pr-8',
         label: 'Gửi duyệt',
-        icon: <SaveOutlinedIcon />,
+        // icon: <SaveOutlinedIcon />,
         onClick: () => {
           // setNoticeModal(true);
           setStep('1');
@@ -640,7 +641,7 @@ function ProductionPlan() {
         linkto: undefined,
         className: 'btn btn-outline-primary mr-5 pl-8 pr-8',
         label: 'Lưu',
-        icon: <CancelOutlinedIcon />,
+        // icon: <CancelOutlinedIcon />,
         onClick: () => {
           // setNoticeModal(true);
           setStep('0');
@@ -653,7 +654,7 @@ function ProductionPlan() {
         linkto: '/production-plan',
         className: 'btn btn-outline-primary mr-2 pl-8 pr-8',
         label: 'Hủy',
-        icon: <CancelOutlinedIcon />,
+        // icon: <CancelOutlinedIcon />,
       },
     },
   };
@@ -667,7 +668,7 @@ function ProductionPlan() {
         linkto: undefined,
         className: 'btn btn-primary mr-5 pl-8 pr-8',
         label: 'Gửi duyệt',
-        icon: <SaveOutlinedIcon />,
+        // icon: <SaveOutlinedIcon />,
         onClick: () => {
           // setNoticeModal(true);
           setStep('1');
@@ -680,7 +681,7 @@ function ProductionPlan() {
         linkto: '/production-plan',
         className: 'btn btn-outline-primary mr-2 pl-8 pr-8',
         label: 'Hủy',
-        icon: <CancelOutlinedIcon />,
+        // icon: <CancelOutlinedIcon />,
       },
     },
   };
@@ -1310,21 +1311,25 @@ function ProductionPlan() {
             disabled: (values: any) => {
               return _.parseInt(values.process) >= packingProcess;
             },
+            onChange: (val: any, values: any, setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => void) => {
+              const newDate = val.add(values.seeding.species.expiryDays, 'days')
+              console.log(val)
+              console.log(newDate)
+              setFieldValue('packing.estimatedExpireTimeEnd', newDate)
+            }
             
           },
           estimatedExpireTimeEnd: {
             _type: 'date-time',
             // placeholder: 'Hạn sử dụng',
             label: 'PACKING_EXPIRY_END',
-            disabled: (values: any) => {
-              return _.parseInt(values.process) >= packingProcess;
-            },
+            disabled: true
             
           },
           packing: {
             _type: 'search-select',
             // placeholder: 'Quy cách',
-            label: 'MENU.DATA.PRODUCT.PACK',
+            label: 'PRODUCTION_PLAN_FORM_PACKING',
             onSearch: ({ queryProps, paginationProps }: any) => {
               if (editEntity && editEntity.seeding && editEntity.seeding.species) {
                 queryProps.species = editEntity.seeding.species._id;
@@ -1351,7 +1356,7 @@ function ProductionPlan() {
           estimatedQuantity: {
             _type: 'number',
             // placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
-            label: 'PACKING_QUANTITY',
+            label: 'PRODUCTION_PLAN_FORM_PACKING_QUANTITY',
             disabled: (values: any) => {
               return _.parseInt(values.process) >= packingProcess;
             },

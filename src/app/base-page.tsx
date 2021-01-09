@@ -34,6 +34,8 @@ const ProductionManagement = lazy(() => import('./pages/production-management/pr
 const QrManagement = lazy(() => import('./pages/qr-management/qr'))
 const RolePage = lazy(() => import('./pages/role/role'))
 
+const ManagementOrganization = lazy(() => import('./pages/management-organization/management-organization'))
+
 
 export default function BasePage() {
   // useEffect(() => {
@@ -66,6 +68,7 @@ export default function BasePage() {
         <Route path="/production-plan" component={ProductionPlan}/>
         <Route path="/production-management" component={ProductionManagement}/>
         <Route path="/qr" component={QrManagement}/>
+        <Route path="/management-organization" component={ManagementOrganization}/>
         <Route path="/account/role" component={RolePage}/>
         <Redirect to="/error/error-v1"/>
       </Switch>
