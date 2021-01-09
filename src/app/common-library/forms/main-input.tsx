@@ -23,6 +23,7 @@ export function MainInput({
                             disabled,
                             required,
                             placeholder,
+                            formatter,
                             onClick,
                             ...props
                           }: MainInputState) {
@@ -65,7 +66,7 @@ export function MainInput({
             {...field}
             {...props}
             placeholder={_disabled ? '' : intl.formatMessage({id: placeholder}, {label: _.isString(_label) ? _label : ''})}
-            value={field.value ?? ''}
+            value={formatter ? formatter(field.value) : field.value ?? ''}
             disabled={_disabled}
             onChange={(e) => {
               if (type === 'string-number') {

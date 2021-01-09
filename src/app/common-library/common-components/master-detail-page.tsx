@@ -42,26 +42,21 @@ export function MasterEntityDetailPage({
                                          entity,
                                          onClose,
                                          renderInfo,
-                                         homeURL,
                                          code,
                                          get,
-                                         allFormButton,
                                        }: {
   header?: string;
   moduleName?: string;
   entity?: any;
   renderInfo: RenderInfoDetail;
-  onClose: () => void;
+  onClose?: () => void;
   homeURL?: string;
   code?: string;
   get?: ((code: string) => any | null) | null;
-  allFormButton?: any;
 }) {
   const intl = useIntl();
   
   const [entityDetail, setEntityDetail] = useState(entity || null);
-  
-  const history = useHistory();
   
   useEffect(() => {
     setEntityDetail(entity);
@@ -79,9 +74,9 @@ export function MasterEntityDetailPage({
       <CardHeader
         className={'border-bottom-0 pl-0 large-font-size'}
         title={(<a
-            onClick={() => history.goBack()}
+            onClick={onClose}
             className={'cursor-pointer text-primary font-weight-boldest'}>
-            <ArrowBackIosIcon/>
+            {onClose && (<ArrowBackIosIcon/>)}
             {intl
               .formatMessage(
                 {id: header},

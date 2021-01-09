@@ -49,7 +49,7 @@ export const seedingInfo: RenderInfoDetail = [{
     },
     'productPlan.seeding.buyInvoice': {
       title: 'SEEDING.INVOICE',
-      formatter: (input)=>DisplayDownloadLink(input,'path')
+      formatter: (input) => DisplayDownloadLink(input, 'path')
     },
     'productPlan.seeding.seedingTime': {
       title: 'SEEDING.SEEDING_TIME',
@@ -189,7 +189,7 @@ export const plantingInfo: RenderInfoDetail = [{
   }
 }];
 
-export const harvestingInfo : RenderInfoDetail = [{
+export const harvestingInfo: RenderInfoDetail = [{
   header: 'HARVESTING_INFO',
   className: 'col-12',
   titleClassName: 'col-3 mb-10',
@@ -223,7 +223,7 @@ export const harvestingInfo : RenderInfoDetail = [{
         return DisplayImage(image, renderInfo)
       }
     },
-    'productPlan.harvesting.imageAfter' : {
+    'productPlan.harvesting.imageAfter': {
       title: 'HARVESTING_IMAGE_AFTER',
       formatter: (image, entity) => {
         const renderInfo = {
@@ -233,15 +233,15 @@ export const harvestingInfo : RenderInfoDetail = [{
         return DisplayImage(image, renderInfo)
       }
     },
-    'productPlan.harvesting.temperature' : {
+    'productPlan.harvesting.temperature': {
       title: 'TEMPERATURE',
       formatter: DisplayCelcius
     },
-    'productPlan.harvesting.humidity' : {
+    'productPlan.harvesting.humidity': {
       title: 'HUMIDITY',
       formatter: DisplayPercent
     },
-    'productPlan.harvesting.porosity' : {
+    'productPlan.harvesting.porosity': {
       title: 'POROSITY',
       formatter: DisplayPercent
     },
@@ -263,7 +263,7 @@ export const harvestingInfo : RenderInfoDetail = [{
   }
 }];
 
-export const preliminaryTreatmentInfo : RenderInfoDetail = [{
+export const preliminaryTreatmentInfo: RenderInfoDetail = [{
   header: 'PRELIMINARY_TREATMENT_INFO',
   className: 'col-12',
   titleClassName: 'col-3 mb-10',
@@ -325,7 +325,7 @@ export const preliminaryTreatmentInfo : RenderInfoDetail = [{
   }
 }];
 
-export const cleaningInfo : RenderInfoDetail = [{
+export const cleaningInfo: RenderInfoDetail = [{
   header: 'CLEANING_INFO',
   className: 'col-12',
   titleClassName: 'col-3 mb-10',
@@ -339,7 +339,7 @@ export const cleaningInfo : RenderInfoDetail = [{
     'productPlan.cleaning.quantity': {
       title: 'Sản lượng sau làm sạch',
     },
-    'productPlan.cleaning.imageBefore' : {
+    'productPlan.cleaning.imageBefore': {
       title: 'CLEANING_IMAGE_BEFORE',
       formatter: (image, entity) => {
         const renderInfo = {
@@ -349,7 +349,7 @@ export const cleaningInfo : RenderInfoDetail = [{
         return DisplayImage(image, renderInfo)
       }
     },
-    'productPlan.cleaning.imageInProgress' : {
+    'productPlan.cleaning.imageInProgress': {
       title: 'CLEANING_IMAGE_PROCESSING',
       formatter: (image, entity) => {
         const renderInfo = {
@@ -387,7 +387,7 @@ export const cleaningInfo : RenderInfoDetail = [{
   }
 }];
 
-export const packingInfo : RenderInfoDetail = [{
+export const packingInfo: RenderInfoDetail = [{
   header: 'PACKING_INFO',
   className: 'col-12',
   titleClassName: 'col-3 mb-10',
@@ -415,7 +415,7 @@ export const packingInfo : RenderInfoDetail = [{
         return DisplayImage(image, renderInfo)
       }
     },
-    'productPlan.packing.packingImage' : {
+    'productPlan.packing.packingImage': {
       title: 'Hình ảnh sau khi đóng gói',
       formatter: (image, entity) => {
         const renderInfo = {
@@ -449,7 +449,7 @@ export const packingInfo : RenderInfoDetail = [{
   }
 }];
 
-export const preservationInfo : RenderInfoDetail = [{
+export const preservationInfo: RenderInfoDetail = [{
   header: 'PRESERVATION_INFO',
   className: 'col-12',
   titleClassName: 'col-3 mb-10',
@@ -464,11 +464,11 @@ export const preservationInfo : RenderInfoDetail = [{
       title: 'Địa điểm bảo quản',
       formatter: DisplayCoordinates,
     },
-    'productPlan.preservation.temperature' : {
+    'productPlan.preservation.temperature': {
       title: 'Nhiệt độ bảo quản',
       formatter: DisplayCelcius
     },
-    'productPlan.preservation.storageImage' : {
+    'productPlan.preservation.storageImage': {
       title: 'Hình ảnh bảo quản',
       formatter: (image, entity) => {
         const renderInfo = {
@@ -490,9 +490,7 @@ export const preservationInfo : RenderInfoDetail = [{
 }];
 
 
-
-export const sellStatus : RenderInfoDetail = [{
-  
+export const sellStatus: RenderInfoDetail = [{
   header: 'STATUS_INFO',
   className: 'col-12',
   titleClassName: 'col-3 mb-10',
@@ -500,26 +498,40 @@ export const sellStatus : RenderInfoDetail = [{
   data: {
     'sellStatus.status': {
       title: 'Trạng thái',
-      formatter: (sold: boolean) => (<>{sold ? 'Đã bán' : 'Còn hàng'}</>),
+      formatter: (sold: boolean, entity: any) => {
+        const isShow = entity.type === '1' ? (entity.productPlan != null) : entity.children.length > 0;
+        return isShow ? (<>{sold ? 'Đã bán' : 'Còn hàng'}</>) : <></>
+      },
     },
     'sellStatus.dateOfSell': {
       title: 'Ngày bán',
-      formatter: (date: string) => DisplayDateTime(new Date().toISOString()),
+      formatter: (date: string, entity: any) => {
+        const isShow = entity.type === '1' ? (entity.productPlan != null) : entity.children.length > 0;
+        return isShow ? (<>{DisplayDateTime(new Date().toISOString())}</>) : <></>
+      },
     },
     'sellStatus.sellAddress': {
       title: 'Nơi bán',
-      formatter: (arr: string[]) => (<>Cửa hàng A</>),
+      formatter: (arr: string[], entity: any) => {
+        const isShow = entity.type === '1' ? (entity.productPlan != null) : entity.children.length > 0;
+        return isShow ? (<>Cửa hàng A</>) : <></>
+      },
     },
     'sellStatus.seller.fullName': {
       title: 'Nhân viên bán hàng',
-      formatter: (arr: string[]) => (<>Nguyễn Văn C</>),
+      formatter: (arr: string[], entity: any) => {
+        const isShow = entity.type === '1' ? (entity.productPlan != null) : entity.children.length > 0;
+        return isShow ? (<>Nguyễn Văn C</>) : <></>
+      },
     },
     'sellStatus.customerPhoneNumber': {
       title: 'Số điện thoại khách hàng',
-      formatter: (arr: string[]) => (<>0912345677</>),
+      formatter: (arr: string[], entity: any) => {
+        const isShow = entity.type === '1' ? (entity.productPlan != null) : entity.children.length > 0;
+        return isShow ? (<>0912345677</>) : <></>
+      },
     }
-
-  },
+  }
 }];
 
 

@@ -1,12 +1,8 @@
 import * as React from 'react';
 import BootstrapTable, { ColumnDescription } from 'react-bootstrap-table-next';
 import { useHistory } from 'react-router';
-import { MasterEntityDetailPage } from '../../common-library/common-components/master-detail-page';
-import { MasterTable } from '../../common-library/common-components/master-table';
-import { NoRecordsFoundMessage, PleaseWaitMessage } from '../../common-library/helpers/pagination-helper';
 import { childQrBodyEntities } from './qr-mock';
 import { QrChild, QrParent } from './qr.model';
-import * as QrService from './qr.service';
 
 type QrParentProps = {
   entity: QrParent;
@@ -77,7 +73,7 @@ export function MasterQrChildDetail({entity, ...props }: QrChildProps) {
         bootstrap4
         remote
       >
-      </BootstrapTable> 
+      </BootstrapTable>
 
       <BootstrapTable
         {...props}
@@ -90,7 +86,7 @@ export function MasterQrChildDetail({entity, ...props }: QrChildProps) {
         bootstrap4
         remote
       >
-      </BootstrapTable> 
+      </BootstrapTable>
     </>
   )
 }
