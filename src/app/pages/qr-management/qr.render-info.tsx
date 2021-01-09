@@ -270,7 +270,7 @@ export const preliminaryTreatmentInfo : RenderInfoDetail = [{
   dataClassName: 'col-9 mb-10 pl-5',
   data: {
     'productPlan.preliminaryTreatment.time': {
-      keyField: 'productPlan.preliminaryTreatment', title: 'PRELIMINARY_TREATMENT_DATE', formatter: (e) => {
+      keyField: 'productPlan.preliminaryTreatment', title: 'PRELIMINARY_TREATMENT_TIME', formatter: (e) => {
         return e ? (<>{DisplayDateTime(e.startTime)} {e.endTime && (<> - {DisplayDateTime(e.endTime)}</>)}</>) : (<></>);
       }
     },

@@ -673,7 +673,6 @@
   "ENTERPRISE.PHONE": "Số điện thoại",
   "ENTERPRISE.REPRESENTED_BY": "Người đại diện",
   "ENTERPRISE.GLN": "GLN",
-  "PRESERVATION_TIME": "Thời gian bảo quản",
 
   "ROLE.MASTER.HEADER.TITLE": "Bộ lọc",
   "ROLE.MASTER.BODY.TITLE": "Danh mục vai trò",
@@ -705,8 +704,9 @@
   "ROLE.VALIDATION.REQUIRED.ROLE_CODE": "Vui lòng chọn mã vai trò",
   "ROLE.VALIDATION.REQUIRED.STATUS": "Vui lòng chọn trạng thái",
   "ROLE.VALIDATION.REQUIRED.ROLE_NAME": "Vui lòng chọn tên vai trò",
-
+  "HARVESTING_DATE": "Thời gian thu hoạch",
   "PRESERVATION_TIME": "Thời gian bảo quản",
+  "PRELIMINARY_TREATMENT_TIME": "Thời gian sơ chế",
   "PRELIMINARY_TREATMENT_START_TIME": "Thời gian bắt đầu sơ chế",
   "PRELIMINARY_TREATMENT_END_TIME": "Thời gian kết thúc sơ chế",
   "CLEANING_END_TIME": "Thời gian kết thúc làm sạch",
