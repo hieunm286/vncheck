@@ -12,10 +12,11 @@ import {ToAbsoluteUrl} from "../../../common-library/helpers/assets-helpers";
 import {ContentRoute} from "../../../layout/components/content/content-route";
 
 //Custom hook
-function useWindowSize() {
+export function useWindowSize() {
   const [size, setSize] = useState([0, 0]);
   useLayoutEffect(() => {
     function updateSize() {
+      console.log(window.innerWidth, window.innerHeight)
       setSize([window.innerWidth, window.innerHeight]);
     }
     
@@ -30,11 +31,9 @@ export function AuthPage() {
   const [width] = useWindowSize();
   const {search} = window.location;
   let callbackUrl = new URLSearchParams(search).get('callbackUrl');
-  console.log(callbackUrl);
   
   const style = {
     customBg: {
-      //   backgroundImage: `url('https://www.chotot.com/kinhnghiem/wp-content/uploads/2015/04/Nen-mua-hay-thue-dat-lam-trang-trai-7.jpg')`,
       backgroundRepeat: `no-repeat`,
       backgroundSize: 'cover',
     },
@@ -51,7 +50,7 @@ export function AuthPage() {
   };
   return (
     <>
-      <div className="d-flex flex-column flex-root">
+      <div className="d-flex flex-column flex-root" style={{minWidth:width}}>
         {/*begin::Login*/}
         <div
           className="login login-1 login-signin-on d-flex flex-column flex-lg-row flex-row-fluid bg-white"
