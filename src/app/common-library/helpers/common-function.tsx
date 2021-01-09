@@ -66,7 +66,7 @@ const _initValues = ({inputs}: any): any => {
         }
         return pre;
       case 'object':
-        const {_type, _subTitle, _className, _dataClassName, _titleClassName, ...innt} = input as any;
+        const {_type, _subTitle, _className, _inputClassName, ...innt} = input as any;
         const s = name === '' ? _initValues({inputs: innt}) : {[name]: _initValues({inputs: innt})};
         return _.merge(pre, s);
     }
@@ -83,7 +83,7 @@ export const InitValues = (formModel: ModifyForm) => {
     const {_subTitle, ...pl} = panel;
     pl && Object.values(pl).map((inputGroup, index) => {
       if (_.isString(inputGroup)) throw new Error('Sử dụng sai cách ' + inputGroup + '\n' + JSON.stringify(pl));
-      const {_subTitle, _className, _dataClassName, _titleClassName, ...inputs} = inputGroup;
+      const {_subTitle, _className, _inputClassName, ...inputs} = inputGroup;
       _.merge(result, _initValues({inputs}));
     })
   })

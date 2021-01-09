@@ -667,9 +667,7 @@ function ProductionManagement() {
               renderInfo={harvestingDetail}
               code={match && match.params.code}
               get={code => ProductionPlanService.GetById(code)}
-              onClose={() => {
-                setShowDetail(false);
-              }}
+              onClose={() => {history.push('/production-management')}}
               header="HARVESTING_INFO"
             />
           )}
@@ -681,9 +679,7 @@ function ProductionManagement() {
               renderInfo={PreliminaryTreatmentDetail}
               code={match && match.params.code}
               get={code => ProductionPlanService.GetById(code)}
-              onClose={() => {
-                setShowDetail(false);
-              }}
+              onClose={() => {history.push('/production-management')}}
               header="PRELIMINARY_TREATMENT_INFO"
             />
           )}
@@ -695,9 +691,7 @@ function ProductionManagement() {
               renderInfo={CleaningDetail}
               code={match && match.params.code}
               get={code => ProductionPlanService.GetById(code)}
-              onClose={() => {
-                setShowDetail(false);
-              }}
+              onClose={() => {history.push('/production-management')}}
               header="CLEANING_INFO"
             />
           )}
@@ -709,9 +703,7 @@ function ProductionManagement() {
               renderInfo={PackingDetail}
               code={match && match.params.code}
               get={code => ProductionPlanService.GetById(code)}
-              onClose={() => {
-                setShowDetail(false);
-              }}
+              onClose={() => {history.push('/production-management')}}
               header="PACKING_INFO"
             />
           )}
@@ -723,9 +715,7 @@ function ProductionManagement() {
               renderInfo={PreservationDetail}
               code={match && match.params.code}
               get={code => ProductionPlanService.GetById(code)}
-              onClose={() => {
-                setShowDetail(false);
-              }}
+              onClose={() => {history.push('/production-management')}}
               header="PRESERVATION_INFO"
             />
           )}

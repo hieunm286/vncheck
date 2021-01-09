@@ -11,8 +11,8 @@ import {MasterBody} from "../../common-library/common-components/master-body";
 import {DefaultPagination, NormalColumn, SortColumn} from '../../common-library/common-consts/const';
 import {Link, Route, Switch, useHistory} from 'react-router-dom';
 import {
-  MasterBodyColumns,
-  ModifyForm,
+  InputGroups,
+  MasterBodyColumns, ModifyForm,
   RenderInfoDetail,
   SearchModel
 } from "../../common-library/common-types/common-type";
@@ -48,12 +48,16 @@ import {Select} from 'antd';
 import * as Yup from "yup";
 import {format} from "date-fns";
 import {DetailImage} from "../../common-library/common-components/detail/detail-image";
+import {ModifyEntityPage} from "../../common-library/common-components/modify-entity-page";
+import {Formik} from "formik";
 import EntityCrudPage from "../../common-library/common-components/entity-crud-page";
+import * as ShippingAgencyService from "../shipping-agency/shipping-agency.service";
 
 const Option = {Select};
 const headerTitle = 'QR.MASTER.HEADER.TITLE';
 const tableTitle = 'SHIPPING_AGENCY.MASTER.TABLE.TITLE';
-const detailTitle = 'QR.DETAIL.TITLE';
+const detailBodyTitle = 'QR.DETAIL.TITLE';
+const detailHeaderTitle = 'QR.HEADER.DETAIL.TITLE';
 const moduleName = 'QR.MODULE_NAME';
 const deleteDialogTitle = 'SHIPPING_AGENCY.DELETE_DIALOG.TITLE';
 const deleteDialogBodyTitle = 'SHIPPING_AGENCY.DELETE_DIALOG.BODY_TITLE';
@@ -247,8 +251,7 @@ function QrPage() {
   ];
   
   
-  const shippingInfo: RenderInfoDetail = [{
-    
+  const shippingInfo= useMemo((): RenderInfoDetail => ([{
     header: 'THÔNG TIN VẬN CHUYỂN',
     className: 'col-12',
     titleClassName: 'col-3 mb-10',
@@ -256,13 +259,13 @@ function QrPage() {
     data: {
       'sellStatus': {
         title: '',
-        formatter: (entity: any[]) => {
-          
-          return <DisplayTable entities={mobileSaleMock.shippingInfo} columns={shippingInfoColumns}/>
+        formatter: (val, entity) => {
+          const isShow = entity.type === '1' ? (entity.productPlan != null) : entity.children.length > 0;
+          return <DisplayTable entities={isShow ? mobileSaleMock.shippingInfo : []} columns={shippingInfoColumns}/>
         }
       }
     },
-  }];
+  }]),[]);
   
   
   const distributionInfoColumns: MasterBodyColumns = [
@@ -346,8 +349,7 @@ function QrPage() {
       .min(1, 'VALIDATE.ERROR.MIN_1'),
   }), []);
   
-  const distributionInfo: RenderInfoDetail = [{
-    
+  const distributionInfo = useMemo((): RenderInfoDetail => ([    {
     header: 'THÔNG TIN PHÂN PHỐI',
     className: 'col-12',
     titleClassName: 'col-3 mb-10',
@@ -355,13 +357,14 @@ function QrPage() {
     data: {
       'sellStatus': {
         title: '',
-        formatter: (entity: any[]) => {
-          
-          return <DisplayTable entities={mobileSaleMock.distributionInfo} columns={distributionInfoColumns}/>
+        formatter: (val, entity) => {
+          const isShow = entity.type === '1' ? (entity.productPlan != null) : entity.children.length > 0;
+          return <DisplayTable entities={isShow ? mobileSaleMock.distributionInfo : []}
+                               columns={distributionInfoColumns}/>
         }
       }
     },
-  }];
+  }]),[]);
   const downloadQrFile = useCallback((e: QrModel) => {
     return add(e).then((res: AxiosResponse<QrModel>) => {
       const date_input = new Date();
@@ -376,19 +379,16 @@ function QrPage() {
   const parentQrInfo: RenderInfoDetail = useMemo(() => ([
     {
       header: 'THÔNG TIN LOGISTIC',
-      className: 'col-12',
+      className: 'col-12 mb-5',
       titleClassName: 'col-3 mb-3',
       dataClassName: 'col-9 mb-3 pl-5',
       data: {
-        'createdBy.fullName': {
-          title: 'Người tạo QR logistics',
+        'scanAt': {
+          title: 'Ngày gán QR',
+          formatter: (input) => DisplayDateTime(input)
         },
-        'createdAt': {
-          title: 'Thời điểm tạo',
-          formatter: (date: string) => DisplayDateTime(date),
-        },
-        '_id': {
-          title: 'ID QR cha',
+        'scanBy.fullName': {
+          title: 'Người gán QR',
         },
       },
     }
@@ -436,13 +436,12 @@ function QrPage() {
   },], []);
   const childQrInfo: RenderInfoDetail = useMemo(() => ([
     {
-      header: '',
+      header: 'Thông tin QR con',
       className: 'col-12',
       titleClassName: 'mb-10',
       dataClassName: 'col-12 mb-10',
       data: {
         'children': {
-          title: 'ID QR con',
           formatter: (entity: any[]) => {
             return <DisplayTable entities={entity ?? []} columns={childQrColumns}/>
           }
@@ -453,23 +452,29 @@ function QrPage() {
   
   const [dE, setDE] = useState<any>(null);
   
-  const headerInfo: RenderInfoDetail = useMemo(() => [
-    {
-      header: detailTitle,
-      className: 'col-12',
-      titleClassName: 'mb-10',
-      dataClassName: 'col-12 mb-10',
-      data: {
-        '_id': {
-          formatter: (entity: any[]) => {
-            return <EntityCrudPage entity={dE} formModel={form} actions={{data: {}}} onModify={null as any}/>
-          }
-        }
-      },
-    }
-  ], [dE]);
+  // const headerInfo: RenderInfoDetail = useMemo(() => [
+  //   {
+  //     header: detailBodyTitle,
+  //     className: 'col-12',
+  //     titleClassName: 'mb-10',
+  //     dataClassName: 'col-3 mb-10',
+  //     data: {
+  //       '_id': {
+  //         formatter: (entity) => {
+  //           return (<Formik
+  //             enableReinitialize={true}
+  //             initialValues={{}} onSubmit={() => {
+  //           }}>
+  //             <ModifyEntityPage
+  //               mode={'vertical'}
+  //               inputGroups={panel}/>
+  //           </Formik>)
+  //         }
+  //       }
+  //     },
+  //   }
+  // ], [dE]);
   const renderInfoProduct: RenderInfoDetail = useMemo(() => ([
-    ...headerInfo,
     ...producerInfo,
     ...commonInfo,
     ...seedingInfo,
@@ -492,18 +497,65 @@ function QrPage() {
   const [matchId, setMatchId] = useState<any>(null);
   const [renderInfo, setRenderInfo] = useState(renderInfoProduct);
   
-  const form = useMemo((): ModifyForm => ({
+  const panel = useMemo((): InputGroups => ({
+  
+  }), []);
+  const createForm = useMemo((): ModifyForm => ({
     _header: createTitle,
     _panel1: {
       _title: 'EMPTY',
       group1: {
         _subTitle: 'EMPTY',
-        createdAt: {
+        type: {
+          required: true,
+          _type: 'search-select',
+          onSearch: GetType,
+          keyField: 'name',
+          selectField: 'code',
+          label: 'QR.EDIT.CODE_TYPE',
+        },
+        total: {
+          required: true,
+          _type: 'string-number',
+          onChange: (e, {setFieldValue, values}) => {
+            setFieldValue('total', e.target.value && e.target.value !== '' && Number(e.target.value));
+          },
+          label: 'QR.EDIT.QUANTITY',
+        },
+      }
+    }
+  }), []);
+  const detailForm = useMemo((): ModifyForm => ({
+    _header: detailHeaderTitle,
+    _panel1: {
+      _title: 'EMPTY',
+      group1: {
+        _subTitle: 'EMPTY',
+        _className: 'col-12 form-group row master-header-search-margin',
+        _inputClassName: 'col-xxl-2 col-md-3 master-header-search-input-margin',
+        _id: {
+          _type: 'string',
+          disabled: true,
+          label: 'Mã QR',
+        }, createdBy: {
+          _type: 'object',
+          fullName: {
+            _type: 'string',
+            disabled: true,
+            label: 'Người tạo mã',
+          },
+        }, createdAt: {
           _type: 'date-time',
           disabled: true,
           label: 'Ngày tạo mã',
+        }, type: {
+          _type: 'string',
+          disabled: true,
+          formatter: (e)=>(e ? QrTypeList.find((val, index, arr) =>
+              val.code.toLowerCase().indexOf(e.toLowerCase()) > -1
+          )?.name:''),
+          label: 'Loại mã',
         },
-        
       }
     }
   }), []);
@@ -544,32 +596,7 @@ function QrPage() {
           <ModifyEntityDialog
             show={showCreate}
             validation={validationSchema}
-            formModel={{
-              _header: createTitle,
-              _panel1: {
-                _title: 'EMPTY',
-                group1: {
-                  _subTitle: 'EMPTY',
-                  type: {
-                    required: true,
-                    _type: 'search-select',
-                    onSearch: GetType,
-                    keyField: 'name',
-                    selectField: 'code',
-                    label: 'QR.EDIT.CODE_TYPE',
-                  },
-                  total: {
-                    required: true,
-                    _type: 'string-number',
-                    onChange: (e, {setFieldValue, values}) => {
-                      setFieldValue('total', e.target.value && e.target.value !== '' && Number(e.target.value));
-                    },
-                    label: 'QR.EDIT.QUANTITY',
-                  },
-                }
-              }
-  
-            }}
+            formModel={createForm}
             loading={loading}
             onHide={refreshData}
             onModify={downloadQrFile}
@@ -580,19 +607,25 @@ function QrPage() {
             setMatchId(match && match.params.code);
             return (
               <>
-                <MasterEntityDetailPage
+                {/*<MasterEntityDetailPage*/}
+                {/*  entity={dE}*/}
+                {/*  header={detailHeaderTitle}*/}
+                {/*  renderInfo={headerInfo}*/}
+                {/*  code={match && match.params.code}*/}
+                {/*  onClose={() => history.push('/qr')}*/}
+                {/*/>*/}
+                <EntityCrudPage
+                  onModify={(()=>{}) as any}
+                  moduleName={moduleName}
+                  formModel={detailForm}
+                  mode={'vertical'}
                   entity={dE}
-                  header={detailTitle}
-                  renderInfo={renderInfo} // renderInfo={detailModel}
-                  code={match && match.params.code}
-                  onClose={() => history.push('/qr')}
                 />
                 <MasterEntityDetailPage
                   entity={dE}
-                  header={detailTitle}
-                  renderInfo={renderInfo} // renderInfo={detailModel}
+                  header={detailBodyTitle}
+                  renderInfo={renderInfo}
                   code={match && match.params.code}
-                  onClose={() => history.push('/qr')}
                 />
                 <MasterEntityDetailDialog
                   title='EMPTY'

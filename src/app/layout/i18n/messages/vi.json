@@ -569,6 +569,7 @@
   "ORDINAL": "STT",
   "QR.EDIT.ACTIVATOR": "Người kích hoạt",
   "QR.DETAIL.TITLE": "Thông tin truy xuất",
+  "QR.HEADER.DETAIL.TITLE": "Quản lý QR",
   "QR_ACTIVATE_BY": "Người kích hoạt",
   "QR_ACTIVATE_AT": "Ngày kích hoạt",
   "QR.CREATE.HEADER": "Thêm mới mã QR",

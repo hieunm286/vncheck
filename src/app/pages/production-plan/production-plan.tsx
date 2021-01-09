@@ -1528,9 +1528,7 @@ function ProductionPlan() {
               renderInfo={SeedingDetailDialog}
               code={match && match.params.code}
               get={code => ProductionPlanService.GetById(code)}
-              onClose={() => {
-                setShowDetail(false);
-              }}
+              onClose={() => {history.push('/production-plan')}}
               header="THÔNG TIN GIEO GIỐNG"
             />
           )}
@@ -1542,9 +1540,7 @@ function ProductionPlan() {
               renderInfo={PlantingDetailDialog}
               code={match && match.params.code}
               get={code => ProductionPlanService.GetById(code)}
-              onClose={() => {
-                setShowDetail(false);
-              }}
+              onClose={() => {history.push('/production-plan')}}
               header="THÔNG TIN GIEO TRỒNG"
               homeURL={homeURL}
             />
