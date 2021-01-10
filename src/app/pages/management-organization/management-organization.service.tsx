@@ -10,7 +10,7 @@ import {
   UpdateProps,
 } from '../../common-library/common-types/common-type';
 
-export const API_URL = API_BASE_URL + '/store-level';
+export const API_URL = API_BASE_URL + '/management-unit';
 
 export const API_USER_URL = API_BASE_URL + '/user';
 

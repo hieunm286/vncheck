@@ -8,7 +8,9 @@ import { NormalColumn, SortColumn } from '../../common-library/common-consts/con
 import { InitMasterProps } from '../../common-library/helpers/common-function';
 import MultiLevelSaleBody from '../multilevel-sale/multi-sale-body';
 import { UserModel } from '../user/user.model';
-import {Count, Create, Delete, DeleteMany, Get, GetAll, Update} from '../user/user.service';
+import { ManagementOrganizationModel } from './management-organization.model';
+import {Count, Create, Delete, DeleteMany, Get, GetAll, Update} from './management-organization.service';
+import * as UserService from '../user/user.service';
 
 export default function ManagementOrganization() {
   const {
@@ -45,7 +47,7 @@ export default function ManagementOrganization() {
     error,
     setError,
     add, update, get, deleteMany, deleteFn, getAll, refreshData,
-  } = InitMasterProps<UserModel>({
+  } = InitMasterProps<ManagementOrganizationModel>({
     getServer: Get,
     countServer: Count,
     createServer: Create,
@@ -58,11 +60,19 @@ export default function ManagementOrganization() {
   const intl = useIntl();
   const history = useHistory();
 
+  const convertData = () => {
+    
+  }
+
   useEffect(() => {
     getAll(filterProps).then((res: any) => {
       console.log(res);
     });
   }, [paginationProps, filterProps]);
+
+  useEffect(() => {
+
+  }, [entities])
 
   const columns = React.useMemo(() => {
     return [
@@ -118,7 +128,8 @@ export default function ManagementOrganization() {
       name: 'Cấp',
       title: 'MULTIVELEVEL_SALE_TREE_DATA',
       type: 'Tree',
-      data: mockManagementOrganizations,
+      // data: mockManagementOrganizations,
+      data: entities,
     },
     {
       name: 'Test',
