@@ -1,26 +1,26 @@
-import React, { useEffect, useState } from 'react';
-import { Form, Formik } from 'formik';
-import { useHistory } from 'react-router-dom';
-import { AxiosResponse } from 'axios';
+import React, {useEffect, useState} from 'react';
+import {Form, Formik} from 'formik';
+import {useHistory} from 'react-router-dom';
+import {AxiosResponse} from 'axios';
 
-import { useIntl } from 'react-intl';
-import { generateInitForm, GetHomePage } from '../../common-library/helpers/common-function';
-import { Card, CardBody, CardHeader } from '../../common-library/card';
+import {useIntl} from 'react-intl';
+import {generateInitForm, GetHomePage} from '../../common-library/helpers/common-function';
+import {Card, CardBody, CardHeader} from '../../common-library/card';
 import _ from 'lodash';
-import { addInitField, CompareDate, initProductPlanForm } from './defined/const';
+import {addInitField, CompareDate, initProductPlanForm} from './defined/const';
 import ProductionPlanModal from './production-plan-modal';
-import { ModifyEntityPage } from '../../common-library/common-components/modify-entity-page';
-import { ModifyForm } from '../../common-library/common-types/common-type';
+import {ModifyEntityPage} from '../../common-library/common-components/modify-entity-page';
+import {ModifyForm} from '../../common-library/common-types/common-type';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined';
-import { Input } from 'antd';
+import {Input} from 'antd';
 import './style/production-plan.scss';
 import { FormControl } from 'react-bootstrap';
 import { TextareaAutosize } from '@material-ui/core';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const { TextArea } = Input;
+const {TextArea} = Input;
 
 const notifyError = (error: string) => {
   toast.error(error, {

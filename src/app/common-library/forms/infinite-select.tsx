@@ -39,6 +39,7 @@ export function InfiniteSelect({
                                  selectField,
                                  validationMessage,
                                  labelWidth,
+                                 formatter,
                                  mode, ...props
                                }: {
   label: string | ReactElement;
@@ -57,7 +58,7 @@ export function InfiniteSelect({
   validationMessage?: string;
   required?: boolean | ((values: any) => boolean);
   disabled?: boolean | ((values: any) => boolean);
-  
+  formatter?:(e:any) => any;
 }) {
   const {
     setFieldValue,
@@ -150,7 +151,7 @@ export function InfiniteSelect({
             className={getCSSClasses(errors[name], touched[name])}
             {...props}
             {...field}
-            value={(keyField && keyField != '') ? (field.value && field.value[keyField]) ? field.value : '' : [field.value]}
+            value={formatter? formatter(field.value) : (keyField && keyField != '') ? (field.value && field.value[keyField]) ? field.value : '' : [field.value]}
             getOptionValue={option => {
               // console.log(option, selectField, selectField ? option[selectField] : option)
               return selectField ? option[selectField] : option

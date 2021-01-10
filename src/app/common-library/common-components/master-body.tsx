@@ -52,20 +52,17 @@ export function MasterBody<T>({
   hideHeaderButton?: boolean;
 }) {
   const intl = useIntl();
-  const idColumn = useMemo(
-    () => ({
-      dataField: '_id',
-      text: 'STT',
-      formatter: (cell: any, row: any, rowIndex: number) => (
-        <Fragment>
-          {rowIndex + 1 + ((paginationParams.page ?? 0) - 1) * (paginationParams.limit ?? 0)}
-        </Fragment>
-      ),
-      headerClasses: 'text-center',
-      align: 'center',
-    }),
-    [],
-  );
+  const idColumn = useMemo(() => ({
+    dataField: '_id',
+    text: 'STT',
+    formatter: (cell: any, row: any, rowIndex: number) => (
+      <Fragment>
+        {rowIndex + 1 + ((paginationParams.page ?? 0) - 1) * (paginationParams.limit ?? 0)}
+      </Fragment>
+    ),
+    headerClasses: 'text-center',
+    align: 'center'
+  }), [paginationParams]);
   const masterColumn = isShowId
     ? _.isArray(columns)
       ? [idColumn, ...columns]

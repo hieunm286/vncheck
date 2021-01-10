@@ -19,7 +19,8 @@ function EntityCrudPage({
                           formModel,
                           actions,
                           validation,
-                          loading
+                          loading,
+                          mode
                         }: {
   // modifyModel: ModifyModel;
   moduleName?: string;
@@ -28,8 +29,8 @@ function EntityCrudPage({
   code?: string;
   get?: (code: string) => any;
   formModel: ModifyForm;
-  // allFormField: any;
-  actions: any;
+  mode?: 'horizontal' | 'vertical';
+  actions?: any;
   validation?: any;
   autoFill?: any;
   loading?: boolean;
@@ -38,6 +39,9 @@ function EntityCrudPage({
   const history = useHistory();
   const initValues = useMemo(() => InitValues(formModel), [formModel]);
   const [entityForEdit, setEntityForEdit] = useState(entity);
+  useEffect(()=>{
+    entity && setEntityForEdit(entity);
+  }, [entity])
   useEffect(() => {
     if (!code && !entity) setEntityForEdit(initValues);
   }, [initValues, code]);
@@ -105,11 +109,12 @@ function EntityCrudPage({
                     />
                     <CardBody>
                       <ModifyEntityPage
+                        mode={mode}
                         // className={formPart[key].className}
                         // images={images}
                         inputGroups={panel}
                       />
-                      {
+                      {actions && (
                         <div className="text-right mt-10" key={key}>
                           {Object.keys(actions.data).map(keyss => {
                             switch (actions.data[keyss].role) {
@@ -127,8 +132,6 @@ function EntityCrudPage({
                                 );
                               
                               case 'button':
-                                console.log(actions.data[keyss]);
-                                
                                 return (
                                   <button
                                     type={actions.data[keyss].type}
@@ -149,7 +152,7 @@ function EntityCrudPage({
                                 );
                             }
                           })}
-                        </div>
+                        </div>)
                       }
                     </CardBody>
                   </Card>

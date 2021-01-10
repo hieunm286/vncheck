@@ -21,6 +21,7 @@ export interface MainInputState {
   onChange?: (value: any, props: { setFieldValue: ((name: string, value: any) => void), values: any }) => any;
   onClick?: (value: any) => any;
   required?: boolean | ((values: any) => boolean);
+  formatter?:(e:any) => any;
   disabled?: boolean | ((values: any) => boolean);
   name: string;
 }
@@ -176,8 +177,7 @@ export type InputGroups = {
 export type ModifyInputGroup = InputGroupType & {
   _subTitle: string;
   _className?: string;
-  _titlenpClassName?: string;
-  _dataClassName?: string;
+  _inputClassName?: string;
 };
 
 export type InputGroupType = { [T: string]: _ModifyModelInput | string }
@@ -189,6 +189,7 @@ export type _CommonProps = {
   disabled?: boolean | ((values: any) => boolean);
   value?: any;
   name?: string;
+  formatter?:(e:any) => any;
   [T: string]: any;
   onChange?: (value: any, props: { setFieldValue: ((name: string, value: any) => void), setFieldTouched: ((name: string, value: boolean) => void), values: any }) => any;
 }
@@ -206,8 +207,8 @@ export type GetAllPropsServer<T> = ({
 export type _ModifyModelInput =
   ({ _type: 'object', [S: string]: any })
   | ({ _type: 'image', value?: any, pathField?: string, width?: string | number, height?: string | number } & _CommonProps)
-  | ({ _type: 'custom', component: () => ReactElement })
   | ({ _type: 'string' | 'string-number' | 'email' | 'date-time' | 'number' | 'boolean' | 'tag' | 'gallery' } & _CommonProps)
+  | ({ _type: 'custom', component: () => ReactElement })
   | ({ _type: 'radio', options: { value: any, label: string }[] | ((...props: any) => { value: any, label: string }[]); } & _CommonProps)
   | ({ _type: 'checkbox' } & _CommonProps)
   | ({ _type: 'search-select', onSearch: GetAllPropsServer<any> | GetAllProps<any>, keyField?: string, selectField?: string } & _CommonProps)
