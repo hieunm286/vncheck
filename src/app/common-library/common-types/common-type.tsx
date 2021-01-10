@@ -209,7 +209,7 @@ export type _ModifyModelInput =
   | ({ _type: 'custom', component: () => ReactElement })
   | ({ _type: 'string' | 'string-number' | 'email' | 'date-time' | 'number' | 'boolean' | 'tag' | 'gallery' } & _CommonProps)
   | ({ _type: 'radio', options: { value: any, label: string }[] | ((...props: any) => { value: any, label: string }[]); } & _CommonProps)
-  | ({ _type: 'checkbox', onSelectMany: (entities: any[]) => void; selectedEntities: any[]; } & _CommonProps)
+  | ({ _type: 'checkbox' } & _CommonProps)
   | ({ _type: 'search-select', onSearch: GetAllPropsServer<any> | GetAllProps<any>, keyField?: string, selectField?: string } & _CommonProps)
   | ({ _type: 'tree-select', onSearch: any, keyField?: string, selectField?: string } & _CommonProps)
 

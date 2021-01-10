@@ -59,6 +59,7 @@ function EntityCrudPage({
         initialValues={entityForEdit}
         validationSchema={validation}
         onSubmit={(values, {setSubmitting, validateForm}) => {
+          console.log(values)
           onModify(values).then(() => {
             history.push(GetHomePage(window.location.pathname))
           }).catch((err) => {

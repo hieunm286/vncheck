@@ -25,6 +25,7 @@ import {
 } from "../../common-library/common-types/common-type";
 import { Select } from 'antd';
 import { Switch as SwitchField } from 'antd';
+import CheckBoxField from '../../common-library/forms/input-checkbox';
 
 const { Option } = Select;
 export default function ManagementOrganization() {
@@ -148,6 +149,25 @@ export default function ManagementOrganization() {
         )
       }
     },
+    checkboxs: {
+      _type: 'checkbox',
+      label: 'Doanh nghiệp sản xuất',
+      optionData: [
+        { label: 'Apple', value: 'Apple' },
+        { label: 'Pear', value: 'Pear' },
+        { label: 'Orange', value: 'Orange', disabled: true },
+      ]
+    },
+    checkbox: {
+      _type: 'checkbox',
+      label: 'Doanh nghiệp xuất khẩu',
+      optionData: [
+        { label: 'Red', value: 'Red' },
+        { label: 'Green', value: 'Green' },
+        
+      ]
+    }
+
   };
 
   const createForm : ModifyForm = {
