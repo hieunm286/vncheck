@@ -92,6 +92,7 @@
   "MENU.DATA.DISTRIBUTION.AGENCY": "Đơn vị bán hàng",
   "MENU.DATA.DISTRIBUTION.MULTILEVEL_SALE": "Cấp bán hàng",
   "MENU.DATA.DISTRIBUTION.SHIPPING_AGENCY": "Đơn vị vận chuyển",
+  "MENU.CUSTOMERS_MANAGEMENT": "QUẢN LÝ KHÁCH HÀNG",
   "COMMON_COMPONENT.DELETE_DIALOG.MODULE_NAME": "Dữ liệu",
   "COMMON_COMPONENT.DELETE_DIALOG.TITLE": "XÓA {moduleName}",
   "COMMON_COMPONENT.DELETE_DIALOG.BODY_TITLE": "{moduleName} sẽ bị xóa vĩnh viễn và không thể khôi phục.",
@@ -637,6 +638,7 @@
   "TEMPERATURE": "Nhiệt độ",
   "HUMIDITY": "Độ ẩm",
   "POROSITY": "Độ xốp",
+  "PLANTING_INFO": "Thông tin gieo trồng",
   "PLANTING_IMAGE_BEFORE": "Hình ảnh trước khi đưa vào nuôi trồng",
   "PLANTING_IMAGE_AFTER": "Hình ảnh sau khi đưa vào nuôi trồng",
   "PLANTING_LAND_LOT_IMAGE": "Hình ảnh định vị lô luống",
@@ -716,5 +718,17 @@
   "PRESERVATION_END_TIME": "Thời gian kết thúc bảo quản",
   "CLEANING_TECHNICAL": "Nhân viên kỹ thuật làm sạch",
   "PRODUCTION_PLAN_FORM_PACKING": "Quy cách đóng gói (g/gói)",
-  "PRODUCTION_PLAN_FORM_PACKING_QUANTITY": "Số lượng đóng gói (gói)"
+  "PRODUCTION_PLAN_FORM_PACKING_QUANTITY": "Số lượng đóng gói (gói)",
+
+  "CUSTOMERS_PHONE_NUMBER": "Số điện thoại",
+  "CUSTOMERS_CODE": "Mã khách hàng",
+  "CUSTOMERS_CREATED_AT": "Ngày tạo",
+  "CUSTOMERS_BUY_DATE": "Ngày mua",
+  "CUSTOMERS_STORE": "Cửa hàng bán",
+  "CUSTOMERS_SELLER": "Người bán",
+  "CUSTOMERS_LISTS": "Danh mục khách hàng",
+  "CUSTOMERS_DETAIL_NAME": "Tên hiển thị",
+  "CUSTOMERS_DETAIL_DOB": "Ngày sinh",
+  "CUSTOMERS_DETAIL_ADDRESS": "Địa chỉ",
+  "CUSTOMERS_DETAIL_ROLE": "Tên vai trò"
 }

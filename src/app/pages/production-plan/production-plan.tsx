@@ -1167,7 +1167,7 @@ function ProductionPlan() {
             tagData: userData,
             required: true,
             disabled: (values: any) => {
-              return _.parseInt(values.process) >= harvestingProcess;
+              return (_.parseInt(values.process) >= harvestingProcess && values.harvesting.leader.length > 0);
             },
           },
           leader: {
@@ -1177,7 +1177,7 @@ function ProductionPlan() {
             tagData: userData,
             required: true,
             disabled: (values: any) => {
-              return _.parseInt(values.process) >= harvestingProcess;
+              return (_.parseInt(values.process) >= harvestingProcess && values.harvesting.leader.length > 0);
             },
           },
         },
@@ -1200,7 +1200,7 @@ function ProductionPlan() {
             // placeholder: 'Mã gieo giống',
             label: 'PRELIMINARY_TREATMENT_TIME',
             disabled: (values: any) => {
-              return _.parseInt(values.process) >= preliminaryTreatmentProcess;
+              return (_.parseInt(values.process) >= preliminaryTreatmentProcess && values.preliminaryTreatmentProcess.leader.length > 0);
             },
   
           },
@@ -1209,7 +1209,7 @@ function ProductionPlan() {
             // placeholder: 'Mã gieo giống',
             label: 'PRELIMINARY_TREATMENT_QUANTITY',
             disabled: (values: any) => {
-              return _.parseInt(values.process) >= preliminaryTreatmentProcess;
+              return (_.parseInt(values.process) >= preliminaryTreatmentProcess && values.preliminaryTreatmentProcess.leader.length > 0);
             },
           },
         },
@@ -1225,7 +1225,7 @@ function ProductionPlan() {
             tagData: userData,
             label: 'PRELIMINARY_TREATMENT_TECHNICAL',
             disabled: (values: any) => {
-              return _.parseInt(values.process) >= preliminaryTreatmentProcess;
+              return _.parseInt(values.process) >= preliminaryTreatmentProcess && values.preliminaryTreatmentProcess.leader.length > 0;
             },
           },
           leader: {
@@ -1234,7 +1234,7 @@ function ProductionPlan() {
             label: 'PRELIMINARY_TREATMENT_LEADER',
             tagData: userData,
             disabled: (values: any) => {
-              return _.parseInt(values.process) >= preliminaryTreatmentProcess;
+              return _.parseInt(values.process) >= preliminaryTreatmentProcess && values.preliminaryTreatmentProcess.leader.length > 0;
             },
           },
         },
@@ -1257,7 +1257,7 @@ function ProductionPlan() {
             // placeholder: 'Mã gieo giống',
             label: 'CLEANING_TIME',
             disabled: (values: any) => {
-              return _.parseInt(values.process) >= cleaningProcess;
+              return _.parseInt(values.process) >= cleaningProcess && values.cleaningProcess.leader.length > 0;
             },
   
           },
@@ -1266,7 +1266,7 @@ function ProductionPlan() {
             // placeholder: 'Mã gieo giống',
             label: 'CLEANING_QUANTITY',
             disabled: (values: any) => {
-              return _.parseInt(values.process) >= cleaningProcess;
+              return _.parseInt(values.process) >= cleaningProcess && values.cleaningProcess.leader.length > 0;
             },
           },
         },
@@ -1283,7 +1283,7 @@ function ProductionPlan() {
             root: 'cleaning',
             tagData: userData,
             disabled: (values: any) => {
-              return _.parseInt(values.process) >= cleaningProcess;
+              return _.parseInt(values.process) >= cleaningProcess && values.cleaningProcess.leader.length > 0;
             },
           },
           leader: {
@@ -1293,7 +1293,7 @@ function ProductionPlan() {
             root: 'cleaning',
             tagData: userData,
             disabled: (values: any) => {
-              return _.parseInt(values.process) >= cleaningProcess;
+              return _.parseInt(values.process) >= cleaningProcess && values.cleaningProcess.leader.length > 0;
             },
           },
         },
@@ -1316,7 +1316,7 @@ function ProductionPlan() {
             // placeholder: 'Mã gieo giống',
             label: 'PACKING_TIME',
             disabled: (values: any) => {
-              return _.parseInt(values.process) >= packingProcess;
+              return _.parseInt(values.process) >= packingProcess && values.packing.technical.length > 0;
             },
   
           },
@@ -1325,7 +1325,7 @@ function ProductionPlan() {
             // placeholder: 'Hạn sử dụng',
             label: 'PACKING_EXPIRY_START',
             disabled: (values: any) => {
-              return _.parseInt(values.process) >= packingProcess;
+              return _.parseInt(values.process) >= packingProcess && values.packing.technical.length > 0;
             },
             onChange: (val: any, values: any, setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => void) => {
               const newDate = val.add(values.seeding.species.expiryDays, 'days')
@@ -1354,7 +1354,7 @@ function ProductionPlan() {
             },
             keyField: 'weight',
             disabled: (values: any) => {
-              return _.parseInt(values.process) >= packingProcess;
+              return _.parseInt(values.process) >= packingProcess && values.packing.technical.length > 0;
             },
             // required: true,
             // onDisplayOptions: (e:ProductPackagingModel)=> e.species.weight,
@@ -1374,7 +1374,7 @@ function ProductionPlan() {
             // placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
             label: 'PRODUCTION_PLAN_FORM_PACKING_QUANTITY',
             disabled: (values: any) => {
-              return _.parseInt(values.process) >= packingProcess;
+              return _.parseInt(values.process) >= packingProcess && values.packing.technical.length > 0;
             },
           },
           technical: {
@@ -1383,7 +1383,7 @@ function ProductionPlan() {
             label: 'KCS',
             tagData: userData,
             disabled: (values: any) => {
-              return _.parseInt(values.process) >= packingProcess;
+              return _.parseInt(values.process) >= packingProcess && values.packing.technical.length > 0;
             },
           },
           leader: {
@@ -1392,7 +1392,7 @@ function ProductionPlan() {
             label: 'PACKING_LEADER',
             tagData: userData,
             disabled: (values: any) => {
-              return _.parseInt(values.process) >= packingProcess;
+              return _.parseInt(values.process) >= packingProcess && values.packing.technical.length > 0;
             },
           },
         },
@@ -1415,7 +1415,7 @@ function ProductionPlan() {
             // placeholder: 'Mã gieo giống',
             label: 'PRESERVATION_TIME_START',
             disabled: (values: any) => {
-              return _.parseInt(values.process) >= preservationProcess;
+              return _.parseInt(values.process) >= preservationProcess && values.preservationProcess.technical.length > 0;
             },
   
           },
@@ -1424,7 +1424,7 @@ function ProductionPlan() {
             // placeholder: 'Mã gieo giống',
             label: 'PRESERVATION_TIME_END',
             disabled: (values: any) => {
-              return _.parseInt(values.process) >= preservationProcess;
+              return _.parseInt(values.process) >= preservationProcess && values.preservationProcess.technical.length > 0;
             },
   
           },
@@ -1441,7 +1441,7 @@ function ProductionPlan() {
             // placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
             label: 'PRESERVATION_TECHNICAL',
             disabled: (values: any) => {
-              return _.parseInt(values.process) >= preservationProcess;
+              return _.parseInt(values.process) >= preservationProcess && values.preservationProcess.technical.length > 0;
             },
           },
         },
