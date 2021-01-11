@@ -705,8 +705,8 @@ export const PlantingDetailDialog: RenderInfoDetail = [
     titleClassName: 'col-2 mb-10',
     dataClassName: 'col-4 mb-10 pl-5',
     data: {
-      'seeding.landLotImage': {
-        title: 'Hình ảnh định vị lô luống',
+      'planting.imageBefore': {
+        title: 'Hình ảnh trước khi nuôi trồng',
         formatter: (image, entity) => {
           const renderInfo = {
             title: 'IMAGE_INFO',
@@ -716,7 +716,7 @@ export const PlantingDetailDialog: RenderInfoDetail = [
         }
       },
       'planting.imageAfter': {
-        title: 'Hình ảnh trước khi đưa vào nuôi trồng',
+        title: 'Hình ảnh khi nuôi trồng',
         formatter: (image, entity) => {
           const renderInfo = {
             title: 'IMAGE_INFO',
