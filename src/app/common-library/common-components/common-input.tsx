@@ -290,8 +290,8 @@ export const InputSearchSelect = ({
       };
       const entities = await onSearch({queryProps, paginationProps});
       const count = entities.data.paging.total;
-      const hasMore = prevOptions.length < count - (DefaultPagination.limit ?? 0);
       const data = [...new Set(entities.data.data)];
+      const hasMore = prevOptions.length + data.length < count - (DefaultPagination.limit ?? 0);
       return {
         options: data,
         hasMore: hasMore,
@@ -345,7 +345,7 @@ export const InputCheckBox = ({
                                 ...props
                               }: InputCheckBoxType) => {
   return (
-    <CheckBoxField 
+    <CheckBoxField
       {...props}
       optionData={optionData}
       label={label}
