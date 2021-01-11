@@ -13,17 +13,11 @@ interface TreeDataProp {
   onCreate?: (entity: any) => void;
     onEdit?: (entity: any) => void;
     onDelete?: (entity: any) => void;
-    onFetchAgency?: (entity: any) => void;
-    showChildren: any;
+    onFetchEntities?: (entity: any) => void;
 }
 
-const MasterTreeStructure: React.FC<TreeDataProp> = ({ data, onCreate, onEdit, onDelete, onFetchAgency, showChildren }) => {
-  const [showChildrenV2, setShowChildrenV2] = useState(showChildren);
+const MasterTreeStructure: React.FC<TreeDataProp> = ({ data, onCreate, onEdit, onDelete, onFetchEntities }) => {
   const [currentChild, setCurrentChild] = useState<string | undefined>()
-
-  // useEffect(() => {
-  //   setShowChildrenV2(showChildren)
-  // }, [showChildren])
 
   const handleAdd = (data: TreeData): void => {
     if (onCreate) {
@@ -36,18 +30,11 @@ const MasterTreeStructure: React.FC<TreeDataProp> = ({ data, onCreate, onEdit, o
     }
   };
 
-  const onShowChildren = (key: string): void => {
-    const clone = { ...showChildrenV2 };
-
-    clone[key] = !clone[key];
-    setShowChildrenV2(clone);
-  };
-
   const handleClick = (data: TreeData): void => {
     console.log(data);
     setCurrentChild(data._id)
-    if (onFetchAgency) {
-      onFetchAgency(data)
+    if (onFetchEntities) {
+      onFetchEntities(data)
     }
   }
 
@@ -81,7 +68,9 @@ const MasterTreeStructure: React.FC<TreeDataProp> = ({ data, onCreate, onEdit, o
                       {'\u00A0'}
                     </button>
                   )} */}
-                  <span onClick={() => onShowChildren(childrenItem._id)} style={{ cursor: 'pointer' }}>{childrenItem.name}</span>
+                  <span onClick={() => {
+                    // console.log('ahihi')
+                    }} style={{ cursor: 'pointer' }}>{childrenItem.name}</span>
                 </div>
               </td>
               <td>
