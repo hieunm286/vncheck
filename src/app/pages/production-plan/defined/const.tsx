@@ -825,7 +825,7 @@ export const SeedingDetailDialog: RenderInfoDetail = [
           return DisplayImage(image, renderInfo)
         }
       },
-      'planting.imageAfter': {
+      'seeding.seedingImage': {
         title: 'Hình ảnh trước khi đưa vào nuôi trồng',
         formatter: (image, entity) => {
           const renderInfo = {
