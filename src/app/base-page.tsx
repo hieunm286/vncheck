@@ -49,32 +49,6 @@ export default function BasePage() {
   return (
     <Suspense fallback={<LayoutSplashScreen/>}>
       <ToastContainer/>
-        <Switch>
-          <Redirect exact from="/" to="/account/user"/>
-          <ContentRoute
-            children={null}
-            path="/change-password"
-            component={ChangeUserPassword}
-            render={null}
-          />
-          <Route path="/account/user" component={UserPage}/>
-          <Route path="/product-category" component={ProductPage}/>
-          <Route path="/agency" component={AgencyPage}/>
-          {/*<Route path="/category" component={CategoryPage}/>*/}
-          <Route path="/basic-unit" component={BasicUnitPage}/>
-          <Route path="/purchase-order" component={PurchaseOrderPage}/>
-          <Route path="/land-lot" component={LandLotPage}/>
-          <Route path="/species" component={ProductType}/>
-          <Route path="/product-packaging" component={ProductPackaging}/>
-          <Route path="/multilevel-sale" component={MultilevelSale}/>
-          <Route path="/shipping-agency" component={ShippingAgency}/>
-          <Route path="/production-plan" component={ProductionPlan}/>
-          <Route path="/production-management" component={ProductionManagement}/>
-          <Route path="/qr" component={QrManagement}/>
-          <Route path="/management-organization" component={ManagementOrganization}/>
-          <Route path="/account/role" component={RolePage}/>
-          <Redirect to="/error/error-v1"/>
-        </Switch>
       
       <Switch>
         <Redirect exact from="/" to="/account/user"/>
