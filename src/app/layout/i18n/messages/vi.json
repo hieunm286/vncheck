@@ -703,6 +703,8 @@
   "ROLE.HEADER.LABEL.STATUS": "Trạng thái",
   "ROLE.HEADER.LABEL.ROLE_NAME": "Tên vai trò",
 
+  "MANAGEMENT_ORGANIZATION.MASTER.TABLE.STAFF_LIST": "Danh sách nhân viên",
+
   "ROLE.VALIDATION.REQUIRED.ORGANIZATION_MANAGEMENT": "Vui lòng chọn đơn vị quản lý",
   "ROLE.VALIDATION.REQUIRED.ROLE_CODE": "Vui lòng chọn mã vai trò",
   "ROLE.VALIDATION.REQUIRED.STATUS": "Vui lòng chọn trạng thái",

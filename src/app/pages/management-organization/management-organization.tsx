@@ -1,16 +1,22 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useHistory } from 'react-router';
 import { ActionsColumnFormatter, TickColumnFormatter } from '../../common-library/common-components/actions-column-formatter';
 import { MasterTable } from '../../common-library/common-components/master-table';
 import MasterTreeStructure from '../../common-library/common-components/master-tree-structure';
-import { NormalColumn, SortColumn } from '../../common-library/common-consts/const';
+import { DefaultPagination, NormalColumn, SortColumn } from '../../common-library/common-consts/const';
 import { InitMasterProps } from '../../common-library/helpers/common-function';
 import MultiLevelSaleBody from '../multilevel-sale/multi-sale-body';
 import { UserModel } from '../user/user.model';
-import {Count, Create, Delete, DeleteMany, Get, GetAll, Update} from '../user/user.service';
+import { ManagementOrganizationModel } from './management-organization.model';
+import {Count, Create, Delete, DeleteMany, Get, GetAll, Update} from './management-organization.service';
+import * as UserService from '../user/user.service';
+import { AxiosResponse } from 'axios';
 
 export default function ManagementOrganization() {
+
+  const [userEntities, setUserEntities] = useState<UserModel[]>([]);
+
   const {
     entities,
     setEntities,
@@ -45,7 +51,7 @@ export default function ManagementOrganization() {
     error,
     setError,
     add, update, get, deleteMany, deleteFn, getAll, refreshData,
-  } = InitMasterProps<UserModel>({
+  } = InitMasterProps<ManagementOrganizationModel>({
     getServer: Get,
     countServer: Count,
     createServer: Create,
@@ -58,10 +64,12 @@ export default function ManagementOrganization() {
   const intl = useIntl();
   const history = useHistory();
 
+  const getDataConverted = () => {
+    
+  }
+
   useEffect(() => {
-    getAll(filterProps).then((res: any) => {
-      console.log(res);
-    });
+    getAll(filterProps);
   }, [paginationProps, filterProps]);
 
   const columns = React.useMemo(() => {
@@ -115,19 +123,20 @@ export default function ManagementOrganization() {
 
   const TreeBody = [
     {
-      name: 'Cấp',
-      title: 'MULTIVELEVEL_SALE_TREE_DATA',
+      // name: '',
+      // title: 'MULTIVELEVEL_SALE_TREE_DATA',
       type: 'Tree',
-      data: mockManagementOrganizations,
+      // data: mockManagementOrganizations,
+      data: entities,
     },
     {
-      name: 'Test',
-      title: 'MULTIVELEVEL_SALE_AGENCY_DATA',
+      // name: '',
+      title: 'MANAGEMENT_ORGANIZATION.MASTER.TABLE.STAFF_LIST',
       type: 'Table',
-      data: entities,
+      data: userEntities,
       prop: {
         columns: columns,
-        total: entities.length,
+        total: userEntities.length,
         loading: false,
         paginationParams: paginationProps,
         setPaginationParams: setPaginationProps,
@@ -142,6 +151,12 @@ export default function ManagementOrganization() {
           <MultiLevelSaleBody
             title='EMPTY'
             body={TreeBody}
+            onFetchEntities={(entity: any) => {
+              const queryParams = {role: entity._id};
+              UserService.GetAll({queryProps: queryParams, paginationProps: DefaultPagination, }).then((res : AxiosResponse<{data: UserModel[]; paging: number}>) => {
+                setUserEntities(res.data.data);
+              })
+            }}
           />
     </>
   )

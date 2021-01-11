@@ -7,31 +7,14 @@ import {MultilevelSaleBodyProp} from './multilevel-sale.model';
 import AddIcon from '@material-ui/icons/Add';
 import './style/multilevel-sale.scss';
 
-const showArray_v2 = (fileds: any, data: any): any => {
-  const AllField: any = fileds;
-  
-  data.forEach((el: any, key: number) => {
-    // AllField[el._id] = true;
-    if (el.children && el.children.length > 0) {
-      AllField[el._id] = true;
-      
-      showArray_v2(AllField, el.children);
-    } else {
-      AllField[el._id] = true;
-    }
-  });
-  
-  return AllField;
-};
-
 const MultiLevelSaleBody: React.FC<MultilevelSaleBodyProp> = ({
-                                                                title,
-                                                                body,
-                                                                onCreate,
-                                                                onEdit,
-                                                                onDelete,
-                                                                onFetchAgency,
-                                                              }) => {
+  title,
+  body,
+  onCreate,
+  onEdit,
+  onDelete,
+  onFetchEntities,
+}) => {
   const intl = useIntl();
   
   return (
@@ -51,26 +34,29 @@ const MultiLevelSaleBody: React.FC<MultilevelSaleBodyProp> = ({
                   <Fragment key={key}>
                     <div className={`col-xl-${12 / body.length} col-12 pr-3`}>
                       <div className="p-5 layout">
-                        <p style={{fontWeight: 'bold'}}>
-                          {intl.formatMessage({id: item.title})}
-                          <span
-                            className="text-primary"
-                            style={{cursor: 'pointer'}}
-                            onClick={() => {
-                              if (onCreate) {
-                                onCreate(null);
-                              }
-                            }}>
-                            <AddIcon/>
-                          </span>
-                        </p>
+                        {
+                          item.title && (
+                            <p style={{fontWeight: 'bold'}}>
+                              {intl.formatMessage({id: item.title})}
+                              <span
+                                className="text-primary"
+                                style={{cursor: 'pointer'}}
+                                onClick={() => {
+                                  if (onCreate) {
+                                    onCreate(null);
+                                  }
+                                }}>
+                                <AddIcon/>
+                              </span>
+                            </p>
+                          )
+                        }
                         <MasterTreeStructure
                           data={item.data}
                           onCreate={onCreate}
                           onEdit={onEdit}
                           onDelete={onDelete}
-                          onFetchAgency={onFetchAgency}
-                          showChildren={showArray_v2({}, item.data)}
+                          onFetchEntities={onFetchEntities}
                         />
                       </div>
                     </div>
@@ -82,10 +68,13 @@ const MultiLevelSaleBody: React.FC<MultilevelSaleBodyProp> = ({
                   <Fragment key={key}>
                     <div className={`col-xl-${12 / body.length} col-12 pl-3`}>
                       <div className="p-5 layout">
-                        <p style={{fontWeight: 'bold'}}>
-                          {intl.formatMessage({id: item.title})}
-                        </p>
-                        
+                        {
+                          item.title && (
+                            <p style={{fontWeight: 'bold'}}>
+                              {intl.formatMessage({id: item.title})}
+                            </p>
+                          )
+                        }
                         <MasterTable
                           entities={item.data}
                           columns={item.prop.columns}
