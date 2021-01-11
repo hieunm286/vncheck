@@ -22,7 +22,6 @@ import 'react-datepicker/dist/react-datepicker.css';
 
 import { MetronicI18nProvider } from './app/layout/i18n';
 import { MetronicLayoutProvider } from './app/layout/_core/metronic-layout';
-import { MetronicSubheaderProvider } from './app/layout/_core/metronic-subheader';
 import { MetronicSplashScreenProvider } from './app/layout/_core/metronic-splash-screen';
 
 /**
@@ -55,11 +54,9 @@ _redux.setupAxios(axios, store);
 ReactDOM.render(
   <MetronicI18nProvider>
     <MetronicLayoutProvider>
-      <MetronicSubheaderProvider>
         <MetronicSplashScreenProvider>
           <App store={store} persistor={persistor} basename={REACT_APP_PUBLIC_URL} />
         </MetronicSplashScreenProvider>
-      </MetronicSubheaderProvider>
     </MetronicLayoutProvider>
   </MetronicI18nProvider>,
   document.getElementById('root'),

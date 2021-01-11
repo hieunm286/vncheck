@@ -12,18 +12,12 @@ interface TreeDataProp {
   data: TreeData[];
   onCreate?: (entity: any) => void;
     onEdit?: (entity: any) => void;
-    onDelete?: (entity: any) => void; 
-    onFetchAgency?: (entity: any) => void;
-    showChildren: any;
+    onDelete?: (entity: any) => void;
+    onFetchEntities?: (entity: any) => void;
 }
 
-const MasterTreeStructure: React.FC<TreeDataProp> = ({ data, onCreate, onEdit, onDelete, onFetchAgency, showChildren }) => {
-  const [showChildrenV2, setShowChildrenV2] = useState(showChildren);
+const MasterTreeStructure: React.FC<TreeDataProp> = ({ data, onCreate, onEdit, onDelete, onFetchEntities }) => {
   const [currentChild, setCurrentChild] = useState<string | undefined>()
-
-  // useEffect(() => {
-  //   setShowChildrenV2(showChildren)
-  // }, [showChildren])
 
   const handleAdd = (data: TreeData): void => {
     if (onCreate) {
@@ -36,18 +30,11 @@ const MasterTreeStructure: React.FC<TreeDataProp> = ({ data, onCreate, onEdit, o
     }
   };
 
-  const onShowChildren = (key: string): void => {
-    const clone = { ...showChildrenV2 };
-
-    clone[key] = !clone[key];
-    setShowChildrenV2(clone);
-  };
-
   const handleClick = (data: TreeData): void => {
     console.log(data);
     setCurrentChild(data._id)
-    if (onFetchAgency) {
-      onFetchAgency(data)
+    if (onFetchEntities) {
+      onFetchEntities(data)
     }
   }
 
@@ -65,8 +52,8 @@ const MasterTreeStructure: React.FC<TreeDataProp> = ({ data, onCreate, onEdit, o
       <>
         {data.map((childrenItem: TreeData, keyItem: number) => (
           <React.Fragment key={'childrenren' + keyItem}>
-            <tr>
-              <td onClick={() => handleClick(childrenItem)} className={currentChild === childrenItem._id ? 'text-primary font-weight-700' : ''} >
+            <tr style={{backgroundColor:(currentChild === childrenItem._id ? 'rgba(39, 174, 96,0.1)' : 'transparent')}}>
+              <td onClick={() => handleClick(childrenItem)} className={currentChild === childrenItem._id ? 'text-primary font-weight-700' : ''}  >
                 <div style={{ marginLeft: `${size}px` }}>
                   {/* {childrenItem.children && childrenItem.children.length > 0 ? (
                     <button
@@ -81,29 +68,37 @@ const MasterTreeStructure: React.FC<TreeDataProp> = ({ data, onCreate, onEdit, o
                       {'\u00A0'}
                     </button>
                   )} */}
-                  <span onClick={() => onShowChildren(childrenItem._id)} style={{ cursor: 'pointer' }}>{childrenItem.name}</span>
+                  <span onClick={() => {
+                    // console.log('ahihi')
+                    }} style={{ cursor: 'pointer' }}>{childrenItem.name}</span>
                 </div>
               </td>
               <td>
-                <div className="text-right">
-                <button
-                  style={{ backgroundColor: 'white', border: 'none' }}
-                  onClick={() => handleAdd(childrenItem)}
-                  className="text-primary">
-                  <AddIcon />
-                </button>
-                <button
-                  style={{ backgroundColor: 'white', border: 'none' }}
-                  onClick={() => handleEdit(childrenItem)}
-                  className="text-primary">
-                  <EditIcon />
-                </button>
-                <button
-                  style={{ backgroundColor: 'white', border: 'none' }}
-                  onClick={() => handleDelete(childrenItem)}
-                  className="text-primary">
-                  <DeleteIcon />
-                </button>
+                <div className="text-right" >
+                {onCreate && (
+                  <button
+                    style={{ backgroundColor: 'transparent', border: 'none' }}
+                    onClick={() => handleAdd(childrenItem)}
+                    className="text-primary">
+                    <AddIcon />
+                  </button>
+                )}
+                {onEdit && (
+                  <button
+                    style={{ backgroundColor: 'transparent', border: 'none' }}
+                    onClick={() => handleEdit(childrenItem)}
+                    className="text-primary">
+                    <EditIcon />
+                  </button>
+                )}
+                {onDelete && (
+                  <button
+                    style={{ backgroundColor: 'transparent', border: 'none' }}
+                    onClick={() => handleDelete(childrenItem)}
+                    className="text-primary">
+                    <DeleteIcon />
+                  </button>
+                )}
                 </div>
               </td>
             </tr>

@@ -5,6 +5,7 @@ import {LayoutSplashScreen} from './layout/_core/metronic-splash-screen';
 import {ContentRoute} from './layout/components/content/content-route';
 import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import {useWindowSize} from "./pages/auth/pages/auth-page";
 
 const UserPage = lazy(() => import('./pages/user/user'));
 
@@ -32,9 +33,15 @@ const ProductionPlan = lazy(() => import('./pages/production-plan/production-pla
 
 const ProductionManagement = lazy(() => import('./pages/production-management/production-management'))
 const QrManagement = lazy(() => import('./pages/qr-management/qr'))
+const RolePage = lazy(() => import('./pages/role/role'))
 
+const ManagementOrganization = lazy(() => import('./pages/management-organization/management-organization'))
+
+const CustomersManagement = lazy(() => import('./pages/customers/customers-management'))
 
 export default function BasePage() {
+  const [width] = useWindowSize();
+  
   // useEffect(() => {
   //   console.log('Base page');
   // }, []) // [] - is required if you need only one call
@@ -65,6 +72,10 @@ export default function BasePage() {
         <Route path="/production-plan" component={ProductionPlan}/>
         <Route path="/production-management" component={ProductionManagement}/>
         <Route path="/qr" component={QrManagement}/>
+        <Route path="/management-organization" component={ManagementOrganization}/>
+        <Route path="/account/role" component={RolePage}/>
+        <Route path="/customers-management" component={CustomersManagement}/>
+        
         <Redirect to="/error/error-v1"/>
       </Switch>
     </Suspense>

@@ -12,6 +12,7 @@ import _ from 'lodash';
 import {RadioField} from '../forms/radio-field';
 import CheckboxTable from '../forms/checkbox-table';
 import CustomTreeSelect from "../forms/tree-select";
+import CheckBoxField from '../forms/input-checkbox';
 
 const DefaultPlaceholder = {
   string: 'COMMON_COMPONENT.INPUT.PLACEHOLDER',
@@ -289,8 +290,8 @@ export const InputSearchSelect = ({
       };
       const entities = await onSearch({queryProps, paginationProps});
       const count = entities.data.paging.total;
-      const hasMore = prevOptions.length < count - (DefaultPagination.limit ?? 0);
       const data = [...new Set(entities.data.data)];
+      const hasMore = prevOptions.length + data.length < count - (DefaultPagination.limit ?? 0);
       return {
         options: data,
         hasMore: hasMore,
@@ -339,26 +340,15 @@ export const InputTreeSelect = ({
 };
 
 export const InputCheckBox = ({
-                                data,
-                                columns,
-                                loading,
-                                onSelectMany,
-                                selectedEntities,
-                                selectColumnPosition,
-                                name,
+                                label,
+                                optionData,
                                 ...props
                               }: InputCheckBoxType) => {
   return (
-    <CheckboxTable
+    <CheckBoxField
       {...props}
-      name={name}
-      data={data || []}
-      columns={columns || {}}
-      total={data ? data.length : 0}
-      loading={loading}
-      onSelectMany={onSelectMany}
-      selectedEntities={selectedEntities}
-      selectColumnPosition={selectColumnPosition}
+      optionData={optionData}
+      label={label}
     />
   );
 };

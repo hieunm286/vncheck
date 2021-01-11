@@ -362,7 +362,7 @@ function MultilevelSale() {
               setShowDelete(true);
               history.push(`/multilevel-sale/${entity._id}/delete`);
             }}
-            onFetchAgency={onFetchAgency}
+            onFetchEntities={onFetchAgency}
           />
         )}
       </Route>
