@@ -10,6 +10,7 @@ import {
   UpdateProps,
 } from '../../common-library/common-types/common-type';
 import {UserModel} from "./user.model";
+import qs from 'qs';
 
 
 export const API_URL = API_BASE_URL + '/user';
@@ -30,6 +31,19 @@ export const GetAll: GetAllPropsServer<any> = ({
   });
 };
 
+
+export const GetAll2: GetAllPropsServer<any> = ({
+  queryProps,
+  sortList,
+  paginationProps,
+}) => {
+  let myAxios = axios.create({
+    paramsSerializer: params => qs.stringify(params, {arrayFormat: 'repeat'})
+  })
+    return myAxios.get(`${API_URL}`, {
+  params: {...queryProps, ...paginationProps, sortList},
+  });
+};
 
 export const Count: CountProps<UserModel> = (queryProps) => {
   return axios.get(`${API_URL}/get/count`, {

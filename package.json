@@ -138,6 +138,7 @@
     "@babel/preset-typescript": "^7.10.4",
     "@types/crypto-js": "^4.0.0",
     "@types/deep-diff": "^1.0.0",
+    "@types/qs": "^6.9.5",
     "@types/react-bootstrap": "^0.32.24",
     "@types/react-bootstrap-table-next": "^4.0.9",
     "@types/react-bootstrap-table2-paginator": "^2.1.1",

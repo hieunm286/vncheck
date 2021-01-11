@@ -28,7 +28,7 @@ export default function setupAxios(axios: AxiosStatic, store: EnhancedStore) {
     config => {
       config.paramsSerializer = params => {
         // Qs is already included in the Axios package
-        return qs.stringify(params, { allowDots: true });
+        return qs.stringify(params, { allowDots: true, arrayFormat: 'repeat'});
       };
       const { auth } = store.getState();
       if (auth) {

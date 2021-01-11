@@ -193,8 +193,24 @@ export default function ManagementOrganization() {
             title='EMPTY'
             body={TreeBody}
             onFetchEntities={(entity: any) => {
-              const queryParams = {role: entity._id};
-              UserService.GetAll({queryProps: queryParams, paginationProps: DefaultPagination, }).then((res : AxiosResponse<{data: UserModel[]; paging: number}>) => {
+              let roleIds: any[] = [];
+              
+              let params = new URLSearchParams();
+              if(entity.children && entity.children.length) {
+                entity.children.forEach((entity: any) => {
+                  roleIds.push(entity._id);
+                  params.append("role", entity._id);
+                })
+              }
+              const queryParams = entity.children ? 
+                // {managementUnit: entity._id} :
+                // {role: roleIds } : 
+               {role: roleIds} :
+                {role: entity._id};
+              UserService.GetAll({queryProps: queryParams, paginationProps: DefaultPagination, })
+                .then((res : AxiosResponse<{data: UserModel[]; paging: number}>) => {
+                // .then((res : AxiosResponse<{data: any}>) => {
+                console.log(res.data.data)
                 setUserEntities(res.data.data);
               })
             }}
