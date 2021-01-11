@@ -11,11 +11,14 @@ import { UserModel } from '../user/user.model';
 import { ManagementOrganizationModel } from './management-organization.model';
 import {Count, Create, Delete, DeleteMany, Get, GetAll, Update} from './management-organization.service';
 import * as UserService from '../user/user.service';
+import * as RoleService from '../role/role.service';
 import { AxiosResponse } from 'axios';
+import { RoleModel } from '../role/role.model';
 
 export default function ManagementOrganization() {
 
   const [userEntities, setUserEntities] = useState<UserModel[]>([]);
+  const [convertedEntities, setConvertedEntities] = useState<any[]>([]);
 
   const {
     entities,
@@ -65,12 +68,49 @@ export default function ManagementOrganization() {
   const history = useHistory();
 
   const getDataConverted = () => {
-    
-  }
+    // console.log(entities)
+    // if(entities && entities.length > 0) {
+    //   const res =  entities.map((entity: any) => {
+    //     const queryParams = {managementUnit: entity._id};
+    //     RoleService.GetAll({queryProps: queryParams, paginationProps: DefaultPagination, }).then((res : AxiosResponse<{data: RoleModel[]; paging: number}>) => {
+    //       return {...entity, children: res.data.data};
+    //       // _entities.push(_entity);
+    //       // console.log(_entities.length)
+    //     })
+    //   });
+    //   console.log(res)
+    //   return res;
+    // } else {
+    //   return entities;
+    // }
+    return entities;
+ }
 
   useEffect(() => {
     getAll(filterProps);
   }, [paginationProps, filterProps]);
+
+
+
+  useEffect(() => {
+    console.log('hi')
+    if(entities && entities.length > 0) {
+      
+      let _convertedEntities: any[] = [];
+      entities.forEach((entity: any) => {
+        const queryParams = {managementUnit: entity._id};
+        RoleService.GetAll({queryProps: queryParams, paginationProps: DefaultPagination, }).then((res : AxiosResponse<{data: RoleModel[]; paging: number}>) => {
+          let isObjectProcessed = _convertedEntities.some((convertedEntity: any) => convertedEntity._id === entity._id);
+          _convertedEntities = isObjectProcessed ? [..._convertedEntities] : 
+            [..._convertedEntities, {...entity, children: res.data.data}];
+          // if(!isObjectProcessed) {
+          //   _convertedEntities.push({...entity, children: res.data.data})
+          // }
+          setConvertedEntities(_convertedEntities)
+        })
+      });
+    } 
+  }, [entities]);
 
   const columns = React.useMemo(() => {
     return [
@@ -127,7 +167,8 @@ export default function ManagementOrganization() {
       // title: 'MULTIVELEVEL_SALE_TREE_DATA',
       type: 'Tree',
       // data: mockManagementOrganizations,
-      data: entities,
+      // data: getDataConverted(),
+      data: convertedEntities,
     },
     {
       // name: '',
