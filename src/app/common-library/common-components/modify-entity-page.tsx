@@ -21,7 +21,7 @@ import { getField } from '../helpers/common-function';
 export function ModifyEntityPage<T>({
                                       inputGroups,
                                       mode = 'horizontal',
-                                    }: // tagData
+                                    }:
                                       {
                                         inputGroups: InputGroups;
                                         mode?: 'horizontal' | 'vertical';
@@ -34,12 +34,12 @@ export function ModifyEntityPage<T>({
       <div className={'row'}>
         {pl && Object.values(pl).map((inputGroup, index) => {
           if (_.isString(inputGroup)) throw new Error('Sử dụng sai cách ' + inputGroup + '\n' + JSON.stringify(pl));
-          const {_subTitle, _className, _dataClassName, _titleClassName, ...inputs} = inputGroup;
+          const {_subTitle, _className, _inputClassName, ...inputs} = inputGroup;
           return (
             <div key={`modify-entity-page${index}`} className={_className ?? 'col-12'}>
               {_subTitle && _subTitle !== '' && (<div
                 className="modify-subtitle text-primary">{intl.formatMessage({id: _subTitle}).toUpperCase()}</div>)}
-              <RenderForm inputs={inputs} prevKey={''} mode={mode}/>
+              <RenderForm inputs={inputs} prevKey={''} inputClassName={_inputClassName} mode={mode}/>
             </div>
           )
         })}
@@ -48,9 +48,9 @@ export function ModifyEntityPage<T>({
   );
 }
 
-export const RenderForm = ({inputs, prevKey, mode}: any) => {
+export const RenderForm = ({inputs, prevKey, mode, inputClassName}: any) => {
   const intl = useIntl();
-  const defaultClassName = 'mb-5';
+  const defaultClassName = inputClassName ?? 'mb-5';
   return (<>
     {Object.keys(inputs).map(key => {
       const input = inputs[key];
@@ -186,16 +186,13 @@ export const RenderForm = ({inputs, prevKey, mode}: any) => {
           return (<InputCustom {...props} key={`modify-page-form-${name}`}/>);
         }
         default: {
-          const {_type, _subTitle, _className, _dataClassName, _titleClassName, ...innt} = input as any;
+          const {_type, _subTitle, _className, _inputClassName, ...innt} = input as any;
           return (<Fragment key={`render_form${prevKey ? `${prevKey}.${key}` : key}`}>
-            <div className={_className ?? ''}>
               {_subTitle && _subTitle !== '' && (<div
                 className="modify-subtitle text-primary">{intl.formatMessage({id: _subTitle}).toUpperCase()}</div>)}
-              <RenderForm inputs={innt} prevKey={prevKey ? `${prevKey}.${key}` : key} mode={mode}/>
-            </div>
+              <RenderForm inputs={innt} inputClassName={_inputClassName?? inputClassName} prevKey={prevKey ? `${prevKey}.${key}` : key} mode={mode}/>
           </Fragment>)
         }
       }
-      return (<></>)
     })}</>)
 };

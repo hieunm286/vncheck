@@ -47,20 +47,22 @@ export function Routes() {
         <Redirect to={`/auth/change-password?callbackUrl=${callbackUrl}`}/>
       </Route>)
     } else if (isLoggedInAndUnexpired()) {
-      return ([(<Redirect from={'/auth'} to={callbackUrl} key={'r_base'}/>), (<Layout key={'base'}>
-        <BasePage/>
-      </Layout>)]);
+      return [
+        (<Redirect from={'/auth'} to={callbackUrl} key={'r_base'}/>),
+        (<Layout key={'base'}>
+          <BasePage/>
+        </Layout>)];
     } else
       return (<Route>
         <AuthPage/>
         {
           username ?
-          (<Route><Redirect to={`/auth/login/challenge?callbackUrl=${callbackUrl}`}/></Route>)
-          :
-          (<Route><Redirect
-          to={`/auth/login/identifier?callbackUrl=${callbackUrl}&errorMessage=${errorMessage}`}/></Route>)
+            (<Route><Redirect to={`/auth/login/challenge?callbackUrl=${callbackUrl}`}/></Route>)
+            :
+            (<Route><Redirect
+              to={`/auth/login/identifier?callbackUrl=${callbackUrl}&errorMessage=${errorMessage}`}/></Route>)
         }
-        
+      
       </Route>);
   };
   return (

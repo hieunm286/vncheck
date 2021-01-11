@@ -44,7 +44,6 @@ export function MasterHeader<T>({
         <Formik
           initialValues={initValue}
           onSubmit={values => {
-            console.log(values)
             onSearch && onSearch({...values});
           }}
           onReset={data => {

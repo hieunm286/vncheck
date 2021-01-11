@@ -98,6 +98,7 @@ export const MenuItems: MenuItemModel[] = [
       },
     ],
   },
+  {parent: true, title: 'MENU.CUSTOMERS_MANAGEMENT', url: '/customers-management'},
   {parent: true, title: 'MENU.PRODUCT_PLANT', url: '/production-plan'},
   {parent: true, title: 'MENU.REPORT'},
   {parent: true, title: 'MENU.PRODUCT_MANAGEMENT', url: '/production-management'},

@@ -1,38 +1,37 @@
-import React, { useEffect, useState } from 'react';
-import { Form, Formik } from 'formik';
-import { useHistory } from 'react-router-dom';
-import { AxiosResponse } from 'axios';
+import React, {useEffect, useState} from 'react';
+import {Form, Formik} from 'formik';
+import {useHistory} from 'react-router-dom';
+import {AxiosResponse} from 'axios';
 
-import { useIntl } from 'react-intl';
-import { generateInitForm, GetHomePage } from '../../common-library/helpers/common-function';
-import { Card, CardBody, CardHeader } from '../../common-library/card';
+import {useIntl} from 'react-intl';
+import {generateInitForm, GetHomePage} from '../../common-library/helpers/common-function';
+import {Card, CardBody, CardHeader} from '../../common-library/card';
 import _ from 'lodash';
-import { addInitField, CompareDate, initProductPlanForm } from './defined/const';
+import {addInitField, CompareDate, initProductPlanForm} from './defined/const';
 import ProductionPlanModal from './production-plan-modal';
-import { ModifyEntityPage } from '../../common-library/common-components/modify-entity-page';
-import { ModifyForm } from '../../common-library/common-types/common-type';
+import {ModifyEntityPage} from '../../common-library/common-components/modify-entity-page';
+import {ModifyForm} from '../../common-library/common-types/common-type';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined';
-import { Input } from 'antd';
+import {Input} from 'antd';
 import './style/production-plan.scss';
 import { FormControl } from 'react-bootstrap';
 import { TextareaAutosize } from '@material-ui/core';
-import {toast} from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const { TextArea } = Input;
+const {TextArea} = Input;
 
 const notifyError = (error: string) => {
-  toast.error(error
-    , {
-      position: 'top-right',
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
+  toast.error(error, {
+    position: 'top-right',
+    autoClose: 3000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+  });
 };
 
 const diff = (obj1: any, obj2: any) => {
@@ -197,7 +196,7 @@ function ProductionPlanCrud({
   const [confirmModal, setConfirmModal] = useState(false);
   const [noticeModal, setNoticeModal] = useState(false);
 
-  const valueRef = React.useRef<any>({ value: '' })
+  const valueRef = React.useRef<any>({ value: '' });
 
   const [commentsArr, setCommentArr] = useState(entity.comments || []);
 
@@ -215,11 +214,7 @@ function ProductionPlanCrud({
     }
   }, [code]);
 
-  const submitHandle = (
-    values: any,
-    curValues: any,
-    { setSubmitting, setFieldError }: any,
-  ) => {
+  const submitHandle = (values: any, curValues: any, { setSubmitting, setFieldError }: any) => {
     onModify(values)
       .then((res: any) => {
         setNoticeModal(true);
@@ -238,66 +233,275 @@ function ProductionPlanCrud({
       .then(res => {
         setCommentArr(res.data);
         // setComment({ content: '' });
-        valueRef.current.value = ''
+        valueRef.current.value = '';
       })
       .catch(err => {
         throw err;
       });
   };
 
-  const validate = (values: any) => {
-    if (values.packing.estimatedQuantity && !_.isInteger(values.packing.estimatedQuantity)) {
-      return { status: false, field: 'packing.estimatedQuantity', message: 'Số lượng đóng gói phải là số nguyên' };
-    }
-    if (values.harvesting.estimatedTime &&
-      values.preliminaryTreatment.estimatedTime &&
-      !CompareDate(
-        new Date(values.preliminaryTreatment.estimatedTime),
-        new Date(values.harvesting.estimatedTime),
-      )) {
-        return { status: false, field: 'preliminaryTreatment.estimatedTime', message: 'Ngày sơ chế không được nhỏ hơn ngày thu hoạch' };
-      }
+  const validationForm = (values: any) => {
+    const errors: any = {
+      // packing: {},
+      // harvesting: {},
+      // cleaning: {},
+      // preliminaryTreatment: {},
+      // preservation: {}
+    };
 
-    if (values.planting.expectedQuantity && values.preliminaryTreatment.estimatedQuantity && values.planting.expectedQuantity < values.preliminaryTreatment.estimatedQuantity) {
-      return { status: false, field: 'preliminaryTreatment.estimatedQuantity', message: 'Sản lượng sơ chế không được lớn hơn sản lượng thu hoạch' }
+    if (values.preliminaryTreatment.estimatedQuantity) {
+      if (!_.isInteger(values.preliminaryTreatment.estimatedQuantity)) {
+        if (!errors.preliminaryTreatment) {
+          errors.preliminaryTreatment = {};
+        }
+        errors.preliminaryTreatment.estimatedQuantity = 'Sản lượng sơ chế phải là số nguyên';
+      } else if (values.preliminaryTreatment.estimatedQuantity < 0) {
+        if (!errors.preliminaryTreatment) {
+          errors.preliminaryTreatment = {};
+        }
+        errors.preliminaryTreatment.estimatedQuantity = 'Sản lượng sơ chế không được nhỏ hơn 0';
+      } else if (
+        values.planting.expectedQuantity &&
+        values.preliminaryTreatment.estimatedQuantity > values.planting.expectedQuantity
+      ) {
+        if (!errors.preliminaryTreatment) {
+          errors.preliminaryTreatment = {};
+        }
+        errors.preliminaryTreatment.estimatedQuantity =
+          'Sản lượng sơ chế không được lớn hơn sản lượng thu hoạch';
+      }
     }
+
+    if (values.preliminaryTreatment.estimatedTime) {
+      if (!CompareDate(new Date(values.preliminaryTreatment.estimatedTime), new Date())) {
+        if (!errors.preliminaryTreatment) {
+          errors.preliminaryTreatment = {};
+        }
+        errors.preliminaryTreatment.estimatedTime = 'Ngày sơ chế không được nhỏ hơn ngày hiện tại';
+      } else if (
+        values.harvesting.estimatedTime &&
+        !CompareDate(
+          new Date(values.preliminaryTreatment.estimatedTime),
+          new Date(values.harvesting.estimatedTime),
+        )
+      ) {
+        if (!errors.preliminaryTreatment) {
+          errors.preliminaryTreatment = {};
+        }
+        errors.preliminaryTreatment.estimatedTime = 'Ngày sơ chế không được nhỏ hơn ngày thu hoạch';
+      }
+    }
+
+    // Cleaning
+
+    if (values.cleaning.estimatedQuantity) {
+      if (!_.isInteger(values.cleaning.estimatedQuantity)) {
+        if (!errors.cleaning) {
+          errors.cleaning = {};
+        }
+        errors.cleaning.estimatedQuantity = 'Sản lượng làm sạch phải là số nguyên';
+      } else if (values.cleaning.estimatedQuantity < 0) {
+        if (!errors.cleaning) {
+          errors.cleaning = {};
+        }
+        errors.cleaning.estimatedQuantity = 'Sản lượng làm sạch không được nhỏ hơn 0';
+      } else if (
+        values.preliminaryTreatment.estimatedQuantity &&
+        values.cleaning.estimatedQuantity > values.preliminaryTreatment.estimatedQuantity
+      ) {
+        if (!errors.cleaning) {
+          errors.cleaning = {};
+        }
+        errors.cleaning.estimatedQuantity =
+          'Sản lượng làm sạch không được lớn hơn sản lượng sơ chế';
+      }
+    }
+
+    if (values.cleaning.estimatedTime) {
+      if (!CompareDate(new Date(values.cleaning.estimatedTime), new Date())) {
+        if (!errors.cleaning) {
+          errors.cleaning = {};
+        }
+        errors.cleaning.estimatedTime = 'Ngày làm sạch không được nhỏ hơn ngày hiện tại';
+      } else if (
+        values.preliminaryTreatment.estimatedTime &&
+        !CompareDate(
+          new Date(values.cleaning.estimatedTime),
+          new Date(values.preliminaryTreatment.estimatedTime),
+        )
+      ) {
+        if (!errors.cleaning) {
+          errors.cleaning = {};
+        }
+        errors.cleaning.estimatedTime = 'Ngày làm sạch không được nhỏ hơn ngày sơ chế';
+      }
+    }
+
+    // Packing
+
     if (
-      values.preliminaryTreatment.estimatedTime &&
-      values.cleaning.estimatedTime &&
-      !CompareDate(
-        new Date(values.cleaning.estimatedTime),
-        new Date(values.preliminaryTreatment.estimatedTime),
-      )
+      values.packing &&
+      values.packing.estimatedQuantity &&
+      !_.isInteger(values.packing.estimatedQuantity)
     ) {
-      return { status: false, field: 'cleaning.estimatedTime', message: 'Ngày làm sạch không được nhỏ hơn ngày sơ chế' };
-    }
-    if (values.preliminaryTreatment.estimatedQuantity && values.cleaning.estimatedQuantity && values.preliminaryTreatment.estimatedQuantity < values.cleaning.estimatedQuantity) {
-      return { status: false, field: 'cleaning.estimatedQuantity', message: 'Sản lượng làm sạch không được lớn hơn sản lượng sơ chế' }
-    }
-    if (
-      values.cleaning.estimatedTime &&
-      values.packing.estimatedTime &&
-      !CompareDate(
-        new Date(values.packing.estimatedTime),
-        new Date(values.cleaning.estimatedTime),
-      )
+      if (!errors.packing) {
+        errors.packing = {};
+      }
+      errors.packing.estimatedQuantity = 'Số lượng đóng gói phải là số nguyên';
+    } else if (
+      values.packing &&
+      values.packing.estimatedQuantity &&
+      values.packing.estimatedQuantity < 0
     ) {
-      return { status: false, field: 'packing.estimatedTime', message: 'Ngày đóng gói không được nhỏ hơn ngày làm sạch' };
+      if (!errors.packing) {
+        errors.packing = {};
+      }
+      errors.packing.estimatedQuantity = 'Số lượng đóng gói không được nhỏ hơn 0';
     }
-    // if (values.cleaning.estimatedQuantity && values.packing.estimatedQuantity && values.cleaning.estimatedQuantity < values.packing.estimatedQuantity) {
-    //   return { status: false, field: 'packing.estimatedQuantity', message: 'Sản lượng đóng gói không được lớn hơn sản lượng làm sạch' }
-    // }
-    if (
-      values.packing.estimatedTime &&
-      values.preservation.estimatedStartTime &&
-      !CompareDate(
-        new Date(values.preservation.estimatedStartTime),
-        new Date(values.packing.estimatedTime),
-      )
-    ) {
-      return { status: false, field: 'preservation.estimatedStartTime', message: 'Ngày bảo quản không được nhỏ hơn ngày đóng gói' };
+
+    if (values.packing.estimatedTime) {
+      if (!CompareDate(new Date(values.packing.estimatedTime), new Date())) {
+        if (!errors.packing) {
+          errors.packing = {};
+        }
+        errors.packing.estimatedTime = 'Ngày đóng gói không được nhỏ hơn ngày hiện tại';
+      } else if (
+        values.cleaning.estimatedTime &&
+        !CompareDate(
+          new Date(values.packing.estimatedTime),
+          new Date(values.cleaning.estimatedTime),
+        )
+      ) {
+        if (!errors.packing) {
+          errors.packing = {};
+        }
+        errors.packing.estimatedTime = 'Ngày đóng gói không được nhỏ hơn ngày làm sạch';
+      } else if (
+        values.packing.estimatedExpireTimeStart &&
+        CompareDate(
+          new Date(values.packing.estimatedTime),
+          new Date(values.packing.estimatedExpireTimeStart),
+        )
+      ) {
+        if (!errors.packing) {
+          errors.packing = {};
+        }
+        errors.packing.estimatedTime = 'Ngày đóng gói không được lớn hơn hạn sử dụng bắt đầu';
+      }
     }
-    return { status: true };
+
+    if (values.packing.estimatedExpireTimeStart) {
+      if (!CompareDate(new Date(values.packing.estimatedExpireTimeStart), new Date())) {
+        if (!errors.packing) {
+          errors.packing = {};
+        }
+        errors.packing.estimatedExpireTimeStart = 'Hạn sử dụng không được nhỏ hơn ngày hiện tại';
+      } else if (
+        values.packing.estimatedTime &&
+        CompareDate(
+          new Date(values.packing.estimatedTime),
+          new Date(values.packing.estimatedExpireTimeStart),
+        )
+      ) {
+        if (!errors.packing) {
+          errors.packing = {};
+        }
+        errors.packing.estimatedExpireTimeStart =
+          'Hạn sử dụng bắt đầu không được nhỏ hơn ngày đóng gói';
+      } else if (
+        values.packing.estimatedExpireTimeEnd &&
+        !CompareDate(
+          new Date(values.packing.estimatedExpireTimeEnd),
+          new Date(values.packing.estimatedExpireTimeStart),
+        )
+      ) {
+        if (!errors.packing) {
+          errors.packing = {};
+        }
+        errors.packing.estimatedExpireTimeStart =
+          'Hạn sử dụng bắt đầu không được lớn hơn ngày hết hạn';
+      }
+    }
+
+    if (values.packing.estimatedExpireTimeEnd) {
+      if (!CompareDate(new Date(values.packing.estimatedExpireTimeEnd), new Date())) {
+        if (!errors.packing) {
+          errors.packing = {};
+        }
+        errors.packing.estimatedExpireTimeEnd = 'Ngày hết hạn không được nhỏ hơn ngày hiện tại';
+      } else if (
+        values.packing.estimatedExpireTimeStart &&
+        !CompareDate(
+          new Date(values.packing.estimatedExpireTimeEnd),
+          new Date(values.packing.estimatedExpireTimeStart),
+        )
+      ) {
+        if (!errors.packing) {
+          errors.packing = {};
+        }
+        errors.packing.estimatedExpireTimeEnd =
+          'Ngày hết hạn không được nhỏ hơn hạn sử dụng bắt đầu';
+      }
+    }
+
+    // Preservation
+
+    if (values.preservation.estimatedStartTime) {
+      if (!CompareDate(new Date(values.preservation.estimatedStartTime), new Date())) {
+        if (!errors.preservation) {
+          errors.preservation = {};
+        }
+        errors.preservation.estimatedStartTime = 'Ngày bảo quản không được nhỏ hơn ngày hiện tại';
+      } else if (
+        values.packing.estimatedTime &&
+        CompareDate(
+          new Date(values.packing.estimatedTime),
+          new Date(values.preservation.estimatedStartTime),
+        )
+      ) {
+        if (!errors.preservation) {
+          errors.preservation = {};
+        }
+        errors.preservation.estimatedStartTime =
+          'Ngày bắt đầu bảo quản không được nhỏ hơn ngày đóng gói';
+      } else if (
+        values.preservation.estimatedEndTime &&
+        !CompareDate(
+          new Date(values.preservation.estimatedEndTime),
+          new Date(values.preservation.estimatedStartTime),
+        )
+      ) {
+        if (!errors.preservation) {
+          errors.preservation = {};
+        }
+        errors.preservation.estimatedStartTime =
+          'Ngày bắt đầu bảo quản không được lớn hơn ngày kết thúc bảo quản';
+      }
+    }
+
+    if (values.preservation.estimatedEndTime) {
+      if (!CompareDate(new Date(values.preservation.estimatedEndTime), new Date())) {
+        if (!errors.preservation) {
+          errors.preservation = {};
+        }
+        errors.preservation.estimatedEndTime =
+          'Ngày kết thúc bảo quản không được nhỏ hơn ngày hiện tại';
+      } else if (
+        values.preservation.estimatedStartTime &&
+        !CompareDate(
+          new Date(values.preservation.estimatedEndTime),
+          new Date(values.preservation.estimatedStartTime),
+        )
+      ) {
+        if (!errors.preservation) {
+          errors.preservation = {};
+        }
+        errors.preservation.estimatedEndTime =
+          'Ngày kết thúc bảo quản không được nhỏ hơn ngày bắt đầu bảo quản';
+      }
+    }
+
+    return errors;
   };
 
   return (
@@ -331,143 +535,139 @@ function ProductionPlanCrud({
         initialValues={entityForEdit || initForm}
         // initialValues={initForm}
         validationSchema={validation}
+        validate={validationForm}
         onSubmit={(values, { setSubmitting, setFieldError }) => {
-          const vResult = validate(values)
-          if (!vResult.status && vResult.field && vResult.message) {
-            setFieldError(vResult.field, vResult.message)
+          let updateValue: any;
+          setErrorMsg(undefined);
+
+          if (entityForEdit) {
+            const diffValue = diff(entityForEdit, values);
+            const clValue = { ...values };
+
+            if (
+              diffValue.packing &&
+              _.isObject(diffValue.packing.packing) &&
+              !diffValue.packing.packing.label
+            ) {
+              delete diffValue.packing.packing;
+            }
+
+            if (clValue && clValue.packing && clValue.packing.packing && diffValue && diffValue.packing) {
+              diffValue.packing.packing = clValue.packing.packing._id;
+            }
+
+            const validField = [
+              'harvesting',
+              'preliminaryTreatment',
+              'cleaning',
+              'packing',
+              'preservation',
+            ];
+
+            const validNested = [
+              'estimatedTime',
+              'estimatedQuantity',
+              'technical',
+              'leader',
+              'estimatedExpireTimeStart',
+              'estimatedExpireTimeEnd',
+              'packing',
+              'estimatedStartTime',
+              'estimatedEndTime',
+            ];
+
+            validField.forEach(keys => {
+              const cvLeader: any[] = [];
+              const cvTechnical: any[] = [];
+
+              if (clValue[keys] && clValue[keys].leader) {
+                clValue[keys].leader.forEach((value: any) => {
+                  if (value.user) {
+                    cvLeader.push(value.user._id);
+                  }
+                });
+
+                clValue[keys].leader = cvLeader;
+              }
+
+              if (clValue[keys] && clValue[keys].technical) {
+                clValue[keys].technical.forEach((value: any) => {
+                  if (value.user) {
+                    cvTechnical.push(value.user._id);
+                  }
+                });
+
+                clValue[keys].technical = cvTechnical;
+              }
+            });
+
+            validField.forEach(keys => {
+              Object.keys(clValue[keys]).forEach(cKey => {
+                if (diffValue[keys] && !diffValue[keys][cKey] && validNested.includes(cKey)) {
+                  diffValue[keys][cKey] = clValue[keys][cKey];
+                }
+              });
+            });
+
+            validField.forEach(keys => {
+              if (diffValue[keys]) {
+                Object.keys(diffValue[keys]).forEach(cKey => {
+                  if (
+                    !diffValue[keys][cKey] ||
+                    (_.isArray(diffValue[keys][cKey]) && diffValue[keys][cKey].length === 0)
+                  ) {
+                    delete diffValue[keys][cKey];
+                  }
+                });
+
+                if (_.isEmpty(diffValue[keys])) {
+                  delete diffValue[keys];
+                }
+              }
+            });
+
+            updateValue = { _id: values._id, ...diffValue };
           } else {
-            let updateValue: any;
-            setErrorMsg(undefined);
+            updateValue = { ...values };
+          }
 
-            if (entityForEdit) {
-              const diffValue = diff(entityForEdit, values);
-              const clValue = { ...values };
+          console.log(values);
 
-              if (
-                diffValue.packing &&
-                _.isObject(diffValue.packing.packing) &&
-                !diffValue.packing.packing.label
-              ) {
-                delete diffValue.packing.packing;
-              }
-
-              if (clValue.packing && clValue.packing.packing) {
-                diffValue.packing.packing = clValue.packing.packing._id;
-              }
-
-              const validField = [
-                'harvesting',
-                'preliminaryTreatment',
-                'cleaning',
-                'packing',
-                'preservation',
-              ];
-
-              const validNested = [
-                'estimatedTime',
-                'estimatedQuantity',
-                'technical',
-                'leader',
-                'estimatedExpireTimeStart',
-                'estimatedExpireTimeEnd',
-                'packing',
-                'estimatedStartTime',
-                'estimatedEndTime',
-              ];
-
-              validField.forEach(keys => {
-                const cvLeader: any[] = [];
-                const cvTechnical: any[] = [];
-
-                if (clValue[keys] && clValue[keys].leader) {
-                  clValue[keys].leader.forEach((value: any) => {
-                    if (value.user) {
-                      cvLeader.push(value.user._id);
-                    }
+          if (step === '0') {
+            submitHandle(updateValue, values, { setSubmitting, setFieldError });
+          } else if (step === '1' && currentTab !== '2') {
+            // if (!updateValue.step || updateValue.step !== '1') {
+            //   updateValue.step = '1';
+            // }
+            // submitHandle(updateValue, { setSubmitting, setFieldError });
+            onModify(updateValue)
+              .then((res: any) => {
+                sendRequest(entityForEdit)
+                  .then(ress => {
+                    setErrorMsg(undefined);
+                    refreshData();
+                    history.push(homePage || GetHomePage(window.location.pathname));
+                  })
+                  .catch(error => {
+                    setSubmitting(false);
+                    setErrorMsg(error.entity || error.response.entity);
                   });
-
-                  clValue[keys].leader = cvLeader;
-                }
-
-                if (clValue[keys] && clValue[keys].technical) {
-                  clValue[keys].technical.forEach((value: any) => {
-                    if (value.user) {
-                      cvTechnical.push(value.user._id);
-                    }
-                  });
-
-                  clValue[keys].technical = cvTechnical;
-                }
+              })
+              .catch(error => {
+                setSubmitting(false);
+                setErrorMsg(error.entity || error.response.entity);
               });
-
-              validField.forEach(keys => {
-                Object.keys(clValue[keys]).forEach(cKey => {
-                  if (diffValue[keys] && !diffValue[keys][cKey] && validNested.includes(cKey)) {
-                    diffValue[keys][cKey] = clValue[keys][cKey];
-                  }
-                });
+          } else if (step === '1' && currentTab === '2') {
+            approveFollow(updateValue)
+              .then(res => {
+                setErrorMsg(undefined);
+                refreshData();
+                history.push(homePage || GetHomePage(window.location.pathname));
+              })
+              .catch(error => {
+                setSubmitting(false);
+                setErrorMsg(error.entity || error.response.entity);
               });
-
-              validField.forEach(keys => {
-                if (diffValue[keys]) {
-                  Object.keys(diffValue[keys]).forEach(cKey => {
-                    if (
-                      !diffValue[keys][cKey] ||
-                      (_.isArray(diffValue[keys][cKey]) && diffValue[keys][cKey].length === 0)
-                    ) {
-                      delete diffValue[keys][cKey];
-                    }
-                  });
-
-                  if (_.isEmpty(diffValue[keys])) {
-                    delete diffValue[keys];
-                  }
-                }
-              });
-
-              updateValue = { _id: values._id, ...diffValue };
-            } else {
-              updateValue = { ...values };
-            }
-
-            console.log(values);
-
-            if (step === '0') {
-              submitHandle(updateValue, values, { setSubmitting, setFieldError });
-            } else if (step === '1' && currentTab !== '2') {
-              // if (!updateValue.step || updateValue.step !== '1') {
-              //   updateValue.step = '1';
-              // }
-              // submitHandle(updateValue, { setSubmitting, setFieldError });
-              onModify(updateValue)
-                .then((res: any) => {
-                  sendRequest(entityForEdit)
-                    .then(ress => {
-                      setErrorMsg(undefined);
-                      refreshData();
-                      history.push(homePage || GetHomePage(window.location.pathname));
-                    })
-                    .catch(error => {
-                      setSubmitting(false);
-                      setErrorMsg(error.entity || error.response.entity);
-                    });
-                })
-                .catch(error => {
-                  setSubmitting(false);
-                  setErrorMsg(error.entity || error.response.entity);
-                });
-            } else if (step === '1' && currentTab === '2') {
-              approveFollow(updateValue)
-                .then(res => {
-                  setErrorMsg(undefined);
-                  refreshData();
-                  history.push(homePage || GetHomePage(window.location.pathname));
-                })
-                .catch(error => {
-                  setSubmitting(false);
-                  setErrorMsg(error.entity || error.response.entity);
-                });
-            }
           }
         }}>
         {({ handleSubmit, setFieldValue, values, errors }) => (
@@ -482,7 +682,11 @@ function ProductionPlanCrud({
                   <Card
                     key={key}
                     className={
-                      _validationField && errors[_validationField] ? 'border border-danger' : ''
+                      _validationField &&
+                      errors[_validationField] &&
+                      _.isString(errors[_validationField])
+                        ? 'border border-danger'
+                        : ''
                     }>
                     {index == 0 && (
                       <CardHeader
@@ -504,15 +708,12 @@ function ProductionPlanCrud({
                     )}
 
                     <CardBody>
-                      <ModifyEntityPage
-                        inputGroups={panel}
-                        errors={errors}
-                      />
+                      <ModifyEntityPage inputGroups={panel} errors={errors} />
 
                       {_validationField &&
                         errors[_validationField] &&
                         _.isString(errors[_validationField]) && (
-                          <span className="text-danger">{errors[_validationField]}</span>
+                          <span className="text-danger pl-xl-15 pl-md-10 pl-5">Vui lòng nhập đúng thứ tự các bước</span>
                         )}
                     </CardBody>
                   </Card>
@@ -569,21 +770,25 @@ function ProductionPlanCrud({
                               //   valueRef.current = e.target.value
                               // }}
                             /> */}
-                            <TextareaAutosize className="form-control" rowsMin={1} aria-label="empty textarea" ref={valueRef} placeholder="Viết bình luận..." />
+                            <TextareaAutosize
+                              className="form-control"
+                              rowsMin={1}
+                              aria-label="empty textarea"
+                              ref={valueRef}
+                              placeholder="Viết bình luận..."
+                            />
                             {/* <FormControl as="textarea" aria-label="With textarea" rows={1} ref={valueRef} /> */}
-                            
                           </div>
                           <div className="col-1">
                             <button
                               className="btn btn-primary pl-11 pr-11"
                               onClick={() => {
                                 if (valueRef.current.value !== '') {
-                                  handleComment({ content: valueRef.current.value })
+                                  handleComment({ content: valueRef.current.value });
                                 } else {
-                                  notifyError('Bình luận không được để trống nha')
+                                  notifyError('Bình luận không được để trống nha');
                                 }
-                              }}
-                              >
+                              }}>
                               Gửi
                             </button>
                           </div>
@@ -627,7 +832,7 @@ function ProductionPlanCrud({
                           }}
                           className={allFormButton.data[keyss].className}
                           key={keyss}>
-                          {allFormButton.data[keyss].icon} {allFormButton.data[keyss].label}
+                          {allFormButton.data[keyss].icon ?? <></>} {allFormButton.data[keyss].label}
                         </button>
                       );
 
