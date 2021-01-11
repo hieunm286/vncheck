@@ -29,7 +29,7 @@ export const GetAll: GetAllPropsServer<LandLotModel> = ({
     // paramsSerializer: ParamsSerializer
   });
 };
-const AtoZ = Array('Z'.charCodeAt(0) - 'A'.charCodeAt(0)).fill(null).map((x, i) => {
+const AtoZ = Array('Z'.charCodeAt(0) - 'A'.charCodeAt(0) + 1).fill(null).map((x, i) => {
   return String.fromCharCode('A'.charCodeAt(0) + i);
 })
 export const GetLots = ({queryProps}: any): Promise<any> => {
@@ -107,7 +107,7 @@ export const uploadImage = (image: any) => {
   //   data: formData,
   // });
   return new Promise((resolve, reject) => {
-    // : AxiosResponse<LandLotModel[]> 
+    // : AxiosResponse<LandLotModel[]>
     const response = {
       data: {},
       status: 200,
