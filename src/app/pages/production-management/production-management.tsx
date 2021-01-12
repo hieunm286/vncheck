@@ -826,6 +826,7 @@ function ProductionManagement() {
                   ProductionPlanService.Search(value, { DefaultPagination, pr }).then(res => {
                     const data: any = res.data;
                     setEntities(data.data ? data.data : data);
+                    setPaginationProps(DefaultPagination);
                   });
 
                   // setFilterProps({ ...cvValue });
