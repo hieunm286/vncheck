@@ -749,7 +749,7 @@ function ProductionPlanCrud({
                             <AccountCircleOutlinedIcon style={{ fontSize: 30 }} />
                           </div>
                           <div className="col-10 bg-light rounded p-3">
-                            <p className="font-bold">{value.createdBy.fullName}</p>
+                            <p className="font-bold">{_.isString(value.createdBy) ? value.createdBy : value.createdBy.fullName ? value.createdBy.fullName : 'Anonymous'}</p>
                             <p>{value.content}</p>
                           </div>
                         </div>
