@@ -178,9 +178,7 @@ export const GetManagementOrganization = ({queryProps}: any): Promise<any> => {
 export const GetStatus = ({queryProps}: any): Promise<any> => {
   return new Promise((resolve, reject) => {
     console.log(queryProps);
-    const data = From1to100.filter((val, index, arr) => {
-      return val.indexOf(queryProps.status.toUpperCase()) > -1;
-    })
+    const data = ["0", "1"];
     resolve({
       code: 200,
       data: {

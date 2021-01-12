@@ -13,6 +13,7 @@ import {RadioField} from '../forms/radio-field';
 import CheckboxTable from '../forms/checkbox-table';
 import CustomTreeSelect from "../forms/tree-select";
 import CheckBoxField from '../forms/input-checkbox';
+import { SelectField } from '../forms/select-field';
 
 const DefaultPlaceholder = {
   string: 'COMMON_COMPONENT.INPUT.PLACEHOLDER',
@@ -136,6 +137,10 @@ export type InputCheckBoxType = {
   mode?: 'horizontal' | 'vertical';
   [X: string]: any;
 };
+
+export type InputSelectType = {
+  name: string;
+}
 
 export const InputNumber = ({label, required, placeholder, className, ...props}: InputNumberType) => {
   const validate = useCallback((value: any): string | void => {
@@ -352,3 +357,22 @@ export const InputCheckBox = ({
     />
   );
 };
+
+export const InputSelect = ({
+  ...props
+}: InputSelectType) => {
+  return (
+    <SelectField
+      {...props}
+      label='hihi'
+      placeholder='ROLE.EDIT.MANAGEMENT_ORGANIZATION.PLACEHOLDER'
+      withFeedbackLabel={true}
+      customFeedbackLabel=''
+      isHorizontal={true}
+      labelWidth={4}
+      width={200}
+      children={['a', '1', '3']}
+      type='select'
+    />
+  );
+}

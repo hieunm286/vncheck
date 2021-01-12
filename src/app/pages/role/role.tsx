@@ -17,6 +17,8 @@ import EntityCrudPage from '../../common-library/common-components/entity-crud-p
 import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
 import CancelOutlinedIcon from "@material-ui/icons/CancelOutlined";
 import * as Yup from 'yup';
+import CheckCircleIcon from "@material-ui/icons/CheckCircle";
+
 import {
   MasterBodyColumns,
   ModifyForm,
@@ -32,6 +34,7 @@ export default function ManagementOrganization() {
   const headerTitle = 'ROLE.MASTER.HEADER.TITLE';
   const bodyTitle = 'ROLE.MASTER.BODY.TITLE';
   const createTitle = 'ROLE.CREATE.HEADER';
+  const editTitle = 'ROLE.EDIT.HEADER';
 
   const {
     entities,
@@ -84,15 +87,16 @@ export default function ManagementOrganization() {
     getAll(filterProps);
   }, [paginationProps, filterProps]);
 
-  const roleDetailrenderInfo : RenderInfoDetail = [
+  const   roleDetailrenderInfo : RenderInfoDetail = [
     {
       header: '',
       className: '',
       titleClassName: '',
       dataClassName: '',
       data: {
-        managementOrganization: {
+        'managementUnit': {
           title: 'ROLE.VIEW.LABEL.ORGANIZATION_MANAGEMENT',
+          keyField: 'managementUnit.name'
         },
         _id: {
           title: 'ROLE.VIEW.LABEL.ROLE_CODE',
@@ -100,6 +104,7 @@ export default function ManagementOrganization() {
         },
         status: {
           title: 'ROLE.VIEW.LABEL.STATUS',
+          formatter: (value: any) => (value === 1 || value === true || value === "1") ? (<CheckCircleIcon style={{color: '#1DBE2D'}}/>) : (<CheckCircleIcon style={{color: '#C4C4C4'}}/>)
           
         },
         name: {
@@ -118,17 +123,24 @@ export default function ManagementOrganization() {
 
   const group1 : ModifyInputGroup = {
     _subTitle: '',
+    // managementOrganization: {
+    //   _type: 'custom',
+    //   component: () => {
+    //     return (
+    //       <>
+    //         <Select style={{width: '200px'}}>
+    //           <Option value="0">Phòng Giám Đốc</Option>
+    //         </Select>
+    //       </>
+    //     )
+    //   }
+    // },
     managementOrganization: {
-      _type: 'custom',
-      component: () => {
-        return (
-          <>
-            <Select style={{width: '200px'}}>
-              <Option value="0">Phòng Giám Đốc</Option>
-            </Select>
-          </>
-        )
-      }
+      _type: 'select',
+      label: 'ROLE.CREATE.LABEL.ROLE_NAME',
+      placeholder: 'EMPTY',
+      name: 'managementOrganization',
+      onSearch: GetNames,
     },
     name: {
       _type: 'search-select',
@@ -178,6 +190,14 @@ export default function ManagementOrganization() {
     },
   };
 
+  const editForm : ModifyForm = {
+    _header: editTitle,
+    panel1: {
+      _title: 'EMPTY',
+      group1: group1,
+    },
+  };
+
   const columns = React.useMemo(() => {
     return [
       {
@@ -200,15 +220,16 @@ export default function ManagementOrganization() {
         align: 'center',
       },
       {
-        dataField: 'email',
+        dataField: 'managementUnit.name',
         text: `${intl.formatMessage({id: 'ROLE.MASTER.TABLE.MANAGEMENT_ORGANIZATION'})}`,
         ...SortColumn,
         align: 'center',
       },
       
       {
-        dataField: 'phone',
+        dataField: 'status',
         text: `${intl.formatMessage({id: 'ROLE.MASTER.TABLE.STATUS'})}`,
+        formatter: TickColumnFormatter,
         ...SortColumn,
         align: 'center',
       },
@@ -262,23 +283,28 @@ export default function ManagementOrganization() {
 
   const searchModel: SearchModel = {
     _id: {
-      type: 'search-select',
+      type: 'string',
       label: 'ROLE.HEADER.LABEL.ROLE_CODE',
-      onSearch: GetIds,
+      placeholder: 'ROLE.HEADER.PLACEHOLDER.ROLE_CODE',
+      // onSearch: GetIds,
     },
     name: {
-      type: 'search-select',
+      type: 'string',
       label: 'ROLE.HEADER.LABEL.ROLE_NAME',
-      onSearch: GetNames,
+      placeholder: 'ROLE.HEADER.PLACEHOLDER.ROLE_NAME',
+      // onSearch: GetNames,
     },
-    managementOrganization: {
-      type: 'search-select',
+    managementUnit: {
+      type: 'string',
+      name: 'managementUnit._id',
       label: 'ROLE.HEADER.LABEL.ORGANIZATION_MANAGEMENT',
-      onSearch: GetManagementOrganization,
+      placeholder: 'ROLE.HEADER.PLACEHOLDER.ORGANIZATION_MANAGEMENT',
+      // onSearch: GetManagementOrganization,
     },
     status: {
       type: 'search-select',
       label: 'ROLE.HEADER.LABEL.STATUS',
+      placeholder: 'ROLE.HEADER.PLACEHOLDER.STATUS',
       onSearch: GetStatus,
     },
 
@@ -346,10 +372,10 @@ export default function ManagementOrganization() {
           {(history: History, match: match<{code: string}>) => (
             <EntityCrudPage
               moduleName='ROLE.MODULE_NAME'
-              entity={createEntity}
+              entity={editEntity}
               onModify={update}
               code={match && match.params.code}
-              formModel={createForm}
+              formModel={editForm}
               actions={actions}
               validation={roleValidationSchema}
               loading={loading}

@@ -9,6 +9,7 @@ import {
   InputNumber,
   InputRadio,
   InputSearchSelect,
+  InputSelect,
   InputString,
   InputStringNumber,
   InputTag,
@@ -180,6 +181,17 @@ export const RenderForm = ({inputs, prevKey, mode, inputClassName}: any) => {
               key={`modify-page-form-${name}`}
             />
           );
+        
+        case 'select':
+          return (
+            <InputSelect
+              className={defaultClassName}
+              name={name}
+              type={input._type}
+              {...input}
+              key={`modify-page-form-${name}`}
+            />
+          )
         
         case 'custom': {
           const {_type, ...props} = input;
