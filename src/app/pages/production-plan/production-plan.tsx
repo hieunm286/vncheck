@@ -263,7 +263,7 @@ function ProductionPlan() {
   const [submit, setSubmit] = useState(false);
   
   const [step, setStep] = useState('0');
-  
+  const [totalVersion, setTotalVersion] = useState(0)
   const [userData, setUserData] = useState<any>();
   
   useEffect(() => {
@@ -466,7 +466,7 @@ function ProductionPlan() {
       formatter: (cell: any, row: any, rowIndex: number) => (
         <button
           className="btn btn-primary"
-          style={{cursor: row.confirmationStatus === '3' ? 'not-allowed' : 'pointer'}}
+          style={{cursor: row.confirmationStatus === '3' || row.confirmationStatus === '2' ? 'not-allowed' : 'pointer'}}
           onClick={() => {
             ProductionPlanService.GetById(row._id).then(res => {
               setEditEntity(res.data);
@@ -476,7 +476,7 @@ function ProductionPlan() {
               });
             });
           }}
-          disabled={row.confirmationStatus === '3'}>
+          disabled={row.confirmationStatus === '3' || row.confirmationStatus === '2'}>
           Phê duyệt
         </button>
       ),
@@ -559,6 +559,7 @@ function ProductionPlan() {
         onShowDetail: (entity: any) => {
           ProductionPlanService.GetHistory(entity).then(res => {
             console.log(res.data);
+            setTotalVersion(res.data.history.length)
             history.push({
               pathname: '/production-plan/' + entity._id + '/history',
               state: res.data.history,
@@ -1500,7 +1501,7 @@ function ProductionPlan() {
             <ProductionPlanVersion
               title={match && match.params.code}
               data={history.location.state}
-              total={versionData.length}
+              total={totalVersion}
               versionColumns={versionColumns}
               loading={loading}
               paginationParams={paginationProps}

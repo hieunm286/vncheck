@@ -130,7 +130,7 @@ export function MasterEntityDetailPage({
       </CardBody>
       
     </Card>
-    {harvestingDetail.map((value, index) => {
+    {/* {harvestingDetail.map((value, index) => {
                 switch (value.style) {
                   case '1':
                     return (
@@ -146,7 +146,7 @@ export function MasterEntityDetailPage({
                   default:
                     return <></>;
                 }
-              })}
+              })} */}
     </>
   );
 }

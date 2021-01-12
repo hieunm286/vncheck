@@ -1,10 +1,16 @@
 import React from 'react';
-import {Card, CardBody, CardHeader} from '../../common-library/card';
-import {MasterTable} from '../../common-library/common-components/master-table';
-import {ProductionPlanModel} from './production-plant.model';
-import {useIntl} from 'react-intl';
-import {useHistory} from 'react-router-dom';
+import { Card, CardBody, CardHeader } from '../../common-library/card';
+import { MasterTable } from '../../common-library/common-components/master-table';
+import { ProductionPlanModel } from './production-plant.model';
+import { useIntl } from 'react-intl';
+import { useHistory } from 'react-router-dom';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import {
+  NoRecordsFoundMessage,
+  PleaseWaitMessage,
+} from '../../common-library/helpers/pagination-helper';
+import { SortDefault } from '../../common-library/common-consts/const';
+import BootstrapTable from 'react-bootstrap-table-next';
 
 interface MasterDataVersion {
   _id: string;
@@ -23,41 +29,59 @@ interface VersionProp {
   setPaginationParams: (paginationParams: any) => void;
   onSelectMany: (selectedEntities: ProductionPlanModel[]) => void;
   selectedEntities: ProductionPlanModel[];
-  versionColumns: any
-  
+  versionColumns: any;
 }
 
 function ProductionPlanVersion({
-                                 title,
-                                 data,
-                                 paginationParams,
-                                 setPaginationParams,
-                                 onSelectMany,
-                                 selectedEntities,
-                                 total,
-                                 loading,
-                                 versionColumns
-                               }: VersionProp) {
-  const history = useHistory()
+  title,
+  data,
+  paginationParams,
+  setPaginationParams,
+  onSelectMany,
+  selectedEntities,
+  total,
+  loading,
+  versionColumns,
+}: VersionProp) {
+  const history = useHistory();
   const intl = useIntl();
-  
-  
+
   return (
     <Card>
-      
-      <CardHeader title={<><span
-        onClick={() => history.goBack()}><ArrowBackIosIcon/></span> {'KẾ HOẠCH SỐ ' + title.toUpperCase()}</>}/>
+      <CardHeader
+        title={
+          <>
+            <span onClick={() => history.goBack()}>
+              <ArrowBackIosIcon />
+            </span>{' '}
+            {'KẾ HOẠCH SỐ ' + title.toUpperCase()}
+          </>
+        }
+      />
       <CardBody>
-        <MasterTable
+        {/* <MasterTable
           entities={data || []}
           columns={versionColumns as any}
-          total={total}
+          total={data ? data.length : 0}
           loading={loading}
           paginationParams={paginationParams}
           setPaginationParams={setPaginationParams}
           // onSelectMany={onSelectMany}
           // selectedEntities={selectedEntities}
-        />
+        /> */}
+        <BootstrapTable
+          wrapperClasses="table-responsive"
+          bordered={false}
+          classes="table table-head-custom table-vertical-center overflow-hidden noBorderOnClick"
+          bootstrap4
+          remote
+          keyField="_id"
+          data={data}
+          columns={Object.values(versionColumns)}
+        >
+          <PleaseWaitMessage entities={data} />
+          <NoRecordsFoundMessage entities={data} />
+        </BootstrapTable>
       </CardBody>
     </Card>
   );
