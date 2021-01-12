@@ -136,7 +136,7 @@ export const harvestingDetail: RenderInfoDetail = [
             title: 'IMAGE_INFO',
             component: Display3Info
           }
-          return DisplayImage(image, renderInfo)
+          return DisplayImage(image, renderInfo, 'isMaster')
         }
       },
     },
@@ -287,7 +287,7 @@ export const CleaningDetail: RenderInfoDetail = [
             title: 'IMAGE_INFO',
             component: Display3Info
           }
-          return DisplayImage(image, renderInfo)
+          return DisplayImage(image, renderInfo, 'isMaster')
         }
       },
     },

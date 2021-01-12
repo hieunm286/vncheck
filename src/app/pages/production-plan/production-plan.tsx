@@ -282,6 +282,7 @@ function ProductionPlan() {
   );
   const {username, role} = authState;
   const [prevTab, setPrevTab] = useState<string | undefined>('0');
+  const [trigger, setTrigger] = useState<boolean>(false)
   useEffect(() => {
     if (currentTab === '0') {
       const t =
@@ -302,7 +303,7 @@ function ProductionPlan() {
       getAll({...(filterProps as any), step: '1', confirmationStatus: '2', isMaster: true, ...t});
     }
     setPrevTab(currentTab);
-  }, [paginationProps, filterProps, currentTab]);
+  }, [paginationProps, filterProps, currentTab, trigger]);
   
   const columns = {
     _id: {
@@ -1574,6 +1575,8 @@ function ProductionPlan() {
             setCurrentTab={setCurrentTab}
             setEntities={setEntities}
             setPaginationProps={setPaginationProps}
+            setTrigger={setTrigger}
+            trigger={trigger}
             // spinning={spinning}
           />
         </Route>
