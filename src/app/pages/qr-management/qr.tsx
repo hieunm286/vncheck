@@ -371,7 +371,7 @@ function QrPage() {
       const date_input = new Date();
       const a = document.createElement("a"); //Create <a>
       a.href = "data:application/octet-stream;base64," + res.data.buffers; //Image Base64 Goes here
-      a.download = `qr-code-${format(date_input, 'dd-MM-yyyy')}.tiff`; //File name Here
+      a.download = `qr-code-${format(date_input, 'dd-MM-yyyy-H_mma')}.tiff`; //File name Here
       a.click();
     })
   }, []);
