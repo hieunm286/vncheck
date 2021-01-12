@@ -1132,6 +1132,9 @@ export const addInitField = (obj1: any, obj2: any) => {
   const rs = {...obj1};
   
   Object.keys(obj2).forEach(key => {
+    if (!rs[key]) {
+      rs[key] = obj2[key]
+    } 
     if (rs[key]) {
       Object.keys(obj2[key]).forEach(keys => {
         if (!rs[key][keys]) {
@@ -1145,13 +1148,21 @@ export const addInitField = (obj1: any, obj2: any) => {
 };
 
 export const initProductPlanForm = {
+  harvesting: {
+    leader: [],
+    technical: []
+  },
   preliminaryTreatment: {
     estimatedTime: null,
     estimatedQuantity: undefined,
+    leader: [],
+    technical: []
   },
   cleaning: {
     estimatedTime: null,
     estimatedQuantity: undefined,
+    leader: [],
+    technical: []
   },
   packing: {
     estimatedTime: null,
@@ -1159,10 +1170,13 @@ export const initProductPlanForm = {
     estimatedExpireTimeEnd: null,
     estimatedQuantity: undefined,
     packing: null,
+    leader: [],
+    technical: []
   },
   preservation: {
     estimatedStartTime: null,
     estimatedEndTime: null,
+    technical: []
   },
 };
 
@@ -1174,26 +1188,26 @@ export const halfValidate = {
     console.log(this.path);
     console.log(this.options);
     return (
-      (this.parent.leader.length > 0 &&
-        this.parent.expectedQuantity > 0 &&
-        this.parent.estimatedHarvestTime &&
+      (this.parent?.leader?.length > 0 &&
+        this.parent?.expectedQuantity > 0 &&
+        this.parent?.estimatedHarvestTime &&
         value.length > 0) ||
-      ((!this.parent.leader || this.parent.leader.length === 0) &&
-        this.parent.expectedQuantity > 0 &&
-        this.parent.estimatedHarvestTime &&
+      ((!this.parent?.leader || this.parent?.leader.length === 0) &&
+        this.parent?.expectedQuantity > 0 &&
+        this.parent?.estimatedHarvestTime &&
         (!value || value.length === 0)) ||
       value.length > 0
     );
   }),
   leader: Yup.array().test('oneOfRequired', 'INPUT_ALL', function (value: any) {
     return (
-      (this.parent.technical.length > 0 &&
-        this.parent.estimatedQuantity > 0 &&
-        this.parent.estimatedHarvestTime &&
+      (this.parent?.technical?.length > 0 &&
+        this.parent?.estimatedQuantity > 0 &&
+        this.parent?.estimatedHarvestTime &&
         value.length > 0) ||
-      ((!this.parent.technical || this.parent.technical.length === 0) &&
-        this.parent.expectedQuantity > 0 &&
-        this.parent.estimatedHarvestTime &&
+      ((!this.parent?.technical || this.parent?.technical.length === 0) &&
+        this.parent?.expectedQuantity > 0 &&
+        this.parent?.estimatedHarvestTime &&
         (!value || value.length === 0)) ||
       value.length > 0
     );
@@ -1208,26 +1222,26 @@ export const CompareDate = (date1: Date, date2: Date) => {
 export const validate = {
   estimatedTime: Yup.mixed().test('oneOfRequired', 'DATE_VALIDATE', function (value: any) {
     return (
-      (this.parent.leader.length > 0 &&
-        this.parent.technical.length > 0 &&
-        this.parent.estimatedQuantity > 0 &&
+      (this.parent?.leader?.length > 0 &&
+        this.parent?.technical?.length > 0 &&
+        this.parent?.estimatedQuantity > 0 &&
         value) ||
-      ((!this.parent.leader || this.parent.leader.length === 0) &&
-        (!this.parent.technical || this.parent.technical.length === 0) &&
-        (!this.parent.estimatedQuantity || this.parent.estimatedQuantity === 0) &&
+      ((!this.parent?.leader || this.parent?.leader.length === 0) &&
+        (!this.parent?.technical || this.parent?.technical.length === 0) &&
+        (!this.parent?.estimatedQuantity || this.parent?.estimatedQuantity === 0) &&
         !value) ||
       (value)
     );
   }),
   estimatedQuantity: Yup.number().test('oneOfRequired', 'ESTIMATED_QUANTITY_VALIDATE', function (value: any) {
     return (
-      (this.parent.leader.length > 0 &&
-        this.parent.technical.length > 0 &&
-        this.parent.estimatedTime &&
+      (this.parent?.leader?.length > 0 &&
+        this.parent?.technical?.length > 0 &&
+        this.parent?.estimatedTime &&
         value > 0) ||
-      ((!this.parent.leader || this.parent.leader.length === 0) &&
-        (!this.parent.technical || this.parent.technical.length === 0) &&
-        (!this.parent.estimatedTime || this.parent.estimatedTime === '') &&
+      ((!this.parent?.leader || this.parent?.leader.length === 0) &&
+        (!this.parent?.technical || this.parent?.technical.length === 0) &&
+        (!this.parent?.estimatedTime || this.parent?.estimatedTime === '') &&
         (!value || value === 0)) ||
       (value)
     );
@@ -1235,26 +1249,26 @@ export const validate = {
   technical: Yup.array().test('oneOfRequired', 'INPUT_ALL', function (value: any) {
     console.log(value);
     return (
-      (this.parent.leader.length > 0 &&
-        this.parent.estimatedQuantity > 0 &&
-        this.parent.estimatedTime &&
+      (this.parent?.leader?.length > 0 &&
+        this.parent?.estimatedQuantity > 0 &&
+        this.parent?.estimatedTime &&
         value.length > 0) ||
-      ((!this.parent.leader || this.parent.leader.length === 0) &&
-        (!this.parent.estimatedQuantity || this.parent.estimatedQuantity === 0) &&
-        (!this.parent.estimatedTime || this.parent.estimatedTime === '') &&
+      ((!this.parent?.leader || this.parent?.leader.length === 0) &&
+        (!this.parent?.estimatedQuantity || this.parent?.estimatedQuantity === 0) &&
+        (!this.parent?.estimatedTime || this.parent?.estimatedTime === '') &&
         (!value || value.length === 0)) ||
       value.length > 0
     );
   }),
   leader: Yup.array().test('oneOfRequired', 'INPUT_ALL', function (value: any) {
     return (
-      (this.parent.technical.length > 0 &&
-        this.parent.estimatedQuantity > 0 &&
-        this.parent.estimatedTime &&
+      (this.parent?.technical?.length > 0 &&
+        this.parent?.estimatedQuantity > 0 &&
+        this.parent?.estimatedTime &&
         value.length > 0) ||
-      ((!this.parent.technical || this.parent.technical.length === 0) &&
-        (!this.parent.estimatedQuantity || this.parent.estimatedQuantity === 0) &&
-        (!this.parent.estimatedTime || this.parent.estimatedTime === '') &&
+      ((!this.parent?.technical || this.parent?.technical.length === 0) &&
+        (!this.parent?.estimatedQuantity || this.parent?.estimatedQuantity === 0) &&
+        (!this.parent?.estimatedTime || this.parent?.estimatedTime === '') &&
         (!value || value.length === 0)) ||
       value.length > 0
     );
@@ -1264,23 +1278,23 @@ export const validate = {
 export const packingValidate = {
   estimatedTime: Yup.mixed().test('oneOfRequired', 'DATE_VALIDATE', function (value: any) {
     return (
-      (this.parent.leader.length > 0 &&
-        this.parent.technical.length > 0 &&
-        this.parent.estimatedQuantity > 0 &&
-        this.parent.estimatedExpireTimeStart &&
-        this.parent.estimatedExpireTimeEnd &&
-        this.parent.packing &&
-        // _.isString(this.parent.packing) &&
-        // this.parent.packing !== '' &&
+      (this.parent?.leader?.length > 0 &&
+        this.parent?.technical?.length > 0 &&
+        this.parent?.estimatedQuantity > 0 &&
+        this.parent?.estimatedExpireTimeStart &&
+        this.parent?.estimatedExpireTimeEnd &&
+        this.parent?.packing &&
+        // _.isString(this.parent?.packing) &&
+        // this.parent?.packing !== '' &&
         value) ||
-      ((!this.parent.leader || this.parent.leader.length === 0) &&
-        (!this.parent.technical || this.parent.technical.length === 0) &&
-        // !this.parent.packing.label &&
-        // !_.isString(this.parent.packing) &&
-        !this.parent.packing &&
-        (!this.parent.estimatedQuantity || this.parent.estimatedQuantity === 0) &&
-        (!this.parent.estimatedExpireTimeStart || this.parent.estimatedExpireTimeStart === '') &&
-        (!this.parent.estimatedExpireTimeEnd || this.parent.estimatedExpireTimeEnd === '') &&
+      ((!this.parent?.leader || this.parent?.leader.length === 0) &&
+        (!this.parent?.technical || this.parent?.technical.length === 0) &&
+        // !this.parent?.packing.label &&
+        // !_.isString(this.parent?.packing) &&
+        !this.parent?.packing &&
+        (!this.parent?.estimatedQuantity || this.parent?.estimatedQuantity === 0) &&
+        (!this.parent?.estimatedExpireTimeStart || this.parent?.estimatedExpireTimeStart === '') &&
+        (!this.parent?.estimatedExpireTimeEnd || this.parent?.estimatedExpireTimeEnd === '') &&
         !value) ||
       (value)
     );
@@ -1290,23 +1304,23 @@ export const packingValidate = {
     value: any,
   ) {
     return (
-      (this.parent.leader.length > 0 &&
-        this.parent.technical.length > 0 &&
-        this.parent.estimatedQuantity > 0 &&
-        this.parent.estimatedTime &&
-        this.parent.estimatedExpireTimeEnd &&
-        this.parent.packing &&
-        // _.isString(this.parent.packing) &&
-        // this.parent.packing !== '' &&
+      (this.parent?.leader?.length > 0 &&
+        this.parent?.technical?.length > 0 &&
+        this.parent?.estimatedQuantity > 0 &&
+        this.parent?.estimatedTime &&
+        this.parent?.estimatedExpireTimeEnd &&
+        this.parent?.packing &&
+        // _.isString(this.parent?.packing) &&
+        // this.parent?.packing !== '' &&
         value) ||
-      ((!this.parent.leader || this.parent.leader.length === 0) &&
-        (!this.parent.technical || this.parent.technical.length === 0) &&
-        // !this.parent.packing.label &&
-        // !_.isString(this.parent.packing) &&
-        !this.parent.packing &&
-        (!this.parent.estimatedQuantity || this.parent.estimatedQuantity === 0) &&
-        (!this.parent.estimatedTime || this.parent.estimatedTime === '') &&
-        (!this.parent.estimatedExpireTimeEnd || this.parent.estimatedExpireTimeEnd === '') &&
+      ((!this.parent?.leader || this.parent?.leader.length === 0) &&
+        (!this.parent?.technical || this.parent?.technical.length === 0) &&
+        // !this.parent?.packing.label &&
+        // !_.isString(this.parent?.packing) &&
+        !this.parent?.packing &&
+        (!this.parent?.estimatedQuantity || this.parent?.estimatedQuantity === 0) &&
+        (!this.parent?.estimatedTime || this.parent?.estimatedTime === '') &&
+        (!this.parent?.estimatedExpireTimeEnd || this.parent?.estimatedExpireTimeEnd === '') &&
         !value) ||
       (value)
     );
@@ -1314,23 +1328,23 @@ export const packingValidate = {
   
   estimatedExpireTimeEnd: Yup.mixed().test('oneOfRequired', 'DATE_VALIDATE', function (value: any) {
     return (
-      (this.parent.leader.length > 0 &&
-        this.parent.technical.length > 0 &&
-        this.parent.estimatedQuantity > 0 &&
-        this.parent.estimatedExpireTimeStart &&
-        this.parent.estimatedTime &&
-        this.parent.packing &&
-        // _.isString(this.parent.packing) &&
-        // this.parent.packing !== '' &&
+      (this.parent?.leader?.length > 0 &&
+        this.parent?.technical?.length > 0 &&
+        this.parent?.estimatedQuantity > 0 &&
+        this.parent?.estimatedExpireTimeStart &&
+        this.parent?.estimatedTime &&
+        this.parent?.packing &&
+        // _.isString(this.parent?.packing) &&
+        // this.parent?.packing !== '' &&
         value) ||
-      ((!this.parent.leader || this.parent.leader.length === 0) &&
-        (!this.parent.technical || this.parent.technical.length === 0) &&
-        // !this.parent.packing.label &&
-        // !_.isString(this.parent.packing) &&
-        !this.parent.packing &&
-        (!this.parent.estimatedQuantity || this.parent.estimatedQuantity === 0) &&
-        (!this.parent.estimatedExpireTimeStart || this.parent.estimatedExpireTimeStart === '') &&
-        (!this.parent.estimatedTime || this.parent.estimatedTime === '') &&
+      ((!this.parent?.leader || this.parent?.leader.length === 0) &&
+        (!this.parent?.technical || this.parent?.technical.length === 0) &&
+        // !this.parent?.packing.label &&
+        // !_.isString(this.parent?.packing) &&
+        !this.parent?.packing &&
+        (!this.parent?.estimatedQuantity || this.parent?.estimatedQuantity === 0) &&
+        (!this.parent?.estimatedExpireTimeStart || this.parent?.estimatedExpireTimeStart === '') &&
+        (!this.parent?.estimatedTime || this.parent?.estimatedTime === '') &&
         !value) ||
       (value)
     );
@@ -1339,20 +1353,20 @@ export const packingValidate = {
   packing: Yup.mixed().test('oneOfRequired', 'INPUT_ALL', function (value: any) {
     console.log(value);
     return (
-      (this.parent.leader.length > 0 &&
-        this.parent.technical.length > 0 &&
-        this.parent.estimatedQuantity > 0 &&
-        this.parent.estimatedTime &&
-        this.parent.estimatedExpireTimeStart &&
-        this.parent.estimatedExpireTimeEnd &&
+      (this.parent?.leader?.length > 0 &&
+        this.parent?.technical?.length > 0 &&
+        this.parent?.estimatedQuantity > 0 &&
+        this.parent?.estimatedTime &&
+        this.parent?.estimatedExpireTimeStart &&
+        this.parent?.estimatedExpireTimeEnd &&
         value) ||
       // && _.isString(value))
-      ((!this.parent.leader || this.parent.leader.length === 0) &&
-        (!this.parent.technical || this.parent.technical.length === 0) &&
-        !this.parent.estimatedTime &&
-        !this.parent.estimatedExpireTimeStart &&
-        !this.parent.estimatedExpireTimeEnd &&
-        (!this.parent.estimatedQuantity || this.parent.estimatedQuantity === 0) &&
+      ((!this.parent?.leader || this.parent?.leader.length === 0) &&
+        (!this.parent?.technical || this.parent?.technical.length === 0) &&
+        !this.parent?.estimatedTime &&
+        !this.parent?.estimatedExpireTimeStart &&
+        !this.parent?.estimatedExpireTimeEnd &&
+        (!this.parent?.estimatedQuantity || this.parent?.estimatedQuantity === 0) &&
         !value) ||
       // !value.label)
       value
@@ -1363,69 +1377,69 @@ export const packingValidate = {
   
   estimatedQuantity: Yup.number().test('oneOfRequired', 'ESTIMATED_QUANTITY_VALIDATE', function (value: any) {
     return (
-      (this.parent.leader.length > 0 &&
-        this.parent.technical.length > 0 &&
-        this.parent.estimatedTime &&
-        this.parent.estimatedExpireTimeStart &&
-        this.parent.estimatedExpireTimeEnd &&
-        this.parent.packing &&
-        // _.isString(this.parent.packing) &&
-        // this.parent.packing !== '' &&
+      (this.parent?.leader?.length > 0 &&
+        this.parent?.technical?.length > 0 &&
+        this.parent?.estimatedTime &&
+        this.parent?.estimatedExpireTimeStart &&
+        this.parent?.estimatedExpireTimeEnd &&
+        this.parent?.packing &&
+        // _.isString(this.parent?.packing) &&
+        // this.parent?.packing !== '' &&
         value > 0) ||
-      ((!this.parent.leader || this.parent.leader.length === 0) &&
-        (!this.parent.technical || this.parent.technical.length === 0) &&
-        // !this.parent.packing.label &&
-        // !_.isString(this.parent.packing) &&
-        !this.parent.packing &&
-        !this.parent.estimatedExpireTimeStart &&
-        !this.parent.estimatedExpireTimeEnd &&
-        (!this.parent.estimatedTime || this.parent.estimatedTime === '') &&
+      ((!this.parent?.leader || this.parent?.leader.length === 0) &&
+        (!this.parent?.technical || this.parent?.technical.length === 0) &&
+        // !this.parent?.packing.label &&
+        // !_.isString(this.parent?.packing) &&
+        !this.parent?.packing &&
+        !this.parent?.estimatedExpireTimeStart &&
+        !this.parent?.estimatedExpireTimeEnd &&
+        (!this.parent?.estimatedTime || this.parent?.estimatedTime === '') &&
         (!value || value === 0)) ||
       (value)
     );
   }),
   technical: Yup.array().test('oneOfRequired', 'INPUT_ALL', function (value: any) {
     return (
-      (this.parent.leader.length > 0 &&
-        this.parent.estimatedQuantity > 0 &&
-        this.parent.estimatedTime &&
-        this.parent.estimatedExpireTimeStart &&
-        this.parent.estimatedExpireTimeEnd &&
-        this.parent.packing &&
-        // _.isString(this.parent.packing) &&
-        // this.parent.packing !== '' &&
+      (this.parent?.leader?.length > 0 &&
+        this.parent?.estimatedQuantity > 0 &&
+        this.parent?.estimatedTime &&
+        this.parent?.estimatedExpireTimeStart &&
+        this.parent?.estimatedExpireTimeEnd &&
+        this.parent?.packing &&
+        // _.isString(this.parent?.packing) &&
+        // this.parent?.packing !== '' &&
         value.length > 0) ||
-      ((!this.parent.leader || this.parent.leader.length === 0) &&
-        // !this.parent.packing.label &&
-        // !_.isString(this.parent.packing) &&
-        !this.parent.packing &&
-        !this.parent.estimatedExpireTimeStart &&
-        !this.parent.estimatedExpireTimeEnd &&
-        (!this.parent.estimatedQuantity || this.parent.estimatedQuantity === 0) &&
-        (!this.parent.estimatedTime || this.parent.estimatedTime === '') &&
+      ((!this.parent?.leader || this.parent?.leader.length === 0) &&
+        // !this.parent?.packing.label &&
+        // !_.isString(this.parent?.packing) &&
+        !this.parent?.packing &&
+        !this.parent?.estimatedExpireTimeStart &&
+        !this.parent?.estimatedExpireTimeEnd &&
+        (!this.parent?.estimatedQuantity || this.parent?.estimatedQuantity === 0) &&
+        (!this.parent?.estimatedTime || this.parent?.estimatedTime === '') &&
         (!value || value.length === 0)) ||
       value.length > 0
     );
   }),
   leader: Yup.array().test('oneOfRequired', 'INPUT_ALL', function (value: any) {
     return (
-      (this.parent.technical.length > 0 &&
-        this.parent.estimatedQuantity > 0 &&
-        this.parent.estimatedTime &&
-        this.parent.estimatedExpireTimeStart &&
-        this.parent.estimatedExpireTimeEnd &&
-        this.parent.packing &&
-        // _.isString(this.parent.packing) &&
-        // this.parent.packing !== '' &&
+      (this.parent?.technical?.length > 0 &&
+        this.parent?.estimatedQuantity > 0 &&
+        this.parent?.estimatedTime &&
+        this.parent?.estimatedExpireTimeStart &&
+        this.parent?.estimatedExpireTimeEnd &&
+        this.parent?.packing &&
+        // _.isString(this.parent?.packing) &&
+        // this.parent?.packing !== '' &&
         value.length > 0) ||
-      ((!this.parent.technical || this.parent.technical.length === 0) &&
-        // !this.parent.packing.label &&
-        // !_.isString(this.parent.packing) &&
-        !this.parent.packing &&
-        (!this.parent.estimatedQuantity || this.parent.estimatedQuantity === 0) &&
-        !this.parent.estimatedExpireTimeStart &&
-        !this.parent.estimatedExpireTimeEnd &&
-        (!this.parent.estimatedTime || this.parent.estimatedTime === '') &&
+      ((!this.parent?.technical || this.parent?.technical.length === 0) &&
+        // !this.parent?.packing.label &&
+        // !_.isString(this.parent?.packing) &&
+        !this.parent?.packing &&
+        (!this.parent?.estimatedQuantity || this.parent?.estimatedQuantity === 0) &&
+        !this.parent?.estimatedExpireTimeStart &&
+        !this.parent?.estimatedExpireTimeEnd &&
+        (!this.parent?.estimatedTime || this.parent?.estimatedTime === '') &&
         (!value || value.length === 0)) ||
       value.length > 0
     );
@@ -1435,31 +1449,31 @@ export const packingValidate = {
 export const preservationValidate = {
   estimatedStartTime: Yup.mixed().test('oneOfRequired', 'DATE_VALIDATE', function (value: any) {
     return (
-      (this.parent.technical.length > 0 &&
-        this.parent.estimatedEndTime &&
+      (this.parent?.technical?.length > 0 &&
+        this.parent?.estimatedEndTime &&
         value) ||
-      ((!this.parent.technical || this.parent.technical.length === 0) &&
-        !this.parent.estimatedEndTime &&
+      ((!this.parent?.technical || this.parent?.technical.length === 0) &&
+        !this.parent?.estimatedEndTime &&
         !value) ||
       (value)
     );
   }),
   estimatedEndTime: Yup.mixed().test('oneOfRequired', 'DATE_VALIDATE', function (value: any) {
     return (
-      (this.parent.technical.length > 0 &&
-        this.parent.estimatedStartTime &&
+      (this.parent?.technical?.length > 0 &&
+        this.parent?.estimatedStartTime &&
         value) ||
-      ((!this.parent.technical || this.parent.technical.length === 0) &&
-        !this.parent.estimatedStartTime &&
+      ((!this.parent?.technical || this.parent?.technical.length === 0) &&
+        !this.parent?.estimatedStartTime &&
         !value) ||
       (value)
     );
   }),
   technical: Yup.array().test('oneOfRequired', 'INPUT_ALL', function (value: any) {
     return (
-      (this.parent.estimatedStartTime && this.parent.estimatedEndTime && value.length > 0) ||
-      (!this.parent.estimatedStartTime &&
-        !this.parent.estimatedEndTime &&
+      (this.parent?.estimatedStartTime && this.parent?.estimatedEndTime && value.length > 0) ||
+      (!this.parent?.estimatedStartTime &&
+        !this.parent?.estimatedEndTime &&
         (!value || value.length === 0)) ||
       value.length > 0
     );

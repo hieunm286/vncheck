@@ -151,11 +151,11 @@ export default function ManagementOrganization() {
     },
     checkboxs: {
       _type: 'checkbox',
-      label: 'Doanh nghiệp sản xuất',
+      label: 'Doanh nghiệp sản xuấxx xxxxx xxxxx xxxxx xxxx xxxxx xxxx xxxx xxxx xxt',
       optionData: [
         { label: 'Apple', value: 'Apple' },
         { label: 'Pear', value: 'Pear' },
-        { label: 'Orange', value: 'Orange', disabled: true },
+        { label: 'Orangxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxe', value: 'Orange', disabled: true },
       ]
     },
     checkbox: {

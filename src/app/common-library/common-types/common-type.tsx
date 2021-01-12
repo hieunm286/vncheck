@@ -238,6 +238,7 @@ export type RenderInfoDetail = {
   className?: string;
   titleClassName?: string;
   dataClassName?: string;
+  style?: string;
   data: RenderInfoDetailColumn,
 }[]
 export type RenderInfoDetailColumn = {

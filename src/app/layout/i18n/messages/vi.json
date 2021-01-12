@@ -676,7 +676,7 @@
   "ENTERPRISE.PHONE": "Số điện thoại",
   "ENTERPRISE.REPRESENTED_BY": "Người đại diện",
   "ENTERPRISE.GLN": "GLN",
-
+  "SORT.ERROR.VALID_FIELD": "Trường dữ liệu sắp xếp không hợp lệ",
   "ROLE.MASTER.HEADER.TITLE": "Bộ lọc",
   "ROLE.MASTER.BODY.TITLE": "Danh mục vai trò",
   "ROLE.MASTER.TABLE.ROLE_CODE": "Mã vai trò",

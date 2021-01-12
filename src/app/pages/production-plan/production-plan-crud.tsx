@@ -208,6 +208,7 @@ function ProductionPlanCrud({
         //   : ConvertSelectSearch(res.data);
         const initEntity = addInitField(res.data, initProductPlanForm);
         setEntityForEdit(initEntity);
+        console.log(initEntity)
         setEditEntity(res.data);
         setCommentArr(res.data.comments || []);
       });
@@ -249,20 +250,20 @@ function ProductionPlanCrud({
       // preservation: {}
     };
 
-    if (values.preliminaryTreatment.estimatedQuantity) {
+    if (values?.preliminaryTreatment?.estimatedQuantity) {
       if (!_.isInteger(values.preliminaryTreatment.estimatedQuantity)) {
         if (!errors.preliminaryTreatment) {
           errors.preliminaryTreatment = {};
         }
         errors.preliminaryTreatment.estimatedQuantity = 'Sản lượng sơ chế phải là số nguyên';
-      } else if (values.preliminaryTreatment.estimatedQuantity < 0) {
+      } else if (values?.preliminaryTreatment?.estimatedQuantity < 0) {
         if (!errors.preliminaryTreatment) {
           errors.preliminaryTreatment = {};
         }
         errors.preliminaryTreatment.estimatedQuantity = 'Sản lượng sơ chế không được nhỏ hơn 0';
       } else if (
-        values.planting.expectedQuantity &&
-        values.preliminaryTreatment.estimatedQuantity > values.planting.expectedQuantity
+        values.planting?.expectedQuantity &&
+        values.preliminaryTreatment?.estimatedQuantity > values.planting?.expectedQuantity
       ) {
         if (!errors.preliminaryTreatment) {
           errors.preliminaryTreatment = {};
@@ -272,17 +273,17 @@ function ProductionPlanCrud({
       }
     }
 
-    if (values.preliminaryTreatment.estimatedTime) {
-      if (!CompareDate(new Date(values.preliminaryTreatment.estimatedTime), new Date())) {
+    if (values.preliminaryTreatment?.estimatedTime) {
+      if (!CompareDate(new Date(values.preliminaryTreatment?.estimatedTime), new Date())) {
         if (!errors.preliminaryTreatment) {
           errors.preliminaryTreatment = {};
         }
         errors.preliminaryTreatment.estimatedTime = 'Ngày sơ chế không được nhỏ hơn ngày hiện tại';
       } else if (
-        values.harvesting.estimatedTime &&
+        values.harvesting?.estimatedTime &&
         !CompareDate(
-          new Date(values.preliminaryTreatment.estimatedTime),
-          new Date(values.harvesting.estimatedTime),
+          new Date(values.preliminaryTreatment?.estimatedTime),
+          new Date(values.harvesting?.estimatedTime),
         )
       ) {
         if (!errors.preliminaryTreatment) {
@@ -294,20 +295,20 @@ function ProductionPlanCrud({
 
     // Cleaning
 
-    if (values.cleaning.estimatedQuantity) {
-      if (!_.isInteger(values.cleaning.estimatedQuantity)) {
+    if (values.cleaning?.estimatedQuantity) {
+      if (!_.isInteger(values.cleaning?.estimatedQuantity)) {
         if (!errors.cleaning) {
           errors.cleaning = {};
         }
         errors.cleaning.estimatedQuantity = 'Sản lượng làm sạch phải là số nguyên';
-      } else if (values.cleaning.estimatedQuantity < 0) {
+      } else if (values.cleaning?.estimatedQuantity < 0) {
         if (!errors.cleaning) {
           errors.cleaning = {};
         }
         errors.cleaning.estimatedQuantity = 'Sản lượng làm sạch không được nhỏ hơn 0';
       } else if (
-        values.preliminaryTreatment.estimatedQuantity &&
-        values.cleaning.estimatedQuantity > values.preliminaryTreatment.estimatedQuantity
+        values.preliminaryTreatment?.estimatedQuantity &&
+        values.cleaning?.estimatedQuantity > values.preliminaryTreatment?.estimatedQuantity
       ) {
         if (!errors.cleaning) {
           errors.cleaning = {};
@@ -317,17 +318,17 @@ function ProductionPlanCrud({
       }
     }
 
-    if (values.cleaning.estimatedTime) {
-      if (!CompareDate(new Date(values.cleaning.estimatedTime), new Date())) {
+    if (values.cleaning?.estimatedTime) {
+      if (!CompareDate(new Date(values.cleaning?.estimatedTime), new Date())) {
         if (!errors.cleaning) {
           errors.cleaning = {};
         }
         errors.cleaning.estimatedTime = 'Ngày làm sạch không được nhỏ hơn ngày hiện tại';
       } else if (
-        values.preliminaryTreatment.estimatedTime &&
+        values.preliminaryTreatment?.estimatedTime &&
         !CompareDate(
-          new Date(values.cleaning.estimatedTime),
-          new Date(values.preliminaryTreatment.estimatedTime),
+          new Date(values.cleaning?.estimatedTime),
+          new Date(values.preliminaryTreatment?.estimatedTime),
         )
       ) {
         if (!errors.cleaning) {
@@ -341,8 +342,8 @@ function ProductionPlanCrud({
 
     if (
       values.packing &&
-      values.packing.estimatedQuantity &&
-      !_.isInteger(values.packing.estimatedQuantity)
+      values.packing?.estimatedQuantity &&
+      !_.isInteger(values.packing?.estimatedQuantity)
     ) {
       if (!errors.packing) {
         errors.packing = {};
@@ -350,8 +351,8 @@ function ProductionPlanCrud({
       errors.packing.estimatedQuantity = 'Số lượng đóng gói phải là số nguyên';
     } else if (
       values.packing &&
-      values.packing.estimatedQuantity &&
-      values.packing.estimatedQuantity < 0
+      values.packing?.estimatedQuantity &&
+      values.packing?.estimatedQuantity < 0
     ) {
       if (!errors.packing) {
         errors.packing = {};
@@ -359,17 +360,17 @@ function ProductionPlanCrud({
       errors.packing.estimatedQuantity = 'Số lượng đóng gói không được nhỏ hơn 0';
     }
 
-    if (values.packing.estimatedTime) {
-      if (!CompareDate(new Date(values.packing.estimatedTime), new Date())) {
+    if (values.packing?.estimatedTime) {
+      if (!CompareDate(new Date(values.packing?.estimatedTime), new Date())) {
         if (!errors.packing) {
           errors.packing = {};
         }
         errors.packing.estimatedTime = 'Ngày đóng gói không được nhỏ hơn ngày hiện tại';
       } else if (
-        values.cleaning.estimatedTime &&
+        values.cleaning?.estimatedTime &&
         !CompareDate(
-          new Date(values.packing.estimatedTime),
-          new Date(values.cleaning.estimatedTime),
+          new Date(values.packing?.estimatedTime),
+          new Date(values.cleaning?.estimatedTime),
         )
       ) {
         if (!errors.packing) {
@@ -377,10 +378,10 @@ function ProductionPlanCrud({
         }
         errors.packing.estimatedTime = 'Ngày đóng gói không được nhỏ hơn ngày làm sạch';
       } else if (
-        values.packing.estimatedExpireTimeStart &&
+        values.packing?.estimatedExpireTimeStart &&
         CompareDate(
-          new Date(values.packing.estimatedTime),
-          new Date(values.packing.estimatedExpireTimeStart),
+          new Date(values.packing?.estimatedTime),
+          new Date(values.packing?.estimatedExpireTimeStart),
         )
       ) {
         if (!errors.packing) {
@@ -390,17 +391,17 @@ function ProductionPlanCrud({
       }
     }
 
-    if (values.packing.estimatedExpireTimeStart) {
-      if (!CompareDate(new Date(values.packing.estimatedExpireTimeStart), new Date())) {
+    if (values.packing?.estimatedExpireTimeStart) {
+      if (!CompareDate(new Date(values.packing?.estimatedExpireTimeStart), new Date())) {
         if (!errors.packing) {
           errors.packing = {};
         }
         errors.packing.estimatedExpireTimeStart = 'Hạn sử dụng không được nhỏ hơn ngày hiện tại';
       } else if (
-        values.packing.estimatedTime &&
+        values.packing?.estimatedTime &&
         CompareDate(
-          new Date(values.packing.estimatedTime),
-          new Date(values.packing.estimatedExpireTimeStart),
+          new Date(values.packing?.estimatedTime),
+          new Date(values.packing?.estimatedExpireTimeStart),
         )
       ) {
         if (!errors.packing) {
@@ -411,8 +412,8 @@ function ProductionPlanCrud({
       } else if (
         values.packing.estimatedExpireTimeEnd &&
         !CompareDate(
-          new Date(values.packing.estimatedExpireTimeEnd),
-          new Date(values.packing.estimatedExpireTimeStart),
+          new Date(values.packing?.estimatedExpireTimeEnd),
+          new Date(values.packing?.estimatedExpireTimeStart),
         )
       ) {
         if (!errors.packing) {
@@ -423,17 +424,17 @@ function ProductionPlanCrud({
       }
     }
 
-    if (values.packing.estimatedExpireTimeEnd) {
-      if (!CompareDate(new Date(values.packing.estimatedExpireTimeEnd), new Date())) {
+    if (values.packing?.estimatedExpireTimeEnd) {
+      if (!CompareDate(new Date(values.packing?.estimatedExpireTimeEnd), new Date())) {
         if (!errors.packing) {
           errors.packing = {};
         }
         errors.packing.estimatedExpireTimeEnd = 'Ngày hết hạn không được nhỏ hơn ngày hiện tại';
       } else if (
-        values.packing.estimatedExpireTimeStart &&
+        values.packing?.estimatedExpireTimeStart &&
         !CompareDate(
-          new Date(values.packing.estimatedExpireTimeEnd),
-          new Date(values.packing.estimatedExpireTimeStart),
+          new Date(values.packing?.estimatedExpireTimeEnd),
+          new Date(values.packing?.estimatedExpireTimeStart),
         )
       ) {
         if (!errors.packing) {
@@ -446,17 +447,17 @@ function ProductionPlanCrud({
 
     // Preservation
 
-    if (values.preservation.estimatedStartTime) {
-      if (!CompareDate(new Date(values.preservation.estimatedStartTime), new Date())) {
+    if (values.preservation?.estimatedStartTime) {
+      if (!CompareDate(new Date(values.preservation?.estimatedStartTime), new Date())) {
         if (!errors.preservation) {
           errors.preservation = {};
         }
         errors.preservation.estimatedStartTime = 'Ngày bảo quản không được nhỏ hơn ngày hiện tại';
       } else if (
-        values.packing.estimatedTime &&
+        values.packing?.estimatedTime &&
         CompareDate(
-          new Date(values.packing.estimatedTime),
-          new Date(values.preservation.estimatedStartTime),
+          new Date(values.packing?.estimatedTime),
+          new Date(values.preservation?.estimatedStartTime),
         )
       ) {
         if (!errors.preservation) {
@@ -465,10 +466,10 @@ function ProductionPlanCrud({
         errors.preservation.estimatedStartTime =
           'Ngày bắt đầu bảo quản không được nhỏ hơn ngày đóng gói';
       } else if (
-        values.preservation.estimatedEndTime &&
+        values.preservation?.estimatedEndTime &&
         !CompareDate(
-          new Date(values.preservation.estimatedEndTime),
-          new Date(values.preservation.estimatedStartTime),
+          new Date(values.preservation?.estimatedEndTime),
+          new Date(values.preservation?.estimatedStartTime),
         )
       ) {
         if (!errors.preservation) {
@@ -479,18 +480,18 @@ function ProductionPlanCrud({
       }
     }
 
-    if (values.preservation.estimatedEndTime) {
-      if (!CompareDate(new Date(values.preservation.estimatedEndTime), new Date())) {
+    if (values.preservation?.estimatedEndTime) {
+      if (!CompareDate(new Date(values.preservation?.estimatedEndTime), new Date())) {
         if (!errors.preservation) {
           errors.preservation = {};
         }
         errors.preservation.estimatedEndTime =
           'Ngày kết thúc bảo quản không được nhỏ hơn ngày hiện tại';
       } else if (
-        values.preservation.estimatedStartTime &&
+        values.preservation?.estimatedStartTime &&
         !CompareDate(
-          new Date(values.preservation.estimatedEndTime),
-          new Date(values.preservation.estimatedStartTime),
+          new Date(values.preservation?.estimatedEndTime),
+          new Date(values.preservation?.estimatedStartTime),
         )
       ) {
         if (!errors.preservation) {
@@ -748,7 +749,7 @@ function ProductionPlanCrud({
                             <AccountCircleOutlinedIcon style={{ fontSize: 30 }} />
                           </div>
                           <div className="col-10 bg-light rounded p-3">
-                            <p className="font-bold">{value.createdBy.fullName}</p>
+                            <p className="font-bold">{_.isString(value.createdBy) ? value.createdBy : value.createdBy.fullName ? value.createdBy.fullName : 'Anonymous'}</p>
                             <p>{value.content}</p>
                           </div>
                         </div>

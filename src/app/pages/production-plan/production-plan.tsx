@@ -25,6 +25,7 @@ import {
   productPlanSearchModel1,
   productPlanSearchModel2,
   SeedingDetailDialog,
+  validate,
 } from './defined/const';
 import {shallowEqual, useSelector} from 'react-redux';
 import ProductionPlanCrud from './production-plan-crud';
@@ -60,34 +61,17 @@ const versionData = [
   },
 ];
 
-const validate = (values: any, props: any /* only available when using withFormik */) => {
-  console.log(values, props);
-  if (!values) return;
-  const errors: any = {};
-  if (!values.email) {
-    errors.email = 'Required';
-  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-    errors.email = 'Invalid email address';
-  }
-  
-  //...
-  
-  return errors;
-};
-
 const ProductPlantSchema = Yup.object().shape({
   harvesting: Yup.object()
     .shape(halfValidate)
     .test('oneOfRequired', 'INPUT_MUTS_ACCORDING_ORDER', function (values: any) {
-      console.log(this.parent.harvesting);
-      console.log(values);
-      if (values.technical.length === 0 || values.leader.length === 0) {
+      if (values.technical?.length === 0 || values.leader?.length === 0) {
         if (
-          this.parent.preliminaryTreatment.technical.length > 0 ||
-          this.parent.preliminaryTreatment.leader.length > 0 ||
-          this.parent.preliminaryTreatment.estimatedTime ||
-          this.parent.preliminaryTreatment.estimatedQuantity > 0 ||
-          this.parent.preliminaryTreatment.estimatedQuantity
+          this.parent.preliminaryTreatment?.technical?.length > 0 ||
+          this.parent.preliminaryTreatment?.leader?.length > 0 ||
+          this.parent.preliminaryTreatment?.estimatedTime ||
+          this.parent.preliminaryTreatment?.estimatedQuantity > 0 ||
+          this.parent.preliminaryTreatment?.estimatedQuantity
         ) {
           return false;
         }
@@ -97,21 +81,20 @@ const ProductPlantSchema = Yup.object().shape({
   preliminaryTreatment: Yup.object()
     .shape(validate)
     .test('oneOfRequired', 'INPUT_MUTS_ACCORDING_ORDER', function (values: any) {
-      console.log(this.parent.harvesting);
-      console.log(values);
+  
       if (
-        values.technical.length === 0 ||
-        values.leader.length === 0 ||
+        values.technical?.length === 0 ||
+        values.leader?.length === 0 ||
         !values.estimatedTime ||
         values.estimatedQuantity === 0 ||
         !values.estimatedQuantity
       ) {
         if (
-          this.parent.cleaning.technical.length > 0 ||
-          this.parent.cleaning.leader.length > 0 ||
-          this.parent.cleaning.estimatedTime ||
-          this.parent.cleaning.estimatedQuantity > 0 ||
-          this.parent.cleaning.estimatedQuantity
+          this.parent.cleaning?.technical?.length > 0 ||
+          this.parent.cleaning?.leader?.length > 0 ||
+          this.parent.cleaning?.estimatedTime ||
+          this.parent.cleaning?.estimatedQuantity > 0 ||
+          this.parent.cleaning?.estimatedQuantity
         ) {
           return false;
         }
@@ -127,22 +110,22 @@ const ProductPlantSchema = Yup.object().shape({
       if (
         // this.parent.harvesting.technical.length === 0 ||
         // this.parent.harvesting.leader.length === 0 ||
-        values.technical.length === 0 ||
-        values.leader.length === 0 ||
+        values.technical?.length === 0 ||
+        values.leader?.length === 0 ||
         !values.estimatedTime ||
         values.estimatedQuantity === 0 ||
         !values.estimatedQuantity
       ) {
         if (
-          this.parent.packing.estimatedTime ||
-          this.parent.packing.estimatedExpireTimeStart ||
-          this.parent.packing.estimatedExpireTimeEnd ||
+          this.parent.packing?.estimatedTime ||
+          this.parent.packing?.estimatedExpireTimeStart ||
+          this.parent.packing?.estimatedExpireTimeEnd ||
           // this.parent.packing.packing ||
           // (_.isObject(this.parent.packing.packing)) ||
-          this.parent.packing.estimatedQuantity ||
-          this.parent.packing.estimatedQuantity > 0 ||
-          this.parent.packing.technical.length > 0 ||
-          this.parent.packing.leader.length > 0
+          this.parent.packing?.estimatedQuantity ||
+          this.parent.packing?.estimatedQuantity > 0 ||
+          this.parent.packing?.technical?.length > 0 ||
+          this.parent.packing?.leader?.length > 0
         ) {
           return false;
         }
@@ -180,13 +163,13 @@ const ProductPlantSchema = Yup.object().shape({
         (_.isObject(values.packing) && !values.packing.label) ||
         !values.estimatedQuantity ||
         values.estimatedQuantity === 0 ||
-        values.technical.length === 0 ||
-        values.leader.length === 0
+        values.technical?.length === 0 ||
+        values.leader?.length === 0
       ) {
         if (
-          this.parent.preservation.estimatedStartTime ||
-          this.parent.preservation.estimatedEndTime > 0 ||
-          this.parent.preservation.technical.length > 0
+          this.parent.preservation?.estimatedStartTime ||
+          this.parent.preservation?.estimatedEndTime > 0 ||
+          this.parent.preservation?.technical?.length > 0
         ) {
           return true;
         }
@@ -280,7 +263,7 @@ function ProductionPlan() {
   const [submit, setSubmit] = useState(false);
   
   const [step, setStep] = useState('0');
-  
+  const [totalVersion, setTotalVersion] = useState(0)
   const [userData, setUserData] = useState<any>();
   
   useEffect(() => {
@@ -483,7 +466,7 @@ function ProductionPlan() {
       formatter: (cell: any, row: any, rowIndex: number) => (
         <button
           className="btn btn-primary"
-          style={{cursor: row.confirmationStatus === '3' ? 'not-allowed' : 'pointer'}}
+          style={{cursor: row.confirmationStatus === '3' || row.confirmationStatus === '2' ? 'not-allowed' : 'pointer'}}
           onClick={() => {
             ProductionPlanService.GetById(row._id).then(res => {
               setEditEntity(res.data);
@@ -493,7 +476,7 @@ function ProductionPlan() {
               });
             });
           }}
-          disabled={row.confirmationStatus === '3'}>
+          disabled={row.confirmationStatus === '3' || row.confirmationStatus === '2'}>
           Phê duyệt
         </button>
       ),
@@ -576,6 +559,7 @@ function ProductionPlan() {
         onShowDetail: (entity: any) => {
           ProductionPlanService.GetHistory(entity).then(res => {
             console.log(res.data);
+            setTotalVersion(res.data.history.length)
             history.push({
               pathname: '/production-plan/' + entity._id + '/history',
               state: res.data.history,
@@ -1490,7 +1474,7 @@ function ProductionPlan() {
                 formModel={updateForm}
                 allFormField={allFormField}
                 allFormButton={currentTab !== '2' ? allFormButton : allFormButton2}
-                validation={validate}
+                validation={ProductPlantSchema}
                 autoFill={{
                   field: '',
                   data: null,
@@ -1517,7 +1501,7 @@ function ProductionPlan() {
             <ProductionPlanVersion
               title={match && match.params.code}
               data={history.location.state}
-              total={versionData.length}
+              total={totalVersion}
               versionColumns={versionColumns}
               loading={loading}
               paginationParams={paginationProps}
