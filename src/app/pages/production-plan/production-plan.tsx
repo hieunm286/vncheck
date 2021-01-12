@@ -267,7 +267,7 @@ function ProductionPlan() {
   const [userData, setUserData] = useState<any>();
   
   useEffect(() => {
-    UserService.GetAll({queryProps: {}}).then(e => {
+    UserService.GetAll({queryProps: { limit: 100 }}).then(e => {
       console.log(e);
       const rs = e.data as any;
       setUserData(rs.data);
