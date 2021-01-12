@@ -166,32 +166,35 @@ function Species() {
       style: {minWidth: '130px'},
     },
   };
+
+  console.log(editEntity)
   
   const schema = Yup.object().shape({
-      // .test('Exists validate', 'SPECIES_NAME_WAS_EXISTED', function (value) {
-      //   if (editEntity) {
-      //     const validArr = entities.filter(item => item._id !== editEntity._id);
-      //     const index = validArr.findIndex(el => el.name === value);
-      //     return index === -1;
-      //   }
-      //
-      //   const index = entities.findIndex(el => el.name === value);
-      //   return index === -1;
-      // }),
+    name: Yup.string().test('Exists validate', 'SPECIES_NAME_WAS_EXISTED', function (value) {
+      console.log(editEntity)
+        if (editEntity) {
+          const validArr = entities.filter(item => item._id !== editEntity._id);
+          const index = validArr.findIndex(el => el.name === value);
+          return index === -1;
+        }
+      
+        const index = entities.findIndex(el => el.name === value);
+        return index === -1;
+      }),
     barcode: Yup.string()
       .max(10, 'MAX_10_CHARACTERS')
       .matches(/^[0-9]+$/u, {
         message: '"GTIN_IS_INVALID',
+      })
+      .test('Exists validate', 'GTIN_WAS_EXISTED', function (value) {
+        if (editEntity) {
+          const validArr = entities.filter(item => item._id !== editEntity._id);
+          const index = validArr.findIndex(el => el.barcode === value);
+          return index === -1;
+        }
+        const index = entities.findIndex(el => el.barcode === value);
+        return index === -1;
       }),
-      // .test('Exists validate', 'GTIN_WAS_EXISTED', function (value) {
-      //   if (editEntity) {
-      //     const validArr = entities.filter(item => item._id !== editEntity._id);
-      //     const index = validArr.findIndex(el => el.barcode === value);
-      //     return index === -1;
-      //   }
-      //   const index = entities.findIndex(el => el.barcode === value);
-      //   return index === -1;
-      // }),
     growingDays: Yup.number()
       .min(1, 'DAYS_MUST_BE_MORE_THAN_1')
       .typeError('INPUT_NUMBER'),
@@ -382,6 +385,7 @@ function Species() {
             actions={allFormButton}
             validation={schema}
             loading={loading}
+            
           />
         </Route>
         <Route path={`/species/:code`}>
@@ -399,6 +403,7 @@ function Species() {
               actions={allFormButton}
               validation={schema}
               loading={loading}
+              setEditEntity={setEditEntity}
             />
           )}
         </Route>

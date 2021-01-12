@@ -33,7 +33,7 @@ export const Search = (entity: any, { paginationProps, pr }: any) => {
   const cvEntity = JSON.parse(JSON.stringify(entity))
   let pSpecies
   let speciesParams = ''
-  if (entity.product_plan && entity.product_plan.seeding.species) {
+  if (entity.product_plan && entity.product_plan.seeding && entity.product_plan.seeding.species) {
     pSpecies = JSON.parse(JSON.stringify(entity.product_plan.seeding.species))
     console.log(pSpecies)
     delete cvEntity.product_plan.seeding.species

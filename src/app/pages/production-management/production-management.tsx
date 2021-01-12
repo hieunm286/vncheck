@@ -42,19 +42,19 @@ const extendSearchField: SearchModel = {
       else return { barcode: values.product_plan?.seeding?.species?.barcode };
     },
     keyField: 'name',
-    name: 'product_plan.seeding.species',
+    name: 'seeding.species',
   },
   barcode: {
     type: 'string',
     label: 'GTIN',
-    name: 'product_plan.seeding.species.barcode',
+    name: 'seeding.species.barcode',
   },
 };
 
 const estimatedHarvestTime: SearchModel = {
   estimatedHarvestTime: {
     type: 'date-time',
-    name: 'product_plan.planting.estimatedHarvestTime',
+    name: 'planting.estimatedHarvestTime',
     label: <Fix title={'PRODUCTION_PLAN.HARVEST_DATE'} />,
   },
 };
@@ -67,7 +67,7 @@ const PM_HarvestingSearchModel: SearchModel = {
   harvestingCode: {
     type: 'string',
     label: harvestingCode,
-    name: 'product_plan.harvesting.code',
+    name: 'harvesting.code',
   },
   ...extendSearchField,
   // plantCode: {
@@ -78,17 +78,17 @@ const PM_HarvestingSearchModel: SearchModel = {
   startTime: {
     type: 'date-time',
     label: <Fix title={'HARVESTING_START_TIME'} />,
-    name: 'product_plan.harvesting.startTime',
+    name: 'harvesting.startTime',
   },
   endTime: {
     type: 'date-time',
     label: <Fix title={'HARVESTING_END_TIME'} />,
-    name: 'product_plan.harvesting.endTime',
+    name: 'harvesting.endTime',
   },
   landLot: {
     type: 'string',
     label: 'PLANTING_LAND_LOT',
-    name: 'product_plan.planting.landlot',
+    name: 'planting.landLot.code',
   },
 };
 
@@ -100,23 +100,23 @@ const PM_PreliminaryTreatmentSearchModel: SearchModel = {
   harvestingCode: {
     type: 'string',
     label: harvestingCode,
-    name: 'product_plan.harvesting.code',
+    name: 'harvesting.code',
   },
   preliminaryTreatmentCode: {
     type: 'string',
     label: preliminaryTreatmentCode,
-    name: 'product_plan.preliminaryTreatment.code',
+    name: 'preliminaryTreatment.code',
   },
   ...extendSearchField,
   preliminaryTreatmentStartTime: {
     type: 'date-time',
     label: <Fix title={'PRELIMINARY_TREATMENT_START_TIME'} />,
-    name: 'product_plan.preliminaryTreatment.startTime',
+    name: 'preliminaryTreatment.startTime',
   },
   preliminaryTreatmentEndTime: {
     type: 'date-time',
     label: <Fix title={'PRELIMINARY_TREATMENT_END_TIME'} />,
-    name: 'product_plan.preliminaryTreatment.endTime',
+    name: 'preliminaryTreatment.endTime',
   },
 };
 
@@ -128,28 +128,28 @@ const PM_CleaningSearchModel: SearchModel = {
   harvestingCode: {
     type: 'string',
     label: harvestingCode,
-    name: 'product_plan.harvesting.code',
+    name: 'harvesting.code',
   },
   preliminaryTreatmentCode: {
     type: 'string',
     label: preliminaryTreatmentCode,
-    name: 'product_plan.preliminaryTreatment.code',
+    name: 'preliminaryTreatment.code',
   },
   cleaningCode: {
     type: 'string',
     label: cleaningCode,
-    name: 'product_plan.cleaning.code',
+    name: 'cleaning.code',
   },
   ...extendSearchField,
   cleaningStartTime: {
     type: 'date-time',
     label: <Fix title={'CLEANING_START_TIME'} />,
-    name: 'product_plan.cleaning.startTime',
+    name: 'cleaning.startTime',
   },
   cleaningEndTime: {
     type: 'date-time',
     label: <Fix title={'CLEANING_END_TIME'} />,
-    name: 'product_plan.cleaning.endTime',
+    name: 'cleaning.endTime',
   },
 };
 
@@ -161,28 +161,28 @@ const PM_PackingSearchModel: SearchModel = {
   harvestingCode: {
     type: 'string',
     label: harvestingCode,
-    name: 'product_plan.harvesting.code',
+    name: 'harvesting.code',
   },
   preliminaryTreatmentCode: {
     type: 'string',
     label: preliminaryTreatmentCode,
-    name: 'product_plan.preliminaryTreatment.code',
+    name: 'preliminaryTreatment.code',
   },
   cleaningCode: {
     type: 'string',
     label: cleaningCode,
-    name: 'product_plan.cleaning.code',
+    name: 'cleaning.code',
   },
   packingCode: {
     type: 'string',
     label: 'PRODUCTION_PLAN.PACKING.CODE',
-    name: 'product_plan.packing.code',
+    name: 'packing.code',
   },
   ...extendSearchField,
   packing: {
     type: 'string',
     label: 'PRODUCT_PACKAGING.MODULE_NAME',
-    name: 'product_plan.packing',
+    name: 'packing',
   },
 };
 
@@ -194,38 +194,38 @@ const PM_PreservationSearchModel: SearchModel = {
   harvestingCode: {
     type: 'string',
     label: harvestingCode,
-    name: 'product_plan.harvesting.code',
+    name: 'harvesting.code',
   },
   preliminaryTreatmentCode: {
     type: 'string',
     label: preliminaryTreatmentCode,
-    name: 'product_plan.preliminaryTreatment.code',
+    name: 'preliminaryTreatment.code',
   },
   cleaningCode: {
     type: 'string',
     label: cleaningCode,
-    name: 'product_plan.cleaning.code',
+    name: 'cleaning.code',
   },
   packingCode: {
     type: 'string',
     label: 'PRODUCTION_PLAN.PACKING.CODE',
-    name: 'product_plan.packing.code',
+    name: 'packing.code',
   },
   preservationCode: {
     type: 'string',
     label: preservationCode,
-    name: 'product_plan.preservation.code',
+    name: 'preservation.code',
   },
   ...extendSearchField,
   preservationStartTime: {
     type: 'date-time',
     label: <Fix title={'PRESERVATION_START_TIME'} />,
-    name: 'product_plan.preservation.startTime',
+    name: 'preservation.startTime',
   },
   preservationEndTime: {
     type: 'date-time',
     label: <Fix title={'PRESERVATION_END_TIME'} />,
-    name: 'product_plan.preservation.endTime',
+    name: 'preservation.endTime',
   },
 };
 

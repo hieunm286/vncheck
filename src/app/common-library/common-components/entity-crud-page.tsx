@@ -20,7 +20,8 @@ function EntityCrudPage({
                           actions,
                           validation,
                           loading,
-                          mode
+                          mode,
+                          setEditEntity
                         }: {
   // modifyModel: ModifyModel;
   moduleName?: string;
@@ -34,6 +35,7 @@ function EntityCrudPage({
   validation?: any;
   autoFill?: any;
   loading?: boolean;
+  setEditEntity?: (entity: any) => void;
 }) {
   const intl = useIntl();
   const history = useHistory();
@@ -52,6 +54,7 @@ function EntityCrudPage({
       get &&
       get(code).then((res: { data: any }) => {
         setEntityForEdit({...res.data});
+        if (setEditEntity) { setEditEntity(res.data) }
       });
     }
   }, [code]);
