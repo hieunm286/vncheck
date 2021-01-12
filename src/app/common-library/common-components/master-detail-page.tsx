@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {useIntl} from 'react-intl';
-import {Card, CardBody, CardHeader} from '../card';
+import {Card, CardBody, CardHeader, CardStyle1} from '../card';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import {useHistory} from 'react-router-dom';
 import _ from 'lodash';
 import {RenderInfoDetail} from "../common-types/common-type";
+import { harvestingDetail } from '../../pages/production-management/defined/const';
 
 export const getFieldV3 = (field: any, fieldName: string) => {
   const ifNested = (fN: string) => fN.indexOf('.') === -1;
@@ -70,6 +71,7 @@ export function MasterEntityDetailPage({
     }
   }, [code]);
   return (
+    <>
     <Card>
       <CardHeader
         className={'border-bottom-0 pl-0 large-font-size'}
@@ -94,7 +96,12 @@ export function MasterEntityDetailPage({
                 {intl.formatMessage({id: value.header})}
               </p>}
               <div className={'row no-gutters'}>
-                {Object.keys(value.data).map((dataKey) => (
+                {Object.keys(value.data).map((dataKey) => {
+                  console.log(value.data)
+                  console.log(dataKey)
+                  console.log(value.data[dataKey])
+                  console.log('------------------------')
+                  return (
                   <>
                     {value.data[dataKey].title && value.data[dataKey].title !== '' &&
                     <div className={`${value.titleClassName ?? 'col-4 mb-10'}`}>
@@ -115,12 +122,31 @@ export function MasterEntityDetailPage({
                       }
                     </div>
                   </>
-                ))}
+                )})}
               </div>
             </div>
           ))}
         </div>
       </CardBody>
+      
     </Card>
+    {harvestingDetail.map((value, index) => {
+                switch (value.style) {
+                  case '1':
+                    return (
+                      <CardStyle1
+                        header={value.header}
+                        titleClassName={value.titleClassName}
+                        dataClassName={value.dataClassName}
+                        data={value.data}
+                        entity={entityDetail}
+                      />
+                    );
+
+                  default:
+                    return <></>;
+                }
+              })}
+    </>
   );
 }

@@ -1,18 +1,18 @@
-import React, {useCallback, useEffect, useState} from 'react';
-import {useIntl} from 'react-intl';
-import {Link, Route, Switch, useHistory} from 'react-router-dom';
-import {Card, CardBody} from '../../common-library/card';
-import {InitMasterProps} from '../../common-library/helpers/common-function';
-import {Steps} from 'antd';
-import {DefaultPagination, SortColumn} from '../../common-library/common-consts/const';
-import {MasterHeader} from '../../common-library/common-components/master-header';
-import {SearchModel} from '../../common-library/common-types/common-type';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useIntl } from 'react-intl';
+import { Link, Route, Switch, useHistory } from 'react-router-dom';
+import { Card, CardBody, CardStyle1 } from '../../common-library/card';
+import { InitMasterProps } from '../../common-library/helpers/common-function';
+import { Steps } from 'antd';
+import { DefaultPagination, SortColumn } from '../../common-library/common-consts/const';
+import { MasterHeader } from '../../common-library/common-components/master-header';
+import { SearchModel } from '../../common-library/common-types/common-type';
 import * as SpeciesService from '../species/species.service';
-import {Fix} from '../production-plan/defined/const';
+import { Fix } from '../production-plan/defined/const';
 import * as ProductionPlanService from '../production-plan/production-plan.service';
-import {ProductionPlanModel} from '../production-plan/production-plant.model';
-import {MasterTable} from '../../common-library/common-components/master-table';
-import {MasterEntityDetailPage} from '../../common-library/common-components/master-detail-page';
+import { ProductionPlanModel } from '../production-plan/production-plant.model';
+import { MasterTable } from '../../common-library/common-components/master-table';
+import { MasterEntityDetailPage } from '../../common-library/common-components/master-detail-page';
 import {
   CleaningDetail,
   harvestingDetail,
@@ -22,7 +22,7 @@ import {
 } from './defined/const';
 import _ from 'lodash';
 
-const {Step} = Steps;
+const { Step } = Steps;
 
 const productPlanCode = 'PRODUCTION_PLAN.CODE';
 const harvestingCode = 'PRODUCTION_PLAN.HARVESTING_CODE';
@@ -36,10 +36,10 @@ const extendSearchField: SearchModel = {
     type: 'search-select',
     label: 'PRODUCTION_PLAN.SPECIES_NAME',
     onSearch: SpeciesService.GetAll,
-    onChange: (value, {setFieldValue, values}) => {
+    onChange: (value, { setFieldValue, values }) => {
       console.log(value, values);
       if (value) value.barcode = values.product_plan?.seeding?.species?.barcode;
-      else return {barcode: values.product_plan?.seeding?.species?.barcode}
+      else return { barcode: values.product_plan?.seeding?.species?.barcode };
     },
     keyField: 'name',
     name: 'product_plan.seeding.species',
@@ -183,7 +183,7 @@ const PM_PackingSearchModel: SearchModel = {
     type: 'string',
     label: 'PRODUCT_PACKAGING.MODULE_NAME',
     name: 'product_plan.packing',
-  }
+  },
 };
 
 const PM_PreservationSearchModel: SearchModel = {
@@ -291,9 +291,7 @@ function ProductionManagement() {
     species: {
       dataField: 'product_plan.seeding.species.name',
       text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.SPECIES_NAME' })}`,
-      formatter: (cell: any, row: any, rowIndex: number) => (
-        <span>{row.seeding.species.name}</span>
-      ),
+      formatter: (cell: any, row: any, rowIndex: number) => <span>{row.seeding.species.name}</span>,
       ...SortColumn,
       classes: 'text-center',
       headerClasses: 'text-center',
@@ -704,24 +702,36 @@ function ProductionManagement() {
     if (currentStep === 2) return cleaningColumns;
     if (currentStep === 3) return packingColumns;
     if (currentStep === 4) return preservationColumns;
-    return {}
-  }, [cleaningColumns, currentStep, harvestingColumns, packingColumns, preliminaryTreatmentColumns, preservationColumns]);
+    return {};
+  }, [
+    cleaningColumns,
+    currentStep,
+    harvestingColumns,
+    packingColumns,
+    preliminaryTreatmentColumns,
+    preservationColumns,
+  ]);
 
-  console.log(packingColumns)
+  console.log(packingColumns);
 
   return (
     <React.Fragment>
       <Switch>
         <Route exact path="/production-management/harvesting/:code">
           {({ history, match }) => (
-            <MasterEntityDetailPage
-              entity={history.location.state}
-              renderInfo={harvestingDetail}
-              code={match && match.params.code}
-              get={code => ProductionPlanService.GetById(code)}
-              onClose={() => {history.push('/production-management')}}
-              header="HARVESTING_INFO"
-            />
+            <>
+              <MasterEntityDetailPage
+                entity={history.location.state}
+                renderInfo={harvestingDetail}
+                code={match && match.params.code}
+                get={code => ProductionPlanService.GetById(code)}
+                onClose={() => {
+                  history.push('/production-management');
+                }}
+                header="HARVESTING_INFO"
+              />
+              
+            </>
           )}
         </Route>
         <Route exact path="/production-management/preliminaryTreatment/:code">
@@ -731,7 +741,9 @@ function ProductionManagement() {
               renderInfo={PreliminaryTreatmentDetail}
               code={match && match.params.code}
               get={code => ProductionPlanService.GetById(code)}
-              onClose={() => {history.push('/production-management')}}
+              onClose={() => {
+                history.push('/production-management');
+              }}
               header="PRELIMINARY_TREATMENT_INFO"
             />
           )}
@@ -743,7 +755,9 @@ function ProductionManagement() {
               renderInfo={CleaningDetail}
               code={match && match.params.code}
               get={code => ProductionPlanService.GetById(code)}
-              onClose={() => {history.push('/production-management')}}
+              onClose={() => {
+                history.push('/production-management');
+              }}
               header="CLEANING_INFO"
             />
           )}
@@ -755,7 +769,9 @@ function ProductionManagement() {
               renderInfo={PackingDetail}
               code={match && match.params.code}
               get={code => ProductionPlanService.GetById(code)}
-              onClose={() => {history.push('/production-management')}}
+              onClose={() => {
+                history.push('/production-management');
+              }}
               header="PACKING_INFO"
             />
           )}
@@ -767,7 +783,9 @@ function ProductionManagement() {
               renderInfo={PreservationDetail}
               code={match && match.params.code}
               get={code => ProductionPlanService.GetById(code)}
-              onClose={() => {history.push('/production-management')}}
+              onClose={() => {
+                history.push('/production-management');
+              }}
               header="PRESERVATION_INFO"
             />
           )}
@@ -804,15 +822,15 @@ function ProductionManagement() {
                     isMaster: true,
                     confirmationStatus: '2',
                     process: currentStep + 2 + '',
-                  }
-                  ProductionPlanService.Search(value, {DefaultPagination, pr}).then(res => {
-                    const data: any = res.data
+                  };
+                  ProductionPlanService.Search(value, { DefaultPagination, pr }).then(res => {
+                    const data: any = res.data;
                     setEntities(data.data ? data.data : data);
-                  })
-                
+                  });
+
                   // setFilterProps({ ...cvValue });
-              }
-            }}
+                }
+              }}
               searchModel={getSearchModel()}
             />
           </div>
