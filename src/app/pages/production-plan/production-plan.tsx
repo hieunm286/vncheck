@@ -1574,9 +1574,7 @@ function ProductionPlan() {
               const cvValue = JSON.parse(JSON.stringify(value));
   
               if (
-                value.product_plan &&
-                value.product_plan.seeding &&
-                value.product_plan.seeding.species &&
+                value.product_plan?.seeding?.species &&
                 _.isObject(value.product_plan.seeding.species)
               ) {
                 cvValue.product_plan.seeding.species = value.product_plan.seeding.species._id;
