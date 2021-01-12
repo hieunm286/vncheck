@@ -533,7 +533,7 @@ function ProductionPlanCrud({
       />
       <Formik
         enableReinitialize={true}
-        initialValues={entityForEdit || initForm}
+        initialValues={entityForEdit}
         // initialValues={initForm}
         validationSchema={validation}
         validate={validationForm}
