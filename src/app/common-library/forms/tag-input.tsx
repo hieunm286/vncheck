@@ -23,7 +23,6 @@ const getDefautltTag = (data: any) => {
 function TagInput({
                     label,
                     data,
-                    handleChange,
                     value,
                     name,
                     mode,
@@ -45,7 +44,7 @@ function TagInput({
   }, [required, value]);
   console.log(tagData)
   const [field] = useField({name, validate});
-  const {setFieldValue, errors, touched, getFieldMeta, values} = useFormikContext<any>();
+  const {setFieldValue, errors, touched, getFieldMeta, values, handleChange} = useFormikContext<any>();
   
   const intl = useIntl();
   const _label = useMemo(() => (_.isString(label) ? intl.formatMessage({id: label}) : label), []);
