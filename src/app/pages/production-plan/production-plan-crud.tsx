@@ -259,7 +259,7 @@ function ProductionPlanCrud({
         if (!errors.preliminaryTreatment) {
           errors.preliminaryTreatment = {};
         }
-        errors?.preliminaryTreatment?.estimatedQuantity = 'Sản lượng sơ chế không được nhỏ hơn 0';
+        errors?.preliminaryTreatment.estimatedQuantity = 'Sản lượng sơ chế không được nhỏ hơn 0';
       } else if (
         values.planting?.expectedQuantity &&
         values.preliminaryTreatment?.estimatedQuantity > values.planting?.expectedQuantity
@@ -267,7 +267,7 @@ function ProductionPlanCrud({
         if (!errors.preliminaryTreatment) {
           errors.preliminaryTreatment = {};
         }
-        errors.preliminaryTreatment?.estimatedQuantity =
+        errors.preliminaryTreatment.estimatedQuantity =
           'Sản lượng sơ chế không được lớn hơn sản lượng thu hoạch';
       }
     }
@@ -277,7 +277,7 @@ function ProductionPlanCrud({
         if (!errors.preliminaryTreatment) {
           errors.preliminaryTreatment = {};
         }
-        errors.preliminaryTreatment?.estimatedTime = 'Ngày sơ chế không được nhỏ hơn ngày hiện tại';
+        errors.preliminaryTreatment.estimatedTime = 'Ngày sơ chế không được nhỏ hơn ngày hiện tại';
       } else if (
         values.harvesting?.estimatedTime &&
         !CompareDate(
@@ -288,7 +288,7 @@ function ProductionPlanCrud({
         if (!errors.preliminaryTreatment) {
           errors.preliminaryTreatment = {};
         }
-        errors.preliminaryTreatment?.estimatedTime = 'Ngày sơ chế không được nhỏ hơn ngày thu hoạch';
+        errors.preliminaryTreatment.estimatedTime = 'Ngày sơ chế không được nhỏ hơn ngày thu hoạch';
       }
     }
 
@@ -299,12 +299,12 @@ function ProductionPlanCrud({
         if (!errors.cleaning) {
           errors.cleaning = {};
         }
-        errors.cleaning?.estimatedQuantity = 'Sản lượng làm sạch phải là số nguyên';
+        errors.cleaning.estimatedQuantity = 'Sản lượng làm sạch phải là số nguyên';
       } else if (values.cleaning?.estimatedQuantity < 0) {
         if (!errors.cleaning) {
           errors.cleaning = {};
         }
-        errors.cleaning?.estimatedQuantity = 'Sản lượng làm sạch không được nhỏ hơn 0';
+        errors.cleaning.estimatedQuantity = 'Sản lượng làm sạch không được nhỏ hơn 0';
       } else if (
         values.preliminaryTreatment?.estimatedQuantity &&
         values.cleaning?.estimatedQuantity > values.preliminaryTreatment?.estimatedQuantity
@@ -312,7 +312,7 @@ function ProductionPlanCrud({
         if (!errors.cleaning) {
           errors.cleaning = {};
         }
-        errors.cleaning?.estimatedQuantity =
+        errors.cleaning.estimatedQuantity =
           'Sản lượng làm sạch không được lớn hơn sản lượng sơ chế';
       }
     }
@@ -322,7 +322,7 @@ function ProductionPlanCrud({
         if (!errors.cleaning) {
           errors.cleaning = {};
         }
-        errors.cleaning?.estimatedTime = 'Ngày làm sạch không được nhỏ hơn ngày hiện tại';
+        errors.cleaning.estimatedTime = 'Ngày làm sạch không được nhỏ hơn ngày hiện tại';
       } else if (
         values.preliminaryTreatment?.estimatedTime &&
         !CompareDate(
@@ -333,7 +333,7 @@ function ProductionPlanCrud({
         if (!errors.cleaning) {
           errors.cleaning = {};
         }
-        errors.cleaning?.estimatedTime = 'Ngày làm sạch không được nhỏ hơn ngày sơ chế';
+        errors.cleaning.estimatedTime = 'Ngày làm sạch không được nhỏ hơn ngày sơ chế';
       }
     }
 
@@ -347,7 +347,7 @@ function ProductionPlanCrud({
       if (!errors.packing) {
         errors.packing = {};
       }
-      errors.packing?.estimatedQuantity = 'Số lượng đóng gói phải là số nguyên';
+      errors.packing.estimatedQuantity = 'Số lượng đóng gói phải là số nguyên';
     } else if (
       values.packing &&
       values.packing?.estimatedQuantity &&
@@ -356,7 +356,7 @@ function ProductionPlanCrud({
       if (!errors.packing) {
         errors.packing = {};
       }
-      errors.packing?.estimatedQuantity = 'Số lượng đóng gói không được nhỏ hơn 0';
+      errors.packing.estimatedQuantity = 'Số lượng đóng gói không được nhỏ hơn 0';
     }
 
     if (values.packing?.estimatedTime) {
@@ -364,7 +364,7 @@ function ProductionPlanCrud({
         if (!errors.packing) {
           errors.packing = {};
         }
-        errors.packing?.estimatedTime = 'Ngày đóng gói không được nhỏ hơn ngày hiện tại';
+        errors.packing.estimatedTime = 'Ngày đóng gói không được nhỏ hơn ngày hiện tại';
       } else if (
         values.cleaning?.estimatedTime &&
         !CompareDate(
@@ -375,7 +375,7 @@ function ProductionPlanCrud({
         if (!errors.packing) {
           errors.packing = {};
         }
-        errors.packing?.estimatedTime = 'Ngày đóng gói không được nhỏ hơn ngày làm sạch';
+        errors.packing.estimatedTime = 'Ngày đóng gói không được nhỏ hơn ngày làm sạch';
       } else if (
         values.packing?.estimatedExpireTimeStart &&
         CompareDate(
@@ -386,7 +386,7 @@ function ProductionPlanCrud({
         if (!errors.packing) {
           errors.packing = {};
         }
-        errors.packing?.estimatedTime = 'Ngày đóng gói không được lớn hơn hạn sử dụng bắt đầu';
+        errors.packing.estimatedTime = 'Ngày đóng gói không được lớn hơn hạn sử dụng bắt đầu';
       }
     }
 
@@ -395,7 +395,7 @@ function ProductionPlanCrud({
         if (!errors.packing) {
           errors.packing = {};
         }
-        errors.packing?.estimatedExpireTimeStart = 'Hạn sử dụng không được nhỏ hơn ngày hiện tại';
+        errors.packing.estimatedExpireTimeStart = 'Hạn sử dụng không được nhỏ hơn ngày hiện tại';
       } else if (
         values.packing?.estimatedTime &&
         CompareDate(
@@ -406,10 +406,10 @@ function ProductionPlanCrud({
         if (!errors.packing) {
           errors.packing = {};
         }
-        errors.packing?.estimatedExpireTimeStart =
+        errors.packing.estimatedExpireTimeStart =
           'Hạn sử dụng bắt đầu không được nhỏ hơn ngày đóng gói';
       } else if (
-        values.packing?.estimatedExpireTimeEnd &&
+        values.packing.estimatedExpireTimeEnd &&
         !CompareDate(
           new Date(values.packing?.estimatedExpireTimeEnd),
           new Date(values.packing?.estimatedExpireTimeStart),
@@ -418,7 +418,7 @@ function ProductionPlanCrud({
         if (!errors.packing) {
           errors.packing = {};
         }
-        errors.packing?.estimatedExpireTimeStart =
+        errors.packing.estimatedExpireTimeStart =
           'Hạn sử dụng bắt đầu không được lớn hơn ngày hết hạn';
       }
     }
@@ -428,7 +428,7 @@ function ProductionPlanCrud({
         if (!errors.packing) {
           errors.packing = {};
         }
-        errors.packing?.estimatedExpireTimeEnd = 'Ngày hết hạn không được nhỏ hơn ngày hiện tại';
+        errors.packing.estimatedExpireTimeEnd = 'Ngày hết hạn không được nhỏ hơn ngày hiện tại';
       } else if (
         values.packing?.estimatedExpireTimeStart &&
         !CompareDate(
@@ -439,7 +439,7 @@ function ProductionPlanCrud({
         if (!errors.packing) {
           errors.packing = {};
         }
-        errors.packing?.estimatedExpireTimeEnd =
+        errors.packing.estimatedExpireTimeEnd =
           'Ngày hết hạn không được nhỏ hơn hạn sử dụng bắt đầu';
       }
     }
@@ -451,7 +451,7 @@ function ProductionPlanCrud({
         if (!errors.preservation) {
           errors.preservation = {};
         }
-        errors.preservation?.estimatedStartTime = 'Ngày bảo quản không được nhỏ hơn ngày hiện tại';
+        errors.preservation.estimatedStartTime = 'Ngày bảo quản không được nhỏ hơn ngày hiện tại';
       } else if (
         values.packing?.estimatedTime &&
         CompareDate(
@@ -462,7 +462,7 @@ function ProductionPlanCrud({
         if (!errors.preservation) {
           errors.preservation = {};
         }
-        errors.preservation?.estimatedStartTime =
+        errors.preservation.estimatedStartTime =
           'Ngày bắt đầu bảo quản không được nhỏ hơn ngày đóng gói';
       } else if (
         values.preservation?.estimatedEndTime &&
@@ -474,7 +474,7 @@ function ProductionPlanCrud({
         if (!errors.preservation) {
           errors.preservation = {};
         }
-        errors.preservation?.estimatedStartTime =
+        errors.preservation.estimatedStartTime =
           'Ngày bắt đầu bảo quản không được lớn hơn ngày kết thúc bảo quản';
       }
     }
@@ -484,7 +484,7 @@ function ProductionPlanCrud({
         if (!errors.preservation) {
           errors.preservation = {};
         }
-        errors.preservation?.estimatedEndTime =
+        errors.preservation.estimatedEndTime =
           'Ngày kết thúc bảo quản không được nhỏ hơn ngày hiện tại';
       } else if (
         values.preservation?.estimatedStartTime &&
@@ -496,7 +496,7 @@ function ProductionPlanCrud({
         if (!errors.preservation) {
           errors.preservation = {};
         }
-        errors.preservation?.estimatedEndTime =
+        errors.preservation.estimatedEndTime =
           'Ngày kết thúc bảo quản không được nhỏ hơn ngày bắt đầu bảo quản';
       }
     }
