@@ -285,6 +285,8 @@ function ProductionManagement() {
     updateServer: ProductionPlanService.Update,
   });
 
+  console.log(total)
+
   const [currentStep, setCurrentStep] = useState<number>(0);
 
   const extendField = {
@@ -808,6 +810,7 @@ function ProductionManagement() {
                   ProductionPlanService.Search(value, {DefaultPagination, pr}).then(res => {
                     const data: any = res.data
                     setEntities(data.data ? data.data : data);
+                    setTotal(data.paging ? data.paging.total : 5);
                   })
                 
                   // setFilterProps({ ...cvValue });

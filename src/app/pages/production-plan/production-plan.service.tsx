@@ -42,7 +42,9 @@ export const Search = (entity: any, { paginationProps, pr }: any) => {
   if (pSpecies && pSpecies.barcode) {
     speciesParams += `product_plan.seeding.species.barcode=${pSpecies.barcode}`
   }
-  return axios.get(`${API_URL}?${speciesParams}`, {
+  return speciesParams !== '' ? axios.get(`${API_URL}?${speciesParams}`, {
+    params: { ...paginationProps, ...cvEntity, ...pr },
+  }) : axios.get(`${API_URL}`, {
     params: { ...paginationProps, ...cvEntity, ...pr },
   });
 }
