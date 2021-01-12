@@ -25,6 +25,7 @@ import {
   productPlanSearchModel1,
   productPlanSearchModel2,
   SeedingDetailDialog,
+  validate,
 } from './defined/const';
 import {shallowEqual, useSelector} from 'react-redux';
 import ProductionPlanCrud from './production-plan-crud';
@@ -59,21 +60,6 @@ const versionData = [
     approveDate: new Date(),
   },
 ];
-
-const validate = (values: any, props: any /* only available when using withFormik */) => {
-  console.log(values, props);
-  if (!values) return;
-  const errors: any = {};
-  if (!values.email) {
-    errors.email = 'Required';
-  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-    errors.email = 'Invalid email address';
-  }
-  
-  //...
-  
-  return errors;
-};
 
 const ProductPlantSchema = Yup.object().shape({
   harvesting: Yup.object()
@@ -1490,7 +1476,7 @@ function ProductionPlan() {
                 formModel={updateForm}
                 allFormField={allFormField}
                 allFormButton={currentTab !== '2' ? allFormButton : allFormButton2}
-                validation={validate}
+                validation={ProductPlantSchema}
                 autoFill={{
                   field: '',
                   data: null,
