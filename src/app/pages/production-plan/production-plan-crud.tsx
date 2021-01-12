@@ -259,7 +259,7 @@ function ProductionPlanCrud({
         if (!errors.preliminaryTreatment) {
           errors.preliminaryTreatment = {};
         }
-        errors?.preliminaryTreatment.estimatedQuantity = 'Sản lượng sơ chế không được nhỏ hơn 0';
+        errors.preliminaryTreatment.estimatedQuantity = 'Sản lượng sơ chế không được nhỏ hơn 0';
       } else if (
         values.planting?.expectedQuantity &&
         values.preliminaryTreatment?.estimatedQuantity > values.planting?.expectedQuantity
