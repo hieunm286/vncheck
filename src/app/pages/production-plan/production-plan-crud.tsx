@@ -208,6 +208,7 @@ function ProductionPlanCrud({
         //   : ConvertSelectSearch(res.data);
         const initEntity = addInitField(res.data, initProductPlanForm);
         setEntityForEdit(initEntity);
+        console.log(initEntity)
         setEditEntity(res.data);
         setCommentArr(res.data.comments || []);
       });
@@ -259,7 +260,7 @@ function ProductionPlanCrud({
         if (!errors.preliminaryTreatment) {
           errors.preliminaryTreatment = {};
         }
-        errors?.preliminaryTreatment.estimatedQuantity = 'Sản lượng sơ chế không được nhỏ hơn 0';
+        errors.preliminaryTreatment.estimatedQuantity = 'Sản lượng sơ chế không được nhỏ hơn 0';
       } else if (
         values.planting?.expectedQuantity &&
         values.preliminaryTreatment?.estimatedQuantity > values.planting?.expectedQuantity

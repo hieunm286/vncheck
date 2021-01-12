@@ -65,15 +65,13 @@ const ProductPlantSchema = Yup.object().shape({
   harvesting: Yup.object()
     .shape(halfValidate)
     .test('oneOfRequired', 'INPUT_MUTS_ACCORDING_ORDER', function (values: any) {
-      console.log(this.parent.harvesting);
-      console.log(values);
-      if (values.technical.length === 0 || values.leader.length === 0) {
+      if (values.technical?.length === 0 || values.leader?.length === 0) {
         if (
-          this.parent.preliminaryTreatment.technical.length > 0 ||
-          this.parent.preliminaryTreatment.leader.length > 0 ||
-          this.parent.preliminaryTreatment.estimatedTime ||
-          this.parent.preliminaryTreatment.estimatedQuantity > 0 ||
-          this.parent.preliminaryTreatment.estimatedQuantity
+          this.parent.preliminaryTreatment?.technical?.length > 0 ||
+          this.parent.preliminaryTreatment?.leader?.length > 0 ||
+          this.parent.preliminaryTreatment?.estimatedTime ||
+          this.parent.preliminaryTreatment?.estimatedQuantity > 0 ||
+          this.parent.preliminaryTreatment?.estimatedQuantity
         ) {
           return false;
         }
@@ -83,21 +81,20 @@ const ProductPlantSchema = Yup.object().shape({
   preliminaryTreatment: Yup.object()
     .shape(validate)
     .test('oneOfRequired', 'INPUT_MUTS_ACCORDING_ORDER', function (values: any) {
-      console.log(this.parent.harvesting);
-      console.log(values);
+  
       if (
-        values.technical.length === 0 ||
-        values.leader.length === 0 ||
+        values.technical?.length === 0 ||
+        values.leader?.length === 0 ||
         !values.estimatedTime ||
         values.estimatedQuantity === 0 ||
         !values.estimatedQuantity
       ) {
         if (
-          this.parent.cleaning.technical.length > 0 ||
-          this.parent.cleaning.leader.length > 0 ||
-          this.parent.cleaning.estimatedTime ||
-          this.parent.cleaning.estimatedQuantity > 0 ||
-          this.parent.cleaning.estimatedQuantity
+          this.parent.cleaning?.technical?.length > 0 ||
+          this.parent.cleaning?.leader?.length > 0 ||
+          this.parent.cleaning?.estimatedTime ||
+          this.parent.cleaning?.estimatedQuantity > 0 ||
+          this.parent.cleaning?.estimatedQuantity
         ) {
           return false;
         }
@@ -113,22 +110,22 @@ const ProductPlantSchema = Yup.object().shape({
       if (
         // this.parent.harvesting.technical.length === 0 ||
         // this.parent.harvesting.leader.length === 0 ||
-        values.technical.length === 0 ||
-        values.leader.length === 0 ||
+        values.technical?.length === 0 ||
+        values.leader?.length === 0 ||
         !values.estimatedTime ||
         values.estimatedQuantity === 0 ||
         !values.estimatedQuantity
       ) {
         if (
-          this.parent.packing.estimatedTime ||
-          this.parent.packing.estimatedExpireTimeStart ||
-          this.parent.packing.estimatedExpireTimeEnd ||
+          this.parent.packing?.estimatedTime ||
+          this.parent.packing?.estimatedExpireTimeStart ||
+          this.parent.packing?.estimatedExpireTimeEnd ||
           // this.parent.packing.packing ||
           // (_.isObject(this.parent.packing.packing)) ||
-          this.parent.packing.estimatedQuantity ||
-          this.parent.packing.estimatedQuantity > 0 ||
-          this.parent.packing.technical.length > 0 ||
-          this.parent.packing.leader.length > 0
+          this.parent.packing?.estimatedQuantity ||
+          this.parent.packing?.estimatedQuantity > 0 ||
+          this.parent.packing?.technical?.length > 0 ||
+          this.parent.packing?.leader?.length > 0
         ) {
           return false;
         }
@@ -166,13 +163,13 @@ const ProductPlantSchema = Yup.object().shape({
         (_.isObject(values.packing) && !values.packing.label) ||
         !values.estimatedQuantity ||
         values.estimatedQuantity === 0 ||
-        values.technical.length === 0 ||
-        values.leader.length === 0
+        values.technical?.length === 0 ||
+        values.leader?.length === 0
       ) {
         if (
-          this.parent.preservation.estimatedStartTime ||
-          this.parent.preservation.estimatedEndTime > 0 ||
-          this.parent.preservation.technical.length > 0
+          this.parent.preservation?.estimatedStartTime ||
+          this.parent.preservation?.estimatedEndTime > 0 ||
+          this.parent.preservation?.technical?.length > 0
         ) {
           return true;
         }
