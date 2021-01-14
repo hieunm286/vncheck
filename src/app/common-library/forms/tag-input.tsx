@@ -8,18 +8,6 @@ import _ from "lodash";
 
 const {Option} = Select;
 
-const getDefautltTag = (data: any) => {
-  if (!data) return;
-
-  const idArr: any[] = [];
-  
-  data?.forEach((el: any) => {
-    idArr.push(el.user ? el.user._id : el._id)
-  })
-  
-  return idArr;
-};
-
 function TagInput({
                     label,
                     data,
@@ -42,10 +30,26 @@ function TagInput({
   const validate = useCallback((value: any): string | void => {
     if (required && !value) return 'RADIO.ERROR.REQUIRED';
   }, [required, value]);
-  console.log(tagData)
-  const [field] = useField({name, validate});
-  const {setFieldValue, errors, touched, getFieldMeta, values, handleChange} = useFormikContext<any>();
+  const [field] = useField({name});
+  const {setFieldValue, errors, touched, getFieldMeta, values, handleChange, setFieldTouched} = useFormikContext<any>();
+
+  const getDefautltTag = useCallback((data: any) => {
+    if (!data) return [];
+
+    if (_.isString(data[0])) return data;
   
+    const idArr: any[] = [];
+    
+    data?.forEach((el: any) => {
+      idArr.push(el.user ? el.user._id : el._id)
+    })
+    
+    return idArr;
+  }, []);
+
+  console.log(getDefautltTag(field.value))
+  console.log(field)
+
   const intl = useIntl();
   const _label = useMemo(() => (_.isString(label) ? intl.formatMessage({id: label}) : label), []);
   return (
@@ -62,11 +66,19 @@ function TagInput({
           <Select
             mode="multiple"
             style={{width: '100%'}}
-            defaultValue={getDefautltTag(field.value) || []}
+            value={field.value ? getDefautltTag(field.value) : []}
             placeholder={intl.formatMessage({id: placeholder},  {label:_.isString(_label) ? _label:''})}
             onChange={(value: any) => {
               // handleChange(value);
-              setFieldValue(name, value);
+              console.log(value)
+              setFieldTouched(name, true);
+              if (value) {
+                setFieldValue(name, value);
+              }
+              
+            }}
+            onBlur={(e) => {
+              setFieldTouched(name, true);
             }}
             optionFilterProp="children"
             filterOption={(input: any, option: any) =>

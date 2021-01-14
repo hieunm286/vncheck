@@ -1,26 +1,26 @@
-import React, {useEffect, useState} from 'react';
-import {Form, Formik} from 'formik';
-import {useHistory} from 'react-router-dom';
-import {AxiosResponse} from 'axios';
+import React, { useEffect, useState } from 'react';
+import { Form, Formik } from 'formik';
+import { useHistory } from 'react-router-dom';
+import { AxiosResponse } from 'axios';
 
-import {useIntl} from 'react-intl';
-import {generateInitForm, GetHomePage} from '../../common-library/helpers/common-function';
-import {Card, CardBody, CardHeader} from '../../common-library/card';
+import { useIntl } from 'react-intl';
+import { generateInitForm, GetHomePage } from '../../common-library/helpers/common-function';
+import { Card, CardBody, CardHeader } from '../../common-library/card';
 import _ from 'lodash';
-import {addInitField, CompareDate, initProductPlanForm} from './defined/const';
+import { addInitField, CompareDate, initProductPlanForm } from './defined/const';
 import ProductionPlanModal from './production-plan-modal';
-import {ModifyEntityPage} from '../../common-library/common-components/modify-entity-page';
-import {ModifyForm} from '../../common-library/common-types/common-type';
+import { ModifyEntityPage } from '../../common-library/common-components/modify-entity-page';
+import { ModifyForm } from '../../common-library/common-types/common-type';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined';
-import {Input} from 'antd';
+import { Input } from 'antd';
 import './style/production-plan.scss';
 import { FormControl } from 'react-bootstrap';
 import { TextareaAutosize } from '@material-ui/core';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const {TextArea} = Input;
+const { TextArea } = Input;
 
 const notifyError = (error: string) => {
   toast.error(error, {
@@ -208,14 +208,18 @@ function ProductionPlanCrud({
         //   : ConvertSelectSearch(res.data);
         const initEntity = addInitField(res.data, initProductPlanForm);
         setEntityForEdit(initEntity);
-        console.log(initEntity)
+        console.log(initEntity);
         setEditEntity(res.data);
         setCommentArr(res.data.comments || []);
       });
     }
   }, [code]);
 
-  const submitHandle = (values: any, curValues: any, { setSubmitting, setFieldError }: any) => {
+  const submitHandle = (
+    values: any,
+    curValues: any,
+    { setSubmitting, setFieldValue, resetForm }: any,
+  ) => {
     onModify(values)
       .then((res: any) => {
         setNoticeModal(true);
@@ -226,6 +230,8 @@ function ProductionPlanCrud({
       .catch(error => {
         setSubmitting(false);
         setErrorMsg(error.entity || error.response.entity);
+        notifyError('Lỗi server. Vui lòng thử lại sau');
+        // resetForm(entityForEdit);
       });
   };
 
@@ -250,20 +256,256 @@ function ProductionPlanCrud({
       // preservation: {}
     };
 
-    if (values?.preliminaryTreatment?.estimatedQuantity) {
-      if (!_.isInteger(values.preliminaryTreatment.estimatedQuantity)) {
+    console.log(values);
+
+    const harvestingLeader = values.harvesting?.leader;
+    const harvestingTechnical = values.harvesting?.technical;
+
+    const ptEstimatedTime = values.preliminaryTreatment?.estimatedTime;
+    const ptEstimatedQuantity = values.preliminaryTreatment?.estimatedQuantity;
+    const ptLeader = values.preliminaryTreatment?.leader;
+    const ptTechnical = values.preliminaryTreatment?.technical;
+
+    const cleaningEstimatedTime = values.cleaning?.estimatedTime;
+    const cleaningEstimatedQuantity = values.cleaning?.estimatedQuantity;
+    const cleaningLeader = values.cleaning?.leader;
+    const cleaningTechnical = values.cleaning?.technical;
+
+    const packingEstimatedTime = values.packing?.estimatedTime;
+    const packingEstimatedExpireTimeStart = values.packing?.estimatedExpireTimeStart;
+    const packingEstimatedExpireTimeEnd = values.packing?.estimatedExpireTimeEnd;
+    const packingPacking = values.packing?.packing;
+    const packingEstimatedQuantity = values.packing?.estimatedQuantity;
+    const packingTechnical = values.packing?.technical;
+    const packingLeader = values.packing?.leader;
+
+    const preservationEstimatedStartTime = values.preservation?.estimatedStartTime;
+    const preservationEstimatedEndTime = values.preservation?.estimatedEndTime;
+    const preservationTechnical = values.preservation?.technical;
+
+    // ---------------------------------------------------------------
+
+    // if (harvestingLeader?.length === 0 && harvestingTechnical?.length > 0) {
+    //   if (!errors.harvesting) {
+    //     errors.harvesting = {};
+    //   }
+    //   errors.harvesting.leader = 'Tổ trưởng thu hoạch không được bỏ trống';
+    // }
+
+    // if (harvestingTechnical?.length === 0 && harvestingLeader?.length > 0) {
+    //   if (!errors.harvesting) {
+    //     errors.harvesting = {};
+    //   }
+    //   errors.harvesting.technical = 'Nhân viên kỹ thuật thu hoạch không được bỏ trống';
+    // }
+
+    // ---------------------------------------------------------------
+
+    // if (
+    //   !ptEstimatedTime &&
+    //   (ptEstimatedQuantity || ptLeader?.length > 0 || ptTechnical?.length > 0)
+    // ) {
+    //   if (!errors.preliminaryTreatment) {
+    //     errors.preliminaryTreatment = {};
+    //   }
+    //   errors.preliminaryTreatment.estimatedTime = 'Thời gian sơ chế không được bỏ trống';
+    // }
+
+    // if (
+    //   !ptEstimatedQuantity &&
+    //   (ptEstimatedTime || ptLeader?.length > 0 || ptTechnical?.length > 0)
+    // ) {
+    //   if (!errors.preliminaryTreatment) {
+    //     errors.preliminaryTreatment = {};
+    //   }
+    //   errors.preliminaryTreatment.estimatedQuantity = 'Sản lượng sơ chế không được bỏ trống';
+    // }
+
+    // if (
+    //   ptLeader?.length === 0 &&
+    //   (ptEstimatedTime || ptEstimatedQuantity || ptTechnical?.length > 0)
+    // ) {
+    //   if (!errors.preliminaryTreatment) {
+    //     errors.preliminaryTreatment = {};
+    //   }
+    //   errors.preliminaryTreatment.leader = 'Tổ trưởng sơ chế không được bỏ trống';
+    // }
+
+    // if (
+    //   ptTechnical?.length === 0 &&
+    //   (ptEstimatedTime || ptEstimatedQuantity || ptLeader?.length > 0)
+    // ) {
+    //   if (!errors.preliminaryTreatment) {
+    //     errors.preliminaryTreatment = {};
+    //   }
+    //   errors.preliminaryTreatment.technical = 'Nhân viên kỹ thuật sơ chế không được bỏ trống';
+    // }
+
+    // ---------------------------------------------------------------
+
+    // if (
+    //   !cleaningEstimatedTime &&
+    //   (cleaningEstimatedQuantity || cleaningLeader?.length > 0 || cleaningTechnical?.length > 0)
+    // ) {
+    //   if (!errors.cleaning) {
+    //     errors.cleaning = {};
+    //   }
+    //   errors.cleaning.estimatedTime = 'Thời gian làm sạch không được bỏ trống';
+    // }
+
+    // if (
+    //   !cleaningEstimatedQuantity &&
+    //   (cleaningEstimatedTime || cleaningLeader?.length > 0 || cleaningTechnical?.length > 0)
+    // ) {
+    //   if (!errors.cleaning) {
+    //     errors.cleaning = {};
+    //   }
+    //   errors.cleaning.estimatedQuantity = 'Sản lượng làm sạch không được bỏ trống';
+    // }
+
+    // if (
+    //   cleaningLeader?.length === 0 &&
+    //   (cleaningEstimatedTime || cleaningEstimatedQuantity || cleaningTechnical?.length > 0)
+    // ) {
+    //   if (!errors.cleaning) {
+    //     errors.cleaning = {};
+    //   }
+    //   errors.cleaning.leader = 'Tổ trưởng làm sạch không được bỏ trống';
+    // }
+
+    // if (
+    //   cleaningTechnical?.length === 0 &&
+    //   (cleaningEstimatedTime || cleaningEstimatedQuantity || cleaningLeader?.length > 0)
+    // ) {
+    //   if (!errors.cleaning) {
+    //     errors.cleaning = {};
+    //   }
+    //   errors.cleaning.technical = 'Nhân viên kỹ thuật làm sạch không được bỏ trống';
+    // }
+
+    // ---------------------------------------------------------------
+
+    // if (
+    //   !packingEstimatedTime &&
+    //   (packingEstimatedExpireTimeEnd ||
+    //     packingEstimatedExpireTimeStart ||
+    //     packingEstimatedQuantity ||
+    //     packingLeader?.length > 0 ||
+    //     packingPacking ||
+    //     packingTechnical?.length > 0)
+    // ) {
+    //   if (!errors.packing) {
+    //     errors.packing = {};
+    //   }
+    //   errors.packing.estimatedTime = 'Thời gian đóng gói không được bỏ trống';
+    // }
+
+    // if (
+    //   !packingEstimatedExpireTimeStart &&
+    //   (packingEstimatedExpireTimeEnd ||
+    //     packingEstimatedTime ||
+    //     packingEstimatedQuantity ||
+    //     packingLeader?.length > 0 ||
+    //     packingPacking ||
+    //     packingTechnical?.length > 0)
+    // ) {
+    //   if (!errors.packing) {
+    //     errors.packing = {};
+    //   }
+    //   errors.packing.estimatedExpireTimeStart = 'Hạn sử dụng không được bỏ trống';
+    // }
+
+    // if (
+    //   !packingEstimatedExpireTimeEnd &&
+    //   (packingEstimatedTime ||
+    //     packingEstimatedExpireTimeStart ||
+    //     packingEstimatedQuantity ||
+    //     packingLeader?.length > 0 ||
+    //     packingPacking ||
+    //     packingTechnical?.length > 0)
+    // ) {
+    //   if (!errors.packing) {
+    //     errors.packing = {};
+    //   }
+    //   errors.packing.estimatedExpireTimeEnd = 'Ngày hết hạn không được bỏ trống';
+    // }
+
+    // if (
+    //   !packingPacking &&
+    //   (packingEstimatedExpireTimeEnd ||
+    //     packingEstimatedExpireTimeStart ||
+    //     packingEstimatedQuantity ||
+    //     packingLeader?.length > 0 ||
+    //     packingEstimatedTime ||
+    //     packingTechnical?.length > 0)
+    // ) {
+    //   if (!errors.packing) {
+    //     errors.packing = {};
+    //   }
+    //   errors.packing.packing = 'Quy cách đóng gói không được bỏ trống';
+    // }
+
+    // if (
+    //   !packingEstimatedQuantity &&
+    //   (packingEstimatedExpireTimeEnd ||
+    //     packingEstimatedExpireTimeStart ||
+    //     packingEstimatedTime ||
+    //     packingLeader?.length > 0 ||
+    //     packingPacking ||
+    //     packingTechnical?.length > 0)
+    // ) {
+    //   if (!errors.packing) {
+    //     errors.packing = {};
+    //   }
+    //   errors.packing.estimatedQuantity = 'Số lượng đóng gói không được bỏ trống';
+    // }
+
+    // if (
+    //   packingTechnical?.length === 0 &&
+    //   (packingEstimatedExpireTimeEnd ||
+    //     packingEstimatedExpireTimeStart ||
+    //     packingEstimatedQuantity ||
+    //     packingLeader?.length > 0 ||
+    //     packingPacking ||
+    //     packingEstimatedTime)
+    // ) {
+    //   if (!errors.packing) {
+    //     errors.packing = {};
+    //   }
+    //   errors.packing.technical = 'KCS không được bỏ trống';
+    // }
+
+    // if (
+    //   packingLeader?.length === 0 &&
+    //   (packingEstimatedExpireTimeEnd ||
+    //     packingEstimatedExpireTimeStart ||
+    //     packingEstimatedQuantity ||
+    //     packingEstimatedTime ||
+    //     packingPacking ||
+    //     packingTechnical?.length > 0)
+    // ) {
+    //   if (!errors.packing) {
+    //     errors.packing = {};
+    //   }
+    //   errors.packing.leader = 'Tổ trưởng đóng gói không được bỏ trống';
+    // }
+
+    // ---------------------------------------------------------------
+
+    if (ptEstimatedQuantity) {
+      if (!_.isInteger(ptEstimatedQuantity)) {
         if (!errors.preliminaryTreatment) {
           errors.preliminaryTreatment = {};
         }
         errors.preliminaryTreatment.estimatedQuantity = 'Sản lượng sơ chế phải là số nguyên';
-      } else if (values?.preliminaryTreatment?.estimatedQuantity < 0) {
+      } else if (ptEstimatedQuantity < 0) {
         if (!errors.preliminaryTreatment) {
           errors.preliminaryTreatment = {};
         }
         errors.preliminaryTreatment.estimatedQuantity = 'Sản lượng sơ chế không được nhỏ hơn 0';
       } else if (
         values.planting?.expectedQuantity &&
-        values.preliminaryTreatment?.estimatedQuantity > values.planting?.expectedQuantity
+        ptEstimatedQuantity > values.planting?.expectedQuantity
       ) {
         if (!errors.preliminaryTreatment) {
           errors.preliminaryTreatment = {};
@@ -273,18 +515,15 @@ function ProductionPlanCrud({
       }
     }
 
-    if (values.preliminaryTreatment?.estimatedTime) {
-      if (!CompareDate(new Date(values.preliminaryTreatment?.estimatedTime), new Date())) {
+    if (ptEstimatedTime) {
+      if (!CompareDate(new Date(ptEstimatedTime), new Date())) {
         if (!errors.preliminaryTreatment) {
           errors.preliminaryTreatment = {};
         }
         errors.preliminaryTreatment.estimatedTime = 'Ngày sơ chế không được nhỏ hơn ngày hiện tại';
       } else if (
         values.harvesting?.estimatedTime &&
-        !CompareDate(
-          new Date(values.preliminaryTreatment?.estimatedTime),
-          new Date(values.harvesting?.estimatedTime),
-        )
+        !CompareDate(new Date(ptEstimatedTime), new Date(values.harvesting?.estimatedTime))
       ) {
         if (!errors.preliminaryTreatment) {
           errors.preliminaryTreatment = {};
@@ -295,21 +534,18 @@ function ProductionPlanCrud({
 
     // Cleaning
 
-    if (values.cleaning?.estimatedQuantity) {
-      if (!_.isInteger(values.cleaning?.estimatedQuantity)) {
+    if (cleaningEstimatedQuantity) {
+      if (!_.isInteger(cleaningEstimatedQuantity)) {
         if (!errors.cleaning) {
           errors.cleaning = {};
         }
         errors.cleaning.estimatedQuantity = 'Sản lượng làm sạch phải là số nguyên';
-      } else if (values.cleaning?.estimatedQuantity < 0) {
+      } else if (cleaningEstimatedQuantity < 0) {
         if (!errors.cleaning) {
           errors.cleaning = {};
         }
         errors.cleaning.estimatedQuantity = 'Sản lượng làm sạch không được nhỏ hơn 0';
-      } else if (
-        values.preliminaryTreatment?.estimatedQuantity &&
-        values.cleaning?.estimatedQuantity > values.preliminaryTreatment?.estimatedQuantity
-      ) {
+      } else if (ptEstimatedQuantity && cleaningEstimatedQuantity > ptEstimatedQuantity) {
         if (!errors.cleaning) {
           errors.cleaning = {};
         }
@@ -318,18 +554,15 @@ function ProductionPlanCrud({
       }
     }
 
-    if (values.cleaning?.estimatedTime) {
-      if (!CompareDate(new Date(values.cleaning?.estimatedTime), new Date())) {
+    if (cleaningEstimatedTime) {
+      if (!CompareDate(new Date(cleaningEstimatedTime), new Date())) {
         if (!errors.cleaning) {
           errors.cleaning = {};
         }
         errors.cleaning.estimatedTime = 'Ngày làm sạch không được nhỏ hơn ngày hiện tại';
       } else if (
-        values.preliminaryTreatment?.estimatedTime &&
-        !CompareDate(
-          new Date(values.cleaning?.estimatedTime),
-          new Date(values.preliminaryTreatment?.estimatedTime),
-        )
+        ptEstimatedTime &&
+        !CompareDate(new Date(cleaningEstimatedTime), new Date(ptEstimatedTime))
       ) {
         if (!errors.cleaning) {
           errors.cleaning = {};
@@ -340,49 +573,35 @@ function ProductionPlanCrud({
 
     // Packing
 
-    if (
-      values.packing &&
-      values.packing?.estimatedQuantity &&
-      !_.isInteger(values.packing?.estimatedQuantity)
-    ) {
+    if (values.packing && packingEstimatedQuantity && !_.isInteger(packingEstimatedQuantity)) {
       if (!errors.packing) {
         errors.packing = {};
       }
       errors.packing.estimatedQuantity = 'Số lượng đóng gói phải là số nguyên';
-    } else if (
-      values.packing &&
-      values.packing?.estimatedQuantity &&
-      values.packing?.estimatedQuantity < 0
-    ) {
+    } else if (values.packing && packingEstimatedQuantity && packingEstimatedQuantity < 0) {
       if (!errors.packing) {
         errors.packing = {};
       }
       errors.packing.estimatedQuantity = 'Số lượng đóng gói không được nhỏ hơn 0';
     }
 
-    if (values.packing?.estimatedTime) {
-      if (!CompareDate(new Date(values.packing?.estimatedTime), new Date())) {
+    if (packingEstimatedTime) {
+      if (!CompareDate(new Date(packingEstimatedTime), new Date())) {
         if (!errors.packing) {
           errors.packing = {};
         }
         errors.packing.estimatedTime = 'Ngày đóng gói không được nhỏ hơn ngày hiện tại';
       } else if (
-        values.cleaning?.estimatedTime &&
-        !CompareDate(
-          new Date(values.packing?.estimatedTime),
-          new Date(values.cleaning?.estimatedTime),
-        )
+        cleaningEstimatedTime &&
+        !CompareDate(new Date(packingEstimatedTime), new Date(cleaningEstimatedTime))
       ) {
         if (!errors.packing) {
           errors.packing = {};
         }
         errors.packing.estimatedTime = 'Ngày đóng gói không được nhỏ hơn ngày làm sạch';
       } else if (
-        values.packing?.estimatedExpireTimeStart &&
-        CompareDate(
-          new Date(values.packing?.estimatedTime),
-          new Date(values.packing?.estimatedExpireTimeStart),
-        )
+        packingEstimatedExpireTimeStart &&
+        CompareDate(new Date(packingEstimatedTime), new Date(packingEstimatedExpireTimeStart))
       ) {
         if (!errors.packing) {
           errors.packing = {};
@@ -391,18 +610,15 @@ function ProductionPlanCrud({
       }
     }
 
-    if (values.packing?.estimatedExpireTimeStart) {
-      if (!CompareDate(new Date(values.packing?.estimatedExpireTimeStart), new Date())) {
+    if (packingEstimatedExpireTimeStart) {
+      if (!CompareDate(new Date(packingEstimatedExpireTimeStart), new Date())) {
         if (!errors.packing) {
           errors.packing = {};
         }
         errors.packing.estimatedExpireTimeStart = 'Hạn sử dụng không được nhỏ hơn ngày hiện tại';
       } else if (
-        values.packing?.estimatedTime &&
-        CompareDate(
-          new Date(values.packing?.estimatedTime),
-          new Date(values.packing?.estimatedExpireTimeStart),
-        )
+        packingEstimatedTime &&
+        CompareDate(new Date(packingEstimatedTime), new Date(packingEstimatedExpireTimeStart))
       ) {
         if (!errors.packing) {
           errors.packing = {};
@@ -412,8 +628,8 @@ function ProductionPlanCrud({
       } else if (
         values.packing.estimatedExpireTimeEnd &&
         !CompareDate(
-          new Date(values.packing?.estimatedExpireTimeEnd),
-          new Date(values.packing?.estimatedExpireTimeStart),
+          new Date(packingEstimatedExpireTimeEnd),
+          new Date(packingEstimatedExpireTimeStart),
         )
       ) {
         if (!errors.packing) {
@@ -424,17 +640,17 @@ function ProductionPlanCrud({
       }
     }
 
-    if (values.packing?.estimatedExpireTimeEnd) {
-      if (!CompareDate(new Date(values.packing?.estimatedExpireTimeEnd), new Date())) {
+    if (packingEstimatedExpireTimeEnd) {
+      if (!CompareDate(new Date(packingEstimatedExpireTimeEnd), new Date())) {
         if (!errors.packing) {
           errors.packing = {};
         }
         errors.packing.estimatedExpireTimeEnd = 'Ngày hết hạn không được nhỏ hơn ngày hiện tại';
       } else if (
-        values.packing?.estimatedExpireTimeStart &&
+        packingEstimatedExpireTimeStart &&
         !CompareDate(
-          new Date(values.packing?.estimatedExpireTimeEnd),
-          new Date(values.packing?.estimatedExpireTimeStart),
+          new Date(packingEstimatedExpireTimeEnd),
+          new Date(packingEstimatedExpireTimeStart),
         )
       ) {
         if (!errors.packing) {
@@ -447,18 +663,15 @@ function ProductionPlanCrud({
 
     // Preservation
 
-    if (values.preservation?.estimatedStartTime) {
-      if (!CompareDate(new Date(values.preservation?.estimatedStartTime), new Date())) {
+    if (preservationEstimatedStartTime) {
+      if (!CompareDate(new Date(preservationEstimatedStartTime), new Date())) {
         if (!errors.preservation) {
           errors.preservation = {};
         }
         errors.preservation.estimatedStartTime = 'Ngày bảo quản không được nhỏ hơn ngày hiện tại';
       } else if (
-        values.packing?.estimatedTime &&
-        CompareDate(
-          new Date(values.packing?.estimatedTime),
-          new Date(values.preservation?.estimatedStartTime),
-        )
+        packingEstimatedTime &&
+        CompareDate(new Date(packingEstimatedTime), new Date(preservationEstimatedStartTime))
       ) {
         if (!errors.preservation) {
           errors.preservation = {};
@@ -466,10 +679,10 @@ function ProductionPlanCrud({
         errors.preservation.estimatedStartTime =
           'Ngày bắt đầu bảo quản không được nhỏ hơn ngày đóng gói';
       } else if (
-        values.preservation?.estimatedEndTime &&
+        preservationEstimatedEndTime &&
         !CompareDate(
-          new Date(values.preservation?.estimatedEndTime),
-          new Date(values.preservation?.estimatedStartTime),
+          new Date(preservationEstimatedEndTime),
+          new Date(preservationEstimatedStartTime),
         )
       ) {
         if (!errors.preservation) {
@@ -480,18 +693,18 @@ function ProductionPlanCrud({
       }
     }
 
-    if (values.preservation?.estimatedEndTime) {
-      if (!CompareDate(new Date(values.preservation?.estimatedEndTime), new Date())) {
+    if (preservationEstimatedEndTime) {
+      if (!CompareDate(new Date(preservationEstimatedEndTime), new Date())) {
         if (!errors.preservation) {
           errors.preservation = {};
         }
         errors.preservation.estimatedEndTime =
           'Ngày kết thúc bảo quản không được nhỏ hơn ngày hiện tại';
       } else if (
-        values.preservation?.estimatedStartTime &&
+        preservationEstimatedStartTime &&
         !CompareDate(
-          new Date(values.preservation?.estimatedEndTime),
-          new Date(values.preservation?.estimatedStartTime),
+          new Date(preservationEstimatedEndTime),
+          new Date(preservationEstimatedStartTime),
         )
       ) {
         if (!errors.preservation) {
@@ -537,7 +750,7 @@ function ProductionPlanCrud({
         // initialValues={initForm}
         validationSchema={validation}
         validate={validationForm}
-        onSubmit={(values, { setSubmitting, setFieldError }) => {
+        onSubmit={(values, { setSubmitting, setFieldValue, resetForm }) => {
           let updateValue: any;
           setErrorMsg(undefined);
 
@@ -553,7 +766,13 @@ function ProductionPlanCrud({
               delete diffValue.packing.packing;
             }
 
-            if (clValue && clValue.packing && clValue.packing.packing && diffValue && diffValue.packing) {
+            if (
+              clValue &&
+              clValue.packing &&
+              clValue.packing.packing &&
+              diffValue &&
+              diffValue.packing
+            ) {
               diffValue.packing.packing = clValue.packing.packing._id;
             }
 
@@ -635,7 +854,7 @@ function ProductionPlanCrud({
           console.log(values);
 
           if (step === '0') {
-            submitHandle(updateValue, values, { setSubmitting, setFieldError });
+            submitHandle(updateValue, values, { setSubmitting, setFieldValue, resetForm });
           } else if (step === '1' && currentTab !== '2') {
             // if (!updateValue.step || updateValue.step !== '1') {
             //   updateValue.step = '1';
@@ -652,11 +871,17 @@ function ProductionPlanCrud({
                   .catch(error => {
                     setSubmitting(false);
                     setErrorMsg(error.entity || error.response.entity);
+                    notifyError('Lỗi server. Vui lòng thử lại sau');
+                    console.log('1')
+                    // resetForm(entityForEdit);
                   });
               })
               .catch(error => {
                 setSubmitting(false);
                 setErrorMsg(error.entity || error.response.entity);
+                notifyError('Lỗi server. Vui lòng thử lại sau');
+                console.log('2')
+                // resetForm(entityForEdit);
               });
           } else if (step === '1' && currentTab === '2') {
             approveFollow(updateValue)
@@ -668,6 +893,9 @@ function ProductionPlanCrud({
               .catch(error => {
                 setSubmitting(false);
                 setErrorMsg(error.entity || error.response.entity);
+                notifyError('Lỗi server. Vui lòng thử lại sau');
+                console.log('3')
+                // resetForm(entityForEdit);
               });
           }
         }}>
@@ -714,7 +942,9 @@ function ProductionPlanCrud({
                       {_validationField &&
                         errors[_validationField] &&
                         _.isString(errors[_validationField]) && (
-                          <span className="text-danger pl-xl-15 pl-md-10 pl-5">Vui lòng nhập đúng thứ tự các bước</span>
+                          <span className="text-danger pl-xl-15 pl-md-10 pl-5">
+                            Vui lòng nhập đúng thứ tự các bước
+                          </span>
                         )}
                     </CardBody>
                   </Card>
@@ -749,7 +979,13 @@ function ProductionPlanCrud({
                             <AccountCircleOutlinedIcon style={{ fontSize: 30 }} />
                           </div>
                           <div className="col-10 bg-light rounded p-3">
-                            <p className="font-bold">{_.isString(value.createdBy) ? value.createdBy : value.createdBy.fullName ? value.createdBy.fullName : 'Anonymous'}</p>
+                            <p className="font-bold">
+                              {_.isString(value.createdBy)
+                                ? value.createdBy
+                                : value.createdBy.fullName
+                                ? value.createdBy.fullName
+                                : 'Anonymous'}
+                            </p>
                             <p>{value.content}</p>
                           </div>
                         </div>
@@ -833,7 +1069,8 @@ function ProductionPlanCrud({
                           }}
                           className={allFormButton.data[keyss].className}
                           key={keyss}>
-                          {allFormButton.data[keyss].icon ?? <></>} {allFormButton.data[keyss].label}
+                          {allFormButton.data[keyss].icon ?? <></>}{' '}
+                          {allFormButton.data[keyss].label}
                         </button>
                       );
 

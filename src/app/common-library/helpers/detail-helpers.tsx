@@ -155,11 +155,10 @@ export const DisplayImage = (
 ) => {
   let cvImages = { ...images }
 
-  console.log(images)
-
   if (filter) {
     cvImages = images.filter((el: any) => el[filter] === true)
   }
+  
 
   console.log(cvImages)
   return <DetailImage images={cvImages} renderInfo={renderInfo} />;
