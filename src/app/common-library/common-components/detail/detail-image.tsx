@@ -34,6 +34,8 @@ export const DetailImage = ({
   const container = useRef<any>(null);
   const intl = useIntl();
   const [showIndex, setShow] = useState(-1);
+
+  console.log('1')
   
   const Img = useCallback(({image, index}: any) => {
     console.log(getImage(image && image[pathField]))

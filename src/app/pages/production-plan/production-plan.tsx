@@ -1313,10 +1313,16 @@ function ProductionPlan() {
               return _.parseInt(values.process) > packingProcess;
             },
             onChange: (val: any, values: any, setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => void) => {
-              const newDate = val.add(values.seeding.species.expiryDays, 'days')
-              console.log(val)
-              console.log(newDate)
-              setFieldValue('packing.estimatedExpireTimeEnd', newDate)
+              if (val) {
+                
+                const newDate = val.add(values.seeding.species.expiryDays, 'days')
+                console.log(val)
+                console.log(newDate)
+                setFieldValue('packing.estimatedExpireTimeEnd', newDate)
+              }
+            },
+            onReset: (setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => void) => {
+              setFieldValue('packing.estimatedExpireTimeEnd', null)
             }
             
           },
