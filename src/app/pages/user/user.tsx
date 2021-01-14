@@ -23,11 +23,13 @@ import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import {UserModel} from './user.model';
 import {MasterEntityDetailDialog} from "../../common-library/common-components/master-entity-detail-dialog";
 import {GetCity, GetDistrict, GetState} from "../address/address.service";
-import * as RoleService from "../role/role.service";
 import * as Yup from "yup";
 import {Count, Create, Delete, DeleteMany, Get, GetAll, GetById, Update} from "./user.service";
 import {DisplayAddress, DisplayDate} from "../../common-library/helpers/detail-helpers";
 import {DetailImage} from "../../common-library/common-components/detail/detail-image";
+import * as ManagementOrganizationService from "../management-organization/management-organization.service";
+import * as RoleService from "../role/role.service";
+import * as AgencyService from "../agency/agency.service";
 
 const headerTitle = 'PRODUCT_TYPE.MASTER.HEADER.TITLE';
 const tableTitle = 'USER.MASTER.TABLE.TITLE';
@@ -98,7 +100,7 @@ function User() {
   
   const columns = useMemo(() => {
     return [{
-      dataField: 'workAt',
+      dataField: 'agency.name',
       text: `${intl.formatMessage({id: 'USER.MASTER.TABLE.WORK_AT'})}`,
       ...SortColumn,
       align: 'center',
@@ -110,7 +112,7 @@ function User() {
         align: 'center',
       },
       {
-        dataField: 'organization',
+        dataField: 'managementUnit.name',
         text: `${intl.formatMessage({id: 'USER.MASTER.TABLE.ORGANIZATION'})}`,
         ...SortColumn,
         align: 'center',
@@ -184,15 +186,37 @@ function User() {
       },
     },
   ], []);
-  
+  const [managementUnit, setManagementUnit] = useState<any>(null);
+  const getRole = useCallback(({queryProps, paginationProps}: any): Promise<any> => {
+    console.log(queryProps, paginationProps);
+    console.log(managementUnit)
+    return RoleService.GetAll({queryProps: {...queryProps, managementUnit}, paginationProps})
+  }, [managementUnit?._id]);
   const searchModel: SearchModel = {
-    organization: {
-      type: 'string',
+    managementUnit: {
+      type: 'tree-select',
       label: 'USER.MASTER.SEARCH.ORGANIZATION',
+      onSearch: ({queryProps, sortList, paginationProps,}) => {
+        return ManagementOrganizationService.GetAll({queryProps}).then((e) => {
+          return (e.data);
+        })
+      },
+      onChange: (value: any, {setFieldValue}: any) => {
+        console.log(value)
+        if (managementUnit != value) {
+          setFieldValue('role', null);
+        }
+        setManagementUnit(value);
+      },
     },
     role: {
-      type: 'string',
+      type: 'search-select',
       label: 'USER.MASTER.SEARCH.ROLE',
+      onSearch: getRole,
+      keyField: 'name',
+      disabled: (values: any) => {
+        return !(values.managementUnit);
+      },
     },
     code: {
       type: 'string',
@@ -202,8 +226,10 @@ function User() {
       type: 'string',
       label: 'USER.MASTER.SEARCH.USER_NAME',
     },
-    workAt: {
-      type: 'string',
+    agency: {
+      keyField: 'name',
+      type: 'search-select',
+      onSearch: AgencyService.GetAll,
       label: 'USER.MASTER.SEARCH.WORK_AT',
     },
     email: {
