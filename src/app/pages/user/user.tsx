@@ -23,11 +23,12 @@ import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import {UserModel} from './user.model';
 import {MasterEntityDetailDialog} from "../../common-library/common-components/master-entity-detail-dialog";
 import {GetCity, GetDistrict, GetState} from "../address/address.service";
-import * as RoleService from "../role/role.service";
 import * as Yup from "yup";
 import {Count, Create, Delete, DeleteMany, Get, GetAll, GetById, Update} from "./user.service";
 import {DisplayAddress, DisplayDate} from "../../common-library/helpers/detail-helpers";
 import {DetailImage} from "../../common-library/common-components/detail/detail-image";
+import * as ManagementOrganizationService from "../management-organization/management-organization.service";
+import * as RoleService from "../role/role.service";
 
 const headerTitle = 'PRODUCT_TYPE.MASTER.HEADER.TITLE';
 const tableTitle = 'USER.MASTER.TABLE.TITLE';
@@ -184,15 +185,37 @@ function User() {
       },
     },
   ], []);
-  
+  const [managementUnit, setManagementUnit] = useState<any>(null);
+  const getRole = useCallback(({queryProps, paginationProps}: any): Promise<any> => {
+    console.log(queryProps, paginationProps);
+    console.log(managementUnit)
+    return RoleService.GetAll({queryProps: {...queryProps, managementUnit}, paginationProps})
+  }, [managementUnit?._id]);
   const searchModel: SearchModel = {
-    organization: {
-      type: 'string',
+    managementUnit: {
+      type: 'tree-select',
       label: 'USER.MASTER.SEARCH.ORGANIZATION',
+      onSearch: ({queryProps, sortList, paginationProps,}) => {
+        return ManagementOrganizationService.GetAll({queryProps}).then((e) => {
+          return (e.data);
+        })
+      },
+      onChange: (value: any, {setFieldValue}: any) => {
+        console.log(value)
+        if (managementUnit != value) {
+          setFieldValue('role', null);
+        }
+        setManagementUnit(value);
+      },
     },
     role: {
-      type: 'string',
+      type: 'search-select',
       label: 'USER.MASTER.SEARCH.ROLE',
+      onSearch: getRole,
+      keyField: 'name',
+      disabled: (values: any) => {
+        return !(values.managementUnit);
+      },
     },
     code: {
       type: 'string',
