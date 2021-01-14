@@ -29,6 +29,7 @@ import {DisplayAddress, DisplayDate} from "../../common-library/helpers/detail-h
 import {DetailImage} from "../../common-library/common-components/detail/detail-image";
 import * as ManagementOrganizationService from "../management-organization/management-organization.service";
 import * as RoleService from "../role/role.service";
+import * as AgencyService from "../agency/agency.service";
 
 const headerTitle = 'PRODUCT_TYPE.MASTER.HEADER.TITLE';
 const tableTitle = 'USER.MASTER.TABLE.TITLE';
@@ -99,7 +100,7 @@ function User() {
   
   const columns = useMemo(() => {
     return [{
-      dataField: 'workAt',
+      dataField: 'agency.name',
       text: `${intl.formatMessage({id: 'USER.MASTER.TABLE.WORK_AT'})}`,
       ...SortColumn,
       align: 'center',
@@ -111,7 +112,7 @@ function User() {
         align: 'center',
       },
       {
-        dataField: 'organization',
+        dataField: 'managementUnit.name',
         text: `${intl.formatMessage({id: 'USER.MASTER.TABLE.ORGANIZATION'})}`,
         ...SortColumn,
         align: 'center',
@@ -225,8 +226,10 @@ function User() {
       type: 'string',
       label: 'USER.MASTER.SEARCH.USER_NAME',
     },
-    workAt: {
-      type: 'string',
+    agency: {
+      keyField: 'name',
+      type: 'search-select',
+      onSearch: AgencyService.GetAll,
       label: 'USER.MASTER.SEARCH.WORK_AT',
     },
     email: {
