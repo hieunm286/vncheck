@@ -8,7 +8,7 @@ import '@formatjs/intl-relativetimeformat/dist/locale-data/vi';
 import viMessages from './messages/vi.json';
 import enMessages from './messages/en.json';
 
-const allMessages = {
+export const allMessages = {
   en: enMessages,
   vi: viMessages,
 };
