@@ -134,7 +134,7 @@ function CustomersManagement() {
       formatter: (cell: any, row: any, rowIndex: number) => (
         <p>{rowIndex + 1 + ((paginationProps.page ?? 0) - 1) * (paginationProps.limit ?? 0)}</p>
       ),
-      classes: 'text-center',
+      classes: 'mr-3',
       style: { paddingTop: 20 },
     },
     code: {
@@ -339,8 +339,6 @@ function CustomersManagement() {
             title={bodyTitle}
             onCreate={() => {}}
             hideHeaderButton={true}
-            selectedEntities={selectedEntities}
-            onSelectMany={setSelectedEntities}
             entities={masterData}
             total={total}
             columns={masterColumns as any}

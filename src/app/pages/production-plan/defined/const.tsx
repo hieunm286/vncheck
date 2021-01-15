@@ -889,7 +889,7 @@ export const masterEntityDetailDialog2: RenderInfoDetail = [
         title: 'SEEDING.INVOICE',
         formatter: input => DisplayDownloadLink(input, 'path'),
       },
-      'planting.area': {title: 'SEEDING.SEEDING_AREA'},
+      'planting.area': {title: 'PLANTING_AREA'},
       
       'seeding.seedingTime': {
         title: 'SEEDING.SEEDING_TIME',
@@ -902,7 +902,7 @@ export const masterEntityDetailDialog2: RenderInfoDetail = [
         formatter: input => DisplayDateTime(input),
       },
       
-      'planting.numberOfPlants': {title: 'SEEDING.NUMBER_OF_SEED'},
+      'planting.numberOfPlants': {title: 'PLATING_QUANTITY'},
       
       'seeding.landLot.code': {title: 'SEEDING.LAND_LOT'},
       
@@ -911,10 +911,10 @@ export const masterEntityDetailDialog2: RenderInfoDetail = [
         formatter: DisplayCoordinates,
       },
       
-      'planting.landLot.code': {title: 'SEEDING.LAND_LOT'},
+      'planting.landLot.code': {title: 'PLANTING.LAND_LOT'},
       
       'planting.farmLocation.[coordinates]': {
-        title: 'SEEDING.FARM_LOCATION',
+        title: 'PLANTING.FARMLOCATION',
         formatter: DisplayCoordinates,
       },
     },
@@ -1149,20 +1149,20 @@ export const addInitField = (obj1: any, obj2: any) => {
 
 export const initProductPlanForm = {
   harvesting: {
-    leader: [],
-    technical: []
+    // leader: [],
+    // technical: []
   },
   preliminaryTreatment: {
     estimatedTime: null,
     estimatedQuantity: undefined,
-    leader: [],
-    technical: []
+    // leader: [],
+    // technical: []
   },
   cleaning: {
     estimatedTime: null,
     estimatedQuantity: undefined,
-    leader: [],
-    technical: []
+    // leader: [],
+    // technical: []
   },
   packing: {
     estimatedTime: null,
@@ -1170,13 +1170,13 @@ export const initProductPlanForm = {
     estimatedExpireTimeEnd: null,
     estimatedQuantity: undefined,
     packing: null,
-    leader: [],
-    technical: []
+    // leader: [],
+    // technical: []
   },
   preservation: {
     estimatedStartTime: null,
     estimatedEndTime: null,
-    technical: []
+    // technical: []
   },
 };
 

@@ -389,7 +389,7 @@ function User() {
       onSearch: getRole,
       keyField: 'name',
       disabled: (values: any) => {
-        return !(values.managementUnit);
+        return !(values?.managementUnit);
       },
     },
   }), [getRole]);
@@ -459,7 +459,6 @@ function User() {
             <EntityCrudPage
               onModify={update}
               moduleName={moduleName}
-              //  modifyModel={modifyModel}
               code={match && match.params.code}
               get={GetById}
               formModel={updateForm}
