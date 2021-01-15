@@ -27,7 +27,7 @@ import * as Yup from "yup";
 import {Count, Create, Delete, DeleteMany, Get, GetAll, GetById, Update} from "./user.service";
 import {DisplayAddress, DisplayDate} from "../../common-library/helpers/detail-helpers";
 import {DetailImage} from "../../common-library/common-components/detail/detail-image";
-import * as ManagementOrganizationService from "../management-organization/management-organization.service";
+import * as ManagementUnitService from "../management-organization/management-organization.service";
 import * as RoleService from "../role/role.service";
 import * as AgencyService from "../agency/agency.service";
 
@@ -143,9 +143,9 @@ function User() {
         formatExtraData: {
           intl,
           onShowDetail: (entity: UserModel) => {
-            get(entity);
-            setShowDetail(true);
-            setDetailEntity(entity);
+            get(entity).then(e => {
+              setShowDetail(true);
+            })
           },
           onEdit: (entity: UserModel) => {
             history.push(`${window.location.pathname}/${entity._id}`);
@@ -168,8 +168,8 @@ function User() {
       className: 'col-md-6 col-12',
       dataClassName: 'col-md-6 col-12',
       data: {
-        avatar: {
-          title: 'USER.DETAIL_DIALOG.AVATAR',
+        image: {
+          title: 'USER.DETAIL_DIALOG.IMAGE',
           formatter: (input) => <DetailImage images={input} width={200} height={200}/>
         },
       },
@@ -178,18 +178,16 @@ function User() {
       className: 'col-md-6 col-12',
       dataClassName: 'col-md-6 col-12',
       data: {
-        workAt: {title: 'USER.DETAIL_DIALOG.WORK_AT'},
+        fullName: {title: 'USER.DETAIL_DIALOG.FULL_NAME'},
         phone: {title: 'USER.DETAIL_DIALOG.PHONE'},
         birthDay: {title: 'USER.DETAIL_DIALOG.BIRTHDAY', formatter: (input) => DisplayDate({input})},
         address: {title: 'USER.DETAIL_DIALOG.ADDRESS', formatter: DisplayAddress},
-        role: {title: 'USER.DETAIL_DIALOG.ROLE'},
+        'role.name': {title: 'USER.DETAIL_DIALOG.ROLE'},
       },
     },
   ], []);
   const [managementUnit, setManagementUnit] = useState<any>(null);
   const getRole = useCallback(({queryProps, paginationProps}: any): Promise<any> => {
-    console.log(queryProps, paginationProps);
-    console.log(managementUnit)
     return RoleService.GetAll({queryProps: {...queryProps, managementUnit}, paginationProps})
   }, [managementUnit?._id]);
   const searchModel: SearchModel = {
@@ -197,7 +195,7 @@ function User() {
       type: 'tree-select',
       label: 'USER.MASTER.SEARCH.ORGANIZATION',
       onSearch: ({queryProps, sortList, paginationProps,}) => {
-        return ManagementOrganizationService.GetAll({queryProps}).then((e) => {
+        return ManagementUnitService.GetAll({queryProps}).then((e) => {
           return (e.data);
         })
       },
@@ -254,17 +252,66 @@ function User() {
     return GetDistrict({queryProps: {...queryProps, city}, paginationProps})
   }, [city]);
   const group1 = useMemo((): ModifyInputGroup => ({
-    _subTitle: 'THÔNG TIN CHUNG',
+    _subTitle: 'USER.MODIFY.DETAIL_INFO',
     _className: 'col-6 pr-xl-15 pr-md-10 pr-5',
+    image: {
+      _type: 'image',
+      label: 'USER.MODIFY.IMAGE',
+      required: true,
+    },
     code: {
       _type: 'string',
-      label: 'SHIPPING_AGENCY.MODIFY.CODE',
+      label: 'USER.MODIFY.CODE',
       disabled: true,
     },
-    name: {
+    username: {
       _type: 'string',
       required: true,
-      label: 'SHIPPING_AGENCY.MODIFY.NAME',
+      label: 'USER.MODIFY.USER_NAME',
+    },
+    fullName: {
+      _type: 'string',
+      required: true,
+      label: 'USER.MODIFY.FULL_NAME',
+    },
+    birthDay: {
+      _type: 'date-time',
+      required: true,
+      label: 'USER.MODIFY.BIRTHDAY',
+    },
+    phone: {
+      _type: 'string-number',
+      required: true,
+      label: 'USER.MODIFY.PHONE',
+    },
+    gender: {
+      _type: 'radio',
+      required: true,
+      options: [
+        {label: 'USER.MODIFY.GENDER_OPTION.MALE', value: '1'},
+        {label: 'USER.MODIFY.GENDER_OPTION.FEMALE', value: '0'}
+      ],
+      label: 'USER.MODIFY.GENDER',
+    },
+    status: {
+      _type: 'boolean',
+      label: 'USER.MODIFY.STATUS',
+    },
+  }), [getCity, getDistrict]);
+  const group2 = useMemo((): ModifyInputGroup => ({
+    _subTitle: 'EMPTY',
+    _className: 'col-6 pl-xl-15 pl-md-10 pl-5',
+    agency: {
+      _type: 'search-select',
+      onSearch: AgencyService.GetAll,
+      // selectField: 'code',
+      required: true,
+      label: 'USER.MODIFY.AGENCY',
+    },
+    email: {
+      _type: 'email',
+      required: true,
+      label: 'USER.MODIFY.EMAIL',
     },
     address: {
       _type: 'object',
@@ -275,8 +322,7 @@ function User() {
           console.log(values)
         },
         onChange: (value: any, {setFieldValue, setFieldTouched}: any) => {
-          console.log(state, value);
-          if (!value || state != value) {
+          if (state != value) {
             setCity(null);
             setFieldValue('address.city', '');
             setFieldTouched('address.city', false);
@@ -286,7 +332,7 @@ function User() {
           setState(value);
         },
         required: true,
-        label: 'SHIPPING_AGENCY.MODIFY.STATE',
+        label: 'USER.MODIFY.STATE',
       },
       city: {
         _type: 'search-select',
@@ -294,7 +340,7 @@ function User() {
         // selectField: 'code',
         required: true,
         onChange: (value: any, {setFieldValue, setFieldTouched}: any) => {
-          if (!value || city != value) {
+          if (city != value) {
             setFieldValue('address.district', '');
             setFieldTouched('address.district', false);
           }
@@ -303,7 +349,7 @@ function User() {
         disabled: (values: any) => {
           return (values?.address?.state === '');
         },
-        label: 'SHIPPING_AGENCY.MODIFY.CITY',
+        label: 'USER.MODIFY.CITY',
       },
       district: {
         _type: 'search-select',
@@ -313,90 +359,40 @@ function User() {
         disabled: (values: any) => {
           return (values?.address?.city === '');
         },
-        label: 'SHIPPING_AGENCY.MODIFY.DISTRICT',
+        label: 'USER.MODIFY.DISTRICT',
       },
       address: {
         _type: 'string',
         required: true,
-        label: 'SHIPPING_AGENCY.MODIFY.ADDRESS',
+        label: 'USER.MODIFY.ADDRESS',
       },
     },
-    status: {
-      _type: 'boolean',
-      label: 'SHIPPING_AGENCY.MODIFY.STATUS',
-    },
-    phone: {
-      _type: 'string-number',
+    managementUnit: {
+      _type: 'tree-select',
+      label: 'USER.MODIFY.MANAGEMENT_UNIT',
       required: true,
-      label: 'SHIPPING_AGENCY.MODIFY.PHONE_NUMBER',
+      onSearch: ({queryProps, sortList, paginationProps,}: any) => {
+        return ManagementUnitService.GetAll({queryProps}).then((e) => {
+          return (e.data);
+        })
+      },
+      onChange: (value: any, {setFieldValue}: any) => {
+        if (managementUnit != value) {
+          setFieldValue('role', null);
+        }
+        setManagementUnit(value);
+      },
     },
-    taxId: {
-      _type: 'string-number',
-      required: true,
-      label: 'SHIPPING_AGENCY.MODIFY.TAX_NUMBER',
+    role: {
+      _type: 'search-select',
+      label: 'USER.MODIFY.ROLE',
+      onSearch: getRole,
+      keyField: 'name',
+      disabled: (values: any) => {
+        return !(values.managementUnit);
+      },
     },
-    images: {
-      _type: 'image',
-      label: 'SHIPPING_AGENCY.MODIFY.IMAGE',
-    },
-  }), [getCity, getDistrict]);
-  const [group2, setGroup2] = useState<ModifyInputGroup>({
-    _subTitle: 'THÔNG TIN CHỦ ĐƠN VỊ',
-    _className: 'col-6 pl-xl-15 pl-md-10 pl-5',
-    owner: {
-      _type: 'object',
-      username: {
-        _type: 'string',
-        label: 'SHIPPING_AGENCY.MODIFY.USER_NAME',
-        required: true,
-      },
-      fullName: {
-        _type: 'string',
-        required: true,
-        label: 'SHIPPING_AGENCY.MODIFY.DISPLAY_NAME',
-      },
-      phone: {
-        _type: 'string-number',
-        required: true,
-        label: 'SHIPPING_AGENCY.MODIFY.PHONE_NUMBER',
-      },
-      email: {
-        _type: 'email',
-        required: true,
-        label: 'SHIPPING_AGENCY.MODIFY.EMAIL',
-      },
-      gender: {
-        _type: 'radio',
-        required: true,
-        options: [
-          {label: 'SHIPPING_AGENCY.MODIFY.GENDER_OPTION.MALE', value: '1'},
-          {label: 'SHIPPING_AGENCY.MODIFY.GENDER_OPTION.FEMALE', value: '0'}
-        ],
-        label: 'SHIPPING_AGENCY.MODIFY.GENDER',
-      },
-      birthDay: {
-        _type: 'date-time',
-        required: true,
-        label: 'SHIPPING_AGENCY.MODIFY.DATE_OF_BIRTH',
-      },
-      role: {
-        _type: 'search-select',
-        required: true,
-        label: 'SHIPPING_AGENCY.MODIFY.ROLE',
-        keyField: 'name',
-        // onSearch: ({queryProps, paginationProps}: any): Promise<any> => {
-        //   return GetRole({queryProps, paginationProps}, (t: any) => intl.formatMessage({id: t}))
-        // },
-        onSearch: RoleService.GetAll,
-      },
-      image: {
-        _type: 'image',
-        isArray: false,
-        maxNumber: 1,
-        label: 'SHIPPING_AGENCY.MODIFY.REPRESENT_IMAGE',
-      },
-    }
-  });
+  }), [getRole]);
   
   const createForm = useMemo((): ModifyForm => ({
     _header: createTitle,

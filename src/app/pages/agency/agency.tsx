@@ -146,9 +146,9 @@ function AgencyPage() {
         formatExtraData: {
           intl,
           onShowDetail: (entity: AgencyModel) => {
-            get(entity);
-            setShowDetail(true);
-            setDetailEntity(entity);
+            get(entity).then(e => {
+              setShowDetail(true);
+            })
           },
           onDelete: (entity: AgencyModel) => {
             setDeleteEntity(entity);
