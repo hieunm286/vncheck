@@ -38,7 +38,7 @@ export const Count: CountProps<UserModel> = (queryProps) => {
 };
 
 export const GetById = (id: string) => {
-  return axios.get(`${API_BASE_URL + '/product-plan'}/${id}`);
+  return axios.get(`${API_URL}/${id}`);
 };
 
 
