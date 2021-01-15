@@ -34,7 +34,7 @@ export const DisplayPersonNameByArray = (
     <>
       {person.map(
         (personInfo: any, key: number) => <React.Fragment
-          key={key}>{personInfo.user ? personInfo.user.fullName : personInfo.fullName}</React.Fragment>
+          key={key}>{personInfo.user ? personInfo.user.fullName : personInfo.fullName}{key < person.length - 1 ? ', ' : ''}</React.Fragment>
       )}
     </>
   );

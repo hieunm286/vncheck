@@ -1,6 +1,8 @@
 import React, { ReactElement, useCallback } from 'react';
 import { Checkbox } from 'antd';
 import { ErrorMessage, useField, useFormikContext } from 'formik';
+import { useIntl } from 'react-intl';
+
 import './input-checkbox.scss';
 
 const CheckboxGroup = Checkbox.Group;
@@ -38,6 +40,8 @@ interface Prop {
 }
 
 function CheckBoxField({ optionData, name, label }: Prop) {
+  const intl = useIntl();
+  
   const [field] = useField({ name });
 
   const [checkedList, setCheckedList] = React.useState<any>([GetCheckBoxValue(field.value)]);
@@ -49,8 +53,8 @@ function CheckBoxField({ optionData, name, label }: Prop) {
   const onChange = (list: any[]) => {
     setCheckedList(list);
     setFieldValue(name, list);
-    setIndeterminate(!!list.length && list.length < optionData.length);
-    setCheckAll(list.length === optionData.length);
+    setIndeterminate(!!list.length && list.length < optionData.filter((value: any) => !value.disabled).length);
+    setCheckAll(list.length === optionData.filter((value: any) => !value.disabled).length);
   };
 
   const onCheckAllChange = (e: any) => {
@@ -69,7 +73,7 @@ function CheckBoxField({ optionData, name, label }: Prop) {
     <>
       <div className="row">
         <div className="d-flex flex-column col-md-8 col-12">
-          <div className="check-all-field checkbox-input bg-light">
+          <div className="check-all-field checkbox-input bg-light pt-3 pb-3 pr-3">
             <Checkbox
               indeterminate={indeterminate}
               onChange={onCheckAllChange}
@@ -78,7 +82,7 @@ function CheckBoxField({ optionData, name, label }: Prop) {
               {label}
             </Checkbox>
           </div>
-          <div className="w-100">
+          <div className="w-100 pr-3">
             <Checkbox.Group
               options={optionData}
               // defaultValue={}

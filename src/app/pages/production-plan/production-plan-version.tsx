@@ -51,9 +51,9 @@ function ProductionPlanVersion({
       <CardHeader
         title={
           <>
-            <span onClick={() => history.goBack()}>
+            <span onClick={() => history.goBack()} className={'cursor-pointer text-primary font-weight-boldest'}>
               <ArrowBackIosIcon />
-            </span>{' '}
+            </span>
             {'KẾ HOẠCH SỐ ' + title.toUpperCase()}
           </>
         }

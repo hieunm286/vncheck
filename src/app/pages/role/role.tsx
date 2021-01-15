@@ -26,8 +26,10 @@ import {
 import { Select } from 'antd';
 import { Switch as SwitchField } from 'antd';
 import CheckBoxField from '../../common-library/forms/input-checkbox';
+import * as RoleScope from './const/convert-scope';
 
 const { Option } = Select;
+
 export default function ManagementOrganization() {
   const headerTitle = 'ROLE.MASTER.HEADER.TITLE';
   const bodyTitle = 'ROLE.MASTER.BODY.TITLE';
@@ -110,10 +112,10 @@ export default function ManagementOrganization() {
   ];
 
   const roleValidationSchema = Yup.object().shape({
-    managementOrganization: Yup.string().required('ROLE.VALIDATION.REQUIRED.MANAGEMENT_ORGANIZATION').nullable(),
-    // _id: Yup.string().required('ROLE.VALIDATION.REQUIRED.ROLE_CODE').nullable(),
-    status: Yup.string().required('ROLE.VALIDATION.REQUIRED.STATUS').nullable(),
-    name: Yup.string().required('ROLE.VALIDATION.REQUIRED.ROLE_NAME').nullable(),
+    // managementOrganization: Yup.string().required('ROLE.VALIDATION.REQUIRED.MANAGEMENT_ORGANIZATION').nullable(),
+    // // _id: Yup.string().required('ROLE.VALIDATION.REQUIRED.ROLE_CODE').nullable(),
+    // status: Yup.string().required('ROLE.VALIDATION.REQUIRED.STATUS').nullable(),
+    // name: Yup.string().required('ROLE.VALIDATION.REQUIRED.ROLE_NAME').nullable(),
   });
 
   const group1 : ModifyInputGroup = {
@@ -149,25 +151,36 @@ export default function ManagementOrganization() {
         )
       }
     },
-    checkboxs: {
+    checkbox1: {
       _type: 'checkbox',
-      label: 'Doanh nghiệp sản xuấxx xxxxx xxxxx xxxxx xxxx xxxxx xxxx xxxx xxxx xxt',
-      optionData: [
-        { label: 'Apple', value: 'Apple' },
-        { label: 'Pear', value: 'Pear' },
-        { label: 'Orangxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxe', value: 'Orange', disabled: true },
-      ]
+      label: 'DOANH NGHIỆP SẢN XUẤT',
+      optionData: RoleScope.enterpriseScope
     },
-    checkbox: {
+    checkbox2: {
       _type: 'checkbox',
-      label: 'Doanh nghiệp xuất khẩu',
-      optionData: [
-        { label: 'Red', value: 'Red' },
-        { label: 'Green', value: 'Green' },
-        
-      ]
-    }
-
+      label: 'THÔNG TIN CHUNG',
+      optionData: RoleScope.speciesScope
+    },
+    checkbox3: {
+      _type: 'checkbox',
+      label: 'THÔNG TIN XUỐNG GIỐNG',
+      optionData: RoleScope.seedingScope
+    },
+    checkbox4: {
+      _type: 'checkbox',
+      label: 'THÔNG TIN GIEO TRỒNG',
+      optionData: RoleScope.plantingScope
+    },
+    checkbox5: {
+      _type: 'checkbox',
+      label: 'THÔNG TIN THU HOẠCH',
+      optionData: RoleScope.harvestingScope
+    },
+    checkbox6: {
+      _type: 'checkbox',
+      label: 'THÔNG TIN SƠ CHẾ',
+      optionData: RoleScope.preliminaryTreatmentScope
+    },
   };
 
   const createForm : ModifyForm = {

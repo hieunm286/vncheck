@@ -126,6 +126,26 @@ const diff = (obj1: any, obj2: any) => {
   return diffs;
 };
 
+const validField = [
+  'harvesting',
+  'preliminaryTreatment',
+  'cleaning',
+  'packing',
+  'preservation',
+];
+
+const validNested = [
+  'estimatedTime',
+  'estimatedQuantity',
+  'technical',
+  'leader',
+  'estimatedExpireTimeStart',
+  'estimatedExpireTimeEnd',
+  'packing',
+  'estimatedStartTime',
+  'estimatedEndTime',
+];
+
 function ProductionPlanCrud({
   entity,
   setEditEntity,
@@ -755,8 +775,20 @@ function ProductionPlanCrud({
           setErrorMsg(undefined);
 
           if (entityForEdit) {
-            const diffValue = diff(entityForEdit, values);
             const clValue = { ...values };
+
+            validField.forEach(keys => {
+              if (!_.isString(clValue[keys].technical[0])) {
+                clValue[keys].technical = [...entityForEdit[keys].technical]
+              }
+
+              if (!_.isString(clValue[keys].leader[0])) {
+                clValue[keys].leader = [...entityForEdit[keys].leader]
+              }
+            })
+
+            const diffValue = diff(entityForEdit, clValue);
+
 
             if (
               diffValue.packing &&
@@ -776,25 +808,7 @@ function ProductionPlanCrud({
               diffValue.packing.packing = clValue.packing.packing._id;
             }
 
-            const validField = [
-              'harvesting',
-              'preliminaryTreatment',
-              'cleaning',
-              'packing',
-              'preservation',
-            ];
-
-            const validNested = [
-              'estimatedTime',
-              'estimatedQuantity',
-              'technical',
-              'leader',
-              'estimatedExpireTimeStart',
-              'estimatedExpireTimeEnd',
-              'packing',
-              'estimatedStartTime',
-              'estimatedEndTime',
-            ];
+            
 
             validField.forEach(keys => {
               const cvLeader: any[] = [];
@@ -846,12 +860,17 @@ function ProductionPlanCrud({
               }
             });
 
-            updateValue = { _id: values._id, ...diffValue };
-          } else {
-            updateValue = { ...values };
-          }
+            Object.keys(diffValue).forEach(key => {
+              if (!validField.includes(key)) {
+                delete diffValue[key];
+              }
+            })
 
+            updateValue = { _id: values._id, ...diffValue };
+          
+          console.log(entityForEdit)
           console.log(values);
+          console.log(updateValue)
 
           if (step === '0') {
             submitHandle(updateValue, values, { setSubmitting, setFieldValue, resetForm });
@@ -898,6 +917,7 @@ function ProductionPlanCrud({
                 // resetForm(entityForEdit);
               });
           }
+        }
         }}>
         {({ handleSubmit, setFieldValue, values, errors }) => (
           <>
