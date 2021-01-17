@@ -7,6 +7,8 @@ import { getFieldV3 } from '../../common-library/common-components/master-detail
 import { Card, CardBody, CardHeader } from '../../common-library/card';
 import { RenderInfoDetail } from '../../common-library/common-types/common-type';
 import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined';
+import { AxiosResponse } from 'axios';
+import ProductionPlanComments from './production-plan-comments';
 
 export function ProductionPlanDetail({
   header = 'COMMON_COMPONENT.DETAIL_DIALOG.HEADER_TITLE',
@@ -18,6 +20,8 @@ export function ProductionPlanDetail({
   code,
   get,
   allFormButton,
+  onComments,
+  setDetailEntity,
 }: {
   header?: string;
   moduleName?: string;
@@ -28,6 +32,8 @@ export function ProductionPlanDetail({
   code: string | null;
   get: (code: string) => any | null;
   allFormButton?: any;
+  onComments: (entity: any, data: { content: string }) => Promise<AxiosResponse<any>>;
+  setDetailEntity: (entity: any) => void;
 }) {
   const intl = useIntl();
 
@@ -38,6 +44,7 @@ export function ProductionPlanDetail({
     if (code) {
       get(code).then((res: { data: any }) => {
         setEntityDetail(res.data);
+        setDetailEntity(res.data);
       });
     }
   }, [code]);
@@ -114,35 +121,39 @@ export function ProductionPlanDetail({
           </Card>
         </React.Fragment>
       ))}
-      <Card>
-        <CardBody className={'p-0'}>
-          <div className="mb-5 mt-5">
-            <span className="text-primary detail-dialog-subtitle mt-8">BÌNH LUẬN</span>
-            <div className="mt-8 border border-light rounded pt-5 pb-5">
-              {entityDetail && entityDetail.comments.length > 0 ? (
-                entityDetail.comments.map(
-                  (
-                    value: { createdBy: { _id: string; fullName: string }; content: string },
-                    key: number,
-                  ) => (
-                    <div key={key} className="row mb-3">
-                      <div className="col-1 text-center">
-                        <AccountCircleOutlinedIcon style={{ fontSize: 30 }} />
+      {entityDetail?.confirmationStatus === '2' || entityDetail?.confirmationStatus === '3' ? (
+        <Card>
+          <CardBody className={'p-0'}>
+            <div className="mb-5 mt-5">
+              <span className="text-primary detail-dialog-subtitle mt-8">BÌNH LUẬN</span>
+              <div className="mt-8 border border-light rounded pt-5 pb-5">
+                {entityDetail && entityDetail.comments.length > 0 ? (
+                  entityDetail.comments.map(
+                    (
+                      value: { createdBy: { _id: string; fullName: string }; content: string },
+                      key: number,
+                    ) => (
+                      <div key={key} className="row mb-3">
+                        <div className="col-1 text-center">
+                          <AccountCircleOutlinedIcon style={{ fontSize: 30 }} />
+                        </div>
+                        <div className="col-10 bg-light rounded p-3">
+                          <p className="font-bold">{value.createdBy.fullName}</p>
+                          <p>{value.content}</p>
+                        </div>
                       </div>
-                      <div className="col-10 bg-light rounded p-3">
-                        <p className="font-bold">{value.createdBy.fullName}</p>
-                        <p>{value.content}</p>
-                      </div>
-                    </div>
-                  ),
-                )
-              ) : (
-                <span>Chưa có bình luận</span>
-              )}
+                    ),
+                  )
+                ) : (
+                  <span>Chưa có bình luận</span>
+                )}
+              </div>
             </div>
-          </div>
-        </CardBody>
-      </Card>
+          </CardBody>
+        </Card>
+      ) : (
+        <ProductionPlanComments entity={entityDetail} onComments={onComments} />
+      )}
       {allFormButton && allFormButton.type === 'outside' && (
         <div className="text-right mb-5 mr-20">
           {Object.keys(allFormButton.data).map(keyss => {

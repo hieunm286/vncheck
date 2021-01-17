@@ -94,7 +94,7 @@ function EntityCrudPage({
                             {intl
                               .formatMessage(
                                 {id: _header},
-                                {moduleName: intl.formatMessage({id: moduleName})},
+                                {moduleName: intl.formatMessage({id: moduleName ?? 'EMPTY'})},
                               )
                               .toUpperCase()}
                           </a>
@@ -103,7 +103,7 @@ function EntityCrudPage({
                             {intl
                               .formatMessage(
                                 {id: _title},
-                                {moduleName: intl.formatMessage({id: moduleName})},
+                                {moduleName: intl.formatMessage({id: moduleName ?? 'EMPTY'})},
                               )
                               .toUpperCase()}
                           </>
