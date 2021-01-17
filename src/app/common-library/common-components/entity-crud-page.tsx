@@ -130,7 +130,7 @@ function EntityCrudPage({
                                   >
                                     {loading === true ? actions.data[keyss].loading ?? (
                                       <Spinner animation="border" variant="light"
-                                               size="sm"/>) : actions.data[keyss].icon} {actions.data[keyss].label}
+                                               size="sm"/>) : actions.data[keyss].icon} {intl.formatMessage({id: actions.data[keyss].label})}
                                   </button>
                                 );
                               
@@ -149,7 +149,7 @@ function EntityCrudPage({
                                     <button
                                       type={actions.data[keyss].type}
                                       className={actions.data[keyss].className}>
-                                      {actions.data[keyss].icon} {actions.data[keyss].label}
+                                      {actions.data[keyss].icon} {intl.formatMessage({id: actions.data[keyss].label})}
                                     </button>
                                   </Link>
                                 );

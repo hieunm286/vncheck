@@ -51,7 +51,8 @@ export const Update: UpdateProps<UserModel> = (entity) => {
 };
 
 export const Delete: DeleteProps<UserModel> = (entity) => {
-  return axios.delete(`${API_URL}/${entity._id}`);
+  //Lười sửa nên viết như này cho nhanh
+  return axios.put(`${API_URL}/${entity._id}`, {...entity, status: '0'});
 };
 
 export const DeleteMany: DeleteManyProps<UserModel> = (entities) => {

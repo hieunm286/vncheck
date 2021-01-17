@@ -18,7 +18,7 @@ export function ActionsColumnFormatter<T>(
   {onShowDetail, onDelete, onEdit,onLock, onChangeRole, intl}: ActionColumnProps<T> & { intl: IntlShape },
 ) {
   return (
-    <div style={{display: 'flex'}}>
+    <div>
       {onChangeRole && (<a
         // to={`/purchase-order/${row.code}`}
         // title={intl.formatMessage({id: 'COMMON_COMPONENT.MASTER_BODY.TABLE.EDIT_BTN'})}

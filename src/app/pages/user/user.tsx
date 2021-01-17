@@ -169,7 +169,7 @@ function User() {
   const masterEntityDetailDialog: RenderInfoDetail = useMemo((): RenderInfoDetail => [
     {
       className: 'col-md-6 col-12',
-      dataClassName: 'col-md-6 col-12',
+      dataClassName: 'col-md-12 col-12 text-lg-center',
       data: {
         image: {
           formatter: (input) => <DetailImage images={input} width={200} height={200}/>
@@ -178,7 +178,7 @@ function User() {
     },
     {
       className: 'col-md-6 col-12',
-      dataClassName: 'col-md-6 col-12',
+      dataClassName: 'col-md-8 col-12',
       data: {
         fullName: {title: 'USER.DETAIL_DIALOG.FULL_NAME'},
         phone: {title: 'USER.DETAIL_DIALOG.PHONE'},
@@ -258,8 +258,9 @@ function User() {
     _className: 'col-6 pr-xl-15 pr-md-10 pr-5',
     image: {
       _type: 'image',
+      maxNumber: 1,
       label: 'USER.MODIFY.IMAGE',
-      required: true,
+      isArray: false,
     },
     code: {
       _type: 'string',
@@ -298,6 +299,10 @@ function User() {
     status: {
       _type: 'boolean',
       label: 'USER.MODIFY.STATUS',
+      trueFalse: {
+        true: '1',
+        false: '0'
+      }
     },
   }), [getCity, getDistrict]);
   const group2 = useMemo((): ModifyInputGroup => ({
