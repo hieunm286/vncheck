@@ -463,10 +463,11 @@ function ProductionPlan() {
     action: {
       dataField: 'action',
       text: `${intl.formatMessage({id: 'PURCHASE_ORDER.MASTER.TABLE.ACTION_COLUMN'})}`,
-      formatter: (cell: any, row: any, rowIndex: number) => (
-        <button
-          className="btn btn-primary"
-          style={{cursor: row.confirmationStatus === '3' || row.confirmationStatus === '2' ? 'not-allowed' : 'pointer'}}
+      formatter: (cell: any, row: any, rowIndex: number) => {
+        
+        return (
+          ((username === 'admin' && (row.confirmationStatus === '3' || row.confirmationStatus === '2')) || username !== 'admin') ? <button
+          className="btn btn-primary pl-6 pr-6"
           onClick={() => {
             ProductionPlanService.GetById(row._id).then(res => {
               setEditEntity(res.data);
@@ -476,10 +477,27 @@ function ProductionPlan() {
               });
             });
           }}
-          disabled={row.confirmationStatus === '3' || row.confirmationStatus === '2'}>
+          // disabled={row.confirmationStatus === '3' || row.confirmationStatus === '2'}
+          >
+          Chi tiết
+        </button>
+        :
+        <button
+          className="btn btn-primary"
+          onClick={() => {
+            ProductionPlanService.GetById(row._id).then(res => {
+              setEditEntity(res.data);
+              history.push({
+                pathname: '/production-plan/plan-view/' + row._id,
+                state: res.data,
+              });
+            });
+          }}
+          // disabled={row.confirmationStatus === '3' || row.confirmationStatus === '2'}
+          >
           Phê duyệt
         </button>
-      ),
+        )},
   
       ...NormalColumn,
       style: {minWidth: '130px'},
@@ -719,7 +737,7 @@ function ProductionPlan() {
         linkto: undefined,
         className: 'btn btn-primary mr-5 pl-8 pr-8',
         label: 'Phê duyệt',
-        icon: <SaveOutlinedIcon/>,
+        // icon: <SaveOutlinedIcon/>,
         onClick: (entity: any) => {
           // setNoticeModal(true);
           // setSubmit(true)
@@ -750,7 +768,7 @@ function ProductionPlan() {
         linkto: undefined,
         className: 'btn btn-outline-primary mr-5 pl-8 pr-8',
         label: 'Từ chối',
-        icon: <SaveOutlinedIcon/>,
+        // icon: <SaveOutlinedIcon/>,
         onClick: (entity: any) => {
           refuse(entity)
             .then(res => {
@@ -767,7 +785,7 @@ function ProductionPlan() {
         type: 'button',
         className: 'btn btn-primary mr-5 pl-8 pr-8',
         label: 'Chỉnh sửa',
-        icon: <CancelOutlinedIcon/>,
+        // icon: <CancelOutlinedIcon/>,
         onClick: (entity: any) => {
           ProductionPlanService.GetById(entity._id).then(res => {
             setEditEntity(res.data);
@@ -1546,13 +1564,16 @@ function ProductionPlan() {
             <ProductionPlanDetail
               entity={history.location.state}
               renderInfo={masterEntityDetailDialog2}
+              setDetailEntity={setDetailEntity}
+              onComments={ProductionPlanService.Comments}
               code={match && match.params.code}
               get={code => ProductionPlanService.GetById(code)}
               onClose={() => {
                 setShowDetail(false);
               }}
-              allFormButton={currentTab === '1' && username === 'admin' && adminAllFormButton}
+              allFormButton={(detailEntity?.confirmationStatus !== '2' && detailEntity?.confirmationStatus !== '3') && username === 'admin' && adminAllFormButton}
               header={`CHI TIẾT KẾ HOẠCH`}
+
             />
           )}
         </Route>

@@ -872,7 +872,7 @@ export const masterEntityDetailDialog2: RenderInfoDetail = [
     data: {
       code: {title: 'PRODUCTION_PLAN.CODE'},
       farmLocation: {
-        title: 'SEEDING.FARM_LOCATION',
+        title: 'FARM_LOCATION',
       },
       'seeding.code': {title: 'SEEDING.CODE'},
       'seeding.species.name': {title: 'SEEDING.SPECIES_NAME'},
@@ -1149,20 +1149,20 @@ export const addInitField = (obj1: any, obj2: any) => {
 
 export const initProductPlanForm = {
   harvesting: {
-    // leader: [],
-    // technical: []
+    leader: [],
+    technical: []
   },
   preliminaryTreatment: {
     estimatedTime: null,
     estimatedQuantity: undefined,
-    // leader: [],
-    // technical: []
+    leader: [],
+    technical: []
   },
   cleaning: {
     estimatedTime: null,
     estimatedQuantity: undefined,
-    // leader: [],
-    // technical: []
+    leader: [],
+    technical: []
   },
   packing: {
     estimatedTime: null,
@@ -1170,13 +1170,13 @@ export const initProductPlanForm = {
     estimatedExpireTimeEnd: null,
     estimatedQuantity: undefined,
     packing: null,
-    // leader: [],
-    // technical: []
+    leader: [],
+    technical: []
   },
   preservation: {
     estimatedStartTime: null,
     estimatedEndTime: null,
-    // technical: []
+    technical: []
   },
 };
 
