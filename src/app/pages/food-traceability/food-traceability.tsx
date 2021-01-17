@@ -6,7 +6,7 @@ function FoodTraceability({ id }: { id?: string }) {
   return (
     <>
       Trang chi tiết truy xuất nguồn gốc thực phẩm: {id ?? 'No info'}
-      <div className="w-50 mx-auto">
+      <div className="w-md-75 w-lg-50 mx-auto">
         <ProductionPlanDetail
           entity={entityExample}
           renderInfo={exampleDetail}

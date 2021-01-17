@@ -67,7 +67,6 @@ export const productPlanSearchModel2: SearchModel = {
   code: {
     type: 'string',
     label: 'PRODUCTION_PLAN.CODE',
-    keyField: 'planCode',
   },
   seedingCode: {
     type: 'string',
