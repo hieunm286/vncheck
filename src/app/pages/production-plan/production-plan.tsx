@@ -35,7 +35,8 @@ import _ from 'lodash';
 import {ModifyForm, ModifyPanel} from '../../common-library/common-types/common-type';
 import * as ProductPackagingService from '../product-packaging/product-packaging.service';
 import {ProductionPlanDetail} from './production-plan-detail';
-import moment from 'moment';
+import moment from 'moment-timezone';
+import { DisplayDateTime } from '../../common-library/helpers/detail-helpers';
 
 const headerTitle = 'PRODUCT_TYPE.MASTER.HEADER.TITLE';
 const bodyTitle = 'PRODUCT_TYPE.MASTER.BODY.TITLE';
@@ -60,6 +61,32 @@ const versionData = [
     approveDate: new Date(),
   },
 ];
+
+const CheckDisabled = (values: any, currentProcess: string, targetProcess: number) => {
+
+  if (!values) return false;
+
+  const cvCurrentProcess = _.parseInt(currentProcess)
+
+  if (targetProcess < cvCurrentProcess) return true;
+
+  if (targetProcess === cvCurrentProcess) {
+    let isDisabled = false;
+
+    values.leader?.forEach((item: any) => {
+      if (item.isRecieved === true) {
+        console.log('nhận rồi nè')
+        isDisabled = true;
+      }
+    })
+
+    console.log(isDisabled)
+
+    return isDisabled;
+  }
+  
+  return false;
+}
 
 const ProductPlantSchema = Yup.object().shape({
   harvesting: Yup.object()
@@ -579,9 +606,10 @@ function ProductionPlan() {
           ProductionPlanService.GetHistory(entity).then(res => {
             console.log(res.data);
             setTotalVersion(res.data.history.length)
+
             history.push({
               pathname: '/production-plan/' + entity._id + '/history',
-              state: res.data.history,
+              state: res.data.history
             });
           });
         },
@@ -746,6 +774,7 @@ function ProductionPlan() {
           approve(entity)
             .then(res => {
               if (currentTab !== '1') {
+                console.log('runnnnn')
                 updateProcess(entity)
                   .then(ress => {
                     refreshData();
@@ -830,7 +859,7 @@ function ProductionPlan() {
       formatter: (cell: any, row: any, rowIndex: number) => (
         <span>
           {row.createdAt
-            ? new Intl.DateTimeFormat('en-GB').format(new Date(row.createdAt))
+            ? moment(row.createdAt).tz('Asia/Ho_Chi_Minh').format('DD/MM/YYYY HH:mm')
             : 'Không có thông tin'}
         </span>
       ),
@@ -844,7 +873,7 @@ function ProductionPlan() {
       formatter: (cell: any, row: any, rowIndex: number) => (
         <span>
           {row.productPlan.confirmationDate
-            ? new Intl.DateTimeFormat('en-GB').format(new Date(row.productPlan.confirmationDate))
+            ? new Intl.DateTimeFormat('vi-VN').format(new Date(row.productPlan.confirmationDate))
             : 'Không có thông tin'}
         </span>
       ),
@@ -1170,7 +1199,7 @@ function ProductionPlan() {
             tagData: userData,
             required: true,
             disabled: (values: any) => {
-              return (_.parseInt(values.process) > harvestingProcess);
+              return CheckDisabled(values.harvesting, values.process, harvestingProcess)
             },
           },
           leader: {
@@ -1180,7 +1209,7 @@ function ProductionPlan() {
             tagData: userData,
             required: true,
             disabled: (values: any) => {
-              return (_.parseInt(values.process) > harvestingProcess);
+              return CheckDisabled(values.harvesting, values.process, harvestingProcess)
             },
           },
         },
@@ -1203,7 +1232,7 @@ function ProductionPlan() {
             // placeholder: 'Mã gieo giống',
             label: 'PRELIMINARY_TREATMENT_TIME',
             disabled: (values: any) => {
-              return (_.parseInt(values.process) > preliminaryTreatmentProcess);
+              return CheckDisabled(values.preliminaryTreatment, values.process, preliminaryTreatmentProcess)
             },
   
           },
@@ -1212,7 +1241,7 @@ function ProductionPlan() {
             // placeholder: 'Mã gieo giống',
             label: 'PRELIMINARY_TREATMENT_QUANTITY',
             disabled: (values: any) => {
-              return (_.parseInt(values.process) > preliminaryTreatmentProcess);
+              return CheckDisabled(values.preliminaryTreatment, values.process, preliminaryTreatmentProcess)
             },
           },
         },
@@ -1228,7 +1257,7 @@ function ProductionPlan() {
             tagData: userData,
             label: 'PRELIMINARY_TREATMENT_TECHNICAL',
             disabled: (values: any) => {
-              return _.parseInt(values.process) > preliminaryTreatmentProcess;
+              return CheckDisabled(values.preliminaryTreatment, values.process, preliminaryTreatmentProcess)
             },
           },
           leader: {
@@ -1237,7 +1266,7 @@ function ProductionPlan() {
             label: 'PRELIMINARY_TREATMENT_LEADER',
             tagData: userData,
             disabled: (values: any) => {
-              return _.parseInt(values.process) > preliminaryTreatmentProcess;
+              return CheckDisabled(values.preliminaryTreatment, values.process, preliminaryTreatmentProcess)
             },
           },
         },
@@ -1260,7 +1289,7 @@ function ProductionPlan() {
             // placeholder: 'Mã gieo giống',
             label: 'CLEANING_TIME',
             disabled: (values: any) => {
-              return _.parseInt(values.process) > cleaningProcess;
+              return CheckDisabled(values.cleaning, values.process, cleaningProcess)
             },
   
           },
@@ -1269,7 +1298,7 @@ function ProductionPlan() {
             // placeholder: 'Mã gieo giống',
             label: 'CLEANING_QUANTITY',
             disabled: (values: any) => {
-              return _.parseInt(values.process) > cleaningProcess;
+              return CheckDisabled(values.cleaning, values.process, cleaningProcess)
             },
           },
         },
@@ -1286,7 +1315,7 @@ function ProductionPlan() {
             root: 'cleaning',
             tagData: userData,
             disabled: (values: any) => {
-              return _.parseInt(values.process) > cleaningProcess;
+              return CheckDisabled(values.cleaning, values.process, cleaningProcess)
             },
           },
           leader: {
@@ -1296,7 +1325,7 @@ function ProductionPlan() {
             root: 'cleaning',
             tagData: userData,
             disabled: (values: any) => {
-              return _.parseInt(values.process) > cleaningProcess;
+              return CheckDisabled(values.cleaning, values.process, cleaningProcess)
             },
           },
         },
@@ -1319,7 +1348,7 @@ function ProductionPlan() {
             // placeholder: 'Mã gieo giống',
             label: 'PACKING_TIME',
             disabled: (values: any) => {
-              return _.parseInt(values.process) > packingProcess;
+              return CheckDisabled(values.packing, values.process, packingProcess);
             },
   
           },
@@ -1328,7 +1357,7 @@ function ProductionPlan() {
             // placeholder: 'Hạn sử dụng',
             label: 'PACKING_EXPIRY_START',
             disabled: (values: any) => {
-              return _.parseInt(values.process) > packingProcess;
+              return CheckDisabled(values.packing, values.process, packingProcess);
             },
             onChange: (val: any, values: any, setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => void) => {
               if (val) {
@@ -1363,7 +1392,7 @@ function ProductionPlan() {
             },
             keyField: 'weight',
             disabled: (values: any) => {
-              return _.parseInt(values.process) > packingProcess;
+              return CheckDisabled(values.packing, values.process, packingProcess);
             },
             // required: true,
             // onDisplayOptions: (e:ProductPackagingModel)=> e.species.weight,
@@ -1383,7 +1412,7 @@ function ProductionPlan() {
             // placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
             label: 'PRODUCTION_PLAN_FORM_PACKING_QUANTITY',
             disabled: (values: any) => {
-              return _.parseInt(values.process) > packingProcess;
+              return CheckDisabled(values.packing, values.process, packingProcess);
             },
           },
           technical: {
@@ -1392,7 +1421,7 @@ function ProductionPlan() {
             label: 'KCS',
             tagData: userData,
             disabled: (values: any) => {
-              return _.parseInt(values.process) > packingProcess;
+              return CheckDisabled(values.packing, values.process, packingProcess);
             },
           },
           leader: {
@@ -1401,7 +1430,7 @@ function ProductionPlan() {
             label: 'PACKING_LEADER',
             tagData: userData,
             disabled: (values: any) => {
-              return _.parseInt(values.process) > packingProcess;
+              return CheckDisabled(values.packing, values.process, packingProcess);
             },
           },
         },
@@ -1424,7 +1453,7 @@ function ProductionPlan() {
             // placeholder: 'Mã gieo giống',
             label: 'PRESERVATION_TIME_START',
             disabled: (values: any) => {
-              return _.parseInt(values.process) > preservationProcess;
+              return CheckDisabled(values.preservation, values.process, preservationProcess);
             },
   
           },
@@ -1433,7 +1462,7 @@ function ProductionPlan() {
             // placeholder: 'Mã gieo giống',
             label: 'PRESERVATION_TIME_END',
             disabled: (values: any) => {
-              return _.parseInt(values.process) > preservationProcess;
+              return CheckDisabled(values.preservation, values.process, preservationProcess);
             },
   
           },
@@ -1450,7 +1479,7 @@ function ProductionPlan() {
             // placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
             label: 'PRESERVATION_TECHNICAL',
             disabled: (values: any) => {
-              return _.parseInt(values.process) > preservationProcess;
+              return CheckDisabled(values.preservation, values.process, preservationProcess);
             },
           },
         },

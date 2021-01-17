@@ -11,6 +11,7 @@ import {
 } from '../../common-library/helpers/pagination-helper';
 import { SortDefault } from '../../common-library/common-consts/const';
 import BootstrapTable from 'react-bootstrap-table-next';
+import _ from 'lodash';
 
 interface MasterDataVersion {
   _id: string;
@@ -46,6 +47,10 @@ function ProductionPlanVersion({
   const history = useHistory();
   const intl = useIntl();
 
+  const sortedArray = _.map(
+    _.orderBy(data, o => new Date(o.createdAt), 'desc'),
+  );
+
   return (
     <Card>
       <CardHeader
@@ -76,7 +81,7 @@ function ProductionPlanVersion({
           bootstrap4
           remote
           keyField="_id"
-          data={data}
+          data={sortedArray}
           columns={Object.values(versionColumns)}
         >
           <PleaseWaitMessage entities={data} />
