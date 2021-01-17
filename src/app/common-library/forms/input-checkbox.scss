@@ -60,6 +60,8 @@ $primary-color: #27AE60;
         flex-direction: row-reverse;
         justify-content: space-between;
         position: relative;
+        border-bottom: 1px solid #e9e0e0;
+        padding: 5px 0 5px 0;
     }
 
     label.checkbox-all {

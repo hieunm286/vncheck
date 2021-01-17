@@ -11,7 +11,7 @@ import {Count, Create, Delete, DeleteMany, Get, GetAll, GetManagementOrganizatio
 import {GetIds} from './role.service';
 import {RoleModel} from './role.model';
 import { MasterEntityDetailDialog } from '../../common-library/common-components/master-entity-detail-dialog';
-import { RenderInfoDetail, _ModifyModelInput } from '../../common-library/common-types/common-type';
+import { ModifyPanel, RenderInfoDetail, _ModifyModelInput } from '../../common-library/common-types/common-type';
 import { DeleteEntityDialog } from '../../common-library/common-components/delete-entity-dialog';
 import EntityCrudPage from '../../common-library/common-components/entity-crud-page';
 import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
@@ -26,7 +26,9 @@ import {
 import { Select } from 'antd';
 import { Switch as SwitchField } from 'antd';
 import CheckBoxField from '../../common-library/forms/input-checkbox';
-import * as RoleScope from './const/convert-scope';
+import * as RoleScope from './const/role_scope';
+import { ConvertRoleScope } from './const/convert-scope';
+import _ from 'lodash';
 
 const { Option } = Select;
 
@@ -151,44 +153,52 @@ export default function ManagementOrganization() {
         )
       }
     },
-    checkbox1: {
-      _type: 'checkbox',
-      label: 'DOANH NGHIỆP SẢN XUẤT',
-      optionData: RoleScope.enterpriseScope
-    },
-    checkbox2: {
-      _type: 'checkbox',
-      label: 'THÔNG TIN CHUNG',
-      optionData: RoleScope.speciesScope
-    },
-    checkbox3: {
-      _type: 'checkbox',
-      label: 'THÔNG TIN XUỐNG GIỐNG',
-      optionData: RoleScope.seedingScope
-    },
-    checkbox4: {
-      _type: 'checkbox',
-      label: 'THÔNG TIN GIEO TRỒNG',
-      optionData: RoleScope.plantingScope
-    },
-    checkbox5: {
-      _type: 'checkbox',
-      label: 'THÔNG TIN THU HOẠCH',
-      optionData: RoleScope.harvestingScope
-    },
-    checkbox6: {
-      _type: 'checkbox',
-      label: 'THÔNG TIN SƠ CHẾ',
-      optionData: RoleScope.preliminaryTreatmentScope
-    },
   };
+  
+  const modifyModel2 = React.useMemo((): ModifyPanel => ({
+    _title: 'EMPTY',
+    group2: {
+      _subTitle: 'PHÂN QUYỀN DỮ LIỆU',
+      checkbox1: {
+        _type: 'checkbox',
+        label: 'DOANH NGHIỆP SẢN XUẤT',
+        optionData: ConvertRoleScope(RoleScope.role_scope_enterprise, intl)
+      },
+      checkbox2: {
+        _type: 'checkbox',
+        label: 'THÔNG TIN CHUNG',
+        optionData: ConvertRoleScope(RoleScope.role_scope_species, intl)
+      },
+      checkbox3: {
+        _type: 'checkbox',
+        label: 'THÔNG TIN XUỐNG GIỐNG',
+        optionData: ConvertRoleScope(RoleScope.role_scope_seeding, intl)
+      },
+      checkbox4: {
+        _type: 'checkbox',
+        label: 'THÔNG TIN GIEO TRỒNG',
+        optionData: ConvertRoleScope(RoleScope.role_scope_planting, intl)
+      },
+      checkbox5: {
+        _type: 'checkbox',
+        label: 'THÔNG TIN THU HOẠCH',
+        optionData: ConvertRoleScope(RoleScope.role_scope_harvesting, intl)
+      },
+      checkbox6: {
+        _type: 'checkbox',
+        label: 'THÔNG TIN SƠ CHẾ',
+        optionData: ConvertRoleScope(RoleScope.role_scope_preliminary_treatment, intl)
+      },
+    }
+  }), [])
 
   const createForm : ModifyForm = {
     _header: createTitle,
-    panel1: {
-      _title: 'EMPTY',
-      group1: group1,
-    },
+    // panel1: {
+    //   _title: 'EMPTY',
+    //   group1: group1,
+    // },
+    panel2: modifyModel2
   };
 
   const columns = React.useMemo(() => {
@@ -348,7 +358,26 @@ export default function ManagementOrganization() {
           <EntityCrudPage
             moduleName='ROLE.MODULE_NAME'
             entity={createEntity}
-            onModify={update}
+            onModify={(values) => {
+              console.log(values)
+              let roleArr: string[] = []
+              const cvValues: any = {}
+
+              Object.keys(values).forEach(keys => {
+                if (_.isArray(values[keys])) {
+                  console.log('1')
+                  roleArr = roleArr.concat(values[keys])
+                } else {
+                  cvValues[keys] = values[keys]
+                }
+              })
+
+              cvValues.roleScope = roleArr
+              console.log(roleArr)
+              console.log(cvValues)
+
+              return update(cvValues)
+            }}
             formModel={createForm}
             actions={actions}
             validation={roleValidationSchema}
