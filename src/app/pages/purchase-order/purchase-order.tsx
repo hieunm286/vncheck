@@ -518,7 +518,7 @@ function PurchaseOrder() {
       type: 'submit',
       linkto: undefined,
       className: 'btn btn-primary mr-2',
-      label: 'Lưu',
+      label: 'SAVE_BTN_LABEL',
       icon: <SaveOutlinedIcon/>,
     },
     cancel: {
@@ -526,7 +526,7 @@ function PurchaseOrder() {
       type: 'button',
       linkto: '/purchase-order',
       className: 'btn btn-outline-primary mr-2',
-      label: 'Hủy',
+      label: 'CANCEL_BTN_LABEL',
       icon: <CancelOutlinedIcon/>,
     },
     test: {
