@@ -315,7 +315,7 @@ function Species() {
         type: 'submit',
         linkto: undefined,
         className: 'btn btn-primary mr-5 pl-8 pr-8',
-        label: 'Lưu',
+        label: 'SAVE_BTN_LABEL',
         icon: <SaveOutlinedIcon/>,
         loading: <Spinner animation="border" variant="light" size="sm"/>
       },
@@ -324,7 +324,7 @@ function Species() {
         type: 'button',
         linkto: '/species',
         className: 'btn btn-outline-primary mr-2 pl-8 pr-8',
-        label: 'Hủy',
+        label: 'CANCEL_BTN_LABEL',
         icon: <CancelOutlinedIcon/>,
         loading: <Spinner animation="border" variant="success" size="sm"/>
       },

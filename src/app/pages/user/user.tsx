@@ -1,6 +1,6 @@
 import React, {Fragment, useCallback, useEffect, useMemo, useState} from 'react';
 import {useIntl} from 'react-intl';
-import {DefaultPagination, NormalColumn, SortColumn} from '../../common-library/common-consts/const';
+import {DefaultPagination, iconStyle, NormalColumn, SortColumn} from '../../common-library/common-consts/const';
 import {MasterHeader} from '../../common-library/common-components/master-header';
 import {MasterBody} from '../../common-library/common-components/master-body';
 import {
@@ -8,7 +8,6 @@ import {
   TickColumnFormatter
 } from '../../common-library/common-components/actions-column-formatter';
 import {DeleteEntityDialog} from '../../common-library/common-components/delete-entity-dialog';
-import DeleteManyEntitiesDialog from '../../common-library/common-components/delete-many-entities-dialog';
 import {
   ModifyForm,
   ModifyInputGroup,
@@ -23,18 +22,23 @@ import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import {UserModel} from './user.model';
 import {MasterEntityDetailDialog} from "../../common-library/common-components/master-entity-detail-dialog";
 import {GetCity, GetDistrict, GetState} from "../address/address.service";
-import * as RoleService from "../role/role.service";
 import * as Yup from "yup";
 import {Count, Create, Delete, DeleteMany, Get, GetAll, GetById, Update} from "./user.service";
 import {DisplayAddress, DisplayDate} from "../../common-library/helpers/detail-helpers";
 import {DetailImage} from "../../common-library/common-components/detail/detail-image";
+import * as ManagementUnitService from "../management-organization/management-organization.service";
+import * as RoleService from "../role/role.service";
+import * as AgencyService from "../agency/agency.service";
+import {Spinner} from "react-bootstrap";
 
 const headerTitle = 'PRODUCT_TYPE.MASTER.HEADER.TITLE';
 const tableTitle = 'USER.MASTER.TABLE.TITLE';
 const detailDialogTitle = 'USER.DETAIL_DIALOG.TITLE';
 const moduleName = 'USER.MODULE_NAME';
-const deleteDialogTitle = 'USER.DELETE_DIALOG.TITLE';
-const deleteDialogBodyTitle = 'USER.DELETE_DIALOG.BODY_TITLE';
+const lockDialogTitle = 'USER.LOCK_DIALOG.TITLE';
+const lockConfirmMessage = 'USER.LOCK_DIALOG.CONFIRM_MESSAGE';
+const lockDialogBodyTitle = 'USER.LOCK_DIALOG.BODY_TITLE';
+const lockingMessage = 'USER.LOCK_DIALOG.LOCKING_MESSAGE';
 const createTitle = 'USER.CREATE.HEADER';
 const updateTitle = 'USER.UPDATE.HEADER';
 
@@ -98,7 +102,7 @@ function User() {
   
   const columns = useMemo(() => {
     return [{
-      dataField: 'workAt',
+      dataField: 'agency.name',
       text: `${intl.formatMessage({id: 'USER.MASTER.TABLE.WORK_AT'})}`,
       ...SortColumn,
       align: 'center',
@@ -110,7 +114,7 @@ function User() {
         align: 'center',
       },
       {
-        dataField: 'organization',
+        dataField: 'managementUnit.name',
         text: `${intl.formatMessage({id: 'USER.MASTER.TABLE.ORGANIZATION'})}`,
         ...SortColumn,
         align: 'center',
@@ -141,15 +145,16 @@ function User() {
         formatExtraData: {
           intl,
           onShowDetail: (entity: UserModel) => {
-            get(entity);
-            setShowDetail(true);
-            setDetailEntity(entity);
+            get(entity).then(e => {
+              setShowDetail(true);
+            })
           },
           onEdit: (entity: UserModel) => {
             history.push(`${window.location.pathname}/${entity._id}`);
           },
           onLock: (entity: UserModel) => {
-            console.log("NOT IMPLEMENTED");
+            setDeleteEntity(entity);
+            setShowDelete(true);
           },
           onChangeRole: (entity: UserModel) => {
             console.log("NOT IMPLEMENTED");
@@ -164,35 +169,54 @@ function User() {
   const masterEntityDetailDialog: RenderInfoDetail = useMemo((): RenderInfoDetail => [
     {
       className: 'col-md-6 col-12',
-      dataClassName: 'col-md-6 col-12',
+      dataClassName: 'col-md-12 col-12 text-lg-center',
       data: {
-        avatar: {
-          title: 'USER.DETAIL_DIALOG.AVATAR',
+        image: {
           formatter: (input) => <DetailImage images={input} width={200} height={200}/>
         },
       },
     },
     {
       className: 'col-md-6 col-12',
-      dataClassName: 'col-md-6 col-12',
+      dataClassName: 'col-md-8 col-12',
       data: {
-        workAt: {title: 'USER.DETAIL_DIALOG.WORK_AT'},
+        fullName: {title: 'USER.DETAIL_DIALOG.FULL_NAME'},
         phone: {title: 'USER.DETAIL_DIALOG.PHONE'},
         birthDay: {title: 'USER.DETAIL_DIALOG.BIRTHDAY', formatter: (input) => DisplayDate({input})},
         address: {title: 'USER.DETAIL_DIALOG.ADDRESS', formatter: DisplayAddress},
-        role: {title: 'USER.DETAIL_DIALOG.ROLE'},
+        'role.name': {title: 'USER.DETAIL_DIALOG.ROLE'},
       },
     },
   ], []);
-  
+  const [managementUnit, setManagementUnit] = useState<any>(null);
+  const getRole = useCallback(({queryProps, paginationProps}: any): Promise<any> => {
+    return RoleService.GetAll({queryProps: {...queryProps, managementUnit}, paginationProps})
+  }, [managementUnit?._id]);
   const searchModel: SearchModel = {
-    organization: {
-      type: 'string',
+    managementUnit: {
+      type: 'tree-select',
       label: 'USER.MASTER.SEARCH.ORGANIZATION',
+      onSearch: ({queryProps, sortList, paginationProps,}) => {
+        return ManagementUnitService.GetAll({queryProps}).then((e) => {
+          return (e.data);
+        })
+      },
+      onChange: (value: any, {setFieldValue}: any) => {
+        console.log(value)
+        if (managementUnit != value) {
+          setFieldValue('role', null);
+        }
+        setManagementUnit(value);
+      },
     },
     role: {
-      type: 'string',
+      type: 'search-select',
       label: 'USER.MASTER.SEARCH.ROLE',
+      onSearch: getRole,
+      keyField: 'name',
+      disabled: (values: any) => {
+        return !(values.managementUnit);
+      },
     },
     code: {
       type: 'string',
@@ -202,8 +226,10 @@ function User() {
       type: 'string',
       label: 'USER.MASTER.SEARCH.USER_NAME',
     },
-    workAt: {
-      type: 'string',
+    agency: {
+      keyField: 'name',
+      type: 'search-select',
+      onSearch: AgencyService.GetAll,
       label: 'USER.MASTER.SEARCH.WORK_AT',
     },
     email: {
@@ -228,17 +254,72 @@ function User() {
     return GetDistrict({queryProps: {...queryProps, city}, paginationProps})
   }, [city]);
   const group1 = useMemo((): ModifyInputGroup => ({
-    _subTitle: 'THÔNG TIN CHUNG',
+    _subTitle: 'USER.MODIFY.DETAIL_INFO',
     _className: 'col-6 pr-xl-15 pr-md-10 pr-5',
+    image: {
+      _type: 'image',
+      maxNumber: 1,
+      label: 'USER.MODIFY.IMAGE',
+      isArray: false,
+    },
     code: {
       _type: 'string',
-      label: 'SHIPPING_AGENCY.MODIFY.CODE',
+      label: 'USER.MODIFY.CODE',
       disabled: true,
     },
-    name: {
+    username: {
       _type: 'string',
       required: true,
-      label: 'SHIPPING_AGENCY.MODIFY.NAME',
+      label: 'USER.MODIFY.USER_NAME',
+    },
+    fullName: {
+      _type: 'string',
+      required: true,
+      label: 'USER.MODIFY.FULL_NAME',
+    },
+    birthDay: {
+      _type: 'date-time',
+      required: true,
+      label: 'USER.MODIFY.BIRTHDAY',
+    },
+    phone: {
+      _type: 'string-number',
+      required: true,
+      label: 'USER.MODIFY.PHONE',
+    },
+    gender: {
+      _type: 'radio',
+      required: true,
+      options: [
+        {label: 'USER.MODIFY.GENDER_OPTION.MALE', value: '1'},
+        {label: 'USER.MODIFY.GENDER_OPTION.FEMALE', value: '0'}
+      ],
+      label: 'USER.MODIFY.GENDER',
+    },
+    status: {
+      _type: 'boolean',
+      label: 'USER.MODIFY.STATUS',
+      trueFalse: {
+        true: '1',
+        false: '0'
+      }
+    },
+  }), [getCity, getDistrict]);
+  const group2 = useMemo((): ModifyInputGroup => ({
+    _subTitle: 'EMPTY',
+    _className: 'col-6 pl-xl-15 pl-md-10 pl-5',
+    agency: {
+      _type: 'search-select',
+      onSearch: AgencyService.GetAll,
+      // selectField: 'code',
+      keyField: 'name',
+      required: true,
+      label: 'USER.MODIFY.AGENCY',
+    },
+    email: {
+      _type: 'email',
+      required: true,
+      label: 'USER.MODIFY.EMAIL',
     },
     address: {
       _type: 'object',
@@ -249,8 +330,7 @@ function User() {
           console.log(values)
         },
         onChange: (value: any, {setFieldValue, setFieldTouched}: any) => {
-          console.log(state, value);
-          if (!value || state != value) {
+          if (state != value) {
             setCity(null);
             setFieldValue('address.city', '');
             setFieldTouched('address.city', false);
@@ -260,7 +340,7 @@ function User() {
           setState(value);
         },
         required: true,
-        label: 'SHIPPING_AGENCY.MODIFY.STATE',
+        label: 'USER.MODIFY.STATE',
       },
       city: {
         _type: 'search-select',
@@ -268,7 +348,7 @@ function User() {
         // selectField: 'code',
         required: true,
         onChange: (value: any, {setFieldValue, setFieldTouched}: any) => {
-          if (!value || city != value) {
+          if (city != value) {
             setFieldValue('address.district', '');
             setFieldTouched('address.district', false);
           }
@@ -277,7 +357,7 @@ function User() {
         disabled: (values: any) => {
           return (values?.address?.state === '');
         },
-        label: 'SHIPPING_AGENCY.MODIFY.CITY',
+        label: 'USER.MODIFY.CITY',
       },
       district: {
         _type: 'search-select',
@@ -287,90 +367,40 @@ function User() {
         disabled: (values: any) => {
           return (values?.address?.city === '');
         },
-        label: 'SHIPPING_AGENCY.MODIFY.DISTRICT',
+        label: 'USER.MODIFY.DISTRICT',
       },
       address: {
         _type: 'string',
         required: true,
-        label: 'SHIPPING_AGENCY.MODIFY.ADDRESS',
+        label: 'USER.MODIFY.ADDRESS',
       },
     },
-    status: {
-      _type: 'boolean',
-      label: 'SHIPPING_AGENCY.MODIFY.STATUS',
-    },
-    phone: {
-      _type: 'string-number',
+    managementUnit: {
+      _type: 'tree-select',
+      label: 'USER.MODIFY.MANAGEMENT_UNIT',
       required: true,
-      label: 'SHIPPING_AGENCY.MODIFY.PHONE_NUMBER',
+      onSearch: ({queryProps, sortList, paginationProps,}: any) => {
+        return ManagementUnitService.GetAll({queryProps}).then((e) => {
+          return (e.data);
+        })
+      },
+      onChange: (value: any, {setFieldValue}: any) => {
+        if (managementUnit != value) {
+          setFieldValue('role', null);
+        }
+        setManagementUnit(value);
+      },
     },
-    taxId: {
-      _type: 'string-number',
-      required: true,
-      label: 'SHIPPING_AGENCY.MODIFY.TAX_NUMBER',
+    role: {
+      _type: 'search-select',
+      label: 'USER.MODIFY.ROLE',
+      onSearch: getRole,
+      keyField: 'name',
+      disabled: (values: any) => {
+        return !(values?.managementUnit);
+      },
     },
-    images: {
-      _type: 'image',
-      label: 'SHIPPING_AGENCY.MODIFY.IMAGE',
-    },
-  }), [getCity, getDistrict]);
-  const [group2, setGroup2] = useState<ModifyInputGroup>({
-    _subTitle: 'THÔNG TIN CHỦ ĐƠN VỊ',
-    _className: 'col-6 pl-xl-15 pl-md-10 pl-5',
-    owner: {
-      _type: 'object',
-      username: {
-        _type: 'string',
-        label: 'SHIPPING_AGENCY.MODIFY.USER_NAME',
-        required: true,
-      },
-      fullName: {
-        _type: 'string',
-        required: true,
-        label: 'SHIPPING_AGENCY.MODIFY.DISPLAY_NAME',
-      },
-      phone: {
-        _type: 'string-number',
-        required: true,
-        label: 'SHIPPING_AGENCY.MODIFY.PHONE_NUMBER',
-      },
-      email: {
-        _type: 'email',
-        required: true,
-        label: 'SHIPPING_AGENCY.MODIFY.EMAIL',
-      },
-      gender: {
-        _type: 'radio',
-        required: true,
-        options: [
-          {label: 'SHIPPING_AGENCY.MODIFY.GENDER_OPTION.MALE', value: '1'},
-          {label: 'SHIPPING_AGENCY.MODIFY.GENDER_OPTION.FEMALE', value: '0'}
-        ],
-        label: 'SHIPPING_AGENCY.MODIFY.GENDER',
-      },
-      birthDay: {
-        _type: 'date-time',
-        required: true,
-        label: 'SHIPPING_AGENCY.MODIFY.DATE_OF_BIRTH',
-      },
-      role: {
-        _type: 'search-select',
-        required: true,
-        label: 'SHIPPING_AGENCY.MODIFY.ROLE',
-        keyField: 'name',
-        // onSearch: ({queryProps, paginationProps}: any): Promise<any> => {
-        //   return GetRole({queryProps, paginationProps}, (t: any) => intl.formatMessage({id: t}))
-        // },
-        onSearch: RoleService.GetAll,
-      },
-      image: {
-        _type: 'image',
-        isArray: false,
-        maxNumber: 1,
-        label: 'SHIPPING_AGENCY.MODIFY.REPRESENT_IMAGE',
-      },
-    }
-  });
+  }), [getRole]);
   
   const createForm = useMemo((): ModifyForm => ({
     _header: createTitle,
@@ -405,19 +435,20 @@ function User() {
         type: 'submit',
         linkto: undefined,
         className: 'btn btn-primary mr-8 fixed-btn-width',
-        label: 'Lưu',
-        icon: <SaveOutlinedIcon/>,
+        label: 'SAVE_BTN_LABEL',
+        icon: loading ? (<Spinner style={iconStyle} animation="border" variant="light" size="sm"/>) :
+          (<SaveOutlinedIcon style={iconStyle}/>)
       },
       cancel: {
         role: 'link-button',
         type: 'button',
-        linkto: '/shipping-agency',
+        linkto: '/account/user',
         className: 'btn btn-outline-primary fixed-btn-width',
-        label: 'Hủy',
+        label: 'CANCEL_BTN_LABEL',
         icon: <CancelOutlinedIcon/>,
       }
     }
-  }), []);
+  }), [loading]);
   const initCreateValues = useMemo(() => ({...InitValues(createForm), status: 'false'}), [createForm]);
   return (
     <Fragment>
@@ -437,7 +468,6 @@ function User() {
             <EntityCrudPage
               onModify={update}
               moduleName={moduleName}
-              //  modifyModel={modifyModel}
               code={match && match.params.code}
               get={GetById}
               formModel={updateForm}
@@ -460,7 +490,6 @@ function User() {
             onCreate={() => {
               history.push(`${window.location.pathname}/0000000`);
             }}
-            onDeleteMany={() => setShowDeleteMany(true)}
             entities={entities}
             total={total}
             columns={columns as any}
@@ -492,19 +521,10 @@ function User() {
         onHide={() => {
           setShowDelete(false);
         }}
-        title={deleteDialogTitle}
-        bodyTitle={deleteDialogBodyTitle}
-      />
-      <DeleteManyEntitiesDialog
-        moduleName={moduleName}
-        selectedEntities={selectedEntities}
-        loading={loading}
-        isShow={showDeleteMany}
-        onDelete={deleteMany}
-        error={error}
-        onHide={() => {
-          setShowDeleteMany(false);
-        }}
+        title={lockDialogTitle}
+        confirmMessage={lockConfirmMessage}
+        bodyTitle={lockDialogBodyTitle}
+        deletingMessage={lockingMessage}
       />
     </Fragment>
   );

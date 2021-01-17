@@ -685,7 +685,7 @@ function ProductionPlan() {
         type: 'button',
         linkto: undefined,
         className: 'btn btn-outline-primary mr-5 pl-8 pr-8',
-        label: 'Lưu',
+        label: 'SAVE_BTN_LABEL',
         // icon: <CancelOutlinedIcon />,
         onClick: () => {
           // setNoticeModal(true);
@@ -698,7 +698,7 @@ function ProductionPlan() {
         type: 'button',
         linkto: '/production-plan',
         className: 'btn btn-outline-primary mr-2 pl-8 pr-8',
-        label: 'Hủy',
+        label: 'CANCEL_BTN_LABEL',
         // icon: <CancelOutlinedIcon />,
       },
     },
@@ -725,7 +725,7 @@ function ProductionPlan() {
         type: 'button',
         linkto: '/production-plan',
         className: 'btn btn-outline-primary mr-2 pl-8 pr-8',
-        label: 'Hủy',
+        label: 'CANCEL_BTN_LABEL',
         // icon: <CancelOutlinedIcon />,
       },
     },
