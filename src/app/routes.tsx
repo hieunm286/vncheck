@@ -13,6 +13,7 @@ import {Layout} from "./layout/components/layout";
 import ErrorsPage from "./layout/errors/errors-page";
 import {AuthPage, Logout} from "./pages/auth";
 import store from '../redux/store';
+import FoodTraceability from './pages/food-traceability/food-traceability';
 
 export function Routes() {
   const userInfo = useSelector(({auth}: any) => auth);
@@ -69,7 +70,15 @@ export function Routes() {
     <Switch>
       <Route path='/error' component={ErrorsPage}/>
       <Route path='/logout' component={Logout}/>
+      <Route path='/food-traceability/:id'>
+      {({history, match}) => (
+            <FoodTraceability                      
+              id={match && match.params.id}
+            />
+          )}
+      </Route>
       {CheckAuth()}
+      
     </Switch>
   );
 }

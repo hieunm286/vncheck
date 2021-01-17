@@ -11,7 +11,7 @@ import { AxiosResponse } from 'axios';
 import ProductionPlanComments from './production-plan-comments';
 
 export function ProductionPlanDetail({
-  header = 'COMMON_COMPONENT.DETAIL_DIALOG.HEADER_TITLE',
+  header,
   moduleName = 'COMMON_COMPONENT.DETAIL_DIALOG.MODULE_NAME',
   entity,
   onClose,
@@ -22,18 +22,20 @@ export function ProductionPlanDetail({
   allFormButton,
   onComments,
   setDetailEntity,
+  showComment = true
 }: {
   header?: string;
   moduleName?: string;
   entity?: any;
   renderInfo: RenderInfoDetail;
-  onClose: () => void;
+  onClose?: () => void;
   homeURL?: string;
-  code: string | null;
-  get: (code: string) => any | null;
+  code?: string;
+  get?: (code: string) => any;
   allFormButton?: any;
-  onComments: (entity: any, data: { content: string }) => Promise<AxiosResponse<any>>;
-  setDetailEntity: (entity: any) => void;
+  onComments?: (entity: any, data: { content: string }) => Promise<AxiosResponse<any>>;
+  setDetailEntity?: (entity: any) => void;
+  showComment?: boolean;
 }) {
   const intl = useIntl();
 
@@ -41,10 +43,12 @@ export function ProductionPlanDetail({
 
   const history = useHistory();
   useEffect(() => {
-    if (code) {
+    if (code && get) {
       get(code).then((res: { data: any }) => {
         setEntityDetail(res.data);
-        setDetailEntity(res.data);
+        if (setDetailEntity) {
+          setDetailEntity(res.data);
+        }
       });
     }
   }, [code]);
@@ -53,7 +57,7 @@ export function ProductionPlanDetail({
       {renderInfo.map((value, index) => (
         <React.Fragment key={index}>
           <Card>
-            {index === 0 && (
+            {index === 0 && header && (
               <CardHeader
                 className={'border-bottom-0 pl-0 large-font-size'}
                 title={
@@ -121,7 +125,7 @@ export function ProductionPlanDetail({
           </Card>
         </React.Fragment>
       ))}
-      {entityDetail?.confirmationStatus === '2' || entityDetail?.confirmationStatus === '3' ? (
+      {showComment !== true ? <></> : (entityDetail?.confirmationStatus === '2' || entityDetail?.confirmationStatus === '3') ? (
         <Card>
           <CardBody className={'p-0'}>
             <div className="mb-5 mt-5">
