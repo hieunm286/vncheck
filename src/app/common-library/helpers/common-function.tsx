@@ -208,7 +208,7 @@ export const getOnlyBase64 = (arr: any[]) => {
 
 export const getNewImage = (prevArr: any[], currentArr: any[]) => {
   const newArr: any[] = [];
-  
+  prevArr = prevArr ?? [];
   if (prevArr.length === 0) {
     return currentArr;
   }

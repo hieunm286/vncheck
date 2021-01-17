@@ -35,7 +35,6 @@ import _ from 'lodash';
 import {ModifyForm, ModifyPanel} from '../../common-library/common-types/common-type';
 import * as ProductPackagingService from '../product-packaging/product-packaging.service';
 import {ProductionPlanDetail} from './production-plan-detail';
-import moment from 'moment';
 
 const headerTitle = 'PRODUCT_TYPE.MASTER.HEADER.TITLE';
 const bodyTitle = 'PRODUCT_TYPE.MASTER.BODY.TITLE';
@@ -657,7 +656,7 @@ function ProductionPlan() {
         type: 'button',
         linkto: undefined,
         className: 'btn btn-outline-primary mr-5 pl-8 pr-8',
-        label: 'Lưu',
+        label: 'SAVE_BTN_LABEL',
         // icon: <CancelOutlinedIcon />,
         onClick: () => {
           // setNoticeModal(true);
@@ -670,7 +669,7 @@ function ProductionPlan() {
         type: 'button',
         linkto: '/production-plan',
         className: 'btn btn-outline-primary mr-2 pl-8 pr-8',
-        label: 'Hủy',
+        label: 'CANCEL_BTN_LABEL',
         // icon: <CancelOutlinedIcon />,
       },
     },
@@ -697,7 +696,7 @@ function ProductionPlan() {
         type: 'button',
         linkto: '/production-plan',
         className: 'btn btn-outline-primary mr-2 pl-8 pr-8',
-        label: 'Hủy',
+        label: 'CANCEL_BTN_LABEL',
         // icon: <CancelOutlinedIcon />,
       },
     },

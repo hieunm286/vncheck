@@ -1,6 +1,6 @@
 import React, {Fragment, useCallback, useEffect, useMemo, useState} from 'react';
 import {useIntl} from 'react-intl';
-import {DefaultPagination, NormalColumn, SortColumn} from '../../common-library/common-consts/const';
+import {DefaultPagination, iconStyle, NormalColumn, SortColumn} from '../../common-library/common-consts/const';
 import {MasterHeader} from '../../common-library/common-components/master-header';
 import {MasterBody} from '../../common-library/common-components/master-body';
 import {
@@ -8,7 +8,6 @@ import {
   TickColumnFormatter
 } from '../../common-library/common-components/actions-column-formatter';
 import {DeleteEntityDialog} from '../../common-library/common-components/delete-entity-dialog';
-import DeleteManyEntitiesDialog from '../../common-library/common-components/delete-many-entities-dialog';
 import {
   ModifyForm,
   ModifyInputGroup,
@@ -30,13 +29,16 @@ import {DetailImage} from "../../common-library/common-components/detail/detail-
 import * as ManagementUnitService from "../management-organization/management-organization.service";
 import * as RoleService from "../role/role.service";
 import * as AgencyService from "../agency/agency.service";
+import {Spinner} from "react-bootstrap";
 
 const headerTitle = 'PRODUCT_TYPE.MASTER.HEADER.TITLE';
 const tableTitle = 'USER.MASTER.TABLE.TITLE';
 const detailDialogTitle = 'USER.DETAIL_DIALOG.TITLE';
 const moduleName = 'USER.MODULE_NAME';
-const deleteDialogTitle = 'USER.DELETE_DIALOG.TITLE';
-const deleteDialogBodyTitle = 'USER.DELETE_DIALOG.BODY_TITLE';
+const lockDialogTitle = 'USER.LOCK_DIALOG.TITLE';
+const lockConfirmMessage = 'USER.LOCK_DIALOG.CONFIRM_MESSAGE';
+const lockDialogBodyTitle = 'USER.LOCK_DIALOG.BODY_TITLE';
+const lockingMessage = 'USER.LOCK_DIALOG.LOCKING_MESSAGE';
 const createTitle = 'USER.CREATE.HEADER';
 const updateTitle = 'USER.UPDATE.HEADER';
 
@@ -151,7 +153,8 @@ function User() {
             history.push(`${window.location.pathname}/${entity._id}`);
           },
           onLock: (entity: UserModel) => {
-            console.log("NOT IMPLEMENTED");
+            setDeleteEntity(entity);
+            setShowDelete(true);
           },
           onChangeRole: (entity: UserModel) => {
             console.log("NOT IMPLEMENTED");
@@ -169,7 +172,6 @@ function User() {
       dataClassName: 'col-md-6 col-12',
       data: {
         image: {
-          title: 'USER.DETAIL_DIALOG.IMAGE',
           formatter: (input) => <DetailImage images={input} width={200} height={200}/>
         },
       },
@@ -305,6 +307,7 @@ function User() {
       _type: 'search-select',
       onSearch: AgencyService.GetAll,
       // selectField: 'code',
+      keyField: 'name',
       required: true,
       label: 'USER.MODIFY.AGENCY',
     },
@@ -427,19 +430,20 @@ function User() {
         type: 'submit',
         linkto: undefined,
         className: 'btn btn-primary mr-8 fixed-btn-width',
-        label: 'Lưu',
-        icon: <SaveOutlinedIcon/>,
+        label: 'SAVE_BTN_LABEL',
+        icon: loading ? (<Spinner style={iconStyle} animation="border" variant="light" size="sm"/>) :
+          (<SaveOutlinedIcon style={iconStyle}/>)
       },
       cancel: {
         role: 'link-button',
         type: 'button',
-        linkto: '/shipping-agency',
+        linkto: '/account/user',
         className: 'btn btn-outline-primary fixed-btn-width',
-        label: 'Hủy',
+        label: 'CANCEL_BTN_LABEL',
         icon: <CancelOutlinedIcon/>,
       }
     }
-  }), []);
+  }), [loading]);
   const initCreateValues = useMemo(() => ({...InitValues(createForm), status: 'false'}), [createForm]);
   return (
     <Fragment>
@@ -481,7 +485,6 @@ function User() {
             onCreate={() => {
               history.push(`${window.location.pathname}/0000000`);
             }}
-            onDeleteMany={() => setShowDeleteMany(true)}
             entities={entities}
             total={total}
             columns={columns as any}
@@ -513,19 +516,10 @@ function User() {
         onHide={() => {
           setShowDelete(false);
         }}
-        title={deleteDialogTitle}
-        bodyTitle={deleteDialogBodyTitle}
-      />
-      <DeleteManyEntitiesDialog
-        moduleName={moduleName}
-        selectedEntities={selectedEntities}
-        loading={loading}
-        isShow={showDeleteMany}
-        onDelete={deleteMany}
-        error={error}
-        onHide={() => {
-          setShowDeleteMany(false);
-        }}
+        title={lockDialogTitle}
+        confirmMessage={lockConfirmMessage}
+        bodyTitle={lockDialogBodyTitle}
+        deletingMessage={lockingMessage}
       />
     </Fragment>
   );
