@@ -32,9 +32,10 @@ export const GetState = ({queryProps, paginationProps}: any): Promise<any> => {
 export const GetCity = ({queryProps, paginationProps}: any): Promise<any> => {
   return new Promise((resolve, reject) => {
     const {state, ...queries} = queryProps;
+    console.log(state)
     const {code} = StateList.find((val, index, arr) => {
       return val.name_with_type === state;
-    }) ?? {} as any;
+    }) as any;
     let totalData = CityList.filter((val, index, arr) => {
       return Object.values(queries).some((query: any) => val.name_with_type.toLowerCase().indexOf(query.toLowerCase()) > -1);
     })
@@ -64,7 +65,7 @@ export const GetDistrict = ({queryProps, paginationProps}: any): Promise<any> =>
     const {city, ...queries} = queryProps;
     const {code} = CityList.find((val, index, arr) => {
       return val.name_with_type === city;
-    }) ?? {} as any;
+    }) as any;
     let totalData = DistrictList.filter((val, index, arr) => {
       return Object.values(queries).some((query: any) => val.name_with_type.toLowerCase().indexOf(query.toLowerCase()) > -1);
     })

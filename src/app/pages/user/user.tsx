@@ -1,4 +1,4 @@
-import React, {Fragment, useCallback, useEffect, useMemo, useState} from 'react';
+import React, {Fragment, useEffect, useMemo, useState} from 'react';
 import {useIntl} from 'react-intl';
 import {DefaultPagination, iconStyle, NormalColumn, SortColumn} from '../../common-library/common-consts/const';
 import {MasterHeader} from '../../common-library/common-components/master-header';
@@ -156,19 +156,6 @@ function User() {
             setDeleteEntity(entity);
             setShowDelete(true);
           },
-          onChangeRole: (entity: UserModel) => {
-            get(entity).then(e => {
-              setCreateEntity({
-                ...e.data,
-                _id: undefined,
-                __v: undefined,
-                createdAt: undefined,
-                updatedAt: undefined
-              } as any);
-              history.push(`${window.location.pathname}/0000000`);
-      
-            })
-          },
         },
         ...NormalColumn,
         style: {minWidth: '130px'},
@@ -199,14 +186,11 @@ function User() {
     },
   ], []);
   const [managementUnit, setManagementUnit] = useState<any>(null);
-  const getRole = useCallback(({queryProps, paginationProps}: any): Promise<any> => {
-    return RoleService.GetAll({queryProps: {...queryProps, managementUnit}, paginationProps})
-  }, [managementUnit?._id]);
   const searchModel: SearchModel = {
     managementUnit: {
       type: 'tree-select',
       label: 'USER.MASTER.SEARCH.ORGANIZATION',
-      onSearch: ({queryProps, sortList, paginationProps,}) => {
+      onSearch: ({queryProps, sortList, paginationProps,}: any) => {
         return ManagementUnitService.GetAll({queryProps}).then((e) => {
           return (e.data);
         })
@@ -222,7 +206,12 @@ function User() {
     role: {
       type: 'search-select',
       label: 'USER.MASTER.SEARCH.ROLE',
-      onSearch: getRole,
+      onSearch: ({queryProps, paginationProps}: any, values: any): Promise<any> => {
+        return RoleService.GetAll({
+          queryProps: {...queryProps, managementUnit: {...values?.managementUnit}},
+          paginationProps
+        })
+      },
       keyField: 'name',
       disabled: (values: any) => {
         return !(values.managementUnit);
@@ -251,18 +240,6 @@ function User() {
       label: 'USER.MASTER.SEARCH.PHONE',
     },
   };
-  const [state, setState] = useState<string | null | undefined>(null);
-  const [city, setCity] = useState<string | null | undefined>(null);
-  useEffect(() => {
-    setState(editEntity?.address?.state);
-    setCity(editEntity?.address?.city);
-  }, [editEntity]);
-  const getCity = useCallback(({queryProps, paginationProps}: any): Promise<any> => {
-    return GetCity({queryProps: {...queryProps, state}, paginationProps})
-  }, [state]);
-  const getDistrict = useCallback(({queryProps, paginationProps}: any): Promise<any> => {
-    return GetDistrict({queryProps: {...queryProps, city}, paginationProps})
-  }, [city]);
   const group1 = useMemo((): ModifyInputGroup => ({
     _subTitle: 'USER.MODIFY.DETAIL_INFO',
     _className: 'col-6 pr-xl-15 pr-md-10 pr-5',
@@ -314,7 +291,7 @@ function User() {
         false: '0'
       }
     },
-  }), [getCity, getDistrict]);
+  }), []);
   const group2 = useMemo((): ModifyInputGroup => ({
     _subTitle: 'EMPTY',
     _className: 'col-6 pl-xl-15 pl-md-10 pl-5',
@@ -339,30 +316,29 @@ function User() {
         disabled: (values: any) => {
           console.log(values)
         },
-        onChange: (value: any, {setFieldValue, setFieldTouched}: any) => {
-          if (state != value) {
-            setCity(null);
+        onChange: (value: any, {setFieldValue, setFieldTouched, values}: any) => {
+          if (values?.address?.state !== value) {
             setFieldValue('address.city', '');
             setFieldTouched('address.city', false);
             setFieldValue('address.district', '');
             setFieldTouched('address.district', false);
           }
-          setState(value);
         },
         required: true,
         label: 'USER.MODIFY.STATE',
       },
       city: {
         _type: 'search-select',
-        onSearch: getCity,
+        onSearch: ({queryProps, paginationProps}: any, values: any): Promise<any> => {
+          return GetCity({queryProps: {...queryProps, state: values?.address?.state}, paginationProps})
+        },
         // selectField: 'code',
         required: true,
-        onChange: (value: any, {setFieldValue, setFieldTouched}: any) => {
-          if (city != value) {
+        onChange: (value: any, {setFieldValue, setFieldTouched, values}: any) => {
+          if (values?.address?.city != value) {
             setFieldValue('address.district', '');
             setFieldTouched('address.district', false);
           }
-          setCity(value);
         },
         disabled: (values: any) => {
           return (values?.address?.state === '');
@@ -371,7 +347,9 @@ function User() {
       },
       district: {
         _type: 'search-select',
-        onSearch: getDistrict,
+        onSearch: ({queryProps, paginationProps}: any, values: any): Promise<any> => {
+          return GetDistrict({queryProps: {...queryProps, city: values?.address?.city}, paginationProps})
+        },
         // selectField: 'code',
         required: true,
         disabled: (values: any) => {
@@ -404,13 +382,18 @@ function User() {
     role: {
       _type: 'search-select',
       label: 'USER.MODIFY.ROLE',
-      onSearch: getRole,
+      onSearch: ({queryProps, paginationProps}: any, values: any): Promise<any> => {
+        return RoleService.GetAll({
+          queryProps: {...queryProps, managementUnit: {...values?.managementUnit}},
+          paginationProps
+        })
+      },
       keyField: 'name',
       disabled: (values: any) => {
         return !(values?.managementUnit);
       },
     },
-  }), [getRole]);
+  }), []);
   
   const createForm = useMemo((): ModifyForm => ({
     _header: createTitle,
