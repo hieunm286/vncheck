@@ -394,13 +394,14 @@ function ProductionPlan() {
         <button
           className="btn btn-primary"
           onClick={() => {
-            ProductionPlanService.GetById(row._id).then(res => {
-              setEditEntity(res.data);
-              history.push({
-                pathname: '/production-plan/' + row._id + '/new',
-                state: res.data,
-              });
-            });
+            // ProductionPlanService.GetById(row._id).then(res => {
+            //   setEditEntity(res.data);
+             
+            // });
+            history.push({
+              pathname: '/production-plan/' + row._id + '/new',
+              
+            })
           }}>
           + Tạo mới
         </button>
@@ -497,13 +498,14 @@ function ProductionPlan() {
           ((username === 'admin' && (row.confirmationStatus === '3' || row.confirmationStatus === '2')) || username !== 'admin') ? <button
           className="btn btn-primary pl-6 pr-6"
           onClick={() => {
-            ProductionPlanService.GetById(row._id).then(res => {
-              setEditEntity(res.data);
-              history.push({
-                pathname: '/production-plan/plan-view/' + row._id,
-                state: res.data,
-              });
-            });
+            // ProductionPlanService.GetById(row._id).then(res => {
+            //   setEditEntity(res.data);
+              
+            // });
+
+            history.push({
+              pathname: '/production-plan/plan-view/' + row._id,
+            })
           }}
           // disabled={row.confirmationStatus === '3' || row.confirmationStatus === '2'}
           >
@@ -513,13 +515,15 @@ function ProductionPlan() {
         <button
           className="btn btn-primary"
           onClick={() => {
-            ProductionPlanService.GetById(row._id).then(res => {
-              setEditEntity(res.data);
-              history.push({
-                pathname: '/production-plan/plan-view/' + row._id,
-                state: res.data,
-              });
-            });
+            // ProductionPlanService.GetById(row._id).then(res => {
+            //   setEditEntity(res.data);
+              
+            // });
+
+            history.push({
+              pathname: '/production-plan/plan-view/' + row._id,
+              
+            })
           }}
           // disabled={row.confirmationStatus === '3' || row.confirmationStatus === '2'}
           >
@@ -614,12 +618,13 @@ function ProductionPlan() {
           });
         },
         onEdit: (entity: any) => {
-          ProductionPlanService.GetById(entity._id).then(res => {
-            setEditEntity(res.data);
-            history.push({
-              pathname: '/production-plan/' + entity._id + '/new',
-              state: res.data,
-            });
+          // ProductionPlanService.GetById(entity._id).then(res => {
+          //   setEditEntity(res.data);
+            
+          // });
+          history.push({
+            pathname: '/production-plan/' + entity._id + '/new',
+            state: '2',
           });
         },
       },
@@ -678,6 +683,7 @@ function ProductionPlan() {
           // setNoticeModal(true);
           setStep('1');
           setSubmit(true);
+          // setCurrentTab("1")
         },
       },
       save: {
@@ -703,6 +709,45 @@ function ProductionPlan() {
       },
     },
   };
+
+  const adminEditFormButton: any = {
+    type: 'outside',
+    data: {
+      save: {
+        role: 'submit',
+        type: 'button',
+        linkto: undefined,
+        className: 'btn btn-primary mr-5 pl-8 pr-8',
+        label: 'SAVE_BTN_LABEL',
+        // icon: <CancelOutlinedIcon />,
+        onClick: () => {
+          // setNoticeModal(true);
+          setStep('0');
+          setSubmit(false);
+        },
+      },
+      sendRequest: {
+        role: 'button',
+        type: 'button',
+        linkto: undefined,
+        className: 'btn btn-outline-primary mr-5 pl-8 pr-8',
+        label: 'Khôi phục',
+        // icon: <SaveOutlinedIcon />,
+        onClick: () => {
+          // setNoticeModal(true);
+          window.location.reload()
+        },
+      }, 
+      cancel: {
+        role: 'link-button',
+        type: 'button',
+        linkto: '/production-plan',
+        className: 'btn btn-outline-primary mr-2 pl-8 pr-8',
+        label: 'CANCEL_BTN_LABEL',
+        // icon: <CancelOutlinedIcon />,
+      },
+    },
+  };
   
   const allFormButton2: any = {
     type: 'outside',
@@ -716,6 +761,7 @@ function ProductionPlan() {
         // icon: <SaveOutlinedIcon />,
         onClick: () => {
           // setNoticeModal(true);
+          // setCurrentTab('1')
           setStep('1');
           setSubmit(true);
         },
@@ -773,20 +819,8 @@ function ProductionPlan() {
           setStep('2');
           approve(entity)
             .then(res => {
-              if (currentTab !== '1') {
-                console.log('runnnnn')
-                updateProcess(entity)
-                  .then(ress => {
-                    refreshData();
-                    setCurrentTab('2');
-                    history.push('/production-plan');
-                  })
-                  .catch(error => {
-                  });
-              } else {
-                setCurrentTab('2');
-                history.push('/production-plan');
-              }
+              setCurrentTab('2');
+              history.push('/production-plan');
             })
             .catch(error => {
             });
@@ -817,12 +851,13 @@ function ProductionPlan() {
         label: 'Chỉnh sửa',
         // icon: <CancelOutlinedIcon/>,
         onClick: (entity: any) => {
-          ProductionPlanService.GetById(entity._id).then(res => {
-            setEditEntity(res.data);
-            history.push({
-              pathname: '/production-plan/' + entity._id + '/new',
-              state: res.data,
-            });
+          // ProductionPlanService.GetById(entity._id).then(res => {
+          //   setEditEntity(res.data);
+            
+          // });
+          history.push({
+            pathname: '/production-plan/' + entity._id + '/new',
+            state: '5',
           });
         },
       },
@@ -1199,7 +1234,7 @@ function ProductionPlan() {
             tagData: userData,
             required: true,
             disabled: (values: any) => {
-              return CheckDisabled(values.harvesting, values.process, harvestingProcess)
+              return CheckDisabled(values?.harvesting, values?.process, harvestingProcess)
             },
           },
           leader: {
@@ -1209,7 +1244,7 @@ function ProductionPlan() {
             tagData: userData,
             required: true,
             disabled: (values: any) => {
-              return CheckDisabled(values.harvesting, values.process, harvestingProcess)
+              return CheckDisabled(values?.harvesting, values?.process, harvestingProcess)
             },
           },
         },
@@ -1231,8 +1266,10 @@ function ProductionPlan() {
             _type: 'date-time',
             // placeholder: 'Mã gieo giống',
             label: 'PRELIMINARY_TREATMENT_TIME',
+            showTime: true,
+            format: 'DD/MM/yyyy HH:mm',
             disabled: (values: any) => {
-              return CheckDisabled(values.preliminaryTreatment, values.process, preliminaryTreatmentProcess)
+              return CheckDisabled(values?.preliminaryTreatment, values?.process, preliminaryTreatmentProcess)
             },
   
           },
@@ -1241,7 +1278,7 @@ function ProductionPlan() {
             // placeholder: 'Mã gieo giống',
             label: 'PRELIMINARY_TREATMENT_QUANTITY',
             disabled: (values: any) => {
-              return CheckDisabled(values.preliminaryTreatment, values.process, preliminaryTreatmentProcess)
+              return CheckDisabled(values?.preliminaryTreatment, values?.process, preliminaryTreatmentProcess)
             },
           },
         },
@@ -1257,7 +1294,7 @@ function ProductionPlan() {
             tagData: userData,
             label: 'PRELIMINARY_TREATMENT_TECHNICAL',
             disabled: (values: any) => {
-              return CheckDisabled(values.preliminaryTreatment, values.process, preliminaryTreatmentProcess)
+              return CheckDisabled(values?.preliminaryTreatment, values?.process, preliminaryTreatmentProcess)
             },
           },
           leader: {
@@ -1266,7 +1303,7 @@ function ProductionPlan() {
             label: 'PRELIMINARY_TREATMENT_LEADER',
             tagData: userData,
             disabled: (values: any) => {
-              return CheckDisabled(values.preliminaryTreatment, values.process, preliminaryTreatmentProcess)
+              return CheckDisabled(values?.preliminaryTreatment, values?.process, preliminaryTreatmentProcess)
             },
           },
         },
@@ -1287,9 +1324,11 @@ function ProductionPlan() {
           estimatedTime: {
             _type: 'date-time',
             // placeholder: 'Mã gieo giống',
+            showTime: true,
+            format: 'DD/MM/yyyy HH:mm',
             label: 'CLEANING_TIME',
             disabled: (values: any) => {
-              return CheckDisabled(values.cleaning, values.process, cleaningProcess)
+              return CheckDisabled(values?.cleaning, values?.process, cleaningProcess)
             },
   
           },
@@ -1298,7 +1337,7 @@ function ProductionPlan() {
             // placeholder: 'Mã gieo giống',
             label: 'CLEANING_QUANTITY',
             disabled: (values: any) => {
-              return CheckDisabled(values.cleaning, values.process, cleaningProcess)
+              return CheckDisabled(values?.cleaning, values?.process, cleaningProcess)
             },
           },
         },
@@ -1315,7 +1354,7 @@ function ProductionPlan() {
             root: 'cleaning',
             tagData: userData,
             disabled: (values: any) => {
-              return CheckDisabled(values.cleaning, values.process, cleaningProcess)
+              return CheckDisabled(values?.cleaning, values?.process, cleaningProcess)
             },
           },
           leader: {
@@ -1325,7 +1364,7 @@ function ProductionPlan() {
             root: 'cleaning',
             tagData: userData,
             disabled: (values: any) => {
-              return CheckDisabled(values.cleaning, values.process, cleaningProcess)
+              return CheckDisabled(values?.cleaning, values?.process, cleaningProcess)
             },
           },
         },
@@ -1347,8 +1386,10 @@ function ProductionPlan() {
             _type: 'date-time',
             // placeholder: 'Mã gieo giống',
             label: 'PACKING_TIME',
+            showTime: true,
+            format: 'DD/MM/yyyy HH:mm',
             disabled: (values: any) => {
-              return CheckDisabled(values.packing, values.process, packingProcess);
+              return CheckDisabled(values?.packing, values?.process, packingProcess);
             },
   
           },
@@ -1356,8 +1397,10 @@ function ProductionPlan() {
             _type: 'date-time',
             // placeholder: 'Hạn sử dụng',
             label: 'PACKING_EXPIRY_START',
+            showTime: true,
+            format: 'DD/MM/yyyy HH:mm',
             disabled: (values: any) => {
-              return CheckDisabled(values.packing, values.process, packingProcess);
+              return CheckDisabled(values?.packing, values?.process, packingProcess);
             },
             onChange: (val: any, values: any, setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => void) => {
               if (val) {
@@ -1377,6 +1420,8 @@ function ProductionPlan() {
             _type: 'date-time',
             // placeholder: 'Hạn sử dụng',
             label: 'PACKING_EXPIRY_END',
+            // showTime: true,
+            // format: 'DD/MM/yyyy HH:mm',
             disabled: true
             
           },
@@ -1392,7 +1437,7 @@ function ProductionPlan() {
             },
             keyField: 'weight',
             disabled: (values: any) => {
-              return CheckDisabled(values.packing, values.process, packingProcess);
+              return CheckDisabled(values?.packing, values?.process, packingProcess);
             },
             // required: true,
             // onDisplayOptions: (e:ProductPackagingModel)=> e.species.weight,
@@ -1412,7 +1457,7 @@ function ProductionPlan() {
             // placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
             label: 'PRODUCTION_PLAN_FORM_PACKING_QUANTITY',
             disabled: (values: any) => {
-              return CheckDisabled(values.packing, values.process, packingProcess);
+              return CheckDisabled(values?.packing, values?.process, packingProcess);
             },
           },
           technical: {
@@ -1421,7 +1466,7 @@ function ProductionPlan() {
             label: 'KCS',
             tagData: userData,
             disabled: (values: any) => {
-              return CheckDisabled(values.packing, values.process, packingProcess);
+              return CheckDisabled(values?.packing, values?.process, packingProcess);
             },
           },
           leader: {
@@ -1430,7 +1475,7 @@ function ProductionPlan() {
             label: 'PACKING_LEADER',
             tagData: userData,
             disabled: (values: any) => {
-              return CheckDisabled(values.packing, values.process, packingProcess);
+              return CheckDisabled(values?.packing, values?.process, packingProcess);
             },
           },
         },
@@ -1452,8 +1497,10 @@ function ProductionPlan() {
             _type: 'date-time',
             // placeholder: 'Mã gieo giống',
             label: 'PRESERVATION_TIME_START',
+            showTime: true,
+            format: 'DD/MM/yyyy HH:mm',
             disabled: (values: any) => {
-              return CheckDisabled(values.preservation, values.process, preservationProcess);
+              return CheckDisabled(values?.preservation, values?.process, preservationProcess);
             },
   
           },
@@ -1461,8 +1508,10 @@ function ProductionPlan() {
             _type: 'date-time',
             // placeholder: 'Mã gieo giống',
             label: 'PRESERVATION_TIME_END',
+            showTime: true,
+            format: 'DD/MM/yyyy HH:mm',
             disabled: (values: any) => {
-              return CheckDisabled(values.preservation, values.process, preservationProcess);
+              return CheckDisabled(values?.preservation, values?.process, preservationProcess);
             },
   
           },
@@ -1479,7 +1528,7 @@ function ProductionPlan() {
             // placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
             label: 'PRESERVATION_TECHNICAL',
             disabled: (values: any) => {
-              return CheckDisabled(values.preservation, values.process, preservationProcess);
+              return CheckDisabled(values?.preservation, values?.process, preservationProcess);
             },
           },
         },
@@ -1517,7 +1566,7 @@ function ProductionPlan() {
           {({history, match}) => (
             <>
               <ProductionPlanCrud
-                entity={history.location.state}
+                // entity={history.location.state}
                 setEditEntity={setEditEntity}
                 onModify={ProductionPlanService.Update}
                 title={createTitle}
@@ -1527,7 +1576,7 @@ function ProductionPlan() {
                 formPart={formPart}
                 formModel={updateForm}
                 allFormField={allFormField}
-                allFormButton={currentTab !== '2' ? allFormButton : allFormButton2}
+                allFormButton={history.location.state === '5' ? adminEditFormButton : history.location.state === '2' ? allFormButton2 : allFormButton}
                 validation={ProductPlantSchema}
                 autoFill={{
                   field: '',

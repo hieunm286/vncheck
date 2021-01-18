@@ -14,11 +14,11 @@ import { ModifyForm } from '../../common-library/common-types/common-type';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import './style/production-plan.scss';
 import ProductionPlanComments from './production-plan-comments';
-import { diff, notifyError, validationForm, validField, validNested } from './defined/crud-helped';
+import { diff, notifyError, notifySuccess, validationForm, validField, validNested } from './defined/crud-helped';
 
 interface Prop {
   title: string;
-  entity: any;
+  entity?: any;
   setEditEntity: (entity: any) => void;
   onModify: (values: any) => Promise<AxiosResponse<any>>;
   reduxModel?: string;
@@ -82,7 +82,7 @@ function ProductionPlanCrud({
   const [noticeModal, setNoticeModal] = useState(false);
 
 
-  const [commentsArr, setCommentArr] = useState(entity.comments || []);
+  const [commentsArr, setCommentArr] = useState(entity?.comments || []);
 
   useEffect(() => {
     if (code) {
@@ -109,6 +109,7 @@ function ProductionPlanCrud({
         setNoticeModal(true);
         setErrorMsg(undefined);
         refreshData();
+        notifySuccess('Lưu thành công')
         history.push(homePage || GetHomePage(window.location.pathname));
       })
       .catch(error => {
@@ -278,6 +279,7 @@ function ProductionPlanCrud({
                   .then(ress => {
                     setErrorMsg(undefined);
                     refreshData();
+                    notifySuccess('Gửi duyệt thành công')
                     history.push(homePage || GetHomePage(window.location.pathname));
                   })
                   .catch(error => {
@@ -300,6 +302,7 @@ function ProductionPlanCrud({
               .then(res => {
                 setErrorMsg(undefined);
                 refreshData();
+                notifySuccess('Phê duyệt thành công')
                 history.push(homePage || GetHomePage(window.location.pathname));
               })
               .catch(error => {
@@ -384,7 +387,7 @@ function ProductionPlanCrud({
                           }}
                           className={allFormButton.data[keyss].className}
                           key={keyss}>
-                          {allFormButton.data[keyss].icon} {allFormButton.data[keyss].label}
+                          {allFormButton.data[keyss].icon} {intl.formatMessage({ id: allFormButton.data[keyss].label })}
                         </button>
                       );
 
@@ -399,7 +402,7 @@ function ProductionPlanCrud({
                           className={allFormButton.data[keyss].className}
                           key={keyss}>
                           {allFormButton.data[keyss].icon ?? <></>}{' '}
-                          {allFormButton.data[keyss].label}
+                          {intl.formatMessage({ id: allFormButton.data[keyss].label })}
                         </button>
                       );
 
@@ -412,7 +415,7 @@ function ProductionPlanCrud({
                           onClick={() => {
                             allFormButton.data[keyss].onClick();
                           }}>
-                          {allFormButton.data[keyss].icon} {allFormButton.data[keyss].label}
+                          {allFormButton.data[keyss].icon} {intl.formatMessage({ id: allFormButton.data[keyss].label })}
                         </button>
                       );
                     case 'link-button':
@@ -425,7 +428,7 @@ function ProductionPlanCrud({
                           onClick={() => {
                             setConfirmModal(true);
                           }}>
-                          {allFormButton.data[keyss].icon} {allFormButton.data[keyss].label}
+                          {allFormButton.data[keyss].icon} {intl.formatMessage({ id: allFormButton.data[keyss].label })}
                         </button>
                         // </Link>
                       );

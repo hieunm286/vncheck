@@ -140,7 +140,7 @@ function EntityCrudPage({
                                     type={actions.data[keyss].type}
                                     className={actions.data[keyss].className}
                                     key={keyss}>
-                                    {actions.data[keyss].icon} {actions.data[keyss].label}
+                                    {actions.data[keyss].icon} {intl.formatMessage({id: actions.data[keyss].label})}
                                   </button>
                                 );
                               case 'link-button':
