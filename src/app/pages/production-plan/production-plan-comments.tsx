@@ -23,16 +23,20 @@ const ProductionPlanComments = ({
   entity,
   onComments,
 }: {
-  entity: any;
+  entity?: any;
   onComments?: (entity: any, data: { content: string }) => Promise<AxiosResponse<any>>;
 }) => {
   const valueRef = React.useRef<any>({ value: '' });
-  const [commentsArr, setCommentArr] = React.useState(entity.comments || []);
+  const [commentsArr, setCommentArr] = React.useState(entity?.comments || []);
 
-  console.log(entity);
+  React.useEffect(() => {
+    if (entity) {
+      setCommentArr(entity.comments)
+    } 
+  }, [entity])
 
   const handleComment = (entity: any, comment: any) => {
-    if (onComments) {
+    if (onComments && entity) {
       onComments(entity, comment)
         .then(res => {
           setCommentArr(res.data);
@@ -64,7 +68,7 @@ const ProductionPlanComments = ({
             //       'Kế hoạch như tốt mai cho nghỉ việc..........vsdgkdfhkdfoihnsoirnhiosgboisdnbiodrgiosehuigheubguiwebguwebiugwebfiuwebfiuwebguiebgierdnhiordnhoifdnhidofjhpọhpotfjpofk',
             //   },
             // ]
-            commentsArr.map(
+            commentsArr?.map(
               (
                 value: { createdBy: { _id: string; fullName: string }; content: string },
                 key: number,

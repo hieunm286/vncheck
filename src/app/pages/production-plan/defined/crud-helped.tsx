@@ -15,6 +15,18 @@ export const notifyError = (error: string) => {
   });
 };
 
+export const notifySuccess = (message: string) => {
+  toast.success(message, {
+    position: 'top-right',
+    autoClose: 3000,
+    hideProgressBar: true,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+  });
+}
+
 export const diff = (obj1: any, obj2: any) => {
   if (!obj2 || Object.prototype.toString.call(obj2) !== '[object Object]') {
     return obj1;
