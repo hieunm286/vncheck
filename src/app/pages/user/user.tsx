@@ -157,7 +157,17 @@ function User() {
             setShowDelete(true);
           },
           onChangeRole: (entity: UserModel) => {
-            console.log("NOT IMPLEMENTED");
+            get(entity).then(e => {
+              setCreateEntity({
+                ...e.data,
+                _id: undefined,
+                __v: undefined,
+                createdAt: undefined,
+                updatedAt: undefined
+              } as any);
+              history.push(`${window.location.pathname}/0000000`);
+      
+            })
           },
         },
         ...NormalColumn,
@@ -171,7 +181,7 @@ function User() {
       className: 'col-md-6 col-12',
       dataClassName: 'col-md-12 col-12 text-lg-center',
       data: {
-        image: {
+        images: {
           formatter: (input) => <DetailImage images={input} width={200} height={200}/>
         },
       },
@@ -256,7 +266,7 @@ function User() {
   const group1 = useMemo((): ModifyInputGroup => ({
     _subTitle: 'USER.MODIFY.DETAIL_INFO',
     _className: 'col-6 pr-xl-15 pr-md-10 pr-5',
-    image: {
+    images: {
       _type: 'image',
       maxNumber: 1,
       label: 'USER.MODIFY.IMAGE',
@@ -449,7 +459,7 @@ function User() {
       }
     }
   }), [loading]);
-  const initCreateValues = useMemo(() => ({...InitValues(createForm), status: 'false'}), [createForm]);
+  const initCreateValues: any = useMemo(() => ({...InitValues(createForm), status: 'false'}), [createForm]);
   return (
     <Fragment>
       <Switch>
@@ -458,7 +468,7 @@ function User() {
             moduleName={moduleName}
             onModify={add}
             formModel={createForm}
-            entity={initCreateValues}
+            entity={createEntity}
             actions={actions}
             validation={validationSchema}
           />
@@ -488,6 +498,7 @@ function User() {
           <MasterBody
             title={tableTitle}
             onCreate={() => {
+              setCreateEntity(initCreateValues);
               history.push(`${window.location.pathname}/0000000`);
             }}
             entities={entities}
