@@ -1,18 +1,18 @@
-import React, {useCallback, useEffect, useState} from 'react';
-import {useIntl} from 'react-intl';
-import {Link, Route, Switch, useHistory} from 'react-router-dom';
-import {Card, CardBody} from '../../common-library/card';
-import {InitMasterProps} from '../../common-library/helpers/common-function';
-import {Steps} from 'antd';
-import {DefaultPagination, SortColumn} from '../../common-library/common-consts/const';
-import {MasterHeader} from '../../common-library/common-components/master-header';
-import {SearchModel} from '../../common-library/common-types/common-type';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useIntl } from 'react-intl';
+import { Link, Route, Switch, useHistory } from 'react-router-dom';
+import { Card, CardBody, CardStyle1 } from '../../common-library/card';
+import { InitMasterProps } from '../../common-library/helpers/common-function';
+import { Steps } from 'antd';
+import { DefaultPagination, SortColumn } from '../../common-library/common-consts/const';
+import { MasterHeader } from '../../common-library/common-components/master-header';
+import { SearchModel } from '../../common-library/common-types/common-type';
 import * as SpeciesService from '../species/species.service';
-import {Fix} from '../production-plan/defined/const';
+import { Fix } from '../production-plan/defined/const';
 import * as ProductionPlanService from '../production-plan/production-plan.service';
-import {ProductionPlanModel} from '../production-plan/production-plant.model';
-import {MasterTable} from '../../common-library/common-components/master-table';
-import {MasterEntityDetailPage} from '../../common-library/common-components/master-detail-page';
+import { ProductionPlanModel } from '../production-plan/production-plant.model';
+import { MasterTable } from '../../common-library/common-components/master-table';
+import { MasterEntityDetailPage } from '../../common-library/common-components/master-detail-page';
 import {
   CleaningDetail,
   harvestingDetail,
@@ -22,7 +22,7 @@ import {
 } from './defined/const';
 import _ from 'lodash';
 
-const {Step} = Steps;
+const { Step } = Steps;
 
 const productPlanCode = 'PRODUCTION_PLAN.CODE';
 const harvestingCode = 'PRODUCTION_PLAN.HARVESTING_CODE';
@@ -36,25 +36,25 @@ const extendSearchField: SearchModel = {
     type: 'search-select',
     label: 'PRODUCTION_PLAN.SPECIES_NAME',
     onSearch: SpeciesService.GetAll,
-    onChange: (value, {setFieldValue, values}) => {
+    onChange: (value, { setFieldValue, values }) => {
       console.log(value, values);
       if (value) value.barcode = values.product_plan?.seeding?.species?.barcode;
-      else return {barcode: values.product_plan?.seeding?.species?.barcode}
+      else return { barcode: values.product_plan?.seeding?.species?.barcode };
     },
     keyField: 'name',
-    name: 'product_plan.seeding.species',
+    name: 'seeding.species',
   },
   barcode: {
     type: 'string',
     label: 'GTIN',
-    name: 'product_plan.seeding.species.barcode',
+    name: 'seeding.species.barcode',
   },
 };
 
 const estimatedHarvestTime: SearchModel = {
   estimatedHarvestTime: {
     type: 'date-time',
-    name: 'product_plan.planting.estimatedHarvestTime',
+    name: 'planting.estimatedHarvestTime',
     label: <Fix title={'PRODUCTION_PLAN.HARVEST_DATE'} />,
   },
 };
@@ -67,7 +67,7 @@ const PM_HarvestingSearchModel: SearchModel = {
   harvestingCode: {
     type: 'string',
     label: harvestingCode,
-    name: 'product_plan.harvesting.code',
+    name: 'harvesting.code',
   },
   ...extendSearchField,
   // plantCode: {
@@ -78,17 +78,17 @@ const PM_HarvestingSearchModel: SearchModel = {
   startTime: {
     type: 'date-time',
     label: <Fix title={'HARVESTING_START_TIME'} />,
-    name: 'product_plan.harvesting.startTime',
+    name: 'harvesting.startTime',
   },
   endTime: {
     type: 'date-time',
     label: <Fix title={'HARVESTING_END_TIME'} />,
-    name: 'product_plan.harvesting.endTime',
+    name: 'harvesting.endTime',
   },
   landLot: {
     type: 'string',
     label: 'PLANTING_LAND_LOT',
-    name: 'product_plan.planting.landlot',
+    name: 'planting.landLot.code',
   },
 };
 
@@ -100,23 +100,23 @@ const PM_PreliminaryTreatmentSearchModel: SearchModel = {
   harvestingCode: {
     type: 'string',
     label: harvestingCode,
-    name: 'product_plan.harvesting.code',
+    name: 'harvesting.code',
   },
   preliminaryTreatmentCode: {
     type: 'string',
     label: preliminaryTreatmentCode,
-    name: 'product_plan.preliminaryTreatment.code',
+    name: 'preliminaryTreatment.code',
   },
   ...extendSearchField,
   preliminaryTreatmentStartTime: {
     type: 'date-time',
     label: <Fix title={'PRELIMINARY_TREATMENT_START_TIME'} />,
-    name: 'product_plan.preliminaryTreatment.startTime',
+    name: 'preliminaryTreatment.startTime',
   },
   preliminaryTreatmentEndTime: {
     type: 'date-time',
     label: <Fix title={'PRELIMINARY_TREATMENT_END_TIME'} />,
-    name: 'product_plan.preliminaryTreatment.endTime',
+    name: 'preliminaryTreatment.endTime',
   },
 };
 
@@ -128,28 +128,28 @@ const PM_CleaningSearchModel: SearchModel = {
   harvestingCode: {
     type: 'string',
     label: harvestingCode,
-    name: 'product_plan.harvesting.code',
+    name: 'harvesting.code',
   },
   preliminaryTreatmentCode: {
     type: 'string',
     label: preliminaryTreatmentCode,
-    name: 'product_plan.preliminaryTreatment.code',
+    name: 'preliminaryTreatment.code',
   },
   cleaningCode: {
     type: 'string',
     label: cleaningCode,
-    name: 'product_plan.cleaning.code',
+    name: 'cleaning.code',
   },
   ...extendSearchField,
   cleaningStartTime: {
     type: 'date-time',
     label: <Fix title={'CLEANING_START_TIME'} />,
-    name: 'product_plan.cleaning.startTime',
+    name: 'cleaning.startTime',
   },
   cleaningEndTime: {
     type: 'date-time',
     label: <Fix title={'CLEANING_END_TIME'} />,
-    name: 'product_plan.cleaning.endTime',
+    name: 'cleaning.endTime',
   },
 };
 
@@ -161,29 +161,29 @@ const PM_PackingSearchModel: SearchModel = {
   harvestingCode: {
     type: 'string',
     label: harvestingCode,
-    name: 'product_plan.harvesting.code',
+    name: 'harvesting.code',
   },
   preliminaryTreatmentCode: {
     type: 'string',
     label: preliminaryTreatmentCode,
-    name: 'product_plan.preliminaryTreatment.code',
+    name: 'preliminaryTreatment.code',
   },
   cleaningCode: {
     type: 'string',
     label: cleaningCode,
-    name: 'product_plan.cleaning.code',
+    name: 'cleaning.code',
   },
   packingCode: {
     type: 'string',
     label: 'PRODUCTION_PLAN.PACKING.CODE',
-    name: 'product_plan.packing.code',
+    name: 'packing.code',
   },
   ...extendSearchField,
   packing: {
     type: 'string',
     label: 'PRODUCT_PACKAGING.MODULE_NAME',
-    name: 'product_plan.packing',
-  }
+    name: 'packing',
+  },
 };
 
 const PM_PreservationSearchModel: SearchModel = {
@@ -194,38 +194,38 @@ const PM_PreservationSearchModel: SearchModel = {
   harvestingCode: {
     type: 'string',
     label: harvestingCode,
-    name: 'product_plan.harvesting.code',
+    name: 'harvesting.code',
   },
   preliminaryTreatmentCode: {
     type: 'string',
     label: preliminaryTreatmentCode,
-    name: 'product_plan.preliminaryTreatment.code',
+    name: 'preliminaryTreatment.code',
   },
   cleaningCode: {
     type: 'string',
     label: cleaningCode,
-    name: 'product_plan.cleaning.code',
+    name: 'cleaning.code',
   },
   packingCode: {
     type: 'string',
     label: 'PRODUCTION_PLAN.PACKING.CODE',
-    name: 'product_plan.packing.code',
+    name: 'packing.code',
   },
   preservationCode: {
     type: 'string',
     label: preservationCode,
-    name: 'product_plan.preservation.code',
+    name: 'preservation.code',
   },
   ...extendSearchField,
   preservationStartTime: {
     type: 'date-time',
     label: <Fix title={'PRESERVATION_START_TIME'} />,
-    name: 'product_plan.preservation.startTime',
+    name: 'preservation.startTime',
   },
   preservationEndTime: {
     type: 'date-time',
     label: <Fix title={'PRESERVATION_END_TIME'} />,
-    name: 'product_plan.preservation.endTime',
+    name: 'preservation.endTime',
   },
 };
 
@@ -289,17 +289,15 @@ function ProductionManagement() {
 
   const extendField = {
     species: {
-      dataField: 'product_plan.seeding.species.name',
+      dataField: 'seeding.species.name',
       text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.SPECIES_NAME' })}`,
-      formatter: (cell: any, row: any, rowIndex: number) => (
-        <span>{row.seeding.species.name}</span>
-      ),
+      formatter: (cell: any, row: any, rowIndex: number) => <span>{row.seeding.species.name}</span>,
       ...SortColumn,
       classes: 'text-center',
       headerClasses: 'text-center',
     },
     GTIN: {
-      dataField: 'product_plan.seeding.species.barcode',
+      dataField: 'seeding.species.barcode',
       text: `${intl.formatMessage({ id: 'GTIN' })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
         <span>{row.seeding.species.barcode}</span>
@@ -330,7 +328,7 @@ function ProductionManagement() {
       classes: 'text-center',
     },
     harvestingCode: {
-      dataField: 'product_plan.harvesting.code',
+      dataField: 'harvesting.code',
       text: `${intl.formatMessage({ id: harvestingCode })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
         <Link to={`/production-management/harvesting/${row._id}`}>{row.harvesting.code}</Link>
@@ -340,7 +338,7 @@ function ProductionManagement() {
     },
     ...extendField,
     estimatedHarvestTime: {
-      dataField: 'product_plan.planting.estimatedHarvestTime',
+      dataField: 'planting.estimatedHarvestTime',
       text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.HARVEST_REAL_DATE' })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
         // <span>
@@ -362,7 +360,7 @@ function ProductionManagement() {
       headerClasses: 'text-center',
     },
     landlot: {
-      dataField: 'product_plan.planting.landLot.code',
+      dataField: 'planting.landLot.code',
       text: `${intl.formatMessage({ id: 'PLANTING_LAND_LOT' })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
         <span>{row.planting.landLot.code}</span>
@@ -392,7 +390,7 @@ function ProductionManagement() {
       classes: 'text-center',
     },
     harvestingCode: {
-      dataField: 'product_plan.harvesting.code',
+      dataField: 'harvesting.code',
       text: `${intl.formatMessage({ id: harvestingCode })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
         <Link to={`/production-management/harvesting/${row._id}`}>{row.harvesting.code}</Link>
@@ -401,7 +399,7 @@ function ProductionManagement() {
       classes: 'text-center',
     },
     preliminaryTreatmentCode: {
-      dataField: 'product_plan.preliminaryTreatment.code',
+      dataField: 'preliminaryTreatment.code',
       text: `${intl.formatMessage({ id: preliminaryTreatmentCode })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
         <Link to={`/production-management/preliminaryTreatment/${row._id}`}>{row.code}</Link>
@@ -411,7 +409,7 @@ function ProductionManagement() {
     },
     ...extendField,
     preliminaryTreatmentTime: {
-      dataField: 'product_plan.preliminaryTreatment.startTime',
+      dataField: 'preliminaryTreatment.startTime',
       text: `${intl.formatMessage({ id: 'PRODUCTION_MANAGEMENT.preliminaryTreatment.TIME' })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
         <span>
@@ -453,7 +451,7 @@ function ProductionManagement() {
       classes: 'text-center',
     },
     harvestingCode: {
-      dataField: 'product_plan.harvesting.code',
+      dataField: 'harvesting.code',
       text: `${intl.formatMessage({ id: harvestingCode })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
         <Link to={`/production-management/harvesting/${row._id}`}>{row.harvesting.code}</Link>
@@ -462,7 +460,7 @@ function ProductionManagement() {
       classes: 'text-center',
     },
     preliminaryTreatmentCode: {
-      dataField: 'product_plan.preliminaryTreatment.code',
+      dataField: 'preliminaryTreatment.code',
       text: `${intl.formatMessage({ id: preliminaryTreatmentCode })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
         <Link to={`/production-management/preliminaryTreatment/${row._id}`}>{row.code}</Link>
@@ -471,7 +469,7 @@ function ProductionManagement() {
       classes: 'text-center',
     },
     cleaningCode: {
-      dataField: 'product_plan.cleaning.code',
+      dataField: 'cleaning.code',
       text: `${intl.formatMessage({ id: cleaningCode })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
         <Link to={`/production-management/cleaning/${row._id}`}>{row.code}</Link>
@@ -481,7 +479,7 @@ function ProductionManagement() {
     },
     ...extendField,
     cleaningTime: {
-      dataField: 'product_plan.cleaning.estimatedTime',
+      dataField: 'cleaning.estimatedTime',
       text: `${intl.formatMessage({ id: 'PRODUCTION_MANAGEMENT.CLEANING.TIME' })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
         <span>
@@ -515,7 +513,7 @@ function ProductionManagement() {
       classes: 'text-center',
     },
     harvestingCode: {
-      dataField: 'product_plan.harvesting.code',
+      dataField: 'harvesting.code',
       text: `${intl.formatMessage({ id: harvestingCode })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
         <Link to={`/production-management/harvesting/${row._id}`}>{row.harvesting.code}</Link>
@@ -524,7 +522,7 @@ function ProductionManagement() {
       classes: 'text-center',
     },
     preliminaryTreatmentCode: {
-      dataField: 'product_plan.preliminaryTreatment.code',
+      dataField: 'preliminaryTreatment.code',
       text: `${intl.formatMessage({ id: preliminaryTreatmentCode })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
         <Link to={`/production-management/preliminaryTreatment/${row._id}`}>{row.code}</Link>
@@ -533,7 +531,7 @@ function ProductionManagement() {
       classes: 'text-center',
     },
     cleaningCode: {
-      dataField: 'product_plan.cleaning.code',
+      dataField: 'cleaning.code',
       text: `${intl.formatMessage({ id: cleaningCode })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
         <Link to={`/production-management/cleaning/${row._id}`}>{row.code}</Link>
@@ -542,7 +540,7 @@ function ProductionManagement() {
       classes: 'text-center',
     },
     packingCode: {
-      dataField: 'product_plan.packing.code',
+      dataField: 'packing.code',
       text: `${intl.formatMessage({ id: packingCode })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
         <Link to={`/production-management/packing/${row._id}`}>{row.code}</Link>
@@ -552,7 +550,7 @@ function ProductionManagement() {
     },
     ...extendField,
     packing: {
-      dataField: 'product_plan.packing.packing.weight',
+      dataField: 'packing.packing.weight',
       text: `${intl.formatMessage({ id: 'PRODUCT_PACKAGING.MODULE_NAME' })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
         <span>{row.packing.packing ? row.packing.packing.weight : 'Chưa có thông tin'}</span>
@@ -581,7 +579,7 @@ function ProductionManagement() {
       classes: 'text-center',
     },
     harvestingCode: {
-      dataField: 'product_plan.harvesting.code',
+      dataField: 'harvesting.code',
       text: `${intl.formatMessage({ id: harvestingCode })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
         <Link to={`/production-management/harvesting/${row._id}`}>{row.harvesting.code}</Link>
@@ -590,7 +588,7 @@ function ProductionManagement() {
       classes: 'text-center',
     },
     preliminaryTreatmentCode: {
-      dataField: 'product_plan.preliminaryTreatment.code',
+      dataField: 'preliminaryTreatment.code',
       text: `${intl.formatMessage({ id: preliminaryTreatmentCode })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
         <Link to={`/production-management/preliminaryTreatment/${row._id}`}>
@@ -601,7 +599,7 @@ function ProductionManagement() {
       classes: 'text-center',
     },
     cleaningCode: {
-      dataField: 'product_plan.cleaning.code',
+      dataField: 'cleaning.code',
       text: `${intl.formatMessage({ id: cleaningCode })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
         <Link to={`/production-management/cleaning/${row._id}`}>{row.cleaning.code}</Link>
@@ -610,7 +608,7 @@ function ProductionManagement() {
       classes: 'text-center',
     },
     packingCode: {
-      dataField: 'product_plan.packing.code',
+      dataField: 'packing.code',
       text: `${intl.formatMessage({ id: packingCode })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
         <Link to={`/production-management/packing/${row._id}`}>{row.packing.code}</Link>
@@ -619,7 +617,7 @@ function ProductionManagement() {
       classes: 'text-center',
     },
     preservationCode: {
-      dataField: 'product_plan.preservation.code',
+      dataField: 'preservation.code',
       text: `${intl.formatMessage({ id: preservationCode })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
         <Link to={`/production-management/preservation/${row._id}`}>{row.code}</Link>
@@ -629,7 +627,7 @@ function ProductionManagement() {
     },
     ...extendField,
     preservationDate: {
-      dataField: 'product_plan.preservation.createdAt',
+      dataField: 'preservation.createdAt',
       text: `${intl.formatMessage({ id: 'PRODUCTION_MANAGEMENT.PRESERVATION.TIME' })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
         <span>
@@ -642,7 +640,7 @@ function ProductionManagement() {
       headerClasses: 'text-center',
     },
     preservationTemperature: {
-      dataField: 'product_plan.preservation.updatedAt',
+      dataField: 'preservation.updatedAt',
       text: `${intl.formatMessage({ id: 'PRODUCTION_MANAGEMENT.PRESERVATION.TEMPERATURE' })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
         <span>
@@ -704,24 +702,36 @@ function ProductionManagement() {
     if (currentStep === 2) return cleaningColumns;
     if (currentStep === 3) return packingColumns;
     if (currentStep === 4) return preservationColumns;
-    return {}
-  }, [cleaningColumns, currentStep, harvestingColumns, packingColumns, preliminaryTreatmentColumns, preservationColumns]);
+    return {};
+  }, [
+    cleaningColumns,
+    currentStep,
+    harvestingColumns,
+    packingColumns,
+    preliminaryTreatmentColumns,
+    preservationColumns,
+  ]);
 
-  console.log(packingColumns)
+  console.log(packingColumns);
 
   return (
     <React.Fragment>
       <Switch>
         <Route exact path="/production-management/harvesting/:code">
           {({ history, match }) => (
-            <MasterEntityDetailPage
-              entity={history.location.state}
-              renderInfo={harvestingDetail}
-              code={match && match.params.code}
-              get={code => ProductionPlanService.GetById(code)}
-              onClose={() => {history.push('/production-management')}}
-              header="HARVESTING_INFO"
-            />
+            <>
+              <MasterEntityDetailPage
+                entity={history.location.state}
+                renderInfo={harvestingDetail}
+                code={match && match.params.code}
+                get={code => ProductionPlanService.GetById(code)}
+                onClose={() => {
+                  history.push('/production-management');
+                }}
+                header="HARVESTING_INFO"
+              />
+              
+            </>
           )}
         </Route>
         <Route exact path="/production-management/preliminaryTreatment/:code">
@@ -731,7 +741,9 @@ function ProductionManagement() {
               renderInfo={PreliminaryTreatmentDetail}
               code={match && match.params.code}
               get={code => ProductionPlanService.GetById(code)}
-              onClose={() => {history.push('/production-management')}}
+              onClose={() => {
+                history.push('/production-management');
+              }}
               header="PRELIMINARY_TREATMENT_INFO"
             />
           )}
@@ -743,7 +755,9 @@ function ProductionManagement() {
               renderInfo={CleaningDetail}
               code={match && match.params.code}
               get={code => ProductionPlanService.GetById(code)}
-              onClose={() => {history.push('/production-management')}}
+              onClose={() => {
+                history.push('/production-management');
+              }}
               header="CLEANING_INFO"
             />
           )}
@@ -755,7 +769,9 @@ function ProductionManagement() {
               renderInfo={PackingDetail}
               code={match && match.params.code}
               get={code => ProductionPlanService.GetById(code)}
-              onClose={() => {history.push('/production-management')}}
+              onClose={() => {
+                history.push('/production-management');
+              }}
               header="PACKING_INFO"
             />
           )}
@@ -767,7 +783,9 @@ function ProductionManagement() {
               renderInfo={PreservationDetail}
               code={match && match.params.code}
               get={code => ProductionPlanService.GetById(code)}
-              onClose={() => {history.push('/production-management')}}
+              onClose={() => {
+                history.push('/production-management');
+              }}
               header="PRESERVATION_INFO"
             />
           )}
@@ -804,15 +822,16 @@ function ProductionManagement() {
                     isMaster: true,
                     confirmationStatus: '2',
                     process: currentStep + 2 + '',
-                  }
-                  ProductionPlanService.Search(value, {DefaultPagination, pr}).then(res => {
-                    const data: any = res.data
+                  };
+                  ProductionPlanService.Search(value, { DefaultPagination, pr }).then(res => {
+                    const data: any = res.data;
                     setEntities(data.data ? data.data : data);
-                  })
-                
+                    setPaginationProps(DefaultPagination);
+                  });
+
                   // setFilterProps({ ...cvValue });
-              }
-            }}
+                }
+              }}
               searchModel={getSearchModel()}
             />
           </div>

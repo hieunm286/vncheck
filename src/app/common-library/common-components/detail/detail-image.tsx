@@ -34,7 +34,8 @@ export const DetailImage = ({
   const container = useRef<any>(null);
   const intl = useIntl();
   const [showIndex, setShow] = useState(-1);
-  const Img = useCallback(({image, index}: any) => (image && image[pathField]) ? (
+  const Img = useCallback(({image, index}: any) => {
+    return (image && image[pathField]) ? (
     <div className={className ? (className + " image-item imagePreview mr-1") : "image-item imagePreview mr-1"}>
       <Image
         width={width}
@@ -60,8 +61,10 @@ export const DetailImage = ({
         }}>
             <CloseOutlined/>
           </span>}
-    </div>):(<></>), [pathField, width, height, onImageRemove]);
+    </div>):(<></>)}, [pathField, width, height, onImageRemove]);
+
   const _images = useMemo(() => _.isArray(images) ? images : [images], [images]);
+
   return (
     <Fragment>
       <div ref={container}/>

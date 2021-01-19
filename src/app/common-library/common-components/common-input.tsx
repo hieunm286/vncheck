@@ -1,6 +1,5 @@
-import {useIntl} from 'react-intl';
 import {DefaultPagination} from '../common-consts/const';
-import {Field} from 'formik';
+import {Field, useFormikContext} from 'formik';
 import {MainInput} from '../forms/main-input';
 import {DatePickerField} from '../forms/date-picker-field';
 import CustomImageUpload from '../forms/custom-image-upload';
@@ -8,9 +7,7 @@ import {SwitchField} from '../forms/switch-field';
 import {InfiniteSelect} from '../forms/infinite-select';
 import TagInput from '../forms/tag-input';
 import React, {ReactElement, useCallback} from 'react';
-import _ from 'lodash';
 import {RadioField} from '../forms/radio-field';
-import CheckboxTable from '../forms/checkbox-table';
 import CustomTreeSelect from "../forms/tree-select";
 import CheckBoxField from '../forms/input-checkbox';
 import { SelectField } from '../forms/select-field';
@@ -84,7 +81,7 @@ export type InputBooleanType = {
 export type InputSearchSelectType = {
   name: string;
   label: string | ReactElement;
-  onSearch: (searchQueryObject: any) => any;
+  onSearch: (searchQueryObject: any, values?: any) => any;
   keyField?: string;
   selectField?: string;
   onDisplayOptions?: (props: any) => ReactElement;
@@ -279,6 +276,7 @@ export const InputSearchSelect = ({
                                     selectField,
                                     ...props
                                   }: InputSearchSelectType) => {
+  const {values,} = useFormikContext<any>();
   const loadOptions = useCallback(
     async (search: string, prevOptions: any, {page}: any) => {
       const queryProps: any = {};
@@ -293,10 +291,10 @@ export const InputSearchSelect = ({
         sortBy: keyField,
         page,
       };
-      const entities = await onSearch({queryProps, paginationProps});
+      const entities = await onSearch({queryProps, paginationProps}, values);
       const count = entities.data.paging.total;
-      const hasMore = prevOptions.length < count - (DefaultPagination.limit ?? 0);
       const data = [...new Set(entities.data.data)];
+      const hasMore = prevOptions.length + data.length < count - (DefaultPagination.limit ?? 0);
       return {
         options: data,
         hasMore: hasMore,
@@ -305,7 +303,7 @@ export const InputSearchSelect = ({
         },
       };
     },
-    [onSearch],
+    [onSearch, values],
   );
   return (
     <div className={className}>
@@ -350,7 +348,7 @@ export const InputCheckBox = ({
                                 ...props
                               }: InputCheckBoxType) => {
   return (
-    <CheckBoxField 
+    <CheckBoxField
       {...props}
       optionData={optionData}
       label={label}

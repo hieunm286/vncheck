@@ -26,7 +26,7 @@ export const GetAll: GetAllPropsServer<any> = ({
                                                  paginationProps,
                                                }) => {
   return axios.get(`${API_URL}`, {
-    params: {...queryProps, ...paginationProps, sortList},
+    params: {...queryProps, ...paginationProps, sortList, t: ['1', '3', '4']},
   });
 };
 
@@ -38,7 +38,7 @@ export const Count: CountProps<UserModel> = (queryProps) => {
 };
 
 export const GetById = (id: string) => {
-  return axios.get(`${API_BASE_URL + '/product-plan'}/${id}`);
+  return axios.get(`${API_URL}/${id}`);
 };
 
 
@@ -51,7 +51,8 @@ export const Update: UpdateProps<UserModel> = (entity) => {
 };
 
 export const Delete: DeleteProps<UserModel> = (entity) => {
-  return axios.delete(`${API_URL}/${entity._id}`);
+  //Lười sửa nên viết như này cho nhanh
+  return axios.put(`${API_URL}/${entity._id}`, {...entity, status: '0'});
 };
 
 export const DeleteMany: DeleteManyProps<UserModel> = (entities) => {
