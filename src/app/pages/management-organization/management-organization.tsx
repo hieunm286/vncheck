@@ -11,11 +11,15 @@ import { UserModel } from '../user/user.model';
 import { ManagementOrganizationModel } from './management-organization.model';
 import {Count, Create, Delete, DeleteMany, Get, GetAll, Update} from './management-organization.service';
 import * as UserService from '../user/user.service';
+import * as RoleService from '../role/role.service';
 import { AxiosResponse } from 'axios';
+import { RoleModel } from '../role/role.model';
+import _ from 'lodash';
 
 export default function ManagementOrganization() {
 
   const [userEntities, setUserEntities] = useState<UserModel[]>([]);
+  const [convertedEntities, setConvertedEntities] = useState<any[]>([]);
 
   const {
     entities,
@@ -65,12 +69,50 @@ export default function ManagementOrganization() {
   const history = useHistory();
 
   const getDataConverted = () => {
-    
-  }
+    // console.log(entities)
+    // if(entities && entities.length > 0) {
+    //   const res =  entities.map((entity: any) => {
+    //     const queryParams = {managementUnit: entity._id};
+    //     RoleService.GetAll({queryProps: queryParams, paginationProps: DefaultPagination, }).then((res : AxiosResponse<{data: RoleModel[]; paging: number}>) => {
+    //       return {...entity, children: res.data.data};
+    //       // _entities.push(_entity);
+    //       // console.log(_entities.length)
+    //     })
+    //   });
+    //   console.log(res)
+    //   return res;
+    // } else {
+    //   return entities;
+    // }
+    return entities;
+ }
 
   useEffect(() => {
     getAll(filterProps);
   }, [paginationProps, filterProps]);
+
+
+
+  useEffect(() => {
+    if(entities && entities.length > 0) {
+
+      let promises: Promise<AxiosResponse<any>> [] = [];
+      entities.forEach((entity: any) => {
+        const queryParams = {managementUnit: {_id: entity._id }};const promise: Promise<AxiosResponse<any>> = RoleService.GetAll({queryProps: queryParams, paginationProps: DefaultPagination, });
+        promises.push(promise);
+      });
+
+      let _convertedEntities: any[] = [];
+      Promise.all(promises).then((responses: AxiosResponse<{data: RoleModel[]; paging: number}>[]) => {
+        responses.forEach((response: AxiosResponse<{data: RoleModel[]; paging: number}>) => {
+          const index = responses.indexOf(response)
+          _convertedEntities.push({...entities[index], children: response.data.data})
+        });
+        setConvertedEntities(_convertedEntities);
+      });
+
+    } 
+  }, [entities]);
 
   const columns = React.useMemo(() => {
     return [
@@ -127,7 +169,8 @@ export default function ManagementOrganization() {
       // title: 'MULTIVELEVEL_SALE_TREE_DATA',
       type: 'Tree',
       // data: mockManagementOrganizations,
-      data: entities,
+      // data: getDataConverted(),
+      data: convertedEntities,
     },
     {
       // name: '',
@@ -152,8 +195,24 @@ export default function ManagementOrganization() {
             title='EMPTY'
             body={TreeBody}
             onFetchEntities={(entity: any) => {
-              const queryParams = {role: entity._id};
-              UserService.GetAll({queryProps: queryParams, paginationProps: DefaultPagination, }).then((res : AxiosResponse<{data: UserModel[]; paging: number}>) => {
+              let roleIds: any[] = [];
+              
+              let params = new URLSearchParams();
+              if(entity.children && entity.children.length) {
+                entity.children.forEach((entity: any) => {
+                  roleIds.push(entity._id);
+                  params.append("role", entity._id);
+                })
+              }
+              const queryParams = entity.children ? 
+                // {managementUnit: entity._id} :
+                // {role: roleIds } : 
+               {role: roleIds} :
+                {role: entity._id};
+              UserService.GetAll({queryProps: queryParams, paginationProps: DefaultPagination, })
+                .then((res : AxiosResponse<{data: UserModel[]; paging: number}>) => {
+                // .then((res : AxiosResponse<{data: any}>) => {
+                console.log(res.data.data)
                 setUserEntities(res.data.data);
               })
             }}
