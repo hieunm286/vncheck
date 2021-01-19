@@ -38,6 +38,7 @@ import * as Yup from "yup";
 import AddIcon from "@material-ui/icons/Add";
 import _ from "lodash";
 import {DisplayAddress} from "../../common-library/helpers/detail-helpers";
+import {Spinner} from "react-bootstrap";
 
 const headerTitle = 'AGENCY.MASTER.HEADER.TITLE';
 const tableTitle = 'SHIPPING_AGENCY.MASTER.TABLE.TITLE';
@@ -146,9 +147,9 @@ function AgencyPage() {
         formatExtraData: {
           intl,
           onShowDetail: (entity: AgencyModel) => {
-            get(entity);
-            setShowDetail(true);
-            setDetailEntity(entity);
+            get(entity).then(e => {
+              setShowDetail(true);
+            })
           },
           onDelete: (entity: AgencyModel) => {
             setDeleteEntity(entity);
@@ -556,19 +557,20 @@ function AgencyPage() {
         type: 'submit',
         linkto: undefined,
         className: 'btn btn-primary mr-8 fixed-btn-width',
-        label: 'Lưu',
-        icon: <SaveOutlinedIcon/>,
+        label: 'SAVE_BTN_LABEL',
+        icon: loading ? (<Spinner style={iconStyle} animation="border" variant="light" size="sm"/>) :
+          (<SaveOutlinedIcon style={iconStyle}/>)
       },
       cancel: {
         role: 'link-button',
         type: 'button',
         linkto: '/agency',
         className: 'btn btn-outline-primary fixed-btn-width',
-        label: 'Hủy',
+        label: 'CANCEL_BTN_LABEL',
         icon: <CancelOutlinedIcon/>,
       }
     }
-  }), []);
+  }), [loading]);
   const createForm = useMemo((): ModifyForm => ({
     _header: createTitle,
     panel1: {

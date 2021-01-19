@@ -7,9 +7,11 @@ import { getFieldV3 } from '../../common-library/common-components/master-detail
 import { Card, CardBody, CardHeader } from '../../common-library/card';
 import { RenderInfoDetail } from '../../common-library/common-types/common-type';
 import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined';
+import { AxiosResponse } from 'axios';
+import ProductionPlanComments from './production-plan-comments';
 
 export function ProductionPlanDetail({
-  header = 'COMMON_COMPONENT.DETAIL_DIALOG.HEADER_TITLE',
+  header,
   moduleName = 'COMMON_COMPONENT.DETAIL_DIALOG.MODULE_NAME',
   entity,
   onClose,
@@ -18,16 +20,22 @@ export function ProductionPlanDetail({
   code,
   get,
   allFormButton,
+  onComments,
+  setDetailEntity,
+  showComment = true
 }: {
   header?: string;
   moduleName?: string;
   entity?: any;
   renderInfo: RenderInfoDetail;
-  onClose: () => void;
+  onClose?: () => void;
   homeURL?: string;
-  code: string | null;
-  get: (code: string) => any | null;
+  code?: string;
+  get?: (code: string) => any;
   allFormButton?: any;
+  onComments?: (entity: any, data: { content: string }) => Promise<AxiosResponse<any>>;
+  setDetailEntity?: (entity: any) => void;
+  showComment?: boolean;
 }) {
   const intl = useIntl();
 
@@ -35,9 +43,12 @@ export function ProductionPlanDetail({
 
   const history = useHistory();
   useEffect(() => {
-    if (code) {
+    if (code && get) {
       get(code).then((res: { data: any }) => {
         setEntityDetail(res.data);
+        if (setDetailEntity) {
+          setDetailEntity(res.data);
+        }
       });
     }
   }, [code]);
@@ -46,7 +57,7 @@ export function ProductionPlanDetail({
       {renderInfo.map((value, index) => (
         <React.Fragment key={index}>
           <Card>
-            {index === 0 && (
+            {index === 0 && header && (
               <CardHeader
                 className={'border-bottom-0 pl-0 large-font-size'}
                 title={
@@ -114,35 +125,39 @@ export function ProductionPlanDetail({
           </Card>
         </React.Fragment>
       ))}
-      <Card>
-        <CardBody className={'p-0'}>
-          <div className="mb-5 mt-5">
-            <span className="text-primary detail-dialog-subtitle mt-8">BÌNH LUẬN</span>
-            <div className="mt-8 border border-light rounded pt-5 pb-5">
-              {entityDetail && entityDetail.comments.length > 0 ? (
-                entityDetail.comments.map(
-                  (
-                    value: { createdBy: { _id: string; fullName: string }; content: string },
-                    key: number,
-                  ) => (
-                    <div key={key} className="row mb-3">
-                      <div className="col-1 text-center">
-                        <AccountCircleOutlinedIcon style={{ fontSize: 30 }} />
+      {showComment !== true ? <></> : (entityDetail?.confirmationStatus === '2' || entityDetail?.confirmationStatus === '3') ? (
+        <Card>
+          <CardBody className={'p-0'}>
+            <div className="mb-5 mt-5">
+              <span className="text-primary detail-dialog-subtitle mt-8">BÌNH LUẬN</span>
+              <div className="mt-8 border border-light rounded pt-5 pb-5">
+                {entityDetail && entityDetail.comments.length > 0 ? (
+                  entityDetail.comments.map(
+                    (
+                      value: { createdBy: { _id: string; fullName: string }; content: string },
+                      key: number,
+                    ) => (
+                      <div key={key} className="row mb-3">
+                        <div className="col-1 text-center">
+                          <AccountCircleOutlinedIcon style={{ fontSize: 30 }} />
+                        </div>
+                        <div className="col-10 bg-light rounded p-3">
+                          <p className="font-bold">{value.createdBy.fullName}</p>
+                          <p>{value.content}</p>
+                        </div>
                       </div>
-                      <div className="col-10 bg-light rounded p-3">
-                        <p className="font-bold">{value.createdBy.fullName}</p>
-                        <p>{value.content}</p>
-                      </div>
-                    </div>
-                  ),
-                )
-              ) : (
-                <span>Chưa có bình luận</span>
-              )}
+                    ),
+                  )
+                ) : (
+                  <span>Chưa có bình luận</span>
+                )}
+              </div>
             </div>
-          </div>
-        </CardBody>
-      </Card>
+          </CardBody>
+        </Card>
+      ) : (
+        <ProductionPlanComments entity={entityDetail} onComments={onComments} />
+      )}
       {allFormButton && allFormButton.type === 'outside' && (
         <div className="text-right mb-5 mr-20">
           {Object.keys(allFormButton.data).map(keyss => {

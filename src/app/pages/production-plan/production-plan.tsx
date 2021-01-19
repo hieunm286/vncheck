@@ -25,6 +25,7 @@ import {
   productPlanSearchModel1,
   productPlanSearchModel2,
   SeedingDetailDialog,
+  validate,
 } from './defined/const';
 import {shallowEqual, useSelector} from 'react-redux';
 import ProductionPlanCrud from './production-plan-crud';
@@ -34,7 +35,9 @@ import _ from 'lodash';
 import {ModifyForm, ModifyPanel} from '../../common-library/common-types/common-type';
 import * as ProductPackagingService from '../product-packaging/product-packaging.service';
 import {ProductionPlanDetail} from './production-plan-detail';
-import moment from 'moment';
+import moment from 'moment-timezone';
+import { DisplayDateTime } from '../../common-library/helpers/detail-helpers';
+import { notifySuccess } from './defined/crud-helped';
 
 const headerTitle = 'PRODUCT_TYPE.MASTER.HEADER.TITLE';
 const bodyTitle = 'PRODUCT_TYPE.MASTER.BODY.TITLE';
@@ -60,34 +63,43 @@ const versionData = [
   },
 ];
 
-const validate = (values: any, props: any /* only available when using withFormik */) => {
-  console.log(values, props);
-  if (!values) return;
-  const errors: any = {};
-  if (!values.email) {
-    errors.email = 'Required';
-  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-    errors.email = 'Invalid email address';
+const CheckDisabled = (values: any, currentProcess: string, targetProcess: number) => {
+
+  if (!values) return false;
+
+  const cvCurrentProcess = _.parseInt(currentProcess)
+
+  if (targetProcess < cvCurrentProcess) return true;
+
+  if (targetProcess === cvCurrentProcess) {
+    let isDisabled = false;
+
+    values.leader?.forEach((item: any) => {
+      if (item.isRecieved === true) {
+        console.log('nhận rồi nè')
+        isDisabled = true;
+      }
+    })
+
+    console.log(isDisabled)
+
+    return isDisabled;
   }
   
-  //...
-  
-  return errors;
-};
+  return false;
+}
 
 const ProductPlantSchema = Yup.object().shape({
   harvesting: Yup.object()
     .shape(halfValidate)
     .test('oneOfRequired', 'INPUT_MUTS_ACCORDING_ORDER', function (values: any) {
-      console.log(this.parent.harvesting);
-      console.log(values);
-      if (values.technical.length === 0 || values.leader.length === 0) {
+      if (values.technical?.length === 0 || values.leader?.length === 0) {
         if (
-          this.parent.preliminaryTreatment.technical.length > 0 ||
-          this.parent.preliminaryTreatment.leader.length > 0 ||
-          this.parent.preliminaryTreatment.estimatedTime ||
-          this.parent.preliminaryTreatment.estimatedQuantity > 0 ||
-          this.parent.preliminaryTreatment.estimatedQuantity
+          this.parent.preliminaryTreatment?.technical?.length > 0 ||
+          this.parent.preliminaryTreatment?.leader?.length > 0 ||
+          this.parent.preliminaryTreatment?.estimatedTime ||
+          this.parent.preliminaryTreatment?.estimatedQuantity > 0 ||
+          this.parent.preliminaryTreatment?.estimatedQuantity
         ) {
           return false;
         }
@@ -97,21 +109,20 @@ const ProductPlantSchema = Yup.object().shape({
   preliminaryTreatment: Yup.object()
     .shape(validate)
     .test('oneOfRequired', 'INPUT_MUTS_ACCORDING_ORDER', function (values: any) {
-      console.log(this.parent.harvesting);
-      console.log(values);
+  
       if (
-        values.technical.length === 0 ||
-        values.leader.length === 0 ||
+        values.technical?.length === 0 ||
+        values.leader?.length === 0 ||
         !values.estimatedTime ||
         values.estimatedQuantity === 0 ||
         !values.estimatedQuantity
       ) {
         if (
-          this.parent.cleaning.technical.length > 0 ||
-          this.parent.cleaning.leader.length > 0 ||
-          this.parent.cleaning.estimatedTime ||
-          this.parent.cleaning.estimatedQuantity > 0 ||
-          this.parent.cleaning.estimatedQuantity
+          this.parent.cleaning?.technical?.length > 0 ||
+          this.parent.cleaning?.leader?.length > 0 ||
+          this.parent.cleaning?.estimatedTime ||
+          this.parent.cleaning?.estimatedQuantity > 0 ||
+          this.parent.cleaning?.estimatedQuantity
         ) {
           return false;
         }
@@ -127,22 +138,22 @@ const ProductPlantSchema = Yup.object().shape({
       if (
         // this.parent.harvesting.technical.length === 0 ||
         // this.parent.harvesting.leader.length === 0 ||
-        values.technical.length === 0 ||
-        values.leader.length === 0 ||
+        values.technical?.length === 0 ||
+        values.leader?.length === 0 ||
         !values.estimatedTime ||
         values.estimatedQuantity === 0 ||
         !values.estimatedQuantity
       ) {
         if (
-          this.parent.packing.estimatedTime ||
-          this.parent.packing.estimatedExpireTimeStart ||
-          this.parent.packing.estimatedExpireTimeEnd ||
+          this.parent.packing?.estimatedTime ||
+          this.parent.packing?.estimatedExpireTimeStart ||
+          this.parent.packing?.estimatedExpireTimeEnd ||
           // this.parent.packing.packing ||
           // (_.isObject(this.parent.packing.packing)) ||
-          this.parent.packing.estimatedQuantity ||
-          this.parent.packing.estimatedQuantity > 0 ||
-          this.parent.packing.technical.length > 0 ||
-          this.parent.packing.leader.length > 0
+          this.parent.packing?.estimatedQuantity ||
+          this.parent.packing?.estimatedQuantity > 0 ||
+          this.parent.packing?.technical?.length > 0 ||
+          this.parent.packing?.leader?.length > 0
         ) {
           return false;
         }
@@ -180,13 +191,13 @@ const ProductPlantSchema = Yup.object().shape({
         (_.isObject(values.packing) && !values.packing.label) ||
         !values.estimatedQuantity ||
         values.estimatedQuantity === 0 ||
-        values.technical.length === 0 ||
-        values.leader.length === 0
+        values.technical?.length === 0 ||
+        values.leader?.length === 0
       ) {
         if (
-          this.parent.preservation.estimatedStartTime ||
-          this.parent.preservation.estimatedEndTime > 0 ||
-          this.parent.preservation.technical.length > 0
+          this.parent.preservation?.estimatedStartTime ||
+          this.parent.preservation?.estimatedEndTime > 0 ||
+          this.parent.preservation?.technical?.length > 0
         ) {
           return true;
         }
@@ -280,11 +291,11 @@ function ProductionPlan() {
   const [submit, setSubmit] = useState(false);
   
   const [step, setStep] = useState('0');
-  
+  const [totalVersion, setTotalVersion] = useState(0)
   const [userData, setUserData] = useState<any>();
   
   useEffect(() => {
-    UserService.GetAll({queryProps: {}}).then(e => {
+    UserService.GetAll({queryProps: { limit: 100, sortBy: 'fullName', sortType: 'asc' }}).then(e => {
       console.log(e);
       const rs = e.data as any;
       setUserData(rs.data);
@@ -299,6 +310,7 @@ function ProductionPlan() {
   );
   const {username, role} = authState;
   const [prevTab, setPrevTab] = useState<string | undefined>('0');
+  const [trigger, setTrigger] = useState<boolean>(false)
   useEffect(() => {
     if (currentTab === '0') {
       const t =
@@ -310,16 +322,16 @@ function ProductionPlan() {
           : paginationProps;
       getAll({...(filterProps as any), step: '0', isMaster: true, ...t});
     } else if (currentTab === '1') {
-      const t =
-        prevTab !== currentTab ? {sortBy: 'updatedAt', sortType: 'desc'} : paginationProps;
+      const t = {sortBy: 'updatedAt', sortType: 'desc'}
+        // prevTab !== currentTab ? {sortBy: 'updatedAt', sortType: 'desc'} : paginationProps;
       getAll({...(filterProps as any), step: '0', confirmationStatus: '1,3', ...t});
     } else if (currentTab === '2') {
-      const t =
-        prevTab !== currentTab ? {sortBy: 'updatedAt', sortType: 'desc'} : paginationProps;
+      const t = {sortBy: 'updatedAt', sortType: 'desc'} 
+        // prevTab !== currentTab ? {sortBy: 'updatedAt', sortType: 'desc'} : paginationProps;
       getAll({...(filterProps as any), step: '1', confirmationStatus: '2', isMaster: true, ...t});
     }
     setPrevTab(currentTab);
-  }, [paginationProps, filterProps, currentTab]);
+  }, [paginationProps, filterProps, currentTab, trigger]);
   
   const columns = {
     _id: {
@@ -383,13 +395,14 @@ function ProductionPlan() {
         <button
           className="btn btn-primary"
           onClick={() => {
-            ProductionPlanService.GetById(row._id).then(res => {
-              setEditEntity(res.data);
-              history.push({
-                pathname: '/production-plan/' + row._id + '/new',
-                state: res.data,
-              });
-            });
+            // ProductionPlanService.GetById(row._id).then(res => {
+            //   setEditEntity(res.data);
+             
+            // });
+            history.push({
+              pathname: '/production-plan/' + row._id + '/new',
+              
+            })
           }}>
           + Tạo mới
         </button>
@@ -480,23 +493,44 @@ function ProductionPlan() {
     action: {
       dataField: 'action',
       text: `${intl.formatMessage({id: 'PURCHASE_ORDER.MASTER.TABLE.ACTION_COLUMN'})}`,
-      formatter: (cell: any, row: any, rowIndex: number) => (
+      formatter: (cell: any, row: any, rowIndex: number) => {
+        
+        return (
+          ((username === 'admin' && (row.confirmationStatus === '3' || row.confirmationStatus === '2')) || username !== 'admin') ? <button
+          className="btn btn-primary pl-6 pr-6"
+          onClick={() => {
+            // ProductionPlanService.GetById(row._id).then(res => {
+            //   setEditEntity(res.data);
+              
+            // });
+
+            history.push({
+              pathname: '/production-plan/plan-view/' + row._id,
+            })
+          }}
+          // disabled={row.confirmationStatus === '3' || row.confirmationStatus === '2'}
+          >
+          Chi tiết
+        </button>
+        :
         <button
           className="btn btn-primary"
-          style={{cursor: row.confirmationStatus === '3' ? 'not-allowed' : 'pointer'}}
           onClick={() => {
-            ProductionPlanService.GetById(row._id).then(res => {
-              setEditEntity(res.data);
-              history.push({
-                pathname: '/production-plan/plan-view/' + row._id,
-                state: res.data,
-              });
-            });
+            // ProductionPlanService.GetById(row._id).then(res => {
+            //   setEditEntity(res.data);
+              
+            // });
+
+            history.push({
+              pathname: '/production-plan/plan-view/' + row._id,
+              
+            })
           }}
-          disabled={row.confirmationStatus === '3'}>
+          // disabled={row.confirmationStatus === '3' || row.confirmationStatus === '2'}
+          >
           Phê duyệt
         </button>
-      ),
+        )},
   
       ...NormalColumn,
       style: {minWidth: '130px'},
@@ -576,19 +610,22 @@ function ProductionPlan() {
         onShowDetail: (entity: any) => {
           ProductionPlanService.GetHistory(entity).then(res => {
             console.log(res.data);
+            setTotalVersion(res.data.history.length)
+
             history.push({
               pathname: '/production-plan/' + entity._id + '/history',
-              state: res.data.history,
+              state: res.data.history
             });
           });
         },
         onEdit: (entity: any) => {
-          ProductionPlanService.GetById(entity._id).then(res => {
-            setEditEntity(res.data);
-            history.push({
-              pathname: '/production-plan/' + entity._id + '/new',
-              state: res.data,
-            });
+          // ProductionPlanService.GetById(entity._id).then(res => {
+          //   setEditEntity(res.data);
+            
+          // });
+          history.push({
+            pathname: '/production-plan/' + entity._id + '/new',
+            state: '2',
           });
         },
       },
@@ -647,6 +684,7 @@ function ProductionPlan() {
           // setNoticeModal(true);
           setStep('1');
           setSubmit(true);
+          // setCurrentTab('1')
         },
       },
       save: {
@@ -654,7 +692,7 @@ function ProductionPlan() {
         type: 'button',
         linkto: undefined,
         className: 'btn btn-outline-primary mr-5 pl-8 pr-8',
-        label: 'Lưu',
+        label: 'SAVE_BTN_LABEL',
         // icon: <CancelOutlinedIcon />,
         onClick: () => {
           // setNoticeModal(true);
@@ -667,7 +705,47 @@ function ProductionPlan() {
         type: 'button',
         linkto: '/production-plan',
         className: 'btn btn-outline-primary mr-2 pl-8 pr-8',
-        label: 'Hủy',
+        label: 'CANCEL_BTN_LABEL',
+        // icon: <CancelOutlinedIcon />,
+      },
+    },
+  };
+
+  const adminEditFormButton: any = {
+    type: 'outside',
+    data: {
+      save: {
+        role: 'submit',
+        type: 'button',
+        linkto: undefined,
+        className: 'btn btn-primary mr-5 pl-8 pr-8',
+        label: 'SAVE_BTN_LABEL',
+        // icon: <CancelOutlinedIcon />,
+        onClick: () => {
+          // setNoticeModal(true);
+          setStep('0');
+          setSubmit(false);
+          // setTrigger(!trigger)
+        },
+      },
+      sendRequest: {
+        role: 'button',
+        type: 'button',
+        linkto: undefined,
+        className: 'btn btn-outline-primary mr-5 pl-8 pr-8',
+        label: 'Khôi phục',
+        // icon: <SaveOutlinedIcon />,
+        onClick: () => {
+          // setNoticeModal(true);
+          window.location.reload()
+        },
+      }, 
+      cancel: {
+        role: 'link-button',
+        type: 'button',
+        linkto: '/production-plan',
+        className: 'btn btn-outline-primary mr-2 pl-8 pr-8',
+        label: 'CANCEL_BTN_LABEL',
         // icon: <CancelOutlinedIcon />,
       },
     },
@@ -685,8 +763,10 @@ function ProductionPlan() {
         // icon: <SaveOutlinedIcon />,
         onClick: () => {
           // setNoticeModal(true);
+          
           setStep('1');
           setSubmit(true);
+          // setCurrentTab('1')
         },
       },
       cancel: {
@@ -694,7 +774,7 @@ function ProductionPlan() {
         type: 'button',
         linkto: '/production-plan',
         className: 'btn btn-outline-primary mr-2 pl-8 pr-8',
-        label: 'Hủy',
+        label: 'CANCEL_BTN_LABEL',
         // icon: <CancelOutlinedIcon />,
       },
     },
@@ -735,26 +815,16 @@ function ProductionPlan() {
         linkto: undefined,
         className: 'btn btn-primary mr-5 pl-8 pr-8',
         label: 'Phê duyệt',
-        icon: <SaveOutlinedIcon/>,
+        // icon: <SaveOutlinedIcon/>,
         onClick: (entity: any) => {
           // setNoticeModal(true);
           // setSubmit(true)
           setStep('2');
           approve(entity)
             .then(res => {
-              if (currentTab !== '1') {
-                updateProcess(entity)
-                  .then(ress => {
-                    refreshData();
-                    setCurrentTab('2');
-                    history.push('/production-plan');
-                  })
-                  .catch(error => {
-                  });
-              } else {
-                setCurrentTab('2');
-                history.push('/production-plan');
-              }
+              setCurrentTab('2');
+              notifySuccess('Phê duyệt thành công')
+              history.push('/production-plan');
             })
             .catch(error => {
             });
@@ -766,11 +836,12 @@ function ProductionPlan() {
         linkto: undefined,
         className: 'btn btn-outline-primary mr-5 pl-8 pr-8',
         label: 'Từ chối',
-        icon: <SaveOutlinedIcon/>,
+        // icon: <SaveOutlinedIcon/>,
         onClick: (entity: any) => {
           refuse(entity)
             .then(res => {
               refreshData();
+              notifySuccess('Từ chối rồi nha')
               history.push('/production-plan');
             })
             .catch(error => {
@@ -783,14 +854,15 @@ function ProductionPlan() {
         type: 'button',
         className: 'btn btn-primary mr-5 pl-8 pr-8',
         label: 'Chỉnh sửa',
-        icon: <CancelOutlinedIcon/>,
+        // icon: <CancelOutlinedIcon/>,
         onClick: (entity: any) => {
-          ProductionPlanService.GetById(entity._id).then(res => {
-            setEditEntity(res.data);
-            history.push({
-              pathname: '/production-plan/' + entity._id + '/new',
-              state: res.data,
-            });
+          // ProductionPlanService.GetById(entity._id).then(res => {
+          //   setEditEntity(res.data);
+            
+          // });
+          history.push({
+            pathname: '/production-plan/' + entity._id + '/new',
+            state: '5',
           });
         },
       },
@@ -827,7 +899,7 @@ function ProductionPlan() {
       formatter: (cell: any, row: any, rowIndex: number) => (
         <span>
           {row.createdAt
-            ? new Intl.DateTimeFormat('en-GB').format(new Date(row.createdAt))
+            ? moment(row.createdAt).tz('Asia/Ho_Chi_Minh').format('DD/MM/YYYY HH:mm')
             : 'Không có thông tin'}
         </span>
       ),
@@ -841,7 +913,7 @@ function ProductionPlan() {
       formatter: (cell: any, row: any, rowIndex: number) => (
         <span>
           {row.productPlan.confirmationDate
-            ? new Intl.DateTimeFormat('en-GB').format(new Date(row.productPlan.confirmationDate))
+            ? new Intl.DateTimeFormat('vi-VN').format(new Date(row.productPlan.confirmationDate))
             : 'Không có thông tin'}
         </span>
       ),
@@ -1167,7 +1239,7 @@ function ProductionPlan() {
             tagData: userData,
             required: true,
             disabled: (values: any) => {
-              return (_.parseInt(values.process) >= harvestingProcess && values.harvesting.leader.length > 0);
+              return CheckDisabled(values?.harvesting, values?.process, harvestingProcess)
             },
           },
           leader: {
@@ -1177,7 +1249,7 @@ function ProductionPlan() {
             tagData: userData,
             required: true,
             disabled: (values: any) => {
-              return (_.parseInt(values.process) >= harvestingProcess && values.harvesting.leader.length > 0);
+              return CheckDisabled(values?.harvesting, values?.process, harvestingProcess)
             },
           },
         },
@@ -1199,8 +1271,10 @@ function ProductionPlan() {
             _type: 'date-time',
             // placeholder: 'Mã gieo giống',
             label: 'PRELIMINARY_TREATMENT_TIME',
+            showTime: true,
+            format: 'DD/MM/yyyy HH:mm',
             disabled: (values: any) => {
-              return (_.parseInt(values.process) >= preliminaryTreatmentProcess && values.preliminaryTreatmentProcess.leader.length > 0);
+              return CheckDisabled(values?.preliminaryTreatment, values?.process, preliminaryTreatmentProcess)
             },
   
           },
@@ -1209,7 +1283,7 @@ function ProductionPlan() {
             // placeholder: 'Mã gieo giống',
             label: 'PRELIMINARY_TREATMENT_QUANTITY',
             disabled: (values: any) => {
-              return (_.parseInt(values.process) >= preliminaryTreatmentProcess && values.preliminaryTreatmentProcess.leader.length > 0);
+              return CheckDisabled(values?.preliminaryTreatment, values?.process, preliminaryTreatmentProcess)
             },
           },
         },
@@ -1225,7 +1299,7 @@ function ProductionPlan() {
             tagData: userData,
             label: 'PRELIMINARY_TREATMENT_TECHNICAL',
             disabled: (values: any) => {
-              return _.parseInt(values.process) >= preliminaryTreatmentProcess && values.preliminaryTreatmentProcess.leader.length > 0;
+              return CheckDisabled(values?.preliminaryTreatment, values?.process, preliminaryTreatmentProcess)
             },
           },
           leader: {
@@ -1234,7 +1308,7 @@ function ProductionPlan() {
             label: 'PRELIMINARY_TREATMENT_LEADER',
             tagData: userData,
             disabled: (values: any) => {
-              return _.parseInt(values.process) >= preliminaryTreatmentProcess && values.preliminaryTreatmentProcess.leader.length > 0;
+              return CheckDisabled(values?.preliminaryTreatment, values?.process, preliminaryTreatmentProcess)
             },
           },
         },
@@ -1255,9 +1329,11 @@ function ProductionPlan() {
           estimatedTime: {
             _type: 'date-time',
             // placeholder: 'Mã gieo giống',
+            showTime: true,
+            format: 'DD/MM/yyyy HH:mm',
             label: 'CLEANING_TIME',
             disabled: (values: any) => {
-              return _.parseInt(values.process) >= cleaningProcess && values.cleaningProcess.leader.length > 0;
+              return CheckDisabled(values?.cleaning, values?.process, cleaningProcess)
             },
   
           },
@@ -1266,7 +1342,7 @@ function ProductionPlan() {
             // placeholder: 'Mã gieo giống',
             label: 'CLEANING_QUANTITY',
             disabled: (values: any) => {
-              return _.parseInt(values.process) >= cleaningProcess && values.cleaningProcess.leader.length > 0;
+              return CheckDisabled(values?.cleaning, values?.process, cleaningProcess)
             },
           },
         },
@@ -1283,7 +1359,7 @@ function ProductionPlan() {
             root: 'cleaning',
             tagData: userData,
             disabled: (values: any) => {
-              return _.parseInt(values.process) >= cleaningProcess && values.cleaningProcess.leader.length > 0;
+              return CheckDisabled(values?.cleaning, values?.process, cleaningProcess)
             },
           },
           leader: {
@@ -1293,7 +1369,7 @@ function ProductionPlan() {
             root: 'cleaning',
             tagData: userData,
             disabled: (values: any) => {
-              return _.parseInt(values.process) >= cleaningProcess && values.cleaningProcess.leader.length > 0;
+              return CheckDisabled(values?.cleaning, values?.process, cleaningProcess)
             },
           },
         },
@@ -1315,8 +1391,10 @@ function ProductionPlan() {
             _type: 'date-time',
             // placeholder: 'Mã gieo giống',
             label: 'PACKING_TIME',
+            showTime: true,
+            format: 'DD/MM/yyyy HH:mm',
             disabled: (values: any) => {
-              return _.parseInt(values.process) >= packingProcess && values.packing.technical.length > 0;
+              return CheckDisabled(values?.packing, values?.process, packingProcess);
             },
   
           },
@@ -1324,14 +1402,22 @@ function ProductionPlan() {
             _type: 'date-time',
             // placeholder: 'Hạn sử dụng',
             label: 'PACKING_EXPIRY_START',
+            showTime: true,
+            format: 'DD/MM/yyyy HH:mm',
             disabled: (values: any) => {
-              return _.parseInt(values.process) >= packingProcess && values.packing.technical.length > 0;
+              return CheckDisabled(values?.packing, values?.process, packingProcess);
             },
             onChange: (val: any, values: any, setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => void) => {
-              const newDate = val.add(values.seeding.species.expiryDays, 'days')
-              console.log(val)
-              console.log(newDate)
-              setFieldValue('packing.estimatedExpireTimeEnd', newDate)
+              if (val) {
+                
+                const newDate = val.add(values.seeding.species.expiryDays, 'days')
+                console.log(val)
+                console.log(newDate)
+                setFieldValue('packing.estimatedExpireTimeEnd', newDate)
+              }
+            },
+            onReset: (setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => void) => {
+              setFieldValue('packing.estimatedExpireTimeEnd', null)
             }
             
           },
@@ -1339,6 +1425,8 @@ function ProductionPlan() {
             _type: 'date-time',
             // placeholder: 'Hạn sử dụng',
             label: 'PACKING_EXPIRY_END',
+            // showTime: true,
+            // format: 'DD/MM/yyyy HH:mm',
             disabled: true
             
           },
@@ -1354,7 +1442,7 @@ function ProductionPlan() {
             },
             keyField: 'weight',
             disabled: (values: any) => {
-              return _.parseInt(values.process) >= packingProcess && values.packing.technical.length > 0;
+              return CheckDisabled(values?.packing, values?.process, packingProcess);
             },
             // required: true,
             // onDisplayOptions: (e:ProductPackagingModel)=> e.species.weight,
@@ -1374,7 +1462,7 @@ function ProductionPlan() {
             // placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
             label: 'PRODUCTION_PLAN_FORM_PACKING_QUANTITY',
             disabled: (values: any) => {
-              return _.parseInt(values.process) >= packingProcess && values.packing.technical.length > 0;
+              return CheckDisabled(values?.packing, values?.process, packingProcess);
             },
           },
           technical: {
@@ -1383,7 +1471,7 @@ function ProductionPlan() {
             label: 'KCS',
             tagData: userData,
             disabled: (values: any) => {
-              return _.parseInt(values.process) >= packingProcess && values.packing.technical.length > 0;
+              return CheckDisabled(values?.packing, values?.process, packingProcess);
             },
           },
           leader: {
@@ -1392,7 +1480,7 @@ function ProductionPlan() {
             label: 'PACKING_LEADER',
             tagData: userData,
             disabled: (values: any) => {
-              return _.parseInt(values.process) >= packingProcess && values.packing.technical.length > 0;
+              return CheckDisabled(values?.packing, values?.process, packingProcess);
             },
           },
         },
@@ -1414,8 +1502,10 @@ function ProductionPlan() {
             _type: 'date-time',
             // placeholder: 'Mã gieo giống',
             label: 'PRESERVATION_TIME_START',
+            showTime: true,
+            format: 'DD/MM/yyyy HH:mm',
             disabled: (values: any) => {
-              return _.parseInt(values.process) >= preservationProcess && values.preservationProcess.technical.length > 0;
+              return CheckDisabled(values?.preservation, values?.process, preservationProcess);
             },
   
           },
@@ -1423,8 +1513,10 @@ function ProductionPlan() {
             _type: 'date-time',
             // placeholder: 'Mã gieo giống',
             label: 'PRESERVATION_TIME_END',
+            showTime: true,
+            format: 'DD/MM/yyyy HH:mm',
             disabled: (values: any) => {
-              return _.parseInt(values.process) >= preservationProcess && values.preservationProcess.technical.length > 0;
+              return CheckDisabled(values?.preservation, values?.process, preservationProcess);
             },
   
           },
@@ -1441,7 +1533,7 @@ function ProductionPlan() {
             // placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
             label: 'PRESERVATION_TECHNICAL',
             disabled: (values: any) => {
-              return _.parseInt(values.process) >= preservationProcess && values.preservationProcess.technical.length > 0;
+              return CheckDisabled(values?.preservation, values?.process, preservationProcess);
             },
           },
         },
@@ -1479,7 +1571,7 @@ function ProductionPlan() {
           {({history, match}) => (
             <>
               <ProductionPlanCrud
-                entity={history.location.state}
+                // entity={history.location.state}
                 setEditEntity={setEditEntity}
                 onModify={ProductionPlanService.Update}
                 title={createTitle}
@@ -1489,8 +1581,9 @@ function ProductionPlan() {
                 formPart={formPart}
                 formModel={updateForm}
                 allFormField={allFormField}
-                allFormButton={currentTab !== '2' ? allFormButton : allFormButton2}
-                validation={validate}
+                allFormButton={history.location.state === '5' ? adminEditFormButton : history.location.state === '2' ? allFormButton2 : allFormButton}
+                current={history.location.state}
+                validation={ProductPlantSchema}
                 autoFill={{
                   field: '',
                   data: null,
@@ -1499,6 +1592,7 @@ function ProductionPlan() {
                   ],
                 }}
                 currentTab={currentTab}
+                setCurrentTab={setCurrentTab}
                 refreshData={refreshData}
                 homePage={homeURL}
                 tagData={tagData}
@@ -1517,7 +1611,7 @@ function ProductionPlan() {
             <ProductionPlanVersion
               title={match && match.params.code}
               data={history.location.state}
-              total={versionData.length}
+              total={totalVersion}
               versionColumns={versionColumns}
               loading={loading}
               paginationParams={paginationProps}
@@ -1556,13 +1650,16 @@ function ProductionPlan() {
             <ProductionPlanDetail
               entity={history.location.state}
               renderInfo={masterEntityDetailDialog2}
+              setDetailEntity={setDetailEntity}
+              onComments={ProductionPlanService.Comments}
               code={match && match.params.code}
               get={code => ProductionPlanService.GetById(code)}
               onClose={() => {
                 setShowDetail(false);
               }}
-              allFormButton={currentTab === '1' && username === 'admin' && adminAllFormButton}
+              allFormButton={(detailEntity?.confirmationStatus !== '2' && detailEntity?.confirmationStatus !== '3') && username === 'admin' && adminAllFormButton}
               header={`CHI TIẾT KẾ HOẠCH`}
+
             />
           )}
         </Route>
@@ -1574,12 +1671,10 @@ function ProductionPlan() {
               const cvValue = JSON.parse(JSON.stringify(value));
   
               if (
-                value.product_plan &&
-                value.product_plan.seeding &&
-                value.product_plan.seeding.species &&
-                _.isObject(value.product_plan.seeding.species)
+                value.seeding?.species &&
+                _.isObject(value.seeding.species)
               ) {
-                cvValue.product_plan.seeding.species = value.product_plan.seeding.species._id;
+                cvValue.seeding.species = value.seeding.species._id;
               }
   
               setFilterProps({...cvValue});
@@ -1592,6 +1687,8 @@ function ProductionPlan() {
             setCurrentTab={setCurrentTab}
             setEntities={setEntities}
             setPaginationProps={setPaginationProps}
+            setTrigger={setTrigger}
+            trigger={trigger}
             // spinning={spinning}
           />
         </Route>

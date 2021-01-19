@@ -20,7 +20,8 @@ function EntityCrudPage({
                           actions,
                           validation,
                           loading,
-                          mode
+                          mode,
+                          setEditEntity
                         }: {
   // modifyModel: ModifyModel;
   moduleName?: string;
@@ -34,6 +35,7 @@ function EntityCrudPage({
   validation?: any;
   autoFill?: any;
   loading?: boolean;
+  setEditEntity?: (entity: any) => void;
 }) {
   const intl = useIntl();
   const history = useHistory();
@@ -52,6 +54,7 @@ function EntityCrudPage({
       get &&
       get(code).then((res: { data: any }) => {
         setEntityForEdit({...res.data});
+        if (setEditEntity) { setEditEntity(res.data) }
       });
     }
   }, [code]);
@@ -91,7 +94,7 @@ function EntityCrudPage({
                             {intl
                               .formatMessage(
                                 {id: _header},
-                                {moduleName: intl.formatMessage({id: moduleName})},
+                                {moduleName: intl.formatMessage({id: moduleName ?? 'EMPTY'})},
                               )
                               .toUpperCase()}
                           </a>
@@ -100,7 +103,7 @@ function EntityCrudPage({
                             {intl
                               .formatMessage(
                                 {id: _title},
-                                {moduleName: intl.formatMessage({id: moduleName})},
+                                {moduleName: intl.formatMessage({id: moduleName ?? 'EMPTY'})},
                               )
                               .toUpperCase()}
                           </>
@@ -127,7 +130,7 @@ function EntityCrudPage({
                                   >
                                     {loading === true ? actions.data[keyss].loading ?? (
                                       <Spinner animation="border" variant="light"
-                                               size="sm"/>) : actions.data[keyss].icon} {actions.data[keyss].label}
+                                               size="sm"/>) : actions.data[keyss].icon} {intl.formatMessage({id: actions.data[keyss].label})}
                                   </button>
                                 );
                               
@@ -137,7 +140,7 @@ function EntityCrudPage({
                                     type={actions.data[keyss].type}
                                     className={actions.data[keyss].className}
                                     key={keyss}>
-                                    {actions.data[keyss].icon} {actions.data[keyss].label}
+                                    {actions.data[keyss].icon} {intl.formatMessage({id: actions.data[keyss].label})}
                                   </button>
                                 );
                               case 'link-button':
@@ -146,7 +149,7 @@ function EntityCrudPage({
                                     <button
                                       type={actions.data[keyss].type}
                                       className={actions.data[keyss].className}>
-                                      {actions.data[keyss].icon} {actions.data[keyss].label}
+                                      {actions.data[keyss].icon} {intl.formatMessage({id: actions.data[keyss].label})}
                                     </button>
                                   </Link>
                                 );

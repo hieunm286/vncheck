@@ -7,16 +7,19 @@ import { MasterHeader } from '../../common-library/common-components/master-head
 import MasterTreeStructure from '../../common-library/common-components/master-tree-structure';
 import { DefaultPagination, NormalColumn, SortColumn } from '../../common-library/common-consts/const';
 import { InitMasterProps } from '../../common-library/helpers/common-function';
-import {Count, Create, Delete, DeleteMany, Get, GetAll, GetManagementOrganization, GetNames, GetStatus, Update} from './role.service';
+import {Count, Create, Delete, DeleteMany, Get, GetAll, GetManagementOrganization, GetNames, GetStatusList, Update} from './role.service';
 import {GetIds} from './role.service';
 import {RoleModel} from './role.model';
 import { MasterEntityDetailDialog } from '../../common-library/common-components/master-entity-detail-dialog';
-import { RenderInfoDetail, _ModifyModelInput } from '../../common-library/common-types/common-type';
+import { ModifyPanel, RenderInfoDetail, _ModifyModelInput } from '../../common-library/common-types/common-type';
 import { DeleteEntityDialog } from '../../common-library/common-components/delete-entity-dialog';
 import EntityCrudPage from '../../common-library/common-components/entity-crud-page';
 import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
 import CancelOutlinedIcon from "@material-ui/icons/CancelOutlined";
 import * as Yup from 'yup';
+import CheckCircleIcon from "@material-ui/icons/CheckCircle";
+import * as ManagementOrganizationService from '../management-organization/management-organization.service'
+
 import {
   MasterBodyColumns,
   ModifyForm,
@@ -26,12 +29,17 @@ import {
 import { Select } from 'antd';
 import { Switch as SwitchField } from 'antd';
 import CheckBoxField from '../../common-library/forms/input-checkbox';
+import * as RoleScope from './const/role_scope';
+import { ConvertRoleScope } from './const/convert-scope';
+import _ from 'lodash';
 
 const { Option } = Select;
+
 export default function ManagementOrganization() {
   const headerTitle = 'ROLE.MASTER.HEADER.TITLE';
   const bodyTitle = 'ROLE.MASTER.BODY.TITLE';
   const createTitle = 'ROLE.CREATE.HEADER';
+  const editTitle = 'ROLE.EDIT.HEADER';
 
   const {
     entities,
@@ -84,15 +92,16 @@ export default function ManagementOrganization() {
     getAll(filterProps);
   }, [paginationProps, filterProps]);
 
-  const roleDetailrenderInfo : RenderInfoDetail = [
+  const   roleDetailrenderInfo : RenderInfoDetail = [
     {
       header: '',
       className: '',
       titleClassName: '',
       dataClassName: '',
       data: {
-        managementOrganization: {
-          title: 'ROLE.VIEW.LABEL.ORGANIZATION_MANAGEMENT',
+        'managementUnit': {
+          title: 'ROLE.VIEW.LABEL.MANAGEMENT_ORGANIZATION',
+          keyField: 'managementUnit.name'
         },
         _id: {
           title: 'ROLE.VIEW.LABEL.ROLE_CODE',
@@ -100,6 +109,7 @@ export default function ManagementOrganization() {
         },
         status: {
           title: 'ROLE.VIEW.LABEL.STATUS',
+          formatter: (value: any) => (value === 1 || value === true || value === "1") ? (<CheckCircleIcon style={{color: '#1DBE2D'}}/>) : (<CheckCircleIcon style={{color: '#C4C4C4'}}/>)
           
         },
         name: {
@@ -110,7 +120,7 @@ export default function ManagementOrganization() {
   ];
 
   const roleValidationSchema = Yup.object().shape({
-    managementOrganization: Yup.string().required('ROLE.VALIDATION.REQUIRED.MANAGEMENT_ORGANIZATION').nullable(),
+    managementUnit: Yup.string().required('ROLE.VALIDATION.REQUIRED.MANAGEMENT_ORGANIZATION').nullable(),
     // _id: Yup.string().required('ROLE.VALIDATION.REQUIRED.ROLE_CODE').nullable(),
     status: Yup.string().required('ROLE.VALIDATION.REQUIRED.STATUS').nullable(),
     name: Yup.string().required('ROLE.VALIDATION.REQUIRED.ROLE_NAME').nullable(),
@@ -118,60 +128,116 @@ export default function ManagementOrganization() {
 
   const group1 : ModifyInputGroup = {
     _subTitle: '',
-    managementOrganization: {
-      _type: 'custom',
-      component: () => {
-        return (
-          <>
-            <Select style={{width: '200px'}}>
-              <Option value="0">Phòng Giám Đốc</Option>
-            </Select>
-          </>
-        )
-      }
+    // managementOrganization: {
+    //   _type: 'custom',
+    //   component: () => {
+    //     return (
+    //       <>
+    //         <Select style={{width: '200px'}}>
+    //           <Option value="0">Phòng Giám Đốc</Option>
+    //         </Select>
+    //       </>
+    //     )
+    //   }
+    // },
+    managementUnit: {
+      _type: 'tree-select',
+      label: 'ROLE.CREATE.LABEL.MANAGEMENT_ORGANIZATION',
+      placeholder: 'COMMON_COMPONENT.SELECT.PLACEHOLDER',
+      name: 'managementUnit',
+      // onSearch: ManagementOrganizationService.GetAll,
+      // onChange: (value: any, {setFieldValue, setFieldTouched}: any) => {
+      //   const name = 'managementUnit';
+      //   setFieldTouched(name, true);
+      //   setFieldValue(name, value._id ?? '');
+      // },
+      // onFetch: (entities: any) => {console.log(entities); return entities.data;}
+      onSearch: ({queryProps, sortList, paginationProps,}: any) => {
+        return ManagementOrganizationService.GetAll({queryProps}).then((e) => {
+          return (e.data);
+        })
+      },
+    },
+    roleCodeDummy: {
+      _type: 'string',
+      label: 'ROLE.CREATE.LABEL.ROLE_CODE',
+      placeholder: 'COMMON_COMPONENT.INPUT.PLACEHOLDER',
+      disabled: true,
     },
     name: {
-      _type: 'search-select',
+      _type: 'string',
       label: 'ROLE.CREATE.LABEL.ROLE_NAME',
-      placeholder: 'EMPTY',
-      onSearch: GetNames,
-      onChange: (value, {setFieldValue, setFieldTouched, values}) => {
-      }
+      placeholder: 'COMMON_COMPONENT.INPUT.PLACEHOLDER',
     },
+    // status: {
+    //   _type: 'custom',
+    //   label: 'ROLE.CREATE.LABEL.ROLE_NAME',
+    //   component: () => {
+    //     return (
+    //       <>
+    //         <SwitchField></SwitchField>
+    //       </>
+    //     )
+    //   }
+    // },
     status: {
-      _type: 'custom',
-      label: 'ROLE.CREATE.LABEL.ROLE_NAME',
-      component: () => {
-        return (
-          <>
-            <SwitchField></SwitchField>
-          </>
-        )
+      _type: 'boolean',
+      label: 'ROLE.CREATE.LABEL.STATUS',
+      trueFalse: {
+        true: '1',
+        false: '0'
       }
     },
-    checkboxs: {
-      _type: 'checkbox',
-      label: 'Doanh nghiệp sản xuất',
-      optionData: [
-        { label: 'Apple', value: 'Apple' },
-        { label: 'Pear', value: 'Pear' },
-        { label: 'Orange', value: 'Orange', disabled: true },
-      ]
-    },
-    checkbox: {
-      _type: 'checkbox',
-      label: 'Doanh nghiệp xuất khẩu',
-      optionData: [
-        { label: 'Red', value: 'Red' },
-        { label: 'Green', value: 'Green' },
-        
-      ]
-    }
-
   };
+  
+  const modifyModel2 = React.useMemo((): ModifyPanel => ({
+    _title: 'EMPTY',
+    group2: {
+      _subTitle: 'PHÂN QUYỀN DỮ LIỆU',
+      checkbox1: {
+        _type: 'checkbox',
+        label: 'DOANH NGHIỆP SẢN XUẤT',
+        optionData: ConvertRoleScope(RoleScope.role_scope_enterprise, intl)
+      },
+      checkbox2: {
+        _type: 'checkbox',
+        label: 'THÔNG TIN CHUNG',
+        optionData: ConvertRoleScope(RoleScope.role_scope_species, intl)
+      },
+      checkbox3: {
+        _type: 'checkbox',
+        label: 'THÔNG TIN XUỐNG GIỐNG',
+        optionData: ConvertRoleScope(RoleScope.role_scope_seeding, intl)
+      },
+      checkbox4: {
+        _type: 'checkbox',
+        label: 'THÔNG TIN GIEO TRỒNG',
+        optionData: ConvertRoleScope(RoleScope.role_scope_planting, intl)
+      },
+      checkbox5: {
+        _type: 'checkbox',
+        label: 'THÔNG TIN THU HOẠCH',
+        optionData: ConvertRoleScope(RoleScope.role_scope_harvesting, intl)
+      },
+      checkbox6: {
+        _type: 'checkbox',
+        label: 'THÔNG TIN SƠ CHẾ',
+        optionData: ConvertRoleScope(RoleScope.role_scope_preliminary_treatment, intl)
+      },
+    }
+  }), [])
 
   const createForm : ModifyForm = {
     _header: createTitle,
+    // panel1: {
+    //   _title: 'EMPTY',
+    //   group1: group1,
+    // },
+    panel2: modifyModel2
+  };
+
+  const editForm : ModifyForm = {
+    _header: editTitle,
     panel1: {
       _title: 'EMPTY',
       group1: group1,
@@ -200,15 +266,16 @@ export default function ManagementOrganization() {
         align: 'center',
       },
       {
-        dataField: 'email',
+        dataField: 'managementUnit.name',
         text: `${intl.formatMessage({id: 'ROLE.MASTER.TABLE.MANAGEMENT_ORGANIZATION'})}`,
         ...SortColumn,
         align: 'center',
       },
       
       {
-        dataField: 'phone',
+        dataField: 'status',
         text: `${intl.formatMessage({id: 'ROLE.MASTER.TABLE.STATUS'})}`,
+        formatter: TickColumnFormatter,
         ...SortColumn,
         align: 'center',
       },
@@ -262,24 +329,31 @@ export default function ManagementOrganization() {
 
   const searchModel: SearchModel = {
     _id: {
-      type: 'search-select',
+      type: 'string',
       label: 'ROLE.HEADER.LABEL.ROLE_CODE',
-      onSearch: GetIds,
+      placeholder: 'ROLE.HEADER.PLACEHOLDER.ROLE_CODE',
+      // onSearch: GetIds,
     },
     name: {
-      type: 'search-select',
+      type: 'string',
       label: 'ROLE.HEADER.LABEL.ROLE_NAME',
-      onSearch: GetNames,
+      placeholder: 'ROLE.HEADER.PLACEHOLDER.ROLE_NAME',
+      // onSearch: GetNames,
     },
-    managementOrganization: {
-      type: 'search-select',
-      label: 'ROLE.HEADER.LABEL.ORGANIZATION_MANAGEMENT',
-      onSearch: GetManagementOrganization,
+    managementUnit: {
+      type: 'string',
+      name: 'managementUnit._id',
+      label: 'ROLE.HEADER.LABEL.MANAGEMENT_ORGANIZATION',
+      placeholder: 'ROLE.HEADER.PLACEHOLDER.MANAGEMENT_ORGANIZATION',
+      // onSearch: GetManagementOrganization,
     },
     status: {
       type: 'search-select',
       label: 'ROLE.HEADER.LABEL.STATUS',
-      onSearch: GetStatus,
+      placeholder: 'ROLE.HEADER.PLACEHOLDER.STATUS',
+      onSearch: GetStatusList,
+      keyField: 'name',
+      selectField: 'code',
     },
 
   }
@@ -335,7 +409,26 @@ export default function ManagementOrganization() {
           <EntityCrudPage
             moduleName='ROLE.MODULE_NAME'
             entity={createEntity}
-            onModify={update}
+            onModify={(values) => {
+              console.log(values)
+              let roleArr: string[] = []
+              const cvValues: any = {}
+
+              Object.keys(values).forEach(keys => {
+                if (_.isArray(values[keys])) {
+                  console.log('1')
+                  roleArr = roleArr.concat(values[keys])
+                } else {
+                  cvValues[keys] = values[keys]
+                }
+              })
+
+              cvValues.roleScope = roleArr
+              console.log(roleArr)
+              console.log(cvValues)
+
+              return update(cvValues)
+            }}
             formModel={createForm}
             actions={actions}
             validation={roleValidationSchema}
@@ -346,10 +439,10 @@ export default function ManagementOrganization() {
           {(history: History, match: match<{code: string}>) => (
             <EntityCrudPage
               moduleName='ROLE.MODULE_NAME'
-              entity={createEntity}
+              entity={editEntity}
               onModify={update}
               code={match && match.params.code}
-              formModel={createForm}
+              formModel={editForm}
               actions={actions}
               validation={roleValidationSchema}
               loading={loading}

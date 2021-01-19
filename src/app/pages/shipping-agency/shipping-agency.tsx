@@ -1,6 +1,6 @@
 import React, {Fragment, useCallback, useEffect, useMemo, useState} from 'react';
 import {useIntl} from 'react-intl';
-import {DefaultPagination, NormalColumn, SortColumn} from '../../common-library/common-consts/const';
+import {DefaultPagination, iconStyle, NormalColumn, SortColumn} from '../../common-library/common-consts/const';
 import {MasterHeader} from '../../common-library/common-components/master-header';
 import {MasterBody} from '../../common-library/common-components/master-body';
 import {
@@ -26,6 +26,7 @@ import {MasterEntityDetailDialog} from "../../common-library/common-components/m
 import {GetCity, GetDistrict, GetState} from "../address/address.service";
 import * as RoleService from "../role/role.service";
 import * as Yup from "yup";
+import {Spinner} from "react-bootstrap";
 
 const headerTitle = 'PRODUCT_TYPE.MASTER.HEADER.TITLE';
 const tableTitle = 'SHIPPING_AGENCY.MASTER.TABLE.TITLE';
@@ -392,19 +393,20 @@ function ShippingAgency() {
         type: 'submit',
         linkto: undefined,
         className: 'btn btn-primary mr-8 fixed-btn-width',
-        label: 'Lưu',
-        icon: <SaveOutlinedIcon/>,
+        label: 'SAVE_BTN_LABEL',
+        icon: loading ? (<Spinner style={iconStyle} animation="border" variant="light" size="sm"/>) :
+          (<SaveOutlinedIcon style={iconStyle}/>)
       },
       cancel: {
         role: 'link-button',
         type: 'button',
         linkto: '/shipping-agency',
         className: 'btn btn-outline-primary fixed-btn-width',
-        label: 'Hủy',
+        label: 'CANCEL_BTN_LABEL',
         icon: <CancelOutlinedIcon/>,
       }
     }
-  }), []);
+  }), [loading]);
   const initCreateValues = useMemo(() => ({...InitValues(createForm), status: 'false'}), [createForm]);
   return (
     <Fragment>

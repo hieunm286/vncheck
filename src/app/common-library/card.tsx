@@ -1,6 +1,9 @@
 import React, { forwardRef, useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { isFragment } from 'react-is';
+import { useIntl } from 'react-intl';
+import { getFieldV3 } from './common-components/master-detail-page';
+import _ from 'lodash';
 
 export const CardHeaderIcon = forwardRef(({ className }: any, ref: any) => (
   <span ref={ref} className={clsx('card-head-icon', className)} />
@@ -84,7 +87,7 @@ export const CardHeader = forwardRef(
 
             {/* Wrap string and fragments in CardHeaderTitle */
             typeof title === 'string' || isFragment(title) ? (
-              <CardHeaderTitle className="text-primary">{title}</CardHeaderTitle>
+              <CardHeaderTitle className={`text-primary ${className}`}>{title}</CardHeaderTitle>
             ) : (
               title
             )}
@@ -136,4 +139,64 @@ if (process.env.NODE_ENV !== 'production') {
 
   CardBody.displayName = 'CardBody';
   CardFooter.displayName = 'CardFooter';
+}
+
+const dataField = [
+  {
+    header: 'Trạng thái',
+    style: '1',
+    data: {
+      'status': { title: 'Trạng thái' },
+
+    }
+  }
+]
+
+interface CardProp {
+  data: any;
+  entity: any;
+  header?: string;
+  titleClassName?: string;
+  dataClassName?: string;
+}
+
+export const CardStyle1 = ({ header, data, entity, titleClassName, dataClassName }: CardProp) => {
+  const intl = useIntl()
+  console.log(data)
+  console.log(entity)
+  return (
+    <Card>
+      {header && <h4 className='text-center text-primary p-8 border-bottom'>{intl.formatMessage({ id: header })}</h4>}
+      <CardBody>
+        <div className="row">
+        {
+          data && Object.keys(data).map((dataKey) => {
+            return (
+              <React.Fragment key={dataKey}>
+                {data[dataKey].title && data[dataKey].title !== '' &&
+                    <div className={`${data[dataKey].titleClassName ?? `${titleClassName ?? 'col-4 mb-10'}`}`}>
+                      {intl.formatMessage({id: data[dataKey].title})}:
+                    </div>}
+                    <div className={`${dataClassName ?? 'col-8 mb-10'}`}>
+                      {entity && (() => {
+                        const displayInfo = data[dataKey];
+                        const fieldName = displayInfo.keyField ?? dataKey;
+                        const displayData = fieldName.indexOf("[") > -1 ?
+                          getFieldV3(entity, fieldName) :
+                          getFieldV3(entity, fieldName)[0]
+                          console.log(fieldName)
+                          console.log(displayData)
+                        return displayInfo.formatter ? displayInfo.formatter(displayData, entity)
+                          : (<>{(_.isNumber(displayData) || _.isString(displayData)) ? displayData : JSON.stringify(displayData)}</>)
+                      })()
+                      }
+                    </div>
+              </React.Fragment>
+            )
+          })
+        }
+        </div>
+      </CardBody>
+    </Card>
+  )
 }

@@ -18,22 +18,7 @@ export function ActionsColumnFormatter<T>(
   {onShowDetail, onDelete, onEdit,onLock, onChangeRole, intl}: ActionColumnProps<T> & { intl: IntlShape },
 ) {
   return (
-    <>
-      {onChangeRole && (<a
-        // to={`/purchase-order/${row.code}`}
-        // title={intl.formatMessage({id: 'COMMON_COMPONENT.MASTER_BODY.TABLE.EDIT_BTN'})}
-        className="btn btn-icon btn-light btn-hover-primary btn-sm mx-1"
-        onClick={(e) => {
-          onChangeRole(row);
-          e.preventDefault();
-        }}>
-        <span className="svg-icon svg-icon-md svg-icon-primary">
-          <SVG
-            src={ToAbsoluteUrl('/media/svg/vncheck/account.svg')}
-            title={intl.formatMessage({id: 'COMMON_COMPONENT.MASTER_BODY.TABLE.EDIT_BTN'})}
-          />
-        </span>
-      </a>)}
+    <div>
       {onLock && (<a
         // to={`/purchase-order/${row.code}`}
         // title={intl.formatMessage({id: 'COMMON_COMPONENT.MASTER_BODY.TABLE.EDIT_BTN'})}
@@ -88,12 +73,12 @@ export function ActionsColumnFormatter<T>(
           </span>
         </span>
       </a>)}
-    </>
+    </div>
   );
 }
 
 export function TickColumnFormatter<T>(
-  cellContent: string|boolean,
+  cellContent: string | boolean,
   row: any) {
   return (cellContent === "1" || cellContent === "true" || cellContent === true) ? (
     <CheckCircleIcon style={{color: '#1DBE2D'}}/>) : (<CheckCircleIcon style={{color: '#C4C4C4'}}/>)

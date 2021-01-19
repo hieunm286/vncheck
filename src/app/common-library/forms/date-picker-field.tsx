@@ -12,7 +12,7 @@ import {useIntl} from "react-intl";
 import _ from "lodash";
 
 export function DatePickerField({
-                                  mode, disabled, onChange, required, labelWidth, label, withFeedbackLabel = true,
+                                  mode, disabled, onChange, onReset, required, labelWidth, label, withFeedbackLabel = true,
                                   customFeedbackLabel,placeholder, showTime = false, ...props
                                 }: InputDateTimeType) {
   const {setFieldValue, errors, touched, values, setFieldTouched, getFieldMeta} = useFormikContext<any>();
@@ -51,11 +51,19 @@ export function DatePickerField({
                       format={props.format ?? "DD/MM/yyyy"}
                       onChange={(val: Moment | null, dateString: string) => {
                         setFieldTouched(field.name, true);
+                        console.log(val)
                         if (onChange && val) {
                           onChange(moment(val).add(val.utcOffset(), 'm').utc(), values, setFieldValue)
                         }
-                        if (val) setFieldValue(field.name, moment(val).add(val.utcOffset(), 'm').utc().toISOString());
-                        else setFieldValue(field.name, required ? '' : undefined);
+                        if (onReset && !val) {
+                          onReset(setFieldValue)
+                        }
+                        if (val) {
+                          setFieldValue(field.name, moment(val).add(val.utcOffset(), 'm').utc().toISOString());     
+                        }
+                        else {
+                          setFieldValue(field.name, val);
+                        }
                       }}
                       onBlur={(e) => {
                         setFieldTouched(field.name, true);

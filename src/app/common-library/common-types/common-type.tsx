@@ -21,7 +21,7 @@ export interface MainInputState {
   onChange?: (value: any, props: { setFieldValue: ((name: string, value: any) => void), values: any }) => any;
   onClick?: (value: any) => any;
   required?: boolean | ((values: any) => boolean);
-  formatter?:(e:any) => any;
+  formatter?: (e: any) => any;
   disabled?: boolean | ((values: any) => boolean);
   name: string;
 }
@@ -151,7 +151,7 @@ export type SearchModel = {
     keyField?: string;
     disabled?: boolean | ((values: any) => boolean);
     selectField?: string;
-    onSearch?: (e: any) => any;
+    onSearch?: (e: any, values?: any) => any;
     onChange?: (value: any, props: { setFieldValue: ((name: string, value: any) => void), values: any }) => any;
     data?: any;
     name?: string;
@@ -189,7 +189,7 @@ export type _CommonProps = {
   disabled?: boolean | ((values: any) => boolean);
   value?: any;
   name?: string;
-  formatter?:(e:any) => any;
+  formatter?: (e: any) => any;
   [T: string]: any;
   onChange?: (value: any, props: { setFieldValue: ((name: string, value: any) => void), setFieldTouched: ((name: string, value: boolean) => void), values: any }) => any;
 }
@@ -213,6 +213,7 @@ export type _ModifyModelInput =
   | ({ _type: 'checkbox' } & _CommonProps)
   | ({ _type: 'search-select', onSearch: GetAllPropsServer<any> | GetAllProps<any>, keyField?: string, selectField?: string } & _CommonProps)
   | ({ _type: 'tree-select', onSearch: any, keyField?: string, selectField?: string } & _CommonProps)
+  | ({ _type: 'select', onSearch: any, keyField?: string, selectField?: string } & _CommonProps)
 
 export type GetAllProps<T> = ({
                                 queryProps,
@@ -222,7 +223,7 @@ export type GetAllProps<T> = ({
   queryProps: any;
   sortList?: SortProps[];
   paginationProps?: PaginationProps;
-}) => (Promise<{ code: number, data: any, success: boolean }>);
+}, values?: any) => (Promise<{ code: number, data: any, success: boolean }>);
 
 export type CountProps<T> = ({
                                queryProps,
@@ -238,6 +239,7 @@ export type RenderInfoDetail = {
   className?: string;
   titleClassName?: string;
   dataClassName?: string;
+  style?: string;
   data: RenderInfoDetailColumn,
 }[]
 export type RenderInfoDetailColumn = {

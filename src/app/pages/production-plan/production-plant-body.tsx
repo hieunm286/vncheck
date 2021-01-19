@@ -13,17 +13,26 @@ function ProductionPlanBody({
                               setCurrentTab,
                               currentTab,
                               setEntities,
-                              setPaginationProps
+                              setPaginationProps,
+                              trigger,
+                              setTrigger
                             }: {
   tabData: any[],
   setCurrentTab: (tab: string | undefined) => void;
   currentTab: string | undefined;
   setEntities: (el: any) => void;
   setPaginationProps: (el: any) => void;
+  trigger: boolean;
+  setTrigger: (entity: boolean) => void;
 }) {
   
   function callback(key: string | undefined) {
-    setCurrentTab(key)
+    
+    if (key === currentTab) {
+      setTrigger(!trigger)
+    } else {
+      setCurrentTab(key)
+    }
     setEntities([])
     setPaginationProps(DefaultPagination)
   }

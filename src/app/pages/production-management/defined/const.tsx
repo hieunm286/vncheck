@@ -59,6 +59,7 @@ export const harvestingDetail: RenderInfoDetail = [
     className: 'col-12',
     titleClassName: 'col-md-2 col-4 mb-10',
     dataClassName: 'col-md-4 col-8 mb-10 pl-5',
+    style: '1',
     data: {
       ...seedingCode,
       'harvesting.time': {
@@ -135,7 +136,7 @@ export const harvestingDetail: RenderInfoDetail = [
             title: 'IMAGE_INFO',
             component: Display3Info
           }
-          return DisplayImage(image, renderInfo)
+          return DisplayImage(image, renderInfo, 'isMaster')
         }
       },
     },
@@ -286,7 +287,7 @@ export const CleaningDetail: RenderInfoDetail = [
             title: 'IMAGE_INFO',
             component: Display3Info
           }
-          return DisplayImage(image, renderInfo)
+          return DisplayImage(image, renderInfo, 'isMaster')
         }
       },
     },

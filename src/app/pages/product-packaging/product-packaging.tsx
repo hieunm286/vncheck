@@ -1,32 +1,25 @@
-import React, { Fragment, useEffect, useMemo, useState } from 'react';
-import { useIntl } from 'react-intl';
-import {
-  DefaultPagination,
-  NormalColumn,
-  SortColumn,
-} from '../../common-library/common-consts/const';
-import { MasterHeader } from '../../common-library/common-components/master-header';
-import { MasterBody } from '../../common-library/common-components/master-body';
-import { ActionsColumnFormatter } from '../../common-library/common-components/actions-column-formatter';
-import { DeleteEntityDialog } from '../../common-library/common-components/delete-entity-dialog';
+import React, {Fragment, useEffect, useMemo, useState} from 'react';
+import {useIntl} from 'react-intl';
+import {DefaultPagination, NormalColumn, SortColumn,} from '../../common-library/common-consts/const';
+import {MasterHeader} from '../../common-library/common-components/master-header';
+import {MasterBody} from '../../common-library/common-components/master-body';
+import {ActionsColumnFormatter} from '../../common-library/common-components/actions-column-formatter';
+import {DeleteEntityDialog} from '../../common-library/common-components/delete-entity-dialog';
 import DeleteManyEntitiesDialog from '../../common-library/common-components/delete-many-entities-dialog';
 import {
   ModifyForm,
-  ModifyInputGroup, RenderInfoDetail,
+  ModifyInputGroup,
+  RenderInfoDetail,
   SearchModel,
 } from '../../common-library/common-types/common-type';
-import {
-  GenerateAllFormField,
-  generateInitForm,
-  InitMasterProps,
-} from '../../common-library/helpers/common-function';
-import { Route, Switch, useHistory } from 'react-router-dom';
+import {InitMasterProps,} from '../../common-library/helpers/common-function';
+import {Route, Switch, useHistory} from 'react-router-dom';
 import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import * as Yup from 'yup';
-import { ProductPackagingModel } from './product-packaging.model';
+import {ProductPackagingModel} from './product-packaging.model';
 import * as ProductPackagingService from './product-packaging.service';
-import { GetAll } from './product-packaging.service';
+import {GetAll} from './product-packaging.service';
 import * as ProductTypeService from '../species/species.service';
 import _ from 'lodash';
 import ModifyEntityDialog from '../../common-library/common-components/modify-entity-dialog';
@@ -265,16 +258,16 @@ function ProductPackaging() {
       type: 'submit',
       linkto: undefined,
       className: 'btn btn-primary mr-2',
-      label: 'Lưu',
-      icon: <SaveOutlinedIcon />,
+      label: 'SAVE_BTN_LABEL',
+      icon: <SaveOutlinedIcon/>,
     },
     cancel: {
       role: 'link-button',
       type: 'button',
       linkto: '/product-packaging',
       className: 'btn btn-outline-primary mr-2',
-      label: 'Hủy',
-      icon: <CancelOutlinedIcon />,
+      label: 'CANCEL_BTN_LABEL',
+      icon: <CancelOutlinedIcon/>,
     },
   };
 
