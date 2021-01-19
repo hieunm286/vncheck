@@ -110,10 +110,38 @@ export const Get: GetProps<any> = entity => {
 };
 
 export const GetById = (_id: string) => {
-  return axios.get(`${API_URL}/${_id}`);
+  // return axios.get(`${API_URL}/${_id}`).then(res => {
+  //   const z = { ...res }
+  //   z.data.cc = "cc"
+  //   return z
+  // })
+
+  return axios.get(`${API_URL}/${_id}`).then(res => {
+    const data = { ...res }
+    const splitScopes: any = {}
+
+    if (data.data.scopes?.length > 0) {
+      data.data.scopes.forEach((item: string) => {
+        const prefix = item.split('.')[0]
+        splitScopes[prefix] = []
+      })
+
+      Object.keys(splitScopes).forEach(keys => {
+        splitScopes[keys] = data.data.scopes.filter((item: string) => item.split('.')[0] === keys)
+      })
+    }
+
+    delete data.data.scopes
+
+    const cvData = { ...res, data: { ...data.data,...splitScopes } }
+
+    console.log(cvData)
+
+    return cvData
+  })
 };
 export const Update: UpdateProps<any> = (entity: any) => {
-  return axios.put(`${API_URL}/${entity._id}`, entity);
+  return axios.put(`${API_URL}/${entity._id}`, entity)
 };
 
 export const Delete: DeleteProps<any> = (entity: any) => {

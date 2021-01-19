@@ -7,7 +7,7 @@ import { MasterHeader } from '../../common-library/common-components/master-head
 import MasterTreeStructure from '../../common-library/common-components/master-tree-structure';
 import { DefaultPagination, NormalColumn, SortColumn } from '../../common-library/common-consts/const';
 import { InitMasterProps } from '../../common-library/helpers/common-function';
-import {Count, Create, Delete, DeleteMany, Get, GetAll, GetManagementOrganization, GetNames, GetStatusList, Update} from './role.service';
+import {Count, Create, Delete, DeleteMany, Get, GetAll, GetById, GetManagementOrganization, GetNames, GetStatusList, Update} from './role.service';
 import {GetIds} from './role.service';
 import {RoleModel} from './role.model';
 import { MasterEntityDetailDialog } from '../../common-library/common-components/master-entity-detail-dialog';
@@ -34,6 +34,8 @@ import { ConvertRoleScope } from './const/convert-scope';
 import _ from 'lodash';
 
 const { Option } = Select;
+
+const validField = ['scopes', 'managementUnit', 'status', 'level', 'name', '_id']
 
 export default function ManagementOrganization() {
   const headerTitle = 'ROLE.MASTER.HEADER.TITLE';
@@ -120,10 +122,10 @@ export default function ManagementOrganization() {
   ];
 
   const roleValidationSchema = Yup.object().shape({
-    managementUnit: Yup.string().required('ROLE.VALIDATION.REQUIRED.MANAGEMENT_ORGANIZATION').nullable(),
-    // _id: Yup.string().required('ROLE.VALIDATION.REQUIRED.ROLE_CODE').nullable(),
-    status: Yup.string().required('ROLE.VALIDATION.REQUIRED.STATUS').nullable(),
-    name: Yup.string().required('ROLE.VALIDATION.REQUIRED.ROLE_NAME').nullable(),
+    // managementUnit: Yup.string().required('ROLE.VALIDATION.REQUIRED.MANAGEMENT_ORGANIZATION').nullable(),
+    // // _id: Yup.string().required('ROLE.VALIDATION.REQUIRED.ROLE_CODE').nullable(),
+    // status: Yup.string().required('ROLE.VALIDATION.REQUIRED.STATUS').nullable(),
+    // name: Yup.string().required('ROLE.VALIDATION.REQUIRED.ROLE_NAME').nullable(),
   });
 
   const group1 : ModifyInputGroup = {
@@ -194,32 +196,32 @@ export default function ManagementOrganization() {
     _title: 'EMPTY',
     group2: {
       _subTitle: 'PHÂN QUYỀN DỮ LIỆU',
-      checkbox1: {
+      enterprise: {
         _type: 'checkbox',
         label: 'DOANH NGHIỆP SẢN XUẤT',
         optionData: ConvertRoleScope(RoleScope.role_scope_enterprise, intl)
       },
-      checkbox2: {
+      species: {
         _type: 'checkbox',
         label: 'THÔNG TIN CHUNG',
         optionData: ConvertRoleScope(RoleScope.role_scope_species, intl)
       },
-      checkbox3: {
+      seeding: {
         _type: 'checkbox',
         label: 'THÔNG TIN XUỐNG GIỐNG',
         optionData: ConvertRoleScope(RoleScope.role_scope_seeding, intl)
       },
-      checkbox4: {
+      planting: {
         _type: 'checkbox',
         label: 'THÔNG TIN GIEO TRỒNG',
         optionData: ConvertRoleScope(RoleScope.role_scope_planting, intl)
       },
-      checkbox5: {
+      harvesting: {
         _type: 'checkbox',
         label: 'THÔNG TIN THU HOẠCH',
         optionData: ConvertRoleScope(RoleScope.role_scope_harvesting, intl)
       },
-      checkbox6: {
+      preliminary_treatment: {
         _type: 'checkbox',
         label: 'THÔNG TIN SƠ CHẾ',
         optionData: ConvertRoleScope(RoleScope.role_scope_preliminary_treatment, intl)
@@ -229,10 +231,10 @@ export default function ManagementOrganization() {
 
   const createForm : ModifyForm = {
     _header: createTitle,
-    // panel1: {
-    //   _title: 'EMPTY',
-    //   group1: group1,
-    // },
+    panel1: {
+      _title: 'EMPTY',
+      group1: group1,
+    },
     panel2: modifyModel2
   };
 
@@ -242,6 +244,7 @@ export default function ManagementOrganization() {
       _title: 'EMPTY',
       group1: group1,
     },
+    panel2: modifyModel2
   };
 
   const columns = React.useMemo(() => {
@@ -418,16 +421,18 @@ export default function ManagementOrganization() {
                 if (_.isArray(values[keys])) {
                   console.log('1')
                   roleArr = roleArr.concat(values[keys])
+                } else if (_.isObject(values[keys])) {
+                  cvValues[keys] = values[keys]._id
                 } else {
                   cvValues[keys] = values[keys]
                 }
               })
 
-              cvValues.roleScope = roleArr
+              cvValues.scopes = roleArr
               console.log(roleArr)
               console.log(cvValues)
 
-              return update(cvValues)
+              return add(cvValues)
             }}
             formModel={createForm}
             actions={actions}
@@ -436,12 +441,38 @@ export default function ManagementOrganization() {
           />
         </Route>
         <Route path='/account/role/:code'>
-          {(history: History, match: match<{code: string}>) => (
+          {({ history, match }) => (
             <EntityCrudPage
               moduleName='ROLE.MODULE_NAME'
               entity={editEntity}
-              onModify={update}
+              onModify={(values) => {
+                console.log(values)
+                let roleArr: string[] = []
+                const cvValues: any = {}
+  
+                Object.keys(values).forEach(keys => {
+                  if (_.isArray(values[keys])) {
+                    console.log('1')
+                    roleArr = roleArr.concat(values[keys])
+                  } else if (_.isObject(values[keys])) {
+                    cvValues[keys] = values[keys]._id
+                  } else {
+                    cvValues[keys] = values[keys]
+                  }
+                })
+  
+                cvValues.scopes = roleArr
+
+                Object.keys(cvValues).forEach(keys => {
+                  if (!validField.includes(keys)) {
+                    delete cvValues[keys]
+                  }
+                })
+  
+                return update(cvValues)
+              }}
               code={match && match.params.code}
+              get={code => GetById(code)}
               formModel={editForm}
               actions={actions}
               validation={roleValidationSchema}
