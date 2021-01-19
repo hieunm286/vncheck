@@ -109,7 +109,7 @@ export default function ManagementOrganization() {
         },
         status: {
           title: 'ROLE.VIEW.LABEL.STATUS',
-          formatter: (value: any) => (value === 1 || value === true || value === "1") ? (<CheckCircleIcon style={{color: '#1DBE2D'}}/>) : (<CheckCircleIcon style={{color: '#C4C4C4'}}/>)
+          formatter: TickColumnFormatter,
           
         },
         name: {
