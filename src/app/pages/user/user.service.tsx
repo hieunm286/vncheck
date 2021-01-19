@@ -26,7 +26,7 @@ export const GetAll: GetAllPropsServer<any> = ({
                                                  paginationProps,
                                                }) => {
   return axios.get(`${API_URL}`, {
-    params: {...queryProps, ...paginationProps, sortList},
+    params: {...queryProps, ...paginationProps, sortList, t: ['1', '3', '4']},
   });
 };
 

@@ -19,21 +19,6 @@ export function ActionsColumnFormatter<T>(
 ) {
   return (
     <div>
-      {onChangeRole && (<a
-        // to={`/purchase-order/${row.code}`}
-        // title={intl.formatMessage({id: 'COMMON_COMPONENT.MASTER_BODY.TABLE.EDIT_BTN'})}
-        className="btn btn-icon btn-light btn-hover-primary btn-sm mx-1"
-        onClick={(e) => {
-          onChangeRole(row);
-          e.preventDefault();
-        }}>
-        <span className="svg-icon svg-icon-md svg-icon-primary">
-          <SVG
-            src={ToAbsoluteUrl('/media/svg/vncheck/account.svg')}
-            title={intl.formatMessage({id: 'COMMON_COMPONENT.MASTER_BODY.TABLE.EDIT_BTN'})}
-          />
-        </span>
-      </a>)}
       {onLock && (<a
         // to={`/purchase-order/${row.code}`}
         // title={intl.formatMessage({id: 'COMMON_COMPONENT.MASTER_BODY.TABLE.EDIT_BTN'})}
