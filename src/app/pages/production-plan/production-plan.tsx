@@ -37,6 +37,7 @@ import * as ProductPackagingService from '../product-packaging/product-packaging
 import {ProductionPlanDetail} from './production-plan-detail';
 import moment from 'moment-timezone';
 import { DisplayDateTime } from '../../common-library/helpers/detail-helpers';
+import { notifySuccess } from './defined/crud-helped';
 
 const headerTitle = 'PRODUCT_TYPE.MASTER.HEADER.TITLE';
 const bodyTitle = 'PRODUCT_TYPE.MASTER.BODY.TITLE';
@@ -321,12 +322,12 @@ function ProductionPlan() {
           : paginationProps;
       getAll({...(filterProps as any), step: '0', isMaster: true, ...t});
     } else if (currentTab === '1') {
-      const t =
-        prevTab !== currentTab ? {sortBy: 'updatedAt', sortType: 'desc'} : paginationProps;
+      const t = {sortBy: 'updatedAt', sortType: 'desc'}
+        // prevTab !== currentTab ? {sortBy: 'updatedAt', sortType: 'desc'} : paginationProps;
       getAll({...(filterProps as any), step: '0', confirmationStatus: '1,3', ...t});
     } else if (currentTab === '2') {
-      const t =
-        prevTab !== currentTab ? {sortBy: 'updatedAt', sortType: 'desc'} : paginationProps;
+      const t = {sortBy: 'updatedAt', sortType: 'desc'} 
+        // prevTab !== currentTab ? {sortBy: 'updatedAt', sortType: 'desc'} : paginationProps;
       getAll({...(filterProps as any), step: '1', confirmationStatus: '2', isMaster: true, ...t});
     }
     setPrevTab(currentTab);
@@ -683,7 +684,7 @@ function ProductionPlan() {
           // setNoticeModal(true);
           setStep('1');
           setSubmit(true);
-          // setCurrentTab("1")
+          // setCurrentTab('1')
         },
       },
       save: {
@@ -724,6 +725,7 @@ function ProductionPlan() {
           // setNoticeModal(true);
           setStep('0');
           setSubmit(false);
+          // setTrigger(!trigger)
         },
       },
       sendRequest: {
@@ -761,9 +763,10 @@ function ProductionPlan() {
         // icon: <SaveOutlinedIcon />,
         onClick: () => {
           // setNoticeModal(true);
-          // setCurrentTab('1')
+          
           setStep('1');
           setSubmit(true);
+          // setCurrentTab('1')
         },
       },
       cancel: {
@@ -820,6 +823,7 @@ function ProductionPlan() {
           approve(entity)
             .then(res => {
               setCurrentTab('2');
+              notifySuccess('Phê duyệt thành công')
               history.push('/production-plan');
             })
             .catch(error => {
@@ -837,6 +841,7 @@ function ProductionPlan() {
           refuse(entity)
             .then(res => {
               refreshData();
+              notifySuccess('Từ chối rồi nha')
               history.push('/production-plan');
             })
             .catch(error => {
@@ -1577,6 +1582,7 @@ function ProductionPlan() {
                 formModel={updateForm}
                 allFormField={allFormField}
                 allFormButton={history.location.state === '5' ? adminEditFormButton : history.location.state === '2' ? allFormButton2 : allFormButton}
+                current={history.location.state}
                 validation={ProductPlantSchema}
                 autoFill={{
                   field: '',
@@ -1586,6 +1592,7 @@ function ProductionPlan() {
                   ],
                 }}
                 currentTab={currentTab}
+                setCurrentTab={setCurrentTab}
                 refreshData={refreshData}
                 homePage={homeURL}
                 tagData={tagData}

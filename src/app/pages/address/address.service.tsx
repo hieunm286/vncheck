@@ -18,7 +18,7 @@ export const GetState = ({queryProps, paginationProps}: any): Promise<any> => {
       key: paginationProps.sortBy,
       orderType: paginationProps.sortType === 'asc' ? 1 : -1
     })).slice((paginationProps.page - 1) * paginationProps.limit, paginationProps.page * paginationProps.limit).map(t => t.name_with_type);
-    // console.log(data);
+    console.log(data);
     resolve({
       code: 200,
       data: {
