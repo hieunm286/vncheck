@@ -42,6 +42,8 @@ interface Prop {
   currentTab: string | undefined;
   formModel: ModifyForm;
   moduleName?: string;
+  current?: any;
+  setCurrentTab?: (tab: string | undefined) => void;
 }
 
 function ProductionPlanCrud({
@@ -65,6 +67,8 @@ function ProductionPlanCrud({
   currentTab,
   formModel,
   onComments,
+  current,
+  setCurrentTab
 }: Prop) {
   const intl = useIntl();
   const initForm = autoFill
@@ -95,6 +99,9 @@ function ProductionPlanCrud({
         console.log(initEntity);
         setEditEntity(res.data);
         setCommentArr(res.data.comments || []);
+      }).catch(err => {
+        // notifyError('Không thể kết nối đến server')
+        history.push('/production-plan')
       });
     }
   }, [code]);
@@ -268,7 +275,7 @@ function ProductionPlanCrud({
 
           if (step === '0') {
             submitHandle(updateValue, values, { setSubmitting, setFieldValue, resetForm });
-          } else if (step === '1' && currentTab !== '2') {
+          } else if (step === '1' && current !== '2' && current !== '5') {
             // if (!updateValue.step || updateValue.step !== '1') {
             //   updateValue.step = '1';
             // }
@@ -279,6 +286,7 @@ function ProductionPlanCrud({
                   .then(ress => {
                     setErrorMsg(undefined);
                     refreshData();
+                    if (setCurrentTab) { setCurrentTab('1') }
                     notifySuccess('Gửi duyệt thành công')
                     history.push(homePage || GetHomePage(window.location.pathname));
                   })
@@ -297,12 +305,13 @@ function ProductionPlanCrud({
                 console.log('2')
                 // resetForm(entityForEdit);
               });
-          } else if (step === '1' && currentTab === '2') {
+          } else if (step === '1' && current && (current === '2' || current === '5')) {
             approveFollow(updateValue)
               .then(res => {
                 setErrorMsg(undefined);
                 refreshData();
-                notifySuccess('Phê duyệt thành công')
+                if (setCurrentTab) { setCurrentTab('1') }
+                notifySuccess('Gửi duyệt thành công')
                 history.push(homePage || GetHomePage(window.location.pathname));
               })
               .catch(error => {
