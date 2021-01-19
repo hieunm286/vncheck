@@ -1669,13 +1669,18 @@ function ProductionPlan() {
             onSearch={value => {
               setPaginationProps(DefaultPagination);
               const cvValue = JSON.parse(JSON.stringify(value));
+
+              console.log(value)
   
               if (
                 value.seeding?.species &&
                 _.isObject(value.seeding.species)
               ) {
-                cvValue.seeding.species = value.seeding.species._id;
+                const newVl = { _id: value.seeding.species._id }
+                cvValue.seeding.species = { ...newVl };
               }
+
+              console.log(cvValue)
   
               setFilterProps({...cvValue});
             }}

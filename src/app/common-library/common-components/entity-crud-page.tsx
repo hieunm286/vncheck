@@ -58,6 +58,8 @@ function EntityCrudPage({
       });
     }
   }, [code]);
+
+  console.log(entityForEdit)
   
   return (
     <>
@@ -117,7 +119,7 @@ function EntityCrudPage({
                         // images={images}
                         inputGroups={panel}
                       />
-                      {actions && (
+                      {(actions && index === Object.keys(modifyPanels).length - 1) && (
                         <div className="text-right mt-10" key={key}>
                           {Object.keys(actions.data).map(keyss => {
                             switch (actions.data[keyss].role) {

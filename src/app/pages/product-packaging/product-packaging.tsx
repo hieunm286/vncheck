@@ -100,7 +100,8 @@ function ProductPackaging() {
   });
 
   useEffect(() => {
-    getAll(filterProps);
+    const t = {sortBy: 'updatedAt', sortType: 'desc'}
+    getAll({ ...filterProps, ...t });
   }, [paginationProps, filterProps]);
 
   const columns = {

@@ -27,7 +27,7 @@ export const GetAll: GetAllPropsServer<ProductPackagingModel> = ({
                                                                    paginationProps,
                                                                  }) => {
   return axios.get(`${API_URL}`, {
-    params: {...queryProps, ...paginationProps, sortList},
+    params: { ...paginationProps, ...queryProps },
     // paramsSerializer: ParamsSerializer
   });
 };

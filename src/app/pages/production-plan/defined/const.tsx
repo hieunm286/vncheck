@@ -54,7 +54,7 @@ export const productPlanSearchModel1: SearchModel = {
     label: 'PRODUCTION_PLAN.SPECIES_NAME',
     onSearch: SpeciesService.GetAll,
     keyField: 'name',
-    name: 'seeding.species._id',
+    name: 'seeding.species',
   },
   estimatedHarvestTime: {
     type: 'date-time',
