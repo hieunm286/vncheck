@@ -14,6 +14,7 @@ import * as UserService from '../user/user.service';
 import * as RoleService from '../role/role.service';
 import { AxiosResponse } from 'axios';
 import { RoleModel } from '../role/role.model';
+import _ from 'lodash';
 
 export default function ManagementOrganization() {
 
@@ -93,22 +94,23 @@ export default function ManagementOrganization() {
 
 
   useEffect(() => {
-    console.log('hi')
     if(entities && entities.length > 0) {
-      
-      let _convertedEntities: any[] = [];
+
+      let promises: Promise<AxiosResponse<any>> [] = [];
       entities.forEach((entity: any) => {
-        const queryParams = {managementUnit: entity._id};
-        RoleService.GetAll({queryProps: queryParams, paginationProps: DefaultPagination, }).then((res : AxiosResponse<{data: RoleModel[]; paging: number}>) => {
-          let isObjectProcessed = _convertedEntities.some((convertedEntity: any) => convertedEntity._id === entity._id);
-          _convertedEntities = isObjectProcessed ? [..._convertedEntities] : 
-            [..._convertedEntities, {...entity, children: res.data.data}];
-          // if(!isObjectProcessed) {
-          //   _convertedEntities.push({...entity, children: res.data.data})
-          // }
-          setConvertedEntities(_convertedEntities)
-        })
+        const queryParams = {managementUnit: {_id: entity._id }};const promise: Promise<AxiosResponse<any>> = RoleService.GetAll({queryProps: queryParams, paginationProps: DefaultPagination, });
+        promises.push(promise);
       });
+
+      let _convertedEntities: any[] = [];
+      Promise.all(promises).then((responses: AxiosResponse<{data: RoleModel[]; paging: number}>[]) => {
+        responses.forEach((response: AxiosResponse<{data: RoleModel[]; paging: number}>) => {
+          const index = responses.indexOf(response)
+          _convertedEntities.push({...entities[index], children: response.data.data})
+        });
+        setConvertedEntities(_convertedEntities);
+      });
+
     } 
   }, [entities]);
 

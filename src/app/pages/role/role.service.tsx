@@ -29,7 +29,7 @@ export const GetAll: GetAllPropsServer<any> = ({
   return axios.get(`${API_URL}`, {
     params: {...queryProps, ...paginationProps, sortList},
   }).then(t => {
-    console.log(t);
+    // console.log(t);
     return t;
   });
 };
