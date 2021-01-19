@@ -7,7 +7,7 @@ import { MasterHeader } from '../../common-library/common-components/master-head
 import MasterTreeStructure from '../../common-library/common-components/master-tree-structure';
 import { DefaultPagination, NormalColumn, SortColumn } from '../../common-library/common-consts/const';
 import { InitMasterProps } from '../../common-library/helpers/common-function';
-import {Count, Create, Delete, DeleteMany, Get, GetAll, GetManagementOrganization, GetNames, GetStatus, Update} from './role.service';
+import {Count, Create, Delete, DeleteMany, Get, GetAll, GetManagementOrganization, GetNames, GetStatusList, Update} from './role.service';
 import {GetIds} from './role.service';
 import {RoleModel} from './role.model';
 import { MasterEntityDetailDialog } from '../../common-library/common-components/master-entity-detail-dialog';
@@ -18,6 +18,7 @@ import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
 import CancelOutlinedIcon from "@material-ui/icons/CancelOutlined";
 import * as Yup from 'yup';
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
+import * as ManagementOrganizationService from '../management-organization/management-organization.service'
 
 import {
   MasterBodyColumns,
@@ -95,7 +96,7 @@ export default function ManagementOrganization() {
       dataClassName: '',
       data: {
         'managementUnit': {
-          title: 'ROLE.VIEW.LABEL.ORGANIZATION_MANAGEMENT',
+          title: 'ROLE.VIEW.LABEL.MANAGEMENT_ORGANIZATION',
           keyField: 'managementUnit.name'
         },
         _id: {
@@ -115,7 +116,7 @@ export default function ManagementOrganization() {
   ];
 
   const roleValidationSchema = Yup.object().shape({
-    managementOrganization: Yup.string().required('ROLE.VALIDATION.REQUIRED.MANAGEMENT_ORGANIZATION').nullable(),
+    managementUnit: Yup.string().required('ROLE.VALIDATION.REQUIRED.MANAGEMENT_ORGANIZATION').nullable(),
     // _id: Yup.string().required('ROLE.VALIDATION.REQUIRED.ROLE_CODE').nullable(),
     status: Yup.string().required('ROLE.VALIDATION.REQUIRED.STATUS').nullable(),
     name: Yup.string().required('ROLE.VALIDATION.REQUIRED.ROLE_NAME').nullable(),
@@ -135,30 +136,52 @@ export default function ManagementOrganization() {
     //     )
     //   }
     // },
-    managementOrganization: {
-      _type: 'select',
-      label: 'ROLE.CREATE.LABEL.ROLE_NAME',
-      placeholder: 'EMPTY',
-      name: 'managementOrganization',
-      onSearch: GetNames,
+    managementUnit: {
+      _type: 'tree-select',
+      label: 'ROLE.CREATE.LABEL.MANAGEMENT_ORGANIZATION',
+      placeholder: 'COMMON_COMPONENT.SELECT.PLACEHOLDER',
+      name: 'managementUnit',
+      // onSearch: ManagementOrganizationService.GetAll,
+      // onChange: (value: any, {setFieldValue, setFieldTouched}: any) => {
+      //   const name = 'managementUnit';
+      //   setFieldTouched(name, true);
+      //   setFieldValue(name, value._id ?? '');
+      // },
+      // onFetch: (entities: any) => {console.log(entities); return entities.data;}
+      onSearch: ({queryProps, sortList, paginationProps,}: any) => {
+        return ManagementOrganizationService.GetAll({queryProps}).then((e) => {
+          return (e.data);
+        })
+      },
+    },
+    roleCodeDummy: {
+      _type: 'string',
+      label: 'ROLE.CREATE.LABEL.ROLE_CODE',
+      placeholder: 'COMMON_COMPONENT.INPUT.PLACEHOLDER',
+      disabled: true,
     },
     name: {
-      _type: 'search-select',
+      _type: 'string',
       label: 'ROLE.CREATE.LABEL.ROLE_NAME',
-      placeholder: 'EMPTY',
-      onSearch: GetNames,
-      onChange: (value, {setFieldValue, setFieldTouched, values}) => {
-      }
+      placeholder: 'COMMON_COMPONENT.INPUT.PLACEHOLDER',
     },
+    // status: {
+    //   _type: 'custom',
+    //   label: 'ROLE.CREATE.LABEL.ROLE_NAME',
+    //   component: () => {
+    //     return (
+    //       <>
+    //         <SwitchField></SwitchField>
+    //       </>
+    //     )
+    //   }
+    // },
     status: {
-      _type: 'custom',
-      label: 'ROLE.CREATE.LABEL.ROLE_NAME',
-      component: () => {
-        return (
-          <>
-            <SwitchField></SwitchField>
-          </>
-        )
+      _type: 'boolean',
+      label: 'ROLE.CREATE.LABEL.STATUS',
+      trueFalse: {
+        true: '1',
+        false: '0'
       }
     },
     checkboxs: {
@@ -297,15 +320,17 @@ export default function ManagementOrganization() {
     managementUnit: {
       type: 'string',
       name: 'managementUnit._id',
-      label: 'ROLE.HEADER.LABEL.ORGANIZATION_MANAGEMENT',
-      placeholder: 'ROLE.HEADER.PLACEHOLDER.ORGANIZATION_MANAGEMENT',
+      label: 'ROLE.HEADER.LABEL.MANAGEMENT_ORGANIZATION',
+      placeholder: 'ROLE.HEADER.PLACEHOLDER.MANAGEMENT_ORGANIZATION',
       // onSearch: GetManagementOrganization,
     },
     status: {
       type: 'search-select',
       label: 'ROLE.HEADER.LABEL.STATUS',
       placeholder: 'ROLE.HEADER.PLACEHOLDER.STATUS',
-      onSearch: GetStatus,
+      onSearch: GetStatusList,
+      keyField: 'name',
+      selectField: 'code',
     },
 
   }
@@ -361,7 +386,7 @@ export default function ManagementOrganization() {
           <EntityCrudPage
             moduleName='ROLE.MODULE_NAME'
             entity={createEntity}
-            onModify={update}
+            onModify={add}
             formModel={createForm}
             actions={actions}
             validation={roleValidationSchema}

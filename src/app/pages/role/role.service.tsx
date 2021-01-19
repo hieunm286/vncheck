@@ -34,42 +34,65 @@ export const GetAll: GetAllPropsServer<any> = ({
   });
 };
 
-// const GetCompareFunction = ({key, orderType}: { key: string, orderType: 1 | -1 }) => {
-//   return (a: any, b: any) => {
-//     const _a = key && key != '' ? a[key] : a;
-//     const _b = key && key != '' ? b[key] : b;
-//     if (_a < _b) {
-//       return -1 * orderType;
-//     }
-//     if (_a > _b) {
-//       return 1 * orderType;
-//     }
-//     return 0;
-//   }
-// }
-// export const RoleList = ['ROLE.MANAGER', 'ROLE.ADMIN', 'ROLE.FARMER', 'ROLE.TECHNICIAN']
-//
-// export const GetRole = ({queryProps, paginationProps}: any, convertFn?: (value: string) => string): Promise<any> => {
-//   return new Promise((resolve, reject) => {
-//     const _roleList = convertFn ? RoleList.map(convertFn) : RoleList;
-//     const totalData = _roleList.filter((val, index, arr) => {
-//       return val.toLowerCase().indexOf(queryProps.role.toLowerCase()) > -1;
-//     })
-//     const data = totalData.sort(GetCompareFunction({
-//       key: paginationProps.sortBy,
-//       orderType: paginationProps.sortType === 'asc' ? 1 : -1
-//     })).slice((paginationProps.page - 1) * paginationProps.limit, paginationProps.page * paginationProps.limit);
-//
-//     resolve({
-//       code: 200,
-//       data: {
-//         data: data,
-//         paging: {page: paginationProps.page, limit: paginationProps.limit, total: totalData.length}
-//       },
-//       success: true
-//     })
-//   })
-// }
+const GetCompareFunction = ({key, orderType}: { key: string, orderType: 1 | -1 }) => {
+  return (a: any, b: any) => {
+    const _a = key && key != '' ? a[key] : a;
+    const _b = key && key != '' ? b[key] : b;
+    if (_a < _b) {
+      return -1 * orderType;
+    }
+    if (_a > _b) {
+      return 1 * orderType;
+    }
+    return 0;
+  }
+}
+export const RoleList = ['ROLE.MANAGER', 'ROLE.ADMIN', 'ROLE.FARMER', 'ROLE.TECHNICIAN']
+
+export const GetRole = ({queryProps, paginationProps}: any, convertFn?: (value: string) => string): Promise<any> => {
+  return new Promise((resolve, reject) => {
+    const _roleList = convertFn ? RoleList.map(convertFn) : RoleList;
+    const totalData = _roleList.filter((val, index, arr) => {
+      return val.toLowerCase().indexOf(queryProps.role.toLowerCase()) > -1;
+    })
+    const data = totalData.sort(GetCompareFunction({
+      key: paginationProps.sortBy,
+      orderType: paginationProps.sortType === 'asc' ? 1 : -1
+    })).slice((paginationProps.page - 1) * paginationProps.limit, paginationProps.page * paginationProps.limit);
+
+    resolve({
+      code: 200,
+      data: {
+        data: data,
+        paging: {page: paginationProps.page, limit: paginationProps.limit, total: totalData.length}
+      },
+      success: true
+    })
+  })
+}
+
+export const StatusList = [{code: "1", name: "Hoạt động"}, {code: "0", name: "Không hoạt động"}];
+export const GetStatusList = ({queryProps, paginationProps}: any): Promise<any> => {
+  console.log(queryProps);
+  return new Promise((resolve, reject) => {
+    const totalData = StatusList.filter((val, index, arr) => {
+      return Object.values(queryProps).some((query: any) => val.name.toLowerCase().indexOf(query.toLowerCase()) > -1);
+    });
+    const data = totalData.sort(GetCompareFunction({
+      key: paginationProps.sortBy,
+      orderType: paginationProps.sortType === 'asc' ? 1 : -1
+    })).slice((paginationProps.page - 1) * paginationProps.limit, paginationProps.page * paginationProps.limit);
+    // console.log(data);
+    resolve({
+      code: 200,
+      data: {
+        data: data,
+        paging: {page: paginationProps.page, limit: paginationProps.limit, total: totalData.length}
+      },
+      success: true
+    })
+  })
+}
 
 
 export const Count: CountProps<any> = ({
@@ -175,17 +198,17 @@ export const GetManagementOrganization = ({queryProps}: any): Promise<any> => {
   })
 }
 
-export const GetStatus = ({queryProps}: any): Promise<any> => {
-  return new Promise((resolve, reject) => {
-    console.log(queryProps);
-    const data = ["0", "1"];
-    resolve({
-      code: 200,
-      data: {
-        data: data,
-        paging: {page: 1, limit: 100, total: data.length}
-      },
-      success: true
-    })
-  })
-}
+// export const GetStatus = ({queryProps}: any): Promise<any> => {
+//   return new Promise((resolve, reject) => {
+//     console.log(queryProps);
+//     const data = ["0", "1"];
+//     resolve({
+//       code: 200,
+//       data: {
+//         data: data,
+//         paging: {page: 1, limit: 100, total: data.length}
+//       },
+//       success: true
+//     })
+//   })
+// }
