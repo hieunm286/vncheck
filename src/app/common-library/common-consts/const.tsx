@@ -5,7 +5,7 @@ import { HeaderSortingClasses, SortCaret } from '../helpers/table-sorting-helper
 export type OrderType = '1' | '-1';
 
 export const SortDefault: { dataField: any; order: string }[] = [
-  { dataField: '', order: 'asc' },
+  { dataField: '', order: 'desc' },
 ];
 export const SizePerPageList = [
   { text: '5', value: 5 },
