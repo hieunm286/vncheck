@@ -213,6 +213,7 @@ export type _ModifyModelInput =
   | ({ _type: 'checkbox' } & _CommonProps)
   | ({ _type: 'search-select', onSearch: GetAllPropsServer<any> | GetAllProps<any>, keyField?: string, selectField?: string } & _CommonProps)
   | ({ _type: 'tree-select', onSearch: any, keyField?: string, selectField?: string } & _CommonProps)
+  | ({ _type: 'select', onSearch: any, keyField?: string, selectField?: string } & _CommonProps)
 
 export type GetAllProps<T> = ({
                                 queryProps,
