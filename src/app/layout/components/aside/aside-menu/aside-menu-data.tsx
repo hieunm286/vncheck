@@ -31,6 +31,7 @@ export const MenuItems: MenuItemModel[] = [
       },
     ],
   },
+  {parent: true, title: 'MENU.CUSTOMERS_MANAGEMENT', url: '/customers-management'},
   // {
   //   section: true,
   //   title: 'MENU.USER',
@@ -98,10 +99,7 @@ export const MenuItems: MenuItemModel[] = [
       },
     ],
   },
-  {parent: true, title: 'MENU.CUSTOMERS_MANAGEMENT', url: '/customers-management'},
   {parent: true, title: 'MENU.PRODUCT_PLANT', url: '/production-plan'},
-  {parent: true, title: 'MENU.REPORT'},
   {parent: true, title: 'MENU.PRODUCT_MANAGEMENT', url: '/production-management'},
   {parent: true, title: 'MENU.QRCODE', url: '/qr',},
-  {parent: true, title: 'MENU.INVENTORY'},
 ];
