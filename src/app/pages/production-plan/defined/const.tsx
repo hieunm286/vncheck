@@ -871,7 +871,7 @@ export const masterEntityDetailDialog2: RenderInfoDetail = [
     data: {
       code: {title: 'PRODUCTION_PLAN.CODE'},
       farmLocation: {
-        title: 'FARM_LOCATION',
+        title: 'EMPTY',
       },
       'seeding.code': {title: 'SEEDING.CODE'},
       'seeding.species.name': {title: 'SEEDING.SPECIES_NAME'},
