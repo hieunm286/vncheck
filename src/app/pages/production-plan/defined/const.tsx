@@ -641,14 +641,14 @@ export const PlantingDetailDialog: RenderInfoDetail = [
       'planting.species.barcode': {title: 'SEEDING.GTIN'},
       'planting.estimatedPlantingTime': {
         title: 'Thời gian trồng dự kiến',
-        formatter: input => DisplayDateTime(input),
+        formatter: input => DisplayDateTimeV2(input),
       },
       
       'planting.area': {title: 'SEEDING.SEEDING_AREA'},
       
       'planting.estimatedHarvestTime': {
         title: 'Thời gian thu hoạch dự kiến',
-        formatter: input => DisplayDateTime(input),
+        formatter: input => DisplayDateTimeV2(input),
       },
       'planting.numberOfPlants': {title: 'SEEDING.NUMBER_OF_SEED'},
       'planting.landLot.code': {title: 'SEEDING.LAND_LOT'},
@@ -755,13 +755,13 @@ export const SeedingDetailDialog: RenderInfoDetail = [
       
       'seeding.seedingTime': {
         title: 'SEEDING.SEEDING_TIME',
-        formatter: input => DisplayDateTime(input),
+        formatter: input => DisplayDateTimeV2(input),
       },
       'seeding.area': {title: 'SEEDING.SEEDING_AREA'},
       
       'seeding.estimatedPlantingTime': {
         title: 'SEEDING.ESTIMATED_PLANTING_TIME',
-        formatter: input => DisplayDateTime(input),
+        formatter: input => DisplayDateTimeV2(input),
       },
       'seeding.numberOfSeed': {title: 'SEEDING.NUMBER_OF_SEED'},
       
