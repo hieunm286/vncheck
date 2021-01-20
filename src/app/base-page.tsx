@@ -72,7 +72,7 @@ export default function BasePage() {
         <Route path="/production-plan" component={ProductionPlan}/>
         <Route path="/production-management" component={ProductionManagement}/>
         <Route path="/qr" component={QrManagement}/>
-        <Route path="/management-organization" component={ManagementOrganization}/>
+        <Route path="/account/organization" component={ManagementOrganization}/>
         <Route path="/account/role" component={RolePage}/>
         <Route path="/customers-management" component={CustomersManagement}/>
         
