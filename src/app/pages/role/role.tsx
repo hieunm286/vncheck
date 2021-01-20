@@ -97,9 +97,9 @@ export default function ManagementOrganization() {
   const   roleDetailrenderInfo : RenderInfoDetail = [
     {
       header: '',
-      className: '',
-      titleClassName: '',
-      dataClassName: '',
+      dataClassName: 'col-lg-8 col-md-8',
+      titleClassName: 'col-lg-4 col-md-4',
+      className: 'col-lg-12 col-md-12',
       data: {
         'managementUnit': {
           title: 'ROLE.VIEW.LABEL.MANAGEMENT_ORGANIZATION',

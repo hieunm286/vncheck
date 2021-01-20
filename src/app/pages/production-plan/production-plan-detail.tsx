@@ -90,7 +90,7 @@ export function ProductionPlanDetail({
                       <>
                         {value.data[dataKey].title && value.data[dataKey].title !== '' && (
                           <div className={`${value.titleClassName ?? 'col-4 mb-10'}`}>
-                            {intl.formatMessage({ id: value.data[dataKey].title })}:
+                            {intl.formatMessage({ id: value.data[dataKey].title })}{value.data[dataKey].title !== 'EMPTY' ? ':' : ''}
                           </div>
                         )}
                         <div className={`${value.dataClassName ?? 'col-8 mb-10'}`}>

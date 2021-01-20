@@ -1135,7 +1135,7 @@ function ProductionPlan() {
                 window.open(`https://google.com/maps/search/${arr[1]},+${arr[0]}`, '_blank');
               },
               style: {textDecoration: 'underline', cursor: 'pointer', color: '#27AE60'},
-              label: 'PLANTING_LOCATION',
+              label: 'FARM_LOCATION',
               disabled: true,
               required: true,
             },
@@ -1581,7 +1581,7 @@ function ProductionPlan() {
                 formPart={formPart}
                 formModel={updateForm}
                 allFormField={allFormField}
-                allFormButton={history.location.state === '5' ? adminEditFormButton : history.location.state === '2' ? allFormButton2 : allFormButton}
+                allFormButton={editEntity?.confirmationStatus === '1' ? adminEditFormButton : editEntity?.confirmationStatus === '2' ? allFormButton2 : allFormButton}
                 current={history.location.state}
                 validation={ProductPlantSchema}
                 autoFill={{

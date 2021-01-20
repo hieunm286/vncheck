@@ -37,7 +37,7 @@ export function ActionsColumnFormatter<T>(
       </a>)}
       {onClone &&  (<a
         // title={intl.formatMessage({id: 'COMMON_COMPONENT.MASTER_BODY.TABLE.DELETE_BTN'})}
-        className="btn btn-icon btn-light btn-hover-primary btn-sm visibility"
+        className="btn btn-icon btn-light btn-hover-primary btn-sm visibility mx-1"
         onClick={(e) => {
           onClone(row);
           e.preventDefault();
