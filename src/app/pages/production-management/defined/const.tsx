@@ -7,6 +7,7 @@ import {
   DisplayCelcius,
   DisplayCoordinates,
   DisplayDateTime,
+  DisplayDateTimeV2,
   DisplayImage,
   DisplayInnerLink,
   DisplayPercent,
@@ -157,7 +158,7 @@ export const PreliminaryTreatmentDetail: RenderInfoDetail = [
       ...harvestingCode,
       'preliminaryTreatment.time': {
         keyField: 'preliminaryTreatment', title: 'PRELIMINARY_TREATMENT_TIME', formatter: (e) => {
-          return (<>{DisplayDateTime(e.startTime)} {e.endTime && (<> - {DisplayDateTime(e.endTime)}</>)}</>);
+          return (<>{DisplayDateTimeV2(e.startTime)} {e.endTime && (<> - {DisplayDateTimeV2(e.endTime)}</>)}</>);
         }
       },
       'preliminaryTreatment.code': { title: 'PRODUCTION_PLAN.PreliminaryTreatment_CODE' },
@@ -233,7 +234,7 @@ export const CleaningDetail: RenderInfoDetail = [
       ...harvestingCode,
       'cleaning.time': {
         keyField: 'cleaning', title: 'CLEANING_TIME', formatter: (e) => {
-          return (<>{DisplayDateTime(e.startTime)} {e.endTime && (<> - {DisplayDateTime(e.endTime)}</>)}</>);
+          return (<>{DisplayDateTimeV2(e.startTime)} {e.endTime && (<> - {DisplayDateTimeV2(e.endTime)}</>)}</>);
         }
       },
       ...preliminaryTreatmentCode,
@@ -308,7 +309,7 @@ export const PackingDetail: RenderInfoDetail = [
       ...harvestingCode,
       'packing.time': {
         keyField: 'packing', title: 'PACKING_TIME', formatter: (e) => {
-          return (<>{DisplayDateTime(e.startTime)} {e.endTime && (<> - {DisplayDateTime(e.endTime)}</>)}</>);
+          return (<>{DisplayDateTimeV2(e.startTime)} {e.endTime && (<> - {DisplayDateTimeV2(e.endTime)}</>)}</>);
         }
       },
       ...preliminaryTreatmentCode,
@@ -340,7 +341,7 @@ export const PackingDetail: RenderInfoDetail = [
     titleClassName: 'col-0 hidden',
     dataClassName: 'col-12',
     data: {
-      'comments': {
+      'packing.products': {
         formatter: (entities: any[]) => {
           const columns: ColumnDescription<any, any>[] = [
             {
@@ -350,8 +351,8 @@ export const PackingDetail: RenderInfoDetail = [
               style: {paddingTop: 20},
             },
             {
-              dataField: 'identification',
-              text: `Mã định danh`,
+              dataField: 'species.barcode',
+              text: `GTIN`,
               align: 'center',
               ...SortColumn,
             },
@@ -363,11 +364,13 @@ export const PackingDetail: RenderInfoDetail = [
               ...SortColumn,
             },
             {
-              dataField: 'assignDate',
+              dataField: 'createdAt',
               text: `Ngày gán mã QR`,
-              formatter: (cell: any, row: any, rowIndex: number) => {
-                return <span>{JSON.stringify(row.assignDate)}</span>
-              },
+              formatter: (cell: any, row: any, rowIndex: number) => (
+                <span>
+                  {DisplayDateTimeV2(row.createdAt)}
+                </span>
+              ),
               ...SortColumn,
             },
             {
@@ -380,16 +383,24 @@ export const PackingDetail: RenderInfoDetail = [
             {
               dataField: 'activeAt',
               text: `Ngày kích hoạt`,
-              formatter: (cell: any, row: any, rowIndex: number) => {
-                return <span>{JSON.stringify(row.assignDate)}</span>
-              },
+              formatter: (cell: any, row: any, rowIndex: number) => (
+                <span>
+                  {DisplayDateTimeV2(row.activeAt)}
+                </span>
+              ),
               ...SortColumn,
             },
             {
               dataField: 'activeBy.fullName',
               text: `Người kích hoạt`,
               align: 'center',
-              // formatter: (cell: any, row: any, rowIndex: number) => DisplayPersonName(cell),
+              formatter: (cell: any, row: any, rowIndex: number) => {
+                return (
+                  <>
+                  {row.activeBy && row.activeBy.fullName ? row.activeBy.fullName : 'Không có thông tin' }
+                  </>
+                )
+              },
               ...SortColumn,
             },
             {
@@ -398,7 +409,6 @@ export const PackingDetail: RenderInfoDetail = [
               formatter: (cell: any, row: any, rowIndex: number) => {
                 return <span>{JSON.stringify(row.assignDate)}</span>
               },
-              ...SortColumn,
             },
           ]
           return <DisplayTable entities={entities} columns={columns}/>
@@ -449,17 +459,17 @@ export const PreservationDetail: RenderInfoDetail = [
       ...harvestingCode,
       // 'preservation.estimatedStartTime': {
       //   title: 'PRESERVATION_ESTIMATED_TIME_START',
-      //   formatter: input => DisplayDateTime(input),
+      //   formatter: input => DisplayDateTimeV2(input),
       // },
       'preservation.time': {
         keyField: 'preservation', title: 'PRESERVATION_TIME', formatter: (e) => {
-          return (<>{DisplayDateTime(e.estimatedStartTime && e.estimatedStartTime)} {e.estimatedEndTime && (<> - {DisplayDateTime(e.estimatedEndTime)}</>)}</>);
+          return (<>{DisplayDateTimeV2(e.estimatedStartTime && e.estimatedStartTime)} {e.estimatedEndTime && (<> - {DisplayDateTimeV2(e.estimatedEndTime)}</>)}</>);
         }
       },
       ...preliminaryTreatmentCode,
       // 'preservation.estimatedEndTime': {
       //   title: 'PRESERVATION_ESTIMATED_TIME_END',
-      //   formatter: input => DisplayDateTime(input),
+      //   formatter: input => DisplayDateTimeV2(input),
       // },
       ...cleaningCode,
       // 'planting.farmLocation.[coordinates]': {title: 'PRESERVATION_LOCATION', formatter: DisplayCoordinates,},
