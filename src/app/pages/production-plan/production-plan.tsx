@@ -782,23 +782,23 @@ function ProductionPlan() {
   };
   
   const sendRequest = (entity: any) => {
-    const data = {confirmationStatus: '1'};
+    const data = {confirmationStatus: '1', _id: entity._id};
     return ProductionPlanService.Approve(entity, data);
   };
   
   const approve = (entity: any) => {
-    const data = {confirmationStatus: '2'};
+    const data = {confirmationStatus: '2', _id: entity._id};
     return ProductionPlanService.Approve(entity, data);
   };
   
   const updateProcess = (entity: any) => {
     const newProcess = _.toString(_.toInteger(entity.process) + 1);
-    const data = {process: newProcess};
+    const data = {process: newProcess, _id: entity._id};
     return ProductionPlanService.UpdateProcess(entity, data);
   };
   
   const refuse = (entity: any) => {
-    const data = {confirmationStatus: '3'};
+    const data = {confirmationStatus: '3', _id: entity._id};
     return ProductionPlanService.Approve(entity, data);
   };
   

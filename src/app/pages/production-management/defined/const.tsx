@@ -64,7 +64,7 @@ export const harvestingDetail: RenderInfoDetail = [
       ...seedingCode,
       'harvesting.time': {
         keyField: 'harvesting', title: 'PRODUCTION_PLAN.HARVEST_DATE', formatter: (e) => {
-          return (<>{DisplayDateTime(e.startTime)} {e.endTime && (<> - {DisplayDateTime(e.endTime)}</>)}</>);
+          return (<>{DisplayDateTimeV2(e.startTime)} {e.endTime && (<> - {DisplayDateTimeV2(e.endTime)}</>)}</>);
         }
       },
       // 'planting.estimatedHarvestTime': { title: 'PRODUCTION_PLAN.HARVEST_DATE' },
@@ -136,7 +136,7 @@ export const harvestingDetail: RenderInfoDetail = [
             title: 'IMAGE_INFO',
             component: Display3Info
           }
-          return DisplayImage(image, renderInfo, 'isMaster')
+          return DisplayImage(image, renderInfo, ['isMaster', true])
         }
       },
     },
@@ -211,7 +211,7 @@ export const PreliminaryTreatmentDetail: RenderInfoDetail = [
             title: 'IMAGE_INFO',
             component: Display3Info,
           }
-          return DisplayImage(image, renderInfo, 'isMaster')
+          return DisplayImage(image, renderInfo, ['isMaster', true])
         }
       },
     },
@@ -285,7 +285,7 @@ export const CleaningDetail: RenderInfoDetail = [
             title: 'IMAGE_INFO',
             component: Display3Info
           }
-          return DisplayImage(image, renderInfo, 'isMaster')
+          return DisplayImage(image, renderInfo, ['isMaster', true])
         }
       },
     },
