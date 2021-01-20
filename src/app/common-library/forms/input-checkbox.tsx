@@ -45,22 +45,20 @@ function CheckBoxField({ optionData, name, label }: Prop) {
   
   const [field] = useField({ name });
 
-  console.log(field)
 
-  const [indeterminate, setIndeterminate] = React.useState(GetCheckBoxValue(field.value).length > 0 ? true : false);
   const { setFieldValue, errors, touched, getFieldMeta, values } = useFormikContext<any>();
 
   const onChange = (list: any[]) => {
     console.log(list)
     setFieldValue(name, list);
     console.log(field)
-    setIndeterminate(!!list.length && list.length < optionData.filter((value: any) => !value.disabled).length);
+    // setIndeterminate(!!list.length && list.length < optionData.filter((value: any) => !value.disabled).length);
   };
 
   const onCheckAllChange = (e: any) => {
     const checkArr: any[] = handleCheckAll(optionData);
     setFieldValue(name, e.target.checked ? checkArr : []);
-    setIndeterminate(false);
+    // setIndeterminate(false);
   };
 
   return (
@@ -69,7 +67,7 @@ function CheckBoxField({ optionData, name, label }: Prop) {
         <div className="d-flex flex-column col-md-8 col-12">
           <div className="check-all-field checkbox-input bg-light pt-3 pb-3 pr-3">
             <Checkbox
-              indeterminate={indeterminate}
+              indeterminate={field.value && field.value.length > 0 && (field.value.length < optionData.length)}
               onChange={onCheckAllChange}
               checked={(field && field.value) ? (field.value.length >= optionData.length) : false}
               className="checkbox-all">
