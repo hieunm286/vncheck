@@ -252,13 +252,6 @@ export default function ManagementOrganization() {
   const columns = React.useMemo(() => {
     return [
       {
-        dataField: '',
-        text: `${intl.formatMessage({id: 'ORDINAL'})}`,
-        ...SortColumn,
-        align: 'center',
-        formatter: (cell: any, row: any, rowIndex: number) => (<>{rowIndex + 1}</>),
-      },
-      {
         dataField: '_id',
         text: `${intl.formatMessage({id: 'ROLE.MASTER.TABLE.ROLE_CODE' })}`,
         ...SortColumn,
@@ -419,6 +412,7 @@ export default function ManagementOrganization() {
           />
 
           <MasterBody
+            isShowId
             title={bodyTitle}
             onCreate={() => {
               history.push(`${window.location.pathname}/new`);
