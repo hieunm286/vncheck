@@ -356,7 +356,7 @@ export default function ManagementOrganization() {
     },
     managementUnit: {
       type: 'tree-select',
-      name: 'managementUnit._id',
+      name: 'managementUnit',
       label: 'ROLE.HEADER.LABEL.MANAGEMENT_ORGANIZATION',
       placeholder: 'ROLE.HEADER.PLACEHOLDER.MANAGEMENT_ORGANIZATION',
       onSearch: ({queryProps, sortList, paginationProps,}: any) => {
