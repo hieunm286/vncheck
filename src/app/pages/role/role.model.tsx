@@ -12,5 +12,5 @@ export type RoleModel = {
   // } | string | undefined;
   scopes: string[];
   status: string;
-  managementUnit?: Partial<ManagementOrganizationModel> | string | undefined;
+  managementUnit?: Partial<ManagementOrganizationModel>;
 }
