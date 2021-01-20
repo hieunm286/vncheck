@@ -355,11 +355,15 @@ export default function ManagementOrganization() {
       // onSearch: GetNames,
     },
     managementUnit: {
-      type: 'string',
+      type: 'tree-select',
       name: 'managementUnit._id',
       label: 'ROLE.HEADER.LABEL.MANAGEMENT_ORGANIZATION',
       placeholder: 'ROLE.HEADER.PLACEHOLDER.MANAGEMENT_ORGANIZATION',
-      // onSearch: GetManagementOrganization,
+      onSearch: ({queryProps, sortList, paginationProps,}: any) => {
+        return ManagementOrganizationService.GetAll({queryProps}).then((e) => {
+          return (e.data);
+        })
+      },
     },
     status: {
       type: 'search-select',
