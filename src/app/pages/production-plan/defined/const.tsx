@@ -24,6 +24,7 @@ import {
   DisplayPercent,
   DisplayPersonNameByArray,
 } from '../../../common-library/helpers/detail-helpers';
+import momentTimeZone from 'moment-timezone';
 
 export const headerTitle = 'PRODUCT_TYPE.MASTER.HEADER.TITLE';
 export const bodyTitle = 'PRODUCT_TYPE.MASTER.BODY.TITLE';
@@ -32,6 +33,17 @@ export const deleteDialogTitle = 'PRODUCT_TYPE.DELETE_DIALOG.TITLE';
 export const createTitle = 'PRODUCT_TYPE.CREATE.TITLE';
 export const updateTitle = 'PURCHASE_ORDER.UPDATE.TITLE';
 export const homeURL = `${window.location.pathname}`;
+
+
+export const DisplayDateTimeV2 = (input: string, _format?: string) => {
+  if (!input) return <></>;
+  return (
+    <>
+    {momentTimeZone(input).tz('Asia/Ho_Chi_Minh').format(_format ?? 'DD/MM/YYYY HH:mm')}
+    </>
+  );
+
+}
 
 export const Fix = ({title}: { title: string }) => {
   const intl = useIntl();
@@ -640,14 +652,14 @@ export const PlantingDetailDialog: RenderInfoDetail = [
       'planting.species.barcode': {title: 'SEEDING.GTIN'},
       'planting.estimatedPlantingTime': {
         title: 'Thời gian trồng dự kiến',
-        formatter: input => DisplayDateTime(input),
+        formatter: input => DisplayDateTimeV2(input),
       },
       
       'planting.area': {title: 'SEEDING.SEEDING_AREA'},
       
       'planting.estimatedHarvestTime': {
         title: 'Thời gian thu hoạch dự kiến',
-        formatter: input => DisplayDateTime(input),
+        formatter: input => DisplayDateTimeV2(input),
       },
       'planting.numberOfPlants': {title: 'SEEDING.NUMBER_OF_SEED'},
       'planting.landLot.code': {title: 'SEEDING.LAND_LOT'},
@@ -754,13 +766,13 @@ export const SeedingDetailDialog: RenderInfoDetail = [
       
       'seeding.seedingTime': {
         title: 'SEEDING.SEEDING_TIME',
-        formatter: input => DisplayDateTime(input),
+        formatter: input => DisplayDateTimeV2(input),
       },
       'seeding.area': {title: 'SEEDING.SEEDING_AREA'},
       
       'seeding.estimatedPlantingTime': {
         title: 'SEEDING.ESTIMATED_PLANTING_TIME',
-        formatter: input => DisplayDateTime(input),
+        formatter: input => DisplayDateTimeV2(input),
       },
       'seeding.numberOfSeed': {title: 'SEEDING.NUMBER_OF_SEED'},
       
@@ -892,13 +904,13 @@ export const masterEntityDetailDialog2: RenderInfoDetail = [
       
       'seeding.seedingTime': {
         title: 'SEEDING.SEEDING_TIME',
-        formatter: input => DisplayDateTime(input),
+        formatter: input => DisplayDateTimeV2(input),
       },
       'seeding.numberOfSeed': {title: 'SEEDING.NUMBER_OF_SEED'},
       
       'seeding.estimatedPlantingTime': {
         title: 'SEEDING.ESTIMATED_PLANTING_TIME',
-        formatter: input => DisplayDateTime(input),
+        formatter: input => DisplayDateTimeV2(input),
       },
       
       'planting.numberOfPlants': {title: 'PLATING_QUANTITY'},
@@ -944,7 +956,7 @@ export const masterEntityDetailDialog2: RenderInfoDetail = [
     data: {
       'planting.estimatedHarvestTime': {
         title: 'Thời gian thu hoạch (dự kiến)',
-        formatter: input => DisplayDateTime(input),
+        formatter: input => DisplayDateTimeV2(input),
       },
       'harvesting.[technical]': {
         title: 'Nhân viên kỹ thuật thu hoạch',
@@ -966,7 +978,7 @@ export const masterEntityDetailDialog2: RenderInfoDetail = [
     data: {
       'preliminaryTreatment.estimatedTime': {
         title: 'SEEDING.SEEDING_TIME',
-        formatter: input => DisplayDateTime(input),
+        formatter: input => DisplayDateTimeV2(input),
       },
       'preliminaryTreatment.[technical]': {
         title: 'Nhân viên kỹ thuật sơ chế',
@@ -988,7 +1000,7 @@ export const masterEntityDetailDialog2: RenderInfoDetail = [
     data: {
       'cleaning.estimatedTime': {
         title: 'SEEDING.SEEDING_TIME',
-        formatter: input => DisplayDateTime(input),
+        formatter: input => DisplayDateTimeV2(input),
       },
       'cleaning.[technical]': {
         title: 'Nhân viên kỹ thuật làm sạch',
@@ -1010,12 +1022,12 @@ export const masterEntityDetailDialog2: RenderInfoDetail = [
     data: {
       'packing.estimatedTime': {
         title: 'Thời gian đóng gói (dự kiến)',
-        formatter: input => DisplayDateTime(input),
+        formatter: input => DisplayDateTimeV2(input),
       },
       'packing.estimatedQuantity': {title: 'PACKING_QUANTITY'},
       'packing.estimatedExpireTimeStart': {
         title: 'Hạn sử dụng (từ ngày)',
-        formatter: input => DisplayDateTime(input),
+        formatter: input => DisplayDateTimeV2(input),
       },
       'packing.[technical]': {
         title: 'KCS',
@@ -1023,7 +1035,7 @@ export const masterEntityDetailDialog2: RenderInfoDetail = [
       },
       'packing.estimatedExpireTimeEnd': {
         title: 'Hạn sử dụng (đến ngày)',
-        formatter: input => DisplayDateTime(input),
+        formatter: input => DisplayDateTimeV2(input),
       },
       'packing.[leader]': {
         title: 'Tổ trưởng đóng gói',
@@ -1042,7 +1054,7 @@ export const masterEntityDetailDialog2: RenderInfoDetail = [
     data: {
       'preservation.estimatedStartTime': {
         title: 'Thời gian bảo quản (từ ngày)',
-        formatter: input => DisplayDateTime(input),
+        formatter: input => DisplayDateTimeV2(input),
       },
       'preservation.[technical]': {
         title: 'Nhân viên kỹ thuật bảo quản',
@@ -1050,7 +1062,7 @@ export const masterEntityDetailDialog2: RenderInfoDetail = [
       },
       'preservation.estimatedEndTime': {
         title: 'Thời gian bảo quản (đến ngày)',
-        formatter: input => DisplayDateTime(input),
+        formatter: input => DisplayDateTimeV2(input),
       },
     },
   },
