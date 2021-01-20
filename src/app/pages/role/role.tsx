@@ -111,7 +111,7 @@ export default function ManagementOrganization() {
         },
         status: {
           title: 'ROLE.VIEW.LABEL.STATUS',
-          formatter: (value: any) => (value === 1 || value === true || value === "1") ? (<CheckCircleIcon style={{color: '#1DBE2D'}}/>) : (<CheckCircleIcon style={{color: '#C4C4C4'}}/>)
+          formatter: TickColumnFormatter,
           
         },
         name: {
@@ -288,6 +288,26 @@ export default function ManagementOrganization() {
         formatter: ActionsColumnFormatter,
         formatExtraData: {
           intl,
+          onClone: (entity: RoleModel) => {
+            const validateManagementUnit = (entity: RoleModel) => {
+              const { managementUnit } = entity;
+              if(_.isObject(managementUnit)) {
+                return managementUnit._id;
+              } else {
+                return undefined;
+              }
+            }
+            const _entity: RoleModel = {
+              name: entity.name,
+              status: entity.status,
+              managementUnit: validateManagementUnit(entity),
+              scopes: entity.scopes,
+
+            };
+            add(_entity).then((res) => {
+              console.log(res);
+            })
+          },
           onShowDetail: (entity: RoleModel) => {
             setDetailEntity(entity);
             setShowDetail(true);
@@ -299,7 +319,7 @@ export default function ManagementOrganization() {
           onDelete: (entity: RoleModel) => {
             setDeleteEntity(entity);
             setShowDelete(true);
-          }
+          },
         },
         ...NormalColumn,
         style: {minWidth: '130px'},

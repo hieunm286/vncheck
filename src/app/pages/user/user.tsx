@@ -168,7 +168,7 @@ function User() {
       className: 'col-md-6 col-12',
       dataClassName: 'col-md-12 col-12 text-lg-center',
       data: {
-        images: {
+        image: {
           formatter: (input) => <DetailImage images={input} width={200} height={200}/>
         },
       },
@@ -243,7 +243,7 @@ function User() {
   const group1 = useMemo((): ModifyInputGroup => ({
     _subTitle: 'USER.MODIFY.DETAIL_INFO',
     _className: 'col-6 pr-xl-15 pr-md-10 pr-5',
-    images: {
+    image: {
       _type: 'image',
       maxNumber: 1,
       label: 'USER.MODIFY.IMAGE',

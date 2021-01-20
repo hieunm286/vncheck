@@ -30,7 +30,6 @@ export const GetAll: GetAllPropsServer<any> = ({
   });
 };
 
-
 export const Count: CountProps<UserModel> = (queryProps) => {
   return axios.get(`${API_URL}/get/count`, {
     params: {...queryProps},

@@ -10,12 +10,13 @@ import {ActionColumnProps} from '../common-types/common-type';
 import {IntlShape} from 'react-intl';
 import DeleteIcon from '@material-ui/icons/Delete';
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
+import QueueOutlinedIcon from '@material-ui/icons/QueueOutlined';
 
 export function ActionsColumnFormatter<T>(
   cellContent: any,
   row: any,
   rowIndex: number,
-  {onShowDetail, onDelete, onEdit,onLock, onChangeRole, intl}: ActionColumnProps<T> & { intl: IntlShape },
+  {onShowDetail, onDelete, onEdit,onLock, onChangeRole, onClone, intl}: ActionColumnProps<T> & { intl: IntlShape },
 ) {
   return (
     <div>
@@ -32,6 +33,19 @@ export function ActionsColumnFormatter<T>(
             src={ToAbsoluteUrl('/media/svg/vncheck/lock.svg')}
             title={intl.formatMessage({id: 'COMMON_COMPONENT.MASTER_BODY.TABLE.EDIT_BTN'})}
           />
+        </span>
+      </a>)}
+      {onClone &&  (<a
+        // title={intl.formatMessage({id: 'COMMON_COMPONENT.MASTER_BODY.TABLE.DELETE_BTN'})}
+        className="btn btn-icon btn-light btn-hover-primary btn-sm visibility"
+        onClick={(e) => {
+          onClone(row);
+          e.preventDefault();
+        }}>
+        <span className="svg-icon svg-icon-md svg-icon-primary">
+          <span className="svg-icon svg-icon-md svg-icon-primary">
+            <QueueOutlinedIcon className="text-primary eye"/>
+          </span>
         </span>
       </a>)}
       {onShowDetail && (<a
