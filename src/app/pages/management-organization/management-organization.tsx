@@ -119,7 +119,7 @@ export default function ManagementOrganization() {
       {
         dataField: '',
         text: `${intl.formatMessage({id: 'ORDINAL'})}`,
-        ...SortColumn,
+        // ...SortColumn,
         align: 'center',
         formatter: (cell: any, row: any, rowIndex: number) => (<>{rowIndex + 1}</>),
       },
