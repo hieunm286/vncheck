@@ -913,7 +913,7 @@ export const masterEntityDetailDialog2: RenderInfoDetail = [
       'planting.landLot.code': {title: 'PLANTING.LAND_LOT'},
       
       'planting.farmLocation.[coordinates]': {
-        title: 'PLANTING.FARMLOCATION',
+        title: 'FARM_LOCATION',
         formatter: DisplayCoordinates,
       },
     },
@@ -927,11 +927,11 @@ export const masterEntityDetailDialog2: RenderInfoDetail = [
       'seeding.manager.fullName': {title: 'Thông tin Giám đốc/TGĐ'},
       'planting.manager.fullName': {title: 'Người lập kế hoạch'},
       'seeding.[leader]': {
-        title: 'SEEDING.FARM_LOCATION',
+        title: 'ADMIN_SEEDING_LEADER',
         formatter: DisplayPersonNameByArray,
       },
       'planting.[leader]': {
-        title: 'SEEDING.FARM_LOCATION',
+        title: 'ADMIN_PLANTING_LEADER',
         formatter: DisplayPersonNameByArray,
       },
     },
