@@ -57,11 +57,11 @@ export function MasterEntityDetailPage({
 }) {
   const intl = useIntl();
   
-  const [entityDetail, setEntityDetail] = useState(entity || null);
+  const [entityDetail, setEntityDetail] = useState(entity);
   
-  useEffect(() => {
-    setEntityDetail(entity);
-  }, [entity])
+  // useEffect(() => {
+  //   setEntityDetail(entity);
+  // }, [entity])
   
   useEffect(() => {
     if (code && get) {

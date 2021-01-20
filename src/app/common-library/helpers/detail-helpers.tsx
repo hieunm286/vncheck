@@ -7,6 +7,7 @@ import {MasterBodyColumns, PaginationProps} from '../common-types/common-type';
 import {GetCompareFunction} from './common-function';
 import {Link} from 'react-router-dom';
 import moment from 'moment';
+import momentTimeZone from 'moment-timezone';
 import _ from 'lodash';
 
 export const DisplayString = (input: string) => {
@@ -107,6 +108,16 @@ export const DisplayDateTime = (input: string, _format?: string) => {
     </>
   );
 };
+
+export const DisplayDateTimeV2 = (input: string, _format?: string) => {
+  if (!input) return <>Không có thông tin</>;
+  return (
+    <>
+    {momentTimeZone(input).tz('Asia/Ho_Chi_Minh').format(_format ?? 'DD/MM/YYYY HH:mm')}
+    </>
+  );
+
+}
 
 export const DisplayDownloadLink = (input: any, key?: string) => {
   const intl = useIntl();

@@ -252,13 +252,6 @@ export default function ManagementOrganization() {
   const columns = React.useMemo(() => {
     return [
       {
-        dataField: '',
-        text: `${intl.formatMessage({id: 'ORDINAL'})}`,
-        ...SortColumn,
-        align: 'center',
-        formatter: (cell: any, row: any, rowIndex: number) => (<>{rowIndex + 1}</>),
-      },
-      {
         dataField: '_id',
         text: `${intl.formatMessage({id: 'ROLE.MASTER.TABLE.ROLE_CODE' })}`,
         ...SortColumn,
@@ -291,24 +284,20 @@ export default function ManagementOrganization() {
         formatExtraData: {
           intl,
           onClone: (entity: RoleModel) => {
-            const validateManagementUnit = (entity: RoleModel) => {
-              const { managementUnit } = entity;
-              if(_.isObject(managementUnit)) {
-                return managementUnit._id;
-              } else {
-                return undefined;
+            const validateEntity = (entity: RoleModel): RoleModel => {
+              const { name, managementUnit } = entity;
+              const vManagementUnitId = _.isObject(managementUnit) ? managementUnit._id : undefined;
+              const vName = name.includes(' - Clone') ? name : name + ' - Clone';
+              return {
+                name: vName,
+                status: entity.status,
+                managementUnit: {
+                  _id: vManagementUnitId,
+                },
+                scopes: entity.scopes,
               }
-            }
-            const _entity: RoleModel = {
-              name: entity.name,
-              status: entity.status,
-              managementUnit: validateManagementUnit(entity),
-              scopes: entity.scopes,
-
             };
-            add(_entity).then((res) => {
-              console.log(res);
-            })
+            add(validateEntity(entity));
           },
           onShowDetail: (entity: RoleModel) => {
             setDetailEntity(entity);
@@ -366,11 +355,15 @@ export default function ManagementOrganization() {
       // onSearch: GetNames,
     },
     managementUnit: {
-      type: 'string',
-      name: 'managementUnit._id',
+      type: 'tree-select',
+      name: 'managementUnit',
       label: 'ROLE.HEADER.LABEL.MANAGEMENT_ORGANIZATION',
       placeholder: 'ROLE.HEADER.PLACEHOLDER.MANAGEMENT_ORGANIZATION',
-      // onSearch: GetManagementOrganization,
+      onSearch: ({queryProps, sortList, paginationProps,}: any) => {
+        return ManagementOrganizationService.GetAll({queryProps}).then((e) => {
+          return (e.data);
+        })
+      },
     },
     status: {
       type: 'search-select',
@@ -419,6 +412,7 @@ export default function ManagementOrganization() {
           />
 
           <MasterBody
+            isShowId
             title={bodyTitle}
             onCreate={() => {
               history.push(`${window.location.pathname}/new`);
@@ -447,8 +441,6 @@ export default function ManagementOrganization() {
                 if (_.isArray(values[keys])) {
                   console.log('1')
                   roleArr = roleArr.concat(values[keys])
-                } else if (_.isObject(values[keys])) {
-                  cvValues[keys] = values[keys]._id
                 } else {
                   cvValues[keys] = values[keys]
                 }
@@ -480,8 +472,6 @@ export default function ManagementOrganization() {
                   if (_.isArray(values[keys])) {
                     console.log('1')
                     roleArr = roleArr.concat(values[keys])
-                  } else if (_.isObject(values[keys])) {
-                    cvValues[keys] = values[keys]._id
                   } else {
                     cvValues[keys] = values[keys]
                   }
