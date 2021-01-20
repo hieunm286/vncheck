@@ -1581,7 +1581,7 @@ function ProductionPlan() {
                 formPart={formPart}
                 formModel={updateForm}
                 allFormField={allFormField}
-                allFormButton={history.location.state === '5' ? adminEditFormButton : history.location.state === '2' ? allFormButton2 : allFormButton}
+                allFormButton={editEntity?.confirmationStatus === '1' ? adminEditFormButton : editEntity?.confirmationStatus === '2' ? allFormButton2 : allFormButton}
                 current={history.location.state}
                 validation={ProductPlantSchema}
                 autoFill={{

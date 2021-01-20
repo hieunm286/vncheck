@@ -397,7 +397,7 @@ export const PackingDetail: RenderInfoDetail = [
               ...SortColumn,
             },
           ]
-          return <DisplayTable entities={ProductData} columns={columns}/>
+          return <DisplayTable entities={entities} columns={columns}/>
         },
       },
     },

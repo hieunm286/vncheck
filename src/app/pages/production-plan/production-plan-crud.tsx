@@ -275,7 +275,7 @@ function ProductionPlanCrud({
 
           if (step === '0') {
             submitHandle(updateValue, values, { setSubmitting, setFieldValue, resetForm });
-          } else if (step === '1' && current !== '2' && current !== '5') {
+          } else if (step === '1' && entityForEdit?.confirmationStatus === '0') {
             // if (!updateValue.step || updateValue.step !== '1') {
             //   updateValue.step = '1';
             // }
@@ -305,7 +305,7 @@ function ProductionPlanCrud({
                 console.log('2')
                 // resetForm(entityForEdit);
               });
-          } else if (step === '1' && current && (current === '2' || current === '5')) {
+          } else if (step === '1' && (entityForEdit?.confirmationStatus === '1' || entityForEdit?.confirmationStatus === '2')) {
             approveFollow(updateValue)
               .then(res => {
                 setErrorMsg(undefined);
