@@ -129,7 +129,9 @@ export default function ManagementOrganization() {
   });
 
   const group1 : ModifyInputGroup = {
-    _subTitle: '',
+    _subTitle: 'THÔNG TIN CHUNG',
+    _className: 'col-md-8 col-12 pr-xl-15 pr-md-10 pr-5',
+    _inputClassName: 'ml-xl-15 mb-5',
     // managementOrganization: {
     //   _type: 'custom',
     //   component: () => {
@@ -407,7 +409,11 @@ export default function ManagementOrganization() {
             title={headerTitle}
             onSearch={(value) => {
               setPaginationProps(DefaultPagination);
-              setFilterProps(value);
+              const cvValue = JSON.parse(JSON.stringify(value))
+              if (value && value.status && !_.isString(value.status)) {
+                cvValue.status = value.status.code
+              }
+              setFilterProps(cvValue);
             }}
             searchModel={searchModel}
           />
