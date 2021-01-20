@@ -7,7 +7,6 @@ import {MasterBodyColumns, PaginationProps} from '../common-types/common-type';
 import {GetCompareFunction} from './common-function';
 import {Link} from 'react-router-dom';
 import moment from 'moment';
-import momentTimeZone from 'moment-timezone';
 import _ from 'lodash';
 
 export const DisplayString = (input: string) => {
@@ -90,34 +89,22 @@ export const DisplayDate = ({input, _format}: { input: string; _format?: string 
   );
 };
 
-export const DisplayDateTime = (input: string, _format?: string) => {
+export const DisplayDateTime = ({input, _format}: { input?: string, _format?: string }) => {
   const intl = useIntl();
   if (!input) return <></>;
   const date_input = new Date(input);
-  const timestamp = new Date();
-  const inverseOffset = moment(timestamp).utcOffset() * -1;
   return (
     <>
       {input
         ? format(
           moment(date_input)
             .toDate(),
-          _format ?? 'dd/MM/yyyy H:mma',
+          _format ?? 'dd/MM/yyyy h:mma',
         )
         : intl.formatMessage({id: 'NO_INFORMATION'})}
     </>
   );
 };
-
-export const DisplayDateTimeV2 = (input: string, _format?: string) => {
-  if (!input) return <></>;
-  return (
-    <>
-    {momentTimeZone(input).tz('Asia/Ho_Chi_Minh').format(_format ?? 'DD/MM/YYYY HH:mm')}
-    </>
-  );
-
-}
 
 export const DisplayDownloadLink = (input: any, key?: string) => {
   const intl = useIntl();
@@ -226,12 +213,12 @@ export const DisplayImage = (
   return <DetailImage images={cvImages} renderInfo={renderInfo} />;
 };
 
-export const DisplayDiffTime = (input: any, entity: any) => {
+export const DisplayDiffTime = ({startTime, endTime}: { startTime?: string, endTime?: string }) => {
   return (
     <>
-      {entity.endTime && entity.startTime
-        ? entity.endTime.toLocaleString() + ', ' + entity.startTime.toLocaleString()
-        : ''}
+      <DisplayDateTime input={startTime}/>
+      {endTime ? ' - ' : ''}
+      <DisplayDateTime input={endTime}/>
     </>
   );
 };

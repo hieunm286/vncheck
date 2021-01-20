@@ -12,7 +12,8 @@ import {DefaultPagination, NormalColumn, SortColumn} from '../../common-library/
 import {Link, Route, Switch, useHistory} from 'react-router-dom';
 import {
   InputGroups,
-  MasterBodyColumns, ModifyForm,
+  MasterBodyColumns,
+  ModifyForm,
   RenderInfoDetail,
   SearchModel
 } from "../../common-library/common-types/common-type";
@@ -48,11 +49,7 @@ import {Select} from 'antd';
 import * as Yup from "yup";
 import {format} from "date-fns";
 import {DetailImage} from "../../common-library/common-components/detail/detail-image";
-import {ModifyEntityPage} from "../../common-library/common-components/modify-entity-page";
-import {Formik} from "formik";
 import EntityCrudPage from "../../common-library/common-components/entity-crud-page";
-import * as ShippingAgencyService from "../shipping-agency/shipping-agency.service";
-import {useWindowSize} from "../auth/pages/auth-page";
 
 const Option = {Select};
 const headerTitle = 'QR.MASTER.HEADER.TITLE';
@@ -164,7 +161,7 @@ function QrPage() {
         dataField: 'activeAt',
         text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.ACTIVE_AT'})}`,
         ...SortColumn,
-        formatter: (input: any) => (input ? DisplayDateTime(input) : (<>{intl.formatMessage({id: 'NO_INFORMATION'})}</>)),
+        formatter: (input: any) => (<DisplayDateTime input={input}/>),
         align: 'center',
       },
       type: {
@@ -222,9 +219,7 @@ function QrPage() {
     {
       dataField: 'exportTime',
       text: 'Thời gian xuất hàng',
-      formatter: (date: string) => {
-        return DisplayDateTime(date);
-      },
+      formatter: (input: any) => (<DisplayDateTime input={input}/>),
       ...SortColumn,
       align: 'center',
     },
@@ -274,9 +269,7 @@ function QrPage() {
     {
       dataField: 'receiveTime',
       text: 'Thời gian nhận hàng',
-      formatter: (date: string) => {
-        return DisplayDateTime(date);
-      },
+      formatter: (input: any) => (<DisplayDateTime input={input}/>),
       ...SortColumn,
       align: 'center',
     },
@@ -386,7 +379,7 @@ function QrPage() {
       data: {
         'scanAt': {
           title: 'Ngày gán QR',
-          formatter: (input) => DisplayDateTime(input)
+          formatter: (input: any) => (<DisplayDateTime input={input}/>),
         },
         'scanBy.fullName': {
           title: 'Người gán QR',
@@ -432,7 +425,7 @@ function QrPage() {
     dataField: 'activeAt',
     text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.ACTIVE_AT'})}`,
     ...SortColumn,
-    formatter: (input: any) => (input ? DisplayDateTime(input) : (<>{intl.formatMessage({id: 'NO_INFORMATION'})}</>)),
+    formatter: (input: any) => (<DisplayDateTime input={input}/>),
     align: 'center',
   },], []);
   const childQrInfo: RenderInfoDetail = useMemo(() => ([
@@ -609,13 +602,6 @@ function QrPage() {
             setMatchId(match && match.params.code);
             return (
               <>
-                {/*<MasterEntityDetailPage*/}
-                {/*  entity={dE}*/}
-                {/*  header={detailHeaderTitle}*/}
-                {/*  renderInfo={headerInfo}*/}
-                {/*  code={match && match.params.code}*/}
-                {/*  onClose={() => history.push('/qr')}*/}
-                {/*/>*/}
                 <EntityCrudPage
                   onModify={(()=>{}) as any}
                   moduleName={moduleName}

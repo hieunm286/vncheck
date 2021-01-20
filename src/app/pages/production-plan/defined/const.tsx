@@ -19,12 +19,12 @@ import {
   DisplayCelcius,
   DisplayCoordinates,
   DisplayDateTime,
-  DisplayDateTimeV2,
   DisplayDownloadLink,
   DisplayImage,
   DisplayPercent,
   DisplayPersonNameByArray,
 } from '../../../common-library/helpers/detail-helpers';
+import momentTimeZone from 'moment-timezone';
 
 export const headerTitle = 'PRODUCT_TYPE.MASTER.HEADER.TITLE';
 export const bodyTitle = 'PRODUCT_TYPE.MASTER.BODY.TITLE';
@@ -33,6 +33,17 @@ export const deleteDialogTitle = 'PRODUCT_TYPE.DELETE_DIALOG.TITLE';
 export const createTitle = 'PRODUCT_TYPE.CREATE.TITLE';
 export const updateTitle = 'PURCHASE_ORDER.UPDATE.TITLE';
 export const homeURL = `${window.location.pathname}`;
+
+
+export const DisplayDateTimeV2 = (input: string, _format?: string) => {
+  if (!input) return <></>;
+  return (
+    <>
+    {momentTimeZone(input).tz('Asia/Ho_Chi_Minh').format(_format ?? 'DD/MM/YYYY HH:mm')}
+    </>
+  );
+
+}
 
 export const Fix = ({title}: { title: string }) => {
   const intl = useIntl();
