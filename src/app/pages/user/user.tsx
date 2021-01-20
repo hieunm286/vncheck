@@ -11,6 +11,7 @@ import {DeleteEntityDialog} from '../../common-library/common-components/delete-
 import {
   ModifyForm,
   ModifyInputGroup,
+  ModifyPanel,
   RenderInfoDetail,
   SearchModel
 } from '../../common-library/common-types/common-type';
@@ -30,6 +31,9 @@ import * as ManagementUnitService from "../management-organization/management-or
 import * as RoleService from "../role/role.service";
 import * as AgencyService from "../agency/agency.service";
 import {Spinner} from "react-bootstrap";
+import { ConvertRoleScope } from '../role/const/convert-scope';
+import * as RoleScope from '../role/const/role_scope';
+import _ from 'lodash';
 
 const headerTitle = 'PRODUCT_TYPE.MASTER.HEADER.TITLE';
 const tableTitle = 'USER.MASTER.TABLE.TITLE';
@@ -394,6 +398,43 @@ function User() {
       },
     },
   }), []);
+
+  const modifyModel2 = React.useMemo((): ModifyPanel => ({
+    _title: 'EMPTY',
+    group2: {
+      _subTitle: 'PHÂN QUYỀN DỮ LIỆU',
+      enterprise: {
+        _type: 'checkbox',
+        label: 'DOANH NGHIỆP SẢN XUẤT',
+        optionData: ConvertRoleScope(RoleScope.role_scope_enterprise, intl)
+      },
+      species: {
+        _type: 'checkbox',
+        label: 'THÔNG TIN CHUNG',
+        optionData: ConvertRoleScope(RoleScope.role_scope_species, intl)
+      },
+      seeding: {
+        _type: 'checkbox',
+        label: 'THÔNG TIN XUỐNG GIỐNG',
+        optionData: ConvertRoleScope(RoleScope.role_scope_seeding, intl)
+      },
+      planting: {
+        _type: 'checkbox',
+        label: 'THÔNG TIN GIEO TRỒNG',
+        optionData: ConvertRoleScope(RoleScope.role_scope_planting, intl)
+      },
+      harvesting: {
+        _type: 'checkbox',
+        label: 'THÔNG TIN THU HOẠCH',
+        optionData: ConvertRoleScope(RoleScope.role_scope_harvesting, intl)
+      },
+      preliminary_treatment: {
+        _type: 'checkbox',
+        label: 'THÔNG TIN SƠ CHẾ',
+        optionData: ConvertRoleScope(RoleScope.role_scope_preliminary_treatment, intl)
+      },
+    }
+  }), [])
   
   const createForm = useMemo((): ModifyForm => ({
     _header: createTitle,
@@ -402,6 +443,7 @@ function User() {
       group1: group1,
       group2: group2,
     },
+    panel2: modifyModel2,
   }), [group1, group2]);
   const updateForm = useMemo((): ModifyForm => {
     return ({...createForm, _header: updateTitle});
@@ -449,7 +491,29 @@ function User() {
         <Route path="/account/user/0000000">
           <EntityCrudPage
             moduleName={moduleName}
-            onModify={add}
+            onModify={(values: any) => {
+              console.log(values)
+              let roleArr: string[] = []
+              const cvValues: any = {}
+
+              Object.keys(values).forEach(keys => {
+                if (_.isArray(values[keys])) {
+                  console.log('1')
+                  roleArr = roleArr.concat(values[keys])
+                } else if (_.isObject(values[keys])) {
+                  cvValues[keys] = values[keys]._id
+                } else {
+                  cvValues[keys] = values[keys]
+                }
+              })
+
+              cvValues.scopes = roleArr
+              console.log(roleArr)
+              console.log(cvValues)
+
+              return add(cvValues)
+              }
+            }
             formModel={createForm}
             entity={createEntity}
             actions={actions}
@@ -459,7 +523,30 @@ function User() {
         <Route path={`/account/user/:code`}>
           {({history, match}) => (
             <EntityCrudPage
-              onModify={update}
+              onModify={(values: any) => {
+                  console.log(values)
+                  let roleArr: string[] = []
+                  const cvValues: any = {}
+    
+                  Object.keys(values).forEach(keys => {
+                    if (_.isArray(values[keys])) {
+                      console.log('1')
+                      roleArr = roleArr.concat(values[keys])
+                    } else if (_.isObject(values[keys])) {
+                      cvValues[keys] = values[keys]._id
+                    } else {
+                      cvValues[keys] = values[keys]
+                    }
+                  })
+    
+                  cvValues.scopes = roleArr
+                  console.log(roleArr)
+                  console.log(cvValues)
+    
+                  return add(cvValues)
+                  
+                }
+              }
               moduleName={moduleName}
               code={match && match.params.code}
               get={GetById}
