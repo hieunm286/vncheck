@@ -7,14 +7,13 @@ import {
   DisplayCelcius,
   DisplayCoordinates,
   DisplayDateTime,
-  DisplayDateTimeV2,
+  DisplayDiffTime,
   DisplayImage,
   DisplayInnerLink,
   DisplayPercent,
   DisplayPersonNameByArray,
   DisplayTable
 } from '../../../common-library/helpers/detail-helpers';
-import {ProductData} from '../production-management.model';
 
 const seedingCode: RenderInfoDetailColumn = {
   'seeding.code': {
@@ -157,9 +156,8 @@ export const PreliminaryTreatmentDetail: RenderInfoDetail = [
       'seeding.species.barcode': { title: 'GTIN' },
       ...harvestingCode,
       'preliminaryTreatment.time': {
-        keyField: 'preliminaryTreatment', title: 'PRELIMINARY_TREATMENT_TIME', formatter: (e) => {
-          return (<>{DisplayDateTimeV2(e.startTime)} {e.endTime && (<> - {DisplayDateTimeV2(e.endTime)}</>)}</>);
-        }
+        keyField: 'preliminaryTreatment', title: 'PRELIMINARY_TREATMENT_TIME',
+        formatter: (e) => (<DisplayDiffTime startTime={e?.startTime} endTime={e?.endTime}/>)
       },
       'preliminaryTreatment.code': { title: 'PRODUCTION_PLAN.PreliminaryTreatment_CODE' },
       'preliminaryTreatment.address': {
@@ -233,9 +231,8 @@ export const CleaningDetail: RenderInfoDetail = [
       'seeding.species.barcode': { title: 'GTIN' },
       ...harvestingCode,
       'cleaning.time': {
-        keyField: 'cleaning', title: 'CLEANING_TIME', formatter: (e) => {
-          return (<>{DisplayDateTimeV2(e.startTime)} {e.endTime && (<> - {DisplayDateTimeV2(e.endTime)}</>)}</>);
-        }
+        keyField: 'cleaning', title: 'CLEANING_TIME',
+        formatter: (e) => (<DisplayDiffTime startTime={e?.startTime} endTime={e?.endTime}/>)
       },
       ...preliminaryTreatmentCode,
       'cleaning.address': {
@@ -308,9 +305,8 @@ export const PackingDetail: RenderInfoDetail = [
       'seeding.species.barcode': { title: 'GTIN' },
       ...harvestingCode,
       'packing.time': {
-        keyField: 'packing', title: 'PACKING_TIME', formatter: (e) => {
-          return (<>{DisplayDateTimeV2(e.startTime)} {e.endTime && (<> - {DisplayDateTimeV2(e.endTime)}</>)}</>);
-        }
+        keyField: 'packing', title: 'PACKING_TIME',
+        formatter: (e) => (<DisplayDiffTime startTime={e?.startTime} endTime={e?.endTime}/>)
       },
       ...preliminaryTreatmentCode,
       // 'planting.farmLocation.[coordinates]': {title: 'PACKING_LOCATION', formatter: DisplayCoordinates,},
@@ -366,11 +362,7 @@ export const PackingDetail: RenderInfoDetail = [
             {
               dataField: 'createdAt',
               text: `Ngày gán mã QR`,
-              formatter: (cell: any, row: any, rowIndex: number) => (
-                <span>
-                  {DisplayDateTimeV2(row.createdAt)}
-                </span>
-              ),
+              formatter: (input) => (<DisplayDateTime input={input}/>),
               ...SortColumn,
             },
             {
@@ -383,11 +375,7 @@ export const PackingDetail: RenderInfoDetail = [
             {
               dataField: 'activeAt',
               text: `Ngày kích hoạt`,
-              formatter: (cell: any, row: any, rowIndex: number) => (
-                <span>
-                  {DisplayDateTimeV2(row.activeAt)}
-                </span>
-              ),
+              formatter: (input) => (<DisplayDateTime input={input}/>),
               ...SortColumn,
             },
             {
@@ -462,9 +450,9 @@ export const PreservationDetail: RenderInfoDetail = [
       //   formatter: input => DisplayDateTimeV2(input),
       // },
       'preservation.time': {
-        keyField: 'preservation', title: 'PRESERVATION_TIME', formatter: (e) => {
-          return (<>{DisplayDateTimeV2(e.estimatedStartTime && e.estimatedStartTime)} {e.estimatedEndTime && (<> - {DisplayDateTimeV2(e.estimatedEndTime)}</>)}</>);
-        }
+        keyField: 'preservation', title: 'PRESERVATION_TIME',
+        formatter: (e) => (
+          <DisplayDiffTime startTime={e?.estimatedExpireTimeStart} endTime={e?.estimatedExpireTimeEnd}/>)
       },
       ...preliminaryTreatmentCode,
       // 'preservation.estimatedEndTime': {
