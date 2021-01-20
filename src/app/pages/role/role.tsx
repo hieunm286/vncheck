@@ -286,18 +286,18 @@ export default function ManagementOrganization() {
           onClone: (entity: RoleModel) => {
             const validateEntity = (entity: RoleModel): RoleModel => {
               const { name, managementUnit } = entity;
-              const vManagementUnit = _.isObject(managementUnit) ? managementUnit._id : undefined;
+              const vManagementUnitId = _.isObject(managementUnit) ? managementUnit._id : undefined;
               const vName = name.includes(' - Clone') ? name : name + ' - Clone';
               return {
                 name: vName,
                 status: entity.status,
-                managementUnit: vManagementUnit,
+                managementUnit: {
+                  _id: vManagementUnitId,
+                },
                 scopes: entity.scopes,
               }
             };
-            add(validateEntity(entity)).then((res) => {
-              console.log(res);
-            })
+            add(validateEntity(entity));
           },
           onShowDetail: (entity: RoleModel) => {
             setDetailEntity(entity);
