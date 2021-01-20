@@ -482,7 +482,7 @@ export const exampleDetail: RenderInfoDetail = [
             title: 'IMAGE_INFO',
             component: Display3Info,
           };
-          return DisplayImage(image, renderInfo, 'isMaster');
+          return DisplayImage(image, renderInfo, ['isMaster', true]);
         },
       },
       'harvesting.temperature': { title: 'TEMPERATURE', formatter: DisplayCelcius },
