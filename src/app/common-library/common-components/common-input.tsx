@@ -294,7 +294,7 @@ export const InputSearchSelect = ({
       const entities = await onSearch({queryProps, paginationProps}, values);
       const count = entities.data.paging.total;
       const data = [...new Set(entities.data.data)];
-      const hasMore = prevOptions.length + data.length < count - (DefaultPagination.limit ?? 0);
+      const hasMore = prevOptions.length + data.length < count;
       return {
         options: data,
         hasMore: hasMore,
