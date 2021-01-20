@@ -21,6 +21,7 @@ import {
   PreservationDetail,
 } from './defined/const';
 import _ from 'lodash';
+import {DisplayDateTime} from "../../common-library/helpers/detail-helpers";
 
 const { Step } = Steps;
 
@@ -347,8 +348,8 @@ function ProductionManagement() {
         <span>
           {row.harvesting.startTime && row.harvesting.endTime ? (
             <span>
-              {new Intl.DateTimeFormat('en-GB').format(new Date(row.harvesting.startTime))} -{' '}
-              {new Intl.DateTimeFormat('en-GB').format(new Date(row.harvesting.endTime))}
+              {DisplayDateTime(row.harvesting.startTime)} -{' '}
+              {DisplayDateTime(row.harvesting.endTime)}
             </span>
           ) : (
             'Không có thông tin'
@@ -415,11 +416,9 @@ function ProductionManagement() {
         <span>
           {row.preliminaryTreatment.startTime && row.preliminaryTreatment.endTime ? (
             <span>
-              {new Intl.DateTimeFormat('en-GB').format(
-                new Date(row.preliminaryTreatment.startTime),
-              )}{' '}
+              {DisplayDateTime(row.preliminaryTreatment.startTime)}{' '}
               -{' '}
-              {new Intl.DateTimeFormat('en-GB').format(new Date(row.preliminaryTreatment.endTime))}
+              {DisplayDateTime(row.preliminaryTreatment.endTime)}
             </span>
           ) : (
             'Không có thông tin'
@@ -722,7 +721,7 @@ function ProductionManagement() {
             <>
               <MasterEntityDetailPage
                 entity={history.location.state}
-                renderInfo={harvestingDetail}
+              renderInfo={harvestingDetail}
                 code={match && match.params.code}
                 get={code => ProductionPlanService.GetById(code)}
                 onClose={() => {

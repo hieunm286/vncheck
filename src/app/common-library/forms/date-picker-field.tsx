@@ -48,18 +48,19 @@ export function DatePickerField({
                       {...props}
                       placeholder={intl.formatMessage({id: placeholder},  {label:_.isString(_label) ? _label:''})}
                       disabled={disabled ? typeof disabled === 'boolean' ? disabled : disabled(values) : disabled}
-                      format={props.format ?? "DD/MM/yyyy"}
+                      format={props.format ?? showTime ? 'DD/MM/yyyy h:mma' : 'DD/MM/yyyy'}
                       onChange={(val: Moment | null, dateString: string) => {
                         setFieldTouched(field.name, true);
-                        console.log(val)
+                        const time = showTime ? moment(val) : moment(val).hours(0).minutes(0).seconds(0)
+                          .milliseconds(0);
                         if (onChange && val) {
-                          onChange(moment(val).add(val.utcOffset(), 'm').utc(), values, setFieldValue)
+                          onChange(time, values, setFieldValue)
                         }
                         if (onReset && !val) {
                           onReset(setFieldValue)
                         }
                         if (val) {
-                          setFieldValue(field.name, moment(val).add(val.utcOffset(), 'm').utc().toISOString());     
+                          setFieldValue(field.name, time.toISOString());
                         }
                         else {
                           setFieldValue(field.name, val);
@@ -68,7 +69,7 @@ export function DatePickerField({
                       onBlur={(e) => {
                         setFieldTouched(field.name, true);
                       }}
-                      value={field.value ? moment(field.value).add(inverseOffset, 'm') : null}
+                      value={field.value ? moment(field.value): null}
           />
           {withFeedbackLabel && (<ErrorMessage name={field.name}>
             {msg => <DisplayError label={_label} error={msg}/>
