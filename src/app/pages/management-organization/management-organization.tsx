@@ -96,17 +96,17 @@ export default function ManagementOrganization() {
   useEffect(() => {
     if(entities && entities.length > 0) {
 
-      let promises: Promise<AxiosResponse<any>> [] = [];
-      entities.forEach((entity: any) => {
-        const queryParams = {managementUnit: {_id: entity._id }};const promise: Promise<AxiosResponse<any>> = RoleService.GetAll({queryProps: queryParams, paginationProps: DefaultPagination, });
-        promises.push(promise);
+      const promises: Promise<AxiosResponse<any>> [] = entities.map((entity: any) => {
+        const queryParams = {managementUnit: {_id: entity._id }};
+        const promise: Promise<AxiosResponse<any>> = RoleService.GetAll({queryProps: queryParams, paginationProps: DefaultPagination, });
+        return promise;
       });
 
-      let _convertedEntities: any[] = [];
+      
       Promise.all(promises).then((responses: AxiosResponse<{data: RoleModel[]; paging: number}>[]) => {
-        responses.forEach((response: AxiosResponse<{data: RoleModel[]; paging: number}>) => {
+        const _convertedEntities: any[] = responses.map((response: AxiosResponse<{data: RoleModel[]; paging: number}>) => {
           const index = responses.indexOf(response)
-          _convertedEntities.push({...entities[index], children: response.data.data})
+          return {...entities[index], children: response.data.data};
         });
         setConvertedEntities(_convertedEntities);
       });
