@@ -110,7 +110,7 @@ export const DisplayDateTime = (input: string, _format?: string) => {
 };
 
 export const DisplayDateTimeV2 = (input: string, _format?: string) => {
-  if (!input) return <>Không có thông tin</>;
+  if (!input) return <></>;
   return (
     <>
     {momentTimeZone(input).tz('Asia/Ho_Chi_Minh').format(_format ?? 'DD/MM/YYYY HH:mm')}
