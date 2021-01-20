@@ -213,15 +213,14 @@ export const Display3Info = (image: any, _: any, intl?: IntlShape) => {
 export const DisplayImage = (
   images: any,
   renderInfo?: { title?: string; data?: { [KeyField: string]: string } },
-  filter?: string,
+  filter?: any[],
 ) => {
   let cvImages = { ...images };
 
-  if (filter) {
-    cvImages = images.filter((el: any) => el[filter] === true);
+  if (filter && filter.length > 0) {
+    cvImages = images.filter((el: any) => el[filter[0]] === filter[1]);
   }
 
-  console.log(cvImages);
   return <DetailImage images={cvImages} renderInfo={renderInfo} />;
 };
 

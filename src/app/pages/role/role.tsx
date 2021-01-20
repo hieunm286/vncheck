@@ -452,6 +452,10 @@ export default function ManagementOrganization() {
                 }
               })
 
+              if (!cvValues.status) {
+                cvValues.status = '0'
+              }
+
               cvValues.scopes = roleArr
               console.log(roleArr)
               console.log(cvValues)
