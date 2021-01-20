@@ -71,7 +71,7 @@ export const harvestingDetail: RenderInfoDetail = [
       ...plantingCode,
       'harvesting.address': {
         keyField: 'harvesting.imageInProgress', title: 'HARVESTING_LOCATION',
-        formatter: (e) => (<>{e && e[0]?.location && DisplayCoordinates(e[0].location)}</>)
+        formatter: (e) => (<>{e && e[0]?.location && DisplayCoordinates(e[0].location.coordinates)}</>)
       },
       // 'planting.farmLocation.[coordinates]': { title: 'HARVESTING_LOCATION', formatter: DisplayCoordinates, },
       'harvesting.code': {title: 'PRODUCTION_PLAN.HARVESTING_CODE'},
@@ -163,7 +163,7 @@ export const PreliminaryTreatmentDetail: RenderInfoDetail = [
       'preliminaryTreatment.code': { title: 'PRODUCTION_PLAN.PreliminaryTreatment_CODE' },
       'preliminaryTreatment.address': {
         keyField: 'preliminaryTreatment.imageInProgress', title: 'PRELIMINARYTREATMENT_LOCATION',
-        formatter: (e) => (<>{e && e[0]?.location && DisplayCoordinates(e[0].location)}</>)
+        formatter: (e) => (<>{e && e[0]?.location && DisplayCoordinates(e[0].location.coordinates)}</>)
       },
       '': { title: 'EMPTY' },
       'preliminaryTreatment.quantity': { title: 'PRELIMINARY_TREATMENT' },
@@ -239,7 +239,7 @@ export const CleaningDetail: RenderInfoDetail = [
       ...preliminaryTreatmentCode,
       'cleaning.address': {
         keyField: 'cleaning.imageInProgress', title: 'CLEANING_LOCATION',
-        formatter: (e) => (<>{e && e[0]?.location && DisplayCoordinates(e[0].location)}</>)
+        formatter: (e) => (<>{e && e[0]?.location && DisplayCoordinates(e[0].location.coordinates)}</>)
       },
       'cleaning.code': { title: 'PRODUCTION_PLAN.CLEANING.CODE' },
       'cleaning.quantity': { title: 'CLEANING_QUANTITY' },
@@ -312,7 +312,11 @@ export const PackingDetail: RenderInfoDetail = [
         }
       },
       ...preliminaryTreatmentCode,
-      'planting.farmLocation.[coordinates]': {title: 'PACKING_LOCATION', formatter: DisplayCoordinates,},
+      // 'planting.farmLocation.[coordinates]': {title: 'PACKING_LOCATION', formatter: DisplayCoordinates,},
+      'packing.address': {
+        keyField: 'packing.packingImage', title: 'PACKING_LOCATION',
+        formatter: (e) => (<>{e && e?.location && DisplayCoordinates(e.location.coordinates)}</>)
+      },
       ...cleaningCode,
       'packing.packing.weight': {title: 'PRODUCT_PACKAGING.MODULE_NAME'},
       'packing.code': {title: 'PRODUCTION_PLAN.PACKING.CODE'},
@@ -458,7 +462,11 @@ export const PreservationDetail: RenderInfoDetail = [
       //   formatter: input => DisplayDateTime(input),
       // },
       ...cleaningCode,
-      'planting.farmLocation.[coordinates]': {title: 'PRESERVATION_LOCATION', formatter: DisplayCoordinates,},
+      // 'planting.farmLocation.[coordinates]': {title: 'PRESERVATION_LOCATION', formatter: DisplayCoordinates,},
+      'preservation.address': {
+        keyField: 'preservation.storageImage', title: 'PRESERVATION_LOCATION',
+        formatter: (e) => (<>{e && e?.location && DisplayCoordinates(e.location.coordinates)}</>)
+      },
       ...packingCode,
       'preservation.temperature': {title: 'PRODUCTION_MANAGEMENT.PRESERVATION.TEMPERATURE', formatter: DisplayCelcius},
       'preservation.code': {title: 'PRODUCTION_PLAN.PRESERVATION.CODE'},
