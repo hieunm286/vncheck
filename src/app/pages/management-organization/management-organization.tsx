@@ -195,21 +195,17 @@ export default function ManagementOrganization() {
             title='EMPTY'
             body={TreeBody}
             onFetchEntities={(entity: any) => {
-              let roleIds: any[] = [];
-              
-              let params = new URLSearchParams();
-              if(entity.children && entity.children.length) {
-                entity.children.forEach((entity: any) => {
-                  roleIds.push(entity._id);
-                  params.append("role", entity._id);
-                })
+              const getQueryParams = (entity: any): object => {
+                if(entity.children && entity.children.length) {
+                  const roleIds = entity.children.map((entity: any) => {
+                    return entity._id;
+                  });
+                  return {role: roleIds};
+                }
+                return {role: entity._id};
               }
-              const queryParams = entity.children ? 
-                // {managementUnit: entity._id} :
-                // {role: roleIds } : 
-               {role: roleIds} :
-                {role: entity._id};
-              UserService.GetAll({queryProps: queryParams, paginationProps: DefaultPagination, })
+              
+              UserService.GetAll({queryProps: getQueryParams(entity), paginationProps: DefaultPagination, })
                 .then((res : AxiosResponse<{data: UserModel[]; paging: number}>) => {
                 // .then((res : AxiosResponse<{data: any}>) => {
                 console.log(res.data.data)
