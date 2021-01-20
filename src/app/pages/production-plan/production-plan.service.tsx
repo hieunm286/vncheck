@@ -24,6 +24,7 @@ export const Create: CreateProps<any> = (data: any) => {
 
 export const GetAll: GetAllPropsServer<any> = ({ queryProps, sortList, paginationProps }) => {
   console.log(queryProps)
+  console.log(paginationProps)
   return axios.get(`${API_URL}`, {
     params: { ...paginationProps, ...queryProps },
   });

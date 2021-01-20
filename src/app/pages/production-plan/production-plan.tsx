@@ -329,6 +329,7 @@ function ProductionPlan() {
       const t = {sortBy: 'updatedAt', sortType: 'desc'} 
         // prevTab !== currentTab ? {sortBy: 'updatedAt', sortType: 'desc'} : paginationProps;
       getAll({...(filterProps as any), step: '1', confirmationStatus: '2', isMaster: true, ...t});
+      // getAll({...(filterProps as any), step: '0', confirmationStatus: '1,3', ...t});
     }
     setPrevTab(currentTab);
   }, [paginationProps, filterProps, currentTab, trigger]);
@@ -663,7 +664,7 @@ function ProductionPlan() {
       columns: columns3,
       total: total,
       loading: loading,
-      paginationParams: {paginationProps},
+      paginationParams: paginationProps,
       setPaginationParams: setPaginationProps,
       onSelectMany: setSelectedEntities,
       selectedEntities: selectedEntities,
