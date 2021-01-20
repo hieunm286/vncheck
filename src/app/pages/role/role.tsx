@@ -447,8 +447,6 @@ export default function ManagementOrganization() {
                 if (_.isArray(values[keys])) {
                   console.log('1')
                   roleArr = roleArr.concat(values[keys])
-                } else if (_.isObject(values[keys])) {
-                  cvValues[keys] = values[keys]._id
                 } else {
                   cvValues[keys] = values[keys]
                 }
@@ -480,8 +478,6 @@ export default function ManagementOrganization() {
                   if (_.isArray(values[keys])) {
                     console.log('1')
                     roleArr = roleArr.concat(values[keys])
-                  } else if (_.isObject(values[keys])) {
-                    cvValues[keys] = values[keys]._id
                   } else {
                     cvValues[keys] = values[keys]
                   }
