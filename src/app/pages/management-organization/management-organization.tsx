@@ -68,7 +68,7 @@ export default function ManagementOrganization() {
   const intl = useIntl();
   const history = useHistory();
 
-  const [userParams, setUserParams] = useState<object>({role: ''});
+  const [userParams, setUserParams] = useState<object>({role: {_id: ''}});
 
   // Fetch organizations
   useEffect(() => {
@@ -87,13 +87,14 @@ export default function ManagementOrganization() {
 
   const fetchUsersByRole = (entity: ManagementOrganizationModel | RoleModel) => {
     const getQueryParams = (entity: any): object => {
-      if(entity.children && entity.children.length) {
+      if(entity.children) {
         const roleIds = entity.children.map((entity: any) => {
           return entity._id;
         });
-        return {role: roleIds};
+        return {role: { _id: roleIds}};
+        // return { managementUnit: { _id: entity._id}};
       }
-      return {role: entity._id};
+      return {role: { _id: entity._id}};
     }
 
     setPaginationProps(DefaultPagination);
