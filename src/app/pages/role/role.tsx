@@ -228,6 +228,41 @@ export default function ManagementOrganization() {
         label: 'THÔNG TIN SƠ CHẾ',
         optionData: ConvertRoleScope(RoleScope.role_scope_preliminary_treatment, intl)
       },
+      cleaning: {
+        _type: 'checkbox',
+        label: 'THÔNG TIN LÀM SẠCH',
+        optionData: ConvertRoleScope(RoleScope.role_scope_cleaning, intl)
+      },
+      packing: {
+        _type: 'checkbox',
+        label: 'THÔNG TIN ĐÓNG GÓI',
+        optionData: ConvertRoleScope(RoleScope.role_scope_packing, intl)
+      },
+      // preserve: {
+      //   _type: 'checkbox',
+      //   label: 'THÔNG TIN BẢO QUẢN',
+      //   optionData: ConvertRoleScope(RoleScope.role_scope_preservation, intl)
+      // },
+      logistics: {
+        _type: 'checkbox',
+        label: 'THÔNG TIN LOGISTIOCS',
+        optionData: ConvertRoleScope(RoleScope.role_scope_logistics, intl)
+      },
+      // distribution: {
+      //   _type: 'checkbox',
+      //   label: 'THÔNG TIN PHÂN PHỐI',
+      //   optionData: ConvertRoleScope(RoleScope.role_scope_distribution, intl)
+      // },
+      shipping: {
+        _type: 'checkbox',
+        label: 'THÔNG TIN VẬN CHUYỂN',
+        optionData: ConvertRoleScope(RoleScope.role_scope_shipping, intl)
+      },
+      // status: {
+      //   _type: 'checkbox',
+      //   label: 'TRẠNG THÁI',
+      //   optionData: ConvertRoleScope(RoleScope.role_scope_status, intl)
+      // }
     }
   }), [])
 
@@ -287,7 +322,10 @@ export default function ManagementOrganization() {
             const validateEntity = (entity: RoleModel): RoleModel => {
               const { name, managementUnit } = entity;
               const vManagementUnitId = _.isObject(managementUnit) ? managementUnit._id : undefined;
-              const vName = name.includes(' - Clone') ? name : name + ' - Clone';
+
+              const date = new Date();
+              const markerString = ' - Clone ' + date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
+              const vName = name.includes(' - Clone') ? name.split(' - Clone')[0] + markerString : name + markerString;
               return {
                 name: vName,
                 status: entity.status,
@@ -313,7 +351,7 @@ export default function ManagementOrganization() {
           },
         },
         ...NormalColumn,
-        style: {minWidth: '130px'},
+        style: {minWidth: '166px'},
         align: 'center',
       },
     ]
