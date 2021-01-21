@@ -31,12 +31,12 @@ export function ActionsColumnFormatter<T>(
         <span className="svg-icon svg-icon-md svg-icon-primary">
           <SVG
             src={ToAbsoluteUrl('/media/svg/vncheck/lock.svg')}
-            title={intl.formatMessage({id: 'COMMON_COMPONENT.MASTER_BODY.TABLE.EDIT_BTN'})}
+            title={intl.formatMessage({id: 'COMMON_COMPONENT.MASTER_BODY.TABLE.LOCK_BTN'})}
           />
         </span>
       </a>)}
       {onClone &&  (<a
-        // title={intl.formatMessage({id: 'COMMON_COMPONENT.MASTER_BODY.TABLE.DELETE_BTN'})}
+        title={intl.formatMessage({id: 'COMMON_COMPONENT.MASTER_BODY.TABLE.CLONE_BTN'})}
         className="btn btn-icon btn-light btn-hover-primary btn-sm visibility mx-1"
         onClick={(e) => {
           onClone(row);
