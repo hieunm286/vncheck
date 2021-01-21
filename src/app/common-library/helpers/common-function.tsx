@@ -38,6 +38,22 @@ export const GetCompareFunction = ({key, orderType}: { key: string, orderType: 1
   }
 }
 
+export const RoleArrayToObject = (arr: string[]) => {
+  const scopes: any = {};
+  arr.forEach((item: string) => {
+    const key = item.split('.')[0];
+    if (!scopes[key]) scopes[key] = [];
+    scopes[key].push(item);
+  });
+  return scopes;
+}
+export const RoleObjectToArray = (scopes?: any) => {
+  return scopes ? Object.values(scopes).reduce((pre: any, cur: any) => {
+    pre.push(...cur);
+    return pre;
+  }, []) : [];
+}
+
 const _initValues = ({inputs}: any): any => {
   return Object.keys(inputs).reduce((pre, key, k, o) => {
     const input = inputs[key];
