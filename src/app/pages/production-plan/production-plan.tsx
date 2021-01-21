@@ -1411,10 +1411,10 @@ function ProductionPlan() {
             },
             onChange: (val: any, values: any, setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => void) => {
               if (val) {
-                const clVal = val
-                const newDate = moment(clVal).add(values.seeding.species.expiryDays, 'days')
-                console.log(val)
-                console.log(newDate)
+                // const clVal = val
+                const newDate = moment(val).add(values.seeding.species.expiryDays, 'days')
+                // console.log(val)
+                // console.log(newDate)
                 setFieldValue('packing.estimatedExpireTimeEnd', newDate)
               }
             },

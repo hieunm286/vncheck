@@ -172,7 +172,7 @@ export const PreliminaryTreatmentDetail: RenderInfoDetail = [
     header: 'ADMIN_INFO',
     className: 'col-12',
     titleClassName: 'col-md-2 col-4 mb-10',
-    dataClassName: 'col-md-4 col-8 mb-10 pl-5',
+    dataClassName: 'col-md-10 col-8 mb-10 pl-5',
     data: {
       'preliminaryTreatment.[leader]': {title: 'PRELIMINARY_TREATMENT_LEADER', formatter: DisplayPersonNameByArray,},
       'preliminaryTreatment.[worker]': {title: 'PRELIMINARY_TREATMENT_WORKER', formatter: DisplayPersonNameByArray,},
@@ -247,7 +247,7 @@ export const CleaningDetail: RenderInfoDetail = [
     header: 'ADMIN_INFO',
     className: 'col-12',
     titleClassName: 'col-md-2 col-4 mb-10',
-    dataClassName: 'col-md-4 col-8 mb-10 pl-5',
+    dataClassName: 'col-md-10 col-8 mb-10 pl-5',
     data: {
       'cleaning.[leader]': {title: 'CLEANING_LEADER', formatter: DisplayPersonNameByArray,},
       'cleaning.[worker]': {title: 'CLEANING_WORKER', formatter: DisplayPersonNameByArray,},
@@ -316,14 +316,20 @@ export const PackingDetail: RenderInfoDetail = [
       ...cleaningCode,
       'packing.packing.weight': {title: 'PRODUCT_PACKAGING.MODULE_NAME'},
       'packing.code': {title: 'PRODUCTION_PLAN.PACKING.CODE'},
-      'packing.quantity': {title: 'PACKING_REAL_QUANTITY'},
+      'packing.products': { 
+        title: 'PACKING_REAL_QUANTITY', 
+        formatter: (input) => {
+          const quantity = input.filter((item: any) => item.isActive === true)
+          return <>{quantity.length}</>
+        }
+      },
     },
   },
   {
     header: 'ADMIN_INFO',
     className: 'col-12',
     titleClassName: 'col-md-2 col-4 mb-10',
-    dataClassName: 'col-md-4 col-8 mb-10 pl-5',
+    dataClassName: 'col-md-10 col-8 mb-10 pl-5',
     data: {
       'packing.[leader]': {title: 'PACKING_LEADER', formatter: DisplayPersonNameByArray,},
       'packing.[worker]': {title: 'PERSON_ASSIGN_QR', formatter: DisplayPersonNameByArray,},
@@ -359,7 +365,7 @@ export const PackingDetail: RenderInfoDetail = [
               ...SortColumn,
             },
             {
-              dataField: 'createdAt',
+              dataField: 'scanAt',
               text: `Ngày gán mã QR`,
               formatter: (input) => (<DisplayDateTime input={input}/>),
               ...SortColumn,
@@ -394,7 +400,8 @@ export const PackingDetail: RenderInfoDetail = [
               dataField: 'expiry',
               text: `Hạn sử dụng`,
               formatter: (cell: any, row: any, rowIndex: number) => {
-                return <span>{JSON.stringify(row.assignDate)}</span>
+                console.log(row)
+                return <span>{row.species ? <>{`${row.species.expiryDays} ngày`}</> : <>Không có thông tin</>}</span>
               },
             },
           ]
@@ -474,7 +481,7 @@ export const PreservationDetail: RenderInfoDetail = [
     header: 'ADMIN_INFO',
     className: 'col-12',
     titleClassName: 'col-md-2 col-4 mb-10',
-    dataClassName: 'col-md-4 col-8 mb-10 pl-5',
+    dataClassName: 'col-md-10 col-8 mb-10 pl-5',
     data: {
       'preservation.[worker]': {title: 'PRESERVATION_WORKER', formatter: DisplayPersonNameByArray,},
       'preservation.[technical]': {title: 'ROLE.TECHNICIAN', formatter: DisplayPersonNameByArray,},
