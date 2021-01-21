@@ -156,6 +156,7 @@ export type SearchModel = {
     onChange?: (value: any, props: { setFieldValue: ((name: string, value: any) => void), values: any }) => any;
     data?: any;
     name?: string;
+    showTime?:boolean;
   };
 };
 

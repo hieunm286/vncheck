@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { DetailImage } from '../common-components/detail/detail-image';
-import { format } from 'date-fns';
-import { IntlShape, useIntl } from 'react-intl';
-import { MasterTable } from '../common-components/master-table';
-import { MasterBodyColumns, PaginationProps } from '../common-types/common-type';
-import { GetCompareFunction } from './common-function';
-import { Link } from 'react-router-dom';
+import React, {useEffect, useState} from 'react';
+import {DetailImage} from '../common-components/detail/detail-image';
+import {format} from 'date-fns';
+import {IntlShape, useIntl} from 'react-intl';
+import {MasterTable} from '../common-components/master-table';
+import {MasterBodyColumns, PaginationProps} from '../common-types/common-type';
+import {GetCompareFunction} from './common-function';
+import {Link} from 'react-router-dom';
 import moment from 'moment';
 import _ from 'lodash';
 
@@ -28,7 +28,7 @@ export const DisplayPersonName = (name: {
     <>
       {name.fullName ?? name.firstName
         ? `${name.firstName} ${name.lastName}`
-        : intl.formatMessage({ id: 'NO_INFORMATION' })}
+        : intl.formatMessage({id: 'NO_INFORMATION'})}
     </>
   );
 };
@@ -68,40 +68,37 @@ export const DisplayAddress = (address: {
   }, ${address.state}`;
   return <>{addressString}</>;
 };
-export const DisplayDate = ({ input, _format }: { input: string; _format?: string }) => {
+export const DisplayDate = ({input, _format}: { input: string; _format?: string }) => {
   const intl = useIntl();
   if (!input) return <></>;
   const date_input = new Date(input);
-  const timestamp = new Date();
-  const inverseOffset = moment(timestamp).utcOffset() * -1;
-
+  
   return (
     <>
       {input
         ? format(
-            moment(date_input)
-              .add(inverseOffset, 'm')
-              .toDate(),
-            _format ?? 'dd/MM/yyyy',
-          )
-        : intl.formatMessage({ id: 'NO_INFORMATION' })}
+          moment(date_input)
+            .toDate(),
+          _format ?? 'dd/MM/yyyy',
+        )
+        : intl.formatMessage({id: 'NO_INFORMATION'})}
     </>
   );
 };
 
-export const DisplayDateTime = (input: string, _format?: string) => {
+export const DisplayDateTime = ({input, _format}: { input?: string, _format?: string }) => {
+  const intl = useIntl();
   if (!input) return <></>;
   const date_input = new Date(input);
-  const timestamp = new Date();
-  const inverseOffset = moment(timestamp).utcOffset() * -1;
   return (
     <>
-      {format(
-        moment(date_input)
-          .add(inverseOffset, 'm')
-          .toDate(),
-        _format ?? 'dd/MM/yyyy H:mma',
-      )}
+      {input
+        ? format(
+          moment(date_input)
+            .toDate(),
+          _format ?? 'dd/MM/yyyy h:mma',
+        )
+        : intl.formatMessage({id: 'NO_INFORMATION'})}
     </>
   );
 };
@@ -111,21 +108,21 @@ export const DisplayDownloadLink = (input: any, key?: string) => {
   if (!input) return <></>;
   return (
     <a href={key ? input[key] : input} rel="noopener noreferrer" target={'_blank'}>
-      {intl.formatMessage({ id: 'CLICK_TO_DOWNLOAD' })}
+      {intl.formatMessage({id: 'CLICK_TO_DOWNLOAD'})}
     </a>
   );
 };
 
-export const DisplayInnerLink = ({ link, title }: { link: any; title?: string }) => {
+export const DisplayInnerLink = ({link, title}: { link: any; title?: string }) => {
   const intl = useIntl();
   if (!link) return <></>;
-  return <Link to={link}>{title ?? intl.formatMessage({ id: 'CLICK_TO_VIEW' })}</Link>;
+  return <Link to={link}>{title ?? intl.formatMessage({id: 'CLICK_TO_VIEW'})}</Link>;
 };
 
 export const DisplayTable = ({
-  entities,
-  columns,
-}: {
+                               entities,
+                               columns,
+                             }: {
   entities: any[];
   columns: MasterBodyColumns;
 }) => {
@@ -150,7 +147,7 @@ export const DisplayTable = ({
   }, [entities, paginationParams]);
   useEffect(() => {
     setColumns(
-      Object.values(columns).map(c => ({ ...c, text: intl.formatMessage({ id: c.text }) })),
+      Object.values(columns).map(c => ({...c, text: intl.formatMessage({id: c.text})})),
     );
   }, [columns]);
   return (
@@ -180,20 +177,20 @@ export const Display3Info = (image: any, _: any, intl?: IntlShape) => {
   return (
     <>
       <div className={'titleeee mb-1'}>
-        {intl.formatMessage({ id: 'IMAGE.TAKEN_BY' })}
+        {intl.formatMessage({id: 'IMAGE.TAKEN_BY'})}
         <DisplayPersonName {...image.takenBy} />
       </div>
       <div className={'titleeee mb-1'}>
-        {intl.formatMessage({ id: 'IMAGE.TAKEN_TIME' })}
+        {intl.formatMessage({id: 'IMAGE.TAKEN_TIME'})}
         {image.takenTime
           ? DisplayDateTime(image.takenTime)
-          : intl.formatMessage({ id: 'NO_INFORMATION' })}
+          : intl.formatMessage({id: 'NO_INFORMATION'})}
       </div>
       <div className={'titleeee mb-1'}>
-        {intl.formatMessage({ id: 'IMAGE.LOCATION' })}
+        {intl.formatMessage({id: 'IMAGE.LOCATION'})}
         {image.location?.coordinates
           ? DisplayCoordinates(image.location?.coordinates)
-          : intl.formatMessage({ id: 'NO_INFORMATION' })}
+          : intl.formatMessage({id: 'NO_INFORMATION'})}
       </div>
     </>
   );
@@ -202,24 +199,23 @@ export const Display3Info = (image: any, _: any, intl?: IntlShape) => {
 export const DisplayImage = (
   images: any,
   renderInfo?: { title?: string; data?: { [KeyField: string]: string } },
-  filter?: string,
+  filter?: any[],
 ) => {
   let cvImages = { ...images };
 
-  if (filter) {
-    cvImages = images.filter((el: any) => el[filter] === true);
+  if (filter && filter.length > 0) {
+    cvImages = images.filter((el: any) => el[filter[0]] === filter[1]);
   }
 
-  console.log(cvImages);
   return <DetailImage images={cvImages} renderInfo={renderInfo} />;
 };
 
-export const DisplayDiffTime = (input: any, entity: any) => {
+export const DisplayDiffTime = ({startTime, endTime}: { startTime?: string, endTime?: string }) => {
   return (
     <>
-      {entity.endTime && entity.startTime
-        ? entity.endTime.toLocaleString() + ', ' + entity.startTime.toLocaleString()
-        : ''}
+      <DisplayDateTime input={startTime}/>
+      {endTime ? ' - ' : ''}
+      <DisplayDateTime input={endTime}/>
     </>
   );
 };
@@ -238,24 +234,24 @@ export const DisplayDistribution = (
 ) => {
   if (!_.isArray(input)) return <></>;
   console.log(input)
-
+  
   return (
     <>
       {input.map((item: {
-    name: string;
-    address: {
-      address?: string;
-      district: string;
-      city: string;
-      state: string;
-    };
-    date: any;
-  }, key: number) => {
+        name: string;
+        address: {
+          address?: string;
+          district: string;
+          city: string;
+          state: string;
+        };
+        date: any;
+      }, key: number) => {
         return (
           <div key={key} className="d-flex justify-content-between">
             <div>
-              <p className="font-weight-bolder" style={{ fontSize: 14 }}>{item.name}</p>
-              <p style={{ fontSize: 11 }}>
+              <p className="font-weight-bolder" style={{fontSize: 14}}>{item.name}</p>
+              <p style={{fontSize: 11}}>
                 {
                   DisplayAddress(item.address)
                 }

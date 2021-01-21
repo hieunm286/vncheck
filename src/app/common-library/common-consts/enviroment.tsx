@@ -22,12 +22,13 @@ export const API_BASE_URL = (() => {
         process.env.REACT_APP_API_BASE_URL
       );
     }
-
+    
     return process.env.REACT_APP_API_BASE_URL;
   }
-
+  
   return '/api';
 })();
+export const BASE_URL = API_BASE_URL.indexOf('http') === 0 ? API_BASE_URL.split('/').slice(0, 3).join('/') : '';
 
 //TODO: Pincode....
 export const USE_PIN_CODE = false;

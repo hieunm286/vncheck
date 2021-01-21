@@ -35,7 +35,8 @@ import _ from 'lodash';
 import {ModifyForm, ModifyPanel} from '../../common-library/common-types/common-type';
 import * as ProductPackagingService from '../product-packaging/product-packaging.service';
 import {ProductionPlanDetail} from './production-plan-detail';
-import moment from 'moment-timezone';
+import momentTimeZone from 'moment-timezone';
+import moment from 'moment'
 import { DisplayDateTime } from '../../common-library/helpers/detail-helpers';
 import { notifySuccess } from './defined/crud-helped';
 
@@ -329,6 +330,7 @@ function ProductionPlan() {
       const t = {sortBy: 'updatedAt', sortType: 'desc'} 
         // prevTab !== currentTab ? {sortBy: 'updatedAt', sortType: 'desc'} : paginationProps;
       getAll({...(filterProps as any), step: '1', confirmationStatus: '2', isMaster: true, ...t});
+      // getAll({...(filterProps as any), step: '0', confirmationStatus: '1,3', ...t});
     }
     setPrevTab(currentTab);
   }, [paginationProps, filterProps, currentTab, trigger]);
@@ -381,7 +383,8 @@ function ProductionPlan() {
       text: `${intl.formatMessage({id: 'PRODUCTION_PLAN.HARVEST_DATE'})}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
         <span>
-          {new Intl.DateTimeFormat('en-GB').format(new Date(row.planting.estimatedHarvestTime))}
+          {/* {new Intl.DateTimeFormat('en-GB').format(new Date(row.planting.estimatedHarvestTime))} */}
+          <DisplayDateTime input={row.planting.estimatedHarvestTime} />
         </span>
       ),
       ...SortColumn,
@@ -460,7 +463,10 @@ function ProductionPlan() {
       dataField: 'createdAt',
       text: `${intl.formatMessage({id: 'PRODUCTION_PLAN.CREATE_DATE'})}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
-        <span>{new Intl.DateTimeFormat('en-GB').format(new Date(row.createdAt))}</span>
+        <span>
+          {/* {new Intl.DateTimeFormat('en-GB').format(new Date(row.createdAt))} */}
+          <DisplayDateTime input={row.createdAt} />
+        </span>
       ),
       ...SortColumn,
       classes: 'text-center',
@@ -584,7 +590,10 @@ function ProductionPlan() {
       dataField: 'createdAt',
       text: `${intl.formatMessage({id: 'PRODUCTION_PLAN.CREATE_DATE'})}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
-        <span>{new Intl.DateTimeFormat('en-GB').format(new Date(row.createdAt))}</span>
+        <span>
+          {/* {new Intl.DateTimeFormat('en-GB').format(new Date(row.createdAt))} */}
+          <DisplayDateTime input={row.createdAt} />
+          </span>
       ),
       ...SortColumn,
       classes: 'text-center',
@@ -663,7 +672,7 @@ function ProductionPlan() {
       columns: columns3,
       total: total,
       loading: loading,
-      paginationParams: {paginationProps},
+      paginationParams: paginationProps,
       setPaginationParams: setPaginationProps,
       onSelectMany: setSelectedEntities,
       selectedEntities: selectedEntities,
@@ -781,23 +790,23 @@ function ProductionPlan() {
   };
   
   const sendRequest = (entity: any) => {
-    const data = {confirmationStatus: '1'};
+    const data = {confirmationStatus: '1', _id: entity._id};
     return ProductionPlanService.Approve(entity, data);
   };
   
   const approve = (entity: any) => {
-    const data = {confirmationStatus: '2'};
+    const data = {confirmationStatus: '2', _id: entity._id};
     return ProductionPlanService.Approve(entity, data);
   };
   
   const updateProcess = (entity: any) => {
     const newProcess = _.toString(_.toInteger(entity.process) + 1);
-    const data = {process: newProcess};
+    const data = {process: newProcess, _id: entity._id};
     return ProductionPlanService.UpdateProcess(entity, data);
   };
   
   const refuse = (entity: any) => {
-    const data = {confirmationStatus: '3'};
+    const data = {confirmationStatus: '3', _id: entity._id};
     return ProductionPlanService.Approve(entity, data);
   };
   
@@ -899,7 +908,7 @@ function ProductionPlan() {
       formatter: (cell: any, row: any, rowIndex: number) => (
         <span>
           {row.createdAt
-            ? moment(row.createdAt).tz('Asia/Ho_Chi_Minh').format('DD/MM/YYYY HH:mm')
+            ? momentTimeZone(row.createdAt).tz('Asia/Ho_Chi_Minh').format('DD/MM/YYYY HH:mm')
             : 'Không có thông tin'}
         </span>
       ),
@@ -913,7 +922,7 @@ function ProductionPlan() {
       formatter: (cell: any, row: any, rowIndex: number) => (
         <span>
           {row.productPlan.confirmationDate
-            ? new Intl.DateTimeFormat('vi-VN').format(new Date(row.productPlan.confirmationDate))
+            ? <DisplayDateTime input={row.productPlan.confirmationDate} />
             : 'Không có thông tin'}
         </span>
       ),
@@ -1409,10 +1418,10 @@ function ProductionPlan() {
             },
             onChange: (val: any, values: any, setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => void) => {
               if (val) {
-                
-                const newDate = val.add(values.seeding.species.expiryDays, 'days')
-                console.log(val)
-                console.log(newDate)
+                // const clVal = val
+                const newDate = moment(val).add(values.seeding.species.expiryDays, 'days')
+                // console.log(val)
+                // console.log(newDate)
                 setFieldValue('packing.estimatedExpireTimeEnd', newDate)
               }
             },

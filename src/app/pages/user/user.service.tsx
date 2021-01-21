@@ -10,6 +10,8 @@ import {
   UpdateProps,
 } from '../../common-library/common-types/common-type';
 import {UserModel} from "./user.model";
+import {RoleArrayToObject, RoleObjectToArray} from "../../common-library/helpers/common-function";
+import _ from "lodash";
 
 
 export const API_URL = API_BASE_URL + '/user';
@@ -17,7 +19,9 @@ export const API_URL = API_BASE_URL + '/user';
 export const BULK_API_URL = API_URL + '/bulk'
 
 export const Create: CreateProps<any> = (data: any) => {
-  return axios.post(API_URL, data);
+  const sendData = _.cloneDeep(data);
+  sendData.scopes = RoleObjectToArray(sendData.scopes);
+  return axios.post(API_URL, sendData);
 };
 
 export const GetAll: GetAllPropsServer<any> = ({
@@ -26,7 +30,7 @@ export const GetAll: GetAllPropsServer<any> = ({
                                                  paginationProps,
                                                }) => {
   return axios.get(`${API_URL}`, {
-    params: {...queryProps, ...paginationProps, sortList, t: ['1', '3', '4']},
+    params: {...queryProps, ...paginationProps, sortList},
   });
 };
 
@@ -37,7 +41,18 @@ export const Count: CountProps<UserModel> = (queryProps) => {
 };
 
 export const GetById = (id: string) => {
-  return axios.get(`${API_URL}/${id}`);
+  return axios.get(`${API_URL}/${id}`).then(res => {
+    console.log(res.data);
+    if (_.isArray(res.data.scopes)) {
+      let scopeArray = res.data.scopes;
+      scopeArray = [...scopeArray, ...res.data.addedScope.enable];
+      scopeArray = scopeArray.filter((s: string) => {
+        return !res.data.addedScope.disable.some((d: string) => (s === d));
+      });
+      res.data.scopes = RoleArrayToObject(scopeArray);
+    }
+    return res;
+  });
 };
 
 
@@ -45,8 +60,10 @@ export const Get: GetProps<UserModel> = (entity) => {
   return axios.get(`${API_URL}/${entity._id}`);
 };
 
-export const Update: UpdateProps<UserModel> = (entity) => {
-  return axios.put(`${API_URL}/${entity._id}`, entity);
+export const Update: UpdateProps<any> = (entity) => {
+  const sendData = _.cloneDeep(entity);
+  sendData.scopes = RoleObjectToArray(sendData.scopes);
+  return axios.put(`${API_URL}/${entity._id}`, sendData);
 };
 
 export const Delete: DeleteProps<UserModel> = (entity) => {
