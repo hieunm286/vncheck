@@ -68,31 +68,40 @@ export default function ManagementOrganization() {
   const intl = useIntl();
   const history = useHistory();
 
-  const getDataConverted = () => {
-    // console.log(entities)
-    // if(entities && entities.length > 0) {
-    //   const res =  entities.map((entity: any) => {
-    //     const queryParams = {managementUnit: entity._id};
-    //     RoleService.GetAll({queryProps: queryParams, paginationProps: DefaultPagination, }).then((res : AxiosResponse<{data: RoleModel[]; paging: number}>) => {
-    //       return {...entity, children: res.data.data};
-    //       // _entities.push(_entity);
-    //       // console.log(_entities.length)
-    //     })
-    //   });
-    //   console.log(res)
-    //   return res;
-    // } else {
-    //   return entities;
-    // }
-    return entities;
- }
+  const [userParams, setUserParams] = useState<object>({role: ''});
 
+  // Fetch organizations
   useEffect(() => {
     getAll(filterProps);
   }, [paginationProps, filterProps]);
 
+  // Fetch users on master table
+  useEffect(() => {
+    UserService.GetAll({queryProps: userParams, paginationProps: paginationProps, })
+      .then((res : AxiosResponse<{data: UserModel[]; paging: number}>) => {
+      // .then((res : AxiosResponse<{data: any}>) => {
+      setUserEntities(res.data.data);
+    })
 
+  }, [paginationProps, userParams]);
 
+  const fetchUsersByRole = (entity: ManagementOrganizationModel | RoleModel) => {
+    const getQueryParams = (entity: any): object => {
+      if(entity.children && entity.children.length) {
+        const roleIds = entity.children.map((entity: any) => {
+          return entity._id;
+        });
+        return {role: roleIds};
+      }
+      return {role: entity._id};
+    }
+
+    setPaginationProps(DefaultPagination);
+    setUserParams(getQueryParams(entity));
+    
+  }
+
+  // Fetch role on master tree
   useEffect(() => {
     if(entities && entities.length > 0) {
 
@@ -194,24 +203,7 @@ export default function ManagementOrganization() {
           <MultiLevelSaleBody
             title='EMPTY'
             body={TreeBody}
-            onFetchEntities={(entity: any) => {
-              const getQueryParams = (entity: any): object => {
-                if(entity.children && entity.children.length) {
-                  const roleIds = entity.children.map((entity: any) => {
-                    return entity._id;
-                  });
-                  return {role: roleIds};
-                }
-                return {role: entity._id};
-              }
-              
-              UserService.GetAll({queryProps: getQueryParams(entity), paginationProps: DefaultPagination, })
-                .then((res : AxiosResponse<{data: UserModel[]; paging: number}>) => {
-                // .then((res : AxiosResponse<{data: any}>) => {
-                console.log(res.data.data)
-                setUserEntities(res.data.data);
-              })
-            }}
+            onFetchEntities={fetchUsersByRole}
           />
     </>
   )
