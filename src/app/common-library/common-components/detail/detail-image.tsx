@@ -42,7 +42,7 @@ export const DetailImage = ({
           width={width}
           height={height}
           className={'image-detail cursor-pointer'}
-          src={getImageFromLocal(image[pathField])}
+          src={getImage(image[pathField])}
           placeholder={
             (<Skeleton animation="wave" variant="rect" width={width} height={height}/>)
           }
