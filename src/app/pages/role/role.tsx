@@ -287,7 +287,10 @@ export default function ManagementOrganization() {
             const validateEntity = (entity: RoleModel): RoleModel => {
               const { name, managementUnit } = entity;
               const vManagementUnitId = _.isObject(managementUnit) ? managementUnit._id : undefined;
-              const vName = name.includes(' - Clone') ? name : name + ' - Clone';
+
+              const date = new Date();
+              const markerString = ' - Clone ' + date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
+              const vName = name.includes(' - Clone') ? name.split(' - Clone')[0] + markerString : name + markerString;
               return {
                 name: vName,
                 status: entity.status,
@@ -313,7 +316,7 @@ export default function ManagementOrganization() {
           },
         },
         ...NormalColumn,
-        style: {minWidth: '130px'},
+        style: {minWidth: '166px'},
         align: 'center',
       },
     ]
