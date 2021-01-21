@@ -115,7 +115,7 @@ function ProductionPlanCrud({
       .then((res: any) => {
         setNoticeModal(true);
         setErrorMsg(undefined);
-        refreshData();
+        // refreshData();
         notifySuccess('Lưu thành công')
         history.push(homePage || GetHomePage(window.location.pathname));
       })
