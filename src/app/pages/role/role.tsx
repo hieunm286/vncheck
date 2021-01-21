@@ -1,36 +1,33 @@
-import React, { useEffect } from 'react';
-import { useIntl } from 'react-intl';
-import { Route, Switch, useHistory, match } from 'react-router';
-import { ActionsColumnFormatter, TickColumnFormatter } from '../../common-library/common-components/actions-column-formatter';
-import { MasterBody } from '../../common-library/common-components/master-body';
-import { MasterHeader } from '../../common-library/common-components/master-header';
-import MasterTreeStructure from '../../common-library/common-components/master-tree-structure';
-import { DefaultPagination, NormalColumn, SortColumn } from '../../common-library/common-consts/const';
-import { InitMasterProps } from '../../common-library/helpers/common-function';
-import {Count, Create, Delete, DeleteMany, Get, GetAll, GetById, GetManagementOrganization, GetNames, GetStatusList, Update} from './role.service';
-import {GetIds} from './role.service';
+import React, {useEffect} from 'react';
+import {useIntl} from 'react-intl';
+import {Route, Switch, useHistory} from 'react-router';
+import {
+  ActionsColumnFormatter,
+  TickColumnFormatter
+} from '../../common-library/common-components/actions-column-formatter';
+import {MasterBody} from '../../common-library/common-components/master-body';
+import {MasterHeader} from '../../common-library/common-components/master-header';
+import {DefaultPagination, NormalColumn, SortColumn} from '../../common-library/common-consts/const';
+import {InitMasterProps} from '../../common-library/helpers/common-function';
+import {Count, Create, Delete, DeleteMany, Get, GetAll, GetById, GetStatusList, Update} from './role.service';
 import {RoleModel} from './role.model';
-import { MasterEntityDetailDialog } from '../../common-library/common-components/master-entity-detail-dialog';
-import { ModifyPanel, RenderInfoDetail, _ModifyModelInput } from '../../common-library/common-types/common-type';
-import { DeleteEntityDialog } from '../../common-library/common-components/delete-entity-dialog';
+import {MasterEntityDetailDialog} from '../../common-library/common-components/master-entity-detail-dialog';
+import {
+  ModifyForm,
+  ModifyInputGroup,
+  ModifyPanel,
+  RenderInfoDetail,
+  SearchModel
+} from '../../common-library/common-types/common-type';
+import {DeleteEntityDialog} from '../../common-library/common-components/delete-entity-dialog';
 import EntityCrudPage from '../../common-library/common-components/entity-crud-page';
 import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
 import CancelOutlinedIcon from "@material-ui/icons/CancelOutlined";
 import * as Yup from 'yup';
-import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import * as ManagementOrganizationService from '../management-organization/management-organization.service'
-
-import {
-  MasterBodyColumns,
-  ModifyForm,
-  ModifyInputGroup,
-  SearchModel
-} from "../../common-library/common-types/common-type";
-import { Select } from 'antd';
-import { Switch as SwitchField } from 'antd';
-import CheckBoxField from '../../common-library/forms/input-checkbox';
+import {Select} from 'antd';
 import * as RoleScope from './const/role_scope';
-import { ConvertRoleScope } from './const/convert-scope';
+import {ConvertRoleScope} from './const/convert-scope';
 import _ from 'lodash';
 
 const { Option } = Select;
