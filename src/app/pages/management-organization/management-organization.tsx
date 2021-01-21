@@ -19,6 +19,7 @@ import _ from 'lodash';
 export default function ManagementOrganization() {
 
   const [userEntities, setUserEntities] = useState<UserModel[]>([]);
+  const [userTotal, setUserTotal] = useState<number>(0);
   const [convertedEntities, setConvertedEntities] = useState<any[]>([]);
 
   const {
@@ -78,9 +79,10 @@ export default function ManagementOrganization() {
   // Fetch users on master table
   useEffect(() => {
     UserService.GetAll({queryProps: userParams, paginationProps: paginationProps, })
-      .then((res : AxiosResponse<{data: UserModel[]; paging: number}>) => {
+      .then((res : AxiosResponse<{data: UserModel[]; paging: {page: number, limit: number, total: number}}>) => {
       // .then((res : AxiosResponse<{data: any}>) => {
       setUserEntities(res.data.data);
+      setUserTotal(res.data.paging.total);
     })
 
   }, [paginationProps, userParams]);
@@ -189,7 +191,7 @@ export default function ManagementOrganization() {
       data: userEntities,
       prop: {
         columns: columns,
-        total: userEntities.length,
+        total: userTotal,
         loading: false,
         paginationParams: paginationProps,
         setPaginationParams: setPaginationProps,
