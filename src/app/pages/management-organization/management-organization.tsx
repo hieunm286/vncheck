@@ -204,7 +204,7 @@ export default function ManagementOrganization() {
   return (
     <>
           <MultiLevelSaleBody
-            title='EMPTY'
+            title='MANAGEMENT_ORGANIZATION.MODULE_NAME'
             body={TreeBody}
             onFetchEntities={fetchUsersByRole}
           />

@@ -706,6 +706,9 @@
   "ENTERPRISE.REPRESENTED_BY": "Người đại diện",
   "ENTERPRISE.GLN": "GLN",
   "SORT.ERROR.VALID_FIELD": "Trường dữ liệu sắp xếp không hợp lệ",
+
+  "MANAGEMENT_ORGANIZATION.MODULE_NAME": "Đơn vị quản lý",
+
   "ROLE.MASTER.HEADER.TITLE": "Bộ lọc",
   "ROLE.MASTER.BODY.TITLE": "Danh mục vai trò",
   "ROLE.MASTER.TABLE.ROLE_CODE": "Mã vai trò",
