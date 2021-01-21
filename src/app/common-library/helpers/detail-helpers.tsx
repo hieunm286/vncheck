@@ -72,15 +72,12 @@ export const DisplayDate = ({input, _format}: { input: string; _format?: string 
   const intl = useIntl();
   if (!input) return <></>;
   const date_input = new Date(input);
-  const timestamp = new Date();
-  const inverseOffset = moment(timestamp).utcOffset() * -1;
   
   return (
     <>
       {input
         ? format(
           moment(date_input)
-            .add(inverseOffset, 'm')
             .toDate(),
           _format ?? 'dd/MM/yyyy',
         )
