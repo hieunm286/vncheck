@@ -228,6 +228,41 @@ export default function ManagementOrganization() {
         label: 'THÔNG TIN SƠ CHẾ',
         optionData: ConvertRoleScope(RoleScope.role_scope_preliminary_treatment, intl)
       },
+      cleaning: {
+        _type: 'checkbox',
+        label: 'THÔNG TIN LÀM SẠCH',
+        optionData: ConvertRoleScope(RoleScope.role_scope_cleaning, intl)
+      },
+      packing: {
+        _type: 'checkbox',
+        label: 'THÔNG TIN ĐÓNG GÓI',
+        optionData: ConvertRoleScope(RoleScope.role_scope_packing, intl)
+      },
+      // preserve: {
+      //   _type: 'checkbox',
+      //   label: 'THÔNG TIN BẢO QUẢN',
+      //   optionData: ConvertRoleScope(RoleScope.role_scope_preservation, intl)
+      // },
+      logistics: {
+        _type: 'checkbox',
+        label: 'THÔNG TIN LOGISTIOCS',
+        optionData: ConvertRoleScope(RoleScope.role_scope_logistics, intl)
+      },
+      // distribution: {
+      //   _type: 'checkbox',
+      //   label: 'THÔNG TIN PHÂN PHỐI',
+      //   optionData: ConvertRoleScope(RoleScope.role_scope_distribution, intl)
+      // },
+      shipping: {
+        _type: 'checkbox',
+        label: 'THÔNG TIN VẬN CHUYỂN',
+        optionData: ConvertRoleScope(RoleScope.role_scope_shipping, intl)
+      },
+      // status: {
+      //   _type: 'checkbox',
+      //   label: 'TRẠNG THÁI',
+      //   optionData: ConvertRoleScope(RoleScope.role_scope_status, intl)
+      // }
     }
   }), [])
 

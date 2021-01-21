@@ -34,9 +34,10 @@ export const role_scope_planting = [
   'planting.farmLocation',
   'planting.landLot',
   'planting.imageBefore',
-  'planting.temperature',
+  // 'planting.imageAfter',
   'planting.humidity',
   'planting.porosity',
+  'planting.temperature',
   'planting.manager',
   'planting.leader',
   'planting.technical',
@@ -53,6 +54,7 @@ export const role_scope_harvesting = [
   'harvesting.porosity',
   'harvesting.manager',
   'harvesting.leader',
+  'harvesting.technical',
   'harvesting.worker',
 ];
 
@@ -65,5 +67,75 @@ export const role_scope_preliminary_treatment = [
   'preliminary_treatment.imageAfter',
   'preliminary_treatment.manager',
   'preliminary_treatment.leader',
+  'preliminary_treatment.technical',
   'preliminary_treatment.worker',
+];
+
+export const role_scope_cleaning = [
+  'cleaning.time',
+  'cleaning.quantity',
+  'cleaning.location',
+  'cleaning.imageBefore',
+  'cleaning.imageInProgress',
+  'cleaning.imageAfter',
+  'cleaning.manager',
+  'cleaning.leader',
+  'cleaning.technical',
+  'cleaning.worker',
+];
+
+export const role_scope_packing = [
+  'packing.location',
+  'packing.type',
+  'packing.expiryDate',
+  'packing.productImage',
+  'packing.imageAfterPacking',
+  'packing.scanAt',
+  'packing.activeAt',
+  'packing.activeBy',
+  'packing.manager',
+  'packing.leader',
+  'packing.technical',
+  'packing.worker',
+];
+
+export const role_scope_preservation = [
+  'preserve.location',
+  'preserve.temperature',
+  'preserve.image',
+  'preserve.manager',
+  'preserve.leader',
+  'preserve.worker',
+];
+
+export const role_scope_logistics = [
+  'logistics.createdBy',
+  'logistics.createdAt',
+  'logistics.qrParent',
+  'logistics.qrChildren',
+];
+
+export const role_scope_distribution = [
+  'distribution.timeExportOrder',
+  'distribution.locationExportOrder',
+  'distribution.staffExportOrder',
+  'distribution.shipper',
+  'distribution.timeImportOrder',
+  'distribution.locationImportOrder',
+  'distribution.staffImportOrder',
+];
+
+export const role_scope_shipping = [
+  'shipping.timeExportOrder',
+  'shipping.locationExportOrder',
+  'shipping.staffExportOrder',
+  'shipping.shipper',
+];
+
+export const role_scope_status = [
+  'status.status',
+  'status.dateSale',
+  'status.locationSale',
+  'status.staffSale',
+  'status.phoneCustomer',
 ];

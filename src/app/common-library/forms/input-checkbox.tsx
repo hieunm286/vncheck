@@ -61,6 +61,8 @@ function CheckBoxField({ optionData, name, label }: Prop) {
     // setIndeterminate(false);
   };
 
+  console.log(field)
+
   return (
     <>
       <div className="row">

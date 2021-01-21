@@ -729,7 +729,6 @@
   "ROLE.EDIT.HEADER": "Chỉnh sửa",
   "ROLE.EDIT.MANAGEMENT_ORGANIZATION.PLACEHOLDER": "đơn vị quản lý",
 
-
   "ROLE.CREATE.HEADER": "Thêm mới",
   "ROLE.CREATE.LABEL.MANAGEMENT_ORGANIZATION": "Đơn vị quản lý",
   "ROLE.CREATE.LABEL.ROLE_CODE": "Mã vai trò",
@@ -834,5 +833,51 @@
   "PRELIMINARY_TREATMENT.MANAGER": "Tổng giám đốc",
   "PRELIMINARY_TREATMENT.LEADER": "Tổ trưởng",
   "PRELIMINARY_TREATMENT.TECHNICAL": "Kĩ thuật",
-  "PRELIMINARY_TREATMENT.WORKER": "Nông dân"
+  "PRELIMINARY_TREATMENT.WORKER": "Nông dân",
+
+  "CLEANING.TIME": "Thời gian làm sạch",
+  "CLEANING.QUANTITY": "Sản lượng sau làm sạch ",
+  "CLEANING.LOCATION": "Địa điểm Farm làm sạch",
+  "CLEANING.IMAGEBEFORE": "Hình ảnh trước khi làm sạch",
+  "CLEANING.IMAGEINPROGRESS": "Hình ảnh làm sạch",
+  "CLEANING.IMAGEAFTER": "Hình ảnh sau khi làm sạch",
+  "CLEANING.MANAGER": "Tổng giám đốc",
+  "CLEANING.LEADER": "Tổ trưởng",
+  "CLEANING.TECHNICAL": "Kĩ thuật",
+  "CLEANING.WORKER": "Nông dân",
+
+  "PACKING.LOCATION": "Địa điểm Farm đóng gói",
+  "PACKING.TYPE": "Quy cách đóng gói",
+  "PACKING.EXPIRYDATE": "Hạn sử dụng",
+  "PACKING.PRODUCTIMAGE": "Hình ảnh sản phẩm",
+  "PACKING.IMAGEAFTERPACKING": "Hình ảnh sau khi đóng gói",
+  "PACKING.SCANAT": "Ngày gán QR",
+  "PACKING.ACTIVEAT": "Ngày kích hoạt",
+  "PACKING.ACTIVEBY": "Người kích hoạt",
+  "PACKING.MANAGER": "Tổng giám đốc",
+  "PACKING.LEADER": "Tổ trưởng",
+  "PACKING.TECHNICAL": "Người gán QR",
+
+  "PRESERVE.LOCATION": "Địa điểm bảo quản",
+  "PRESERVE.TEMPERATURE": "Nhiệt độ bảo quản",
+  "PRESERVE.IMAGE": "Hình ảnh bảo quản",
+  "PRESERVE.MANAGER": "Giám đốc",
+  "PRESERVE.LEADER": "Kĩ thuật",
+  "PRESERVE.WORKER": "Nhân viên",
+
+  "LOGISTICS.CREATEDBY": "Người tạo QR logistics",
+  "LOGISTICS.CREATEDAT": "Thời điểm tạo",
+  "LOGISTICS.QRPARENT": "ID QR cha",
+  "LOGISTICS.QRCHILDREN": "ID QR con",
+
+  "SHIPPING.TIMEEXPORTORDER": "Thời gian xuất hàng",
+  "SHIPPING.LOCATIONEXPORTORDER": "Địa điểm xuất hàng",
+  "SHIPPING.STAFFEXPORTORDER": "Nhân viên xuất hàng",
+  "SHIPPING.SHIPPER": "Nhân viên vận chuyển",
+
+  "STATUS.STATUS": "Trạng thái",
+  "STATUS.DATESALE": "Ngày bán",
+  "STATUS.LOCATIONSALE": "Nơi bán",
+  "STATUS.STAFFSALE": "Nhân viên nơi bán",
+  "STATUS.PHONECUSTOMER": "Số điện thoại người mua"
 }
