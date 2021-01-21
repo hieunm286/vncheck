@@ -73,6 +73,7 @@ const MasterTreeStructure: React.FC<TreeDataProp> = ({ data, onCreate, onEdit, o
                     }} style={{ cursor: 'pointer' }}>{childrenItem.name}</span>
                 </div>
               </td>
+              {(onCreate || onEdit || onDelete) &&
               <td>
                 <div className="text-right" >
                 {onCreate && (
@@ -101,6 +102,7 @@ const MasterTreeStructure: React.FC<TreeDataProp> = ({ data, onCreate, onEdit, o
                 )}
                 </div>
               </td>
+              }
             </tr>
             {
               childrenItem.children &&
