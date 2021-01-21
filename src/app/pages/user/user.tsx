@@ -388,6 +388,9 @@ function User() {
           paginationProps
         })
       },
+      onChange: (values) => {
+        console.log(values);
+      },
       keyField: 'name',
       disabled: (values: any) => {
         return !(values?.managementUnit);
