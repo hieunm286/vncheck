@@ -407,7 +407,7 @@ function ShippingAgency() {
       }
     }
   }), [loading]);
-  const initCreateValues = useMemo(() => ({...InitValues(createForm), status: 'false'}), [createForm]);
+  const initCreateValues = useMemo(() => ({...InitValues(createForm), status: '0'}), [createForm]);
   return (
     <Fragment>
       <Switch>

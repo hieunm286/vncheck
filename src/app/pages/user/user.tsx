@@ -442,7 +442,7 @@ function User() {
       }
     }
   }), [loading]);
-  const initCreateValues: any = useMemo(() => ({...InitValues(createForm), status: 'false'}), [createForm]);
+  const initCreateValues: any = useMemo(() => ({...InitValues(createForm), status: '0'}), [createForm]);
   return (
     <Fragment>
       <Switch>
