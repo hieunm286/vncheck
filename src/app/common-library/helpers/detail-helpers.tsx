@@ -186,7 +186,7 @@ export const Display3Info = (image: any, _: any, intl?: IntlShape) => {
       <div className={'titleeee mb-1'}>
         {intl.formatMessage({id: 'IMAGE.TAKEN_TIME'})}
         {image.takenTime
-          ? DisplayDateTime(image.takenTime)
+          ? <DisplayDateTime input={image.takenTime}/>
           : intl.formatMessage({id: 'NO_INFORMATION'})}
       </div>
       <div className={'titleeee mb-1'}>
