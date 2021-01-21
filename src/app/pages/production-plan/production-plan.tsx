@@ -383,7 +383,8 @@ function ProductionPlan() {
       text: `${intl.formatMessage({id: 'PRODUCTION_PLAN.HARVEST_DATE'})}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
         <span>
-          {new Intl.DateTimeFormat('en-GB').format(new Date(row.planting.estimatedHarvestTime))}
+          {/* {new Intl.DateTimeFormat('en-GB').format(new Date(row.planting.estimatedHarvestTime))} */}
+          <DisplayDateTime input={row.planting.estimatedHarvestTime} />
         </span>
       ),
       ...SortColumn,
@@ -462,7 +463,10 @@ function ProductionPlan() {
       dataField: 'createdAt',
       text: `${intl.formatMessage({id: 'PRODUCTION_PLAN.CREATE_DATE'})}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
-        <span>{new Intl.DateTimeFormat('en-GB').format(new Date(row.createdAt))}</span>
+        <span>
+          {/* {new Intl.DateTimeFormat('en-GB').format(new Date(row.createdAt))} */}
+          <DisplayDateTime input={row.createdAt} />
+        </span>
       ),
       ...SortColumn,
       classes: 'text-center',
@@ -586,7 +590,10 @@ function ProductionPlan() {
       dataField: 'createdAt',
       text: `${intl.formatMessage({id: 'PRODUCTION_PLAN.CREATE_DATE'})}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
-        <span>{new Intl.DateTimeFormat('en-GB').format(new Date(row.createdAt))}</span>
+        <span>
+          {/* {new Intl.DateTimeFormat('en-GB').format(new Date(row.createdAt))} */}
+          <DisplayDateTime input={row.createdAt} />
+          </span>
       ),
       ...SortColumn,
       classes: 'text-center',
@@ -915,7 +922,7 @@ function ProductionPlan() {
       formatter: (cell: any, row: any, rowIndex: number) => (
         <span>
           {row.productPlan.confirmationDate
-            ? new Intl.DateTimeFormat('vi-VN').format(new Date(row.productPlan.confirmationDate))
+            ? <DisplayDateTime input={row.productPlan.confirmationDate} />
             : 'Không có thông tin'}
         </span>
       ),
