@@ -352,14 +352,16 @@ function ProductPackaging() {
           <MasterHeader
             title={headerTitle}
             onSearch={value => {
-              const cvEntity = { ...value };
+              // const cvEntity = JSON.parse(JSON.stringify(value))
 
-              if (value.species && _.isObject(value.species)) {
-                cvEntity.species = value.species._id;
-              }
+              // if (value.species && _.isObject(value.species)) {
+              //   cvEntity.species = {}
+
+              //   cvEntity.species._id = value.species._id;
+              // }
 
               setPaginationProps(DefaultPagination);
-              setFilterProps(cvEntity);
+              setFilterProps(value);
             }}
             searchModel={productTypeSearchModel}
           />

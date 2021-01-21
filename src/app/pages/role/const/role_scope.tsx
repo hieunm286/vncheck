@@ -96,7 +96,7 @@ export const role_scope_packing = [
   'packing.manager',
   'packing.leader',
   'packing.technical',
-  'packing.worker',
+  // 'packing.worker',
 ];
 
 export const role_scope_preservation = [
