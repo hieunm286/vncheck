@@ -245,7 +245,7 @@ export default function ManagementOrganization() {
       // },
       logistics: {
         _type: 'checkbox',
-        label: 'THÔNG TIN LOGISTIOCS',
+        label: 'THÔNG TIN LOGISTICS',
         optionData: ConvertRoleScope(RoleScope.role_scope_logistics, intl)
       },
       // distribution: {
