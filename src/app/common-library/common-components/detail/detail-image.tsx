@@ -42,7 +42,7 @@ export const DetailImage = ({
           width={width}
           height={height}
           className={'image-detail cursor-pointer'}
-          src={getImage(image[pathField])}
+          src={getImageFromLocal(image[pathField])}
           placeholder={
             (<Skeleton animation="wave" variant="rect" width={width} height={height}/>)
           }
@@ -92,4 +92,10 @@ const getImage = (path: string) => {
     const isBase64 = (s: string) => s.indexOf("data:image") == 0;
     return path ? isBase64(path) ? path : ((path.indexOf('http') == 0 ? '' : path[0] === '/' ? BASE_URL : '/') + path) : '';
   }
+;
+
+const getImageFromLocal = (path: string) => {
+  const isBase64 = (s: string) => s.indexOf("data:image") == 0;
+  return path ? isBase64(path) ? path : 'http://13.251.125.228:9001/' + path : '';
+}
 ;
