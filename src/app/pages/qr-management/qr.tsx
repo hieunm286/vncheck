@@ -401,12 +401,12 @@ function QrPage() {
     ...NormalColumn,
     formatter: (e: any) => <DisplayInnerLink link={`/qr/${e}`} title={e}/>
   }, {
-    dataField: 'createdBy.fullName',
+    dataField: 'createdBy',
     text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.CREATED_BY'})}`,
     ...SortColumn,
     align: 'center',
     formatter: (cell: any, row: any, rowIndex: number) => (row?.createdBy ?
-      <DisplayPersonName {...row.createdBy}/> : (<>{intl.formatMessage({id: 'NO_INFORMATION'})}</>)),
+      <DisplayPersonName {...cell}/> : (<>{intl.formatMessage({id: 'NO_INFORMATION'})}</>)),
   }, {
     dataField: 'createdAt',
     text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.CREATED_DATE'})}`,
@@ -414,12 +414,12 @@ function QrPage() {
     formatter: (input: any) => (<DisplayDate input={input}/>),
     align: 'center',
   }, {
-    dataField: 'activeBy.fullName',
+    dataField: 'activeBy',
     text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.ACTIVE_BY'})}`,
     ...SortColumn,
     align: 'center',
     formatter: (cell: any, row: any, rowIndex: number) => (row?.activeBy ?
-      <DisplayPersonName {...row.activeBy}/> : (<>{intl.formatMessage({id: 'NO_INFORMATION'})}</>)),
+      <DisplayPersonName {...cell}/> : (<>{intl.formatMessage({id: 'NO_INFORMATION'})}</>)),
   }, {
     dataField: 'activeAt',
     text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.ACTIVE_AT'})}`,
