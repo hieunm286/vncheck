@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {DetailImage} from '../common-components/detail/detail-image';
 import {format} from 'date-fns';
-import {IntlShape, useIntl} from 'react-intl';
+import {useIntl} from 'react-intl';
 import {MasterTable} from '../common-components/master-table';
 import {MasterBodyColumns, PaginationProps} from '../common-types/common-type';
 import {GetCompareFunction} from './common-function';
@@ -57,18 +57,32 @@ export const DisplayArray = (arr: string[], separator: string = ', ') => {
   return <>{arr.join(separator)}</>;
 };
 
-export const DisplayAddress = (address: {
-  address?: string;
-  district: string;
-  city: string;
-  state: string;
-}) => {
+export const DisplayAddress = (address:
+{
+  address ? : string;
+  string;
+  string;
+  string;
+}
+) =>
+{
   const addressString = `${address.address ? `${address.address},` : ''} ${address.district}, ${
     address.city
   }, ${address.state}`;
   return <>{addressString}</>;
-};
-export const DisplayDate = ({input, _format}: { input: string; _format?: string }) => {
+}
+;
+export const DisplayDate = (
+{
+  input, _format
+}
+:
+{
+  string;
+  _format ? : string
+}
+) =>
+{
   const intl = useIntl();
   if (!input) return <></>;
   const date_input = new Date(input);
@@ -103,7 +117,8 @@ export const DisplayDateTime = ({input, _format}: { input?: string, _format?: st
   );
 };
 
-export const DisplayDownloadLink = (input: any, key?: string) => {
+export const DisplayDownloadLink = (input: any, key?: string) =>
+{
   const intl = useIntl();
   if (!input) return <></>;
   return (
@@ -111,20 +126,35 @@ export const DisplayDownloadLink = (input: any, key?: string) => {
       {intl.formatMessage({id: 'CLICK_TO_DOWNLOAD'})}
     </a>
   );
-};
+}
+;
 
-export const DisplayInnerLink = ({link, title}: { link: any; title?: string }) => {
+export const DisplayInnerLink = (
+{
+  link, title
+}
+:
+{
+  any;
+  title ? : string
+}
+) =>
+{
   const intl = useIntl();
   if (!link) return <></>;
   return <Link to={link}>{title ?? intl.formatMessage({id: 'CLICK_TO_VIEW'})}</Link>;
-};
+}
+;
 
-export const DisplayTable = ({
-                               entities,
-                               columns,
-                             }: {
-  entities: any[];
-  columns: MasterBodyColumns;
+export const DisplayTable = (
+{
+  entities,
+    columns,
+}
+:
+{
+  any[];
+  MasterBodyColumns;
 }) => {
   const [paginationParams, setPaginationParams] = useState<PaginationProps>({
     sortBy: '',
@@ -221,16 +251,17 @@ export const DisplayDiffTime = ({startTime, endTime}: { startTime?: string, endT
 };
 
 export const DisplayDistribution = (
-  input: {
-    name: string;
-    address: {
-      address?: string;
-      district: string;
-      city: string;
-      state: string;
-    };
-    date: any;
-  }[],
+  input:
+{
+  string;
+  {
+    address ? : string;
+    string;
+    string;
+    string;
+  }
+  any;
+}[],
 ) => {
   if (!_.isArray(input)) return <></>;
   console.log(input)
