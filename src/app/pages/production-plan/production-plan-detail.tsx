@@ -125,7 +125,7 @@ export function ProductionPlanDetail({
           </Card>
         </React.Fragment>
       ))}
-      {showComment !== true ? <></> : (entityDetail?.confirmationStatus === '2' || entityDetail?.confirmationStatus === '3') ? (
+      {showComment !== true ? <></> : (entityDetail?.confirmationStatus === '3' || (entityDetail?.isMaster === true && entityDetail?.confirmationStatus === '2')) ? (
         <Card>
           <CardBody className={'p-0'}>
             <div className="mb-5 mt-5">

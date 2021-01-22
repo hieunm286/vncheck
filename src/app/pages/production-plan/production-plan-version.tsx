@@ -12,6 +12,8 @@ import {
 import { SortDefault } from '../../common-library/common-consts/const';
 import BootstrapTable from 'react-bootstrap-table-next';
 import _ from 'lodash';
+import { AxiosResponse } from 'axios';
+import { notifyError } from './defined/crud-helped';
 
 interface MasterDataVersion {
   _id: string;
@@ -31,25 +33,36 @@ interface VersionProp {
   onSelectMany: (selectedEntities: ProductionPlanModel[]) => void;
   selectedEntities: ProductionPlanModel[];
   versionColumns: any;
+  get?: (id: string) => Promise<AxiosResponse<any>>
 }
 
 function ProductionPlanVersion({
   title,
-  data,
-  paginationParams,
-  setPaginationParams,
-  onSelectMany,
-  selectedEntities,
-  total,
-  loading,
   versionColumns,
+  get
 }: VersionProp) {
   const history = useHistory();
   const intl = useIntl();
 
-  const sortedArray = _.map(
-    _.orderBy(data, o => new Date(o.createdAt), 'desc'),
-  );
+  const [plan, setPlan] = React.useState('')
+  const [versionData, setVersionData] = React.useState<any[]>([])
+
+
+  React.useEffect(() => {
+    if (title && get) {
+      get(title).then(res => {
+        setPlan(res.data.history[0]?.productPlan?.code)
+
+        const sortedArray = _.map(
+          _.orderBy(res.data.history, o => new Date(o.createdAt), 'desc'),
+        );
+
+        setVersionData(sortedArray)
+      }).catch (err => {
+        notifyError('Lỗi server. Vui lòng thử lại sau')
+      })
+    }
+  })
 
   return (
     <Card>
@@ -59,7 +72,7 @@ function ProductionPlanVersion({
             <span onClick={() => history.goBack()} className={'cursor-pointer text-primary font-weight-boldest'}>
               <ArrowBackIosIcon />
             </span>
-            {'KẾ HOẠCH SỐ ' + title.toUpperCase()}
+            {'KẾ HOẠCH SỐ ' + plan.toUpperCase()}
           </>
         }
       />
@@ -81,11 +94,11 @@ function ProductionPlanVersion({
           bootstrap4
           remote
           keyField="_id"
-          data={sortedArray}
+          data={versionData}
           columns={Object.values(versionColumns)}
         >
-          <PleaseWaitMessage entities={data} />
-          <NoRecordsFoundMessage entities={data} />
+          <PleaseWaitMessage entities={versionData} />
+          <NoRecordsFoundMessage entities={versionData} />
         </BootstrapTable>
       </CardBody>
     </Card>

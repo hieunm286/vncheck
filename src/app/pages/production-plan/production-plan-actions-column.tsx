@@ -4,29 +4,37 @@
 import React from 'react';
 import SVG from 'react-inlinesvg';
 import './style/production-plan.scss';
-import {IntlShape} from 'react-intl';
-import {ToAbsoluteUrl} from '../../common-library/helpers/assets-helpers';
+import { IntlShape } from 'react-intl';
+import { ToAbsoluteUrl } from '../../common-library/helpers/assets-helpers';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
+import Visibility from '@material-ui/icons/Visibility';
 
 interface ActionColumnProps<T> {
   onEdit: (entity: T) => void;
-  onShowDetail: (entity: any) => void;
+  onShowHistory: (entity: any) => void;
+  onView: (entity: any) => void;
 }
 
 export function ProductPlanActionsColumn<T>(
   cellContent: any,
   row: any,
   rowIndex: number,
-  {onShowDetail, onEdit}: ActionColumnProps<T> & { intl: IntlShape },
+  { onShowHistory, onEdit, onView }: ActionColumnProps<T> & { intl: IntlShape },
 ) {
-  
   return (
     <>
       <a
-        className="btn btn-icon btn-light btn-hover-primary btn-sm visibility"
-        onClick={() => onShowDetail(row)}>
+        className="btn btn-icon btn-light btn-hover-primary btn-sm visibility mx-1"
+        onClick={() => onView(row)}>
         <span className="svg-icon svg-icon-md svg-icon-primary">
-          <FileCopyIcon className="text-primary eye"/>
+          <Visibility className="text-primary eye" />
+        </span>
+      </a>
+      <a
+        className="btn btn-icon btn-light btn-hover-primary btn-sm visibility mx-1"
+        onClick={() => onShowHistory(row)}>
+        <span className="svg-icon svg-icon-md svg-icon-primary">
+          <FileCopyIcon className="text-primary eye" />
         </span>
       </a>
       <a
@@ -35,12 +43,9 @@ export function ProductPlanActionsColumn<T>(
         className="btn btn-icon btn-light btn-hover-primary btn-sm mx-1"
         onClick={() => onEdit(row)}>
         <span className="svg-icon svg-icon-md svg-icon-primary">
-          <SVG
-            src={ToAbsoluteUrl('/media/svg/icons/Communication/Write.svg')}
-          />
+          <SVG src={ToAbsoluteUrl('/media/svg/icons/Communication/Write.svg')} />
         </span>
       </a>
-    
     </>
   );
 }
