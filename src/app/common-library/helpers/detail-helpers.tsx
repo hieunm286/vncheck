@@ -26,9 +26,9 @@ export const DisplayPersonName = (name: {
   const intl = useIntl();
   return (
     <>
-      {name.fullName ?? name.firstName
+      {name.fullName ?? (name.firstName
         ? `${name.firstName} ${name.lastName}`
-        : intl.formatMessage({id: 'NO_INFORMATION'})}
+        : intl.formatMessage({id: 'NO_INFORMATION'}))}
     </>
   );
 };
@@ -202,11 +202,11 @@ export const DisplayImage = (
   filter?: any[],
 ) => {
   let cvImages = { ...images };
-
+  
   if (filter && filter.length > 0) {
     cvImages = images.filter((el: any) => el[filter[0]] === filter[1]);
   }
-
+  
   return <DetailImage images={cvImages} renderInfo={renderInfo} />;
 };
 
