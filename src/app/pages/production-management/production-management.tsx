@@ -693,18 +693,26 @@ function ProductionManagement() {
     setPaginationProps(DefaultPagination);
   }
 
-  const getProcess = (current: number, startIndex: number) => {
-    let cProcess = '';
+  // const getProcess = (current: number, startIndex: number) => {
+  //   let cProcess = '';
 
-    for (let i = startIndex; i <= current; i ++) {
-      cProcess += `${i}`
-      if (i < current) {
-        cProcess += ','
-      }
-    }
+  //   for (let i = startIndex; i <= current; i ++) {
+  //     cProcess += `${i}`
+  //     if (i < current) {
+  //       cProcess += ','
+  //     }
+  //   }
 
-    return cProcess
-  }
+  //   return cProcess
+  // }
+
+  const getProcess = useCallback((): string => {
+    if (currentStep === 0) return '2,3,4,5,6';
+    if (currentStep === 1) return '3,4,5,6';
+    if (currentStep === 2) return '4,5,6';
+    if (currentStep === 3) return '5,6';
+    return '6';
+  }, [currentStep]);
 
   useEffect(() => {
     getAll({
@@ -712,7 +720,7 @@ function ProductionManagement() {
       step: '1',
       isMaster: true,
       confirmationStatus: '2',
-      process: getProcess(currentStep + 2, 2),
+      process: getProcess(),
     });
   }, [paginationProps, filterProps, currentStep]);
 

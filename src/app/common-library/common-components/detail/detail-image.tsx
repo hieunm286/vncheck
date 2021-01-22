@@ -93,3 +93,9 @@ const getImage = (path: string) => {
     return path ? isBase64(path) ? path : ((path.indexOf('http') == 0 ? '' : path[0] === '/' ? BASE_URL : '/') + path) : '';
   }
 ;
+
+const getImageFromLocal = (path: string) => {
+  const isBase64 = (s: string) => s.indexOf("data:image") == 0;
+  return path ? isBase64(path) ? path : 'http://13.251.125.228:9001/' + path : '';
+}
+;
