@@ -204,13 +204,12 @@ export const DisplayImage = (
   renderInfo?: { title?: string; data?: { [KeyField: string]: string } },
   filter?: any[],
 ) => {
-  let cvImages = { ...images };
 
-  if (filter && filter.length > 0) {
-    cvImages = images.filter((el: any) => el[filter[0]] === filter[1]);
+  if (_.isArray(images) && filter && filter.length > 0) {
+    return <DetailImage images={images.filter((el: any) => el[filter[0]] === filter[1])} renderInfo={renderInfo} />;
   }
 
-  return <DetailImage images={cvImages} renderInfo={renderInfo} />;
+  return <DetailImage images={images} renderInfo={renderInfo} />;
 };
 
 export const DisplayDiffTime = ({startTime, endTime}: { startTime?: string, endTime?: string }) => {

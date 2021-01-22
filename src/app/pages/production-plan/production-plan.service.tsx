@@ -61,8 +61,8 @@ export const UpdateProcess = (entity: any, data: any) => {
   return axios.put(`${API_URL}/${entity._id}/update-process`, data);
 };
 
-export const GetHistory = (entity: any) => {
-  return axios.get(`${API_URL}/${entity._id}/history`);
+export const GetHistory = (_id: string) => {
+  return axios.get(`${API_URL}/${_id}/history`);
 };
 
 export const Comments = (entity: any, data: any) => {
