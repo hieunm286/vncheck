@@ -1,11 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import {useIntl} from 'react-intl';
-import {Card, CardBody, CardHeader, CardStyle1} from '../card';
+import {Card, CardBody, CardHeader} from '../card';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import {useHistory} from 'react-router-dom';
 import _ from 'lodash';
 import {RenderInfoDetail} from "../common-types/common-type";
-import { harvestingDetail } from '../../pages/production-management/defined/const';
 
 export const getFieldV3 = (field: any, fieldName: string) => {
   const ifNested = (fN: string) => fN.indexOf('.') === -1;
@@ -59,9 +57,9 @@ export function MasterEntityDetailPage({
   
   const [entityDetail, setEntityDetail] = useState(entity);
   
-  // useEffect(() => {
-  //   setEntityDetail(entity);
-  // }, [entity])
+  useEffect(() => {
+    entity && setEntityDetail(entity);
+  }, [entity])
   
   useEffect(() => {
     if (code && get) {

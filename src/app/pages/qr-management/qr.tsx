@@ -118,7 +118,6 @@ function QrPage() {
     getAll(filterProps);
   }, [paginationProps, filterProps]);
   
-  const [qrType, setQrType] = useState<string>();
   const [showImage, setShowImage] = useState<boolean>(false);
   
   
@@ -613,7 +612,6 @@ function QrPage() {
                   entity={dE}
                   header={detailBodyTitle}
                   renderInfo={renderInfo}
-                  code={match && match.params.code}
                 />
                 <MasterEntityDetailDialog
                   title='EMPTY'
