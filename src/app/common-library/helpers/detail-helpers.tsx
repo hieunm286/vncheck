@@ -26,9 +26,9 @@ export const DisplayPersonName = (name: {
   const intl = useIntl();
   return (
     <>
-      {name.fullName ?? name.firstName
+      {name.fullName ?? (name.firstName
         ? `${name.firstName} ${name.lastName}`
-        : intl.formatMessage({id: 'NO_INFORMATION'})}
+        : intl.formatMessage({id: 'NO_INFORMATION'}))}
     </>
   );
 };
@@ -72,15 +72,12 @@ export const DisplayDate = ({input, _format}: { input: string; _format?: string 
   const intl = useIntl();
   if (!input) return <></>;
   const date_input = new Date(input);
-  const timestamp = new Date();
-  const inverseOffset = moment(timestamp).utcOffset() * -1;
   
   return (
     <>
       {input
         ? format(
           moment(date_input)
-            .add(inverseOffset, 'm')
             .toDate(),
           _format ?? 'dd/MM/yyyy',
         )
