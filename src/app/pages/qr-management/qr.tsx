@@ -23,6 +23,7 @@ import {
   commonInfo,
   harvestingInfo,
   packingInfo,
+  paddingInfo,
   plantingInfo,
   preliminaryTreatmentInfo,
   preservationInfo,
@@ -30,7 +31,6 @@ import {
   seedingInfo,
   sellStatus,
 } from "./qr.render-info";
-import {mobileSaleMock} from "./qr-mock";
 import ModifyEntityDialog from "../../common-library/common-components/modify-entity-dialog";
 import {
   Display3Info,
@@ -246,7 +246,7 @@ function QrPage() {
   ];
   
   
-  const shippingInfo= useMemo((): RenderInfoDetail => ([{
+  const shippingInfo = useMemo((): RenderInfoDetail => ([{
     header: 'THÔNG TIN VẬN CHUYỂN',
     className: 'col-12',
     titleClassName: 'col-3 mb-10',
@@ -256,11 +256,11 @@ function QrPage() {
         title: '',
         formatter: (val, entity) => {
           const isShow = entity.type === '1' ? (entity.productPlan != null) : entity.children.length > 0;
-          return <DisplayTable entities={isShow ? mobileSaleMock.shippingInfo : []} columns={shippingInfoColumns}/>
+          return <DisplayTable entities={[]} columns={shippingInfoColumns}/>
         }
       }
     },
-  }]),[]);
+  }]), []);
   
   
   const distributionInfoColumns: MasterBodyColumns = [
@@ -342,7 +342,7 @@ function QrPage() {
       .min(1, 'VALIDATE.ERROR.MIN_1'),
   }), []);
   
-  const distributionInfo = useMemo((): RenderInfoDetail => ([    {
+  const distributionInfo = useMemo((): RenderInfoDetail => ([{
     header: 'THÔNG TIN PHÂN PHỐI',
     className: 'col-12',
     titleClassName: 'col-3 mb-10',
@@ -352,12 +352,12 @@ function QrPage() {
         title: '',
         formatter: (val, entity) => {
           const isShow = entity.type === '1' ? (entity.productPlan != null) : entity.children.length > 0;
-          return <DisplayTable entities={isShow ? mobileSaleMock.distributionInfo : []}
+          return <DisplayTable entities={[]}
                                columns={distributionInfoColumns}/>
         }
       }
     },
-  }]),[]);
+  }]), []);
   const downloadQrFile = useCallback((e: QrModel) => {
     return add(e).then((res: AxiosResponse<QrModel>) => {
       const date_input = new Date();
@@ -469,30 +469,42 @@ function QrPage() {
   // ], [dE]);
   const renderInfoProduct: RenderInfoDetail = useMemo(() => ([
     ...producerInfo,
+    ...paddingInfo,
     ...commonInfo,
+    ...paddingInfo,
     ...seedingInfo,
+    ...paddingInfo,
     ...plantingInfo,
+    ...paddingInfo,
     ...harvestingInfo,
+    ...paddingInfo,
     ...preliminaryTreatmentInfo,
+    ...paddingInfo,
     ...cleaningInfo,
+    ...paddingInfo,
     ...packingInfo,
+    ...paddingInfo,
     ...preservationInfo,
+    ...paddingInfo,
     ...shippingInfo,
+    ...paddingInfo,
     ...distributionInfo,
+    ...paddingInfo,
     ...sellStatus
   ]), []);
   const renderInfoPacking: RenderInfoDetail = useMemo(() => ([
     ...parentQrInfo,
+    ...paddingInfo,
     ...childQrInfo,
+    ...paddingInfo,
     ...distributionInfo,
+    ...paddingInfo,
     ...shippingInfo,
   ]), []);
   const [matchId, setMatchId] = useState<any>(null);
   const [renderInfo, setRenderInfo] = useState(renderInfoProduct);
   
-  const panel = useMemo((): InputGroups => ({
-  
-  }), []);
+  const panel = useMemo((): InputGroups => ({}), []);
   const createForm = useMemo((): ModifyForm => ({
     _header: createTitle,
     _panel1: {
@@ -544,9 +556,9 @@ function QrPage() {
         }, type: {
           _type: 'string',
           disabled: true,
-          formatter: (e)=>(e ? QrTypeList.find((val, index, arr) =>
-              val.code.toLowerCase().indexOf(e.toLowerCase()) > -1
-          )?.name:''),
+          formatter: (e) => (e ? QrTypeList.find((val, index, arr) =>
+            val.code.toLowerCase().indexOf(e.toLowerCase()) > -1
+          )?.name : ''),
           label: 'Loại mã',
         },
       }
@@ -602,7 +614,8 @@ function QrPage() {
             return (
               <>
                 <EntityCrudPage
-                  onModify={(()=>{}) as any}
+                  onModify={(() => {
+                  }) as any}
                   moduleName={moduleName}
                   formModel={detailForm}
                   mode={'vertical'}

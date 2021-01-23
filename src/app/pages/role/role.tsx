@@ -144,7 +144,6 @@ export default function ManagementOrganization() {
     managementUnit: {
       _type: 'tree-select',
       label: 'ROLE.CREATE.LABEL.MANAGEMENT_ORGANIZATION',
-      placeholder: 'COMMON_COMPONENT.SELECT.PLACEHOLDER',
       name: 'managementUnit',
       // onSearch: ManagementOrganizationService.GetAll,
       // onChange: (value: any, {setFieldValue, setFieldTouched}: any) => {
@@ -162,13 +161,11 @@ export default function ManagementOrganization() {
     roleCodeDummy: {
       _type: 'string',
       label: 'ROLE.CREATE.LABEL.ROLE_CODE',
-      placeholder: 'COMMON_COMPONENT.INPUT.PLACEHOLDER',
       disabled: true,
     },
     name: {
       _type: 'string',
       label: 'ROLE.CREATE.LABEL.ROLE_NAME',
-      placeholder: 'COMMON_COMPONENT.INPUT.PLACEHOLDER',
     },
     // status: {
     //   _type: 'custom',
@@ -380,20 +377,17 @@ export default function ManagementOrganization() {
     _id: {
       type: 'string',
       label: 'ROLE.HEADER.LABEL.ROLE_CODE',
-      placeholder: 'ROLE.HEADER.PLACEHOLDER.ROLE_CODE',
       // onSearch: GetIds,
     },
     name: {
       type: 'string',
       label: 'ROLE.HEADER.LABEL.ROLE_NAME',
-      placeholder: 'ROLE.HEADER.PLACEHOLDER.ROLE_NAME',
       // onSearch: GetNames,
     },
     managementUnit: {
       type: 'tree-select',
       name: 'managementUnit',
       label: 'ROLE.HEADER.LABEL.MANAGEMENT_ORGANIZATION',
-      placeholder: 'ROLE.HEADER.PLACEHOLDER.MANAGEMENT_ORGANIZATION',
       onSearch: ({queryProps, sortList, paginationProps,}: any) => {
         return ManagementOrganizationService.GetAll({queryProps}).then((e) => {
           return (e.data);
@@ -403,7 +397,6 @@ export default function ManagementOrganization() {
     status: {
       type: 'search-select',
       label: 'ROLE.HEADER.LABEL.STATUS',
-      placeholder: 'ROLE.HEADER.PLACEHOLDER.STATUS',
       onSearch: GetStatusList,
       keyField: 'name',
       selectField: 'code',
