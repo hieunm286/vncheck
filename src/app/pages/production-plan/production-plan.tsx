@@ -44,6 +44,7 @@ import moment from 'moment';
 import { DisplayDateTime } from '../../common-library/helpers/detail-helpers';
 import { notifySuccess } from './defined/crud-helped';
 import { FormikState } from 'formik';
+import { GetState } from '../address/address.service';
 
 const headerTitle = 'PRODUCT_TYPE.MASTER.HEADER.TITLE';
 const bodyTitle = 'PRODUCT_TYPE.MASTER.BODY.TITLE';
@@ -512,8 +513,7 @@ function ProductionPlan() {
       dataField: 'action',
       text: `${intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.ACTION_COLUMN' })}`,
       formatter: (cell: any, row: any, rowIndex: number) => {
-        return (
-          (row.confirmationStatus === '3' || row.confirmationStatus === '2')) ? (
+        return row.confirmationStatus === '3' || row.confirmationStatus === '2' ? (
           // <button
           //   className="btn btn-primary pl-6 pr-6"
           //   onClick={() => {
@@ -531,16 +531,16 @@ function ProductionPlan() {
           //   Chi tiết
           // </button>
           <span
-          className="btn btn-icon btn-light btn-hover-primary btn-sm visibility cursor-pointer"
-          onClick={() => {
-            history.push({
-              pathname: '/production-plan/plan-view/' + row._id,
-            });
-          }}>
-          <span className="svg-icon svg-icon-md svg-icon-primary">
-            <Visibility className="text-primary eye"/>
+            className="btn btn-icon btn-light btn-hover-primary btn-sm visibility cursor-pointer"
+            onClick={() => {
+              history.push({
+                pathname: '/production-plan/plan-view/' + row._id,
+              });
+            }}>
+            <span className="svg-icon svg-icon-md svg-icon-primary">
+              <Visibility className="text-primary eye" />
+            </span>
           </span>
-        </span>
         ) : (
           <button
             className="btn btn-primary"
@@ -784,10 +784,13 @@ function ProductionPlan() {
         className: 'btn btn-outline-primary mr-5 pl-8 pr-8',
         label: 'Khôi phục',
         // icon: <SaveOutlinedIcon />,
-        onClick: (entity: any, resetForm: (nextState?: Partial<FormikState<any>> | undefined) => void) => {
+        onClick: (
+          entity: any,
+          resetForm: (nextState?: Partial<FormikState<any>> | undefined) => void,
+        ) => {
           // setNoticeModal(true);
           // window.location.reload();
-          resetForm(entity)
+          resetForm(entity);
         },
       },
       cancel: {
@@ -811,7 +814,7 @@ function ProductionPlan() {
         className: 'btn btn-primary mr-5 pl-8 pr-8',
         label: 'Gửi duyệt',
         disabled: (entity: any) => {
-          return _.parseInt(entity?.process) >= 7
+          return _.parseInt(entity?.process) >= 7;
         },
         // icon: <SaveOutlinedIcon />,
         onClick: () => {
@@ -827,16 +830,19 @@ function ProductionPlan() {
         role: 'reset',
         type: 'button',
         disabled: (entity: any) => {
-          return _.parseInt(entity?.process) >= 7
+          return _.parseInt(entity?.process) >= 7;
         },
         linkto: undefined,
         className: 'btn btn-outline-primary mr-5 pl-8 pr-8',
         label: 'Khôi phục',
         // icon: <SaveOutlinedIcon />,
-        onClick: (entity: any, resetForm: (nextState?: Partial<FormikState<any>> | undefined) => void) => {
+        onClick: (
+          entity: any,
+          resetForm: (nextState?: Partial<FormikState<any>> | undefined) => void,
+        ) => {
           // setNoticeModal(true);
           // window.location.reload();
-          resetForm(entity)
+          resetForm(entity);
         },
       },
       cancel: {
@@ -889,6 +895,7 @@ function ProductionPlan() {
         onClick: (entity: any) => {
           // setNoticeModal(true);
           // setSubmit(true)
+          if (entity) {
           setStep('2');
           approve(entity)
             .then(res => {
@@ -897,6 +904,9 @@ function ProductionPlan() {
               history.push('/production-plan');
             })
             .catch(error => {});
+          } else {
+            notifySuccess('Không thể kết nối đến server. Vui lòng kiểm tra kết nối mạng hoặc thử lại sau');
+          }
         },
       },
       refuse: {
@@ -907,17 +917,25 @@ function ProductionPlan() {
         label: 'Từ chối',
         // icon: <SaveOutlinedIcon/>,
         onClick: (entity: any) => {
+          if (entity) {
           refuse(entity)
             .then(res => {
               // refreshData();
               notifySuccess('Kế hoạch đã bị từ chối');
-              setPrevTab('1')
-              setCurrentTab('3')
+              setPrevTab('1');
+              if (entity.isMaster === true) {
+                setCurrentTab('0');
+              } else {
+                setCurrentTab('3');
+              }
               history.push('/production-plan');
             })
             .catch(error => {
               console.log(error);
             });
+          } else {
+            notifySuccess('Không thể kết nối đến server. Vui lòng kiểm tra kết nối mạng hoặc thử lại sau');
+          }
         },
       },
       save: {
@@ -931,10 +949,14 @@ function ProductionPlan() {
           //   setEditEntity(res.data);
 
           // });
+          if (entity) {
           history.push({
             pathname: '/production-plan/' + entity._id + '/new',
             state: '5',
           });
+        } else {
+          notifySuccess('Không thể kết nối đến server. Vui lòng kiểm tra kết nối mạng hoặc thử lại sau');
+        }
         },
       },
     },
@@ -1330,6 +1352,7 @@ function ProductionPlan() {
     }),
     [userData],
   );
+  
 
   const modifyModel4 = useMemo(
     (): ModifyPanel => ({
@@ -1429,7 +1452,7 @@ function ProductionPlan() {
             // placeholder: 'Mã gieo giống',
             label: 'CLEANING_QUANTITY',
             disabled: (values: any) => {
-              console.log(values)
+              console.log(values);
               return CheckDisabled(values?.cleaning, values?.process, cleaningProcess);
             },
           },
@@ -1561,7 +1584,7 @@ function ProductionPlan() {
             // placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
             label: 'PRODUCTION_PLAN_FORM_PACKING_QUANTITY',
             disabled: (values: any) => {
-              console.log(values)
+              console.log(values);
               return CheckDisabled(values?.packing, values?.process, packingProcess);
             },
           },
@@ -1640,6 +1663,37 @@ function ProductionPlan() {
     [userData],
   );
 
+  const modifyModel8 = useMemo(
+    (): ModifyPanel => ({
+      _title: '',
+      group1: {
+        _subTitle: 'ĐƠN VỊ TÍNH',
+        _className: 'col-6 pl-xl-15 pl-md-10 pl-5',
+        unit: {
+          _type: 'search-select',
+          // placeholder: 'Quy cách',
+          label: 'Đơn vị tính',
+          onSearch: ({ queryProps, paginationProps }: any) => {
+            if (editEntity && editEntity.seeding && editEntity.seeding.species) {
+              queryProps.species = editEntity.seeding.species._id;
+            }
+            return ProductPackagingService.GetAll({ queryProps, paginationProps });
+          },
+          keyField: 'weight',
+          disabled: (values: any) => {
+            return CheckDisabled(values?.packing, values?.process, packingProcess);
+          },
+          // required: true,
+          // onDisplayOptions: (e:ProductPackagingModel)=> e.species.weight,
+          // rootField: 'seeding',
+          // fillField: 'packing',
+          // display: 'weight',
+        },
+      },
+    }),
+    [editEntity],
+  );
+
   const updateForm = useMemo(
     (): ModifyForm => ({
       _header: 'PRODUCTION_PLAN_CREATE',
@@ -1650,6 +1704,7 @@ function ProductionPlan() {
       panel5: modifyModel5,
       panel6: modifyModel6,
       panel7: modifyModel7,
+      panel8: modifyModel8
     }),
     [
       modifyModel,
@@ -1659,6 +1714,7 @@ function ProductionPlan() {
       modifyModel5,
       modifyModel6,
       modifyModel7,
+      modifyModel8
     ],
   );
 

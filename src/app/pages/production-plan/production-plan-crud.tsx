@@ -311,7 +311,7 @@ function ProductionPlanCrud({
                     sendRequest(entityForEdit)
                       .then(ress => {
                         setErrorMsg(undefined);
-                        refreshData();
+                        // refreshData();
                         if (setCurrentTab) {
                           setCurrentTab('1');
                         }
@@ -341,7 +341,7 @@ function ProductionPlanCrud({
                 approveFollow(updateValue)
                   .then(res => {
                     setErrorMsg(undefined);
-                    refreshData();
+                    // refreshData();
                     if (setCurrentTab) {
                       setCurrentTab('1');
                     }
