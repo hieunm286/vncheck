@@ -139,13 +139,13 @@ export function InfiniteSelect({
   return (
     <>
       <div className={mode === 'horizontal' ? 'row' : ''}>
-        <div className={mode === 'horizontal' ? GetClassName(labelWidth, true) : ''}>
-          {_label && (
+        {_label && (
+          <div className={mode === 'horizontal' ? GetClassName(labelWidth, true) : ''}>
             <label className={mode === 'horizontal' ? 'mb-0 mt-2' : ''}>
               {_label}{required && <span className="text-danger">*</span>}
             </label>
-          )}
-        </div>
+          </div>
+        )}
         <div className={mode === 'horizontal' ? GetClassName(labelWidth, false) : ''}>
           <CustomAsyncPaginate
             className={getCSSClasses(errors[name], touched[name])}

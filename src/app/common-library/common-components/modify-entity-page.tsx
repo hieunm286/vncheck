@@ -17,7 +17,6 @@ import {
 } from './common-input';
 import _ from 'lodash';
 import {InputCustom} from "../forms/input-custom";
-import { getField } from '../helpers/common-function';
 
 export function ModifyEntityPage<T>({
                                       inputGroups,
@@ -202,7 +201,8 @@ export const RenderForm = ({inputs, prevKey, mode, inputClassName}: any) => {
           return (<Fragment key={`render_form${prevKey ? `${prevKey}.${key}` : key}`}>
               {_subTitle && _subTitle !== '' && (<div
                 className="modify-subtitle text-primary">{intl.formatMessage({id: _subTitle}).toUpperCase()}</div>)}
-              <RenderForm inputs={innt} inputClassName={_inputClassName?? inputClassName} prevKey={prevKey ? `${prevKey}.${key}` : key} mode={mode}/>
+              <RenderForm inputs={innt} inputClassName={_inputClassName ?? inputClassName}
+                          prevKey={prevKey ? (key === '' ? prevKey : `${prevKey}.${key}`) : key} mode={mode}/>
           </Fragment>)
         }
       }
