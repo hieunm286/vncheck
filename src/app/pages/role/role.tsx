@@ -192,71 +192,74 @@ export default function ManagementOrganization() {
     _title: 'EMPTY',
     group2: {
       _subTitle: 'PHÂN QUYỀN DỮ LIỆU',
-      enterprise: {
-        _type: 'checkbox',
-        label: 'DOANH NGHIỆP SẢN XUẤT',
-        optionData: ConvertRoleScope(RoleScope.role_scope_enterprise, intl)
-      },
-      species: {
-        _type: 'checkbox',
-        label: 'THÔNG TIN CHUNG',
-        optionData: ConvertRoleScope(RoleScope.role_scope_species, intl)
-      },
-      seeding: {
-        _type: 'checkbox',
-        label: 'THÔNG TIN XUỐNG GIỐNG',
-        optionData: ConvertRoleScope(RoleScope.role_scope_seeding, intl)
-      },
-      planting: {
-        _type: 'checkbox',
-        label: 'THÔNG TIN GIEO TRỒNG',
-        optionData: ConvertRoleScope(RoleScope.role_scope_planting, intl)
-      },
-      harvesting: {
-        _type: 'checkbox',
-        label: 'THÔNG TIN THU HOẠCH',
-        optionData: ConvertRoleScope(RoleScope.role_scope_harvesting, intl)
-      },
-      preliminary_treatment: {
-        _type: 'checkbox',
-        label: 'THÔNG TIN SƠ CHẾ',
-        optionData: ConvertRoleScope(RoleScope.role_scope_preliminary_treatment, intl)
-      },
-      cleaning: {
-        _type: 'checkbox',
-        label: 'THÔNG TIN LÀM SẠCH',
-        optionData: ConvertRoleScope(RoleScope.role_scope_cleaning, intl)
-      },
-      packing: {
-        _type: 'checkbox',
-        label: 'THÔNG TIN ĐÓNG GÓI',
-        optionData: ConvertRoleScope(RoleScope.role_scope_packing, intl)
-      },
-      // preserve: {
-      //   _type: 'checkbox',
-      //   label: 'THÔNG TIN BẢO QUẢN',
-      //   optionData: ConvertRoleScope(RoleScope.role_scope_preservation, intl)
-      // },
-      logistics: {
-        _type: 'checkbox',
-        label: 'THÔNG TIN LOGISTICS',
-        optionData: ConvertRoleScope(RoleScope.role_scope_logistics, intl)
-      },
-      // distribution: {
-      //   _type: 'checkbox',
-      //   label: 'THÔNG TIN PHÂN PHỐI',
-      //   optionData: ConvertRoleScope(RoleScope.role_scope_distribution, intl)
-      // },
-      shipping: {
-        _type: 'checkbox',
-        label: 'THÔNG TIN VẬN CHUYỂN',
-        optionData: ConvertRoleScope(RoleScope.role_scope_shipping, intl)
-      },
-      // status: {
-      //   _type: 'checkbox',
-      //   label: 'TRẠNG THÁI',
-      //   optionData: ConvertRoleScope(RoleScope.role_scope_status, intl)
-      // }
+      scopes: {
+        _type: 'object',
+        enterprise: {
+          _type: 'checkbox',
+          label: 'DOANH NGHIỆP SẢN XUẤT',
+          optionData: ConvertRoleScope(RoleScope.role_scope_enterprise, intl)
+        },
+        species: {
+          _type: 'checkbox',
+          label: 'THÔNG TIN CHUNG',
+          optionData: ConvertRoleScope(RoleScope.role_scope_species, intl)
+        },
+        seeding: {
+          _type: 'checkbox',
+          label: 'THÔNG TIN XUỐNG GIỐNG',
+          optionData: ConvertRoleScope(RoleScope.role_scope_seeding, intl)
+        },
+        planting: {
+          _type: 'checkbox',
+          label: 'THÔNG TIN GIEO TRỒNG',
+          optionData: ConvertRoleScope(RoleScope.role_scope_planting, intl)
+        },
+        harvesting: {
+          _type: 'checkbox',
+          label: 'THÔNG TIN THU HOẠCH',
+          optionData: ConvertRoleScope(RoleScope.role_scope_harvesting, intl)
+        },
+        preliminary_treatment: {
+          _type: 'checkbox',
+          label: 'THÔNG TIN SƠ CHẾ',
+          optionData: ConvertRoleScope(RoleScope.role_scope_preliminary_treatment, intl)
+        },
+        cleaning: {
+          _type: 'checkbox',
+          label: 'THÔNG TIN LÀM SẠCH',
+          optionData: ConvertRoleScope(RoleScope.role_scope_cleaning, intl)
+        },
+        packing: {
+          _type: 'checkbox',
+          label: 'THÔNG TIN ĐÓNG GÓI',
+          optionData: ConvertRoleScope(RoleScope.role_scope_packing, intl)
+        },
+        // preserve: {
+        //   _type: 'checkbox',
+        //   label: 'THÔNG TIN BẢO QUẢN',
+        //   optionData: ConvertRoleScope(RoleScope.role_scope_preservation, intl)
+        // },
+        logistics: {
+          _type: 'checkbox',
+          label: 'THÔNG TIN LOGISTICS',
+          optionData: ConvertRoleScope(RoleScope.role_scope_logistics, intl)
+        },
+        // distribution: {
+        //   _type: 'checkbox',
+        //   label: 'THÔNG TIN PHÂN PHỐI',
+        //   optionData: ConvertRoleScope(RoleScope.role_scope_distribution, intl)
+        // },
+        shipping: {
+          _type: 'checkbox',
+          label: 'THÔNG TIN VẬN CHUYỂN',
+          optionData: ConvertRoleScope(RoleScope.role_scope_shipping, intl)
+        },
+        // status: {
+        //   _type: 'checkbox',
+        //   label: 'TRẠNG THÁI',
+        //   optionData: ConvertRoleScope(RoleScope.role_scope_status, intl)
+        // }
+      }
     }
   }), [])
 
@@ -460,30 +463,7 @@ export default function ManagementOrganization() {
           <EntityCrudPage
             moduleName='ROLE.MODULE_NAME'
             entity={createEntity}
-            onModify={(values) => {
-              console.log(values)
-              let roleArr: string[] = []
-              const cvValues: any = {}
-
-              Object.keys(values).forEach(keys => {
-                if (_.isArray(values[keys])) {
-                  console.log('1')
-                  roleArr = roleArr.concat(values[keys])
-                } else {
-                  cvValues[keys] = values[keys]
-                }
-              })
-
-              if (!cvValues.status) {
-                cvValues.status = '0'
-              }
-
-              cvValues.scopes = roleArr
-              console.log(roleArr)
-              console.log(cvValues)
-
-              return add(cvValues)
-            }}
+            onModify={add}
             formModel={createForm}
             actions={actions}
             validation={roleValidationSchema}
@@ -495,30 +475,7 @@ export default function ManagementOrganization() {
             <EntityCrudPage
               moduleName='ROLE.MODULE_NAME'
               entity={editEntity}
-              onModify={(values) => {
-                console.log(values)
-                let roleArr: string[] = []
-                const cvValues: any = {}
-  
-                Object.keys(values).forEach(keys => {
-                  if (_.isArray(values[keys])) {
-                    console.log('1')
-                    roleArr = roleArr.concat(values[keys])
-                  } else {
-                    cvValues[keys] = values[keys]
-                  }
-                })
-  
-                cvValues.scopes = roleArr
-
-                Object.keys(cvValues).forEach(keys => {
-                  if (!validField.includes(keys)) {
-                    delete cvValues[keys]
-                  }
-                })
-  
-                return update(cvValues)
-              }}
+              onModify={update}
               code={match && match.params.code}
               get={code => GetById(code)}
               formModel={editForm}
