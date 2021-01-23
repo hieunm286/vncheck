@@ -1402,7 +1402,7 @@ function ProductionPlan() {
         },
       },
     }),
-    [userData],
+    [editEntity, userData],
   );
 
   const modifyModel5 = useMemo(
@@ -1429,6 +1429,7 @@ function ProductionPlan() {
             // placeholder: 'Mã gieo giống',
             label: 'CLEANING_QUANTITY',
             disabled: (values: any) => {
+              console.log(values)
               return CheckDisabled(values?.cleaning, values?.process, cleaningProcess);
             },
           },
@@ -1462,7 +1463,7 @@ function ProductionPlan() {
         },
       },
     }),
-    [userData],
+    [editEntity, userData],
   );
 
   const modifyModel6 = useMemo(
@@ -1560,6 +1561,7 @@ function ProductionPlan() {
             // placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
             label: 'PRODUCTION_PLAN_FORM_PACKING_QUANTITY',
             disabled: (values: any) => {
+              console.log(values)
               return CheckDisabled(values?.packing, values?.process, packingProcess);
             },
           },
