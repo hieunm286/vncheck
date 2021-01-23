@@ -132,6 +132,7 @@ export const GetClassName = (labelWidth: number | null | undefined, labelStart: 
     }
   } else {
     if (labelWidth != null) {
+      if (labelWidth == 12) classes.push('hidden');
       classes.push(`col-xl-${12 - labelWidth}`);
       classes.push(`col-md-${12 - labelWidth}`);
       classes.push('col-12');

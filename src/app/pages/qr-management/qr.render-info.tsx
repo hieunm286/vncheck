@@ -27,6 +27,13 @@ export const producerInfo: RenderInfoDetail = [{
     'enterprise.gln': {title: 'ENTERPRISE.GLN'},
   }
 }];
+export const paddingInfo: RenderInfoDetail = [{
+  className: 'col-12',
+  dataClassName: 'col-12',
+  data: {
+    'padding': {formatter: () => (<div style={{borderTop: '1px solid #DADADA'}} className={'mb-10'}/>)},
+  }
+}]
 
 export const commonInfo: RenderInfoDetail = [{
   header: 'GENERAL_INFO',
