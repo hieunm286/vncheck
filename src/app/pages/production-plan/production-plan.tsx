@@ -1663,36 +1663,36 @@ function ProductionPlan() {
     [userData],
   );
 
-  const modifyModel8 = useMemo(
-    (): ModifyPanel => ({
-      _title: '',
-      group1: {
-        _subTitle: 'ĐƠN VỊ TÍNH',
-        _className: 'col-6 pl-xl-15 pl-md-10 pl-5',
-        unit: {
-          _type: 'search-select',
-          // placeholder: 'Quy cách',
-          label: 'Đơn vị tính',
-          onSearch: ({ queryProps, paginationProps }: any) => {
-            if (editEntity && editEntity.seeding && editEntity.seeding.species) {
-              queryProps.species = editEntity.seeding.species._id;
-            }
-            return ProductPackagingService.GetAll({ queryProps, paginationProps });
-          },
-          keyField: 'weight',
-          disabled: (values: any) => {
-            return CheckDisabled(values?.packing, values?.process, packingProcess);
-          },
-          // required: true,
-          // onDisplayOptions: (e:ProductPackagingModel)=> e.species.weight,
-          // rootField: 'seeding',
-          // fillField: 'packing',
-          // display: 'weight',
-        },
-      },
-    }),
-    [editEntity],
-  );
+  // const modifyModel8 = useMemo(
+  //   (): ModifyPanel => ({
+  //     _title: '',
+  //     group1: {
+  //       _subTitle: 'ĐƠN VỊ TÍNH',
+  //       _className: 'col-6 pl-xl-15 pl-md-10 pl-5',
+  //       unit: {
+  //         _type: 'search-select',
+  //         // placeholder: 'Quy cách',
+  //         label: 'Đơn vị tính',
+  //         onSearch: ({ queryProps, paginationProps }: any) => {
+  //           if (editEntity && editEntity.seeding && editEntity.seeding.species) {
+  //             queryProps.species = editEntity.seeding.species._id;
+  //           }
+  //           return ProductPackagingService.GetAll({ queryProps, paginationProps });
+  //         },
+  //         keyField: 'weight',
+  //         disabled: (values: any) => {
+  //           return CheckDisabled(values?.packing, values?.process, packingProcess);
+  //         },
+  //         // required: true,
+  //         // onDisplayOptions: (e:ProductPackagingModel)=> e.species.weight,
+  //         // rootField: 'seeding',
+  //         // fillField: 'packing',
+  //         // display: 'weight',
+  //       },
+  //     },
+  //   }),
+  //   [editEntity],
+  // );
 
   const updateForm = useMemo(
     (): ModifyForm => ({
@@ -1704,7 +1704,7 @@ function ProductionPlan() {
       panel5: modifyModel5,
       panel6: modifyModel6,
       panel7: modifyModel7,
-      panel8: modifyModel8
+      // panel8: modifyModel8
     }),
     [
       modifyModel,
@@ -1714,7 +1714,7 @@ function ProductionPlan() {
       modifyModel5,
       modifyModel6,
       modifyModel7,
-      modifyModel8
+      // modifyModel8
     ],
   );
 
