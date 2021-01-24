@@ -1393,7 +1393,8 @@ function ProductionPlan() {
         },
         '': {
           _type: 'object',
-          _inputClassName: 'col-4 tesssst mb-5 p-0',
+          _className: 'custom-input-group',
+          _inputClassName: 'col-4 custom-input-label mb-5 p-0',
           title: {
             _type: 'string',
             label: 'PRELIMINARY_TREATMENT_QUANTITY',
@@ -1401,7 +1402,7 @@ function ProductionPlan() {
           },
           preliminaryTreatment: {
             _type: 'object',
-            _inputClassName: 'col-6 tesssst mb-5 p-0',
+            _inputClassName: 'col-6 custom-input-input mb-5 p-0',
             estimatedQuantity: {
               _type: 'number',
               labelWidth: 0,
@@ -1417,7 +1418,7 @@ function ProductionPlan() {
           },
           unit: {
             _type: 'object',
-            _inputClassName: 'col-2 tesssst mb-5 p-0',
+            _inputClassName: 'col-2 custom-input-input mb-5 p-0',
             '': {
               _type: 'search-select',
               labelWidth: 0,

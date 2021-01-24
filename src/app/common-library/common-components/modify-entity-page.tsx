@@ -198,12 +198,22 @@ export const RenderForm = ({inputs, prevKey, mode, inputClassName}: any) => {
         }
         default: {
           const {_type, _subTitle, _className, _inputClassName, ...innt} = input as any;
-          return (<Fragment key={`render_form${prevKey ? `${prevKey}.${key}` : key}`}>
+          const trimKey = key.trim();
+          return _className ? (
+              <span key={`render_form_span${prevKey ? `${prevKey}.${trimKey}` : trimKey}`} className={_className}>
+            {_subTitle && _subTitle !== '' && (<div
+              className="modify-subtitle text-primary">{intl.formatMessage({id: _subTitle}).toUpperCase()}</div>)}
+                <RenderForm inputs={innt} inputClassName={_inputClassName ?? inputClassName}
+                            prevKey={prevKey ? (trimKey === '' ? prevKey : `${prevKey}.${trimKey}`) : trimKey}
+                            mode={mode}/>
+            </span>) :
+            (<Fragment key={`render_form${prevKey ? `${prevKey}.${trimKey}` : trimKey}`}>
               {_subTitle && _subTitle !== '' && (<div
                 className="modify-subtitle text-primary">{intl.formatMessage({id: _subTitle}).toUpperCase()}</div>)}
               <RenderForm inputs={innt} inputClassName={_inputClassName ?? inputClassName}
-                          prevKey={prevKey ? (key === '' ? prevKey : `${prevKey}.${key}`) : key} mode={mode}/>
-          </Fragment>)
+                          prevKey={prevKey ? (trimKey === '' ? prevKey : `${prevKey}.${trimKey}`) : trimKey}
+                          mode={mode}/>
+            </Fragment>)
         }
       }
     })}</>)
