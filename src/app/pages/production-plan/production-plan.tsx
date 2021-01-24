@@ -343,7 +343,7 @@ function ProductionPlan() {
       const t =
         // {sortBy: 'updatedAt', sortType: 'desc'}
         prevTab !== currentTab ? { sortBy: 'updatedAt', sortType: 'desc' } : paginationProps;
-      getAll({ ...(filterProps as any), step: '0', confirmationStatus: '3', ...t });
+      getAll({ ...(filterProps as any), step: '0', confirmationStatus: '3', isMaster: false, ...t });
       // getAll({...(filterProps as any), step: '0', confirmationStatus: '1,3', ...t});
     }
     setPrevTab(currentTab);
@@ -363,7 +363,7 @@ function ProductionPlan() {
       dataField: 'seeding.code',
       text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.SEEDING_CODE' })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
-        <Link to={`/production-plan/seeding/${row._id}`}>{row.code}</Link>
+        <Link to={`/production-plan/seeding/${row._id}`}>{row.seeding.code}</Link>
       ),
       ...SortColumn,
       align: 'center',
@@ -449,7 +449,7 @@ function ProductionPlan() {
       dataField: 'seeding.code',
       text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.SEEDING_CODE' })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
-        <Link to={`/production-plan/seeding/${row._id}`}>{row.code}</Link>
+        <Link to={`/production-plan/seeding/${row._id}`}>{row.seeding.code}</Link>
       ),
       ...SortColumn,
       classes: 'text-center',
@@ -586,7 +586,7 @@ function ProductionPlan() {
       dataField: 'seeding.code',
       text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.SEEDING_CODE' })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
-        <Link to={`/production-plan/seeding/${row._id}`}>{row.code}</Link>
+        <Link to={`/production-plan/seeding/${row._id}`}>{row.seeding.code}</Link>
       ),
       ...SortColumn,
       classes: 'text-center',
@@ -1387,6 +1387,14 @@ function ProductionPlan() {
                 values?.process,
                 preliminaryTreatmentProcess,
               );
+            },
+          },
+          unit: {
+            _type: 'search-select',
+            label: 'Đơn vị tính',
+            onSearch: ProductionPlanService.GetUnit,
+            disabled: (values: any) => {
+              return CheckDisabled(values?.packing, values?.process, packingProcess);
             },
           },
         },

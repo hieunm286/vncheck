@@ -50,6 +50,8 @@ export const Fix = ({title}: { title: string }) => {
   return <div style={{minWidth: 174}}>{intl.formatMessage({id: title})}</div>;
 };
 
+export const basicUnit = ['g', 'kg', 'yến', 'tạ', 'tấn']
+
 export const productPlanSearchModel1: SearchModel = {
   seedingCode: {
     type: 'string',

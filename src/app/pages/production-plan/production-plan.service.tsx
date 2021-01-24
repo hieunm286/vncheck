@@ -9,6 +9,7 @@ import {
   GetProps,
   UpdateProps,
 } from '../../common-library/common-types/common-type';
+import { basicUnit } from './defined/const';
 
 export const API_URL = API_BASE_URL + '/product-plan';
 
@@ -99,3 +100,16 @@ export const DeleteMany: DeleteManyProps<any> = (entities: any[]) => {
     data: { listSpecies: entities },
   });
 };
+
+export const GetUnit = ({queryProps}: any): Promise<any> => {
+  return new Promise((resolve, reject) => {
+    resolve({
+      code: 200,
+      data: {
+        data: basicUnit,
+        paging: {page: 1, limit: 5, total: basicUnit.length}
+      },
+      success: true
+    })
+  })
+}
