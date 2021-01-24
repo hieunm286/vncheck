@@ -207,11 +207,11 @@ function ProductionPlanCrud({
               const clValue = { ...values };
 
               validField.forEach(keys => {
-                if (_.isArray(clValue[keys].technical) && !_.isString(clValue[keys].technical[0])) {
+                if (clValue[keys] && _.isArray(clValue[keys].technical) && !_.isString(clValue[keys].technical[0])) {
                   clValue[keys].technical = [...entityForEdit[keys].technical];
                 }
 
-                if (_.isArray(clValue[keys].leader) && !_.isString(clValue[keys].leader[0])) {
+                if (clValue[keys] && _.isArray(clValue[keys].leader) && !_.isString(clValue[keys].leader[0])) {
                   clValue[keys].leader = [...entityForEdit[keys].leader];
                 }
               });
