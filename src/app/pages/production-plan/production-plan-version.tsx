@@ -62,7 +62,7 @@ function ProductionPlanVersion({
         notifyError('Lỗi server. Vui lòng thử lại sau')
       })
     }
-  })
+  }, [title])
 
   return (
     <Card>
@@ -71,8 +71,9 @@ function ProductionPlanVersion({
           <>
             <span onClick={() => history.goBack()} className={'cursor-pointer text-primary font-weight-boldest'}>
               <ArrowBackIosIcon />
+              {'KẾ HOẠCH SỐ ' + plan.toUpperCase()}
             </span>
-            {'KẾ HOẠCH SỐ ' + plan.toUpperCase()}
+            
           </>
         }
       />
