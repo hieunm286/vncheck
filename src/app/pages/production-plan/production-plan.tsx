@@ -1362,18 +1362,18 @@ function ProductionPlan() {
               );
             },
           },
-          estimatedQuantity: {
-            _type: 'number',
-            // placeholder: 'Mã gieo giống',
-            label: 'PRELIMINARY_TREATMENT_QUANTITY',
-            disabled: (values: any) => {
-              return CheckDisabled(
-                values?.preliminaryTreatment,
-                values?.process,
-                preliminaryTreatmentProcess,
-              );
-            },
-          },
+          // estimatedQuantity: {
+          //   _type: 'number',
+          //   // placeholder: 'Mã gieo giống',
+          //   label: 'PRELIMINARY_TREATMENT_QUANTITY',
+          //   disabled: (values: any) => {
+          //     return CheckDisabled(
+          //       values?.preliminaryTreatment,
+          //       values?.process,
+          //       preliminaryTreatmentProcess,
+          //     );
+          //   },
+          // },
           // unit: {
           //   _type: 'search-select',
           //   label: 'Đơn vị tính',
@@ -1410,7 +1410,7 @@ function ProductionPlan() {
           unit: {
             _type: 'object',
             _inputClassName: 'col-2 tesssst mb-5 p-0',
-            '': {
+            unit: {
               _type: 'search-select',
               labelWidth: 0,
               label: 'Đơn vị tính',

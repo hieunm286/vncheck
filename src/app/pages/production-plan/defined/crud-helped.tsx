@@ -110,6 +110,7 @@ export const validField = [
   'cleaning',
   'packing',
   'preservation',
+  'unit'
 ];
 
 export const validNested = [
@@ -122,6 +123,7 @@ export const validNested = [
   'packing',
   'estimatedStartTime',
   'estimatedEndTime',
+  'unit'
 ];
 
 export const validationForm = (values: any) => {
