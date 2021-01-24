@@ -123,6 +123,7 @@ export type ProductionPlanModel = {
     _id: string;
     technicalStaff: { _id: string; isRecieved: boolean; info: string }[];
   },
+  parentPlan?: string;
   createdBy: {
     _id: string;
     firstName: string;
