@@ -207,11 +207,11 @@ function ProductionPlanCrud({
               const clValue = { ...values };
 
               validField.forEach(keys => {
-                if (!_.isString(clValue[keys].technical[0])) {
+                if (clValue[keys] && _.isArray(clValue[keys].technical) && !_.isString(clValue[keys].technical[0])) {
                   clValue[keys].technical = [...entityForEdit[keys].technical];
                 }
 
-                if (!_.isString(clValue[keys].leader[0])) {
+                if (clValue[keys] && _.isArray(clValue[keys].leader) && !_.isString(clValue[keys].leader[0])) {
                   clValue[keys].leader = [...entityForEdit[keys].leader];
                 }
               });
@@ -236,6 +236,13 @@ function ProductionPlanCrud({
               ) {
                 diffValue.packing.packing = clValue.packing.packing._id;
               }
+
+              if (clValue &&
+                clValue.unit &&
+                clValue.unit.unit &&
+                diffValue) {
+                  diffValue.unit = clValue.unit.unit;
+                }
 
               validField.forEach(keys => {
                 const cvLeader: any[] = [];
@@ -264,14 +271,14 @@ function ProductionPlanCrud({
 
               validField.forEach(keys => {
                 Object.keys(clValue[keys]).forEach(cKey => {
-                  if (diffValue[keys] && !diffValue[keys][cKey] && validNested.includes(cKey)) {
+                  if (diffValue[keys] && !_.isString(diffValue[keys]) && !_.isNumber(diffValue[keys]) && !diffValue[keys][cKey] && validNested.includes(cKey)) {
                     diffValue[keys][cKey] = clValue[keys][cKey];
                   }
                 });
               });
 
               validField.forEach(keys => {
-                if (diffValue[keys]) {
+                if (diffValue[keys] && !_.isString(diffValue[keys]) && !_.isNumber(diffValue[keys])) {
                   Object.keys(diffValue[keys]).forEach(cKey => {
                     if (
                       !diffValue[keys][cKey] ||

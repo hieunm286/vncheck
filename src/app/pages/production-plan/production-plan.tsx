@@ -1362,18 +1362,18 @@ function ProductionPlan() {
               );
             },
           },
-          estimatedQuantity: {
-            _type: 'number',
-            // placeholder: 'Mã gieo giống',
-            label: 'PRELIMINARY_TREATMENT_QUANTITY',
-            disabled: (values: any) => {
-              return CheckDisabled(
-                values?.preliminaryTreatment,
-                values?.process,
-                preliminaryTreatmentProcess,
-              );
-            },
-          },
+          // estimatedQuantity: {
+          //   _type: 'number',
+          //   // placeholder: 'Mã gieo giống',
+          //   label: 'PRELIMINARY_TREATMENT_QUANTITY',
+          //   disabled: (values: any) => {
+          //     return CheckDisabled(
+          //       values?.preliminaryTreatment,
+          //       values?.process,
+          //       preliminaryTreatmentProcess,
+          //     );
+          //   },
+          // },
           // unit: {
           //   _type: 'search-select',
           //   label: 'Đơn vị tính',
