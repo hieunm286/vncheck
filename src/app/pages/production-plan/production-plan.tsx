@@ -1,23 +1,17 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { useIntl } from 'react-intl';
-import {
-  DefaultPagination,
-  NormalColumn,
-  SortColumn,
-} from '../../common-library/common-consts/const';
-import { MasterHeader } from '../../common-library/common-components/master-header';
-import { InitMasterProps } from '../../common-library/helpers/common-function';
-import { Link, Route, Switch, useHistory } from 'react-router-dom';
-import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
-import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
+import React, {useEffect, useMemo, useState} from 'react';
+import {useIntl} from 'react-intl';
+import {DefaultPagination, NormalColumn, SortColumn,} from '../../common-library/common-consts/const';
+import {MasterHeader} from '../../common-library/common-components/master-header';
+import {InitMasterProps} from '../../common-library/helpers/common-function';
+import {Link, Route, Switch, useHistory} from 'react-router-dom';
 import * as ProductionPlanService from './production-plan.service';
 import * as UserService from '../user/user.service';
-import { ProductionPlanModel } from './production-plant.model';
+import {ProductionPlanModel} from './production-plant.model';
 import ProductionPlanBody from './production-plant-body';
 import './style/production-plan.scss';
-import { ProductPlanActionsColumn } from './production-plan-actions-column';
+import {ProductPlanActionsColumn} from './production-plan-actions-column';
 import ProductionPlanVersion from './production-plan-version';
-import { MasterEntityDetailPage } from '../../common-library/common-components/master-detail-page';
+import {MasterEntityDetailPage} from '../../common-library/common-components/master-detail-page';
 import {
   allFormField,
   formPart,
@@ -31,20 +25,19 @@ import {
   SeedingDetailDialog,
   validate,
 } from './defined/const';
-import { shallowEqual, useSelector } from 'react-redux';
+import {shallowEqual, useSelector} from 'react-redux';
 import ProductionPlanCrud from './production-plan-crud';
 import * as Yup from 'yup';
 import Visibility from '@material-ui/icons/Visibility';
 import _ from 'lodash';
-import { ModifyForm, ModifyPanel } from '../../common-library/common-types/common-type';
+import {ModifyForm, ModifyPanel} from '../../common-library/common-types/common-type';
 import * as ProductPackagingService from '../product-packaging/product-packaging.service';
-import { ProductionPlanDetail } from './production-plan-detail';
+import {ProductionPlanDetail} from './production-plan-detail';
 import momentTimeZone from 'moment-timezone';
 import moment from 'moment';
-import { DisplayDateTime } from '../../common-library/helpers/detail-helpers';
-import { notifySuccess } from './defined/crud-helped';
-import { FormikState } from 'formik';
-import { GetState } from '../address/address.service';
+import {DisplayDateTime} from '../../common-library/helpers/detail-helpers';
+import {notifySuccess} from './defined/crud-helped';
+import {FormikState} from 'formik';
 
 const headerTitle = 'PRODUCT_TYPE.MASTER.HEADER.TITLE';
 const bodyTitle = 'PRODUCT_TYPE.MASTER.BODY.TITLE';
@@ -1389,15 +1382,53 @@ function ProductionPlan() {
               );
             },
           },
-          unit: {
-            _type: 'search-select',
-            label: 'Đơn vị tính',
-            onSearch: ProductionPlanService.GetUnit,
-            disabled: (values: any) => {
-              return CheckDisabled(values?.packing, values?.process, packingProcess);
+          // unit: {
+          //   _type: 'search-select',
+          //   label: 'Đơn vị tính',
+          //   onSearch: ProductionPlanService.GetUnit,
+          //   disabled: (values: any) => {
+          //     return CheckDisabled(values?.packing, values?.process, packingProcess);
+          //   },
+          // },
+        },
+        '': {
+          _type: 'object',
+          _inputClassName: 'col-4 tesssst mb-5 p-0',
+          title: {
+            _type: 'string',
+            label: 'PRELIMINARY_TREATMENT_QUANTITY',
+            labelWidth: 12
+          },
+          preliminaryTreatment: {
+            _type: 'object',
+            _inputClassName: 'col-6 tesssst mb-5 p-0',
+            estimatedQuantity: {
+              _type: 'number',
+              labelWidth: 0,
+              // placeholder: 'Mã gieo giống',
+              disabled: (values: any) => {
+                return CheckDisabled(
+                  values?.preliminaryTreatment,
+                  values?.process,
+                  preliminaryTreatmentProcess,
+                );
+              },
             },
           },
-        },
+          unit: {
+            _type: 'object',
+            _inputClassName: 'col-2 tesssst mb-5 p-0',
+            '': {
+              _type: 'search-select',
+              labelWidth: 0,
+              label: 'Đơn vị tính',
+              onSearch: ProductionPlanService.GetUnit,
+              disabled: (values: any) => {
+                return CheckDisabled(values?.packing, values?.process, packingProcess);
+              },
+            },
+          }
+        }
       },
       group2: {
         _subTitle: '\u00A0',
