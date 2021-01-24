@@ -1016,16 +1016,8 @@ function ProductionPlan() {
         <span
           className="btn btn-icon btn-light btn-hover-primary btn-sm visibility"
           onClick={() => {
-            // ProductionPlanService.GetById(row._id).then(res => {
-            //   setEditEntity(res.data);
-            //   history.push({
-            //     pathname: '/production-plan/plan-view/' + row._id,
-            //     state: res.data,
-            //   });
-            // });
             history.push({
-              pathname: '/production-plan/plan-view/' + row.productPlan._id,
-              state: row.productPlan,
+              pathname: '/production-plan/plan-view/version/' + row.productPlan._id,
             });
           }}>
           <span className="svg-icon svg-icon-md svg-icon-primary">
@@ -1847,6 +1839,23 @@ function ProductionPlan() {
               }}
               header="THÔNG TIN GIEO TRỒNG"
               homeURL={homeURL}
+            />
+          )}
+        </Route>
+        <Route exact path="/production-plan/plan-view/version/:code">
+          {({ history, match }) => (
+            <ProductionPlanDetail
+              renderInfo={masterEntityDetailDialog2}
+              setDetailEntity={setDetailEntity}
+              code={match && match.params.code}
+              get={code => ProductionPlanService.GetById(code)}
+              header={`CHI TIẾT PHIÊN BẢN`}
+              showComment={
+                match &&
+                detailEntity?.parentPlan && 
+                JSON.parse(localStorage.getItem('newestVersion') as any)
+                && JSON.parse(localStorage.getItem('newestVersion') as any)[detailEntity?.parentPlan] === match.params.code
+              }
             />
           )}
         </Route>

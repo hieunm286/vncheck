@@ -57,6 +57,15 @@ function ProductionPlanVersion({
           _.orderBy(res.data.history, o => new Date(o.createdAt), 'desc'),
         );
 
+        const v = JSON.parse(localStorage.getItem('newestVersion') as any)
+
+        const versions = {
+          ...v,
+          [title]: sortedArray[0].productPlan._id
+        }
+
+        localStorage.setItem('newestVersion', JSON.stringify(versions))
+
         setVersionData(sortedArray)
       }).catch (err => {
         notifyError('Lỗi server. Vui lòng thử lại sau')
