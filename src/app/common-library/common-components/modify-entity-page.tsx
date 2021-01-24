@@ -54,8 +54,9 @@ export const RenderForm = ({inputs, prevKey, mode, inputClassName}: any) => {
   return (<>
     {Object.keys(inputs).map(key => {
       const input = inputs[key];
+      const trimKey = key.trim();
       if (_.isString(input)) throw new Error('Sử dụng sai cách ' + key + '\n' + JSON.stringify(inputs));
-      const name = prevKey !== '' ? `${prevKey}.${key}` : key;
+      const name = prevKey ? ((trimKey === '' || prevKey === '') ? prevKey : `${prevKey}.${trimKey}`) : trimKey;
       switch (input._type) {
         case 'string':
         case 'email':
@@ -198,20 +199,19 @@ export const RenderForm = ({inputs, prevKey, mode, inputClassName}: any) => {
         }
         default: {
           const {_type, _subTitle, _className, _inputClassName, ...innt} = input as any;
-          const trimKey = key.trim();
           return _className ? (
-              <span key={`render_form_span${prevKey ? `${prevKey}.${trimKey}` : trimKey}`} className={_className}>
+              <span key={`render_form_span${name}`} className={_className}>
             {_subTitle && _subTitle !== '' && (<div
               className="modify-subtitle text-primary">{intl.formatMessage({id: _subTitle}).toUpperCase()}</div>)}
                 <RenderForm inputs={innt} inputClassName={_inputClassName ?? inputClassName}
-                            prevKey={prevKey ? (trimKey === '' ? prevKey : `${prevKey}.${trimKey}`) : trimKey}
+                            prevKey={name}
                             mode={mode}/>
             </span>) :
-            (<Fragment key={`render_form${prevKey ? `${prevKey}.${trimKey}` : trimKey}`}>
+            (<Fragment key={`render_form${name}`}>
               {_subTitle && _subTitle !== '' && (<div
                 className="modify-subtitle text-primary">{intl.formatMessage({id: _subTitle}).toUpperCase()}</div>)}
               <RenderForm inputs={innt} inputClassName={_inputClassName ?? inputClassName}
-                          prevKey={prevKey ? (trimKey === '' ? prevKey : `${prevKey}.${trimKey}`) : trimKey}
+                          prevKey={name}
                           mode={mode}/>
             </Fragment>)
         }
