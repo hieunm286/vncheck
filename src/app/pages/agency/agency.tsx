@@ -400,74 +400,8 @@ function AgencyPage() {
       _type: 'image',
       label: 'AGENCY.MODIFY.IMAGE',
     },
-  }), [getCity, getDistrict]);
-  
-  const [showCreateShippingAddress, setShowCreateShippingAddress] = useState({show: false});
-  const [showUpdateShippingAddress, setShowUpdateShippingAddress] = useState({show: false});
-  const [showDeleteShippingAddress, setShowDeleteShippingAddress] = useState({show: false});
-  const [deleteShippingAddress, setDeleteShippingAddress] = useState({});
-  const [updateShippingAddress, setUpdateShippingAddress] = useState({});
-  const [createShippingAddressFn, setCreateShippingAddressFn] = useState(() => console.log);
-  const [updateShippingAddressFn, setUpdateShippingAddressFn] = useState(() => console.log);
-  const [deleteShippingAddressFn, setDeleteShippingAddressFn] = useState(() => console.log);
-  const group2 = useMemo((): ModifyInputGroup => ({
-    _subTitle: 'AGENCY.MODIFY.OWNER_INFO',
-    _className: 'col-6 pl-xl-15 pl-md-10 pl-5',
     '': {
       _type: 'object',
-      owner: {
-        _type: 'object',
-        username: {
-          _type: 'string',
-          label: 'AGENCY.MODIFY.USER_NAME',
-          required: true,
-        },
-        fullName: {
-          _type: 'string',
-          required: true,
-          label: 'AGENCY.MODIFY.DISPLAY_NAME',
-        },
-        phone: {
-          _type: 'string-number',
-          required: true,
-          label: 'AGENCY.MODIFY.PHONE_NUMBER',
-        },
-        email: {
-          _type: 'email',
-          required: true,
-          label: 'AGENCY.MODIFY.EMAIL',
-        },
-        gender: {
-          _type: 'radio',
-          required: true,
-          options: [
-            {label: 'AGENCY.MODIFY.GENDER_OPTION.MALE', value: '1'},
-            {label: 'AGENCY.MODIFY.GENDER_OPTION.FEMALE', value: '0'}
-          ],
-          label: 'AGENCY.MODIFY.GENDER',
-        },
-        birthDay: {
-          _type: 'date-time',
-          required: true,
-          label: 'AGENCY.MODIFY.DATE_OF_BIRTH',
-        },
-        role: {
-          _type: 'search-select',
-          required: true,
-          label: 'AGENCY.MODIFY.ROLE',
-          keyField: 'name',
-          // onSearch: ({queryProps, paginationProps}: any): Promise<any> => {
-          //   return GetRole({queryProps, paginationProps}, (t: any) => intl.formatMessage({id: t}))
-          // },
-          onSearch: RoleService.GetAll,
-        },
-        image: {
-          _type: 'image',
-          isArray: false,
-          maxNumber: 1,
-          label: 'AGENCY.MODIFY.REPRESENT_IMAGE',
-        },
-      },
       '': {
         _type: 'object',
         _subTitle: 'AGENCY.MODIFY.SHIPPING_ADDRESS',
@@ -546,6 +480,76 @@ function AgencyPage() {
           )
         }
       }
+    }
+  }), [getCity, getDistrict]);
+  
+  const [showCreateShippingAddress, setShowCreateShippingAddress] = useState({show: false});
+  const [showUpdateShippingAddress, setShowUpdateShippingAddress] = useState({show: false});
+  const [showDeleteShippingAddress, setShowDeleteShippingAddress] = useState({show: false});
+  const [deleteShippingAddress, setDeleteShippingAddress] = useState({});
+  const [updateShippingAddress, setUpdateShippingAddress] = useState({});
+  const [createShippingAddressFn, setCreateShippingAddressFn] = useState(() => console.log);
+  const [updateShippingAddressFn, setUpdateShippingAddressFn] = useState(() => console.log);
+  const [deleteShippingAddressFn, setDeleteShippingAddressFn] = useState(() => console.log);
+  const group2 = useMemo((): ModifyInputGroup => ({
+    _subTitle: 'AGENCY.MODIFY.OWNER_INFO',
+    _className: 'col-6 pl-xl-15 pl-md-10 pl-5',
+    '': {
+      _type: 'object',
+      owner: {
+        _type: 'object',
+        username: {
+          _type: 'string',
+          label: 'AGENCY.MODIFY.USER_NAME',
+          required: true,
+        },
+        fullName: {
+          _type: 'string',
+          required: true,
+          label: 'AGENCY.MODIFY.DISPLAY_NAME',
+        },
+        phone: {
+          _type: 'string-number',
+          required: true,
+          label: 'AGENCY.MODIFY.PHONE_NUMBER',
+        },
+        email: {
+          _type: 'email',
+          required: true,
+          label: 'AGENCY.MODIFY.EMAIL',
+        },
+        gender: {
+          _type: 'radio',
+          required: true,
+          options: [
+            {label: 'AGENCY.MODIFY.GENDER_OPTION.MALE', value: '1'},
+            {label: 'AGENCY.MODIFY.GENDER_OPTION.FEMALE', value: '0'}
+          ],
+          label: 'AGENCY.MODIFY.GENDER',
+        },
+        birthDay: {
+          _type: 'date-time',
+          required: true,
+          label: 'AGENCY.MODIFY.DATE_OF_BIRTH',
+        },
+        role: {
+          _type: 'search-select',
+          required: true,
+          label: 'AGENCY.MODIFY.ROLE',
+          keyField: 'name',
+          // onSearch: ({queryProps, paginationProps}: any): Promise<any> => {
+          //   return GetRole({queryProps, paginationProps}, (t: any) => intl.formatMessage({id: t}))
+          // },
+          onSearch: RoleService.GetAll,
+        },
+        image: {
+          _type: 'image',
+          isArray: false,
+          maxNumber: 1,
+          label: 'AGENCY.MODIFY.REPRESENT_IMAGE',
+        },
+      },
+      
     }
   }), [showCreate]);
   

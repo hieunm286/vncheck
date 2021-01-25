@@ -131,6 +131,8 @@ export const validationForm = (values: any) => {
 
     console.log(values);
 
+    const unit = values.unit
+
     const harvestingLeader = values.harvesting?.leader;
     const harvestingTechnical = values.harvesting?.technical;
 
@@ -364,6 +366,13 @@ export const validationForm = (values: any) => {
     // }
 
     // ---------------------------------------------------------------
+
+    // if (!unit) {
+    //   if (!errors.unit) {
+    //     errors.unit = {};
+    //   }
+    //   errors.unit[''] = 'Vui lòng chọn đơn vị tính';
+    // }
 
     if (ptEstimatedQuantity) {
       if (!_.isInteger(ptEstimatedQuantity)) {

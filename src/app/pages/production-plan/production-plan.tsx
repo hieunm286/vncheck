@@ -213,6 +213,7 @@ const ProductPlantSchema = Yup.object().shape({
       return true;
     }),
   preservation: Yup.object().shape(preservationValidate),
+  // unit: Yup.number().required('Vui lòng chọn đơn vị tính')
 
   // cleaning: Yup.object().shape({
   //   technical: Yup.array().typeError('Type err'),
@@ -1411,7 +1412,7 @@ function ProductionPlan() {
           unit: {
             _type: 'object',
             _inputClassName: 'col-2 custom-input-input mb-5 p-0',
-            unit: {
+            '': {
               _type: 'search-select',
               labelWidth: 0,
               label: 'Đơn vị tính',
@@ -1419,6 +1420,7 @@ function ProductionPlan() {
               disabled: (values: any) => {
                 return CheckDisabled(values?.preliminaryTreatment, values?.process, preliminaryTreatmentProcess);
               },
+              isClearable: false
             },
           }
         }
@@ -1517,7 +1519,7 @@ function ProductionPlan() {
           unit: {
             _type: 'object',
             _inputClassName: 'col-2 custom-input-input mb-5 p-0',
-            unit: {
+            '': {
               _type: 'search-select',
               labelWidth: 0,
               label: 'Đơn vị tính',

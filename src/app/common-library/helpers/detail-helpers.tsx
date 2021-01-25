@@ -103,6 +103,16 @@ export const DisplayDateTime = ({input, _format}: { input?: string, _format?: st
   );
 };
 
+export const DisplayUnit = ({input}: {input?: string | number}) => {
+  const intl = useIntl()
+  if (!input) return <></>;
+  return (
+    <>
+      {intl.formatMessage({ id: _.toString(input) })}
+    </>
+  );
+}
+
 export const DisplayDownloadLink = (input: any, key?: string) => {
   const intl = useIntl();
   if (!input) return <></>;
