@@ -142,21 +142,22 @@ export default function ManagementOrganization() {
     //   }
     // },
     managementUnit: {
-      _type: 'tree-select',
+      _type: 'search-select',
       label: 'ROLE.CREATE.LABEL.MANAGEMENT_ORGANIZATION',
-      name: 'managementUnit',
-      // onSearch: ManagementOrganizationService.GetAll,
+      // name: 'managementUnit',
+      keyField: 'name',
+      onSearch: ManagementOrganizationService.getAll,
       // onChange: (value: any, {setFieldValue, setFieldTouched}: any) => {
       //   const name = 'managementUnit';
       //   setFieldTouched(name, true);
       //   setFieldValue(name, value._id ?? '');
       // },
       // onFetch: (entities: any) => {console.log(entities); return entities.data;}
-      onSearch: ({queryProps, sortList, paginationProps,}: any) => {
-        return ManagementOrganizationService.GetAll({queryProps}).then((e) => {
-          return (e.data);
-        })
-      },
+      // onSearch: ({queryProps, sortList, paginationProps,}: any) => {
+      //   return ManagementOrganizationService.GetAll({queryProps}).then((e) => {
+      //     return (e.data);
+      //   })
+      // },
     },
     roleCodeDummy: {
       _type: 'string',
@@ -254,11 +255,11 @@ export default function ManagementOrganization() {
           label: 'THÔNG TIN VẬN CHUYỂN',
           optionData: ConvertRoleScope(RoleScope.role_scope_shipping, intl)
         },
-        // status: {
-        //   _type: 'checkbox',
-        //   label: 'TRẠNG THÁI',
-        //   optionData: ConvertRoleScope(RoleScope.role_scope_status, intl)
-        // }
+        status: {
+          _type: 'checkbox',
+          label: 'TRẠNG THÁI',
+          optionData: ConvertRoleScope(RoleScope.role_scope_status, intl)
+        }
       }
     }
   }), [])
@@ -388,14 +389,16 @@ export default function ManagementOrganization() {
       // onSearch: GetNames,
     },
     managementUnit: {
-      type: 'tree-select',
-      name: 'managementUnit',
+      type: 'search-select',
+      // name: 'managementUnit',
       label: 'ROLE.HEADER.LABEL.MANAGEMENT_ORGANIZATION',
-      onSearch: ({queryProps, sortList, paginationProps,}: any) => {
-        return ManagementOrganizationService.GetAll({queryProps}).then((e) => {
-          return (e.data);
-        })
-      },
+      keyField: 'name',
+      // onSearch: ({queryProps, sortList, paginationProps,}: any) => {
+      //   return ManagementOrganizationService.GetAll({queryProps}).then((e) => {
+      //     return (e.data);
+      //   })
+      // },
+      onSearch: ManagementOrganizationService.getAll
     },
     status: {
       type: 'search-select',

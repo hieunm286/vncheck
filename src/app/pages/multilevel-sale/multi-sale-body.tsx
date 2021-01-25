@@ -32,7 +32,7 @@ const MultiLevelSaleBody: React.FC<MultilevelSaleBodyProp> = ({
               case 'Tree':
                 return (
                   <Fragment key={key}>
-                    <div className={`col-xl-${12 / body.length} col-12 pr-3`}>
+                    <div className={`col-xl-${12 / body.length} col-12 pr-xl-3`}>
                       <div className="p-5 layout">
                         {
                           item.title && (
@@ -66,7 +66,7 @@ const MultiLevelSaleBody: React.FC<MultilevelSaleBodyProp> = ({
               case 'Table':
                 return (
                   <Fragment key={key}>
-                    <div className={`col-xl-${12 / body.length} col-12 pl-3`}>
+                    <div className={`col-xl-${12 / body.length} col-12 pl-xl-3`}>
                       <div className="p-5 layout">
                         {
                           item.title && (
