@@ -12,18 +12,12 @@ import {AxiosResponse} from 'axios';
 import {RoleModel} from '../role/role.model';
 
 export default function ManagementOrganization() {
-  
-  const [userEntities, setUserEntities] = useState<UserModel[]>([]);
-  const [userTotal, setUserTotal] = useState<number>(0);
-  const [convertedEntities, setConvertedEntities] = useState<any[]>([]);
-  
   const {
     entities,
     selectedEntities,
     setSelectedEntities,
     paginationProps,
     setPaginationProps,
-    filterProps,
     getAll,
   } = InitMasterProps<ManagementOrganizationModel>({
     getServer: Get,
@@ -36,8 +30,11 @@ export default function ManagementOrganization() {
   });
   
   const intl = useIntl();
-  const [userParams, setUserParams] = useState<object>({role: {_id: ''}});
+  const [userEntities, setUserEntities] = useState<UserModel[]>([]);
+  const [userTotal, setUserTotal] = useState<number>(0);
+  const [convertedEntities, setConvertedEntities] = useState<any[]>([]);
   const [userLoading, setUserLoading] = useState(false);
+  const [userParams, setUserParams] = useState<any>({role: {_id: ''}});
   const [errorUser, setErrorUser] = useState('');
   
   useEffect(() => {
@@ -45,12 +42,14 @@ export default function ManagementOrganization() {
   }, []);
   
   useEffect(() => {
+    if(userParams?.role?._id === '') return;
     setUserLoading(true);
     UserService.GetAll({queryProps: userParams, paginationProps, })
       .then((res : AxiosResponse<{data: UserModel[]; paging: {page: number, limit: number, total: number}}>) => {
         setUserEntities(res.data.data);
         setUserLoading(false);
         setUserTotal(res.data.paging.total);
+        setErrorUser('');
       }) .catch(err => {
       setUserLoading(false);
       setErrorUser(err.message);
@@ -95,11 +94,10 @@ export default function ManagementOrganization() {
       {
         dataField: '_id',
         text: `${intl.formatMessage({id: 'ORDINAL'})}`,
-        // ...SortColumn,
-        align: 'center',
         formatter: (cell: any, row: any, rowIndex: number) => (
           <p>{rowIndex + 1 + ((paginationProps.page ?? 0) - 1) * (paginationProps.limit ?? 0)}</p>
         ),
+        style: {paddingTop: 20},
       },
       {
         dataField: 'fullName',

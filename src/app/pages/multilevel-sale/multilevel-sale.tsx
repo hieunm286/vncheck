@@ -78,7 +78,6 @@ function MultilevelSale() {
   });
   
   const [agency, setAgency] = useState<any[]>([]);
-  const [agencyPagination, setAgencyPagination] = useState(DefaultPagination);
   const [agencyTotal, setAgencyTotal] = useState(0);
   const [agencyLoading, setAgencyLoading] = useState(false);
   const [agencyParams, setAgencyParams] = useState({
