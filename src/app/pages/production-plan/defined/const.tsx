@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   ModifyForm,
   ModifyPanel,
@@ -11,7 +12,6 @@ import * as Yup from 'yup';
 
 import '../style/production-plan.scss';
 import _ from 'lodash';
-import React from 'react';
 import {useIntl} from 'react-intl';
 import {
   Display3Info,
@@ -23,6 +23,7 @@ import {
   DisplayImage,
   DisplayPercent,
   DisplayPersonNameByArray,
+  DisplayUnit,
 } from '../../../common-library/helpers/detail-helpers';
 import momentTimeZone from 'moment-timezone';
 
@@ -992,6 +993,8 @@ export const masterEntityDetailDialog2: RenderInfoDetail = [
         title: 'Tổ trưởng sơ chế',
         formatter: DisplayPersonNameByArray,
       },
+
+      'unit': {title: 'Đơn vị tính', formatter: input => <DisplayUnit input={input} />}
     },
   },
   {
@@ -1014,6 +1017,8 @@ export const masterEntityDetailDialog2: RenderInfoDetail = [
         title: 'Tổ trưởng làm sạch',
         formatter: DisplayPersonNameByArray,
       },
+
+      'unit': {title: 'Đơn vị tính', formatter: input => <DisplayUnit input={input} />}
     },
   },
   {
@@ -1191,6 +1196,7 @@ export const initProductPlanForm = {
     estimatedEndTime: null,
     technical: []
   },
+  unit: 1000
 };
 
 export const halfValidate = {

@@ -46,9 +46,7 @@ export function ProductionPlanDetail({
     if (code && get) {
       get(code).then((res: { data: any }) => {
         setEntityDetail(res.data);
-        console.log(res.data)
-        console.log(code)
-        console.log(JSON.parse(localStorage.getItem('newestVersion') as any)[res.data.parentPlan])
+       
         if (setDetailEntity) {
           setDetailEntity(res.data);
         }

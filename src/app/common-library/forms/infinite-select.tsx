@@ -40,6 +40,7 @@ export function InfiniteSelect({
                                  validationMessage,
                                  labelWidth,
                                  formatter,
+                                 isClearable = true,
                                  mode, ...props
                                }: {
   label: string | ReactElement;
@@ -59,6 +60,7 @@ export function InfiniteSelect({
   required?: boolean | ((values: any) => boolean);
   disabled?: boolean | ((values: any) => boolean);
   formatter?:(e:any) => any;
+  isClearable?: boolean;
 }) {
   const {
     setFieldValue,
@@ -168,7 +170,7 @@ export function InfiniteSelect({
               setFieldTouched(name, true);
               setFieldValue(name, value !== null ? value : '');
             }}
-            isClearable={true}
+            isClearable={isClearable}
             onBlur={(e) => {
               setFieldTouched(name, true);
             }}
