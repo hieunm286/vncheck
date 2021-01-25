@@ -10,7 +10,6 @@ import {
   GetProps,
   UpdateProps,
 } from '../../common-library/common-types/common-type';
-import { GetCompareFunction } from '../../common-library/helpers/common-function';
 
 export const API_URL = API_BASE_URL + '/management-unit';
 
@@ -48,22 +47,6 @@ export const getAll: GetAllPropsServer<any> = ({ queryProps, sortList, paginatio
   
       return res
     })
-
-    // return new Promise((resolve, reject) => {
-    //   const data = datas.data.sort(GetCompareFunction({
-    //     key: paginationProps.sortBy,
-    //     orderType: paginationProps.sortType === 'asc' ? 1 : -1
-    //   })).slice((paginationProps.page - 1) * paginationProps.limit, paginationProps.page * paginationProps.limit).map(t => t.name_with_type);
-    //   console.log(data);
-    //   resolve({
-    //     code: 200,
-    //     data: {
-    //       data: data,
-    //       paging: {page: paginationProps.page, limit: paginationProps.limit, total: totalData.length}
-    //     },
-    //     success: true
-    //   })
-    // })
 };
 
 export const GetAll: GetAllPropsServer<any> = ({ queryProps, sortList, paginationProps }) => {
