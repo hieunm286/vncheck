@@ -1411,13 +1411,13 @@ function ProductionPlan() {
           unit: {
             _type: 'object',
             _inputClassName: 'col-2 custom-input-input mb-5 p-0',
-            '': {
+            unit: {
               _type: 'search-select',
               labelWidth: 0,
               label: 'Đơn vị tính',
               onSearch: ProductionPlanService.GetUnit,
               disabled: (values: any) => {
-                return CheckDisabled(values?.packing, values?.process, packingProcess);
+                return CheckDisabled(values?.preliminaryTreatment, values?.process, preliminaryTreatmentProcess);
               },
             },
           }
@@ -1479,15 +1479,52 @@ function ProductionPlan() {
               return CheckDisabled(values?.cleaning, values?.process, cleaningProcess);
             },
           },
-          estimatedQuantity: {
-            _type: 'number',
-            // placeholder: 'Mã gieo giống',
+          // estimatedQuantity: {
+          //   _type: 'number',
+          //   // placeholder: 'Mã gieo giống',
+          //   label: 'CLEANING_QUANTITY',
+          //   disabled: (values: any) => {
+          //     console.log(values);
+          //     return CheckDisabled(values?.cleaning, values?.process, cleaningProcess);
+          //   },
+          // },
+        },
+        '': {
+          _type: 'object',
+          _className: 'custom-input-group',
+          _inputClassName: 'col-4 custom-input-label mb-5 p-0',
+          title: {
+            _type: 'string',
             label: 'CLEANING_QUANTITY',
-            disabled: (values: any) => {
-              console.log(values);
-              return CheckDisabled(values?.cleaning, values?.process, cleaningProcess);
+            labelWidth: 12
+          },
+          cleaning: {
+            _type: 'object',
+            _inputClassName: 'col-6 custom-input-input mb-5 p-0',
+            estimatedQuantity: {
+              _type: 'number',
+              labelWidth: 0,
+              // placeholder: 'Mã gieo giống',
+              disabled: (values: any) => {
+                return CheckDisabled(
+                  values?.cleaning,
+                  values?.process,
+                  cleaningProcess,
+                );
+              },
             },
           },
+          unit: {
+            _type: 'object',
+            _inputClassName: 'col-2 custom-input-input mb-5 p-0',
+            unit: {
+              _type: 'search-select',
+              labelWidth: 0,
+              label: 'Đơn vị tính',
+              onSearch: ProductionPlanService.GetUnit,
+              disabled: true
+            },
+          }
         },
       },
       cleaningInfo: {

@@ -107,7 +107,7 @@ export const GetUnit = ({queryProps}: any): Promise<any> => {
       code: 200,
       data: {
         data: basicUnit,
-        paging: {page: 1, limit: 5, total: basicUnit.length}
+        paging: {page: 1, limit: 7, total: basicUnit.length}
       },
       success: true
     })

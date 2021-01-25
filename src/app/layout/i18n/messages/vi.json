@@ -867,7 +867,7 @@
   "PRESERVE.TEMPERATURE": "Nhiệt độ bảo quản",
   "PRESERVE.IMAGE": "Hình ảnh bảo quản",
   "PRESERVE.MANAGER": "Giám đốc",
-  "PRESERVE.LEADER": "Kĩ thuật",
+  "PRESERVE.TECHNICAL": "Kĩ thuật",
   "PRESERVE.WORKER": "Nhân viên",
 
   "LOGISTICS.CREATEDBY": "Người tạo QR logistics",
@@ -884,5 +884,13 @@
   "STATUS.DATESALE": "Ngày bán",
   "STATUS.LOCATIONSALE": "Nơi bán",
   "STATUS.STAFFSALE": "Nhân viên nơi bán",
-  "STATUS.PHONECUSTOMER": "Số điện thoại người mua"
+  "STATUS.PHONECUSTOMER": "Số điện thoại người mua",
+
+  "1": "g",
+  "10": "dag",
+  "100": "hg",
+  "1000": "kg",
+  "10000": "yến",
+  "100000": "tạ",
+  "1000000": "tấn"
 }
