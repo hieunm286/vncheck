@@ -192,13 +192,10 @@ function User() {
   const [role, setRole] = useState<any>(null);
   const searchModel: SearchModel = useMemo(() => ({
     managementUnit: {
-      type: 'tree-select',
+      type: 'search-select',
       label: 'USER.MASTER.SEARCH.ORGANIZATION',
-      onSearch: ({queryProps, sortList, paginationProps,}: any) => {
-        return ManagementUnitService.GetAll({queryProps}).then((e) => {
-          return (e.data);
-        })
-      },
+      keyField: 'name',
+      onSearch: ManagementUnitService.getAll,
       onChange: (value: any, {setFieldValue}: any) => {
         console.log(value)
         if (managementUnit != value) {
@@ -299,14 +296,7 @@ function User() {
   const group2 = useMemo((): ModifyInputGroup => ({
     _subTitle: 'EMPTY',
     _className: 'col-6 pl-xl-15 pl-md-10 pl-5',
-    agency: {
-      _type: 'search-select',
-      onSearch: AgencyService.GetAll,
-      // selectField: 'code',
-      keyField: 'name',
-      required: true,
-      label: 'USER.MODIFY.AGENCY',
-    },
+    
     email: {
       _type: 'email',
       required: true,
@@ -368,14 +358,11 @@ function User() {
       },
     },
     managementUnit: {
-      _type: 'tree-select',
+      _type: 'search-select',
       label: 'USER.MODIFY.MANAGEMENT_UNIT',
+      keyField: 'name',
       required: true,
-      onSearch: ({queryProps, sortList, paginationProps,}: any) => {
-        return ManagementUnitService.GetAll({queryProps}).then((e) => {
-          return (e.data);
-        })
-      },
+      onSearch: ManagementUnitService.getAll,
       onChange: (value: any, {setFieldValue}: any) => {
         if (managementUnit != value) {
           setFieldValue('role', null);
@@ -404,6 +391,14 @@ function User() {
       disabled: (values: any) => {
         return !(values?.managementUnit);
       },
+    },
+    agency: {
+      _type: 'search-select',
+      onSearch: AgencyService.GetAll,
+      // selectField: 'code',
+      keyField: 'name',
+      required: true,
+      label: 'USER.MODIFY.AGENCY',
     },
   }), [managementUnit, role]);
   

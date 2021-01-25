@@ -158,7 +158,7 @@ export function InfiniteSelect({
             }}
             getOptionLabel={option => {
               // console.log(option, keyField, keyField ? option[keyField] : option)
-              return keyField ? option[keyField] : option
+              return keyField ? option[keyField] : intl.formatMessage({ id: _.toString(option) })
             }}
             loadOptions={loadOptions}
             onChange={(value: any, action) => {
