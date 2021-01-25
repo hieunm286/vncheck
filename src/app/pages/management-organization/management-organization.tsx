@@ -37,17 +37,24 @@ export default function ManagementOrganization() {
   
   const intl = useIntl();
   const [userParams, setUserParams] = useState<object>({role: {_id: ''}});
+  const [userLoading, setUserLoading] = useState(false);
+  const [errorUser, setErrorUser] = useState('');
   
   useEffect(() => {
-    getAll(filterProps);
+    getAll();
   }, []);
   
   useEffect(() => {
-    UserService.GetAll({queryProps: userParams, paginationProps: paginationProps, })
+    setUserLoading(true);
+    UserService.GetAll({queryProps: userParams, paginationProps, })
       .then((res : AxiosResponse<{data: UserModel[]; paging: {page: number, limit: number, total: number}}>) => {
         setUserEntities(res.data.data);
+        setUserLoading(false);
         setUserTotal(res.data.paging.total);
-      })
+      }) .catch(err => {
+      setUserLoading(false);
+      setErrorUser(err.message);
+    });
   }, [paginationProps, userParams]);
   
   const fetchUsersByRole = (entity: ManagementOrganizationModel | RoleModel) => {
@@ -57,11 +64,9 @@ export default function ManagementOrganization() {
           return entity._id;
         });
         return {role: { _id: roleIds}};
-        // return { managementUnit: { _id: entity._id}};
       }
       return {role: { _id: entity._id}};
     }
-    
     setPaginationProps(DefaultPagination);
     setUserParams(getQueryParams(entity));
   }
@@ -88,11 +93,13 @@ export default function ManagementOrganization() {
   const columns = React.useMemo(() => {
     return [
       {
-        dataField: '',
+        dataField: '_id',
         text: `${intl.formatMessage({id: 'ORDINAL'})}`,
         // ...SortColumn,
         align: 'center',
-        formatter: (cell: any, row: any, rowIndex: number) => (<>{rowIndex + 1}</>),
+        formatter: (cell: any, row: any, rowIndex: number) => (
+          <p>{rowIndex + 1 + ((paginationProps.page ?? 0) - 1) * (paginationProps.limit ?? 0)}</p>
+        ),
       },
       {
         dataField: 'fullName',
@@ -114,7 +121,7 @@ export default function ManagementOrganization() {
         align: 'center',
       },
     ]
-  }, []);
+  }, [paginationProps]);
   
   const TreeBody = [
     {
@@ -128,7 +135,7 @@ export default function ManagementOrganization() {
       prop: {
         columns: columns,
         total: userTotal,
-        loading: false,
+        loading: userLoading,
         paginationParams: paginationProps,
         setPaginationParams: setPaginationProps,
         onSelectMany: setSelectedEntities,

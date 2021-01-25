@@ -94,8 +94,8 @@ function MultilevelSale() {
   const history = useHistory();
   
   useEffect(() => {
-    getAll(filterProps);
-  }, [filterProps]);
+    getAll();
+  }, []);
   
   useEffect(() => {
     setAgencyLoading(true);
@@ -116,7 +116,7 @@ function MultilevelSale() {
   const columns = {
     _id: {
       dataField: '_id',
-      text: 'STT',
+      text: `${intl.formatMessage({id: 'ORDINAL'})}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
         <p>{rowIndex + 1 + ((paginationProps.page ?? 0) - 1) * (paginationProps.limit ?? 0)}</p>
       ),
@@ -134,14 +134,12 @@ function MultilevelSale() {
       ...SortColumn,
       classes: 'text-center',
     },
-    
     action: {
       dataField: 'action',
       text: `${intl.formatMessage({id: 'PURCHASE_ORDER.MASTER.TABLE.ACTION_COLUMN'})}`,
       formatter: MultilevelSaleActionColumn,
       formatExtraData: {
         intl,
-        
         onDelete: (entity: any) => {
           setDeleteAgency(entity);
           setErrorAgency('');
