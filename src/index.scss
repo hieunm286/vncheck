@@ -618,8 +618,9 @@ label {
 .svg-icon-primary:hover {
   color: white;
 }
-.btn-hover-primary:hover{
-  .svg-icon-primary{
+
+.btn-hover-primary:hover {
+  .svg-icon-primary {
     color: white;
   }
 }
@@ -627,4 +628,49 @@ label {
 .image-item.imagePreview {
   display: inline;
 }
+
+.custom-input-group {
+  .custom-input-label {
+    display: inline-block;
+  }
+
+  .custom-input-input {
+    display: inline-block;
+    border-radius: 0.42rem;
+
+    &:nth-of-type(2) {
+      input {
+        border-bottom-left-radius: 0.42rem;
+        border-top-left-radius: 0.42rem;
+      }
+
+      div {
+        border-bottom-left-radius: 0.42rem !important;
+        border-top-left-radius: 0.42rem !important;
+      }
+    }
+
+    &:last-of-type {
+      input {
+        border-bottom-right-radius: 0.42rem;
+        border-top-right-radius: 0.42rem;
+      }
+
+      div {
+        border-bottom-right-radius: 0.42rem !important;
+        border-top-right-radius: 0.42rem !important;
+      }
+    }
+
+    input {
+      border-radius: 0;
+    }
+
+    div {
+      border-radius: 0 !important;
+    }
+
+  }
+}
+
 //.card.card-custom > .card-body

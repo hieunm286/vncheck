@@ -51,10 +51,10 @@ export const diff = (obj1: any, obj2: any) => {
     let type1 = Object.prototype.toString.call(item1);
     let type2 = Object.prototype.toString.call(item2);
 
-    if (type2 === '[object Undefined]') {
-      diffs[key] = null;
-      return;
-    }
+    // if (type2 === '[object Undefined]') {
+    //   diffs[key] = null;
+    //   return;
+    // }
 
     if (type1 !== type2) {
       diffs[key] = item2;
@@ -110,6 +110,7 @@ export const validField = [
   'cleaning',
   'packing',
   'preservation',
+  'unit'
 ];
 
 export const validNested = [
@@ -122,6 +123,7 @@ export const validNested = [
   'packing',
   'estimatedStartTime',
   'estimatedEndTime',
+  'unit'
 ];
 
 export const validationForm = (values: any) => {

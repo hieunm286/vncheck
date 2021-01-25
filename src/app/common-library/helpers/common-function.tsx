@@ -38,6 +38,22 @@ export const GetCompareFunction = ({key, orderType}: { key: string, orderType: 1
   }
 }
 
+export const RoleArrayToObject = (arr: string[]) => {
+  const scopes: any = {};
+  arr.forEach((item: string) => {
+    const key = item.split('.')[0];
+    if (!scopes[key]) scopes[key] = [];
+    scopes[key].push(item);
+  });
+  return scopes;
+}
+export const RoleObjectToArray = (scopes?: any) => {
+  return scopes ? Object.values(scopes).reduce((pre: any, cur: any) => {
+    pre.push(...cur);
+    return pre;
+  }, []) : [];
+}
+
 const _initValues = ({inputs}: any): any => {
   return Object.keys(inputs).reduce((pre, key, k, o) => {
     const input = inputs[key];
@@ -95,7 +111,7 @@ export const GetFieldCSSClasses = (touched: any, errors: any) => {
   
   if (touched && errors) classes.push('is-invalid');
   
-  if (touched && !errors) classes.push('is-valid');
+  if (touched && !errors) classes.push('');
   
   return classes.join(' ');
 };
@@ -116,6 +132,7 @@ export const GetClassName = (labelWidth: number | null | undefined, labelStart: 
     }
   } else {
     if (labelWidth != null) {
+      if (labelWidth == 12) classes.push('hidden');
       classes.push(`col-xl-${12 - labelWidth}`);
       classes.push(`col-md-${12 - labelWidth}`);
       classes.push('col-12');

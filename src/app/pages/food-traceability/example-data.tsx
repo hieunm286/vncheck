@@ -7,6 +7,7 @@ import {
   DisplayCelcius,
   DisplayCoordinates,
   DisplayDateTime,
+  DisplayDiffTime,
 	DisplayDistribution,
   DisplayDownloadLink,
   DisplayImage,
@@ -278,7 +279,7 @@ export const exampleDetail: RenderInfoDetail = [
       'status.status': { title: 'Trạng thái' },
       'status.sellDate': {
         title: 'Ngày bán',
-        formatter: input => DisplayDateTime(input),
+        formatter: input => <DisplayDateTime input={input} />,
       },
       'status.location': { title: 'Nơi bán' },
       'status.employee': { title: 'Nhân viên nơi bán' },
@@ -326,7 +327,7 @@ export const exampleDetail: RenderInfoDetail = [
       },
       'seeding.seedingTime': {
         title: 'SEEDING.SEEDING_TIME',
-        formatter: input => DisplayDateTime(input),
+        formatter: input => <DisplayDateTime input={input} />,
       },
       'seeding.farmLocation.[coordinates]': {
         title: 'SEEDING.FARM_LOCATION',
@@ -446,13 +447,7 @@ export const exampleDetail: RenderInfoDetail = [
       'harvesting.time': {
         keyField: 'harvesting',
         title: 'PRODUCTION_PLAN.HARVEST_DATE',
-        formatter: e => {
-          return (
-            <>
-              {DisplayDateTime(e.startTime)} {e.endTime && <> - {DisplayDateTime(e.endTime)}</>}
-            </>
-          );
-        },
+        formatter: e => <DisplayDiffTime startTime={e?.startTime} endTime={e?.endTime}/>
       },
       'harvesting.quantity': { title: 'HARVESTING.QUANTITY' },
       'harvesting.imageBefore': {
@@ -482,7 +477,7 @@ export const exampleDetail: RenderInfoDetail = [
             title: 'IMAGE_INFO',
             component: Display3Info,
           };
-          return DisplayImage(image, renderInfo, 'isMaster');
+          return DisplayImage(image, renderInfo, ['isMaster', true]);
         },
       },
       'harvesting.temperature': { title: 'TEMPERATURE', formatter: DisplayCelcius },

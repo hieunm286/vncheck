@@ -4,8 +4,6 @@ import {DefaultPagination, NormalColumn, SortColumn,} from '../../common-library
 import {MasterHeader} from '../../common-library/common-components/master-header';
 import {InitMasterProps} from '../../common-library/helpers/common-function';
 import {Link, Route, Switch, useHistory} from 'react-router-dom';
-import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
-import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import * as ProductionPlanService from './production-plan.service';
 import * as UserService from '../user/user.service';
 import {ProductionPlanModel} from './production-plant.model';
@@ -35,9 +33,11 @@ import _ from 'lodash';
 import {ModifyForm, ModifyPanel} from '../../common-library/common-types/common-type';
 import * as ProductPackagingService from '../product-packaging/product-packaging.service';
 import {ProductionPlanDetail} from './production-plan-detail';
-import moment from 'moment-timezone';
-import { DisplayDateTime } from '../../common-library/helpers/detail-helpers';
-import { notifySuccess } from './defined/crud-helped';
+import momentTimeZone from 'moment-timezone';
+import moment from 'moment';
+import {DisplayDateTime} from '../../common-library/helpers/detail-helpers';
+import {notifySuccess} from './defined/crud-helped';
+import {FormikState} from 'formik';
 
 const headerTitle = 'PRODUCT_TYPE.MASTER.HEADER.TITLE';
 const bodyTitle = 'PRODUCT_TYPE.MASTER.BODY.TITLE';
@@ -64,10 +64,9 @@ const versionData = [
 ];
 
 const CheckDisabled = (values: any, currentProcess: string, targetProcess: number) => {
-
   if (!values) return false;
 
-  const cvCurrentProcess = _.parseInt(currentProcess)
+  const cvCurrentProcess = _.parseInt(currentProcess);
 
   if (targetProcess < cvCurrentProcess) return true;
 
@@ -76,23 +75,23 @@ const CheckDisabled = (values: any, currentProcess: string, targetProcess: numbe
 
     values.leader?.forEach((item: any) => {
       if (item.isRecieved === true) {
-        console.log('nhận rồi nè')
+        console.log('nhận rồi nè');
         isDisabled = true;
       }
-    })
+    });
 
-    console.log(isDisabled)
+    console.log(isDisabled);
 
     return isDisabled;
   }
-  
+
   return false;
-}
+};
 
 const ProductPlantSchema = Yup.object().shape({
   harvesting: Yup.object()
     .shape(halfValidate)
-    .test('oneOfRequired', 'INPUT_MUTS_ACCORDING_ORDER', function (values: any) {
+    .test('oneOfRequired', 'INPUT_MUTS_ACCORDING_ORDER', function(values: any) {
       if (values.technical?.length === 0 || values.leader?.length === 0) {
         if (
           this.parent.preliminaryTreatment?.technical?.length > 0 ||
@@ -108,8 +107,7 @@ const ProductPlantSchema = Yup.object().shape({
     }),
   preliminaryTreatment: Yup.object()
     .shape(validate)
-    .test('oneOfRequired', 'INPUT_MUTS_ACCORDING_ORDER', function (values: any) {
-  
+    .test('oneOfRequired', 'INPUT_MUTS_ACCORDING_ORDER', function(values: any) {
       if (
         values.technical?.length === 0 ||
         values.leader?.length === 0 ||
@@ -131,10 +129,10 @@ const ProductPlantSchema = Yup.object().shape({
     }),
   cleaning: Yup.object()
     .shape(validate)
-    .test('oneOfRequired', 'INPUT_MUTS_ACCORDING_ORDER', function (values: any) {
+    .test('oneOfRequired', 'INPUT_MUTS_ACCORDING_ORDER', function(values: any) {
       console.log(this.parent.preliminaryTreatment);
       console.log(values);
-    
+
       if (
         // this.parent.harvesting.technical.length === 0 ||
         // this.parent.harvesting.leader.length === 0 ||
@@ -172,10 +170,10 @@ const ProductPlantSchema = Yup.object().shape({
     }),
   packing: Yup.object()
     .shape(packingValidate)
-    .test('oneOfRequired', 'INPUT_MUTS_ACCORDING_ORDER', function (values: any) {
+    .test('oneOfRequired', 'INPUT_MUTS_ACCORDING_ORDER', function(values: any) {
       console.log(this.parent.packing);
       console.log(values);
-    
+
       if (
         // this.parent.harvesting.technical.length === 0 ||
         // this.parent.harvesting.leader.length === 0 ||
@@ -215,7 +213,7 @@ const ProductPlantSchema = Yup.object().shape({
       return true;
     }),
   preservation: Yup.object().shape(preservationValidate),
-  
+
   // cleaning: Yup.object().shape({
   //   technical: Yup.array().typeError('Type err'),
   //   leader: Yup.array()
@@ -226,7 +224,7 @@ const ProductPlantSchema = Yup.object().shape({
 
 function ProductionPlan() {
   const intl = useIntl();
-  
+
   const history = useHistory();
   const {
     entities,
@@ -279,61 +277,71 @@ function ProductionPlan() {
     getAllServer: ProductionPlanService.GetAll,
     updateServer: ProductionPlanService.Update,
   });
-  
+
   const [currentTab, setCurrentTab] = useState<string | undefined>('0');
-  
+
   const [versionTitle, setVersionTitle] = useState<string>('');
-  
+
   const [noticeModal, setNoticeModal] = useState<boolean>(false);
-  
+
   const [tagData, setTagData] = useState([]);
-  
+
   const [submit, setSubmit] = useState(false);
-  
+
   const [step, setStep] = useState('0');
-  const [totalVersion, setTotalVersion] = useState(0)
+  const [totalVersion, setTotalVersion] = useState(0);
   const [userData, setUserData] = useState<any>();
-  
+
   useEffect(() => {
-    UserService.GetAll({queryProps: { limit: 100, sortBy: 'fullName', sortType: 'asc' }}).then(e => {
-      console.log(e);
-      const rs = e.data as any;
-      setUserData(rs.data);
-    });
+    UserService.GetAll({ queryProps: { limit: 100, sortBy: 'fullName', sortType: 'asc' } }).then(
+      e => {
+        console.log(e);
+        const rs = e.data as any;
+        setUserData(rs.data);
+      },
+    );
   }, []);
-  
-  const {authState} = useSelector(
+
+  const { authState } = useSelector(
     (state: any) => ({
       authState: state.auth,
     }),
     shallowEqual,
   );
-  const {username, role} = authState;
+  const { username, role } = authState;
   const [prevTab, setPrevTab] = useState<string | undefined>('0');
-  const [trigger, setTrigger] = useState<boolean>(false)
+  const [trigger, setTrigger] = useState<boolean>(false);
   useEffect(() => {
     if (currentTab === '0') {
       const t =
         prevTab !== currentTab && paginationProps.sortBy === 'updatedAt'
           ? {
-            sortBy: '_id',
-            sortType: 'desc',
-          }
+              sortBy: '_id',
+              sortType: 'desc',
+            }
           : paginationProps;
-      getAll({...(filterProps as any), step: '0', isMaster: true, ...t});
+      getAll({ ...(filterProps as any), step: '0', isMaster: true, confirmationStatus: '0', ...t });
     } else if (currentTab === '1') {
-      const t = {sortBy: 'updatedAt', sortType: 'desc'}
-        // prevTab !== currentTab ? {sortBy: 'updatedAt', sortType: 'desc'} : paginationProps;
-      getAll({...(filterProps as any), step: '0', confirmationStatus: '1,3', ...t});
+      const t =
+        // {sortBy: 'updatedAt', sortType: 'desc'}
+        prevTab !== currentTab ? { sortBy: 'updatedAt', sortType: 'desc' } : paginationProps;
+      getAll({ ...(filterProps as any), step: '0', confirmationStatus: '1', ...t });
     } else if (currentTab === '2') {
-      const t = {sortBy: 'updatedAt', sortType: 'desc'} 
-        // prevTab !== currentTab ? {sortBy: 'updatedAt', sortType: 'desc'} : paginationProps;
-      getAll({...(filterProps as any), step: '1', confirmationStatus: '2', isMaster: true, ...t});
+      const t =
+        // {sortBy: 'updatedAt', sortType: 'desc'}
+        prevTab !== currentTab ? { sortBy: 'updatedAt', sortType: 'desc' } : paginationProps;
+      getAll({ ...(filterProps as any), step: '1', confirmationStatus: '2', isMaster: true, ...t });
+      // getAll({...(filterProps as any), step: '0', confirmationStatus: '1,3', ...t});
+    } else if (currentTab === '3') {
+      const t =
+        // {sortBy: 'updatedAt', sortType: 'desc'}
+        prevTab !== currentTab ? { sortBy: 'updatedAt', sortType: 'desc' } : paginationProps;
+      getAll({ ...(filterProps as any), step: '0', confirmationStatus: '3', isMaster: false, ...t });
       // getAll({...(filterProps as any), step: '0', confirmationStatus: '1,3', ...t});
     }
     setPrevTab(currentTab);
   }, [paginationProps, filterProps, currentTab, trigger]);
-  
+
   const columns = {
     _id: {
       dataField: '_id',
@@ -342,13 +350,13 @@ function ProductionPlan() {
         <p>{rowIndex + 1 + ((paginationProps.page ?? 0) - 1) * (paginationProps.limit ?? 0)}</p>
       ),
       classes: 'text-center',
-      style: {paddingTop: 20},
+      style: { paddingTop: 20 },
     },
     seeding: {
       dataField: 'seeding.code',
-      text: `${intl.formatMessage({id: 'PRODUCTION_PLAN.SEEDING_CODE'})}`,
+      text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.SEEDING_CODE' })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
-        <Link to={`/production-plan/seeding/${row._id}`}>{row.code}</Link>
+        <Link to={`/production-plan/seeding/${row._id}`}>{row.seeding.code}</Link>
       ),
       ...SortColumn,
       align: 'center',
@@ -356,12 +364,12 @@ function ProductionPlan() {
     },
     planting: {
       dataField: 'planting.code',
-      text: `${intl.formatMessage({id: 'PRODUCTION_PLAN.PLANT_CODE'})}`,
+      text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.PLANT_CODE' })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
         <Link
           to={{
             pathname: `/production-plan/planting/${row._id}`,
-            state: {seedingCode: row.seeding, ...row.planting},
+            state: { seedingCode: row.seeding, ...row.planting },
           }}>
           {row.planting.code}
         </Link>
@@ -369,20 +377,21 @@ function ProductionPlan() {
       ...SortColumn,
       align: 'center',
     },
-    
+
     species: {
       dataField: 'seeding.species.name',
-      text: `${intl.formatMessage({id: 'PRODUCTION_PLAN.SPECIES_NAME'})}`,
+      text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.SPECIES_NAME' })}`,
       ...SortColumn,
       classes: 'text-center',
       headerClasses: 'text-center',
     },
     estimatedHarvestTime: {
       dataField: 'planting.estimatedHarvestTime',
-      text: `${intl.formatMessage({id: 'PRODUCTION_PLAN.HARVEST_DATE'})}`,
+      text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.HARVEST_DATE' })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
         <span>
-          {new Intl.DateTimeFormat('en-GB').format(new Date(row.planting.estimatedHarvestTime))}
+          {/* {new Intl.DateTimeFormat('en-GB').format(new Date(row.planting.estimatedHarvestTime))} */}
+          <DisplayDateTime input={row.planting.estimatedHarvestTime} />
         </span>
       ),
       ...SortColumn,
@@ -391,29 +400,28 @@ function ProductionPlan() {
     },
     action: {
       dataField: 'action',
-      text: `${intl.formatMessage({id: 'PURCHASE_ORDER.MASTER.TABLE.ACTION_COLUMN'})}`,
+      text: `${intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.ACTION_COLUMN' })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
         <button
           className="btn btn-primary"
           onClick={() => {
             // ProductionPlanService.GetById(row._id).then(res => {
             //   setEditEntity(res.data);
-             
+
             // });
             history.push({
               pathname: '/production-plan/' + row._id + '/new',
-              
-            })
+            });
           }}>
           + Tạo mới
         </button>
       ),
-  
+
       ...NormalColumn,
-      style: {minWidth: '130px'},
+      style: { minWidth: '130px' },
     },
   };
-  
+
   const columns2 = {
     _id: {
       dataField: '_id',
@@ -422,28 +430,28 @@ function ProductionPlan() {
         <p>{rowIndex + 1 + ((paginationProps.page ?? 0) - 1) * (paginationProps.limit ?? 0)}</p>
       ),
       classes: 'text-center',
-      style: {paddingTop: 20},
+      style: { paddingTop: 20 },
     },
     code: {
       dataField: 'code',
-      text: `${intl.formatMessage({id: 'PRODUCTION_PLAN.CODE'})}`,
+      text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.CODE' })}`,
       ...SortColumn,
       classes: 'text-center',
     },
     seeding: {
       dataField: 'seeding.code',
-      text: `${intl.formatMessage({id: 'PRODUCTION_PLAN.SEEDING_CODE'})}`,
+      text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.SEEDING_CODE' })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
-        <Link to={`/production-plan/seeding/${row._id}`}>{row.code}</Link>
+        <Link to={`/production-plan/seeding/${row._id}`}>{row.seeding.code}</Link>
       ),
       ...SortColumn,
       classes: 'text-center',
     },
     planting: {
       dataField: 'planting.code',
-      text: `${intl.formatMessage({id: 'PRODUCTION_PLAN.PLANT_CODE'})}`,
+      text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.PLANT_CODE' })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
-        <Link to={{pathname: `/production-plan/planting/${row._id}`, state: row.planting}}>
+        <Link to={{ pathname: `/production-plan/planting/${row._id}`, state: row.planting }}>
           {row.planting.code}
         </Link>
       ),
@@ -452,16 +460,19 @@ function ProductionPlan() {
     },
     species: {
       dataField: 'seeding.species.name',
-      text: `${intl.formatMessage({id: 'PRODUCTION_PLAN.SPECIES_NAME'})}`,
+      text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.SPECIES_NAME' })}`,
       ...SortColumn,
       classes: 'text-center',
       headerClasses: 'text-center',
     },
     createdAt: {
       dataField: 'createdAt',
-      text: `${intl.formatMessage({id: 'PRODUCTION_PLAN.CREATE_DATE'})}`,
+      text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.CREATE_DATE' })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
-        <span>{new Intl.DateTimeFormat('en-GB').format(new Date(row.createdAt))}</span>
+        <span>
+          {/* {new Intl.DateTimeFormat('en-GB').format(new Date(row.createdAt))} */}
+          <DisplayDateTime input={row.createdAt} />
+        </span>
       ),
       ...SortColumn,
       classes: 'text-center',
@@ -469,7 +480,7 @@ function ProductionPlan() {
     },
     process: {
       dataField: 'process',
-      text: `${intl.formatMessage({id: 'PRODUCTION_PLAN.STATUS'})}`,
+      text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.STATUS' })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
         <span>{row.process === '7' ? 'Hoàn thành' : 'Chưa hoàn thành'}</span>
       ),
@@ -479,7 +490,7 @@ function ProductionPlan() {
     },
     confirmationStatus: {
       dataField: 'confirmationStatus',
-      text: `${intl.formatMessage({id: 'PRODUCTION_PLAN.APPROVE_STATUS'})}`,
+      text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.APPROVE_STATUS' })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
         <span>
           {row.confirmationStatus === '1' && 'Chờ duyệt'}
@@ -493,51 +504,61 @@ function ProductionPlan() {
     },
     action: {
       dataField: 'action',
-      text: `${intl.formatMessage({id: 'PURCHASE_ORDER.MASTER.TABLE.ACTION_COLUMN'})}`,
+      text: `${intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.ACTION_COLUMN' })}`,
       formatter: (cell: any, row: any, rowIndex: number) => {
-        
-        return (
-          ((username === 'admin' && (row.confirmationStatus === '3' || row.confirmationStatus === '2')) || username !== 'admin') ? <button
-          className="btn btn-primary pl-6 pr-6"
-          onClick={() => {
-            // ProductionPlanService.GetById(row._id).then(res => {
-            //   setEditEntity(res.data);
-              
-            // });
+        return row.confirmationStatus === '3' || row.confirmationStatus === '2' ? (
+          // <button
+          //   className="btn btn-primary pl-6 pr-6"
+          //   onClick={() => {
+          //     // ProductionPlanService.GetById(row._id).then(res => {
+          //     //   setEditEntity(res.data);
 
-            history.push({
-              pathname: '/production-plan/plan-view/' + row._id,
-            })
-          }}
-          // disabled={row.confirmationStatus === '3' || row.confirmationStatus === '2'}
-          >
-          Chi tiết
-        </button>
-        :
-        <button
-          className="btn btn-primary"
-          onClick={() => {
-            // ProductionPlanService.GetById(row._id).then(res => {
-            //   setEditEntity(res.data);
-              
-            // });
+          //     // });
 
-            history.push({
-              pathname: '/production-plan/plan-view/' + row._id,
-              
-            })
-          }}
-          // disabled={row.confirmationStatus === '3' || row.confirmationStatus === '2'}
+          //     history.push({
+          //       pathname: '/production-plan/plan-view/' + row._id,
+          //     });
+          //   }}
+          //   // disabled={row.confirmationStatus === '3' || row.confirmationStatus === '2'}
+          // >
+          //   Chi tiết
+          // </button>
+          <span
+            className="btn btn-icon btn-light btn-hover-primary btn-sm visibility cursor-pointer"
+            onClick={() => {
+              history.push({
+                pathname: '/production-plan/plan-view/' + row._id,
+              });
+            }}>
+            <span className="svg-icon svg-icon-md svg-icon-primary">
+              <Visibility className="text-primary eye" />
+            </span>
+          </span>
+        ) : (
+          <button
+            className="btn btn-primary"
+            onClick={() => {
+              // ProductionPlanService.GetById(row._id).then(res => {
+              //   setEditEntity(res.data);
+
+              // });
+
+              history.push({
+                pathname: '/production-plan/plan-view/' + row._id,
+              });
+            }}
+            // disabled={row.confirmationStatus === '3' || row.confirmationStatus === '2'}
           >
-          Phê duyệt
-        </button>
-        )},
-  
+            Phê duyệt
+          </button>
+        );
+      },
+
       ...NormalColumn,
-      style: {minWidth: '130px'},
+      style: { minWidth: '130px' },
     },
   };
-  
+
   const columns3 = {
     _id: {
       dataField: '_id',
@@ -546,28 +567,28 @@ function ProductionPlan() {
         <p>{rowIndex + 1 + ((paginationProps.page ?? 0) - 1) * (paginationProps.limit ?? 0)}</p>
       ),
       classes: 'text-center',
-      style: {paddingTop: 20},
+      style: { paddingTop: 20 },
     },
     code: {
       dataField: 'code',
-      text: `${intl.formatMessage({id: 'PRODUCTION_PLAN.CODE'})}`,
+      text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.CODE' })}`,
       ...SortColumn,
       classes: 'text-center',
     },
     seeding: {
       dataField: 'seeding.code',
-      text: `${intl.formatMessage({id: 'PRODUCTION_PLAN.SEEDING_CODE'})}`,
+      text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.SEEDING_CODE' })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
-        <Link to={`/production-plan/seeding/${row._id}`}>{row.code}</Link>
+        <Link to={`/production-plan/seeding/${row._id}`}>{row.seeding.code}</Link>
       ),
       ...SortColumn,
       classes: 'text-center',
     },
     planting: {
       dataField: 'planting.code',
-      text: `${intl.formatMessage({id: 'PRODUCTION_PLAN.PLANT_CODE'})}`,
+      text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.PLANT_CODE' })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
-        <Link to={{pathname: `/production-plan/planting/${row._id}`, state: row.planting}}>
+        <Link to={{ pathname: `/production-plan/planting/${row._id}`, state: row.planting }}>
           {row.planting.code}
         </Link>
       ),
@@ -576,16 +597,19 @@ function ProductionPlan() {
     },
     species: {
       dataField: 'seeding.species.name',
-      text: `${intl.formatMessage({id: 'PRODUCTION_PLAN.SPECIES_NAME'})}`,
+      text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.SPECIES_NAME' })}`,
       ...SortColumn,
       classes: 'text-center',
       headerClasses: 'text-center',
     },
     createdAt: {
       dataField: 'createdAt',
-      text: `${intl.formatMessage({id: 'PRODUCTION_PLAN.CREATE_DATE'})}`,
+      text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.CREATE_DATE' })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
-        <span>{new Intl.DateTimeFormat('en-GB').format(new Date(row.createdAt))}</span>
+        <span>
+          {/* {new Intl.DateTimeFormat('en-GB').format(new Date(row.createdAt))} */}
+          <DisplayDateTime input={row.createdAt} />
+        </span>
       ),
       ...SortColumn,
       classes: 'text-center',
@@ -593,7 +617,7 @@ function ProductionPlan() {
     },
     process: {
       dataField: 'process',
-      text: `${intl.formatMessage({id: 'PRODUCTION_PLAN.STATUS'})}`,
+      text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.STATUS' })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
         <span>{row.process === '7' ? 'Hoàn thành' : 'Chưa hoàn thành'}</span>
       ),
@@ -601,28 +625,33 @@ function ProductionPlan() {
       classes: 'text-center',
       headerClasses: 'text-center',
     },
-    
+
     action: {
       dataField: 'action',
-      text: `${intl.formatMessage({id: 'PURCHASE_ORDER.MASTER.TABLE.ACTION_COLUMN'})}`,
+      text: `${intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.ACTION_COLUMN' })}`,
       formatter: ProductPlanActionsColumn,
       formatExtraData: {
         intl,
-        onShowDetail: (entity: any) => {
-          ProductionPlanService.GetHistory(entity).then(res => {
-            console.log(res.data);
-            setTotalVersion(res.data.history.length)
+        onView: (entity: any) => {
+          history.push({
+            pathname: '/production-plan/plan-view/' + entity._id,
+          });
+        },
+        onShowHistory: (entity: any) => {
+          // ProductionPlanService.GetHistory(entity).then(res => {
+          //   console.log(res.data);
+          //   setTotalVersion(res.data.history.length)
 
-            history.push({
-              pathname: '/production-plan/' + entity._id + '/history',
-              state: res.data.history
-            });
+          // });
+
+          history.push({
+            pathname: '/production-plan/' + entity._id + '/history',
           });
         },
         onEdit: (entity: any) => {
           // ProductionPlanService.GetById(entity._id).then(res => {
           //   setEditEntity(res.data);
-            
+
           // });
           history.push({
             pathname: '/production-plan/' + entity._id + '/new',
@@ -631,10 +660,10 @@ function ProductionPlan() {
         },
       },
       ...NormalColumn,
-      style: {minWidth: '130px'},
+      style: { minWidth: '130px' },
     },
   };
-  
+
   const TabData = [
     {
       tabTitle: 'Chờ tạo',
@@ -669,8 +698,19 @@ function ProductionPlan() {
       onSelectMany: setSelectedEntities,
       selectedEntities: selectedEntities,
     },
+    {
+      tabTitle: 'Từ chối',
+      entities: entities,
+      columns: columns2,
+      total: total,
+      loading: loading,
+      paginationParams: paginationProps,
+      setPaginationParams: setPaginationProps,
+      onSelectMany: setSelectedEntities,
+      selectedEntities: selectedEntities,
+    },
   ];
-  
+
   const allFormButton: any = {
     type: 'outside',
     data: {
@@ -684,6 +724,7 @@ function ProductionPlan() {
         onClick: () => {
           // setNoticeModal(true);
           setStep('1');
+          setPrevTab('0');
           setSubmit(true);
           // setCurrentTab('1')
         },
@@ -729,18 +770,22 @@ function ProductionPlan() {
           // setTrigger(!trigger)
         },
       },
-      sendRequest: {
-        role: 'button',
+      reset: {
+        role: 'reset',
         type: 'button',
         linkto: undefined,
         className: 'btn btn-outline-primary mr-5 pl-8 pr-8',
         label: 'Khôi phục',
         // icon: <SaveOutlinedIcon />,
-        onClick: () => {
+        onClick: (
+          entity: any,
+          resetForm: (nextState?: Partial<FormikState<any>> | undefined) => void,
+        ) => {
           // setNoticeModal(true);
-          window.location.reload()
+          // window.location.reload();
+          resetForm(entity);
         },
-      }, 
+      },
       cancel: {
         role: 'link-button',
         type: 'button',
@@ -751,7 +796,7 @@ function ProductionPlan() {
       },
     },
   };
-  
+
   const allFormButton2: any = {
     type: 'outside',
     data: {
@@ -761,13 +806,36 @@ function ProductionPlan() {
         linkto: undefined,
         className: 'btn btn-primary mr-5 pl-8 pr-8',
         label: 'Gửi duyệt',
+        disabled: (entity: any) => {
+          return _.parseInt(entity?.process) >= 7;
+        },
         // icon: <SaveOutlinedIcon />,
         onClick: () => {
           // setNoticeModal(true);
-          
+
           setStep('1');
+          setPrevTab('2');
           setSubmit(true);
           // setCurrentTab('1')
+        },
+      },
+      reset: {
+        role: 'reset',
+        type: 'button',
+        disabled: (entity: any) => {
+          return _.parseInt(entity?.process) >= 7;
+        },
+        linkto: undefined,
+        className: 'btn btn-outline-primary mr-5 pl-8 pr-8',
+        label: 'Khôi phục',
+        // icon: <SaveOutlinedIcon />,
+        onClick: (
+          entity: any,
+          resetForm: (nextState?: Partial<FormikState<any>> | undefined) => void,
+        ) => {
+          // setNoticeModal(true);
+          // window.location.reload();
+          resetForm(entity);
         },
       },
       cancel: {
@@ -780,33 +848,33 @@ function ProductionPlan() {
       },
     },
   };
-  
+
   const sendRequest = (entity: any) => {
-    const data = {confirmationStatus: '1'};
+    const data = { confirmationStatus: '1', _id: entity._id };
     return ProductionPlanService.Approve(entity, data);
   };
-  
+
   const approve = (entity: any) => {
-    const data = {confirmationStatus: '2'};
+    const data = { confirmationStatus: '2', _id: entity._id };
     return ProductionPlanService.Approve(entity, data);
   };
-  
+
   const updateProcess = (entity: any) => {
     const newProcess = _.toString(_.toInteger(entity.process) + 1);
-    const data = {process: newProcess};
+    const data = { process: newProcess, _id: entity._id };
     return ProductionPlanService.UpdateProcess(entity, data);
   };
-  
+
   const refuse = (entity: any) => {
-    const data = {confirmationStatus: '3'};
+    const data = { confirmationStatus: '3', _id: entity._id };
     return ProductionPlanService.Approve(entity, data);
   };
-  
+
   const approveFollow = (entity: any) => {
     // const data = { ...entity, confirmationStatus: '1' }
     return ProductionPlanService.Approve(entity, entity);
   };
-  
+
   const adminAllFormButton: any = {
     type: 'outside',
     data: {
@@ -820,15 +888,18 @@ function ProductionPlan() {
         onClick: (entity: any) => {
           // setNoticeModal(true);
           // setSubmit(true)
+          if (entity) {
           setStep('2');
           approve(entity)
             .then(res => {
               setCurrentTab('2');
-              notifySuccess('Phê duyệt thành công')
+              notifySuccess('Phê duyệt thành công');
               history.push('/production-plan');
             })
-            .catch(error => {
-            });
+            .catch(error => {});
+          } else {
+            notifySuccess('Không thể kết nối đến server. Vui lòng kiểm tra kết nối mạng hoặc thử lại sau');
+          }
         },
       },
       refuse: {
@@ -839,15 +910,25 @@ function ProductionPlan() {
         label: 'Từ chối',
         // icon: <SaveOutlinedIcon/>,
         onClick: (entity: any) => {
+          if (entity) {
           refuse(entity)
             .then(res => {
-              refreshData();
-              notifySuccess('Từ chối rồi nha')
+              // refreshData();
+              notifySuccess('Kế hoạch đã bị từ chối');
+              setPrevTab('1');
+              if (entity.isMaster === true) {
+                setCurrentTab('0');
+              } else {
+                setCurrentTab('3');
+              }
               history.push('/production-plan');
             })
             .catch(error => {
               console.log(error);
             });
+          } else {
+            notifySuccess('Không thể kết nối đến server. Vui lòng kiểm tra kết nối mạng hoặc thử lại sau');
+          }
         },
       },
       save: {
@@ -859,17 +940,21 @@ function ProductionPlan() {
         onClick: (entity: any) => {
           // ProductionPlanService.GetById(entity._id).then(res => {
           //   setEditEntity(res.data);
-            
+
           // });
+          if (entity) {
           history.push({
             pathname: '/production-plan/' + entity._id + '/new',
             state: '5',
           });
+        } else {
+          notifySuccess('Không thể kết nối đến server. Vui lòng kiểm tra kết nối mạng hoặc thử lại sau');
+        }
         },
       },
     },
   };
-  
+
   const versionColumns = {
     _id: {
       dataField: '_id',
@@ -878,80 +963,74 @@ function ProductionPlan() {
         <p>{rowIndex + 1 + ((paginationProps.page ?? 0) - 1) * (paginationProps.limit ?? 0)}</p>
       ),
       classes: 'text-center',
-      style: {paddingTop: 20},
+      headerClasses: 'text-center',
+      style: { paddingTop: 20 },
     },
     name: {
       dataField: 'name',
-      text: `${intl.formatMessage({id: 'PRODUCTION_PLAN.VERSION_NAME'})}`,
-      ...SortColumn,
+      text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.VERSION_NAME' })}`,
       classes: 'text-center',
+      headerClasses: 'text-center',
     },
     createdBy: {
       dataField: 'productPlan.createdBy.lastName',
-      text: `${intl.formatMessage({id: 'PRODUCTION_PLAN.VERSION_CREATEBY'})}`,
-  
-      ...SortColumn,
+      text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.VERSION_CREATEBY' })}`,
       classes: 'text-center',
+      headerClasses: 'text-center',
     },
-    
+
     createdAt: {
       dataField: 'createdAt',
-      text: `${intl.formatMessage({id: 'PRODUCTION_PLAN.VERSION_CREATEDATE'})}`,
+      text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.VERSION_CREATEDATE' })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
         <span>
           {row.createdAt
-            ? moment(row.createdAt).tz('Asia/Ho_Chi_Minh').format('DD/MM/YYYY HH:mm')
+            ? momentTimeZone(row.createdAt)
+                .tz('Asia/Ho_Chi_Minh')
+                .format('DD/MM/YYYY HH:mm')
             : 'Không có thông tin'}
         </span>
       ),
-      ...SortColumn,
       classes: 'text-center',
       headerClasses: 'text-center',
     },
     confirmationDate: {
       dataField: 'productPlan.confirmationDate',
-      text: `${intl.formatMessage({id: 'PRODUCTION_PLAN.VERSION_APPROVEDATE'})}`,
+      text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.VERSION_APPROVEDATE' })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
         <span>
-          {row.productPlan.confirmationDate
-            ? new Intl.DateTimeFormat('vi-VN').format(new Date(row.productPlan.confirmationDate))
-            : 'Không có thông tin'}
+          {row.productPlan.confirmationDate ? (
+            <DisplayDateTime input={row.productPlan.confirmationDate} />
+          ) : (
+            'Không có thông tin'
+          )}
         </span>
       ),
-      ...SortColumn,
       classes: 'text-center',
       headerClasses: 'text-center',
     },
     action: {
       dataField: 'action',
-      text: `${intl.formatMessage({id: 'PURCHASE_ORDER.MASTER.TABLE.ACTION_COLUMN'})}`,
+      text: `${intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.ACTION_COLUMN' })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
         <span
           className="btn btn-icon btn-light btn-hover-primary btn-sm visibility"
           onClick={() => {
-            // ProductionPlanService.GetById(row._id).then(res => {
-            //   setEditEntity(res.data);
-            //   history.push({
-            //     pathname: '/production-plan/plan-view/' + row._id,
-            //     state: res.data,
-            //   });
-            // });
             history.push({
-              pathname: '/production-plan/plan-view/' + row.productPlan._id,
-              state: row.productPlan,
+              pathname: '/production-plan/plan-view/version/' + row.productPlan._id,
             });
           }}>
           <span className="svg-icon svg-icon-md svg-icon-primary">
-            <Visibility className="text-primary eye"/>
+            <Visibility className="text-primary eye" />
           </span>
         </span>
       ),
-  
+
       ...NormalColumn,
-      style: {minWidth: '130px'},
+      style: { minWidth: '130px' },
     },
   };
-  
+
   const modifyModel = useMemo(
     (): ModifyPanel => ({
       _title: '',
@@ -981,7 +1060,7 @@ function ProductionPlan() {
               onClick: (e: any) => {
                 window.open(e, '_blank');
               },
-              style: {textDecoration: 'underline', cursor: 'pointer', color: '#27AE60'},
+              style: { textDecoration: 'underline', cursor: 'pointer', color: '#27AE60' },
               // placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
               label: 'CERTIFICATE',
               required: true,
@@ -995,7 +1074,7 @@ function ProductionPlan() {
               onClick: (e: any) => {
                 window.open(e, '_blank');
               },
-              style: {textDecoration: 'underline', cursor: 'pointer', color: '#27AE60'},
+              style: { textDecoration: 'underline', cursor: 'pointer', color: '#27AE60' },
               // placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
               label: 'BUY_INVOICE',
               required: true,
@@ -1053,7 +1132,7 @@ function ProductionPlan() {
             },
           },
         },
-  
+
         // plantTime: {
         //   type: 'string',
         //   placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
@@ -1106,7 +1185,7 @@ function ProductionPlan() {
               onClick: (arr: any) => {
                 window.open(`https://google.com/maps/search/${arr[1]},+${arr[0]}`, '_blank');
               },
-              style: {textDecoration: 'underline', cursor: 'pointer', color: '#27AE60'},
+              style: { textDecoration: 'underline', cursor: 'pointer', color: '#27AE60' },
               disabled: true,
               required: true,
             },
@@ -1135,7 +1214,7 @@ function ProductionPlan() {
               onClick: (arr: any) => {
                 window.open(`https://google.com/maps/search/${arr[1]},+${arr[0]}`, '_blank');
               },
-              style: {textDecoration: 'underline', cursor: 'pointer', color: '#27AE60'},
+              style: { textDecoration: 'underline', cursor: 'pointer', color: '#27AE60' },
               label: 'FARM_LOCATION',
               disabled: true,
               required: true,
@@ -1146,7 +1225,7 @@ function ProductionPlan() {
     }),
     [],
   );
-  
+
   const modifyModel2 = useMemo(
     (): ModifyPanel => ({
       _title: '',
@@ -1167,7 +1246,7 @@ function ProductionPlan() {
           },
           leader: {
             _type: 'tag',
-  
+
             // placeholder: 'Mã gieo giống',
             required: false,
             tagData: userData,
@@ -1193,7 +1272,7 @@ function ProductionPlan() {
           },
           leader: {
             _type: 'tag',
-  
+
             required: false,
             tagData: userData,
             label: 'ADMIN_PLANTING_LEADER',
@@ -1204,7 +1283,7 @@ function ProductionPlan() {
     }),
     [userData],
   );
-  
+
   const modifyModel3 = useMemo(
     (): ModifyPanel => ({
       _title: '',
@@ -1240,7 +1319,7 @@ function ProductionPlan() {
             tagData: userData,
             required: true,
             disabled: (values: any) => {
-              return CheckDisabled(values?.harvesting, values?.process, harvestingProcess)
+              return CheckDisabled(values?.harvesting, values?.process, harvestingProcess);
             },
           },
           leader: {
@@ -1250,7 +1329,7 @@ function ProductionPlan() {
             tagData: userData,
             required: true,
             disabled: (values: any) => {
-              return CheckDisabled(values?.harvesting, values?.process, harvestingProcess)
+              return CheckDisabled(values?.harvesting, values?.process, harvestingProcess);
             },
           },
         },
@@ -1259,6 +1338,7 @@ function ProductionPlan() {
     [userData],
   );
   
+
   const modifyModel4 = useMemo(
     (): ModifyPanel => ({
       _title: '',
@@ -1275,19 +1355,73 @@ function ProductionPlan() {
             showTime: true,
             format: 'DD/MM/yyyy HH:mm',
             disabled: (values: any) => {
-              return CheckDisabled(values?.preliminaryTreatment, values?.process, preliminaryTreatmentProcess)
-            },
-  
-          },
-          estimatedQuantity: {
-            _type: 'number',
-            // placeholder: 'Mã gieo giống',
-            label: 'PRELIMINARY_TREATMENT_QUANTITY',
-            disabled: (values: any) => {
-              return CheckDisabled(values?.preliminaryTreatment, values?.process, preliminaryTreatmentProcess)
+              return CheckDisabled(
+                values?.preliminaryTreatment,
+                values?.process,
+                preliminaryTreatmentProcess,
+              );
             },
           },
+          // estimatedQuantity: {
+          //   _type: 'number',
+          //   // placeholder: 'Mã gieo giống',
+          //   label: 'PRELIMINARY_TREATMENT_QUANTITY',
+          //   disabled: (values: any) => {
+          //     return CheckDisabled(
+          //       values?.preliminaryTreatment,
+          //       values?.process,
+          //       preliminaryTreatmentProcess,
+          //     );
+          //   },
+          // },
+          // unit: {
+          //   _type: 'search-select',
+          //   label: 'Đơn vị tính',
+          //   onSearch: ProductionPlanService.GetUnit,
+          //   disabled: (values: any) => {
+          //     return CheckDisabled(values?.packing, values?.process, packingProcess);
+          //   },
+          // },
         },
+        '': {
+          _type: 'object',
+          _className: 'custom-input-group',
+          _inputClassName: 'col-4 custom-input-label mb-5 p-0',
+          title: {
+            _type: 'string',
+            label: 'PRELIMINARY_TREATMENT_QUANTITY',
+            labelWidth: 12
+          },
+          preliminaryTreatment: {
+            _type: 'object',
+            _inputClassName: 'col-6 custom-input-input mb-5 p-0',
+            estimatedQuantity: {
+              _type: 'number',
+              labelWidth: 0,
+              // placeholder: 'Mã gieo giống',
+              disabled: (values: any) => {
+                return CheckDisabled(
+                  values?.preliminaryTreatment,
+                  values?.process,
+                  preliminaryTreatmentProcess,
+                );
+              },
+            },
+          },
+          unit: {
+            _type: 'object',
+            _inputClassName: 'col-2 custom-input-input mb-5 p-0',
+            '': {
+              _type: 'search-select',
+              labelWidth: 0,
+              label: 'Đơn vị tính',
+              onSearch: ProductionPlanService.GetUnit,
+              disabled: (values: any) => {
+                return CheckDisabled(values?.packing, values?.process, packingProcess);
+              },
+            },
+          }
+        }
       },
       group2: {
         _subTitle: '\u00A0',
@@ -1300,7 +1434,11 @@ function ProductionPlan() {
             tagData: userData,
             label: 'PRELIMINARY_TREATMENT_TECHNICAL',
             disabled: (values: any) => {
-              return CheckDisabled(values?.preliminaryTreatment, values?.process, preliminaryTreatmentProcess)
+              return CheckDisabled(
+                values?.preliminaryTreatment,
+                values?.process,
+                preliminaryTreatmentProcess,
+              );
             },
           },
           leader: {
@@ -1309,15 +1447,19 @@ function ProductionPlan() {
             label: 'PRELIMINARY_TREATMENT_LEADER',
             tagData: userData,
             disabled: (values: any) => {
-              return CheckDisabled(values?.preliminaryTreatment, values?.process, preliminaryTreatmentProcess)
+              return CheckDisabled(
+                values?.preliminaryTreatment,
+                values?.process,
+                preliminaryTreatmentProcess,
+              );
             },
           },
         },
       },
     }),
-    [userData],
+    [editEntity, userData],
   );
-  
+
   const modifyModel5 = useMemo(
     (): ModifyPanel => ({
       _title: '',
@@ -1334,16 +1476,16 @@ function ProductionPlan() {
             format: 'DD/MM/yyyy HH:mm',
             label: 'CLEANING_TIME',
             disabled: (values: any) => {
-              return CheckDisabled(values?.cleaning, values?.process, cleaningProcess)
+              return CheckDisabled(values?.cleaning, values?.process, cleaningProcess);
             },
-  
           },
           estimatedQuantity: {
             _type: 'number',
             // placeholder: 'Mã gieo giống',
             label: 'CLEANING_QUANTITY',
             disabled: (values: any) => {
-              return CheckDisabled(values?.cleaning, values?.process, cleaningProcess)
+              console.log(values);
+              return CheckDisabled(values?.cleaning, values?.process, cleaningProcess);
             },
           },
         },
@@ -1360,7 +1502,7 @@ function ProductionPlan() {
             root: 'cleaning',
             tagData: userData,
             disabled: (values: any) => {
-              return CheckDisabled(values?.cleaning, values?.process, cleaningProcess)
+              return CheckDisabled(values?.cleaning, values?.process, cleaningProcess);
             },
           },
           leader: {
@@ -1370,15 +1512,15 @@ function ProductionPlan() {
             root: 'cleaning',
             tagData: userData,
             disabled: (values: any) => {
-              return CheckDisabled(values?.cleaning, values?.process, cleaningProcess)
+              return CheckDisabled(values?.cleaning, values?.process, cleaningProcess);
             },
           },
         },
       },
     }),
-    [userData],
+    [editEntity, userData],
   );
-  
+
   const modifyModel6 = useMemo(
     (): ModifyPanel => ({
       _title: '',
@@ -1397,7 +1539,6 @@ function ProductionPlan() {
             disabled: (values: any) => {
               return CheckDisabled(values?.packing, values?.process, packingProcess);
             },
-  
           },
           estimatedExpireTimeStart: {
             _type: 'date-time',
@@ -1408,19 +1549,32 @@ function ProductionPlan() {
             disabled: (values: any) => {
               return CheckDisabled(values?.packing, values?.process, packingProcess);
             },
-            onChange: (val: any, values: any, setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => void) => {
+            onChange: (
+              val: any,
+              values: any,
+              setFieldValue: (
+                field: string,
+                value: any,
+                shouldValidate?: boolean | undefined,
+              ) => void,
+            ) => {
               if (val) {
-                
-                const newDate = val.add(values.seeding.species.expiryDays, 'days')
-                console.log(val)
-                console.log(newDate)
-                setFieldValue('packing.estimatedExpireTimeEnd', newDate)
+                // const clVal = val
+                const newDate = moment(val).add(values.seeding.species.expiryDays, 'days');
+                // console.log(val)
+                // console.log(newDate)
+                setFieldValue('packing.estimatedExpireTimeEnd', newDate);
               }
             },
-            onReset: (setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => void) => {
-              setFieldValue('packing.estimatedExpireTimeEnd', null)
-            }
-            
+            onReset: (
+              setFieldValue: (
+                field: string,
+                value: any,
+                shouldValidate?: boolean | undefined,
+              ) => void,
+            ) => {
+              setFieldValue('packing.estimatedExpireTimeEnd', null);
+            },
           },
           estimatedExpireTimeEnd: {
             _type: 'date-time',
@@ -1428,8 +1582,7 @@ function ProductionPlan() {
             label: 'PACKING_EXPIRY_END',
             // showTime: true,
             // format: 'DD/MM/yyyy HH:mm',
-            disabled: true
-            
+            disabled: true,
           },
           packing: {
             _type: 'search-select',
@@ -1439,7 +1592,7 @@ function ProductionPlan() {
               if (editEntity && editEntity.seeding && editEntity.seeding.species) {
                 queryProps.species = editEntity.seeding.species._id;
               }
-              return ProductPackagingService.GetAll({queryProps, paginationProps});
+              return ProductPackagingService.GetAll({ queryProps, paginationProps });
             },
             keyField: 'weight',
             disabled: (values: any) => {
@@ -1463,6 +1616,7 @@ function ProductionPlan() {
             // placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
             label: 'PRODUCTION_PLAN_FORM_PACKING_QUANTITY',
             disabled: (values: any) => {
+              console.log(values);
               return CheckDisabled(values?.packing, values?.process, packingProcess);
             },
           },
@@ -1489,7 +1643,7 @@ function ProductionPlan() {
     }),
     [editEntity, userData],
   );
-  
+
   const modifyModel7 = useMemo(
     (): ModifyPanel => ({
       _title: '',
@@ -1508,7 +1662,6 @@ function ProductionPlan() {
             disabled: (values: any) => {
               return CheckDisabled(values?.preservation, values?.process, preservationProcess);
             },
-  
           },
           estimatedEndTime: {
             _type: 'date-time',
@@ -1519,7 +1672,6 @@ function ProductionPlan() {
             disabled: (values: any) => {
               return CheckDisabled(values?.preservation, values?.process, preservationProcess);
             },
-  
           },
         },
       },
@@ -1542,7 +1694,38 @@ function ProductionPlan() {
     }),
     [userData],
   );
-  
+
+  // const modifyModel8 = useMemo(
+  //   (): ModifyPanel => ({
+  //     _title: '',
+  //     group1: {
+  //       _subTitle: 'ĐƠN VỊ TÍNH',
+  //       _className: 'col-6 pl-xl-15 pl-md-10 pl-5',
+  //       unit: {
+  //         _type: 'search-select',
+  //         // placeholder: 'Quy cách',
+  //         label: 'Đơn vị tính',
+  //         onSearch: ({ queryProps, paginationProps }: any) => {
+  //           if (editEntity && editEntity.seeding && editEntity.seeding.species) {
+  //             queryProps.species = editEntity.seeding.species._id;
+  //           }
+  //           return ProductPackagingService.GetAll({ queryProps, paginationProps });
+  //         },
+  //         keyField: 'weight',
+  //         disabled: (values: any) => {
+  //           return CheckDisabled(values?.packing, values?.process, packingProcess);
+  //         },
+  //         // required: true,
+  //         // onDisplayOptions: (e:ProductPackagingModel)=> e.species.weight,
+  //         // rootField: 'seeding',
+  //         // fillField: 'packing',
+  //         // display: 'weight',
+  //       },
+  //     },
+  //   }),
+  //   [editEntity],
+  // );
+
   const updateForm = useMemo(
     (): ModifyForm => ({
       _header: 'PRODUCTION_PLAN_CREATE',
@@ -1553,6 +1736,7 @@ function ProductionPlan() {
       panel5: modifyModel5,
       panel6: modifyModel6,
       panel7: modifyModel7,
+      // panel8: modifyModel8
     }),
     [
       modifyModel,
@@ -1562,14 +1746,15 @@ function ProductionPlan() {
       modifyModel5,
       modifyModel6,
       modifyModel7,
+      // modifyModel8
     ],
   );
-  
+
   return (
     <React.Fragment>
       <Switch>
         <Route path="/production-plan/:id/new">
-          {({history, match}) => (
+          {({ history, match }) => (
             <>
               <ProductionPlanCrud
                 // entity={history.location.state}
@@ -1582,14 +1767,20 @@ function ProductionPlan() {
                 formPart={formPart}
                 formModel={updateForm}
                 allFormField={allFormField}
-                allFormButton={editEntity?.confirmationStatus === '1' ? adminEditFormButton : editEntity?.confirmationStatus === '2' ? allFormButton2 : allFormButton}
+                allFormButton={
+                  editEntity?.confirmationStatus === '1'
+                    ? adminEditFormButton
+                    : editEntity?.confirmationStatus === '2'
+                    ? allFormButton2
+                    : allFormButton
+                }
                 current={history.location.state}
                 validation={ProductPlantSchema}
                 autoFill={{
                   field: '',
                   data: null,
                   searchSelectField: [
-                    {field: 'packing', ref: {prop: 'packing', key: 'packing.weight'}},
+                    { field: 'packing', ref: { prop: 'packing', key: 'packing.weight' } },
                   ],
                 }}
                 currentTab={currentTab}
@@ -1608,9 +1799,10 @@ function ProductionPlan() {
           )}
         </Route>
         <Route exact path={`/production-plan/:code/history`}>
-          {({history, match}) => (
+          {({ history, match }) => (
             <ProductionPlanVersion
               title={match && match.params.code}
+              get={code => ProductionPlanService.GetHistory(code)}
               data={history.location.state}
               total={totalVersion}
               versionColumns={versionColumns}
@@ -1623,31 +1815,52 @@ function ProductionPlan() {
           )}
         </Route>
         <Route exact path="/production-plan/seeding/:code">
-          {({history, match}) => (
+          {({ history, match }) => (
             <MasterEntityDetailPage
               renderInfo={SeedingDetailDialog}
               code={match && match.params.code}
               get={code => ProductionPlanService.GetById(code)}
-              onClose={() => {history.push('/production-plan')}}
+              onClose={() => {
+                history.push('/production-plan');
+              }}
               header="THÔNG TIN GIEO GIỐNG"
             />
           )}
         </Route>
         <Route exact path="/production-plan/planting/:code">
-          {({history, match}) => (
+          {({ history, match }) => (
             <MasterEntityDetailPage
               entity={history.location.state}
               renderInfo={PlantingDetailDialog}
               code={match && match.params.code}
               get={code => ProductionPlanService.GetById(code)}
-              onClose={() => {history.push('/production-plan')}}
+              onClose={() => {
+                history.push('/production-plan');
+              }}
               header="THÔNG TIN GIEO TRỒNG"
               homeURL={homeURL}
             />
           )}
         </Route>
+        <Route exact path="/production-plan/plan-view/version/:code">
+          {({ history, match }) => (
+            <ProductionPlanDetail
+              renderInfo={masterEntityDetailDialog2}
+              setDetailEntity={setDetailEntity}
+              code={match && match.params.code}
+              get={code => ProductionPlanService.GetById(code)}
+              header={`CHI TIẾT PHIÊN BẢN`}
+              showComment={
+                match &&
+                detailEntity?.parentPlan && 
+                JSON.parse(localStorage.getItem('newestVersion') as any)
+                && JSON.parse(localStorage.getItem('newestVersion') as any)[detailEntity?.parentPlan] === match.params.code
+              }
+            />
+          )}
+        </Route>
         <Route exact path="/production-plan/plan-view/:code">
-          {({history, match}) => (
+          {({ history, match }) => (
             <ProductionPlanDetail
               entity={history.location.state}
               renderInfo={masterEntityDetailDialog2}
@@ -1658,9 +1871,13 @@ function ProductionPlan() {
               onClose={() => {
                 setShowDetail(false);
               }}
-              allFormButton={(detailEntity?.confirmationStatus !== '2' && detailEntity?.confirmationStatus !== '3') && username === 'admin' && adminAllFormButton}
+              allFormButton={
+                detailEntity?.confirmationStatus !== '2' &&
+                detailEntity?.confirmationStatus !== '3' &&
+                username === 'admin' &&
+                adminAllFormButton
+              }
               header={`CHI TIẾT KẾ HOẠCH`}
-
             />
           )}
         </Route>
@@ -1671,19 +1888,16 @@ function ProductionPlan() {
               setPaginationProps(DefaultPagination);
               const cvValue = JSON.parse(JSON.stringify(value));
 
-              console.log(value)
-  
-              if (
-                value.seeding?.species &&
-                _.isObject(value.seeding.species)
-              ) {
-                const newVl = { _id: value.seeding.species._id }
+              console.log(value);
+
+              if (value.seeding?.species && _.isObject(value.seeding.species)) {
+                const newVl = { _id: value.seeding.species._id };
                 cvValue.seeding.species = { ...newVl };
               }
 
-              console.log(cvValue)
-  
-              setFilterProps({...cvValue});
+              console.log(cvValue);
+
+              setFilterProps({ ...cvValue });
             }}
             searchModel={currentTab == '0' ? productPlanSearchModel1 : productPlanSearchModel2}
           />

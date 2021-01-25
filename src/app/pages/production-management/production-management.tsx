@@ -21,7 +21,7 @@ import {
   PreservationDetail,
 } from './defined/const';
 import _ from 'lodash';
-import {DisplayDateTime} from "../../common-library/helpers/detail-helpers";
+import {DisplayCelcius, DisplayDateTime, DisplayDiffTime} from "../../common-library/helpers/detail-helpers";
 
 const { Step } = Steps;
 
@@ -348,8 +348,9 @@ function ProductionManagement() {
         <span>
           {row.harvesting.startTime && row.harvesting.endTime ? (
             <span>
-              {DisplayDateTime(row.harvesting.startTime)} -{' '}
-              {DisplayDateTime(row.harvesting.endTime)}
+              {/* {DisplayDateTime(row.harvesting.startTime)} -{' '}
+              {DisplayDateTime(row.harvesting.endTime)} */}
+              <DisplayDiffTime startTime={row.harvesting.startTime} endTime={row.harvesting.endTime}/>
             </span>
           ) : (
             'Không có thông tin'
@@ -416,9 +417,10 @@ function ProductionManagement() {
         <span>
           {row.preliminaryTreatment.startTime && row.preliminaryTreatment.endTime ? (
             <span>
-              {DisplayDateTime(row.preliminaryTreatment.startTime)}{' '}
+              {/* {DisplayDateTime(row.preliminaryTreatment.startTime)}{' '}
               -{' '}
-              {DisplayDateTime(row.preliminaryTreatment.endTime)}
+              {DisplayDateTime(row.preliminaryTreatment.endTime)} */}
+              <DisplayDiffTime startTime={row.preliminaryTreatment.startTime} endTime={row.preliminaryTreatment.endTime}/>
             </span>
           ) : (
             'Không có thông tin'
@@ -482,9 +484,16 @@ function ProductionManagement() {
       text: `${intl.formatMessage({ id: 'PRODUCTION_MANAGEMENT.CLEANING.TIME' })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
         <span>
-          {row.cleaning.estimatedTime
+          {/* {row.cleaning.estimatedTime
             ? new Intl.DateTimeFormat('en-GB').format(new Date(row.cleaning.estimatedTime))
-            : 'Không có thông tin'}
+            : 'Không có thông tin'} */}
+            {row.cleaning.startTime && row.cleaning.endTime ? (
+            <span>
+              <DisplayDiffTime startTime={row.cleaning.startTime} endTime={row.cleaning.endTime}/>
+            </span>
+          ) : (
+            'Không có thông tin'
+          )}
         </span>
       ),
       ...SortColumn,
@@ -630,21 +639,28 @@ function ProductionManagement() {
       text: `${intl.formatMessage({ id: 'PRODUCTION_MANAGEMENT.PRESERVATION.TIME' })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
         <span>
-          {/* {new Intl.DateTimeFormat('en-GB').format(new Date(row.preservation.createdAt))} */}
-          Chưa có thông tin
+          {row.preservation.startTime && row.preservation.endTime ? (
+            <span>
+              {/* {DisplayDateTime(row.preliminaryTreatment.startTime)}{' '}
+              -{' '}
+              {DisplayDateTime(row.preliminaryTreatment.endTime)} */}
+              <DisplayDiffTime startTime={row.preservation.startTime} endTime={row.preservation.endTime}/>
+            </span>
+          ) : (
+            'Không có thông tin'
+          )}
         </span>
       ),
-      ...SortColumn,
       classes: 'text-center',
       headerClasses: 'text-center',
     },
     preservationTemperature: {
-      dataField: 'preservation.updatedAt',
+      dataField: 'preservation.temperature',
       text: `${intl.formatMessage({ id: 'PRODUCTION_MANAGEMENT.PRESERVATION.TEMPERATURE' })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
         <span>
           {/* {new Intl.DateTimeFormat('en-GB').format(new Date(row.preservation.createdAt))} */}
-          Chưa có thông tin
+          {DisplayCelcius(row.preservation.temperature)}
         </span>
       ),
       ...SortColumn,
@@ -677,13 +693,34 @@ function ProductionManagement() {
     setPaginationProps(DefaultPagination);
   }
 
+  // const getProcess = (current: number, startIndex: number) => {
+  //   let cProcess = '';
+
+  //   for (let i = startIndex; i <= current; i ++) {
+  //     cProcess += `${i}`
+  //     if (i < current) {
+  //       cProcess += ','
+  //     }
+  //   }
+
+  //   return cProcess
+  // }
+
+  const getProcess = useCallback((): string => {
+    if (currentStep === 0) return '2,3,4,5,6';
+    if (currentStep === 1) return '3,4,5,6';
+    if (currentStep === 2) return '4,5,6';
+    if (currentStep === 3) return '5,6';
+    return '6';
+  }, [currentStep]);
+
   useEffect(() => {
     getAll({
       ...(filterProps as any),
       step: '1',
       isMaster: true,
       confirmationStatus: '2',
-      process: currentStep + 2 + '',
+      process: getProcess(),
     });
   }, [paginationProps, filterProps, currentStep]);
 

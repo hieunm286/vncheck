@@ -7,7 +7,6 @@ import {MasterBodyColumns, PaginationProps} from '../common-types/common-type';
 import {GetCompareFunction} from './common-function';
 import {Link} from 'react-router-dom';
 import moment from 'moment';
-import momentTimeZone from 'moment-timezone';
 import _ from 'lodash';
 
 export const DisplayString = (input: string) => {
@@ -27,9 +26,9 @@ export const DisplayPersonName = (name: {
   const intl = useIntl();
   return (
     <>
-      {name.fullName ?? name.firstName
+      {name.fullName ?? (name.firstName
         ? `${name.firstName} ${name.lastName}`
-        : intl.formatMessage({id: 'NO_INFORMATION'})}
+        : intl.formatMessage({id: 'NO_INFORMATION'}))}
     </>
   );
 };
@@ -73,15 +72,12 @@ export const DisplayDate = ({input, _format}: { input: string; _format?: string 
   const intl = useIntl();
   if (!input) return <></>;
   const date_input = new Date(input);
-  const timestamp = new Date();
-  const inverseOffset = moment(timestamp).utcOffset() * -1;
   
   return (
     <>
       {input
         ? format(
           moment(date_input)
-            .add(inverseOffset, 'm')
             .toDate(),
           _format ?? 'dd/MM/yyyy',
         )
@@ -90,34 +86,22 @@ export const DisplayDate = ({input, _format}: { input: string; _format?: string 
   );
 };
 
-export const DisplayDateTime = (input: string, _format?: string) => {
+export const DisplayDateTime = ({input, _format}: { input?: string, _format?: string }) => {
   const intl = useIntl();
   if (!input) return <></>;
   const date_input = new Date(input);
-  const timestamp = new Date();
-  const inverseOffset = moment(timestamp).utcOffset() * -1;
   return (
     <>
       {input
         ? format(
           moment(date_input)
             .toDate(),
-          _format ?? 'dd/MM/yyyy H:mma',
+          _format ?? 'dd/MM/yyyy h:mma',
         )
         : intl.formatMessage({id: 'NO_INFORMATION'})}
     </>
   );
 };
-
-export const DisplayDateTimeV2 = (input: string, _format?: string) => {
-  if (!input) return <>Không có thông tin</>;
-  return (
-    <>
-    {momentTimeZone(input).tz('Asia/Ho_Chi_Minh').format(_format ?? 'DD/MM/YYYY HH:mm')}
-    </>
-  );
-
-}
 
 export const DisplayDownloadLink = (input: any, key?: string) => {
   const intl = useIntl();
@@ -199,7 +183,7 @@ export const Display3Info = (image: any, _: any, intl?: IntlShape) => {
       <div className={'titleeee mb-1'}>
         {intl.formatMessage({id: 'IMAGE.TAKEN_TIME'})}
         {image.takenTime
-          ? DisplayDateTime(image.takenTime)
+          ? <DisplayDateTime input={image.takenTime}/>
           : intl.formatMessage({id: 'NO_INFORMATION'})}
       </div>
       <div className={'titleeee mb-1'}>
@@ -215,24 +199,22 @@ export const Display3Info = (image: any, _: any, intl?: IntlShape) => {
 export const DisplayImage = (
   images: any,
   renderInfo?: { title?: string; data?: { [KeyField: string]: string } },
-  filter?: string,
+  filter?: any[],
 ) => {
-  let cvImages = {...images};
-  
-  if (filter) {
-    cvImages = images.filter((el: any) => el[filter] === true);
+
+  if (_.isArray(images) && filter && filter.length > 0) {
+    return <DetailImage images={images.filter((el: any) => el[filter[0]] === filter[1])} renderInfo={renderInfo} />;
   }
-  
-  console.log(cvImages);
-  return <DetailImage images={cvImages} renderInfo={renderInfo}/>;
+
+  return <DetailImage images={images} renderInfo={renderInfo} />;
 };
 
-export const DisplayDiffTime = (input: any, entity: any) => {
+export const DisplayDiffTime = ({startTime, endTime}: { startTime?: string, endTime?: string }) => {
   return (
     <>
-      {entity.endTime && entity.startTime
-        ? entity.endTime.toLocaleString() + ', ' + entity.startTime.toLocaleString()
-        : ''}
+      <DisplayDateTime input={startTime}/>
+      {endTime ? ' - ' : ''}
+      <DisplayDateTime input={endTime}/>
     </>
   );
 };

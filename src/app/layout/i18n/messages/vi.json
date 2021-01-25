@@ -123,6 +123,8 @@
   "COMMON_COMPONENT.MASTER_BODY.HEADER.DELETE_BTN": "Xóa",
   "COMMON_COMPONENT.MASTER_BODY.TABLE.DELETE_BTN": "Xóa",
   "COMMON_COMPONENT.MASTER_BODY.TABLE.SHOW_DETAIL_BTN": "Xem chi tiết",
+  "COMMON_COMPONENT.MASTER_BODY.TABLE.LOCK_BTN": "Khóa",
+  "COMMON_COMPONENT.MASTER_BODY.TABLE.CLONE_BTN": "Sao chép",
   "COMMON_COMPONENT.MASTER_BODY.TABLE.EDIT_BTN": "Sửa",
   "COMMON_COMPONENT.MASTER_HEADER.SEARCH_BTN": "Tìm kiếm",
   "COMMON_COMPONENT.MASTER_HEADER.RESET_FILTER_BTN": "Bỏ lọc",
@@ -588,7 +590,7 @@
   "SEEDING.SEEDING_AREA": "Diện tích gieo ươm giống",
   "SEEDING.NUMBER_OF_SEED": "Số cây con giống",
   "SEEDING.EXPECTED_QUANTITY": "Sản lượng dự kiến",
-  "USER.MASTER.TABLE.TITLE": "Danh mục người dùng",
+  "USER.MASTER.TABLE.TITLE": "Người dùng hệ thống",
   "USER.MASTER.SEARCH.ORGANIZATION": "Đơn vị quản lý",
   "USER.MASTER.SEARCH.ROLE": "Vai trò",
   "USER.MASTER.SEARCH.CODE": "Mã người dùng",
@@ -706,6 +708,9 @@
   "ENTERPRISE.REPRESENTED_BY": "Người đại diện",
   "ENTERPRISE.GLN": "GLN",
   "SORT.ERROR.VALID_FIELD": "Trường dữ liệu sắp xếp không hợp lệ",
+
+  "MANAGEMENT_ORGANIZATION.MODULE_NAME": "Đơn vị quản lý",
+
   "ROLE.MASTER.HEADER.TITLE": "Bộ lọc",
   "ROLE.MASTER.BODY.TITLE": "Danh mục vai trò",
   "ROLE.MASTER.TABLE.ROLE_CODE": "Mã vai trò",
@@ -723,12 +728,11 @@
 
   "ROLE.HEADER.PLACEHOLDER.ROLE_CODE": "Nhập",
   "ROLE.HEADER.PLACEHOLDER.ROLE_NAME": "Nhập",
-  "ROLE.HEADER.PLACEHOLDER.MANAGEMENT_ORGANIZATION": "Nhập",
+  "ROLE.HEADER.PLACEHOLDER.MANAGEMENT_ORGANIZATION": "Chọn",
   "ROLE.HEADER.PLACEHOLDER.STATUS": "Chọn",
 
   "ROLE.EDIT.HEADER": "Chỉnh sửa",
   "ROLE.EDIT.MANAGEMENT_ORGANIZATION.PLACEHOLDER": "đơn vị quản lý",
-
 
   "ROLE.CREATE.HEADER": "Thêm mới",
   "ROLE.CREATE.LABEL.MANAGEMENT_ORGANIZATION": "Đơn vị quản lý",
@@ -834,5 +838,51 @@
   "PRELIMINARY_TREATMENT.MANAGER": "Tổng giám đốc",
   "PRELIMINARY_TREATMENT.LEADER": "Tổ trưởng",
   "PRELIMINARY_TREATMENT.TECHNICAL": "Kĩ thuật",
-  "PRELIMINARY_TREATMENT.WORKER": "Nông dân"
+  "PRELIMINARY_TREATMENT.WORKER": "Nông dân",
+
+  "CLEANING.TIME": "Thời gian làm sạch",
+  "CLEANING.QUANTITY": "Sản lượng sau làm sạch ",
+  "CLEANING.LOCATION": "Địa điểm Farm làm sạch",
+  "CLEANING.IMAGEBEFORE": "Hình ảnh trước khi làm sạch",
+  "CLEANING.IMAGEINPROGRESS": "Hình ảnh làm sạch",
+  "CLEANING.IMAGEAFTER": "Hình ảnh sau khi làm sạch",
+  "CLEANING.MANAGER": "Tổng giám đốc",
+  "CLEANING.LEADER": "Tổ trưởng",
+  "CLEANING.TECHNICAL": "Kĩ thuật",
+  "CLEANING.WORKER": "Nông dân",
+
+  "PACKING.LOCATION": "Địa điểm Farm đóng gói",
+  "PACKING.TYPE": "Quy cách đóng gói",
+  "PACKING.EXPIRYDATE": "Hạn sử dụng",
+  "PACKING.PRODUCTIMAGE": "Hình ảnh sản phẩm",
+  "PACKING.IMAGEAFTERPACKING": "Hình ảnh sau khi đóng gói",
+  "PACKING.SCANAT": "Ngày gán QR",
+  "PACKING.ACTIVEAT": "Ngày kích hoạt",
+  "PACKING.ACTIVEBY": "Người kích hoạt",
+  "PACKING.MANAGER": "Tổng giám đốc",
+  "PACKING.LEADER": "Tổ trưởng",
+  "PACKING.TECHNICAL": "Người gán QR",
+
+  "PRESERVE.LOCATION": "Địa điểm bảo quản",
+  "PRESERVE.TEMPERATURE": "Nhiệt độ bảo quản",
+  "PRESERVE.IMAGE": "Hình ảnh bảo quản",
+  "PRESERVE.MANAGER": "Giám đốc",
+  "PRESERVE.LEADER": "Kĩ thuật",
+  "PRESERVE.WORKER": "Nhân viên",
+
+  "LOGISTICS.CREATEDBY": "Người tạo QR logistics",
+  "LOGISTICS.CREATEDAT": "Thời điểm tạo",
+  "LOGISTICS.QRPARENT": "ID QR cha",
+  "LOGISTICS.QRCHILDREN": "ID QR con",
+
+  "SHIPPING.TIMEEXPORTORDER": "Thời gian xuất hàng",
+  "SHIPPING.LOCATIONEXPORTORDER": "Địa điểm xuất hàng",
+  "SHIPPING.STAFFEXPORTORDER": "Nhân viên xuất hàng",
+  "SHIPPING.SHIPPER": "Nhân viên vận chuyển",
+
+  "STATUS.STATUS": "Trạng thái",
+  "STATUS.DATESALE": "Ngày bán",
+  "STATUS.LOCATIONSALE": "Nơi bán",
+  "STATUS.STAFFSALE": "Nhân viên nơi bán",
+  "STATUS.PHONECUSTOMER": "Số điện thoại người mua"
 }

@@ -11,10 +11,11 @@ import {DeleteEntityDialog} from '../../common-library/common-components/delete-
 import {
   ModifyForm,
   ModifyInputGroup,
+  ModifyPanel,
   RenderInfoDetail,
   SearchModel
 } from '../../common-library/common-types/common-type';
-import {InitMasterProps, InitValues,} from '../../common-library/helpers/common-function';
+import {InitMasterProps, InitValues, RoleArrayToObject,} from '../../common-library/helpers/common-function';
 import {Route, Switch, useHistory} from 'react-router-dom';
 import EntityCrudPage from '../../common-library/common-components/entity-crud-page';
 import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
@@ -30,6 +31,8 @@ import * as ManagementUnitService from "../management-organization/management-or
 import * as RoleService from "../role/role.service";
 import * as AgencyService from "../agency/agency.service";
 import {Spinner} from "react-bootstrap";
+import {ConvertRoleScope} from '../role/const/convert-scope';
+import * as RoleScope from '../role/const/role_scope';
 
 const headerTitle = 'PRODUCT_TYPE.MASTER.HEADER.TITLE';
 const tableTitle = 'USER.MASTER.TABLE.TITLE';
@@ -186,7 +189,8 @@ function User() {
     },
   ], []);
   const [managementUnit, setManagementUnit] = useState<any>(null);
-  const searchModel: SearchModel = {
+  const [role, setRole] = useState<any>(null);
+  const searchModel: SearchModel = useMemo(() => ({
     managementUnit: {
       type: 'tree-select',
       label: 'USER.MASTER.SEARCH.ORGANIZATION',
@@ -206,13 +210,13 @@ function User() {
     role: {
       type: 'search-select',
       label: 'USER.MASTER.SEARCH.ROLE',
+      keyField: 'name',
       onSearch: ({queryProps, paginationProps}: any, values: any): Promise<any> => {
         return RoleService.GetAll({
           queryProps: {...queryProps, managementUnit: {...values?.managementUnit}},
           paginationProps
         })
       },
-      keyField: 'name',
       disabled: (values: any) => {
         return !(values.managementUnit);
       },
@@ -239,7 +243,7 @@ function User() {
       type: 'string-number',
       label: 'USER.MASTER.SEARCH.PHONE',
     },
-  };
+  }), [managementUnit]);
   const group1 = useMemo((): ModifyInputGroup => ({
     _subTitle: 'USER.MODIFY.DETAIL_INFO',
     _className: 'col-6 pr-xl-15 pr-md-10 pr-5',
@@ -375,6 +379,7 @@ function User() {
       onChange: (value: any, {setFieldValue}: any) => {
         if (managementUnit != value) {
           setFieldValue('role', null);
+          setFieldValue('scopes', {});
         }
         setManagementUnit(value);
       },
@@ -382,18 +387,65 @@ function User() {
     role: {
       _type: 'search-select',
       label: 'USER.MODIFY.ROLE',
+      keyField: 'name',
       onSearch: ({queryProps, paginationProps}: any, values: any): Promise<any> => {
         return RoleService.GetAll({
           queryProps: {...queryProps, managementUnit: {...values?.managementUnit}},
           paginationProps
         })
       },
-      keyField: 'name',
+      onChange: (value: any, {setFieldValue}: any) => {
+        if (role != value) {
+          if (value) setFieldValue('scopes', RoleArrayToObject(value.scopes));
+          else setFieldValue('scopes', {});
+        }
+        setRole(value);
+      },
       disabled: (values: any) => {
         return !(values?.managementUnit);
       },
     },
-  }), []);
+  }), [managementUnit, role]);
+  
+  const modifyModel2 = React.useMemo((): ModifyPanel => ({
+    _title: 'EMPTY',
+    group2: {
+      _subTitle: 'PHÂN QUYỀN DỮ LIỆU',
+      scopes: {
+        _type: 'object',
+        enterprise: {
+          _type: 'checkbox',
+          label: 'DOANH NGHIỆP SẢN XUẤT',
+          optionData: ConvertRoleScope(RoleScope.role_scope_enterprise, intl)
+        },
+        species: {
+          _type: 'checkbox',
+          label: 'THÔNG TIN CHUNG',
+          optionData: ConvertRoleScope(RoleScope.role_scope_species, intl)
+        },
+        seeding: {
+          _type: 'checkbox',
+          label: 'THÔNG TIN XUỐNG GIỐNG',
+          optionData: ConvertRoleScope(RoleScope.role_scope_seeding, intl)
+        },
+        planting: {
+          _type: 'checkbox',
+          label: 'THÔNG TIN GIEO TRỒNG',
+          optionData: ConvertRoleScope(RoleScope.role_scope_planting, intl)
+        },
+        harvesting: {
+          _type: 'checkbox',
+          label: 'THÔNG TIN THU HOẠCH',
+          optionData: ConvertRoleScope(RoleScope.role_scope_harvesting, intl)
+        },
+        preliminary_treatment: {
+          _type: 'checkbox',
+          label: 'THÔNG TIN SƠ CHẾ',
+          optionData: ConvertRoleScope(RoleScope.role_scope_preliminary_treatment, intl)
+        },
+      }
+    }
+  }), [])
   
   const createForm = useMemo((): ModifyForm => ({
     _header: createTitle,
@@ -402,6 +454,7 @@ function User() {
       group1: group1,
       group2: group2,
     },
+    panel2: modifyModel2,
   }), [group1, group2]);
   const updateForm = useMemo((): ModifyForm => {
     return ({...createForm, _header: updateTitle});
@@ -442,7 +495,7 @@ function User() {
       }
     }
   }), [loading]);
-  const initCreateValues: any = useMemo(() => ({...InitValues(createForm), status: 'false'}), [createForm]);
+  const initCreateValues: any = useMemo(() => ({...InitValues(createForm), status: '0'}), [createForm]);
   return (
     <Fragment>
       <Switch>

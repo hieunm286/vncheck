@@ -594,10 +594,10 @@ function AgencyPage() {
       phone: Yup.string()
         .max(11, 'VALIDATE.ERROR.INVALID_INPUT')
         .min(8, 'VALIDATE.ERROR.INVALID_INPUT'),
-      birthDay: Yup.date().max(new Date(),'VALIDATE.ERROR.MUST_LESS_THAN_TODAY')
+      birthDay: Yup.date().max(new Date(), 'VALIDATE.ERROR.MUST_LESS_THAN_TODAY')
     })
   }), []);
-  const initCreateValues = useMemo(() => ({...InitValues(createForm), status: 'false'}), [createForm]);
+  const initCreateValues = useMemo(() => ({...InitValues(createForm), status: '0'}), [createForm]);
   return (
     <Fragment>
       <AgencyShippingAddress

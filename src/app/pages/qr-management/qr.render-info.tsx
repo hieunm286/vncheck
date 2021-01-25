@@ -6,6 +6,7 @@ import {
   DisplayCelcius,
   DisplayCoordinates,
   DisplayDateTime,
+  DisplayDiffTime,
   DisplayDownloadLink,
   DisplayImage,
   DisplayPercent
@@ -26,6 +27,13 @@ export const producerInfo: RenderInfoDetail = [{
     'enterprise.gln': {title: 'ENTERPRISE.GLN'},
   }
 }];
+export const paddingInfo: RenderInfoDetail = [{
+  className: 'col-12',
+  dataClassName: 'col-12',
+  data: {
+    'padding': {formatter: () => (<div style={{borderTop: '1px solid #DADADA'}} className={'mb-10'}/>)},
+  }
+}]
 
 export const commonInfo: RenderInfoDetail = [{
   header: 'GENERAL_INFO',
@@ -53,7 +61,7 @@ export const seedingInfo: RenderInfoDetail = [{
     },
     'productPlan.seeding.seedingTime': {
       title: 'SEEDING.SEEDING_TIME',
-      formatter: (input) => DisplayDateTime(input)
+      formatter: (input) => (<DisplayDateTime input={input}/>),
     },
     'productPlan.seeding.farmLocation.[coordinates]': {
       title: 'SEEDING.FARM_LOCATION',
@@ -196,9 +204,9 @@ export const harvestingInfo: RenderInfoDetail = [{
   dataClassName: 'col-9 mb-10 pl-5',
   data: {
     'productPlan.harvesting.time': {
-      keyField: 'productPlan.harvesting', title: 'HARVESTING_DATE', formatter: (e) => {
-        return e ? (<>{DisplayDateTime(e.startTime)} {e.endTime && (<> - {DisplayDateTime(e.endTime)}</>)}</>) : (<></>);
-      }
+      keyField: 'productPlan.harvesting',
+      title: 'HARVESTING_DATE',
+      formatter: (e) => (<DisplayDiffTime startTime={e?.startTime} endTime={e?.endTime}/>)
     },
     'productPlan.harvesting.quantity': {
       title: 'HARVESTING_REAL_QUANTITY',
@@ -270,9 +278,8 @@ export const preliminaryTreatmentInfo: RenderInfoDetail = [{
   dataClassName: 'col-9 mb-10 pl-5',
   data: {
     'productPlan.preliminaryTreatment.time': {
-      keyField: 'productPlan.preliminaryTreatment', title: 'PRELIMINARY_TREATMENT_TIME', formatter: (e) => {
-        return e ? (<>{DisplayDateTime(e.startTime)} {e.endTime && (<> - {DisplayDateTime(e.endTime)}</>)}</>) : (<></>);
-      }
+      keyField: 'productPlan.preliminaryTreatment', title: 'PRELIMINARY_TREATMENT_TIME',
+      formatter: (e) => (<DisplayDiffTime startTime={e?.startTime} endTime={e?.endTime}/>)
     },
     'productPlan.preliminaryTreatment.quantity': {
       title: 'PRELIMINARY_TREATMENT_QUANTITY_REAL',
@@ -332,9 +339,8 @@ export const cleaningInfo: RenderInfoDetail = [{
   dataClassName: 'col-9 mb-10 pl-5',
   data: {
     'productPlan.cleaning.time': {
-      keyField: 'productPlan.cleaning', title: 'CLEANING_TIME', formatter: (e) => {
-        return e ? (<>{DisplayDateTime(e.startTime)} {e.endTime && (<> - {DisplayDateTime(e.endTime)}</>)}</>) : (<></>);
-      }
+      keyField: 'productPlan.cleaning', title: 'CLEANING_TIME',
+      formatter: (e) => (<DisplayDiffTime startTime={e?.startTime} endTime={e?.endTime}/>)
     },
     'productPlan.cleaning.quantity': {
       title: 'Sản lượng sau làm sạch',
@@ -401,9 +407,8 @@ export const packingInfo: RenderInfoDetail = [{
       title: 'Quy cách đóng gói',
     },
     'productPlan.packing.exp': {
-      keyField: 'productPlan.packing', title: 'Hạn sử dụng', formatter: (e) => {
-        return e ? (<>{DisplayDateTime(e.estimatedExpireTimeStart)} {e.estimatedExpireTimeEnd && (<> - {DisplayDateTime(e.estimatedExpireTimeEnd)}</>)}</>) : (<></>);
-      }
+      keyField: 'productPlan.packing', title: 'Hạn sử dụng',
+      formatter: (e) => (<DisplayDiffTime startTime={e?.estimatedExpireTimeStart} endTime={e?.estimatedExpireTimeEnd}/>)
     },
     'productPlan.packing.sampleImage': {
       title: 'Hình ảnh sản phẩm',
@@ -427,7 +432,7 @@ export const packingInfo: RenderInfoDetail = [{
     },
     'scanAt': {
       title: 'Ngày gán QR',
-      formatter: (input) => DisplayDateTime(input)
+      formatter: (input) => (<DisplayDateTime input={input}/>),
     },
     'scanBy.fullName': {
       title: 'Người gán QR',
@@ -437,7 +442,7 @@ export const packingInfo: RenderInfoDetail = [{
     },
     'activeAt': {
       title: 'QR_ACTIVATE_AT',
-      formatter: (input) => DisplayDateTime(input)
+      formatter: (input) => (<DisplayDateTime input={input}/>),
     },
     'productPlan.packing.manager.user.fullName': {
       title: 'ADMIN_DIRECTOR_INFO',
@@ -456,9 +461,8 @@ export const preservationInfo: RenderInfoDetail = [{
   dataClassName: 'col-9 mb-10 pl-5',
   data: {
     'productPlan.preservation.time': {
-      keyField: 'productPlan.preservation', title: 'Thời gian bảo quản', formatter: (e) => {
-        return e ? (<>{DisplayDateTime(e.startTime)} {e.endTime && (<> - {DisplayDateTime(e.endTime)}</>)}</>) : (<></>);
-      }
+      keyField: 'productPlan.preservation', title: 'Thời gian bảo quản',
+      formatter: (e) => (<DisplayDiffTime startTime={e?.startTime} endTime={e?.endTime}/>)
     },
     'productPlan.preservation.storageImage.location.[coordinates]': {
       title: 'Địa điểm bảo quản',
@@ -507,7 +511,7 @@ export const sellStatus: RenderInfoDetail = [{
       title: 'Ngày bán',
       formatter: (date: string, entity: any) => {
         const isShow = entity.type === '1' ? (entity.productPlan != null) : entity.children.length > 0;
-        return isShow ? (<>{DisplayDateTime(new Date().toISOString())}</>) : <></>
+        return isShow ? (<DisplayDateTime input={new Date().toISOString()}/>) : <></>
       },
     },
     'sellStatus.sellAddress': {

@@ -17,7 +17,6 @@ import {
 } from './common-input';
 import _ from 'lodash';
 import {InputCustom} from "../forms/input-custom";
-import { getField } from '../helpers/common-function';
 
 export function ModifyEntityPage<T>({
                                       inputGroups,
@@ -55,8 +54,9 @@ export const RenderForm = ({inputs, prevKey, mode, inputClassName}: any) => {
   return (<>
     {Object.keys(inputs).map(key => {
       const input = inputs[key];
+      const trimKey = key.trim();
       if (_.isString(input)) throw new Error('Sử dụng sai cách ' + key + '\n' + JSON.stringify(inputs));
-      const name = prevKey !== '' ? `${prevKey}.${key}` : key;
+      const name = prevKey ? ((trimKey === '' || prevKey === '') ? prevKey : `${prevKey}.${trimKey}`) : trimKey;
       switch (input._type) {
         case 'string':
         case 'email':
@@ -199,11 +199,21 @@ export const RenderForm = ({inputs, prevKey, mode, inputClassName}: any) => {
         }
         default: {
           const {_type, _subTitle, _className, _inputClassName, ...innt} = input as any;
-          return (<Fragment key={`render_form${prevKey ? `${prevKey}.${key}` : key}`}>
+          return _className ? (
+              <span key={`render_form_span${name}`} className={_className}>
+            {_subTitle && _subTitle !== '' && (<div
+              className="modify-subtitle text-primary">{intl.formatMessage({id: _subTitle}).toUpperCase()}</div>)}
+                <RenderForm inputs={innt} inputClassName={_inputClassName ?? inputClassName}
+                            prevKey={name}
+                            mode={mode}/>
+            </span>) :
+            (<Fragment key={`render_form${name}`}>
               {_subTitle && _subTitle !== '' && (<div
                 className="modify-subtitle text-primary">{intl.formatMessage({id: _subTitle}).toUpperCase()}</div>)}
-              <RenderForm inputs={innt} inputClassName={_inputClassName?? inputClassName} prevKey={prevKey ? `${prevKey}.${key}` : key} mode={mode}/>
-          </Fragment>)
+              <RenderForm inputs={innt} inputClassName={_inputClassName ?? inputClassName}
+                          prevKey={name}
+                          mode={mode}/>
+            </Fragment>)
         }
       }
     })}</>)

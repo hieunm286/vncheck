@@ -1,4 +1,5 @@
 import axios from 'axios';
+import _ from 'lodash';
 import {API_BASE_URL} from '../../common-library/common-consts/enviroment';
 import {
   CountProps,
@@ -9,6 +10,7 @@ import {
   GetProps,
   UpdateProps,
 } from '../../common-library/common-types/common-type';
+import {RoleArrayToObject, RoleObjectToArray} from "../../common-library/helpers/common-function";
 
 
 export const API_URL = API_BASE_URL + '/role';
@@ -18,7 +20,12 @@ export const BULK_API_URL = API_URL + '/bulk'
 export const API_FILE_URL = API_BASE_URL + '/file';
 
 export const Create: CreateProps<any> = (data: any) => {
-  return axios.post(API_URL, data);
+  const sendData = _.cloneDeep(data);
+  sendData.scopes = RoleObjectToArray(sendData.scopes);
+  if (!sendData.status) {
+    sendData.status = '0'
+  }
+  return axios.post(API_URL, sendData);
 };
 
 export const GetAll: GetAllPropsServer<any> = ({
@@ -47,30 +54,6 @@ const GetCompareFunction = ({key, orderType}: { key: string, orderType: 1 | -1 }
     return 0;
   }
 }
-export const RoleList = ['ROLE.MANAGER', 'ROLE.ADMIN', 'ROLE.FARMER', 'ROLE.TECHNICIAN']
-
-export const GetRole = ({queryProps, paginationProps}: any, convertFn?: (value: string) => string): Promise<any> => {
-  return new Promise((resolve, reject) => {
-    const _roleList = convertFn ? RoleList.map(convertFn) : RoleList;
-    const totalData = _roleList.filter((val, index, arr) => {
-      return val.toLowerCase().indexOf(queryProps.role.toLowerCase()) > -1;
-    })
-    const data = totalData.sort(GetCompareFunction({
-      key: paginationProps.sortBy,
-      orderType: paginationProps.sortType === 'asc' ? 1 : -1
-    })).slice((paginationProps.page - 1) * paginationProps.limit, paginationProps.page * paginationProps.limit);
-
-    resolve({
-      code: 200,
-      data: {
-        data: data,
-        paging: {page: paginationProps.page, limit: paginationProps.limit, total: totalData.length}
-      },
-      success: true
-    })
-  })
-}
-
 export const StatusList = [{code: "1", name: "Hoạt động"}, {code: "0", name: "Không hoạt động"}];
 export const GetStatusList = ({queryProps, paginationProps}: any): Promise<any> => {
   console.log(queryProps);
@@ -110,38 +93,20 @@ export const Get: GetProps<any> = entity => {
 };
 
 export const GetById = (_id: string) => {
-  // return axios.get(`${API_URL}/${_id}`).then(res => {
-  //   const z = { ...res }
-  //   z.data.cc = "cc"
-  //   return z
-  // })
-
   return axios.get(`${API_URL}/${_id}`).then(res => {
-    const data = { ...res }
-    const splitScopes: any = {}
-
-    if (data.data.scopes?.length > 0) {
-      data.data.scopes.forEach((item: string) => {
-        const prefix = item.split('.')[0]
-        splitScopes[prefix] = []
-      })
-
-      Object.keys(splitScopes).forEach(keys => {
-        splitScopes[keys] = data.data.scopes.filter((item: string) => item.split('.')[0] === keys)
-      })
+    if (res.data.scopes?.length > 0) {
+      console.log(RoleArrayToObject(res.data.scopes))
+      res.data.scopes = RoleArrayToObject(res.data.scopes)
+      // res.data = {...res.data, ...RoleArrayToObject(res.data.scopes)};
     }
-
-    delete data.data.scopes
-
-    const cvData = { ...res, data: { ...data.data,...splitScopes } }
-
-    console.log(cvData)
-
-    return cvData
+    console.log(res.data)
+    return res;
   })
 };
 export const Update: UpdateProps<any> = (entity: any) => {
-  return axios.put(`${API_URL}/${entity._id}`, entity)
+  const sendData = _.cloneDeep(entity);
+  sendData.scopes = RoleObjectToArray(sendData.scopes);
+  return axios.put(`${API_URL}/${entity._id}`, sendData)
 };
 
 export const Delete: DeleteProps<any> = (entity: any) => {
@@ -154,89 +119,3 @@ export const DeleteMany: DeleteManyProps<any> = (entities: any[]) => {
   });
 };
 
-const AtoZ = Array('Z'.charCodeAt(0) - 'A'.charCodeAt(0)).fill(null).map((x, i) => {
-  return String.fromCharCode('A'.charCodeAt(0) + i);
-})
-export const GetIds = ({queryProps}: any): Promise<any> => {
-  return new Promise((resolve, reject) => {
-    const data = AtoZ.filter((val, index, arr) => {
-      return val.indexOf(queryProps._id.toUpperCase()) > -1;
-    })
-    resolve({
-      code: 200,
-      data: {
-        data: data,
-        paging: {page: 1, limit: 100, total: data.length}
-      },
-      success: true
-    })
-  })
-}
-const From1to100 = Array(99).fill(null).map((x, i) => {
-  return (i + 1 + 1000).toString().substr(2);
-})
-export const GetSubLots = ({queryProps}: any): Promise<any> => {
-  return new Promise((resolve, reject) => {
-    console.log(queryProps);
-    const data = From1to100.filter((val, index, arr) => {
-      return val.indexOf(queryProps.subLot.toUpperCase()) > -1;
-    })
-    resolve({
-      code: 200,
-      data: {
-        data: data,
-        paging: {page: 1, limit: 100, total: data.length}
-      },
-      success: true
-    })
-  })
-}
-
-export const GetNames = ({queryProps}: any): Promise<any> => {
-  return new Promise((resolve, reject) => {
-    console.log(queryProps);
-    const data = From1to100.filter((val, index, arr) => {
-      return val.indexOf(queryProps.name.toUpperCase()) > -1;
-    })
-    resolve({
-      code: 200,
-      data: {
-        data: data,
-        paging: {page: 1, limit: 100, total: data.length}
-      },
-      success: true
-    })
-  })
-}
-
-export const GetManagementOrganization = ({queryProps}: any): Promise<any> => {
-  return new Promise((resolve, reject) => {
-    console.log(queryProps);
-    const data = From1to100.filter((val, index, arr) => {
-      return val.indexOf(queryProps.managementOrganization.toUpperCase()) > -1;
-    })
-    resolve({
-      code: 200,
-      data: {
-        data: data,
-        paging: {page: 1, limit: 100, total: data.length}
-      },
-      success: true
-    })
-  })
-}
-
-// export const GetStatus = ({queryProps}: any): Promise<any> => {
-//   return new Promise((resolve, reject) => {
-//     console.log(queryProps);
-//     const data = ["0", "1"];
-//     resolve({
-//       code: 200,
-//       data: {
-//         data: data,
-//         paging: {page: 1, limit: 100, total: data.length}
-//       },
-//       success: true
-//     })
-//   })
-// }

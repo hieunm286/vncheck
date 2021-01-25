@@ -1,36 +1,33 @@
-import React, { useEffect } from 'react';
-import { useIntl } from 'react-intl';
-import { Route, Switch, useHistory, match } from 'react-router';
-import { ActionsColumnFormatter, TickColumnFormatter } from '../../common-library/common-components/actions-column-formatter';
-import { MasterBody } from '../../common-library/common-components/master-body';
-import { MasterHeader } from '../../common-library/common-components/master-header';
-import MasterTreeStructure from '../../common-library/common-components/master-tree-structure';
-import { DefaultPagination, NormalColumn, SortColumn } from '../../common-library/common-consts/const';
-import { InitMasterProps } from '../../common-library/helpers/common-function';
-import {Count, Create, Delete, DeleteMany, Get, GetAll, GetById, GetManagementOrganization, GetNames, GetStatusList, Update} from './role.service';
-import {GetIds} from './role.service';
+import React, {useEffect} from 'react';
+import {useIntl} from 'react-intl';
+import {Route, Switch, useHistory} from 'react-router';
+import {
+  ActionsColumnFormatter,
+  TickColumnFormatter
+} from '../../common-library/common-components/actions-column-formatter';
+import {MasterBody} from '../../common-library/common-components/master-body';
+import {MasterHeader} from '../../common-library/common-components/master-header';
+import {DefaultPagination, NormalColumn, SortColumn} from '../../common-library/common-consts/const';
+import {InitMasterProps} from '../../common-library/helpers/common-function';
+import {Count, Create, Delete, DeleteMany, Get, GetAll, GetById, GetStatusList, Update} from './role.service';
 import {RoleModel} from './role.model';
-import { MasterEntityDetailDialog } from '../../common-library/common-components/master-entity-detail-dialog';
-import { ModifyPanel, RenderInfoDetail, _ModifyModelInput } from '../../common-library/common-types/common-type';
-import { DeleteEntityDialog } from '../../common-library/common-components/delete-entity-dialog';
+import {MasterEntityDetailDialog} from '../../common-library/common-components/master-entity-detail-dialog';
+import {
+  ModifyForm,
+  ModifyInputGroup,
+  ModifyPanel,
+  RenderInfoDetail,
+  SearchModel
+} from '../../common-library/common-types/common-type';
+import {DeleteEntityDialog} from '../../common-library/common-components/delete-entity-dialog';
 import EntityCrudPage from '../../common-library/common-components/entity-crud-page';
 import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
 import CancelOutlinedIcon from "@material-ui/icons/CancelOutlined";
 import * as Yup from 'yup';
-import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import * as ManagementOrganizationService from '../management-organization/management-organization.service'
-
-import {
-  MasterBodyColumns,
-  ModifyForm,
-  ModifyInputGroup,
-  SearchModel
-} from "../../common-library/common-types/common-type";
-import { Select } from 'antd';
-import { Switch as SwitchField } from 'antd';
-import CheckBoxField from '../../common-library/forms/input-checkbox';
+import {Select} from 'antd';
 import * as RoleScope from './const/role_scope';
-import { ConvertRoleScope } from './const/convert-scope';
+import {ConvertRoleScope} from './const/convert-scope';
 import _ from 'lodash';
 
 const { Option } = Select;
@@ -147,7 +144,6 @@ export default function ManagementOrganization() {
     managementUnit: {
       _type: 'tree-select',
       label: 'ROLE.CREATE.LABEL.MANAGEMENT_ORGANIZATION',
-      placeholder: 'COMMON_COMPONENT.SELECT.PLACEHOLDER',
       name: 'managementUnit',
       // onSearch: ManagementOrganizationService.GetAll,
       // onChange: (value: any, {setFieldValue, setFieldTouched}: any) => {
@@ -165,13 +161,11 @@ export default function ManagementOrganization() {
     roleCodeDummy: {
       _type: 'string',
       label: 'ROLE.CREATE.LABEL.ROLE_CODE',
-      placeholder: 'COMMON_COMPONENT.INPUT.PLACEHOLDER',
       disabled: true,
     },
     name: {
       _type: 'string',
       label: 'ROLE.CREATE.LABEL.ROLE_NAME',
-      placeholder: 'COMMON_COMPONENT.INPUT.PLACEHOLDER',
     },
     // status: {
     //   _type: 'custom',
@@ -198,36 +192,74 @@ export default function ManagementOrganization() {
     _title: 'EMPTY',
     group2: {
       _subTitle: 'PHÂN QUYỀN DỮ LIỆU',
-      enterprise: {
-        _type: 'checkbox',
-        label: 'DOANH NGHIỆP SẢN XUẤT',
-        optionData: ConvertRoleScope(RoleScope.role_scope_enterprise, intl)
-      },
-      species: {
-        _type: 'checkbox',
-        label: 'THÔNG TIN CHUNG',
-        optionData: ConvertRoleScope(RoleScope.role_scope_species, intl)
-      },
-      seeding: {
-        _type: 'checkbox',
-        label: 'THÔNG TIN XUỐNG GIỐNG',
-        optionData: ConvertRoleScope(RoleScope.role_scope_seeding, intl)
-      },
-      planting: {
-        _type: 'checkbox',
-        label: 'THÔNG TIN GIEO TRỒNG',
-        optionData: ConvertRoleScope(RoleScope.role_scope_planting, intl)
-      },
-      harvesting: {
-        _type: 'checkbox',
-        label: 'THÔNG TIN THU HOẠCH',
-        optionData: ConvertRoleScope(RoleScope.role_scope_harvesting, intl)
-      },
-      preliminary_treatment: {
-        _type: 'checkbox',
-        label: 'THÔNG TIN SƠ CHẾ',
-        optionData: ConvertRoleScope(RoleScope.role_scope_preliminary_treatment, intl)
-      },
+      scopes: {
+        _type: 'object',
+        enterprise: {
+          _type: 'checkbox',
+          label: 'DOANH NGHIỆP SẢN XUẤT',
+          optionData: ConvertRoleScope(RoleScope.role_scope_enterprise, intl)
+        },
+        species: {
+          _type: 'checkbox',
+          label: 'THÔNG TIN CHUNG',
+          optionData: ConvertRoleScope(RoleScope.role_scope_species, intl)
+        },
+        seeding: {
+          _type: 'checkbox',
+          label: 'THÔNG TIN XUỐNG GIỐNG',
+          optionData: ConvertRoleScope(RoleScope.role_scope_seeding, intl)
+        },
+        planting: {
+          _type: 'checkbox',
+          label: 'THÔNG TIN GIEO TRỒNG',
+          optionData: ConvertRoleScope(RoleScope.role_scope_planting, intl)
+        },
+        harvesting: {
+          _type: 'checkbox',
+          label: 'THÔNG TIN THU HOẠCH',
+          optionData: ConvertRoleScope(RoleScope.role_scope_harvesting, intl)
+        },
+        preliminary_treatment: {
+          _type: 'checkbox',
+          label: 'THÔNG TIN SƠ CHẾ',
+          optionData: ConvertRoleScope(RoleScope.role_scope_preliminary_treatment, intl)
+        },
+        cleaning: {
+          _type: 'checkbox',
+          label: 'THÔNG TIN LÀM SẠCH',
+          optionData: ConvertRoleScope(RoleScope.role_scope_cleaning, intl)
+        },
+        packing: {
+          _type: 'checkbox',
+          label: 'THÔNG TIN ĐÓNG GÓI',
+          optionData: ConvertRoleScope(RoleScope.role_scope_packing, intl)
+        },
+        // preserve: {
+        //   _type: 'checkbox',
+        //   label: 'THÔNG TIN BẢO QUẢN',
+        //   optionData: ConvertRoleScope(RoleScope.role_scope_preservation, intl)
+        // },
+        logistics: {
+          _type: 'checkbox',
+          label: 'THÔNG TIN LOGISTICS',
+          optionData: ConvertRoleScope(RoleScope.role_scope_logistics, intl)
+        },
+        // distribution: {
+        //   _type: 'checkbox',
+        //   label: 'THÔNG TIN PHÂN PHỐI',
+        //   optionData: ConvertRoleScope(RoleScope.role_scope_distribution, intl)
+        // },
+        shipping: {
+          _type: 'checkbox',
+          label: 'THÔNG TIN VẬN CHUYỂN',
+          optionData: ConvertRoleScope(RoleScope.role_scope_shipping, intl)
+        },
+        // status: {
+        //   _type: 'checkbox',
+        //   label: 'TRẠNG THÁI',
+        //   optionData: ConvertRoleScope(RoleScope.role_scope_status, intl)
+        // }
+      }
     }
   }), [])
 
@@ -287,7 +319,10 @@ export default function ManagementOrganization() {
             const validateEntity = (entity: RoleModel): RoleModel => {
               const { name, managementUnit } = entity;
               const vManagementUnitId = _.isObject(managementUnit) ? managementUnit._id : undefined;
-              const vName = name.includes(' - Clone') ? name : name + ' - Clone';
+
+              const date = new Date();
+              const markerString = ' - Clone ' + date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
+              const vName = name.includes(' - Clone') ? name.split(' - Clone')[0] + markerString : name + markerString;
               return {
                 name: vName,
                 status: entity.status,
@@ -313,7 +348,7 @@ export default function ManagementOrganization() {
           },
         },
         ...NormalColumn,
-        style: {minWidth: '130px'},
+        style: {minWidth: '166px'},
         align: 'center',
       },
     ]
@@ -345,20 +380,17 @@ export default function ManagementOrganization() {
     _id: {
       type: 'string',
       label: 'ROLE.HEADER.LABEL.ROLE_CODE',
-      placeholder: 'ROLE.HEADER.PLACEHOLDER.ROLE_CODE',
       // onSearch: GetIds,
     },
     name: {
       type: 'string',
       label: 'ROLE.HEADER.LABEL.ROLE_NAME',
-      placeholder: 'ROLE.HEADER.PLACEHOLDER.ROLE_NAME',
       // onSearch: GetNames,
     },
     managementUnit: {
       type: 'tree-select',
       name: 'managementUnit',
       label: 'ROLE.HEADER.LABEL.MANAGEMENT_ORGANIZATION',
-      placeholder: 'ROLE.HEADER.PLACEHOLDER.MANAGEMENT_ORGANIZATION',
       onSearch: ({queryProps, sortList, paginationProps,}: any) => {
         return ManagementOrganizationService.GetAll({queryProps}).then((e) => {
           return (e.data);
@@ -368,7 +400,6 @@ export default function ManagementOrganization() {
     status: {
       type: 'search-select',
       label: 'ROLE.HEADER.LABEL.STATUS',
-      placeholder: 'ROLE.HEADER.PLACEHOLDER.STATUS',
       onSearch: GetStatusList,
       keyField: 'name',
       selectField: 'code',
@@ -432,26 +463,7 @@ export default function ManagementOrganization() {
           <EntityCrudPage
             moduleName='ROLE.MODULE_NAME'
             entity={createEntity}
-            onModify={(values) => {
-              console.log(values)
-              let roleArr: string[] = []
-              const cvValues: any = {}
-
-              Object.keys(values).forEach(keys => {
-                if (_.isArray(values[keys])) {
-                  console.log('1')
-                  roleArr = roleArr.concat(values[keys])
-                } else {
-                  cvValues[keys] = values[keys]
-                }
-              })
-
-              cvValues.scopes = roleArr
-              console.log(roleArr)
-              console.log(cvValues)
-
-              return add(cvValues)
-            }}
+            onModify={add}
             formModel={createForm}
             actions={actions}
             validation={roleValidationSchema}
@@ -463,30 +475,7 @@ export default function ManagementOrganization() {
             <EntityCrudPage
               moduleName='ROLE.MODULE_NAME'
               entity={editEntity}
-              onModify={(values) => {
-                console.log(values)
-                let roleArr: string[] = []
-                const cvValues: any = {}
-  
-                Object.keys(values).forEach(keys => {
-                  if (_.isArray(values[keys])) {
-                    console.log('1')
-                    roleArr = roleArr.concat(values[keys])
-                  } else {
-                    cvValues[keys] = values[keys]
-                  }
-                })
-  
-                cvValues.scopes = roleArr
-
-                Object.keys(cvValues).forEach(keys => {
-                  if (!validField.includes(keys)) {
-                    delete cvValues[keys]
-                  }
-                })
-  
-                return update(cvValues)
-              }}
+              onModify={update}
               code={match && match.params.code}
               get={code => GetById(code)}
               formModel={editForm}

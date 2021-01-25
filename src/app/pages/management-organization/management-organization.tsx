@@ -14,6 +14,7 @@ import {RoleModel} from '../role/role.model';
 export default function ManagementOrganization() {
   
   const [userEntities, setUserEntities] = useState<UserModel[]>([]);
+  const [userTotal, setUserTotal] = useState<number>(0);
   const [convertedEntities, setConvertedEntities] = useState<any[]>([]);
   
   const {
@@ -35,11 +36,35 @@ export default function ManagementOrganization() {
   });
   
   const intl = useIntl();
+  const [userParams, setUserParams] = useState<object>({role: {_id: ''}});
   
   useEffect(() => {
     getAll(filterProps);
-  }, [paginationProps, filterProps]);
+  }, []);
   
+  useEffect(() => {
+    UserService.GetAll({queryProps: userParams, paginationProps: paginationProps, })
+      .then((res : AxiosResponse<{data: UserModel[]; paging: {page: number, limit: number, total: number}}>) => {
+        setUserEntities(res.data.data);
+        setUserTotal(res.data.paging.total);
+      })
+  }, [paginationProps, userParams]);
+  
+  const fetchUsersByRole = (entity: ManagementOrganizationModel | RoleModel) => {
+    const getQueryParams = (entity: any): object => {
+      if(entity.children) {
+        const roleIds = entity.children.map((entity: any) => {
+          return entity._id;
+        });
+        return {role: { _id: roleIds}};
+        // return { managementUnit: { _id: entity._id}};
+      }
+      return {role: { _id: entity._id}};
+    }
+    
+    setPaginationProps(DefaultPagination);
+    setUserParams(getQueryParams(entity));
+  }
   
   useEffect(() => {
     if (entities?.length > 0) {
@@ -65,7 +90,7 @@ export default function ManagementOrganization() {
       {
         dataField: '',
         text: `${intl.formatMessage({id: 'ORDINAL'})}`,
-        ...SortColumn,
+        // ...SortColumn,
         align: 'center',
         formatter: (cell: any, row: any, rowIndex: number) => (<>{rowIndex + 1}</>),
       },
@@ -102,7 +127,7 @@ export default function ManagementOrganization() {
       data: userEntities,
       prop: {
         columns: columns,
-        total: userEntities.length,
+        total: userTotal,
         loading: false,
         paginationParams: paginationProps,
         setPaginationParams: setPaginationProps,
@@ -114,25 +139,11 @@ export default function ManagementOrganization() {
   
   return (
     <>
-      <MultiLevelSaleBody
-        title='EMPTY'
-        body={TreeBody}
-        onFetchEntities={(entity: any) => {
-          const getQueryParams = (entity: any): object => {
-            if (entity.children && entity.children.length) {
-              const roleIds = entity.children.map((entity: any) => {
-                return entity._id;
-              });
-              return {role: roleIds};
-            }
-            return {role: entity._id};
-          }
-          UserService.GetAll({queryProps: getQueryParams(entity), paginationProps: DefaultPagination,})
-            .then((res: AxiosResponse<{ data: UserModel[]; paging: any }>) => {
-              setUserEntities(res.data.data);
-            })
-        }}
-      />
+          <MultiLevelSaleBody
+            title='MANAGEMENT_ORGANIZATION.MODULE_NAME'
+            body={TreeBody}
+            onFetchEntities={fetchUsersByRole}
+          />
     </>
   )
 }

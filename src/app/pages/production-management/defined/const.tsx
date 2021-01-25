@@ -7,14 +7,13 @@ import {
   DisplayCelcius,
   DisplayCoordinates,
   DisplayDateTime,
-  DisplayDateTimeV2,
+  DisplayDiffTime,
   DisplayImage,
   DisplayInnerLink,
   DisplayPercent,
   DisplayPersonNameByArray,
   DisplayTable
 } from '../../../common-library/helpers/detail-helpers';
-import {ProductData} from '../production-management.model';
 
 const seedingCode: RenderInfoDetailColumn = {
   'seeding.code': {
@@ -64,9 +63,8 @@ export const harvestingDetail: RenderInfoDetail = [
     data: {
       ...seedingCode,
       'harvesting.time': {
-        keyField: 'harvesting', title: 'PRODUCTION_PLAN.HARVEST_DATE', formatter: (e) => {
-          return (<>{DisplayDateTime(e.startTime)} {e.endTime && (<> - {DisplayDateTime(e.endTime)}</>)}</>);
-        }
+        keyField: 'harvesting', title: 'PRODUCTION_PLAN.HARVEST_DATE',
+        formatter: (e) => (<DisplayDiffTime startTime={e?.startTime} endTime={e?.endTime}/>)
       },
       // 'planting.estimatedHarvestTime': { title: 'PRODUCTION_PLAN.HARVEST_DATE' },
       ...plantingCode,
@@ -137,7 +135,7 @@ export const harvestingDetail: RenderInfoDetail = [
             title: 'IMAGE_INFO',
             component: Display3Info
           }
-          return DisplayImage(image, renderInfo, 'isMaster')
+          return DisplayImage(image, renderInfo, ['isMaster', true])
         }
       },
     },
@@ -157,9 +155,8 @@ export const PreliminaryTreatmentDetail: RenderInfoDetail = [
       'seeding.species.barcode': { title: 'GTIN' },
       ...harvestingCode,
       'preliminaryTreatment.time': {
-        keyField: 'preliminaryTreatment', title: 'PRELIMINARY_TREATMENT_TIME', formatter: (e) => {
-          return (<>{DisplayDateTimeV2(e.startTime)} {e.endTime && (<> - {DisplayDateTimeV2(e.endTime)}</>)}</>);
-        }
+        keyField: 'preliminaryTreatment', title: 'PRELIMINARY_TREATMENT_TIME',
+        formatter: (e) => (<DisplayDiffTime startTime={e?.startTime} endTime={e?.endTime}/>)
       },
       'preliminaryTreatment.code': { title: 'PRODUCTION_PLAN.PreliminaryTreatment_CODE' },
       'preliminaryTreatment.address': {
@@ -175,7 +172,7 @@ export const PreliminaryTreatmentDetail: RenderInfoDetail = [
     header: 'ADMIN_INFO',
     className: 'col-12',
     titleClassName: 'col-md-2 col-4 mb-10',
-    dataClassName: 'col-md-4 col-8 mb-10 pl-5',
+    dataClassName: 'col-md-10 col-8 mb-10 pl-5',
     data: {
       'preliminaryTreatment.[leader]': {title: 'PRELIMINARY_TREATMENT_LEADER', formatter: DisplayPersonNameByArray,},
       'preliminaryTreatment.[worker]': {title: 'PRELIMINARY_TREATMENT_WORKER', formatter: DisplayPersonNameByArray,},
@@ -213,7 +210,7 @@ export const PreliminaryTreatmentDetail: RenderInfoDetail = [
             title: 'IMAGE_INFO',
             component: Display3Info,
           }
-          return DisplayImage(image, renderInfo, 'isMaster')
+          return DisplayImage(image, renderInfo, ['isMaster', true])
         }
       },
     },
@@ -233,9 +230,8 @@ export const CleaningDetail: RenderInfoDetail = [
       'seeding.species.barcode': { title: 'GTIN' },
       ...harvestingCode,
       'cleaning.time': {
-        keyField: 'cleaning', title: 'CLEANING_TIME', formatter: (e) => {
-          return (<>{DisplayDateTimeV2(e.startTime)} {e.endTime && (<> - {DisplayDateTimeV2(e.endTime)}</>)}</>);
-        }
+        keyField: 'cleaning', title: 'CLEANING_TIME',
+        formatter: (e) => (<DisplayDiffTime startTime={e?.startTime} endTime={e?.endTime}/>)
       },
       ...preliminaryTreatmentCode,
       'cleaning.address': {
@@ -251,7 +247,7 @@ export const CleaningDetail: RenderInfoDetail = [
     header: 'ADMIN_INFO',
     className: 'col-12',
     titleClassName: 'col-md-2 col-4 mb-10',
-    dataClassName: 'col-md-4 col-8 mb-10 pl-5',
+    dataClassName: 'col-md-10 col-8 mb-10 pl-5',
     data: {
       'cleaning.[leader]': {title: 'CLEANING_LEADER', formatter: DisplayPersonNameByArray,},
       'cleaning.[worker]': {title: 'CLEANING_WORKER', formatter: DisplayPersonNameByArray,},
@@ -288,7 +284,7 @@ export const CleaningDetail: RenderInfoDetail = [
             title: 'IMAGE_INFO',
             component: Display3Info
           }
-          return DisplayImage(image, renderInfo, 'isMaster')
+          return DisplayImage(image, renderInfo, ['isMaster', true])
         }
       },
     },
@@ -308,9 +304,8 @@ export const PackingDetail: RenderInfoDetail = [
       'seeding.species.barcode': { title: 'GTIN' },
       ...harvestingCode,
       'packing.time': {
-        keyField: 'packing', title: 'PACKING_TIME', formatter: (e) => {
-          return (<>{DisplayDateTimeV2(e.startTime)} {e.endTime && (<> - {DisplayDateTimeV2(e.endTime)}</>)}</>);
-        }
+        keyField: 'packing', title: 'PACKING_TIME',
+        formatter: (e) => (<DisplayDiffTime startTime={e?.startTime} endTime={e?.endTime}/>)
       },
       ...preliminaryTreatmentCode,
       // 'planting.farmLocation.[coordinates]': {title: 'PACKING_LOCATION', formatter: DisplayCoordinates,},
@@ -321,14 +316,20 @@ export const PackingDetail: RenderInfoDetail = [
       ...cleaningCode,
       'packing.packing.weight': {title: 'PRODUCT_PACKAGING.MODULE_NAME'},
       'packing.code': {title: 'PRODUCTION_PLAN.PACKING.CODE'},
-      'packing.quantity': {title: 'PACKING_REAL_QUANTITY'},
+      'packing.products': { 
+        title: 'PACKING_REAL_QUANTITY', 
+        formatter: (input) => {
+          const quantity = input.filter((item: any) => item.isActive === true)
+          return <>{quantity.length}</>
+        }
+      },
     },
   },
   {
     header: 'ADMIN_INFO',
     className: 'col-12',
     titleClassName: 'col-md-2 col-4 mb-10',
-    dataClassName: 'col-md-4 col-8 mb-10 pl-5',
+    dataClassName: 'col-md-10 col-8 mb-10 pl-5',
     data: {
       'packing.[leader]': {title: 'PACKING_LEADER', formatter: DisplayPersonNameByArray,},
       'packing.[worker]': {title: 'PERSON_ASSIGN_QR', formatter: DisplayPersonNameByArray,},
@@ -364,13 +365,9 @@ export const PackingDetail: RenderInfoDetail = [
               ...SortColumn,
             },
             {
-              dataField: 'createdAt',
+              dataField: 'scanAt',
               text: `Ngày gán mã QR`,
-              formatter: (cell: any, row: any, rowIndex: number) => (
-                <span>
-                  {DisplayDateTimeV2(row.createdAt)}
-                </span>
-              ),
+              formatter: (input) => (<DisplayDateTime input={input}/>),
               ...SortColumn,
             },
             {
@@ -383,11 +380,7 @@ export const PackingDetail: RenderInfoDetail = [
             {
               dataField: 'activeAt',
               text: `Ngày kích hoạt`,
-              formatter: (cell: any, row: any, rowIndex: number) => (
-                <span>
-                  {DisplayDateTimeV2(row.activeAt)}
-                </span>
-              ),
+              formatter: (input) => (<DisplayDateTime input={input}/>),
               ...SortColumn,
             },
             {
@@ -407,7 +400,8 @@ export const PackingDetail: RenderInfoDetail = [
               dataField: 'expiry',
               text: `Hạn sử dụng`,
               formatter: (cell: any, row: any, rowIndex: number) => {
-                return <span>{JSON.stringify(row.assignDate)}</span>
+                console.log(row)
+                return <span>{row.species ? <>{`${row.species.expiryDays} ngày`}</> : <>Không có thông tin</>}</span>
               },
             },
           ]
@@ -462,9 +456,9 @@ export const PreservationDetail: RenderInfoDetail = [
       //   formatter: input => DisplayDateTimeV2(input),
       // },
       'preservation.time': {
-        keyField: 'preservation', title: 'PRESERVATION_TIME', formatter: (e) => {
-          return (<>{DisplayDateTimeV2(e.estimatedStartTime && e.estimatedStartTime)} {e.estimatedEndTime && (<> - {DisplayDateTimeV2(e.estimatedEndTime)}</>)}</>);
-        }
+        keyField: 'preservation', title: 'PRESERVATION_TIME',
+        formatter: (e) => (
+          <DisplayDiffTime startTime={e?.estimatedExpireTimeStart} endTime={e?.estimatedExpireTimeEnd}/>)
       },
       ...preliminaryTreatmentCode,
       // 'preservation.estimatedEndTime': {
@@ -487,7 +481,7 @@ export const PreservationDetail: RenderInfoDetail = [
     header: 'ADMIN_INFO',
     className: 'col-12',
     titleClassName: 'col-md-2 col-4 mb-10',
-    dataClassName: 'col-md-4 col-8 mb-10 pl-5',
+    dataClassName: 'col-md-10 col-8 mb-10 pl-5',
     data: {
       'preservation.[worker]': {title: 'PRESERVATION_WORKER', formatter: DisplayPersonNameByArray,},
       'preservation.[technical]': {title: 'ROLE.TECHNICIAN', formatter: DisplayPersonNameByArray,},
