@@ -980,7 +980,7 @@ export const masterEntityDetailDialog2: RenderInfoDetail = [
     dataClassName: 'col-md-4 col-8 mb-10 pl-5',
     data: {
       'preliminaryTreatment.estimatedTime': {
-        title: 'SEEDING.SEEDING_TIME',
+        title: 'PRODUCTION_PLAN_FORM_PRELIMINARY_TREATMENT_TIME',
         formatter: input => <DisplayDateTime input={input} />,
       },
       'preliminaryTreatment.[technical]': {
@@ -1004,7 +1004,7 @@ export const masterEntityDetailDialog2: RenderInfoDetail = [
     dataClassName: 'col-md-4 col-8 mb-10 pl-5',
     data: {
       'cleaning.estimatedTime': {
-        title: 'SEEDING.SEEDING_TIME',
+        title: 'PRODUCTION_PLAN_CLEANING_TIME',
         formatter: input => <DisplayDateTime input={input} />,
       },
       'cleaning.[technical]': {

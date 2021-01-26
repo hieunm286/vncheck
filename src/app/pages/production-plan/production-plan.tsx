@@ -1352,7 +1352,7 @@ function ProductionPlan() {
           estimatedTime: {
             _type: 'date-time',
             // placeholder: 'Mã gieo giống',
-            label: 'PRELIMINARY_TREATMENT_TIME',
+            label: 'PRODUCTION_PLAN_FORM_PRELIMINARY_TREATMENT_TIME',
             showTime: true,
             format: 'DD/MM/yyyy HH:mm',
             disabled: (values: any) => {
@@ -1476,7 +1476,7 @@ function ProductionPlan() {
             // placeholder: 'Mã gieo giống',
             showTime: true,
             format: 'DD/MM/yyyy HH:mm',
-            label: 'CLEANING_TIME',
+            label: 'PRODUCTION_PLAN_CLEANING_TIME',
             disabled: (values: any) => {
               return CheckDisabled(values?.cleaning, values?.process, cleaningProcess);
             },
@@ -1497,7 +1497,7 @@ function ProductionPlan() {
           _inputClassName: 'col-4 custom-input-label mb-5 p-0',
           title: {
             _type: 'string',
-            label: 'CLEANING_QUANTITY',
+            label: 'PRODUCTION_PLAN_CLEANING_QUANTITY',
             labelWidth: 12
           },
           cleaning: {
