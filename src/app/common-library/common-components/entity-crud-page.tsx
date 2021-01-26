@@ -40,10 +40,12 @@ function EntityCrudPage({
   const intl = useIntl();
   const history = useHistory();
   const initValues = useMemo(() => InitValues(formModel), [formModel]);
+  
   const [entityForEdit, setEntityForEdit] = useState(entity);
   useEffect(()=>{
     entity && setEntityForEdit(entity);
   }, [entity])
+
   useEffect(() => {
     if (!code && !entity) setEntityForEdit(initValues);
   }, [initValues, code]);

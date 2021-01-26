@@ -2,26 +2,38 @@ import {SignMessage} from '../app/pages/auth/service/auth-cryptography';
 import {actionTypes} from '../app/pages/auth/_redux/auth-redux';
 import {AxiosStatic} from 'axios';
 import {EnhancedStore} from '@reduxjs/toolkit';
+import MomentTimeZone from 'moment-timezone'
 
 const qs = require('qs');
 const GetURLEndPoint = (url: string) => {
   const index = url.indexOf('/api/');
   const lastIndex = url.lastIndexOf('/');
+
+  const arr: any[] = []
+
+  for (let i = 0; i < url.length; i++) {
+    if (url[i] === '/') {
+      arr.push(i)
+    }
+  }
   
   if (index === -1 && lastIndex === -1) return url;
   
   let endPoint: string = '';
   
-  if (lastIndex - index === 4) {
-    endPoint = url.substring(lastIndex + 1);
-  } else {
-    endPoint = url.substring(index + 5, lastIndex);
-  }
+  // if (lastIndex - index === 4) {
+  //   endPoint = url.substring(lastIndex + 1);
+  // } else {
+  //   endPoint = url.substring(index + 5, lastIndex);
+  // }
+
+  endPoint = url.substring(arr[3] + 1, arr[4])
+
   
   const re = /-/gi;
-  let finalEndPoint = endPoint.replace(re, '_');
+  let finalEndPoint = endPoint.replace(re, '-');
   
-  return finalEndPoint;
+  return endPoint;
 };
 
 export default function setupAxios(axios: AxiosStatic, store: EnhancedStore) {
@@ -49,8 +61,9 @@ export default function setupAxios(axios: AxiosStatic, store: EnhancedStore) {
               // const or: any = {...config.data};
               config.data = {
                 ...config.data,
-                // actionType: ('' + config.method + ':' + GetURLEndPoint(config.url ? config.url : '')).toUpperCase(),
-                actionType: config.method,
+                _actionType: ('' + config.method + '_' + GetURLEndPoint(config.url ? config.url : '')).toUpperCase(),
+                // actionType: config.method,
+                _timestamp: new Date(),
                 _signature: signature,
               };
             }

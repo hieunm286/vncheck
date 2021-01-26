@@ -302,6 +302,10 @@ function ProductionPlanCrud({
 
               updateValue = { _id: values._id, ...diffValue };
 
+              if (values.unit && !updateValue.unit) {
+                updateValue.unit = values.unit
+              }
+
               console.log(entityForEdit);
               console.log(values);
               console.log(updateValue);

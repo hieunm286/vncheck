@@ -63,7 +63,8 @@ export const DetailImage = ({
             <CloseOutlined/>
           </span>}
       </div>) : (<></>)
-  }, [pathField, width, height, onImageRemove]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [className, height, pathField, width]);
   
   const _images = useMemo(() => _.isArray(images) ? images : [images], [images]);
   
