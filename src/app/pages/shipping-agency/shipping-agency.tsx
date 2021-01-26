@@ -26,6 +26,8 @@ import {MasterEntityDetailDialog} from "../../common-library/common-components/m
 import {GetCity, GetDistrict, GetState} from "../address/address.service";
 import * as RoleService from "../role/role.service";
 import * as Yup from "yup";
+import * as ManagementUnitService from '../management-organization/management-organization.service';
+
 import {Spinner} from "react-bootstrap";
 
 const headerTitle = 'PRODUCT_TYPE.MASTER.HEADER.TITLE';
@@ -203,18 +205,56 @@ function ShippingAgency() {
       label: 'SHIPPING_AGENCY.MASTER.SEARCH.PHONE',
     },
   };
+
+  const [initOwner, setInitOwner] = useState({})
   const [state, setState] = useState<string | null | undefined>(null);
   const [city, setCity] = useState<string | null | undefined>(null);
+  const [ownerState, setOwnerState] = useState<string | null | undefined>(null);
+  const [ownerCity, setOwnerCity] = useState<string | null | undefined>(null);
+  const [managementUnit, setManagementUnit] = useState<any>(null);
+
   useEffect(() => {
     setState(editEntity?.address?.state);
     setCity(editEntity?.address?.city);
   }, [editEntity]);
+
+  useEffect(() => {
+    const owner: any = {}
+    ManagementUnitService.getAll({ queryProps: { ...filterProps }, paginationProps: {...paginationProps, limit: 100} }).then(res => {
+      const index = res.data.data.findIndex(value => value.name === 'Phòng giám đốc')
+      if (index !== -1) {
+        owner.managementUnit = res.data.data[index]
+        RoleService.GetAll({
+          queryProps: { ...filterProps, managementUnit: { ...owner.managementUnit } },
+          paginationProps,
+        }).then(ress => {
+          owner.role = ress.data.data[0]
+          setInitOwner(owner)
+        });
+      }
+    })
+  }, [])
+
   const getCity = useCallback(({queryProps, paginationProps}: any): Promise<any> => {
     return GetCity({queryProps: {...queryProps, state}, paginationProps})
   }, [state]);
   const getDistrict = useCallback(({queryProps, paginationProps}: any): Promise<any> => {
     return GetDistrict({queryProps: {...queryProps, city}, paginationProps})
   }, [city]);
+  const getOwnerCity = useCallback(
+    ({ queryProps, paginationProps }: any): Promise<any> => {
+      console.log(ownerState);
+      return GetCity({ queryProps: { ...queryProps, state: ownerState }, paginationProps });
+    },
+    [ownerState],
+  );
+  const getOwnerDistrict = useCallback(
+    ({ queryProps, paginationProps }: any): Promise<any> => {
+      return GetDistrict({ queryProps: { ...queryProps, city: ownerCity }, paginationProps });
+    },
+    [ownerCity],
+  );
+  
   const group1 = useMemo((): ModifyInputGroup => ({
     _subTitle: 'THÔNG TIN CHUNG',
     _className: 'col-6 pr-xl-15 pr-md-10 pr-5',
@@ -341,15 +381,85 @@ function ShippingAgency() {
         required: true,
         label: 'SHIPPING_AGENCY.MODIFY.DATE_OF_BIRTH',
       },
+      address: {
+        _type: 'object',
+        state: {
+          _type: 'search-select',
+          onSearch: GetState,
+          disabled: (values: any) => {
+            console.log(values);
+          },
+          onChange: (value: any, { setFieldValue, setFieldTouched }: any) => {
+            if (ownerState != value) {
+              setOwnerCity(null);
+              setFieldValue('owner.address.city', '');
+              setFieldTouched('owner.address.city', false);
+              setFieldValue('owner.address.district', '');
+              setFieldTouched('owner.address.district', false);
+            }
+            setOwnerState(value);
+          },
+          required: true,
+          label: 'AGENCY.MODIFY.STATE',
+        },
+        city: {
+          _type: 'search-select',
+          onSearch: getOwnerCity,
+          // selectField: 'code',
+          required: true,
+          onChange: (value: any, { setFieldValue, setFieldTouched }: any) => {
+            if (ownerCity != value) {
+              setFieldValue('owner.address.district', '');
+              setFieldTouched('owner.address.district', false);
+            }
+            setOwnerCity(value);
+          },
+          disabled: (values: any) => {
+            return values?.owner?.address?.state === '';
+          },
+          label: 'AGENCY.MODIFY.CITY',
+        },
+        district: {
+          _type: 'search-select',
+          onSearch: getOwnerDistrict,
+          // selectField: 'code',
+          required: true,
+          disabled: (values: any) => {
+            return values?.owner?.address?.city === '';
+          },
+          label: 'AGENCY.MODIFY.DISTRICT',
+        },
+        address: {
+          _type: 'string',
+          required: true,
+          label: 'AGENCY.MODIFY.ADDRESS',
+        },
+      },
+      managementUnit: {
+        _type: 'search-select',
+        label: 'USER.MODIFY.MANAGEMENT_UNIT',
+        keyField: 'name',
+        required: true,
+        onSearch: ManagementUnitService.getAll,
+        onChange: (value: any, { setFieldValue }: any) => {
+          if (managementUnit != value) {
+            setFieldValue('role', null);
+          }
+          setManagementUnit(value);
+        },
+        disabled: true
+      },
       role: {
         _type: 'search-select',
-        required: true,
-        label: 'SHIPPING_AGENCY.MODIFY.ROLE',
+        label: 'USER.MODIFY.ROLE',
         keyField: 'name',
-        // onSearch: ({queryProps, paginationProps}: any): Promise<any> => {
-        //   return GetRole({queryProps, paginationProps}, (t: any) => intl.formatMessage({id: t}))
-        // },
-        onSearch: RoleService.GetAll,
+        onSearch: ({ queryProps, paginationProps }: any, values: any): Promise<any> => {
+          return RoleService.GetAll({
+            queryProps: { ...queryProps, managementUnit: { ...values?.managementUnit } },
+            paginationProps,
+          });
+        },
+        disabled: true,
       },
       image: {
         _type: 'image',
@@ -407,7 +517,12 @@ function ShippingAgency() {
       }
     }
   }), [loading]);
-  const initCreateValues = useMemo(() => ({...InitValues(createForm), status: '0'}), [createForm]);
+  
+  const initCreateValues = useMemo(() => ({ ...InitValues(createForm), status: '0', owner: {...initOwner}}), [
+    createForm,
+    initOwner
+  ]);
+  
   return (
     <Fragment>
       <Switch>

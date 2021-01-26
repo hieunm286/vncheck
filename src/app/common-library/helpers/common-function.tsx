@@ -322,13 +322,13 @@ export const ToDataURL = (url: string) =>
         }),
     );
 export const ConvertStatusToBoolean = (data: any) => {
-  return data.status && typeof data.status === 'string' ? {...data, status: data.status === "1" ? true : false} : data;
+  return data.status && typeof data.status === 'string' ? {...data, status: data.status === "1" ? 'true' : 'false'} : data;
 }
 
 export const ConvertStatusToString = (data: any) => {
   return (typeof data.status === 'boolean' || typeof data.status === 'string') ? {
     ...data,
-    status: (data.status || data.status == "true") ? "1" : "0"
+    status: (data.status === true || data.status === "true") ? "1" : "0"
   } : data;
 }
 

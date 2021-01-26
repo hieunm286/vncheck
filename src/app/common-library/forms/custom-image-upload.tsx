@@ -165,4 +165,4 @@ const getImageMetaList = (file: any, key: string): Promise<any[]> => {
 }
 
 
-export default CustomImageUpload;
+export default React.memo(CustomImageUpload);
