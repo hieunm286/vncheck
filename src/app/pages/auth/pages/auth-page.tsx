@@ -1,4 +1,4 @@
-import React, {useLayoutEffect, useState} from 'react';
+import React, {useLayoutEffect, useMemo, useState} from 'react';
 import {Link, Switch} from 'react-router-dom';
 import LoginUsername from './login-username';
 import ForgotPassword from './forgot-password';
@@ -29,9 +29,58 @@ export function useWindowSize() {
 }
 
 export function AuthPage() {
-  const [width,height] = useWindowSize();
+  const [width, height] = useWindowSize();
   const {search} = window.location;
   let callbackUrl = new URLSearchParams(search).get('callbackUrl');
+  const t = useMemo(() => ({
+    "particles": {
+      "number": {"value": 19, "density": {"enable": true, "value_area": 800}},
+      "color": {"value": "#000000"},
+      "shape": {
+        "type": "circle",
+        "stroke": {"width": 0, "color": "#000000"},
+        "polygon": {"nb_sides": 5},
+        "image": {"src": "img/github.svg", "width": 100, "height": 100}
+      },
+      "opacity": {
+        "value": 0.5,
+        "random": false,
+        "anim": {"enable": false, "speed": 1, "opacity_min": 0.1, "sync": false}
+      },
+      "size": {
+        "value": 3,
+        "random": true,
+        "anim": {"enable": false, "speed": 21.926084732136317, "size_min": 0.1, "sync": false}
+      },
+      "line_linked": {"enable": true, "distance": 150, "color": "#000000", "opacity": 0.4, "width": 0},
+      "move": {
+        "enable": true,
+        "speed": 6.413648243462092,
+        "direction": "none",
+        "random": true,
+        "straight": false,
+        "out_mode": "bounce",
+        "bounce": false,
+        "attract": {"enable": false, "rotateX": 600, "rotateY": 1200}
+      }
+    },
+    "interactivity": {
+      "detect_on": "canvas",
+      "events": {
+        "onhover": {"enable": true, "mode": "repulse"},
+        "onclick": {"enable": true, "mode": "push"},
+        "resize": true
+      },
+      "modes": {
+        "grab": {"distance": 400, "line_linked": {"opacity": 1}},
+        "bubble": {"distance": 400, "size": 40, "duration": 2, "opacity": 8, "speed": 3},
+        "repulse": {"distance": 200, "duration": 0.4},
+        "push": {"particles_nb": 4},
+        "remove": {"particles_nb": 2}
+      }
+    },
+    "retina_detect": true
+  }), [window.innerWidth]);
   
   const style = {
     customBg: {
@@ -114,31 +163,10 @@ export function AuthPage() {
             style={style.linearContent}>
             {/*begin::Content header*/}
             <Particles
-              style={{position:'absolute', zIndex:0}}
-              width={window.innerWidth+'px'}
-              height={height+'px'}
-              params={{
-                fpsLimit: 30,
-                particles: {
-                  number: {
-                    value: window.innerWidth < 600 ? 8 : 40,
-                  },
-                  size: {
-                    value: 2,
-                  },
-                  color: {
-                    "value": "black"
-                  },
-                },
-                interactivity: {
-                  events: {
-                    onhover: {
-                      enable: true,
-                      mode: 'repulse',
-                    },
-                  },
-                },
-              }}
+              style={{position: 'absolute', zIndex: 0}}
+              width={window.innerWidth + 'px'}
+              height={height + 'px'}
+              params={t as any}
             />
             <div
               className="position-absolute top-0 right-0 text-right mt-5 mb-15 mb-lg-0 flex-column-auto justify-content-center py-5 px-10">
@@ -154,12 +182,11 @@ export function AuthPage() {
             {/* begin::Content body */}
             <div
               className="d-flex flex-column-fluid justify-content-center align-items-center flex-column mt-30 mt-lg-0 input-section">
-              <div className="d-flex justify-content-center align-items-center flex-column mb-10">
+              <div className="d-flex justify-content-center align-items-center flex-column mb-10" style={{zIndex: 1}}>
                 <img src={ToAbsoluteUrl('/media/logos/vncheck-company-logo.svg')} alt="logo" width="100"/>
                 <h6 className="text-center mt-5">
                   VNCheck - Giải pháp Blockchain truy xuất nguồn gốc nông sản
                 </h6>
-                
               </div>
               <Switch>
                 <ContentRoute

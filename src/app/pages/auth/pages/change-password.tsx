@@ -200,7 +200,7 @@ function ChangePassword(props: {
   });
   return (
     <>
-      <div className="login-form login-signin" style={{display: 'block'}}>
+      <div className="login-form login-signin" style={{display: 'block',zIndex: 1}}>
         <div className="text-center mb-10 mb-lg-10">
           <h3 className="font-size-h1">
             <FormattedMessage id="AUTH.CHANGEPASSWORD.TITLE"/>

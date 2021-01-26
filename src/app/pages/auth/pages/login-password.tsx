@@ -214,7 +214,7 @@ const LoginPassword = (props: {
     <div
       className="login-form login-signin p-5"
       id="kt_login_signin_form"
-      //   style={{
+      style={{zIndex: 1}}  //   style={{
       //     background: `linear-gradient(to right, rgba(21.96%, 17.25%, 21.96%, 0.55) 150px, rgba(27.06%, 25.88%, 27.06%, 0.41) 100%)`,
       //     borderRadius: 10,
       //   }}

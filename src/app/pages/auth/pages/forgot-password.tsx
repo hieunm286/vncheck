@@ -59,7 +59,7 @@ function ForgotPassword(props: { intl: any }) {
     <>
       {isRequested && <Redirect to="/auth"/>}
       {!isRequested && (
-        <div className="login-form login-forgot" style={{display: 'block'}}>
+        <div className="login-form login-forgot" style={{display: 'block', zIndex: 1}}>
           <div className="text-center mb-10 mb-lg-20">
             <h3 className="font-size-h1">Forgotten Password ?</h3>
             <div className="text-muted font-weight-bold">
@@ -101,7 +101,7 @@ function ForgotPassword(props: { intl: any }) {
                 </div>
               ) : null}
             </div>
-            <div className="form-group d-flex flex-wrap flex-center">
+            <div className="form-group d-flex flex-wrap flex-center" style={{zIndex: 1}}>
               <button
                 id="kt_login_forgot_submit"
                 type="submit"
