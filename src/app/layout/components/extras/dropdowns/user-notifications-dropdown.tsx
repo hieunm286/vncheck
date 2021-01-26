@@ -1,14 +1,15 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-script-url,jsx-a11y/anchor-is-valid */
-import React, {useMemo, useState} from 'react';
-import {Dropdown, Nav, OverlayTrigger, Tab, Tooltip} from 'react-bootstrap';
+import React, { useMemo, useState } from 'react';
+import { Dropdown, Nav, OverlayTrigger, Tab, Tooltip } from 'react-bootstrap';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import SVG from 'react-inlinesvg';
 import objectPath from 'object-path';
-import {DropdownTopbarItemToggler} from '../../../../../_metronic/_partials/dropdowns';
-import {ToAbsoluteUrl} from '../../../../common-library/helpers/assets-helpers';
-import {useHtmlClassService} from '../../../_core/metronic-layout';
+import { DropdownTopbarItemToggler } from '../../../../../_metronic/_partials/dropdowns';
+import { ToAbsoluteUrl } from '../../../../common-library/helpers/assets-helpers';
+import { useHtmlClassService } from '../../../_core/metronic-layout';
 import NotificationsIcon from '@material-ui/icons/Notifications';
+import { NotificationNavItem } from './user-notification-data';
 
 const perfectScrollbarOptions = {
   wheelSpeed: 2,
@@ -16,16 +17,16 @@ const perfectScrollbarOptions = {
 };
 
 export function UserNotificationsDropdown() {
-  const [key, setKey] = useState('Alerts');
-  const bgImage = ToAbsoluteUrl('/media/misc/bg-1.jpg');
-  
+  const [key, setKey] = useState('Events');
+  const bgImage = ToAbsoluteUrl('/media/authImage/vegetable2.jpg');
+
   const uiService: any = useHtmlClassService();
   const layoutProps = useMemo(() => {
     return {
       offcanvas: objectPath.get(uiService.config, 'extras.notifications.layout') === 'offcanvas',
     };
   }, [uiService]);
-  
+
   return (
     <>
       {layoutProps.offcanvas && (
@@ -34,9 +35,9 @@ export function UserNotificationsDropdown() {
             className="btn btn-icon btn-clean btn-lg mr-1 pulse pulse-danger"
             id="kt_quick_notifications_toggle">
             <span className="svg-icon svg-icon-xl svg-icon-danger">
-              <SVG src={ToAbsoluteUrl('/media/svg/icons/Code/Compiling.svg')}/>
+              <SVG src={ToAbsoluteUrl('/media/svg/icons/Code/Compiling.svg')} />
             </span>
-            <span className="pulse-ring"/>
+            <span className="pulse-ring" />
           </div>
         </div>
       )}
@@ -45,371 +46,83 @@ export function UserNotificationsDropdown() {
           <Dropdown.Toggle as={DropdownTopbarItemToggler} id="kt_quick_notifications_toggle">
             <OverlayTrigger
               placement="bottom"
-              overlay={<Tooltip id="user-notification-tooltip">User Notifications</Tooltip>}>
+              overlay={<Tooltip id="user-notification-tooltip">Thông báo</Tooltip>}>
               <div
                 className="btn btn-icon btn-clean btn-lg mr-1 pulse pulse-danger"
                 id="kt_quick_notifications_toggle">
                 <span className="svg-icon svg-icon-xl svg-icon-danger">
-                  <NotificationsIcon htmlColor={'#0B9446'}/>
+                  <NotificationsIcon htmlColor={'#0B9446'} />
                 </span>
-                <span className="pulse-ring"/>
-                <span className="pulse-ring"/>
+                <span className="pulse-ring" />
+                <span className="pulse-ring" />
               </div>
             </OverlayTrigger>
           </Dropdown.Toggle>
-          
+
           <Dropdown.Menu className="dropdown-menu p-0 m-0 dropdown-menu-right dropdown-menu-anim-up dropdown-menu-lg">
             <form>
               {/** Head */}
               <div
                 className="d-flex flex-column pt-12 bgi-size-cover bgi-no-repeat rounded-top"
-                style={{backgroundImage: `url(${bgImage})`}}>
+                style={{ backgroundImage: `url(${bgImage})`, backgroundSize: 'cover' }}>
                 <h4 className="d-flex flex-center rounded-top">
-                  <span className="text-white">User Notifications</span>
+                  <span className="text-white">Thông báo</span>
                   <span className="btn btn-text btn-success btn-sm font-weight-bold btn-font-md ml-2">
-                    23 new
+                    23 thông báo mới
                   </span>
                 </h4>
-                
+
                 <Tab.Container defaultActiveKey={key}>
                   <Nav
                     as="ul"
                     className="nav nav-bold nav-tabs nav-tabs-line nav-tabs-line-3x nav-tabs-line-transparent-white nav-tabs-line-active-border-success mt-3 px-8"
                     onSelect={_key => setKey(_key ?? '')}>
-                    <Nav.Item className="nav-item" as="li">
-                      <Nav.Link
-                        eventKey="Alerts"
-                        className={`nav-link show ${key === 'Alerts' ? 'active' : ''}`}>
-                        Alerts
-                      </Nav.Link>
-                    </Nav.Item>
-                    <Nav.Item as="li">
-                      <Nav.Link
-                        eventKey="Events"
-                        className={`nav-link show ${key === 'Events' ? 'active' : ''}`}>
-                        Events
-                      </Nav.Link>
-                    </Nav.Item>
-                    <Nav.Item as="li">
-                      <Nav.Link
-                        eventKey="Logs"
-                        className={`nav-link show ${key === 'Logs' ? 'active' : ''}`}>
-                        Logs
-                      </Nav.Link>
-                    </Nav.Item>
+                    {NotificationNavItem.map((navItem, index) => {
+                      return (
+                        <Nav.Item className={navItem._navClassName ?? ''} as="li">
+                          <Nav.Link
+                            eventKey={navItem.eventKey}
+                            className={
+                              navItem.className + `${key === navItem.eventKey ? ' active' : ''}`
+                            }>
+                            {navItem.label}
+                          </Nav.Link>
+                        </Nav.Item>
+                      );
+                    })}
                   </Nav>
-                  
+
                   <Tab.Content className="tab-content">
-                    <Tab.Pane eventKey="Alerts" className="p-8">
-                      <PerfectScrollbar
-                        options={perfectScrollbarOptions}
-                        className="scroll pr-7 mr-n7"
-                        style={{maxHeight: '300px', position: 'relative'}}>
-                        <div className="d-flex align-items-center mb-6">
-                          <div className="symbol symbol-40 symbol-light-danger mr-5">
-                            <span className="symbol-label">
-                              <SVG
-                                src={ToAbsoluteUrl('/media/svg/icons/Home/Library.svg')}
-                                className="svg-icon-lg svg-icon-danger"
-                              />
-                            </span>
-                          </div>
-                          <div className="d-flex flex-column font-weight-bold">
-                            <a href="#" className="text-dark text-hover-danger mb-1 font-size-lg">
-                              Briviba SaaS
-                            </a>
-                            <span className="text-muted">PHP, SQLite, Artisan CLIмм</span>
-                          </div>
-                        </div>
-                        <div className="d-flex align-items-center mb-6">
-                          <div className="symbol symbol-40 symbol-light-warning mr-5">
-                            <span className="symbol-label">
-                              <SVG
-                                src={ToAbsoluteUrl('/media/svg/icons/Communication/Write.svg')}
-                                className="svg-icon-lg svg-icon-warning"
-                              />
-                            </span>
-                          </div>
-                          <div className="d-flex flex-column font-weight-bold">
-                            <a
-                              href="#"
-                              className="text-dark-75 text-hover-danger mb-1 font-size-lg">
-                              Briviba SaaS
-                            </a>
-                            <span className="text-muted">PHP, SQLite, Artisan CLIмм</span>
-                          </div>
-                        </div>
-                        <div className="d-flex align-items-center mb-6">
-                          <div className="symbol symbol-40 symbol-light-success mr-5">
-                            <span className="symbol-label">
-                              <SVG
-                                src={ToAbsoluteUrl('/media/svg/icons/Communication/Group-chat.svg')}
-                                className="svg-icon-lg svg-icon-success"
-                              />
-                            </span>
-                          </div>
-                          <div className="d-flex flex-column font-weight-bold">
-                            <a href="#" className="text-dark text-hover-danger mb-1 font-size-lg">
-                              Briviba SaaS
-                            </a>
-                            <span className="text-muted">PHP, SQLite, Artisan CLIмм</span>
-                          </div>
-                        </div>
-                        <div className="d-flex align-items-center mb-6">
-                          <div className="symbol symbol-40 symbol-light-danger mr-5">
-                            <span className="symbol-label">
-                              <SVG
-                                src={ToAbsoluteUrl('/media/svg/icons/General/Attachment2.svg')}
-                                className="svg-icon-lg svg-icon-danger"
-                              />
-                            </span>
-                          </div>
-                          <div className="d-flex flex-column font-weight-bold">
-                            <a href="#" className="text-dark text-hover-danger mb-1 font-size-lg">
-                              Briviba SaaS
-                            </a>
-                            <span className="text-muted">PHP, SQLite, Artisan CLIмм</span>
-                          </div>
-                        </div>
-                        <div className="d-flex align-items-center mb-2">
-                          <div className="symbol symbol-40 symbol-light-info mr-5">
-                            <span className="symbol-label">
-                              <SVG
-                                src={ToAbsoluteUrl('/media/svg/icons/General/Attachment2.svg')}
-                                className="svg-icon-lg svg-icon-info"
-                              />
-                            </span>
-                          </div>
-                          <div className="d-flex flex-column font-weight-bold">
-                            <a href="#" className="text-dark text-hover-danger mb-1 font-size-lg">
-                              Briviba SaaS
-                            </a>
-                            <span className="text-muted">PHP, SQLite, Artisan CLIмм</span>
-                          </div>
-                        </div>
-                        <div className="d-flex align-items-center mb-2">
-                          <div className="symbol symbol-40 symbol-light-info mr-5">
-                            <span className="symbol-label">
-                              <SVG
-                                src={ToAbsoluteUrl(
-                                  '/media/svg/icons/Communication/Mail-notification.svg',
-                                )}
-                                className="svg-icon-lg svg-icon-info"
-                              />
-                            </span>
-                          </div>
-                          <div className="d-flex flex-column font-weight-bold">
-                            <a href="#" className="text-dark text-hover-danger mb-1 font-size-lg">
-                              Briviba SaaS
-                            </a>
-                            <span className="text-muted">PHP, SQLite, Artisan CLIмм</span>
-                          </div>
-                        </div>
-                        <div className="d-flex align-items-center mb-2">
-                          <div className="symbol symbol-40 symbol-light-info mr-5">
-                            <span className="symbol-label">
-                              <SVG
-                                src={ToAbsoluteUrl('/media/svg/icons/Design/Bucket.svg')}
-                                className="svg-icon-lg svg-icon-info"
-                              />
-                            </span>
-                          </div>
-                          <div className="d-flex flex-column font-weight-bold">
-                            <a href="#" className="text-dark text-hover-danger mb-1 font-size-lg">
-                              Briviba SaaS
-                            </a>
-                            <span className="text-muted">PHP, SQLite, Artisan CLIмм</span>
-                          </div>
-                        </div>
-                      </PerfectScrollbar>
-                    </Tab.Pane>
-                    <Tab.Pane eventKey="Events" id="topbar_notifications_events">
-                      <PerfectScrollbar
-                        options={perfectScrollbarOptions}
-                        className="navi navi-hover scroll my-4"
-                        style={{maxHeight: '300px', position: 'relative'}}>
-                        <a href="#" className="navi-item">
-                          <div className="navi-link">
-                            <div className="navi-icon mr-2">
-                              <i className="flaticon2-line-chart text-success"/>
-                            </div>
-                            <div className="navi-text">
-                              <div className="font-weight-bold">New report has been received</div>
-                              <div className="text-muted">23 hrs ago</div>
-                            </div>
-                          </div>
-                        </a>
-                        
-                        <a href="#" className="navi-item">
-                          <div className="navi-link">
-                            <div className="navi-icon mr-2">
-                              <i className="flaticon2-paper-plane text-danger"/>
-                            </div>
-                            <div className="navi-text">
-                              <div className="font-weight-bold">
-                                Finance report has been generated
-                              </div>
-                              <div className="text-muted">25 hrs ago</div>
-                            </div>
-                          </div>
-                        </a>
-                        
-                        <a href="#" className="navi-item">
-                          <div className="navi-link">
-                            <div className="navi-icon mr-2">
-                              <i className="flaticon2-user flaticon2-line- text-success"/>
-                            </div>
-                            <div className="navi-text">
-                              <div className="font-weight-bold">New order has been received</div>
-                              <div className="text-muted">2 hrs ago</div>
-                            </div>
-                          </div>
-                        </a>
-                        
-                        <a href="#" className="navi-item">
-                          <div className="navi-link">
-                            <div className="navi-icon mr-2">
-                              <i className="flaticon2-pin text-danger"/>
-                            </div>
-                            <div className="navi-text">
-                              <div className="font-weight-bold">New customer is registered</div>
-                              <div className="text-muted">3 hrs ago</div>
-                            </div>
-                          </div>
-                        </a>
-                        
-                        <a href="#" className="navi-item">
-                          <div className="navi-link">
-                            <div className="navi-icon mr-2">
-                              <i className="flaticon2-sms text-danger"/>
-                            </div>
-                            <div className="navi-text">
-                              <div className="font-weight-bold">Application has been approved</div>
-                              <div className="text-muted">3 hrs ago</div>
-                            </div>
-                          </div>
-                        </a>
-                        
-                        <a href="#" className="navi-item">
-                          <div className="navi-link">
-                            <div className="navi-icon mr-2">
-                              <i className="flaticon2-pie-chart-3 text-warning"/>
-                            </div>
-                            <div className="navinavinavi-text">
-                              <div className="font-weight-bold">New file has been uploaded</div>
-                              <div className="text-muted">5 hrs ago</div>
-                            </div>
-                          </div>
-                        </a>
-                        
-                        <a href="#" className="navi-item">
-                          <div className="navi-link">
-                            <div className="navi-icon mr-2">
-                              <i className="flaticon-pie-chart-1 text-info"/>
-                            </div>
-                            <div className="navi-text">
-                              <div className="font-weight-bold">New user feedback received</div>
-                              <div className="text-muted">8 hrs ago</div>
-                            </div>
-                          </div>
-                        </a>
-                        
-                        <a href="#" className="navi-item">
-                          <div className="navi-link">
-                            <div className="navi-icon mr-2">
-                              <i className="flaticon2-settings text-success"/>
-                            </div>
-                            <div className="navi-text">
-                              <div className="font-weight-bold">
-                                System reboot has been successfully completed
-                              </div>
-                              <div className="text-muted">12 hrs ago</div>
-                            </div>
-                          </div>
-                        </a>
-                        
-                        <a href="#" className="navi-item">
-                          <div className="navi-link">
-                            <div className="navi-icon mr-2">
-                              <i className="flaticon-safe-shield-protection text-danger"/>
-                            </div>
-                            <div className="navi-text">
-                              <div className="font-weight-bold">New order has been placed</div>
-                              <div className="text-muted">15 hrs ago</div>
-                            </div>
-                          </div>
-                        </a>
-                        
-                        <a href="#" className="navi-item">
-                          <div className="navi-link">
-                            <div className="navi-icon mr-2">
-                              <i className="flaticon2-notification text-danger"/>
-                            </div>
-                            <div className="navi-text">
-                              <div className="font-weight-bold">Company meeting canceled</div>
-                              <div className="text-muted">19 hrs ago</div>
-                            </div>
-                          </div>
-                        </a>
-                        
-                        <a href="#" className="navi-item">
-                          <div className="navi-link">
-                            <div className="navi-icon mr-2">
-                              <i className="flaticon2-fax text-success"/>
-                            </div>
-                            <div className="navi-text">
-                              <div className="font-weight-bold">New report has been received</div>
-                              <div className="text-muted">23 hrs ago</div>
-                            </div>
-                          </div>
-                        </a>
-                        
-                        <a href="#" className="navi-item">
-                          <div className="navi-link">
-                            <div className="navi-icon mr-2">
-                              <i className="flaticon-download-1 text-danger"/>
-                            </div>
-                            <div className="navi-text">
-                              <div className="font-weight-bold">
-                                Finance report has been generated
-                              </div>
-                              <div className="text-muted">25 hrs ago</div>
-                            </div>
-                          </div>
-                        </a>
-                        
-                        <a href="#" className="navi-item">
-                          <div className="navi-link">
-                            <div className="navi-icon mr-2">
-                              <i className="flaticon-security text-warning"/>
-                            </div>
-                            <div className="navi-text">
-                              <div className="font-weight-bold">New customer comment recieved</div>
-                              <div className="text-muted">2 days ago</div>
-                            </div>
-                          </div>
-                        </a>
-                        
-                        <a href="#" className="navi-item">
-                          <div className="navi-link">
-                            <div className="navi-icon mr-2">
-                              <i className="flaticon2-analytics-1 text-success"/>
-                            </div>
-                            <div className="navi-text">
-                              <div className="font-weight-bold">New customer is registered</div>
-                              <div className="text-muted">3 days ago</div>
-                            </div>
-                          </div>
-                        </a>
-                      </PerfectScrollbar>
-                    </Tab.Pane>
-                    <Tab.Pane eventKey="Logs" id="topbar_notifications_logs">
-                      <div className="d-flex flex-center text-center text-muted min-h-200px">
-                        All caught up!
-                        <br/>
-                        No new notifications.
-                      </div>
-                    </Tab.Pane>
+                    {NotificationNavItem.map((navItem, key) => {
+                      return navItem.data ? (
+                        <Tab.Pane eventKey={navItem.eventKey} key={key}>
+                          <PerfectScrollbar
+                            options={perfectScrollbarOptions}
+                            className="navi navi-hover scroll my-4"
+                            style={{ maxHeight: '300px', position: 'relative' }}>
+                            {navItem.data.map((item, key) => {
+                              return (
+                                <a href="#" className="navi-item bg-hover">
+                                  <div className="navi-link">
+                                    <div className="navi-icon mr-2">{item.icon}</div>
+                                    <div className="navi-text">
+                                      <div className="font-weight-bold">
+                                        {item.notificationName}
+                                      </div>
+                                      <div className="text-muted">{item.timestamp}</div>
+                                    </div>
+                                  </div>
+                                </a>
+                              );
+                            })}
+                          </PerfectScrollbar>
+                        </Tab.Pane>
+                      ) : (
+                        <Tab.Pane eventKey={navItem.eventKey} className="p-8" key={key}>
+                          Chưa có thông báo mới
+                        </Tab.Pane>
+                      );
+                    })}
                   </Tab.Content>
                 </Tab.Container>
               </div>

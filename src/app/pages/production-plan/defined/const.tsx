@@ -971,6 +971,8 @@ export const masterEntityDetailDialog2: RenderInfoDetail = [
         title: 'Tổ trưởng thu hoạch',
         formatter: DisplayPersonNameByArray,
       },
+
+      'unit': {title: 'Đơn vị tính', formatter: input => <DisplayUnit input={input} />}
     },
   },
   {

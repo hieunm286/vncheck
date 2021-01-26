@@ -1299,14 +1299,48 @@ function ProductionPlan() {
             required: true,
             disabled: true,
           },
-          expectedQuantity: {
-            _type: 'number',
-            // placeholder: 'Mã gieo giống',
-            required: false,
-            label: 'HARVESTING_QUANTITY',
-            disabled: true,
-          },
+          // expectedQuantity: {
+          //   _type: 'number',
+          //   // placeholder: 'Mã gieo giống',
+          //   required: false,
+          //   label: 'HARVESTING_QUANTITY',
+          //   disabled: true,
+          // },
         },
+        '': {
+          _type: 'object',
+          _className: 'custom-input-group',
+          _inputClassName: 'col-4 custom-input-label mb-5 p-0',
+          title: {
+            _type: 'string',
+            label: 'PRELIMINARY_TREATMENT_QUANTITY',
+            labelWidth: 12
+          },
+          planting: {
+            _type: 'object',
+            _inputClassName: 'col-6 custom-input-input mb-5 p-0',
+            expectedQuantity: {
+              _type: 'number',
+              labelWidth: 0,
+              // placeholder: 'Mã gieo giống',
+              disabled: true,
+            },
+          },
+          unit: {
+            _type: 'object',
+            _inputClassName: 'col-2 custom-input-input mb-5 p-0',
+            '': {
+              _type: 'search-select',
+              labelWidth: 0,
+              label: 'Đơn vị tính',
+              onSearch: ProductionPlanService.GetUnit,
+              disabled: (values: any) => {
+                return CheckDisabled(values?.harvesting, values?.process, harvestingProcess);
+              },
+              isClearable: false
+            },
+          }
+        }
       },
       group2: {
         _subTitle: '\u00A0',
@@ -1417,9 +1451,7 @@ function ProductionPlan() {
               labelWidth: 0,
               label: 'Đơn vị tính',
               onSearch: ProductionPlanService.GetUnit,
-              disabled: (values: any) => {
-                return CheckDisabled(values?.preliminaryTreatment, values?.process, preliminaryTreatmentProcess);
-              },
+              disabled: true,
               isClearable: false
             },
           }
