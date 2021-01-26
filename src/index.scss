@@ -445,7 +445,7 @@ label {
   }
 
   .ant-select-selector {
-    min-height: calc(1.5em + 1.1rem + 1.4px) !important;
+    min-height: calc(1.5em + 1.3rem + 2px);
   }
 
 }
@@ -671,6 +671,10 @@ label {
     }
 
   }
+}
+
+.css-1hokh1j-control {
+  height: calc(1.5em + 1.3rem + 2px);
 }
 
 //.card.card-custom > .card-body
