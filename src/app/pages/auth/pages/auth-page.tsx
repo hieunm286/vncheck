@@ -10,6 +10,7 @@ import ReceiveCode from './receive-code';
 import VerificationCode from './verification-code';
 import {ToAbsoluteUrl} from "../../../common-library/helpers/assets-helpers";
 import {ContentRoute} from "../../../layout/components/content/content-route";
+import Particles from "react-particles-js";
 
 //Custom hook
 export function useWindowSize() {
@@ -28,7 +29,7 @@ export function useWindowSize() {
 }
 
 export function AuthPage() {
-  const [width] = useWindowSize();
+  const [width,height] = useWindowSize();
   const {search} = window.location;
   let callbackUrl = new URLSearchParams(search).get('callbackUrl');
   
@@ -50,7 +51,7 @@ export function AuthPage() {
   };
   return (
     <>
-      <div className="d-flex flex-column flex-root" style={{minWidth:width}}>
+      <div className="d-flex flex-column flex-root" style={{minWidth: width}}>
         {/*begin::Login*/}
         <div
           className="login login-1 login-signin-on d-flex flex-column flex-lg-row flex-row-fluid bg-white"
@@ -112,6 +113,33 @@ export function AuthPage() {
             className="flex-row-fluid d-flex flex-column position-relative p-7 overflow-hidden"
             style={style.linearContent}>
             {/*begin::Content header*/}
+            <Particles
+              style={{position:'absolute', zIndex:0}}
+              width={window.innerWidth+'px'}
+              height={height+'px'}
+              params={{
+                fpsLimit: 30,
+                particles: {
+                  number: {
+                    value: window.innerWidth < 600 ? 8 : 40,
+                  },
+                  size: {
+                    value: 2,
+                  },
+                  color: {
+                    "value": "black"
+                  },
+                },
+                interactivity: {
+                  events: {
+                    onhover: {
+                      enable: true,
+                      mode: 'repulse',
+                    },
+                  },
+                },
+              }}
+            />
             <div
               className="position-absolute top-0 right-0 text-right mt-5 mb-15 mb-lg-0 flex-column-auto justify-content-center py-5 px-10">
               <span className="font-weight-bold text-dark-50">
@@ -131,6 +159,7 @@ export function AuthPage() {
                 <h6 className="text-center mt-5">
                   VNCheck - Giải pháp Blockchain truy xuất nguồn gốc nông sản
                 </h6>
+                
               </div>
               <Switch>
                 <ContentRoute

@@ -306,6 +306,7 @@ const LoginPassword = (props: {
         
         <div className="form-group d-flex flex-wrap justify-content-between align-items-center">
           <Link
+            style={{zIndex:1}}
             to={'/auth/forgot-password?callbackUrl=' + callbackUrl}
             className="text-dark-50 text-hover-primary my-3 mr-2"
             id="kt_login_forgot">
@@ -316,10 +317,11 @@ const LoginPassword = (props: {
           <button
             id="kt_login_signin_submit"
             type="submit"
-            // disabled={formik.isSubmitting}
+            disabled={formik.isSubmitting}
+            style={{zIndex:1}}
             className={`btn btn-danger font-weight-bold px-9 py-4 my-3`}>
             <span>Đăng nhập</span>
-            {loading && <span className="ml-3 spinner spinner-white"></span>}
+            {loading && <span className="ml-3 spinner spinner-white"/>}
           </button>
         </div>
       </form>

@@ -95,7 +95,6 @@ const LoginUsername = (props: { saveUserInfo?: any; intl?: any; location?: any }
             history.push('/auth/login/challenge?callbackUrl=' + callbackUrl);
           })
           .catch(err => {
-            console.log(err);
             setLoading(false);
             setSubmitting(false);
             setStatus(intl.formatMessage({id: 'AUTH.VALIDATION.INVALID_USERNAME'}),
@@ -180,7 +179,8 @@ const LoginUsername = (props: { saveUserInfo?: any; intl?: any; location?: any }
           <button
             id="kt_login_signin_submit"
             type="submit"
-            // disabled={formik.isSubmitting}
+            disabled={formik.isSubmitting}
+            style={{zIndex:1}}
             className={`btn btn-danger font-weight-bold px-9 py-4 my-3`}>
             <span>Tiếp theo</span>
             {loading && <span className="ml-3 spinner spinner-white"/>}
