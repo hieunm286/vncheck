@@ -20,12 +20,6 @@ const GetURLEndPoint = (url: string) => {
   if (index === -1 && lastIndex === -1) return url;
   
   let endPoint: string = '';
-  
-  // if (lastIndex - index === 4) {
-  //   endPoint = url.substring(lastIndex + 1);
-  // } else {
-  //   endPoint = url.substring(index + 5, lastIndex);
-  // }
 
   endPoint = url.substring(arr[3] + 1, arr[4])
 
@@ -77,6 +71,8 @@ export default function setupAxios(axios: AxiosStatic, store: EnhancedStore) {
           const signature = SignMessage(auth._privateKey, config.data);
           config.data = {
             ...config.data,
+            _actionType: ('' + config.method + '_' + GetURLEndPoint(config.url ? config.url : '')).toUpperCase(),
+            _timestamp: new Date(),
             _signature: signature,
           };
         }
