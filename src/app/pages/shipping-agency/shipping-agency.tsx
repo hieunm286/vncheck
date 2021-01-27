@@ -221,7 +221,7 @@ function ShippingAgency() {
   useEffect(() => {
     const owner: any = {}
     ManagementUnitService.getAll({ queryProps: { ...filterProps }, paginationProps: {...paginationProps, limit: 100} }).then(res => {
-      const index = res.data.data.findIndex(value => value.name === 'Phòng giám đốc')
+      const index = res.data.data.findIndex(value => (value.name === 'Phòng Vận chuyển' || value.code === '00006'))
       if (index !== -1) {
         owner.managementUnit = res.data.data[index]
         RoleService.GetAll({

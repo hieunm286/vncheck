@@ -264,15 +264,18 @@ function AgencyPage() {
   useEffect(() => {
     const owner: any = {}
     ManagementUnitService.getAll({ queryProps: { ...filterProps }, paginationProps: {...paginationProps, limit: 100} }).then(res => {
-      const index = res.data.data.findIndex(value => value.name === 'Phòng giám đốc')
+      const index = res.data.data.findIndex(value => (value.name === 'Phòng Bán hàng' || value.code === '00005'))
       if (index !== -1) {
         owner.managementUnit = res.data.data[index]
         RoleService.GetAll({
           queryProps: { ...filterProps, managementUnit: { ...owner.managementUnit } },
-          paginationProps,
+          paginationProps: {...paginationProps, limit: 100},
         }).then(ress => {
-          owner.role = ress.data.data[0]
-          setInitOwner(owner)
+          const roleIndex = ress.data.data.findIndex(value => value.name === 'Chủ đơn vị bán hàng')
+          if (roleIndex !== -1) {
+            owner.role = ress.data.data[roleIndex]
+            setInitOwner(owner)
+          }       
         });
       }
     })

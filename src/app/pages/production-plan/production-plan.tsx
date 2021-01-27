@@ -1661,7 +1661,7 @@ function ProductionPlan() {
             label: 'PRODUCTION_PLAN_FORM_PACKING',
             onSearch: ({ queryProps, paginationProps }: any) => {
               if (editEntity && editEntity.seeding && editEntity.seeding.species) {
-                queryProps.species = editEntity.seeding.species._id;
+                queryProps.species = editEntity.seeding.species;
               }
               return ProductPackagingService.GetAll({ queryProps, paginationProps });
             },
@@ -1945,7 +1945,6 @@ function ProductionPlan() {
               allFormButton={
                 detailEntity?.confirmationStatus !== '2' &&
                 detailEntity?.confirmationStatus !== '3' &&
-                username === 'admin' &&
                 adminAllFormButton
               }
               header={`CHI TIẾT KẾ HOẠCH`}
