@@ -84,24 +84,24 @@
     }
 
     // Outline 2x type
-	&.checkbox-outline-2x {
-		> span {
+    &.checkbox-outline-2x {
+        > span {
             border-width: 2px !important;
         }
-	}
+    }
 
     // Accent type
-    &.checkbox-accent {
-        > span {
-            border-width: get($checkbox-config, types, accent, borderWidth) !important;
-            border-style: solid !important;
-            background-color: transparent !important;
-
-            &:after {
-    			display: block;
-            }
-        }
-    }
+    //&.checkbox-accent {
+    //    > span {
+    //        border-width: get($checkbox-config, types, accent, borderWidth) !important;
+    //        border-style: solid !important;
+    //        background-color: transparent !important;
+    //
+    //        &:after {
+    //			display: block;
+    //        }
+    //    }
+    //}
 }
 
 // Sizes
