@@ -67,7 +67,7 @@ function VerificationCode(props: { intl: any }) {
     <>
       {isRequested && <Redirect to="/auth"/>}
       {!isRequested && (
-        <div className="login-form login-forgot" style={{display: 'block'}}>
+        <div className="login-form login-forgot" style={{display: 'block',zIndex: 1}}>
           <div className="text-center mb-10 mb-lg-10">
             <h3 className="font-size-h1">Nhập mã xác minh</h3>
             <div className="text-muted font-weight-bold">
@@ -135,7 +135,7 @@ function VerificationCode(props: { intl: any }) {
               </div>
             </div>
             {/* <div className="form-group d-flex flex-wrap flex-center">
-              
+            
             </div> */}
           </form>
         </div>
