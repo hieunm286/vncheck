@@ -94,8 +94,8 @@ function MultilevelSale() {
   const history = useHistory();
   
   useEffect(() => {
-    getAll(filterProps);
-  }, [filterProps]);
+    getAll({ ...filterProps });
+  }, [filterProps, paginationProps]);
   
   useEffect(() => {
     setAgencyLoading(true);
