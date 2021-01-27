@@ -183,24 +183,23 @@ export const DisplayCoordinates = (arr: string[]) => {
 };
 
 export const Display3Info = (image: any, _: any, intl?: IntlShape) => {
-  intl = intl ?? useIntl();
   return (
     <>
       <div className={'titleeee mb-1'}>
-        {intl.formatMessage({id: 'IMAGE.TAKEN_BY'})}
+        {intl?.formatMessage({id: 'IMAGE.TAKEN_BY'})}
         <DisplayPersonName {...image.takenBy} />
       </div>
       <div className={'titleeee mb-1'}>
-        {intl.formatMessage({id: 'IMAGE.TAKEN_TIME'})}
+        {intl?.formatMessage({id: 'IMAGE.TAKEN_TIME'})}
         {image.takenTime
           ? <DisplayDateTime input={image.takenTime}/>
-          : intl.formatMessage({id: 'NO_INFORMATION'})}
+          : intl?.formatMessage({id: 'NO_INFORMATION'})}
       </div>
       <div className={'titleeee mb-1'}>
-        {intl.formatMessage({id: 'IMAGE.LOCATION'})}
+        {intl?.formatMessage({id: 'IMAGE.LOCATION'})}
         {image.location?.coordinates
           ? DisplayCoordinates(image.location?.coordinates)
-          : intl.formatMessage({id: 'NO_INFORMATION'})}
+          : intl?.formatMessage({id: 'NO_INFORMATION'})}
       </div>
     </>
   );

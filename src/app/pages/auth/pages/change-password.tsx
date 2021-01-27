@@ -9,15 +9,19 @@ import {Ping, SetPassword, SetTempPassword,} from '../_redux/auth.service';
 import {GenerateKeyPair, SignMessage, SymmetricEncrypt} from '../service/auth-cryptography';
 import {CERTIFICATE_EXP} from '../../../common-library/common-consts/enviroment';
 import clsx from 'clsx';
-import {createMuiTheme, makeStyles, MuiThemeProvider} from '@material-ui/core/styles';
-import IconButton from '@material-ui/core/IconButton';
-import OutlinedInput from '@material-ui/core/OutlinedInput';
-import InputLabel from '@material-ui/core/InputLabel';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import FormControl from '@material-ui/core/FormControl';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
-import Tooltip from '@material-ui/core/Tooltip';
+import {
+  createMuiTheme,
+  FormControl,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  makeStyles,
+  MuiThemeProvider,
+  OutlinedInput,
+  Tooltip
+} from "@material-ui/core";
 
 const initialValues = {
   newPassword: '123',
