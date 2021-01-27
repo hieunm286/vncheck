@@ -1,7 +1,5 @@
 import React, {useCallback, useMemo} from 'react';
 import {ErrorMessage, useField, useFormikContext} from 'formik';
-import 'react-datepicker/dist/react-datepicker.css'
-import "react-datepicker/dist/react-datepicker-cssmodules.css";
 import {DatePicker} from 'antd';
 import locale from 'antd/es/date-picker/locale/vi_VN';
 import moment, {Moment} from 'moment';

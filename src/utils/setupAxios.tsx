@@ -2,7 +2,6 @@ import {SignMessage} from '../app/pages/auth/service/auth-cryptography';
 import {actionTypes} from '../app/pages/auth/_redux/auth-redux';
 import {AxiosStatic} from 'axios';
 import {EnhancedStore} from '@reduxjs/toolkit';
-import MomentTimeZone from 'moment-timezone'
 
 const qs = require('qs');
 const GetURLEndPoint = (url: string) => {
