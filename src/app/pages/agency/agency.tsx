@@ -111,7 +111,7 @@ function AgencyPage() {
   });
 
   useEffect(() => {
-    getAll(filterProps);
+    getAll({ ...filterProps, type: '0' });
   }, [paginationProps, filterProps]);
 
   const columns = useMemo(() => {
