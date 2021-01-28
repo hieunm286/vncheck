@@ -229,6 +229,9 @@ function AgencyPage() {
             formatter: (addresses: any[], row: any) => {
               let address = addresses.find(address => address.isDefault);
               address = address ?? addresses[0];
+
+              if (!address) return <></>
+
               const addressString = `${address.address}, ${address.district}, ${address.city}, ${address.state}`;
               return (
                 <>
