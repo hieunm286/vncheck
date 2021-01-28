@@ -33,7 +33,7 @@ export function MainInput({
   const {setFieldValue, values, handleChange, getFieldMeta, handleBlur, setFieldError} = useFormikContext<any>();
   const intl = useIntl();
   const _label = useMemo(() => (_.isString(label) ? intl.formatMessage({id: label}) : label), []);
-  const _disabled = useMemo(() => (disabled ? typeof disabled === 'boolean' ? disabled : disabled(values) : disabled), [disabled]);
+  const _disabled = useMemo(() => (disabled ? typeof disabled === 'boolean' ? disabled : disabled(values) : disabled), [disabled, values]);
   const [_error, setError] = useState<string | null | undefined>(null);
   useEffect(() => {
     if (form.isSubmitting) setError(null);
