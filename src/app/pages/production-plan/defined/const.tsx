@@ -51,7 +51,7 @@ export const Fix = ({title}: { title: string }) => {
   return <div style={{minWidth: 174}}>{intl.formatMessage({id: title})}</div>;
 };
 
-export const basicUnit = [1, 10, 100, 1000, 10000, 100000, 1000000]
+export const basicUnit = [1, 1000, 10000, 100000, 1000000]
 
 export const productPlanSearchModel1: SearchModel = {
   seedingCode: {
