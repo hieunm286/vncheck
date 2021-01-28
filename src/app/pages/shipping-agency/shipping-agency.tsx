@@ -94,7 +94,7 @@ function ShippingAgency() {
   });
   
   useEffect(() => {
-    getAll(filterProps);
+    getAll({ ...filterProps, type: '1' });
   }, [paginationProps, filterProps]);
   
   const columns = useMemo(() => {
