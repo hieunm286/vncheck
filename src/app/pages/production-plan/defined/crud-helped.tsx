@@ -404,8 +404,8 @@ export const validationForm = (values: any) => {
         }
         errors.preliminaryTreatment.estimatedTime = 'Ngày sơ chế không được nhỏ hơn ngày hiện tại';
       } else if (
-        values.harvesting?.estimatedTime &&
-        !CompareDate(new Date(ptEstimatedTime), new Date(values.harvesting?.estimatedTime))
+        values.planting?.estimatedHarvestTime &&
+        !CompareDate(new Date(ptEstimatedTime), new Date(values.planting?.estimatedHarvestTime))
       ) {
         if (!errors.preliminaryTreatment) {
           errors.preliminaryTreatment = {};
