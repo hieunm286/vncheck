@@ -94,7 +94,7 @@ export const Get: GetProps<any> = entity => {
 
 export const GetById = (_id: string) => {
   return axios.get(`${API_URL}/${_id}`).then(res => {
-    if (res.data.scopes?.length > 0) {
+    if (_.isArray(res.data.scopes)) {
       console.log(RoleArrayToObject(res.data.scopes))
       res.data.scopes = RoleArrayToObject(res.data.scopes)
       // res.data = {...res.data, ...RoleArrayToObject(res.data.scopes)};
