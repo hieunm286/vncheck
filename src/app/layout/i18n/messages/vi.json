@@ -598,6 +598,7 @@
   "USER.MASTER.SEARCH.ROLE": "Vai trò",
   "USER.MASTER.SEARCH.CODE": "Mã người dùng",
   "USER.MASTER.SEARCH.USER_NAME": "Tên đăng nhập",
+  "USER.MASTER.SEARCH.FULL_NAME": "Tên hiển thị",
   "USER.MASTER.SEARCH.WORK_AT": "Nơi làm việc",
   "USER.MASTER.SEARCH.EMAIL": "Email",
   "USER.MASTER.SEARCH.PHONE": "Số điện thoại",
