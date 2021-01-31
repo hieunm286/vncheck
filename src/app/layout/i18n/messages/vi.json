@@ -775,10 +775,12 @@
   "CUSTOMERS_STORE": "Cửa hàng bán",
   "CUSTOMERS_SELLER": "Người bán",
   "CUSTOMERS_LISTS": "Danh mục khách hàng",
-  "CUSTOMERS_DETAIL_NAME": "Tên hiển thị",
+  "CUSTOMERS_DETAIL_NAME": "Họ và tên",
   "CUSTOMERS_DETAIL_DOB": "Ngày sinh",
   "CUSTOMERS_DETAIL_ADDRESS": "Địa chỉ",
   "CUSTOMERS_DETAIL_ROLE": "Tên vai trò",
+  "CUSTOMERS_DETAIL_GENDER": "Giới tính",
+  "EMAIL": "Email",
 
   "ENTERPRISE.NAME": "Tên doanh nghiệp",
   "ENTERPRISE.TAXID": "Mã số thuế",

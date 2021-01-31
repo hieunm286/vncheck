@@ -34,6 +34,19 @@ const { Option } = Select;
 
 const validField = ['scopes', 'managementUnit', 'status', 'level', 'name', '_id']
 
+const RoleSchema = Yup.object().shape({
+  managementUnit: Yup.mixed()
+    .test('test name', 'ROLE.VALIDATION.REQUIRED.MANAGEMENT_ORGANIZATION', function(value) {
+      console.log(value)
+      return !!value;
+    }),
+  name: Yup.string().required('ROLE.VALIDATION.REQUIRED.ROLE_NAME')
+  // managementUnit: Yup.string().required('').nullable(),
+    // // _id: Yup.string().required('ROLE.VALIDATION.REQUIRED.ROLE_CODE').nullable(),
+    // status: Yup.string().required('ROLE.VALIDATION.REQUIRED.STATUS').nullable(),
+    // name: Yup.string().required('').nullable(),
+});
+
 export default function ManagementOrganization() {
   const headerTitle = 'ROLE.MASTER.HEADER.TITLE';
   const bodyTitle = 'ROLE.MASTER.BODY.TITLE';
@@ -118,13 +131,6 @@ export default function ManagementOrganization() {
     }
   ];
 
-  const roleValidationSchema = Yup.object().shape({
-    // managementUnit: Yup.string().required('ROLE.VALIDATION.REQUIRED.MANAGEMENT_ORGANIZATION').nullable(),
-    // // _id: Yup.string().required('ROLE.VALIDATION.REQUIRED.ROLE_CODE').nullable(),
-    // status: Yup.string().required('ROLE.VALIDATION.REQUIRED.STATUS').nullable(),
-    // name: Yup.string().required('ROLE.VALIDATION.REQUIRED.ROLE_NAME').nullable(),
-  });
-
   const group1 : ModifyInputGroup = {
     _subTitle: 'THÔNG TIN CHUNG',
     _className: 'col-md-8 col-12 pr-xl-15 pr-md-10 pr-5',
@@ -141,23 +147,31 @@ export default function ManagementOrganization() {
     //     )
     //   }
     // },
+    // managementUnit: {
+    //   _type: 'search-select',
+    //   label: 'ROLE.CREATE.LABEL.MANAGEMENT_ORGANIZATION',
+    //   // name: 'managementUnit',
+    //   keyField: 'name',
+    //   onSearch: ManagementOrganizationService.getAll,
+    //   required: true
+    //   // onChange: (value: any, {setFieldValue, setFieldTouched}: any) => {
+    //   //   const name = 'managementUnit';
+    //   //   setFieldTouched(name, true);
+    //   //   setFieldValue(name, value._id ?? '');
+    //   // },
+    //   // onFetch: (entities: any) => {console.log(entities); return entities.data;}
+    //   // onSearch: ({queryProps, sortList, paginationProps,}: any) => {
+    //   //   return ManagementOrganizationService.GetAll({queryProps}).then((e) => {
+    //   //     return (e.data);
+    //   //   })
+    //   // },
+    // },
     managementUnit: {
       _type: 'search-select',
-      label: 'ROLE.CREATE.LABEL.MANAGEMENT_ORGANIZATION',
-      // name: 'managementUnit',
+      label: 'USER.MODIFY.MANAGEMENT_UNIT',
       keyField: 'name',
+      required: true,
       onSearch: ManagementOrganizationService.getAll,
-      // onChange: (value: any, {setFieldValue, setFieldTouched}: any) => {
-      //   const name = 'managementUnit';
-      //   setFieldTouched(name, true);
-      //   setFieldValue(name, value._id ?? '');
-      // },
-      // onFetch: (entities: any) => {console.log(entities); return entities.data;}
-      // onSearch: ({queryProps, sortList, paginationProps,}: any) => {
-      //   return ManagementOrganizationService.GetAll({queryProps}).then((e) => {
-      //     return (e.data);
-      //   })
-      // },
     },
     roleCodeDummy: {
       _type: 'string',
@@ -167,6 +181,7 @@ export default function ManagementOrganization() {
     name: {
       _type: 'string',
       label: 'ROLE.CREATE.LABEL.ROLE_NAME',
+      required: true
     },
     // status: {
     //   _type: 'custom',
@@ -467,11 +482,11 @@ export default function ManagementOrganization() {
         <Route path='/account/role/new'>
           <EntityCrudPage
             moduleName='ROLE.MODULE_NAME'
-            entity={createEntity}
+            entity={initCreateValues}
             onModify={add}
             formModel={createForm}
             actions={actions}
-            validation={roleValidationSchema}
+            validation={RoleSchema}
             loading={loading}
           />
         </Route>
@@ -485,7 +500,7 @@ export default function ManagementOrganization() {
               get={code => GetById(code)}
               formModel={editForm}
               actions={actions}
-              validation={roleValidationSchema}
+              validation={RoleSchema}
               loading={loading}
             />
           )}
