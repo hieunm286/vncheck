@@ -86,10 +86,7 @@ export function InfiniteSelect({
       validateField(name);
     }, 10);
   }, [field.value])
-
-  console.log(fieldMeta.error)
-
-  const styles = useMemo((): StylesConfig => {
+  const styles = useMemo((): StylesConfig<any, false> => {
     return {
       control: (base, props1) => {
         // console.log("control", base, props1)

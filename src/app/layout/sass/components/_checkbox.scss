@@ -90,18 +90,18 @@
     }
   }
 
-  // Accent type
-  &.checkbox-accent {
-    > span {
-      border-width: get($checkbox-config, types, accent, borderWidth) !important;
-      border-style: solid !important;
-      background-color: transparent !important;
-
-      &:after {
-        display: block;
-      }
-    }
-  }
+  //// Accent type
+  //&.checkbox-accent {
+  //  > span {
+  //    border-width: get($checkbox-config, types, accent, borderWidth) !important;
+  //    border-style: solid !important;
+  //    background-color: transparent !important;
+  //
+  //    &:after {
+  //      display: block;
+  //    }
+  //  }
+  //}
 }
 
 // Sizes

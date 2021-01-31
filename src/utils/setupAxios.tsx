@@ -2,7 +2,6 @@ import {SignMessage} from '../app/pages/auth/service/auth-cryptography';
 import {actionTypes} from '../app/pages/auth/_redux/auth-redux';
 import {AxiosStatic} from 'axios';
 import {EnhancedStore} from '@reduxjs/toolkit';
-import MomentTimeZone from 'moment-timezone'
 
 const qs = require('qs');
 const GetURLEndPoint = (url: string) => {
@@ -11,7 +10,7 @@ const GetURLEndPoint = (url: string) => {
 
   const arr: any[] = []
 
-  for (let i = 0; i < url.length; i++) {
+  for (let i = index; i < url.length; i++) {
     if (url[i] === '/') {
       arr.push(i)
     }
@@ -21,7 +20,7 @@ const GetURLEndPoint = (url: string) => {
   
   let endPoint: string = '';
 
-  endPoint = url.substring(arr[3] + 1, arr[4])
+  endPoint = url.substring(arr[1] + 1, arr[2])
 
   
   const re = /-/gi;

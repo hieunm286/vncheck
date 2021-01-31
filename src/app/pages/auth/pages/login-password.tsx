@@ -10,15 +10,19 @@ import {GenerateKeyPair, SignMessage, SymmetricDecrypt,} from '../service/auth-c
 import {CERTIFICATE_EXP} from '../../../common-library/common-consts/enviroment';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import clsx from 'clsx';
-import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
-import IconButton from '@material-ui/core/IconButton';
-
-import OutlinedInput from '@material-ui/core/OutlinedInput';
-import InputLabel from '@material-ui/core/InputLabel';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import FormControl from '@material-ui/core/FormControl';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import {
+  createStyles,
+  FormControl,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  makeStyles,
+  OutlinedInput,
+  Theme
+} from "@material-ui/core";
+
 /*
   INTL (i18n) docs:
   https://github.com/formatjs/react-intl/blob/master/docs/Components.md#formattedmessage

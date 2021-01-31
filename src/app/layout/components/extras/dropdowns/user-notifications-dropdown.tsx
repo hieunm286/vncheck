@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-script-url,jsx-a11y/anchor-is-valid */
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Dropdown, Nav, OverlayTrigger, Tab, Tooltip } from 'react-bootstrap';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import SVG from 'react-inlinesvg';
@@ -9,16 +9,37 @@ import { DropdownTopbarItemToggler } from '../../../../../_metronic/_partials/dr
 import { ToAbsoluteUrl } from '../../../../common-library/helpers/assets-helpers';
 import { useHtmlClassService } from '../../../_core/metronic-layout';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import { NotificationNavItem } from './user-notification-data';
+import { useIntersectionObserver, useNotification } from '../../../../hook/ultis.hook';
+import moment from 'moment';
+import _ from 'lodash';
+import { Skeleton } from "antd";
 
 const perfectScrollbarOptions = {
   wheelSpeed: 2,
   wheelPropagation: false,
 };
 
+interface State {
+  notification: any[];
+  page: number;
+  isLoading: boolean;
+  hasMore: boolean;
+  limit: number;
+}
+
+const defaultNotiState: State = {
+  notification: [],
+  page: 0,
+  isLoading: false,
+  hasMore: true,
+  limit: 6,
+};
+
 export function UserNotificationsDropdown() {
   const [key, setKey] = useState('Events');
   const bgImage = ToAbsoluteUrl('/media/authImage/vegetable2.jpg');
+  const [notiArr, setNotiArr] = useState(defaultNotiState);
+  const [notification, setPaging] = useNotification(notiArr.page, notiArr.limit);
 
   const uiService: any = useHtmlClassService();
   const layoutProps = useMemo(() => {
@@ -26,6 +47,34 @@ export function UserNotificationsDropdown() {
       offcanvas: objectPath.get(uiService.config, 'extras.notifications.layout') === 'offcanvas',
     };
   }, [uiService]);
+
+  const timer = useRef<any>(null);
+
+  const [setNode] = useIntersectionObserver(() => getNoti(), notiArr);
+
+  const getNoti = () => {
+    if (notiArr.hasMore) {
+      timer.current = setTimeout(() => {
+        setPaging({ page: notiArr.page + 1, limit: notiArr.limit })
+      }, 1500);
+    }
+  };
+
+  useEffect(() => {
+    if (!notification) return;
+
+    const arr: any[] = _.isArray(notification.data) ? notification.data : [];
+
+    setNotiArr({
+      ...notiArr,
+      notification: [...notiArr.notification, ...arr],
+      page: notification.paging.page,
+      hasMore: notification.paging.page < Math.ceil(notification.paging.total / notiArr.limit),
+    });
+
+    return () => clearTimeout(timer.current);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [notification]);
 
   return (
     <>
@@ -68,7 +117,7 @@ export function UserNotificationsDropdown() {
                 <h4 className="d-flex flex-center rounded-top">
                   <span className="text-white">Thông báo</span>
                   <span className="btn btn-text btn-success btn-sm font-weight-bold btn-font-md ml-2">
-                    23 thông báo mới
+                    {notiArr.notification.filter(item => item.isRead === false).length} thông báo mới
                   </span>
                 </h4>
 
@@ -77,52 +126,55 @@ export function UserNotificationsDropdown() {
                     as="ul"
                     className="nav nav-bold nav-tabs nav-tabs-line nav-tabs-line-3x nav-tabs-line-transparent-white nav-tabs-line-active-border-success mt-3 px-8"
                     onSelect={_key => setKey(_key ?? '')}>
-                    {NotificationNavItem.map((navItem, index) => {
-                      return (
-                        <Nav.Item className={navItem._navClassName ?? ''} as="li">
-                          <Nav.Link
-                            eventKey={navItem.eventKey}
-                            className={
-                              navItem.className + `${key === navItem.eventKey ? ' active' : ''}`
-                            }>
-                            {navItem.label}
-                          </Nav.Link>
-                        </Nav.Item>
-                      );
-                    })}
+                    {/* {NotificationNavItem.map((navItem, index) => {
+                      return ( */}
+                    <Nav.Item className="nav-item" as="li">
+                      <Nav.Link eventKey="Events" className="nav-link show active">
+                      </Nav.Link>
+                    </Nav.Item>
+                    {/* );
+                    })} */}
                   </Nav>
 
                   <Tab.Content className="tab-content">
-                    {NotificationNavItem.map((navItem, key) => {
-                      return navItem.data ? (
-                        <Tab.Pane eventKey={navItem.eventKey} key={key}>
-                          <PerfectScrollbar
-                            options={perfectScrollbarOptions}
-                            className="navi navi-hover scroll my-4"
-                            style={{ maxHeight: '300px', position: 'relative' }}>
-                            {navItem.data.map((item, key) => {
-                              return (
-                                <a href="#" className="navi-item bg-hover">
-                                  <div className="navi-link">
-                                    <div className="navi-icon mr-2">{item.icon}</div>
-                                    <div className="navi-text">
-                                      <div className="font-weight-bold">
-                                        {item.notificationName}
-                                      </div>
-                                      <div className="text-muted">{item.timestamp}</div>
+                    {/* {NotificationNavItem.map((navItem, key) => { */}
+                    {notiArr.notification?.length > 0 ? (
+                      <Tab.Pane eventKey="Events" key={key}>
+                        <PerfectScrollbar
+                          options={perfectScrollbarOptions}
+                          className="navi navi-hover scroll my-4"
+                          style={{ maxHeight: '300px', position: 'relative' }}>
+                          {notiArr.notification.map((item: any, index: number) => {
+                            return (
+                              <a
+                                href="#"
+                                className="navi-item bg-hover"
+                                ref={ref =>
+                                  index === notiArr.notification.length - 1 ? setNode(ref) : null
+                                }>
+                                <div className="navi-link">
+                                  <div className="navi-icon mr-2">
+                                    <i className="flaticon2-user flaticon2-line- text-success" />
+                                  </div>
+                                  <div className="navi-text">
+                                    <div className="font-weight-bold">{item.message}</div>
+                                    <div className="text-muted">
+                                      {moment(item.createdAt).format('DD/MM/YYYY HH:mm')}
                                     </div>
                                   </div>
-                                </a>
-                              );
-                            })}
-                          </PerfectScrollbar>
-                        </Tab.Pane>
-                      ) : (
-                        <Tab.Pane eventKey={navItem.eventKey} className="p-8" key={key}>
-                          Chưa có thông báo mới
-                        </Tab.Pane>
-                      );
-                    })}
+                                </div>
+                              </a>
+                            );
+                          })}
+                          {notiArr.hasMore && <div className="navi-item px-6 pt-5" style={{ maxHeight: '55px' }}><Skeleton active avatar title={false} /></div>}
+                        </PerfectScrollbar>
+                      </Tab.Pane>
+                    ) : (
+                      <Tab.Pane eventKey="Events" className="p-8" key={key}>
+                        Chưa có thông báo mới
+                      </Tab.Pane>
+                    )}
+                    {/* })} */}
                   </Tab.Content>
                 </Tab.Container>
               </div>
