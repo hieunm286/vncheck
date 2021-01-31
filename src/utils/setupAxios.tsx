@@ -10,7 +10,7 @@ const GetURLEndPoint = (url: string) => {
 
   const arr: any[] = []
 
-  for (let i = 0; i < url.length; i++) {
+  for (let i = index; i < url.length; i++) {
     if (url[i] === '/') {
       arr.push(i)
     }
@@ -20,7 +20,7 @@ const GetURLEndPoint = (url: string) => {
   
   let endPoint: string = '';
 
-  endPoint = url.substring(arr[3] + 1, arr[4])
+  endPoint = url.substring(arr[1] + 1, arr[2])
 
   
   const re = /-/gi;
