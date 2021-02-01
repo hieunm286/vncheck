@@ -45,7 +45,7 @@ export const DetailImage = ({
             width={width}
             height={height}
             className={'image-detail cursor-pointer'}
-            src={getImageFromLocal(image[pathField])}
+            src={getImage(image[pathField])}
             placeholder={<Skeleton animation="wave" variant="rect" width={width} height={height} />}
             preview={{
               getContainer: () => container.current,
@@ -107,6 +107,9 @@ export const DetailImage = ({
 
 const getImage = (path: string) => {
   const isBase64 = (s: string) => s.indexOf('data:image') == 0;
+  if (path.indexOf('https://') !== -1) {
+    return path;
+  }
   return path
     ? isBase64(path)
       ? path
