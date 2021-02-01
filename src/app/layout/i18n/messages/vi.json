@@ -770,7 +770,7 @@
 
   "CUSTOMERS_PHONE_NUMBER": "Số điện thoại",
   "CUSTOMERS_CODE": "Mã khách hàng",
-  "CUSTOMERS_CREATED_AT": "Ngày tạo",
+  "CUSTOMERS_CREATED_AT": "Lần đầu mua hàng",
   "CUSTOMERS_BUY_DATE": "Ngày mua",
   "CUSTOMERS_STORE": "Cửa hàng bán",
   "CUSTOMERS_SELLER": "Người bán",
@@ -780,6 +780,7 @@
   "CUSTOMERS_DETAIL_ADDRESS": "Địa chỉ",
   "CUSTOMERS_DETAIL_ROLE": "Tên vai trò",
   "CUSTOMERS_DETAIL_GENDER": "Giới tính",
+  "CUSTOMERS_DETAIL_ACTION": "Lịch sử mua hàng",
   "EMAIL": "Email",
 
   "ENTERPRISE.NAME": "Tên doanh nghiệp",
