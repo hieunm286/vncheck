@@ -358,7 +358,7 @@ function CustomersManagement() {
             title={bodyTitle}
             onCreate={() => {}}
             hideHeaderButton={true}
-            entities={masterData}
+            entities={entities}
             total={total}
             columns={masterColumns as any}
             loading={loading}
