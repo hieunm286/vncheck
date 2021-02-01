@@ -117,7 +117,7 @@ export const harvestingDetail: RenderInfoDetail = [
             title: 'IMAGE_INFO',
             component: Display3Info
           }
-          return DisplayImage(image, renderInfo)
+          return DisplayImage(image, renderInfo, ['isMaster', true])
         }
       },
       'harvesting.imageAfter': {
@@ -126,7 +126,7 @@ export const harvestingDetail: RenderInfoDetail = [
             title: 'IMAGE_INFO',
             component: Display3Info
           }
-          return DisplayImage(image, renderInfo)
+          return DisplayImage(image, renderInfo, ['isMaster', true])
         }
       },
       'harvesting.imageInProgress': {
@@ -191,7 +191,7 @@ export const PreliminaryTreatmentDetail: RenderInfoDetail = [
             title: 'IMAGE_INFO',
             component: Display3Info
           }
-          return DisplayImage(image, renderInfo)
+          return DisplayImage(image, renderInfo, ['isMaster', true])
         }
       },
       'preliminaryTreatment.imageAfter': {
@@ -200,7 +200,7 @@ export const PreliminaryTreatmentDetail: RenderInfoDetail = [
             title: 'IMAGE_INFO',
             component: Display3Info
           }
-          return DisplayImage(image, renderInfo)
+          return DisplayImage(image, renderInfo, ['isMaster', true])
         }
       },
       'preliminaryTreatment.imageInProgress': {
@@ -266,7 +266,7 @@ export const CleaningDetail: RenderInfoDetail = [
             title: 'IMAGE_INFO',
             component: Display3Info
           }
-          return DisplayImage(image, renderInfo)
+          return DisplayImage(image, renderInfo, ['isMaster', true])
         }
       },
       'cleaning.imageAfter': {
@@ -275,7 +275,7 @@ export const CleaningDetail: RenderInfoDetail = [
             title: 'IMAGE_INFO',
             component: Display3Info
           }
-          return DisplayImage(image, renderInfo)
+          return DisplayImage(image, renderInfo, ['isMaster', true])
         }
       },
       'cleaning.imageInProgress': {
@@ -423,7 +423,7 @@ export const PackingDetail: RenderInfoDetail = [
             title: 'IMAGE_INFO',
             component: Display3Info
           }
-          return DisplayImage(image, renderInfo)
+          return DisplayImage(image, renderInfo, ['isMaster', true])
         }
       },
       'packing.packingImage': {
@@ -432,7 +432,7 @@ export const PackingDetail: RenderInfoDetail = [
             title: 'IMAGE_INFO',
             component: Display3Info
           }
-          return DisplayImage(image, renderInfo)
+          return DisplayImage(image, renderInfo, ['isMaster', true])
         }
       },
     },
@@ -499,7 +499,7 @@ export const PreservationDetail: RenderInfoDetail = [
             title: 'IMAGE_INFO',
             component: Display3Info
           }
-          return DisplayImage(image, renderInfo)
+          return DisplayImage(image, renderInfo, ['isMaster', true])
         }
       },
     },

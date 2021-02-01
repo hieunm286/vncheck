@@ -116,23 +116,23 @@ function CustomersManagement() {
     code: {
       dataField: 'code',
       text: `${intl.formatMessage({ id: 'CUSTOMERS_CODE' })}`,
-      formatter: (cell: any, row: any, rowIndex: number) => (
-        <span
-          className="text-primary"
-          style={{ fontWeight: 600, cursor: 'pointer' }}
-          onClick={() => {
-            setShowDetail(true);
-            setDetailEntity(row);
-          }}>
-          {row.code}
-        </span>
-      ),
+      // formatter: (cell: any, row: any, rowIndex: number) => (
+      //   <span
+      //     className="text-primary"
+      //     style={{ fontWeight: 600, cursor: 'pointer' }}
+      //     onClick={() => {
+      //       setShowDetail(true);
+      //       setDetailEntity(row);
+      //     }}>
+      //     {row.code}
+      //   </span>
+      // ),
       ...SortColumn,
       classes: 'text-center',
     },
     fullName: {
       dataField: 'fullName',
-      text: `${intl.formatMessage({ id: 'CUSTOMERS_PHONE_NUMBER' })}`,
+      text: `${intl.formatMessage({ id: 'CUSTOMERS_DETAIL_NAME' })}`,
       ...SortColumn,
       classes: 'text-center',
     },
@@ -159,7 +159,7 @@ function CustomersManagement() {
     },
     action: {
       dataField: 'action',
-      text: `${intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.ACTION_COLUMN' })}`,
+      text: `${intl.formatMessage({ id: 'CUSTOMERS_DETAIL_ACTION' })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
         <span
           className="btn btn-icon btn-light btn-hover-primary btn-sm visibility"
@@ -217,7 +217,7 @@ function CustomersManagement() {
       headerClasses: 'text-center',
     },
     sellAgency: {
-      dataField: 'sellAgency',
+      dataField: 'sellAgency.name',
       text: `${intl.formatMessage({ id: 'PRODUCT_TYPE.MASTER.TABLE.NAME_COLUMN' })}`,
       ...SortColumn,
       classes: 'text-center',
@@ -237,7 +237,7 @@ function CustomersManagement() {
           className="btn btn-icon btn-light btn-hover-primary btn-sm visibility"
           onClick={() => {
             history.push({
-              pathname: '/production-plan/plan-view/version/' + row._id,
+              pathname: '/customers-management/' + row._id + '/purchase-order',
             });
           }}>
           <span className="svg-icon svg-icon-md svg-icon-primary">
@@ -290,7 +290,7 @@ function CustomersManagement() {
     },
     {
       data: {
-        name: { title: 'CUSTOMERS_DETAIL_NAME' },
+        fullName: { title: 'CUSTOMERS_DETAIL_NAME' },
         gender: { title: 'CUSTOMERS_DETAIL_GENDER' },
         username: { title: 'CUSTOMERS_PHONE_NUMBER' },
         birthDay: { title: 'CUSTOMERS_DETAIL_DOB' },

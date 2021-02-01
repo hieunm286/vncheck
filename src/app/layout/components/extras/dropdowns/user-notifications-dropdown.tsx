@@ -82,7 +82,9 @@ export function UserNotificationsDropdown() {
         <div className="topbar-item">
           <div
             className="btn btn-icon btn-clean btn-lg mr-1 pulse pulse-danger"
-            id="kt_quick_notifications_toggle">
+            id="kt_quick_notifications_toggle"
+            
+          >
             <span className="svg-icon svg-icon-xl svg-icon-danger">
               <SVG src={ToAbsoluteUrl('/media/svg/icons/Code/Compiling.svg')} />
             </span>
@@ -98,7 +100,12 @@ export function UserNotificationsDropdown() {
               overlay={<Tooltip id="user-notification-tooltip">Thông báo</Tooltip>}>
               <div
                 className="btn btn-icon btn-clean btn-lg mr-1 pulse pulse-danger"
-                id="kt_quick_notifications_toggle">
+                id="kt_quick_notifications_toggle"
+                onClick={() => { 
+                  setNotiArr(defaultNotiState);
+                  setPaging({ page: defaultNotiState.page + 1, limit: defaultNotiState.limit })   
+                 }}  
+              >
                 <span className="svg-icon svg-icon-xl svg-icon-danger">
                   <NotificationsIcon htmlColor={'#0B9446'} />
                 </span>

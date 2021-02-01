@@ -23,7 +23,7 @@ function CustomersManagementView({ columns, code, history, title, onFetch }: Pro
     setLoading(true);
     onFetch(code)
       .then(res => {
-        setEntity(res.data.data);
+        setEntity(res.data.data ? res.data.data : res.data.products);
       })
       .catch(err => console.log(err))
       .finally(() => {
@@ -31,6 +31,8 @@ function CustomersManagementView({ columns, code, history, title, onFetch }: Pro
       });
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [code]);
+
+  console.log(entity)
 
   return (
     <Card>
@@ -47,7 +49,7 @@ function CustomersManagementView({ columns, code, history, title, onFetch }: Pro
         <div className="mt-8 mb-10">
           <span className="text-primary detail-dialog-subtitle">{title}</span>
         </div>
-        {loading ? (
+        {!loading ? (
           <BootstrapTable
             wrapperClasses="table-responsive"
             bordered={false}

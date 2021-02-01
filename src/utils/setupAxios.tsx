@@ -37,9 +37,9 @@ export default function setupAxios(axios: AxiosStatic, store: EnhancedStore) {
         return qs.stringify(params, {allowDots: true, arrayFormat: 'repeat'});
       };
       const {auth} = store.getState();
-      if (auth) {
+      if (auth._id) {
         config.headers.Authorization = `${JSON.stringify(auth._certificate)}`;
-      }
+      
       if (config.method !== 'GET') {
         if (config.data) {
           if (auth._privateKey) {
@@ -75,7 +75,7 @@ export default function setupAxios(axios: AxiosStatic, store: EnhancedStore) {
             _signature: signature,
           };
         }
-      }
+      }}
       return config;
     },
     err => Promise.reject(err),
