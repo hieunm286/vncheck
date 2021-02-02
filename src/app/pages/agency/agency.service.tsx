@@ -14,7 +14,7 @@ import {AgencyModel} from './agency.model';
 export const API_URL = API_BASE_URL + '/agency';
 
 export const Create: CreateProps<AgencyModel> = (data: AgencyModel) => {
-  return axios.post(API_URL, data);
+  return axios.post(API_URL, { ...data, type: '0' });
 };
 
 // const convertAddress = (address: any) => {
@@ -56,7 +56,7 @@ export const GetById = (id: string) => {
 };
 
 export const Update: UpdateProps<AgencyModel> = (entity: AgencyModel) => {
-  return axios.put(`${API_URL}/${entity._id}`, entity);
+  return axios.put(`${API_URL}/${entity._id}`, { ...entity, type: '0' });
 };
 
 export const Delete: DeleteProps<AgencyModel> = (entity: AgencyModel) => {

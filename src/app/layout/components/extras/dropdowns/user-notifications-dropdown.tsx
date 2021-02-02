@@ -155,7 +155,7 @@ export function UserNotificationsDropdown() {
                             return (
                               <a
                                 href="#"
-                                className="navi-item bg-hover"
+                                className="navi-item bg-hover" style={{ backgroundColor: !item.isRead ? '#99ff99' : '' }}
                                 ref={ref =>
                                   index === notiArr.notification.length - 1 ? setNode(ref) : null
                                 }>

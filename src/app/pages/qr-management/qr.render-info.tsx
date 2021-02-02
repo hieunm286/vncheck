@@ -94,7 +94,7 @@ export const seedingInfo: RenderInfoDetail = [{
           title: 'IMAGE_INFO',
           component: Display3Info
         }
-        return DisplayImage(image, renderInfo)
+        return DisplayImage(image, renderInfo, ['isMaster', true])
       }
     },
     'productPlan.seeding.landLotImage': {
@@ -104,7 +104,7 @@ export const seedingInfo: RenderInfoDetail = [{
           title: 'IMAGE_INFO',
           component: Display3Info
         }
-        return DisplayImage(image, renderInfo)
+        return DisplayImage(image, renderInfo, ['isMaster', true])
       }
     },
     'productPlan.seeding.manager.fullName': {
@@ -154,7 +154,7 @@ export const plantingInfo: RenderInfoDetail = [{
           title: 'IMAGE_INFO',
           component: Display3Info
         }
-        return DisplayImage(image, renderInfo)
+        return DisplayImage(image, renderInfo, ['isMaster', true])
       }
     },
     'productPlan.planting.imageBefore': {
@@ -164,7 +164,7 @@ export const plantingInfo: RenderInfoDetail = [{
           title: 'IMAGE_INFO',
           component: Display3Info
         }
-        return DisplayImage(image, renderInfo)
+        return DisplayImage(image, renderInfo, ['isMaster', true])
       }
     },
     'productPlan.planting.temperature': {
@@ -218,7 +218,7 @@ export const harvestingInfo: RenderInfoDetail = [{
           title: 'IMAGE_INFO',
           component: Display3Info
         }
-        return DisplayImage(image, renderInfo)
+        return DisplayImage(image, renderInfo, ['isMaster', true])
       }
     },
     'productPlan.harvesting.imageInProgress': {
@@ -228,7 +228,7 @@ export const harvestingInfo: RenderInfoDetail = [{
           title: 'IMAGE_INFO',
           component: Display3Info
         }
-        return DisplayImage(image, renderInfo)
+        return DisplayImage(image, renderInfo, ['isMaster', true])
       }
     },
     'productPlan.harvesting.imageAfter': {
@@ -238,7 +238,7 @@ export const harvestingInfo: RenderInfoDetail = [{
           title: 'IMAGE_INFO',
           component: Display3Info
         }
-        return DisplayImage(image, renderInfo)
+        return DisplayImage(image, renderInfo, ['isMaster', true])
       }
     },
     'productPlan.harvesting.temperature': {
@@ -291,7 +291,7 @@ export const preliminaryTreatmentInfo: RenderInfoDetail = [{
           title: 'IMAGE_INFO',
           component: Display3Info
         }
-        return DisplayImage(image, renderInfo)
+        return DisplayImage(image, renderInfo, ['isMaster', true])
       }
     },
     'productPlan.preliminaryTreatment.imageInProgress': {
@@ -301,7 +301,7 @@ export const preliminaryTreatmentInfo: RenderInfoDetail = [{
           title: 'IMAGE_INFO',
           component: Display3Info
         }
-        return DisplayImage(image, renderInfo)
+        return DisplayImage(image, renderInfo, ['isMaster', true])
       }
     },
     'productPlan.preliminaryTreatment.imageAfter': {
@@ -311,7 +311,7 @@ export const preliminaryTreatmentInfo: RenderInfoDetail = [{
           title: 'IMAGE_INFO',
           component: Display3Info
         }
-        return DisplayImage(image, renderInfo)
+        return DisplayImage(image, renderInfo, ['isMaster', true])
       }
     },
     'productPlan.preliminaryTreatment.manager.user.fullName': {
@@ -352,7 +352,7 @@ export const cleaningInfo: RenderInfoDetail = [{
           title: 'IMAGE_INFO',
           component: Display3Info
         }
-        return DisplayImage(image, renderInfo)
+        return DisplayImage(image, renderInfo, ['isMaster', true])
       }
     },
     'productPlan.cleaning.imageInProgress': {
@@ -362,7 +362,7 @@ export const cleaningInfo: RenderInfoDetail = [{
           title: 'IMAGE_INFO',
           component: Display3Info
         }
-        return DisplayImage(image, renderInfo)
+        return DisplayImage(image, renderInfo, ['isMaster', true])
       }
     },
     'productPlan.cleaning.imageAfter': {
@@ -372,7 +372,7 @@ export const cleaningInfo: RenderInfoDetail = [{
           title: 'IMAGE_INFO',
           component: Display3Info
         }
-        return DisplayImage(image, renderInfo)
+        return DisplayImage(image, renderInfo, ['isMaster', true])
       }
     },
     'productPlan.cleaning.manager.user.fullName': {
@@ -417,7 +417,7 @@ export const packingInfo: RenderInfoDetail = [{
           title: 'IMAGE_INFO',
           component: Display3Info
         }
-        return DisplayImage(image, renderInfo)
+        return DisplayImage(image, renderInfo, ['isMaster', true])
       }
     },
     'productPlan.packing.packingImage': {
@@ -427,7 +427,7 @@ export const packingInfo: RenderInfoDetail = [{
           title: 'IMAGE_INFO',
           component: Display3Info
         }
-        return DisplayImage(image, renderInfo)
+        return DisplayImage(image, renderInfo, ['isMaster', true])
       }
     },
     'scanAt': {
@@ -479,7 +479,7 @@ export const preservationInfo: RenderInfoDetail = [{
           title: 'IMAGE_INFO',
           component: Display3Info
         }
-        return DisplayImage(image, renderInfo)
+        return DisplayImage(image, renderInfo, ['isMaster', true])
       }
     },
     'productPlan.preservation.[technical].user.fullName': {

@@ -218,7 +218,7 @@ function CustomersManagement() {
     },
     sellAgency: {
       dataField: 'sellAgency.name',
-      text: `${intl.formatMessage({ id: 'PRODUCT_TYPE.MASTER.TABLE.NAME_COLUMN' })}`,
+      text: `${intl.formatMessage({ id: 'CUSTOMERS_STORE' })}`,
       ...SortColumn,
       classes: 'text-center',
     },
@@ -245,6 +245,8 @@ function CustomersManagement() {
           </span>
         </span>
       ),
+      classes: 'text-center',
+      headerClasses: 'text-center',
     }
   };
 
@@ -265,7 +267,7 @@ function CustomersManagement() {
     },
     packing: {
       dataField: 'packing.weight',
-      text: 'Tên chủng loại',
+      text: 'Quy cách đóng gói',
       classes: 'text-center',
     },
     qr: {

@@ -7,6 +7,8 @@ import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {useWindowSize} from "./pages/auth/pages/auth-page";
 
+const HomePage = lazy(() => import('./pages/_homepage'))
+
 const UserPage = lazy(() => import('./pages/user/user'));
 
 const ProductPage = lazy(() => import('./pages/product'));
@@ -51,13 +53,14 @@ export default function BasePage() {
       <ToastContainer/>
       
       <Switch>
-        <Redirect exact from="/" to="/account/user"/>
+        <Redirect exact from="/" to="/dashboard"/>
         <ContentRoute
           children={null}
           path="/change-password"
           component={ChangeUserPassword}
           render={null}
         />
+        <Route path="/dashboard" component={HomePage}/>
         <Route path="/account/user" component={UserPage}/>
         <Route path="/product-category" component={ProductPage}/>
         <Route path="/agency" component={AgencyPage}/>
