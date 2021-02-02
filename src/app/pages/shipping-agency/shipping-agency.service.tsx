@@ -16,7 +16,7 @@ export const API_URL = API_BASE_URL + '/shipping-agency';
 export const BULK_API_URL = API_URL + '/bulk'
 
 export const Create: CreateProps<any> = (data: any) => {
-  return axios.post(API_URL, data);
+  return axios.post(API_URL, { ...data, type: '1' });
 };
 
 export const GetAll: GetAllPropsServer<any> = ({
@@ -47,7 +47,7 @@ export const GetById = (_id: string) => {
   return axios.get(`${API_URL}/${_id}`);
 };
 export const Update: UpdateProps<ShippingAgencyModel> = (entity: any) => {
-  return axios.put(`${API_URL}/${entity._id}`, entity);
+  return axios.put(`${API_URL}/${entity._id}`, { ...entity, type: '1' });
 };
 
 export const Delete: DeleteProps<ShippingAgencyModel> = (entity: any) => {

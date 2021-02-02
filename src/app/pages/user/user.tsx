@@ -204,20 +204,20 @@ function User() {
         setManagementUnit(value);
       },
     },
-    role: {
-      type: 'search-select',
-      label: 'USER.MASTER.SEARCH.ROLE',
-      keyField: 'name',
-      onSearch: ({queryProps, paginationProps}: any, values: any): Promise<any> => {
-        return RoleService.GetAll({
-          queryProps: {...queryProps, managementUnit: {...values?.managementUnit}},
-          paginationProps
-        })
-      },
-      disabled: (values: any) => {
-        return !(values.managementUnit);
-      },
-    },
+    // role: {
+    //   type: 'search-select',
+    //   label: 'USER.MASTER.SEARCH.ROLE',
+    //   keyField: 'name',
+    //   onSearch: ({queryProps, paginationProps}: any, values: any): Promise<any> => {
+    //     return RoleService.GetAll({
+    //       queryProps: {...queryProps, managementUnit: {...values?.managementUnit}},
+    //       paginationProps
+    //     })
+    //   },
+    //   disabled: (values: any) => {
+    //     return !(values.managementUnit);
+    //   },
+    // },
     code: {
       type: 'string',
       label: 'USER.MASTER.SEARCH.CODE',
