@@ -342,7 +342,7 @@ function ShippingAgency() {
       label: 'SHIPPING_AGENCY.MODIFY.IMAGE',
     },
   }), [getCity, getDistrict]);
-  const [group2, setGroup2] = useState<ModifyInputGroup>({
+  const group2 = useMemo(() :ModifyInputGroup => ({
     _subTitle: 'THÔNG TIN CHỦ ĐƠN VỊ',
     _className: 'col-6 pl-xl-15 pl-md-10 pl-5',
     owner: {
@@ -468,7 +468,7 @@ function ShippingAgency() {
         label: 'SHIPPING_AGENCY.MODIFY.REPRESENT_IMAGE',
       },
     }
-  });
+  }), [showCreate, getOwnerCity, getOwnerDistrict, managementUnit]);
   
   const createForm = useMemo((): ModifyForm => ({
     _header: createTitle,
