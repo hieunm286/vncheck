@@ -75,7 +75,7 @@ export function QuickUser() {
         <div className="separator separator-dashed mt-8 mb-5"/>
         
         <div className="navi navi-spacer-x-0 p-0">
-          <a href="/change-password" className="navi-item">
+          <a href="/auth/change-password" className="navi-item">
             <div className="navi-link">
               <div className="symbol symbol-40 bg-light mr-3">
                 <div className="symbol-label">
