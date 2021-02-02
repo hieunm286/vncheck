@@ -39,39 +39,42 @@ export default function setupAxios(axios: AxiosStatic, store: EnhancedStore) {
       const {auth} = store.getState();
       if (auth._id) {
         config.headers.Authorization = `${JSON.stringify(auth._certificate)}`;
-      
+      const getActionType = () => {
+        return ('' + config.method + '_' + GetURLEndPoint(config.url ? config.url : '')).toUpperCase();
+      }
       if (config.method !== 'GET') {
         if (config.data) {
           if (auth._privateKey) {
             if (config.data instanceof FormData) {
+              config.data.append('_timestamp',new Date().toISOString());
+              config.data.append('_actionType',getActionType());
               const sig = JSON.stringify(Object.fromEntries(config.data));
               const signature = SignMessage(auth._privateKey, sig);
               config.headers['Content-Type'] = 'multipart/form-data';
               config.data.append('_signature', signature);
               return config;
             } else {
-              const signature = SignMessage(auth._privateKey, config.data);
-              // const or: any = {...config.data};
               config.data = {
                 ...config.data,
-                _actionType: ('' + config.method + '_' + GetURLEndPoint(config.url ? config.url : '')).toUpperCase(),
-                // actionType: config.method,
+                _actionType: getActionType(),
                 _timestamp: new Date(),
+              };
+              const signature = SignMessage(auth._privateKey, config.data);
+              config.data = {
+                ...config.data,
                 _signature: signature,
               };
             }
           }
         } else {
           config.data = {
-            // actionType: ('' + config.method + ':' + GetURLEndPoint(config.url ? config.url : '')).toUpperCase(),
-            actionType: config.method,
+            ...config.data,
+            _actionType: getActionType(),
+            _timestamp: new Date(),
           };
-  
           const signature = SignMessage(auth._privateKey, config.data);
           config.data = {
             ...config.data,
-            _actionType: ('' + config.method + '_' + GetURLEndPoint(config.url ? config.url : '')).toUpperCase(),
-            _timestamp: new Date(),
             _signature: signature,
           };
         }
