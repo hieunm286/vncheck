@@ -115,9 +115,12 @@ function Species() {
     getAllServer: ProductTypeService.GetAll,
     updateServer: ProductTypeService.Update,
   });
+
+  const [trigger, setTrigger] = React.useState(false)
+
   useEffect(() => {
     getAll(filterProps);
-  }, [paginationProps, filterProps]);
+  }, [paginationProps, filterProps, trigger]);
   
   const columns = {
     code: {
@@ -182,7 +185,8 @@ function Species() {
         return index === -1;
       }),
     barcode: Yup.string()
-      .max(10, 'MAX_10_CHARACTERS')
+      .max(13, 'MAX_13_CHARACTERS')
+      .min(8, 'MIN_CHARACTERS')
       .matches(/^[0-9]+$/u, {
         message: '"GTIN_IS_INVALID',
       })
@@ -367,6 +371,7 @@ function Species() {
         error={error}
         onHide={() => {
           setShowDeleteMany(false);
+          setTrigger(!trigger)
         }}
       />
       

@@ -33,30 +33,34 @@ export function Routes() {
     return userInfo._certificate && !userInfo._preLoggedIn && unexpired();
   };
   
-  // let {username} = useSelector(({auth}: any) => auth);
-  // username = location.pathname === '/auth/login/identifier' ? null : username;
+  let username = location.pathname === '/auth/login/identifier' ? null : userInfo.username;
   const isNeedChangePassword = userInfo?._error === 'AUTH.ERROR.NEED_TO_CHANGE_PASSWORD';
   const errorMessage = !isNeedChangePassword ? userInfo?._error :
     new URLSearchParams(search).get('errorMessage');
   const CheckAuth = () => {
     const state: any = store.getState();
-    const username = state.auth.username;
+    // const username = state.auth.username;
     if (isNeedChangePassword) {
       return (<Route>
         <AuthPage/>
         <Redirect to={`/auth/change-password?callbackUrl=${callbackUrl}`}/>
       </Route>)
     } else if (isLoggedInAndUnexpired()) {
-      if (pathname.indexOf('/auth/change-password') > -1) return (<Route>
-        <AuthPage/>
-        <Redirect to={`/auth/change-password?callbackUrl=${callbackUrl}`}/>
-      </Route>)
+      if (pathname.indexOf('/auth/change-password') > -1) {
+        console.log('111')
+        return (<Route>
+          <AuthPage/>
+          <Redirect to={`/auth/change-password?callbackUrl=${callbackUrl}`}/>
+        </Route>)
+        }
+        console.log('222')
       return [
         (<Redirect from={'/auth'} to={callbackUrl} key={'r_base'}/>),
         (<Layout key={'base'}>
           <BasePage/>
-        </Layout>)];
-    } else
+        </Layout>),];
+    } else{
+      console.log('3333');
       return (<Route>
         <AuthPage/>
         {
@@ -67,7 +71,7 @@ export function Routes() {
               to={`/auth/login/identifier?callbackUrl=${callbackUrl}&errorMessage=${errorMessage}`}/></Route>)
         }
       
-      </Route>);
+      </Route>);}
   };
   return (
     <Switch>
