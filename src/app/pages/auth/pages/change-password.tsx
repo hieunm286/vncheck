@@ -187,6 +187,12 @@ function ChangePassword(props: {
               _privateKey: keyPair.privateKey,
               _preLoggedIn: false,
             });
+            const location = window.location;
+            const {pathname} = location;
+            const {search} = location;
+            const temp = new URLSearchParams(search).get('callbackUrl');
+            let callbackUrl = temp ? temp : pathname;
+            history.push(callbackUrl);
           })
           .catch(err => {
             props.savePingErrorData(err.response.data);
