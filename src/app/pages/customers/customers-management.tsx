@@ -4,6 +4,7 @@ import {
   DefaultPagination,
   NormalColumn,
   SortColumn,
+  SortDefault,
 } from '../../common-library/common-consts/const';
 import { MasterHeader } from '../../common-library/common-components/master-header';
 import { MasterBody } from '../../common-library/common-components/master-body';
@@ -99,8 +100,9 @@ function CustomersManagement() {
     updateServer: CustomersService.Update,
   });
 
+  const [sortField, setSortField] = React.useState<any>(SortDefault[0])
     useEffect(() => {
-      getAll(filterProps);
+      getAll({ ...filterProps, sortBy: sortField.dataField, sortType: sortField.order });
     }, [paginationProps, filterProps]);
 
   const masterColumns = {
@@ -305,7 +307,7 @@ function CustomersManagement() {
   ];
 
   const productTypeSearchModel: SearchModel = {
-    phone: {
+    username: {
       type: 'string',
       label: 'CUSTOMERS_PHONE_NUMBER',
     },
@@ -332,7 +334,9 @@ function CustomersManagement() {
               code={match && match.params.code}
               history={history}
               title={HistoryTitle}
-              onFetch={(code) => CustomersService.GetOrders(code, { paginationProps, filterProps })}
+              onFetch={(code: string, paginationProps: any) => CustomersService.GetOrders(code, { paginationProps })}
+              sortField={sortField}
+              setSortField={setSortField}
             />
           )}
         </Route>
@@ -342,8 +346,10 @@ function CustomersManagement() {
               columns={productInPurChaseOrderColumn}
               code={match && match.params.code}
               history={history}
-              title={PurchaseOrderTitle + (match ? match.params.code : '')}
-              onFetch={(code) => CustomersService.GetOrderDetail(code, { paginationProps, filterProps })}
+              title={PurchaseOrderTitle}
+              onFetch={(code: string, paginationProps: any) => CustomersService.GetOrderDetail(code, { paginationProps })}
+              sortField={sortField}
+              setSortField={setSortField}
             />
           )}
         </Route>

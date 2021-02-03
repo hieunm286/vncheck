@@ -99,10 +99,12 @@ function ProductPackaging() {
     updateServer: ProductPackagingService.Update,
   });
 
+  const [trigger, setTrigger] = React.useState(false)
+
   useEffect(() => {
     const t = {sortBy: 'updatedAt'}
     getAll({ ...filterProps });
-  }, [paginationProps, filterProps]);
+  }, [paginationProps, filterProps, trigger]);
 
   const columns = {
     code: {
@@ -305,6 +307,7 @@ function ProductPackaging() {
         error={error}
         onHide={() => {
           setShowDeleteMany(false);
+          setTrigger(!trigger)
         }}
       />
       <ModifyEntityDialog

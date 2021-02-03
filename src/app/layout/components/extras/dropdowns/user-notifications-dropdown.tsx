@@ -37,7 +37,7 @@ const defaultNotiState: State = {
 
 export function UserNotificationsDropdown() {
   const [key, setKey] = useState('Events');
-  const bgImage = ToAbsoluteUrl('/media/authImage/vegetable2.jpg');
+  const bgImage = ToAbsoluteUrl('/media/authImage/fruit7.jpg');
   const [notiArr, setNotiArr] = useState(defaultNotiState);
   const [notification, setPaging] = useNotification(notiArr.page, notiArr.limit);
 
@@ -121,12 +121,14 @@ export function UserNotificationsDropdown() {
               <div
                 className="d-flex flex-column pt-12 bgi-size-cover bgi-no-repeat rounded-top"
                 style={{ backgroundImage: `url(${bgImage})`, backgroundSize: 'cover' }}>
-                <h4 className="d-flex flex-center rounded-top">
-                  <span className="text-white">Thông báo</span>
+                {/* <h4 className="d-flex flex-center rounded-top">
+                  <span className="text-white font-weight-bolder">Thông báo</span>
                   <span className="btn btn-text btn-success btn-sm font-weight-bold btn-font-md ml-2">
-                    {notiArr.notification.filter(item => item.isRead === false).length} thông báo mới
+                    {notiArr.notification.filter(item => item.isRead === false).length} 
+                    Thông báo 
+                    mới
                   </span>
-                </h4>
+                </h4> */}
 
                 <Tab.Container defaultActiveKey={key}>
                   <Nav

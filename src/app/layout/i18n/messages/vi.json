@@ -378,7 +378,8 @@
   "SPECIES_NAME_IS_INVALID": "Tên không hợp lệ. Tên không chứa số và ký tự đặc biệt",
   "SPECIES_NAME_WAS_EXISTED": "Tên chủng loại đã tồn tại",
   "GTIN_CANNOT_EMPTY": "GTIN không được để trống",
-  "MAX_10_CHARACTERS": "Vui lòng nhập tối đa 10 ký tự",
+  "MAX_13_CHARACTERS": "Vui lòng nhập tối đa 13 ký tự",
+  "MIN_CHARACTERS": "Vui lòng nhập tối thiểu 8 ký tự",
   "GTIN_IS_INVALID": "GTIN không hợp lệ. GTIN không chứa chữ cái và ký tự đặc biệt",
   "GTIN_WAS_EXISTED": "GTIN đã tồn tại",
   "DATE_CANNOT_BE_EMPTY": "Số ngày không được để trống",
@@ -906,5 +907,8 @@
   "1000": "Kg",
   "10000": "Yến",
   "100000": "Tạ",
-  "1000000": "Tấn"
+  "1000000": "Tấn",
+
+  "AUTH.ERROR.USER_NOT_FOUND": "Tài khoản không tồn tại",
+  "AUTH.ERROR.MISMATCH_PUBLIC_KEY": "Không tồn tại public key"
 }

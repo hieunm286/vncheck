@@ -329,10 +329,10 @@ function ProductionManagement() {
       classes: 'text-center',
     },
     harvestingCode: {
-      dataField: 'harvesting.code',
+      dataField: 'code',
       text: `${intl.formatMessage({ id: harvestingCode })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
-        <Link to={`/production-management/harvesting/${row._id}`}>{row.harvesting.code}</Link>
+        <Link to={`/production-management/harvesting/${row._id}`}>{row.code}</Link>
       ),
       ...SortColumn,
       classes: 'text-center',
