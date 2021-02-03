@@ -35,9 +35,8 @@ export function Routes() {
   
   // let {username} = useSelector(({auth}: any) => auth);
   // username = location.pathname === '/auth/login/identifier' ? null : username;
-  const isNeedChangePassword =
-    userInfo._error && userInfo._error === 'AUTH.ERROR.NEED_TO_CHANGE_PASSWORD';
-  const errorMessage = (userInfo._error && userInfo._error !== 'AUTH.ERROR.NEED_TO_CHANGE_PASSWORD') ? userInfo._error :
+  const isNeedChangePassword = userInfo?._error === 'AUTH.ERROR.NEED_TO_CHANGE_PASSWORD';
+  const errorMessage = !isNeedChangePassword ? userInfo?._error :
     new URLSearchParams(search).get('errorMessage');
   const CheckAuth = () => {
     const state: any = store.getState();
@@ -48,6 +47,10 @@ export function Routes() {
         <Redirect to={`/auth/change-password?callbackUrl=${callbackUrl}`}/>
       </Route>)
     } else if (isLoggedInAndUnexpired()) {
+      if (pathname.indexOf('/auth/change-password') > -1) return (<Route>
+        <AuthPage/>
+        <Redirect to={`/auth/change-password?callbackUrl=${callbackUrl}`}/>
+      </Route>)
       return [
         (<Redirect from={'/auth'} to={callbackUrl} key={'r_base'}/>),
         (<Layout key={'base'}>
@@ -71,14 +74,14 @@ export function Routes() {
       <Route path='/error' component={ErrorsPage}/>
       <Route path='/logout' component={Logout}/>
       <Route path='/food-traceability/:id'>
-      {({history, match}) => (
-            <FoodTraceability                      
-              id={match && match.params.id}
-            />
-          )}
+        {({history, match}) => (
+          <FoodTraceability
+            id={match && match.params.id}
+          />
+        )}
       </Route>
       {CheckAuth()}
-      
+    
     </Switch>
   );
 }

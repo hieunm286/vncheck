@@ -2,31 +2,12 @@ import {SignMessage} from '../app/pages/auth/service/auth-cryptography';
 import {actionTypes} from '../app/pages/auth/_redux/auth-redux';
 import {AxiosStatic} from 'axios';
 import {EnhancedStore} from '@reduxjs/toolkit';
+import * as url from "url";
 
 const qs = require('qs');
-const GetURLEndPoint = (url: string) => {
-  const index = url.indexOf('/api/');
-  const lastIndex = url.lastIndexOf('/');
-
-  const arr: any[] = []
-
-  for (let i = index; i < url.length; i++) {
-    if (url[i] === '/') {
-      arr.push(i)
-    }
-  }
-  
-  if (index === -1 && lastIndex === -1) return url;
-  
-  let endPoint: string = '';
-
-  endPoint = url.substring(arr[1] + 1, arr[2])
-
-  
-  const re = /-/gi;
-  let finalEndPoint = endPoint.replace(re, '-');
-  
-  return endPoint;
+const GetActionModule = (_url: string) => {
+  const pathname = _url[0] === '/' ? _url : new URL(_url).pathname;
+  return pathname.replaceAll('/', '-').substring(1);
 };
 
 export default function setupAxios(axios: AxiosStatic, store: EnhancedStore) {
@@ -34,44 +15,47 @@ export default function setupAxios(axios: AxiosStatic, store: EnhancedStore) {
     config => {
       config.paramsSerializer = params => {
         // Qs is already included in the Axios package
-        return qs.stringify(params, {allowDots: true, arrayFormat: 'repeat'});
+        return qs.stringify(params, {allowDots: true, arrayFormat: 'comma', encode: false});
       };
       const {auth} = store.getState();
       if (auth._id) {
         config.headers.Authorization = `${JSON.stringify(auth._certificate)}`;
-      
+      const getActionType = () => {
+        return (config.method + '_' + GetActionModule(config.url ?? '/')).toUpperCase();
+      }
       if (config.method !== 'GET') {
         if (config.data) {
           if (auth._privateKey) {
             if (config.data instanceof FormData) {
+              config.data.append('_timestamp',new Date().toISOString());
+              config.data.append('_actionType',getActionType());
               const sig = JSON.stringify(Object.fromEntries(config.data));
               const signature = SignMessage(auth._privateKey, sig);
               config.headers['Content-Type'] = 'multipart/form-data';
               config.data.append('_signature', signature);
               return config;
             } else {
-              const signature = SignMessage(auth._privateKey, config.data);
-              // const or: any = {...config.data};
               config.data = {
                 ...config.data,
-                _actionType: ('' + config.method + '_' + GetURLEndPoint(config.url ? config.url : '')).toUpperCase(),
-                // actionType: config.method,
+                _actionType: getActionType(),
                 _timestamp: new Date(),
+              };
+              const signature = SignMessage(auth._privateKey, config.data);
+              config.data = {
+                ...config.data,
                 _signature: signature,
               };
             }
           }
         } else {
           config.data = {
-            // actionType: ('' + config.method + ':' + GetURLEndPoint(config.url ? config.url : '')).toUpperCase(),
-            actionType: config.method,
+            ...config.data,
+            _actionType: getActionType(),
+            _timestamp: new Date(),
           };
-  
           const signature = SignMessage(auth._privateKey, config.data);
           config.data = {
             ...config.data,
-            _actionType: ('' + config.method + '_' + GetURLEndPoint(config.url ? config.url : '')).toUpperCase(),
-            _timestamp: new Date(),
             _signature: signature,
           };
         }
