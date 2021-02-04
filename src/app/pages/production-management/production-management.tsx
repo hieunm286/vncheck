@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { Link, Route, Switch, useHistory } from 'react-router-dom';
 import { Card, CardBody, CardStyle1 } from '../../common-library/card';
@@ -230,6 +230,22 @@ const PM_PreservationSearchModel: SearchModel = {
   },
 };
 
+const TAB_PROCESS = {
+  harvesting: '2,3,4,5,6,7',
+  preliminaryTreatment: '3,4,5,6,7',
+  cleaning: '4,5,6,7',
+  packing: '5,6,7',
+  preservation: '6,7',
+}
+
+const TAB_STEP = {
+  harvesting: 0,
+  preliminaryTreatment: 1,
+  cleaning: 2,
+  packing: 3,
+  preservation: 4
+}
+
 function ProductionManagement() {
   const intl = useIntl();
 
@@ -309,7 +325,7 @@ function ProductionManagement() {
     },
   };
 
-  const harvestingColumns = {
+  const harvestingColumns = useMemo(() => ({
     _id: {
       dataField: '_id',
       text: 'STT',
@@ -329,10 +345,10 @@ function ProductionManagement() {
       classes: 'text-center',
     },
     harvestingCode: {
-      dataField: 'harvesting.code',
+      dataField: 'code',
       text: `${intl.formatMessage({ id: harvestingCode })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
-        <Link to={`/production-management/harvesting/${row._id}`}>{row.harvesting.code}</Link>
+        <Link to={`/production-management/harvesting/${row._id}`}>{row.code}</Link>
       ),
       ...SortColumn,
       classes: 'text-center',
@@ -371,9 +387,9 @@ function ProductionManagement() {
       classes: 'text-center',
       headerClasses: 'text-center',
     },
-  };
+  }), []);
 
-  const preliminaryTreatmentColumns = {
+  const preliminaryTreatmentColumns = useMemo(() => ({
     _id: {
       dataField: '_id',
       text: 'STT',
@@ -431,9 +447,9 @@ function ProductionManagement() {
       classes: 'text-center',
       headerClasses: 'text-center',
     },
-  };
+  }), []);
 
-  const cleaningColumns = {
+  const cleaningColumns = useMemo(() => ({
     _id: {
       dataField: '_id',
       text: 'STT',
@@ -500,9 +516,9 @@ function ProductionManagement() {
       classes: 'text-center',
       headerClasses: 'text-center',
     },
-  };
+  }), []);
 
-  const packingColumns = {
+  const packingColumns = useMemo(() => ({
     _id: {
       dataField: '_id',
       text: 'STT',
@@ -566,9 +582,9 @@ function ProductionManagement() {
       ...SortColumn,
       classes: 'text-center',
     },
-  };
+  }), []);
 
-  const preservationColumns = {
+  const preservationColumns = useMemo(() => ({
     _id: {
       dataField: '_id',
       text: 'STT',
@@ -667,7 +683,7 @@ function ProductionManagement() {
       classes: 'text-center',
       headerClasses: 'text-center',
     },
-  };
+  }) ,[]);
 
   const stepData = [
     {
@@ -707,11 +723,11 @@ function ProductionManagement() {
   // }
 
   const getProcess = useCallback((): string => {
-    if (currentStep === 0) return '2,3,4,5,6';
-    if (currentStep === 1) return '3,4,5,6';
-    if (currentStep === 2) return '4,5,6';
-    if (currentStep === 3) return '5,6';
-    return '6';
+    if (currentStep === TAB_STEP.harvesting) return TAB_PROCESS.harvesting;
+    if (currentStep === TAB_STEP.preliminaryTreatment) return TAB_PROCESS.preliminaryTreatment;
+    if (currentStep === TAB_STEP.cleaning) return TAB_PROCESS.cleaning;
+    if (currentStep === TAB_STEP.packing) return TAB_PROCESS.packing;
+    return TAB_PROCESS.preservation;
   }, [currentStep]);
 
   useEffect(() => {
@@ -725,19 +741,19 @@ function ProductionManagement() {
   }, [paginationProps, filterProps, currentStep]);
 
   const getSearchModel = useCallback((): SearchModel => {
-    if (currentStep === 0) return PM_HarvestingSearchModel;
-    if (currentStep === 1) return PM_PreliminaryTreatmentSearchModel;
-    if (currentStep === 2) return PM_CleaningSearchModel;
-    if (currentStep === 3) return PM_PackingSearchModel;
+    if (currentStep === TAB_STEP.harvesting) return PM_HarvestingSearchModel;
+    if (currentStep === TAB_STEP.preliminaryTreatment) return PM_PreliminaryTreatmentSearchModel;
+    if (currentStep === TAB_STEP.cleaning) return PM_CleaningSearchModel;
+    if (currentStep === TAB_STEP.packing) return PM_PackingSearchModel;
     return PM_PreservationSearchModel;
   }, [currentStep]);
 
   const getTableColumn = useCallback(() => {
-    if (currentStep === 0) return harvestingColumns;
-    if (currentStep === 1) return preliminaryTreatmentColumns;
-    if (currentStep === 2) return cleaningColumns;
-    if (currentStep === 3) return packingColumns;
-    if (currentStep === 4) return preservationColumns;
+    if (currentStep === TAB_STEP.harvesting) return harvestingColumns;
+    if (currentStep === TAB_STEP.preliminaryTreatment) return preliminaryTreatmentColumns;
+    if (currentStep === TAB_STEP.cleaning) return cleaningColumns;
+    if (currentStep === TAB_STEP.packing) return packingColumns;
+    if (currentStep === TAB_STEP.preservation) return preservationColumns;
     return {};
   }, [
     cleaningColumns,
@@ -857,7 +873,7 @@ function ProductionManagement() {
                     step: '1',
                     isMaster: true,
                     confirmationStatus: '2',
-                    process: currentStep + 2 + '',
+                    process: getProcess(),
                   };
                   ProductionPlanService.Search(value, { DefaultPagination, pr }).then(res => {
                     const data: any = res.data;

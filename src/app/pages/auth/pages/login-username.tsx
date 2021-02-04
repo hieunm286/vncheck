@@ -86,7 +86,7 @@ const LoginUsername = (props: { saveUserInfo?: any; intl?: any; location?: any }
               publicKey: string;
               username: string;
             } = response.data;
-            const fullName = response.data.firstName + ' ' + response.data.lastName;
+            const fullName = (response.data.fullName) || (response.data.firstName + ' ' + response.data.lastName);
             localStorage.setItem('userInfo', JSON.stringify({username, fullName}));
             props.saveUserInfo({
               ...response.data,

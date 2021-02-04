@@ -1,36 +1,46 @@
 import React, { ReactElement } from 'react';
 import { Card, CardHeader, CardBody } from '../../common-library/card';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import BootstrapTable from 'react-bootstrap-table-next';
-import { SortDefault } from '../../common-library/common-consts/const';
+import BootstrapTable, { SortOrder } from 'react-bootstrap-table-next';
+import { DefaultPagination, SortDefault } from '../../common-library/common-consts/const';
 import { Spin } from 'antd';
 import { PleaseWaitMessage, NoRecordsFoundMessage } from '../../common-library/helpers/pagination-helper';
 import { AxiosResponse } from 'axios';
+import { MasterTable } from '../../common-library/common-components/master-table';
 
 interface Prop {
   columns: { [X: string]: any };
   code: string;
   history: any;
   title: string | ReactElement;
-  onFetch: (code: string) => Promise<AxiosResponse<any>>;
+  onFetch: (code: string, params: any) => Promise<AxiosResponse<any>>;
+  sortField: { dataField: any; order: SortOrder };
+  setSortField: (sortField: { dataField: any; order: string }) => void
 }
 
-function CustomersManagementView({ columns, code, history, title, onFetch }: Prop) {
+function CustomersManagementView({ columns, code, history, title, onFetch, sortField, setSortField }: Prop) {
   const [loading, setLoading] = React.useState<boolean>(false);
   const [entity, setEntity] = React.useState<{ [X: string]: any }[]>([]);
+  const [paginationProps, setPaginationProps] = React.useState(DefaultPagination);
+  const [total, setTotal] = React.useState(0)
+  const [orderCode, setOrderCode] = React.useState('')
 
   React.useEffect(() => {
     setLoading(true);
-    onFetch(code)
+    onFetch(code, { ...paginationProps })
       .then(res => {
-        setEntity(res.data.data);
+        setEntity(res.data.data ? res.data.data : res.data.products);
+        setTotal(res.data?.paging?.total)
+        setOrderCode(res.data?.code || res.data?.customer?.code || 'CHI TIẾT')
       })
       .catch(err => console.log(err))
       .finally(() => {
         setLoading(false);
       });
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [code]);
+  }, [code, paginationProps]);
+
+  console.log(paginationProps)
 
   return (
     <Card>
@@ -38,17 +48,16 @@ function CustomersManagementView({ columns, code, history, title, onFetch }: Pro
         title={
           <>
             <span onClick={() => history.goBack()} className=" cursor-pointer text-primary font-weight-boldest">
-              <ArrowBackIosIcon /> {code}
+              <ArrowBackIosIcon /> {orderCode}
             </span>
           </>
         }
       />
       <CardBody>
         <div className="mt-8 mb-10">
-          <span className="text-primary detail-dialog-subtitle">{title}</span>
+          <span className="text-primary detail-dialog-subtitle">{title} {orderCode}</span>
         </div>
-        {loading ? (
-          <BootstrapTable
+        {/* <BootstrapTable
             wrapperClasses="table-responsive"
             bordered={false}
             classes="table table-head-custom table-vertical-center overflow-hidden noBorderOnClick"
@@ -57,14 +66,26 @@ function CustomersManagementView({ columns, code, history, title, onFetch }: Pro
             keyField="_id"
             data={entity}
             columns={Object.values(columns)}
-            defaultSorted={SortDefault as any}>
+            defaultSorted={SortDefault as any}
+            sort={sortField}
+            onTableChange={(type: string, state: any) => {
+              console.log(state)
+              if (type === 'sort') {
+                setSortField({ dataField: state.sortField, order: state.sortOrder })
+              }
+            }}
+          >
             <PleaseWaitMessage entities={entity} />
             <NoRecordsFoundMessage entities={entity} />
-          </BootstrapTable>
-        ) : (
-            <div className="text-center"><Spin size="default" /></div>
-          
-        )}
+          </BootstrapTable> */}
+            <MasterTable
+              entities={entity}
+              columns={columns}
+              total={total}
+              loading={loading}
+              paginationParams={paginationProps}
+              setPaginationParams={setPaginationProps}
+            />
       </CardBody>
     </Card>
   );

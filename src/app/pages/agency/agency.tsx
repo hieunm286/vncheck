@@ -589,11 +589,11 @@ function AgencyPage() {
     (): ModifyInputGroup => ({
       _subTitle: 'AGENCY.MODIFY.OWNER_INFO',
       _className: 'col-6 pl-xl-15 pl-md-10 pl-5',
-      '': {
-        _type: 'object',
+      // '': {
+      //   _type: 'object',
         owner: {
           _type: 'object',
-          _id: {
+          code: {
             _type: 'string',
             label: 'AGENCY.MODIFY.USER_CODE',
             disabled: true
@@ -719,9 +719,9 @@ function AgencyPage() {
             label: 'AGENCY.MODIFY.REPRESENT_IMAGE',
           },
         },
-      },
+      // },
     }),
-    [showCreate, getOwnerCity, getOwnerDistrict, managementUnit],
+    [getOwnerCity, getOwnerDistrict, ownerState, ownerCity, managementUnit],
   );
 
   const actions: any = useMemo(
@@ -763,6 +763,7 @@ function AgencyPage() {
     }),
     [group1, group2],
   );
+  
   const updateForm = useMemo((): ModifyForm => {
     return { ...createForm, _header: updateTitle };
   }, [createForm]);
@@ -785,10 +786,13 @@ function AgencyPage() {
       }),
     [],
   );
-  const initCreateValues = useMemo(() => ({ ...InitValues(createForm), status: '0', owner: {...initOwner}}), [
+  const initCreateValues = useMemo((): any => ({ ...InitValues(createForm), status: '0',}), [
     createForm,
-    initOwner
+  
   ]);
+
+  const _init = useMemo(() => ({ ...initCreateValues, owner: { ...initCreateValues.owner, ...initOwner } }), [initCreateValues, initOwner])
+
   return (
     <Fragment>
       <AgencyShippingAddress
@@ -859,7 +863,7 @@ function AgencyPage() {
             onModify={add}
             formModel={createForm}
             actions={actions}
-            entity={initCreateValues}
+            entity={_init}
             validation={validationSchema}
           />
         </Route>

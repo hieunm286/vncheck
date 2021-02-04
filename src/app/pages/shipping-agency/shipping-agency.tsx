@@ -228,8 +228,12 @@ function ShippingAgency() {
           queryProps: { ...filterProps, managementUnit: { ...owner.managementUnit } },
           paginationProps,
         }).then(ress => {
-          owner.role = ress.data.data[0]
-          setInitOwner(owner)
+          const roleIndex = ress.data.data.findIndex(value => value.name === 'Chủ đơn vị vận chuyển')
+          if (roleIndex !== -1) {
+            owner.role = ress.data.data[roleIndex]
+            setInitOwner(owner)
+          }  
+         
         });
       }
     })
@@ -342,11 +346,16 @@ function ShippingAgency() {
       label: 'SHIPPING_AGENCY.MODIFY.IMAGE',
     },
   }), [getCity, getDistrict]);
-  const [group2, setGroup2] = useState<ModifyInputGroup>({
+  const group2 = useMemo(() :ModifyInputGroup => ({
     _subTitle: 'THÔNG TIN CHỦ ĐƠN VỊ',
     _className: 'col-6 pl-xl-15 pl-md-10 pl-5',
     owner: {
       _type: 'object',
+      code: {
+        _type: 'string',
+        label: 'AGENCY.MODIFY.USER_CODE',
+        disabled: true
+      },
       username: {
         _type: 'string',
         label: 'SHIPPING_AGENCY.MODIFY.USER_NAME',
@@ -468,7 +477,7 @@ function ShippingAgency() {
         label: 'SHIPPING_AGENCY.MODIFY.REPRESENT_IMAGE',
       },
     }
-  });
+  }), [showCreate, getOwnerCity, getOwnerDistrict, managementUnit]);
   
   const createForm = useMemo((): ModifyForm => ({
     _header: createTitle,
@@ -517,11 +526,14 @@ function ShippingAgency() {
       }
     }
   }), [loading]);
-  
-  const initCreateValues = useMemo(() => ({ ...InitValues(createForm), status: '0', owner: {...initOwner}}), [
+
+  const initCreateValues = useMemo((): any => ({ ...InitValues(createForm), status: '0',}), [
     createForm,
-    initOwner
+  
   ]);
+
+  const _init = useMemo(() => ({ ...initCreateValues, owner: { ...initCreateValues.owner, ...initOwner } }), [initCreateValues, initOwner])
+
   
   return (
     <Fragment>
@@ -531,7 +543,7 @@ function ShippingAgency() {
             moduleName={moduleName}
             onModify={add}
             formModel={createForm}
-            entity={initCreateValues}
+            entity={_init}
             actions={actions}
             validation={validationSchema}
           />

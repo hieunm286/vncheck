@@ -210,6 +210,7 @@ export const DisplayImage = (
   renderInfo?: { title?: string; data?: { [KeyField: string]: string } },
   filter?: any[],
 ) => {
+  
 
   if (_.isArray(images) && filter && filter.length > 0) {
     return <DetailImage images={images.filter((el: any) => el[filter[0]] === filter[1])} renderInfo={renderInfo} />;

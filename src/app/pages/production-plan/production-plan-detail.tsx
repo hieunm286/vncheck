@@ -42,6 +42,11 @@ export function ProductionPlanDetail({
   const [entityDetail, setEntityDetail] = useState(entity);
 
   const history = useHistory();
+
+  useEffect(() => {
+    setEntityDetail(entity)
+  }, [entity])
+
   useEffect(() => {
     if (code && get) {
       get(code).then((res: { data: any }) => {
@@ -53,6 +58,7 @@ export function ProductionPlanDetail({
       });
     }
   }, [code]);
+  console.log(entityDetail)
   return (
     <>
       {renderInfo.map((value, index) => (

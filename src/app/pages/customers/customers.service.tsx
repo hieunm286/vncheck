@@ -47,8 +47,10 @@ export const Count: CountProps<CustomersModel> = ({
 export const GetOrders = (_id: string, {
   queryProps,
   paginationProps,
+  sortField
 }: any) => {
-  return axios.get(`${API_URL}/${_id}/orders`, { params: {...queryProps, ...paginationProps}, });
+  console.log(paginationProps)
+  return axios.get(`${API_URL}/${_id}/orders`, { params: {...queryProps, ...paginationProps, ...sortField}, });
 }
 
 export const GetOrderDetail = (_id: string,  {

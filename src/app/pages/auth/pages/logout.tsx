@@ -15,14 +15,14 @@ export class Logout extends Component<LogoutProps> {
   }
   
   render() {
-    const {search} = window.location;
-    let callbackUrl = new URLSearchParams(search).get('callbackUrl');
+    const {pathname} = window.location;
+    // let callbackUrl = new URLSearchParams(search).get('callbackUrl');
     
     const {_certificate} = this.props;
     return _certificate ? (
       <LayoutSplashScreen/>
     ) : (
-      <Redirect to={'/auth/login?callbackUrl=' + callbackUrl}/>
+      <Redirect to={'/auth/login?callbackUrl=' + pathname}/>
     );
   }
 }

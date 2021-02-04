@@ -115,7 +115,7 @@ export default function ManagementOrganization() {
           title: 'ROLE.VIEW.LABEL.MANAGEMENT_ORGANIZATION',
           keyField: 'managementUnit.name'
         },
-        _id: {
+        code: {
           title: 'ROLE.VIEW.LABEL.ROLE_CODE',
           
         },
@@ -300,7 +300,7 @@ export default function ManagementOrganization() {
   const columns = React.useMemo(() => {
     return [
       {
-        dataField: '_id',
+        dataField: 'code',
         text: `${intl.formatMessage({id: 'ROLE.MASTER.TABLE.ROLE_CODE' })}`,
         ...SortColumn,
         align: 'center',
@@ -393,7 +393,7 @@ export default function ManagementOrganization() {
   };
 
   const searchModel: SearchModel = {
-    _id: {
+    code: {
       type: 'string',
       label: 'ROLE.HEADER.LABEL.ROLE_CODE',
       // onSearch: GetIds,

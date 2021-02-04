@@ -8,6 +8,10 @@ import {ToAbsoluteUrl} from '../../../../common-library/helpers/assets-helpers';
 export function QuickUser() {
   const history = useHistory();
   const user = useSelector((state: any) => state.auth);
+  
+  const location = window.location;
+  const {pathname} = location;
+  const callbackUrl = pathname;
   const logoutClick = () => {
     const toggle = document.getElementById('kt_quick_user_toggle');
     if (toggle) {
@@ -15,9 +19,6 @@ export function QuickUser() {
     }
     history.push('/logout?callbackUrl=' + callbackUrl);
   };
-  const location = window.location;
-  const {pathname} = location;
-  const callbackUrl = pathname;
   return (
     <div id="kt_quick_user" className="offcanvas offcanvas-right offcanvas p-10">
       <div className="offcanvas-header d-flex align-items-center justify-content-between pb-5">
@@ -75,7 +76,7 @@ export function QuickUser() {
         <div className="separator separator-dashed mt-8 mb-5"/>
         
         <div className="navi navi-spacer-x-0 p-0">
-          <a href="/change-password" className="navi-item">
+          <a href={"/auth/change-password?callbackUrl=" + callbackUrl} className="navi-item">
             <div className="navi-link">
               <div className="symbol symbol-40 bg-light mr-3">
                 <div className="symbol-label">
@@ -147,7 +148,7 @@ export function QuickUser() {
         
         <div className="separator separator-dashed my-7"/>
         
-        <div>
+        {/* <div>
           <h5 className="mb-5">Recent Notifications</h5>
           
           <div className="d-flex align-items-center bg-light-warning rounded p-5 gutter-b">
@@ -227,7 +228,7 @@ export function QuickUser() {
             
             <span className="font-weight-bolder text-info py-1 font-size-lg">+8%</span>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

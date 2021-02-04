@@ -37,7 +37,7 @@ const defaultNotiState: State = {
 
 export function UserNotificationsDropdown() {
   const [key, setKey] = useState('Events');
-  const bgImage = ToAbsoluteUrl('/media/authImage/vegetable2.jpg');
+  const bgImage = ToAbsoluteUrl('/media/authImage/fruit7.jpg');
   const [notiArr, setNotiArr] = useState(defaultNotiState);
   const [notification, setPaging] = useNotification(notiArr.page, notiArr.limit);
 
@@ -82,7 +82,9 @@ export function UserNotificationsDropdown() {
         <div className="topbar-item">
           <div
             className="btn btn-icon btn-clean btn-lg mr-1 pulse pulse-danger"
-            id="kt_quick_notifications_toggle">
+            id="kt_quick_notifications_toggle"
+            
+          >
             <span className="svg-icon svg-icon-xl svg-icon-danger">
               <SVG src={ToAbsoluteUrl('/media/svg/icons/Code/Compiling.svg')} />
             </span>
@@ -98,7 +100,12 @@ export function UserNotificationsDropdown() {
               overlay={<Tooltip id="user-notification-tooltip">Thông báo</Tooltip>}>
               <div
                 className="btn btn-icon btn-clean btn-lg mr-1 pulse pulse-danger"
-                id="kt_quick_notifications_toggle">
+                id="kt_quick_notifications_toggle"
+                onClick={() => { 
+                  setNotiArr(defaultNotiState);
+                  setPaging({ page: defaultNotiState.page + 1, limit: defaultNotiState.limit })   
+                 }}  
+              >
                 <span className="svg-icon svg-icon-xl svg-icon-danger">
                   <NotificationsIcon htmlColor={'#0B9446'} />
                 </span>
@@ -114,12 +121,14 @@ export function UserNotificationsDropdown() {
               <div
                 className="d-flex flex-column pt-12 bgi-size-cover bgi-no-repeat rounded-top"
                 style={{ backgroundImage: `url(${bgImage})`, backgroundSize: 'cover' }}>
-                <h4 className="d-flex flex-center rounded-top">
-                  <span className="text-white">Thông báo</span>
+                {/* <h4 className="d-flex flex-center rounded-top">
+                  <span className="text-white font-weight-bolder">Thông báo</span>
                   <span className="btn btn-text btn-success btn-sm font-weight-bold btn-font-md ml-2">
-                    {notiArr.notification.filter(item => item.isRead === false).length} thông báo mới
+                    {notiArr.notification.filter(item => item.isRead === false).length} 
+                    Thông báo 
+                    mới
                   </span>
-                </h4>
+                </h4> */}
 
                 <Tab.Container defaultActiveKey={key}>
                   <Nav
@@ -148,7 +157,8 @@ export function UserNotificationsDropdown() {
                             return (
                               <a
                                 href="#"
-                                className="navi-item bg-hover"
+                                key={index}
+                                className="navi-item bg-hover" style={{ backgroundColor: !item.isRead ? '#99ff99' : '' }}
                                 ref={ref =>
                                   index === notiArr.notification.length - 1 ? setNode(ref) : null
                                 }>

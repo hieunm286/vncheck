@@ -117,7 +117,7 @@ export const harvestingDetail: RenderInfoDetail = [
             title: 'IMAGE_INFO',
             component: Display3Info
           }
-          return DisplayImage(image, renderInfo)
+          return DisplayImage(image, renderInfo, ['isMaster', true])
         }
       },
       'harvesting.imageAfter': {
@@ -126,7 +126,7 @@ export const harvestingDetail: RenderInfoDetail = [
             title: 'IMAGE_INFO',
             component: Display3Info
           }
-          return DisplayImage(image, renderInfo)
+          return DisplayImage(image, renderInfo, ['isMaster', true])
         }
       },
       'harvesting.imageInProgress': {
@@ -161,7 +161,10 @@ export const PreliminaryTreatmentDetail: RenderInfoDetail = [
       'preliminaryTreatment.code': { title: 'PRODUCTION_PLAN.PreliminaryTreatment_CODE' },
       'preliminaryTreatment.address': {
         keyField: 'preliminaryTreatment.imageInProgress', title: 'PRELIMINARYTREATMENT_LOCATION',
-        formatter: (e) => (<>{e && e[0]?.location && DisplayCoordinates(e[0].location.coordinates)}</>)
+        formatter: (e) => {
+          const master = e.filter((item: any) => item.isMaster === true)
+          return <>{master[0]?.location && DisplayCoordinates(master[0].location.coordinates)}</>
+        }
       },
       '': { title: 'EMPTY' },
       'preliminaryTreatment.quantity': { title: 'PRELIMINARY_TREATMENT' },
@@ -191,7 +194,7 @@ export const PreliminaryTreatmentDetail: RenderInfoDetail = [
             title: 'IMAGE_INFO',
             component: Display3Info
           }
-          return DisplayImage(image, renderInfo)
+          return DisplayImage(image, renderInfo, ['isMaster', true])
         }
       },
       'preliminaryTreatment.imageAfter': {
@@ -200,7 +203,7 @@ export const PreliminaryTreatmentDetail: RenderInfoDetail = [
             title: 'IMAGE_INFO',
             component: Display3Info
           }
-          return DisplayImage(image, renderInfo)
+          return DisplayImage(image, renderInfo, ['isMaster', true])
         }
       },
       'preliminaryTreatment.imageInProgress': {
@@ -236,7 +239,10 @@ export const CleaningDetail: RenderInfoDetail = [
       ...preliminaryTreatmentCode,
       'cleaning.address': {
         keyField: 'cleaning.imageInProgress', title: 'CLEANING_LOCATION',
-        formatter: (e) => (<>{e && e[0]?.location && DisplayCoordinates(e[0].location.coordinates)}</>)
+        formatter: (e) => {
+          const master = e.filter((item: any) => item.isMaster === true)
+          return <>{master[0]?.location && DisplayCoordinates(master[0].location.coordinates)}</>
+        }      
       },
       'cleaning.code': { title: 'PRODUCTION_PLAN.CLEANING.CODE' },
       'cleaning.quantity': { title: 'CLEANING_QUANTITY' },
@@ -266,7 +272,7 @@ export const CleaningDetail: RenderInfoDetail = [
             title: 'IMAGE_INFO',
             component: Display3Info
           }
-          return DisplayImage(image, renderInfo)
+          return DisplayImage(image, renderInfo, ['isMaster', true])
         }
       },
       'cleaning.imageAfter': {
@@ -275,7 +281,7 @@ export const CleaningDetail: RenderInfoDetail = [
             title: 'IMAGE_INFO',
             component: Display3Info
           }
-          return DisplayImage(image, renderInfo)
+          return DisplayImage(image, renderInfo, ['isMaster', true])
         }
       },
       'cleaning.imageInProgress': {
@@ -311,7 +317,10 @@ export const PackingDetail: RenderInfoDetail = [
       // 'planting.farmLocation.[coordinates]': {title: 'PACKING_LOCATION', formatter: DisplayCoordinates,},
       'packing.address': {
         keyField: 'packing.packingImage', title: 'PACKING_LOCATION',
-        formatter: (e) => (<>{e && e?.location && DisplayCoordinates(e.location.coordinates)}</>)
+        formatter: (e) => {
+          const master = e.filter((item: any) => item.isMaster === true)
+          return <>{master[0]?.location && DisplayCoordinates(master[0].location.coordinates)}</>
+        }
       },
       ...cleaningCode,
       'packing.packing.weight': {title: 'PRODUCT_PACKAGING.MODULE_NAME'},
@@ -380,7 +389,7 @@ export const PackingDetail: RenderInfoDetail = [
             {
               dataField: 'activeAt',
               text: `Ngày kích hoạt`,
-              formatter: (input) => (<DisplayDateTime input={input}/>),
+              formatter: (input) => input ? (<DisplayDateTime input={input}/>) : <>Không có thông tin</>,
               ...SortColumn,
             },
             {
@@ -400,7 +409,6 @@ export const PackingDetail: RenderInfoDetail = [
               dataField: 'expiry',
               text: `Hạn sử dụng`,
               formatter: (cell: any, row: any, rowIndex: number) => {
-                console.log(row)
                 return <span>{row.species ? <>{`${row.species.expiryDays} ngày`}</> : <>Không có thông tin</>}</span>
               },
             },
@@ -423,7 +431,7 @@ export const PackingDetail: RenderInfoDetail = [
             title: 'IMAGE_INFO',
             component: Display3Info
           }
-          return DisplayImage(image, renderInfo)
+          return DisplayImage(image, renderInfo, ['isMaster', true])
         }
       },
       'packing.packingImage': {
@@ -432,7 +440,7 @@ export const PackingDetail: RenderInfoDetail = [
             title: 'IMAGE_INFO',
             component: Display3Info
           }
-          return DisplayImage(image, renderInfo)
+          return DisplayImage(image, renderInfo, ['isMaster', true])
         }
       },
     },
@@ -458,7 +466,7 @@ export const PreservationDetail: RenderInfoDetail = [
       'preservation.time': {
         keyField: 'preservation', title: 'PRESERVATION_TIME',
         formatter: (e) => (
-          <DisplayDiffTime startTime={e?.estimatedExpireTimeStart} endTime={e?.estimatedExpireTimeEnd}/>)
+          <DisplayDiffTime startTime={e?.startTime} endTime={e?.endTime}/>)
       },
       ...preliminaryTreatmentCode,
       // 'preservation.estimatedEndTime': {
@@ -469,7 +477,10 @@ export const PreservationDetail: RenderInfoDetail = [
       // 'planting.farmLocation.[coordinates]': {title: 'PRESERVATION_LOCATION', formatter: DisplayCoordinates,},
       'preservation.address': {
         keyField: 'preservation.storageImage', title: 'PRESERVATION_LOCATION',
-        formatter: (e) => (<>{e && e?.location && DisplayCoordinates(e.location.coordinates)}</>)
+        formatter: (e) => {
+          const master = e.filter((item: any) => item.isMaster === true)
+          return <>{master[0]?.location && DisplayCoordinates(master[0].location.coordinates)}</>
+        }
       },
       ...packingCode,
       'preservation.temperature': {title: 'PRODUCTION_MANAGEMENT.PRESERVATION.TEMPERATURE', formatter: DisplayCelcius},
@@ -499,7 +510,7 @@ export const PreservationDetail: RenderInfoDetail = [
             title: 'IMAGE_INFO',
             component: Display3Info
           }
-          return DisplayImage(image, renderInfo)
+          return DisplayImage(image, renderInfo, ['isMaster', true])
         }
       },
     },

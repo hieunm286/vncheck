@@ -59,10 +59,10 @@ export default function ManagementOrganization() {
   const fetchUsersByRole = (entity: ManagementOrganizationModel | RoleModel) => {
     const getQueryParams = (entity: any): object => {
       if(entity.children) {
-        const roleIds = entity.children.map((entity: any) => {
-          return entity._id;
-        });
-        return {role: { _id: roleIds}};
+        // const roleIds = entity.children.map((entity: any) => {
+        //   return entity._id;
+        // });
+        return {managementUnit: { _id: entity._id }};
       }
       return {role: { _id: entity._id}};
     }
