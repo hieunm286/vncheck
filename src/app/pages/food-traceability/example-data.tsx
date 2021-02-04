@@ -414,14 +414,14 @@ export const exampleDetail: RenderInfoDetail = [
         title: 'POROSITY',
         formatter: DisplayPercent,
       },
-      'productPlan.planting.imageBefore': {
+      'productPlan.seeding.seedingImage': {
         title: 'PLANTING_IMAGE_BEFORE',
         formatter: (image, entity) => {
           const renderInfo = {
             title: 'IMAGE_INFO',
             component: Display3Info
           }
-          return DisplayImage(image, renderInfo, ['isMaster', true])
+          return DisplayImage(image, renderInfo)
         }
       },
       'productPlan.seeding.landLotImage': {
@@ -431,7 +431,7 @@ export const exampleDetail: RenderInfoDetail = [
             title: 'IMAGE_INFO',
             component: Display3Info
           }
-          return DisplayImage(image, renderInfo, ['isMaster', true])
+          return DisplayImage(image, renderInfo)
         }
       },
       'productPlan.seeding.manager.fullName': {
@@ -473,24 +473,24 @@ export const exampleDetail: RenderInfoDetail = [
         title: 'PLANTING.FARM_LOCATION',
         formatter: DisplayCoordinates
       },
-      'productPlan.planting.landLotImage': {
+      'productPlan.planting.imageBefore': {
         title: 'PLANTING_LAND_LOT_IMAGE',
         formatter: (image, entity) => {
           const renderInfo = {
             title: 'IMAGE_INFO',
             component: Display3Info
           }
-          return DisplayImage(image, renderInfo, ['isMaster', true])
+          return DisplayImage(image, renderInfo)
         }
       },
-      'productPlan.planting.imageBefore': {
-        title: 'PLANTING_IMAGE_BEFORE',
+      'productPlan.planting.imageAfter': {
+        title: 'PLANTING_IMAGE_PROCESSING',
         formatter: (image, entity) => {
           const renderInfo = {
             title: 'IMAGE_INFO',
             component: Display3Info
           }
-          return DisplayImage(image, renderInfo, ['isMaster', true])
+          return DisplayImage(image, renderInfo)
         }
       },
       'productPlan.planting.temperature': {

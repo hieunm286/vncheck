@@ -974,7 +974,7 @@ function ProductionPlan() {
       headerClasses: 'text-center',
     },
     createdBy: {
-      dataField: 'productPlan.createdBy.lastName',
+      dataField: 'productPlan.createdBy.fullName',
       text: `${intl.formatMessage({id: 'PRODUCTION_PLAN.VERSION_CREATEBY'})}`,
       classes: 'text-center',
       headerClasses: 'text-center',
