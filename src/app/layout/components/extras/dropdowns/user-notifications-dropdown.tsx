@@ -164,7 +164,9 @@ export function UserNotificationsDropdown() {
                                 }>
                                 <div className="navi-link">
                                   <div className="navi-icon mr-2">
-                                    <i className="flaticon2-user flaticon2-line- text-success" />
+                                  <span className="svg-icon svg-icon-xl svg-icon-danger">
+                  <NotificationsIcon htmlColor={'#0B9446'} />
+                </span>
                                   </div>
                                   <div className="navi-text">
                                     <div className="font-weight-bold">{item.message}</div>
