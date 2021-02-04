@@ -5,6 +5,11 @@ import {useHistory, useLocation} from 'react-router-dom';
 import {useSelector} from 'react-redux';
 import {ToAbsoluteUrl} from '../../../../common-library/helpers/assets-helpers';
 
+const DEFAULT_AVATAR = {
+  male: '/media/users/avatar-1.png',
+  female: '/media/users/girl-no-avatar.png'
+}
+
 export function QuickUser() {
   const history = useHistory();
   const user = useSelector((state: any) => state.auth);
@@ -43,14 +48,14 @@ export function QuickUser() {
             <div
               className="symbol-label"
               style={{
-                backgroundImage: `url(${ToAbsoluteUrl('/media/users/300_21.jpg')})`,
+                backgroundImage: `url(${user.avatar ? `'${user.avatar}'` : user.image ? `'${user.image}'` : ToAbsoluteUrl(user.gender === '0' ? DEFAULT_AVATAR.female : DEFAULT_AVATAR.male)})`,
               }}
             />
             <i className="symbol-badge bg-success"/>
           </div>
           <div className="d-flex flex-column">
             <a href="#" className="font-weight-bold font-size-h5 text-dark-75 text-hover-primary">
-              {user.firstName + ' ' + user.lastName}
+              {user.fullName ? user.fullName : (user.firstName + ' ' + user.lastName)}
             </a>
             <div className="text-muted mt-1">{user.role.name}</div>
             <div className="navi mt-2">
