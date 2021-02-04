@@ -345,7 +345,7 @@ function ProductionManagement() {
       classes: 'text-center',
     },
     harvestingCode: {
-      dataField: 'code',
+      dataField: 'harvesting.code',
       text: `${intl.formatMessage({ id: harvestingCode })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
         <Link to={`/production-management/harvesting/${row._id}`}>{row.code}</Link>

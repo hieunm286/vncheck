@@ -1,7 +1,7 @@
 /* eslint-disable no-script-url,jsx-a11y/anchor-is-valid,no-undef */
 import React from 'react';
 import SVG from 'react-inlinesvg';
-import {useHistory} from 'react-router-dom';
+import {useHistory, useLocation} from 'react-router-dom';
 import {useSelector} from 'react-redux';
 import {ToAbsoluteUrl} from '../../../../common-library/helpers/assets-helpers';
 
@@ -17,7 +17,10 @@ export function QuickUser() {
     if (toggle) {
       toggle.click();
     }
-    history.push('/logout?callbackUrl=' + callbackUrl);
+    history.push({
+      pathname: '/logout',
+      state: { callbackUrl: callbackUrl }
+    });
   };
   return (
     <div id="kt_quick_user" className="offcanvas offcanvas-right offcanvas p-10">
