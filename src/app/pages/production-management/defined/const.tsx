@@ -163,7 +163,7 @@ export const PreliminaryTreatmentDetail: RenderInfoDetail = [
         keyField: 'preliminaryTreatment.imageInProgress', title: 'PRELIMINARYTREATMENT_LOCATION',
         formatter: (e) => {
           const master = e?.filter((item: any) => item.isMaster === true)
-          return <>{master[0]?.location && DisplayCoordinates(master[0].location.coordinates)}</>
+          return <>{master && master[0]?.location && DisplayCoordinates(master[0]?.location?.coordinates)}</>
         }
       },
       '': { title: 'EMPTY' },
@@ -241,7 +241,7 @@ export const CleaningDetail: RenderInfoDetail = [
         keyField: 'cleaning.imageInProgress', title: 'CLEANING_LOCATION',
         formatter: (e) => {
           const master = e?.filter((item: any) => item.isMaster === true)
-          return <>{master[0]?.location && DisplayCoordinates(master[0].location.coordinates)}</>
+          return <>{master && master[0]?.location && DisplayCoordinates(master[0]?.location?.coordinates)}</>
         }      
       },
       'cleaning.code': { title: 'PRODUCTION_PLAN.CLEANING.CODE' },
@@ -319,7 +319,7 @@ export const PackingDetail: RenderInfoDetail = [
         keyField: 'packing.packingImage', title: 'PACKING_LOCATION',
         formatter: (e) => {
           const master = e?.filter((item: any) => item.isMaster === true)
-          return <>{master[0]?.location && DisplayCoordinates(master[0].location.coordinates)}</>
+          return <>{master && master[0]?.location && DisplayCoordinates(master[0]?.location?.coordinates)}</>
         }
       },
       ...cleaningCode,
@@ -479,7 +479,7 @@ export const PreservationDetail: RenderInfoDetail = [
         keyField: 'preservation.storageImage', title: 'PRESERVATION_LOCATION',
         formatter: (e) => {
           const master = e?.filter((item: any) => item.isMaster === true)
-          return <>{master[0]?.location && DisplayCoordinates(master[0].location.coordinates)}</>
+          return <>{master && master[0]?.location && DisplayCoordinates(master[0]?.location?.coordinates)}</>
         }
       },
       ...packingCode,

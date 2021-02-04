@@ -239,7 +239,7 @@ export const entityExample = {
     __v: 0,
     _id: '60015d64ea093200407dfde2',
   },
-  distribution: [
+  distributionHistory: [
     {
       agency: {
         address: {
@@ -725,7 +725,7 @@ export const exampleDetail: RenderInfoDetail = [
         keyField: 'productPlan.packing.packingImage', title: 'PACKING_LOCATION',
         formatter: (e) => {
           const master = e?.filter((item: any) => item.isMaster === true)
-          return <>{master[0]?.location && DisplayCoordinates(master[0].location.coordinates)}</>
+          return <>{master && master[0]?.location && DisplayCoordinates(master[0]?.location?.coordinates)}</>
         }
       },
       'productPlan.packing.packing.code': {
@@ -793,7 +793,7 @@ export const exampleDetail: RenderInfoDetail = [
         keyField: 'productPlan.preservation.storageImage', title: 'PRESERVATION_LOCATION',
         formatter: (e) => {
           const master = e?.filter((item: any) => item.isMaster === true)
-          return <>{master[0]?.location && DisplayCoordinates(master[0].location.coordinates)}</>
+          return <>{master && master[0]?.location && DisplayCoordinates(master[0]?.location?.coordinates)}</>
         }
       },
       'productPlan.preservation.temperature': {
@@ -826,7 +826,7 @@ export const exampleDetail: RenderInfoDetail = [
     titleClassName: 'col-md-0 col-12 mb-10',
     dataClassName: 'col-md-12 col-12 mb-10',
     data: {
-      'distribution': { formatter: input => DisplayDistribution(entityExample.distribution) },
+      'distributionHistory': { formatter: input => DisplayDistribution(input ? input : entityExample.distributionHistory) },
     },
   },
   {
@@ -835,7 +835,7 @@ export const exampleDetail: RenderInfoDetail = [
     titleClassName: 'col-md-0 col-12 mb-10',
     dataClassName: 'col-md-12 col-12 mb-10',
     data: {
-      'shippingHistory': { formatter: input => <DisplayShipping input={entityExample.shippingHistory} /> },
+      'shippingHistory': { formatter: input => <DisplayShipping input={input ? input : entityExample.shippingHistory} /> },
     },
 
   }
