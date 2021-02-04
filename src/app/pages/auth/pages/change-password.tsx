@@ -24,8 +24,8 @@ import {
 } from "@material-ui/core";
 
 const initialValues = {
-  newPassword: '123',
-  repeatNewPassword: '123',
+  newPassword: '',
+  repeatNewPassword: '',
 };
 
 const useStyles = makeStyles(theme => ({
