@@ -159,7 +159,6 @@ const LoginPassword = (props: {
               console.log(res);
               props.saveUserInfo({
                 ...res.data,
-                fullName: res.data.firstName + ' ' + res.data.lastName,
                 _certificate: certificate,
                 _privateKey,
                 _preLoggedIn: false,
