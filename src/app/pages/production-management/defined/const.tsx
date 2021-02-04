@@ -162,7 +162,7 @@ export const PreliminaryTreatmentDetail: RenderInfoDetail = [
       'preliminaryTreatment.address': {
         keyField: 'preliminaryTreatment.imageInProgress', title: 'PRELIMINARYTREATMENT_LOCATION',
         formatter: (e) => {
-          const master = e.filter((item: any) => item.isMaster === true)
+          const master = e?.filter((item: any) => item.isMaster === true)
           return <>{master[0]?.location && DisplayCoordinates(master[0].location.coordinates)}</>
         }
       },
@@ -240,7 +240,7 @@ export const CleaningDetail: RenderInfoDetail = [
       'cleaning.address': {
         keyField: 'cleaning.imageInProgress', title: 'CLEANING_LOCATION',
         formatter: (e) => {
-          const master = e.filter((item: any) => item.isMaster === true)
+          const master = e?.filter((item: any) => item.isMaster === true)
           return <>{master[0]?.location && DisplayCoordinates(master[0].location.coordinates)}</>
         }      
       },
@@ -318,7 +318,7 @@ export const PackingDetail: RenderInfoDetail = [
       'packing.address': {
         keyField: 'packing.packingImage', title: 'PACKING_LOCATION',
         formatter: (e) => {
-          const master = e.filter((item: any) => item.isMaster === true)
+          const master = e?.filter((item: any) => item.isMaster === true)
           return <>{master[0]?.location && DisplayCoordinates(master[0].location.coordinates)}</>
         }
       },
@@ -478,7 +478,7 @@ export const PreservationDetail: RenderInfoDetail = [
       'preservation.address': {
         keyField: 'preservation.storageImage', title: 'PRESERVATION_LOCATION',
         formatter: (e) => {
-          const master = e.filter((item: any) => item.isMaster === true)
+          const master = e?.filter((item: any) => item.isMaster === true)
           return <>{master[0]?.location && DisplayCoordinates(master[0].location.coordinates)}</>
         }
       },

@@ -12,6 +12,7 @@ import {
   DisplayDownloadLink,
   DisplayImage,
   DisplayPercent,
+  DisplayShipping,
   DisplayPersonNameByArray,
 } from '../../common-library/helpers/detail-helpers';
 
@@ -240,32 +241,63 @@ export const entityExample = {
   },
   distribution: [
     {
-      name: 'Kho farm Trung Kính',
-      address: {
-        district: '123 Trung Kính',
-        city: 'Cầu Giấy',
-        state: 'Hà Nội',
+      agency: {
+        address: {
+          "address": "1 Hai Bà Trưng",
+          "city": "Hoàn Kiếm",
+          "district": "Tràng Tiền",
+          "state": "Hà Nội"
+        },
+        _id: "601bde97819b3500406bc998",
+        name: "Nhà phân phối miền Bắc",
       },
-      date: '2021-01-15T09:16:20.383Z',
+      time: "2021-02-04T11:48:37.419Z",
     },
     {
-      name: 'Kho Khâm Thiên',
-      address: {
-        district: '123 Khâm Thiên',
-        city: 'Đống Đa',
-        state: 'Hà Nội',
+      agency: {
+        address: {
+          "address": "1 Hai Bà Trưng",
+          "city": "Hoàn Kiếm",
+          "district": "Tràng Tiền",
+          "state": "Hà Nội"
+        },
+        _id: "601bde97819b3500406bc998",
+        name: "Nhà phân phối miền Bắc",
       },
-      date: '2021-01-15T09:16:20.383Z',
-    },
+      time: "2021-02-04T11:48:37.419Z",
+    }
+  ],
+  shippingHistory: [
     {
-      name: 'Kho farm Trung Kính',
-      address: {
-        district: '123 Trung Kính',
-        city: 'Cầu Giấy',
-        state: 'Hà Nội',
+      _id: "601bdf15819b3500406bca33",
+      from: {
+        agency: {
+          address: {
+            address: "1 Hai Bà Trưng",
+            city: "Hoàn Kiếm",
+            district: "Tràng Tiền",
+            state: "Hà Nội"
+          },
+          _id: "601bde97819b3500406bc998",
+          name: "Nhà phân phối miền Bắc"
+        },
+        time: "2021-02-04T11:48:37.419Z"
       },
-      date: '2021-01-15T09:16:20.383Z',
-    },
+      to: {
+        agency: {
+          address: {
+            address: "2 Ngô Quyền",
+            city: "Sơn Trà",
+            district: "An Hải Bắc",
+            state: "Đà Nẵng"
+          },
+          _id: "601bde97819b3500406bc99b",
+          name: "Nhà phân phối miền Trung"
+        },
+        time: "2021-02-04T11:48:37.419Z"
+      },
+      createdAt: "2021-02-04T11:48:37.419Z"
+    }
   ],
 };
 
@@ -277,13 +309,13 @@ export const exampleDetail: RenderInfoDetail = [
     dataClassName: 'col-md-7 col-8 mb-10 pl-5 text-right',
     data: {
       'retailInfo.isSold': { title: 'Trạng thái', formatter: input => <>{input ? 'Đã bán' : 'Chưa bán'}</> },
-      'status.sellDate': {
+      'retailInfo.soldDate': {
         title: 'Ngày bán',
         formatter: input => <DisplayDateTime input={input} />,
       },
-      'status.location': { title: 'Nơi bán' },
-      'status.employee': { title: 'Nhân viên nơi bán' },
-      'status.customer.phone': { title: 'Số điện thoại người mua' },
+      'retailInfo.soldAt': { title: 'Nơi bán', formatter: input => <>{input?.agency?.name}</> },
+      'retailInfo.soldBy': { title: 'Nhân viên nơi bán', formatter: input => <>{input?.user?.name}</> },
+      'retailInfo.buyer': { title: 'Số điện thoại người mua', formatter: input => <>{input?.customer?.username}</> },
       '_id': { title: 'ID QR' },
     },
   },
@@ -662,7 +694,7 @@ export const exampleDetail: RenderInfoDetail = [
       'productPlan.packing.address': {
         keyField: 'productPlan.packing.packingImage', title: 'PACKING_LOCATION',
         formatter: (e) => {
-          const master = e.filter((item: any) => item.isMaster === true)
+          const master = e?.filter((item: any) => item.isMaster === true)
           return <>{master[0]?.location && DisplayCoordinates(master[0].location.coordinates)}</>
         }
       },
@@ -730,7 +762,7 @@ export const exampleDetail: RenderInfoDetail = [
       'productPlan.preservation.address': {
         keyField: 'productPlan.preservation.storageImage', title: 'PRESERVATION_LOCATION',
         formatter: (e) => {
-          const master = e.filter((item: any) => item.isMaster === true)
+          const master = e?.filter((item: any) => item.isMaster === true)
           return <>{master[0]?.location && DisplayCoordinates(master[0].location.coordinates)}</>
         }
       },
@@ -762,9 +794,19 @@ export const exampleDetail: RenderInfoDetail = [
     header: 'Thông tin phân phối',
     className: 'col-12',
     titleClassName: 'col-md-0 col-12 mb-10',
-    dataClassName: 'col-md-12 col-12 mb-10 pl-5',
+    dataClassName: 'col-md-12 col-12 mb-10',
     data: {
-      'distribution': { formatter: input => DisplayDistribution(input) },
+      'distribution': { formatter: input => DisplayDistribution(entityExample.distribution) },
     },
   },
+  {
+    header: 'Thông tin vận chuyển',
+    className: 'col-12',
+    titleClassName: 'col-md-0 col-12 mb-10',
+    dataClassName: 'col-md-12 col-12 mb-10',
+    data: {
+      'shippingHistory': { formatter: input => <DisplayShipping input={entityExample.shippingHistory} /> },
+    },
+
+  }
 ];
