@@ -8,7 +8,7 @@ import {
 import {MasterBody} from '../../common-library/common-components/master-body';
 import {MasterHeader} from '../../common-library/common-components/master-header';
 import {DefaultPagination, NormalColumn, SortColumn} from '../../common-library/common-consts/const';
-import {InitMasterProps, InitValues} from '../../common-library/helpers/common-function';
+import {InitMasterProps, InitValues, RoleArrayToObject} from '../../common-library/helpers/common-function';
 import {Count, Create, Delete, DeleteMany, Get, GetAll, GetById, GetStatusList, Update} from './role.service';
 import {RoleModel} from './role.model';
 import {MasterEntityDetailDialog} from '../../common-library/common-components/master-entity-detail-dialog';
@@ -29,6 +29,7 @@ import {Select} from 'antd';
 import * as RoleScope from './const/role_scope';
 import {ConvertRoleScope} from './const/convert-scope';
 import _ from 'lodash';
+import { AxiosResponse } from 'axios';
 
 const { Option } = Select;
 
@@ -332,6 +333,7 @@ export default function ManagementOrganization() {
         formatExtraData: {
           intl,
           onClone: (entity: RoleModel) => {
+
             const validateEntity = (entity: RoleModel): RoleModel => {
               const { name, managementUnit } = entity;
               const vManagementUnitId = _.isObject(managementUnit) ? managementUnit._id : undefined;
@@ -345,10 +347,16 @@ export default function ManagementOrganization() {
                 managementUnit: {
                   _id: vManagementUnitId,
                 },
-                scopes: entity.scopes,
+                scopes: entity.scopes, // scopes: RoleArrayToObject(entity.scopes),
               }
             };
-            add(validateEntity(entity));
+            
+            const id = entity?._id ?? undefined;
+            if (id) {
+              GetById(id).then((res: AxiosResponse<RoleModel>) => {
+                add(validateEntity(res.data));
+              });
+            }
           },
           onShowDetail: (entity: RoleModel) => {
             setDetailEntity(entity);
