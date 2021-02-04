@@ -8,7 +8,7 @@ import {
 import {MasterBody} from '../../common-library/common-components/master-body';
 import {MasterHeader} from '../../common-library/common-components/master-header';
 import {DefaultPagination, NormalColumn, SortColumn} from '../../common-library/common-consts/const';
-import {InitMasterProps} from '../../common-library/helpers/common-function';
+import {InitMasterProps, InitValues, RoleArrayToObject} from '../../common-library/helpers/common-function';
 import {Count, Create, Delete, DeleteMany, Get, GetAll, GetById, GetStatusList, Update} from './role.service';
 import {RoleModel} from './role.model';
 import {MasterEntityDetailDialog} from '../../common-library/common-components/master-entity-detail-dialog';
@@ -329,7 +329,7 @@ export default function ManagementOrganization() {
                 managementUnit: {
                   _id: vManagementUnitId,
                 },
-                scopes: entity.scopes,
+                scopes: RoleArrayToObject(entity.scopes),
               }
             };
             add(validateEntity(entity));
