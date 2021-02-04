@@ -253,7 +253,7 @@ export const harvestingInfo: RenderInfoDetail = [{
       title: 'POROSITY',
       formatter: DisplayPercent
     },
-    'productPlan.harvesting.manager.user.fullName': {
+    'productPlan.planting.manager.fullName': {
       title: 'ADMIN_DIRECTOR_INFO',
     },
     'productPlan.harvesting.[leader].user.fullName': {
@@ -314,7 +314,7 @@ export const preliminaryTreatmentInfo: RenderInfoDetail = [{
         return DisplayImage(image, renderInfo, ['isMaster', true])
       }
     },
-    'productPlan.preliminaryTreatment.manager.user.fullName': {
+    'productPlan.planting.manager.fullName': {
       title: 'ADMIN_DIRECTOR_INFO',
     },
     'productPlan.preliminaryTreatment.[leader].user.fullName': {
@@ -375,7 +375,7 @@ export const cleaningInfo: RenderInfoDetail = [{
         return DisplayImage(image, renderInfo, ['isMaster', true])
       }
     },
-    'productPlan.cleaning.manager.user.fullName': {
+    'productPlan.planting.manager.fullName': {
       title: 'ADMIN_DIRECTOR_INFO',
     },
     'productPlan.cleaning.[leader].user.fullName': {
@@ -399,9 +399,12 @@ export const packingInfo: RenderInfoDetail = [{
   titleClassName: 'col-3 mb-10',
   dataClassName: 'col-9 mb-10 pl-5',
   data: {
-    'productPlan.harvesting.scanLocation': {
-      title: 'Địa điểm Farm đóng gói',
-      formatter: DisplayCoordinates
+    'productPlan.packing.address': {
+      keyField: 'productPlan.packing.packingImage', title: 'PACKING_LOCATION',
+      formatter: (e) => {
+        const master = e.filter((item: any) => item.isMaster === true)
+        return <>{master[0]?.location && DisplayCoordinates(master[0].location.coordinates)}</>
+      }
     },
     'productPlan.packing.packing.code': {
       title: 'Quy cách đóng gói',
@@ -444,7 +447,7 @@ export const packingInfo: RenderInfoDetail = [{
       title: 'QR_ACTIVATE_AT',
       formatter: (input) => (<DisplayDateTime input={input}/>),
     },
-    'productPlan.packing.manager.user.fullName': {
+    'productPlan.planting.manager.fullName': {
       title: 'ADMIN_DIRECTOR_INFO',
     },
     'productPlan.packing.[leader].user.fullName': {
@@ -461,12 +464,16 @@ export const preservationInfo: RenderInfoDetail = [{
   dataClassName: 'col-9 mb-10 pl-5',
   data: {
     'productPlan.preservation.time': {
-      keyField: 'productPlan.preservation', title: 'Thời gian bảo quản',
-      formatter: (e) => (<DisplayDiffTime startTime={e?.startTime} endTime={e?.endTime}/>)
+      keyField: 'productPlan.preservation', title: 'PRESERVATION_TIME',
+      formatter: (e) => (
+        <DisplayDiffTime startTime={e?.startTime} endTime={e?.endTime}/>)
     },
-    'productPlan.preservation.storageImage.location.[coordinates]': {
-      title: 'Địa điểm bảo quản',
-      formatter: DisplayCoordinates,
+    'productPlan.preservation.address': {
+      keyField: 'productPlan.preservation.storageImage', title: 'PRESERVATION_LOCATION',
+      formatter: (e) => {
+        const master = e.filter((item: any) => item.isMaster === true)
+        return <>{master[0]?.location && DisplayCoordinates(master[0].location.coordinates)}</>
+      }
     },
     'productPlan.preservation.temperature': {
       title: 'Nhiệt độ bảo quản',

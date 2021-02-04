@@ -1,6 +1,6 @@
 import React, {Fragment, useCallback, useEffect, useMemo, useState} from "react";
 import {useIntl} from 'react-intl';
-
+import {Link, Route, Switch} from 'react-router-dom';
 import * as UserService from '../user/user.service';
 import {InitMasterProps} from "../../common-library/helpers/common-function";
 import {Count, Create, Delete, DeleteMany, Get, GetAll, GetType, QrTypeList, Update} from './qr.service';
@@ -9,7 +9,6 @@ import {MasterHeader} from "../../common-library/common-components/master-header
 import {MasterBody} from "../../common-library/common-components/master-body";
 
 import {DefaultPagination, NormalColumn, SortColumn} from '../../common-library/common-consts/const';
-import {Link, Route, Switch, useHistory} from 'react-router-dom';
 import {
   InputGroups,
   MasterBodyColumns,
@@ -68,7 +67,7 @@ const bodyTitle = 'QR.MASTER.BODY.TITLE';
 
 
 function QrPage() {
-  const history = useHistory();
+  // const history = useHistory();
   const intl = useIntl();
   const {
     entities,
@@ -113,13 +112,16 @@ function QrPage() {
     getAllServer: GetAll,
     updateServer: Update
   });
+
+  const [showImage, setShowImage] = useState<boolean>(false);
+  const [logisticImageDetail, setLogisticImage] = useState<any>(null);
   
   useEffect(() => {
     getAll(filterProps);
   }, [paginationProps, filterProps]);
   
-  const [showImage, setShowImage] = useState<boolean>(false);
   
+
   
   const columns = useMemo(() => {
     return {
@@ -307,7 +309,6 @@ function QrPage() {
       align: 'center',
     },
   ];
-  const [logisticImageDetail, setLogisticImage] = useState<any>(null);
   const logisticImageRenderDetail = useMemo((): RenderInfoDetail => ([
     {
       className: 'col-12',
@@ -576,39 +577,7 @@ function QrPage() {
   return (
     <Fragment>
       <Switch>
-        <Route path="/qr" exact={true}>
-          <MasterHeader
-            title={headerTitle}
-            onSearch={(value) => {
-              setPaginationProps(DefaultPagination)
-              setFilterProps(value)
-            }}
-            searchModel={searchModel}
-          />
-          <MasterBody
-            title={bodyTitle}
-            onCreate={() => {
-              // history.push(`${window.location.pathname}/0000000`);
-              setShowCreate(true);
-            }}
-            // entities={bodyEntities}
-            entities={entities}
-            total={total}
-            columns={columns}
-            loading={loading}
-            paginationParams={paginationProps}
-            setPaginationParams={setPaginationProps}
-          />
-          <ModifyEntityDialog
-            show={showCreate}
-            validation={validationSchema}
-            formModel={createForm}
-            loading={loading}
-            onHide={refreshData}
-            onModify={downloadQrFile}
-          />
-        </Route>
-        <Route path="/qr/:code">
+      <Route exact path="/qr/:code">
           {({history, match}) => {
             setMatchId(match && match.params.code);
             return (
@@ -641,6 +610,39 @@ function QrPage() {
             );
           }}
         </Route>
+        <Route path="/qr" exact={true}>
+          <MasterHeader
+            title={headerTitle}
+            onSearch={(value) => {
+              setPaginationProps(DefaultPagination)
+              setFilterProps(value)
+            }}
+            searchModel={searchModel}
+          />
+          <MasterBody
+            title={bodyTitle}
+            onCreate={() => {
+              // history.push(`${window.location.pathname}/0000000`);
+              setShowCreate(true);
+            }}
+            // entities={bodyEntities}
+            entities={entities}
+            total={total}
+            columns={columns}
+            loading={loading}
+            paginationParams={paginationProps}
+            setPaginationParams={setPaginationProps}
+          />
+          <ModifyEntityDialog
+            show={showCreate}
+            validation={validationSchema}
+            formModel={createForm}
+            loading={loading}
+            onHide={refreshData}
+            onModify={downloadQrFile}
+          />
+        </Route>
+        
       </Switch>
     </Fragment>
   );
