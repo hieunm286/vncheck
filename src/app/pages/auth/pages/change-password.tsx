@@ -9,15 +9,19 @@ import {Ping, SetPassword, SetTempPassword,} from '../_redux/auth.service';
 import {GenerateKeyPair, SignMessage, SymmetricEncrypt} from '../service/auth-cryptography';
 import {CERTIFICATE_EXP} from '../../../common-library/common-consts/enviroment';
 import clsx from 'clsx';
-import {createMuiTheme, makeStyles, MuiThemeProvider} from '@material-ui/core/styles';
-import IconButton from '@material-ui/core/IconButton';
-import OutlinedInput from '@material-ui/core/OutlinedInput';
-import InputLabel from '@material-ui/core/InputLabel';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import FormControl from '@material-ui/core/FormControl';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
-import Tooltip from '@material-ui/core/Tooltip';
+import {
+  createMuiTheme,
+  FormControl,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  makeStyles,
+  MuiThemeProvider,
+  OutlinedInput,
+  Tooltip
+} from "@material-ui/core";
 
 const initialValues = {
   newPassword: '123',
@@ -183,6 +187,13 @@ function ChangePassword(props: {
               _privateKey: keyPair.privateKey,
               _preLoggedIn: false,
             });
+            const location = window.location;
+            const {pathname} = location;
+            const {search} = location;
+            const temp = new URLSearchParams(search).get('callbackUrl');
+            let callbackUrl = temp ? temp : pathname;
+            history.push(callbackUrl);
+            // window.location.reload()
           })
           .catch(err => {
             props.savePingErrorData(err.response.data);
@@ -200,7 +211,7 @@ function ChangePassword(props: {
   });
   return (
     <>
-      <div className="login-form login-signin" style={{display: 'block'}}>
+      <div className="login-form login-signin" style={{display: 'block',zIndex: 1}}>
         <div className="text-center mb-10 mb-lg-10">
           <h3 className="font-size-h1">
             <FormattedMessage id="AUTH.CHANGEPASSWORD.TITLE"/>

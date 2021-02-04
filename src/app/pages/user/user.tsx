@@ -192,13 +192,10 @@ function User() {
   const [role, setRole] = useState<any>(null);
   const searchModel: SearchModel = useMemo(() => ({
     managementUnit: {
-      type: 'tree-select',
+      type: 'search-select',
       label: 'USER.MASTER.SEARCH.ORGANIZATION',
-      onSearch: ({queryProps, sortList, paginationProps,}: any) => {
-        return ManagementUnitService.GetAll({queryProps}).then((e) => {
-          return (e.data);
-        })
-      },
+      keyField: 'name',
+      onSearch: ManagementUnitService.getAll,
       onChange: (value: any, {setFieldValue}: any) => {
         console.log(value)
         if (managementUnit != value) {
@@ -207,27 +204,27 @@ function User() {
         setManagementUnit(value);
       },
     },
-    role: {
-      type: 'search-select',
-      label: 'USER.MASTER.SEARCH.ROLE',
-      keyField: 'name',
-      onSearch: ({queryProps, paginationProps}: any, values: any): Promise<any> => {
-        return RoleService.GetAll({
-          queryProps: {...queryProps, managementUnit: {...values?.managementUnit}},
-          paginationProps
-        })
-      },
-      disabled: (values: any) => {
-        return !(values.managementUnit);
-      },
-    },
+    // role: {
+    //   type: 'search-select',
+    //   label: 'USER.MASTER.SEARCH.ROLE',
+    //   keyField: 'name',
+    //   onSearch: ({queryProps, paginationProps}: any, values: any): Promise<any> => {
+    //     return RoleService.GetAll({
+    //       queryProps: {...queryProps, managementUnit: {...values?.managementUnit}},
+    //       paginationProps
+    //     })
+    //   },
+    //   disabled: (values: any) => {
+    //     return !(values.managementUnit);
+    //   },
+    // },
     code: {
       type: 'string',
       label: 'USER.MASTER.SEARCH.CODE',
     },
-    username: {
+    fullName: {
       type: 'string',
-      label: 'USER.MASTER.SEARCH.USER_NAME',
+      label: 'USER.MASTER.SEARCH.FULL_NAME',
     },
     agency: {
       keyField: 'name',
@@ -299,14 +296,7 @@ function User() {
   const group2 = useMemo((): ModifyInputGroup => ({
     _subTitle: 'EMPTY',
     _className: 'col-6 pl-xl-15 pl-md-10 pl-5',
-    agency: {
-      _type: 'search-select',
-      onSearch: AgencyService.GetAll,
-      // selectField: 'code',
-      keyField: 'name',
-      required: true,
-      label: 'USER.MODIFY.AGENCY',
-    },
+    
     email: {
       _type: 'email',
       required: true,
@@ -368,14 +358,11 @@ function User() {
       },
     },
     managementUnit: {
-      _type: 'tree-select',
+      _type: 'search-select',
       label: 'USER.MODIFY.MANAGEMENT_UNIT',
+      keyField: 'name',
       required: true,
-      onSearch: ({queryProps, sortList, paginationProps,}: any) => {
-        return ManagementUnitService.GetAll({queryProps}).then((e) => {
-          return (e.data);
-        })
-      },
+      onSearch: ManagementUnitService.getAll,
       onChange: (value: any, {setFieldValue}: any) => {
         if (managementUnit != value) {
           setFieldValue('role', null);
@@ -404,6 +391,14 @@ function User() {
       disabled: (values: any) => {
         return !(values?.managementUnit);
       },
+    },
+    agency: {
+      _type: 'search-select',
+      onSearch: AgencyService.GetAll,
+      // selectField: 'code',
+      keyField: 'name',
+      required: true,
+      label: 'USER.MODIFY.AGENCY',
     },
   }), [managementUnit, role]);
   
@@ -443,6 +438,41 @@ function User() {
           label: 'THÔNG TIN SƠ CHẾ',
           optionData: ConvertRoleScope(RoleScope.role_scope_preliminary_treatment, intl)
         },
+        cleaning: {
+          _type: 'checkbox',
+          label: 'THÔNG TIN LÀM SẠCH',
+          optionData: ConvertRoleScope(RoleScope.role_scope_cleaning, intl)
+        },
+        packing: {
+          _type: 'checkbox',
+          label: 'THÔNG TIN ĐÓNG GÓI',
+          optionData: ConvertRoleScope(RoleScope.role_scope_packing, intl)
+        },
+        preserve: {
+          _type: 'checkbox',
+          label: 'THÔNG TIN BẢO QUẢN',
+          optionData: ConvertRoleScope(RoleScope.role_scope_preservation, intl)
+        },
+        logistics: {
+          _type: 'checkbox',
+          label: 'THÔNG TIN LOGISTICS',
+          optionData: ConvertRoleScope(RoleScope.role_scope_logistics, intl)
+        },
+        distribution: {
+          _type: 'checkbox',
+          label: 'THÔNG TIN PHÂN PHỐI',
+          optionData: ConvertRoleScope(RoleScope.role_scope_distribution, intl)
+        },
+        shipping: {
+          _type: 'checkbox',
+          label: 'THÔNG TIN VẬN CHUYỂN',
+          optionData: ConvertRoleScope(RoleScope.role_scope_shipping, intl)
+        },
+        status: {
+          _type: 'checkbox',
+          label: 'TRẠNG THÁI',
+          optionData: ConvertRoleScope(RoleScope.role_scope_status, intl)
+        }
       }
     }
   }), [])
@@ -466,12 +496,13 @@ function User() {
     taxId: Yup.string()
       .min(10, 'VALIDATE.ERROR.INVALID_INPUT')
       .max(13, 'VALIDATE.ERROR.INVALID_INPUT'),
-    owner: Yup.object().shape({
-      phone: Yup.string()
-        .max(11, 'VALIDATE.ERROR.INVALID_INPUT')
-        .min(8, 'VALIDATE.ERROR.INVALID_INPUT'),
-      birthDay: Yup.date().max(new Date(), 'VALIDATE.ERROR.MUST_LESS_THAN_TODAY')
-    })
+    birthDay: Yup.date().max(new Date(), 'VALIDATE.ERROR.MUST_LESS_THAN_TODAY'),
+
+    // owner: Yup.object().shape({
+    //   phone: Yup.string()
+    //     .max(11, 'VALIDATE.ERROR.INVALID_INPUT')
+    //     .min(8, 'VALIDATE.ERROR.INVALID_INPUT'),
+    // })
   }), []);
   const actions: any = useMemo(() => ({
     type: 'inside',

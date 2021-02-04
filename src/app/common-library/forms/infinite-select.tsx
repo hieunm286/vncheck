@@ -40,6 +40,7 @@ export function InfiniteSelect({
                                  validationMessage,
                                  labelWidth,
                                  formatter,
+                                 isClearable = true,
                                  mode, ...props
                                }: {
   label: string | ReactElement;
@@ -59,6 +60,7 @@ export function InfiniteSelect({
   required?: boolean | ((values: any) => boolean);
   disabled?: boolean | ((values: any) => boolean);
   formatter?:(e:any) => any;
+  isClearable?: boolean;
 }) {
   const {
     setFieldValue,
@@ -84,7 +86,7 @@ export function InfiniteSelect({
       validateField(name);
     }, 10);
   }, [field.value])
-  const styles = useMemo((): StylesConfig => {
+  const styles = useMemo((): StylesConfig<any, false> => {
     return {
       control: (base, props1) => {
         // console.log("control", base, props1)
@@ -139,13 +141,13 @@ export function InfiniteSelect({
   return (
     <>
       <div className={mode === 'horizontal' ? 'row' : ''}>
-        <div className={mode === 'horizontal' ? GetClassName(labelWidth, true) : ''}>
-          {_label && (
+        {_label && (
+          <div className={mode === 'horizontal' ? GetClassName(labelWidth, true) : ''}>
             <label className={mode === 'horizontal' ? 'mb-0 mt-2' : ''}>
               {_label}{required && <span className="text-danger">*</span>}
             </label>
-          )}
-        </div>
+          </div>
+        )}
         <div className={mode === 'horizontal' ? GetClassName(labelWidth, false) : ''}>
           <CustomAsyncPaginate
             className={getCSSClasses(errors[name], touched[name])}
@@ -158,7 +160,7 @@ export function InfiniteSelect({
             }}
             getOptionLabel={option => {
               // console.log(option, keyField, keyField ? option[keyField] : option)
-              return keyField ? option[keyField] : option
+              return keyField ? option[keyField] : intl.formatMessage({ id: _.toString(option) })
             }}
             loadOptions={loadOptions}
             onChange={(value: any, action) => {
@@ -168,7 +170,7 @@ export function InfiniteSelect({
               setFieldTouched(name, true);
               setFieldValue(name, value !== null ? value : '');
             }}
-            isClearable={true}
+            isClearable={isClearable}
             onBlur={(e) => {
               setFieldTouched(name, true);
             }}

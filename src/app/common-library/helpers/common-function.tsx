@@ -111,7 +111,7 @@ export const GetFieldCSSClasses = (touched: any, errors: any) => {
   
   if (touched && errors) classes.push('is-invalid');
   
-  if (touched && !errors) classes.push('is-valid');
+  if (touched && !errors) classes.push('');
   
   return classes.join(' ');
 };
@@ -132,6 +132,7 @@ export const GetClassName = (labelWidth: number | null | undefined, labelStart: 
     }
   } else {
     if (labelWidth != null) {
+      if (labelWidth == 12) classes.push('hidden');
       classes.push(`col-xl-${12 - labelWidth}`);
       classes.push(`col-md-${12 - labelWidth}`);
       classes.push('col-12');
@@ -321,13 +322,13 @@ export const ToDataURL = (url: string) =>
         }),
     );
 export const ConvertStatusToBoolean = (data: any) => {
-  return data.status && typeof data.status === 'string' ? {...data, status: data.status === "1" ? true : false} : data;
+  return data.status && typeof data.status === 'string' ? {...data, status: data.status === "1" ? 'true' : 'false'} : data;
 }
 
 export const ConvertStatusToString = (data: any) => {
   return (typeof data.status === 'boolean' || typeof data.status === 'string') ? {
     ...data,
-    status: (data.status || data.status == "true") ? "1" : "0"
+    status: (data.status === true || data.status === "true") ? "1" : "0"
   } : data;
 }
 

@@ -14,7 +14,14 @@ import { ModifyForm } from '../../common-library/common-types/common-type';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import './style/production-plan.scss';
 import ProductionPlanComments from './production-plan-comments';
-import { diff, notifyError, notifySuccess, validationForm, validField, validNested } from './defined/crud-helped';
+import {
+  diff,
+  notifyError,
+  notifySuccess,
+  validationForm,
+  validField,
+  validNested,
+} from './defined/crud-helped';
 
 interface Prop {
   title: string;
@@ -68,7 +75,7 @@ function ProductionPlanCrud({
   formModel,
   onComments,
   current,
-  setCurrentTab
+  setCurrentTab,
 }: Prop) {
   const intl = useIntl();
   const initForm = autoFill
@@ -85,24 +92,25 @@ function ProductionPlanCrud({
   const [confirmModal, setConfirmModal] = useState(false);
   const [noticeModal, setNoticeModal] = useState(false);
 
-
   const [commentsArr, setCommentArr] = useState(entity?.comments || []);
 
   useEffect(() => {
     if (code) {
-      get(code).then((res: { data: any }) => {
-        // const convert = autoFill
-        //   ? ConvertSelectSearch(res.data, autoFill.searchSelectField)
-        //   : ConvertSelectSearch(res.data);
-        const initEntity = addInitField(res.data, initProductPlanForm);
-        setEntityForEdit(initEntity);
-        console.log(initEntity);
-        setEditEntity(res.data);
-        setCommentArr(res.data.comments || []);
-      }).catch(err => {
-        // notifyError('Không thể kết nối đến server')
-        history.push('/production-plan')
-      });
+      get(code)
+        .then((res: { data: any }) => {
+          // const convert = autoFill
+          //   ? ConvertSelectSearch(res.data, autoFill.searchSelectField)
+          //   : ConvertSelectSearch(res.data);
+          const initEntity = addInitField(res.data, initProductPlanForm);
+          setEntityForEdit(initEntity);
+          console.log(initEntity);
+          setEditEntity(res.data);
+          setCommentArr(res.data.comments || []);
+        })
+        .catch(err => {
+          // notifyError('Không thể kết nối đến server')
+          history.push('/production-plan');
+        });
     }
   }, [code]);
 
@@ -116,7 +124,7 @@ function ProductionPlanCrud({
         setNoticeModal(true);
         setErrorMsg(undefined);
         // refreshData();
-        notifySuccess('Lưu thành công')
+        notifySuccess('Lưu thành công');
         history.push(homePage || GetHomePage(window.location.pathname));
       })
       .catch(error => {
@@ -138,6 +146,20 @@ function ProductionPlanCrud({
   //       throw err;
   //     });
   // };
+
+  const isEdit = (diffValue: any) => {
+    let check = true;
+
+    if (_.isEmpty(diffValue)) return false;
+
+    if (
+      !diffValue.preliminaryTreatment?.estimatedQuantity &&
+      !diffValue.cleaning?.estimatedQuantity &&
+      !diffValue.packing?.estimatedQuantity
+    ) {
+      return false;
+    }
+  };
 
   return (
     <>
@@ -165,6 +187,7 @@ function ProductionPlanCrud({
         //   history.push(homePage || GetHomePage(window.location.pathname));
         // }}
       />
+
       <Formik
         enableReinitialize={true}
         initialValues={entityForEdit}
@@ -175,156 +198,179 @@ function ProductionPlanCrud({
           let updateValue: any;
           setErrorMsg(undefined);
 
-          if (entityForEdit) {
-            const clValue = { ...values };
+          const diffss = diff(entityForEdit, values);
 
-            validField.forEach(keys => {
-              if (!_.isString(clValue[keys].technical[0])) {
-                clValue[keys].technical = [...entityForEdit[keys].technical]
-              }
+          if (_.isEmpty(diffss)) {
+            notifyError('Kế hoạch chưa được chỉnh sửa');
+          } else {
+            if (entityForEdit) {
+              const clValue = { ...values };
 
-              if (!_.isString(clValue[keys].leader[0])) {
-                clValue[keys].leader = [...entityForEdit[keys].leader]
-              }
-            })
+              validField.forEach(keys => {
+                if (clValue[keys] && _.isArray(clValue[keys].technical) && !_.isString(clValue[keys].technical[0])) {
+                  clValue[keys].technical = [...entityForEdit[keys].technical];
+                }
 
-            const diffValue = diff(entityForEdit, clValue);
-
-
-            if (
-              diffValue.packing &&
-              _.isObject(diffValue.packing.packing) &&
-              !diffValue.packing.packing.label
-            ) {
-              delete diffValue.packing.packing;
-            }
-
-            if (
-              clValue &&
-              clValue.packing &&
-              clValue.packing.packing &&
-              diffValue &&
-              diffValue.packing
-            ) {
-              diffValue.packing.packing = clValue.packing.packing._id;
-            }
-
-            
-
-            validField.forEach(keys => {
-              const cvLeader: any[] = [];
-              const cvTechnical: any[] = [];
-
-              if (clValue[keys] && clValue[keys].leader) {
-                clValue[keys].leader.forEach((value: any) => {
-                  if (value.user) {
-                    cvLeader.push(value.user._id);
-                  }
-                });
-
-                clValue[keys].leader = cvLeader;
-              }
-
-              if (clValue[keys] && clValue[keys].technical) {
-                clValue[keys].technical.forEach((value: any) => {
-                  if (value.user) {
-                    cvTechnical.push(value.user._id);
-                  }
-                });
-
-                clValue[keys].technical = cvTechnical;
-              }
-            });
-
-            validField.forEach(keys => {
-              Object.keys(clValue[keys]).forEach(cKey => {
-                if (diffValue[keys] && !diffValue[keys][cKey] && validNested.includes(cKey)) {
-                  diffValue[keys][cKey] = clValue[keys][cKey];
+                if (clValue[keys] && _.isArray(clValue[keys].leader) && !_.isString(clValue[keys].leader[0])) {
+                  clValue[keys].leader = [...entityForEdit[keys].leader];
                 }
               });
-            });
 
-            validField.forEach(keys => {
-              if (diffValue[keys]) {
-                Object.keys(diffValue[keys]).forEach(cKey => {
-                  if (
-                    !diffValue[keys][cKey] ||
-                    (_.isArray(diffValue[keys][cKey]) && diffValue[keys][cKey].length === 0)
-                  ) {
-                    delete diffValue[keys][cKey];
+              const diffValue = diff(entityForEdit, clValue);
+
+              console.log(JSON.stringify(diffValue));
+              if (
+                diffValue.packing &&
+                _.isObject(diffValue.packing.packing) &&
+                !diffValue.packing.packing.label
+              ) {
+                delete diffValue.packing.packing;
+              }
+
+              if (
+                clValue &&
+                clValue.packing &&
+                clValue.packing.packing &&
+                diffValue &&
+                diffValue.packing
+              ) {
+                diffValue.packing.packing = clValue.packing.packing._id;
+              }
+
+              if (clValue &&
+                clValue.unit &&
+                clValue.unit.unit &&
+                diffValue) {
+                  diffValue.unit = clValue.unit.unit;
+                }
+
+              validField.forEach(keys => {
+                const cvLeader: any[] = [];
+                const cvTechnical: any[] = [];
+
+                if (clValue[keys] && clValue[keys].leader) {
+                  clValue[keys].leader.forEach((value: any) => {
+                    if (value.user) {
+                      cvLeader.push(value.user._id);
+                    }
+                  });
+
+                  clValue[keys].leader = cvLeader;
+                }
+
+                if (clValue[keys] && clValue[keys].technical) {
+                  clValue[keys].technical.forEach((value: any) => {
+                    if (value.user) {
+                      cvTechnical.push(value.user._id);
+                    }
+                  });
+
+                  clValue[keys].technical = cvTechnical;
+                }
+              });
+
+              validField.forEach(keys => {
+                Object.keys(clValue[keys]).forEach(cKey => {
+                  if (diffValue[keys] && !_.isString(diffValue[keys]) && !_.isNumber(diffValue[keys]) && !diffValue[keys][cKey] && validNested.includes(cKey)) {
+                    diffValue[keys][cKey] = clValue[keys][cKey];
                   }
                 });
+              });
 
-                if (_.isEmpty(diffValue[keys])) {
-                  delete diffValue[keys];
+              validField.forEach(keys => {
+                if (diffValue[keys] && !_.isString(diffValue[keys]) && !_.isNumber(diffValue[keys])) {
+                  Object.keys(diffValue[keys]).forEach(cKey => {
+                    if (
+                      !diffValue[keys][cKey] ||
+                      (_.isArray(diffValue[keys][cKey]) && diffValue[keys][cKey].length === 0)
+                    ) {
+                      delete diffValue[keys][cKey];
+                    }
+                  });
+
+                  if (_.isEmpty(diffValue[keys])) {
+                    delete diffValue[keys];
+                  }
                 }
+              });
+
+              Object.keys(diffValue).forEach(key => {
+                if (!validField.includes(key)) {
+                  delete diffValue[key];
+                }
+              });
+
+              updateValue = { _id: values._id, ...diffValue };
+
+              if (values.unit && !updateValue.unit) {
+                updateValue.unit = values.unit
               }
-            });
 
-            Object.keys(diffValue).forEach(key => {
-              if (!validField.includes(key)) {
-                delete diffValue[key];
-              }
-            })
+              console.log(entityForEdit);
+              console.log(values);
+              console.log(updateValue);
 
-            updateValue = { _id: values._id, ...diffValue };
-          
-          console.log(entityForEdit)
-          console.log(values);
-          console.log(updateValue)
-
-          if (step === '0') {
-            submitHandle(updateValue, values, { setSubmitting, setFieldValue, resetForm });
-          } else if (step === '1' && entityForEdit?.confirmationStatus === '0') {
-            // if (!updateValue.step || updateValue.step !== '1') {
-            //   updateValue.step = '1';
-            // }
-            // submitHandle(updateValue, { setSubmitting, setFieldError });
-            onModify(updateValue)
-              .then((res: any) => {
-                sendRequest(entityForEdit)
-                  .then(ress => {
+              if (step === '0') {
+                submitHandle(updateValue, values, { setSubmitting, setFieldValue, resetForm });
+              } else if (step === '1' && entityForEdit?.confirmationStatus === '0') {
+                // if (!updateValue.step || updateValue.step !== '1') {
+                //   updateValue.step = '1';
+                // }
+                // submitHandle(updateValue, { setSubmitting, setFieldError });
+                onModify(updateValue)
+                  .then((res: any) => {
+                    sendRequest(entityForEdit)
+                      .then(ress => {
+                        setErrorMsg(undefined);
+                        // refreshData();
+                        if (setCurrentTab) {
+                          setCurrentTab('1');
+                        }
+                        notifySuccess('Gửi duyệt thành công');
+                        history.push(homePage || GetHomePage(window.location.pathname));
+                      })
+                      .catch(error => {
+                        setSubmitting(false);
+                        setErrorMsg(error.entity || error.response.entity);
+                        notifyError('Lỗi server. Vui lòng thử lại sau');
+                        console.log('1');
+                        // resetForm(entityForEdit);
+                      });
+                  })
+                  .catch(error => {
+                    setSubmitting(false);
+                    setErrorMsg(error.entity || error.response.entity);
+                    notifyError('Lỗi server. Vui lòng thử lại sau');
+                    console.log('2');
+                    // resetForm(entityForEdit);
+                  });
+              } else if (
+                step === '1' &&
+                (entityForEdit?.confirmationStatus === '1' ||
+                  entityForEdit?.confirmationStatus === '2')
+              ) {
+                approveFollow(updateValue)
+                  .then(res => {
                     setErrorMsg(undefined);
-                    refreshData();
-                    if (setCurrentTab) { setCurrentTab('1') }
-                    notifySuccess('Gửi duyệt thành công')
+                    // refreshData();
+                    if (setCurrentTab) {
+                      setCurrentTab('1');
+                    }
+                    notifySuccess('Gửi duyệt thành công');
                     history.push(homePage || GetHomePage(window.location.pathname));
                   })
                   .catch(error => {
                     setSubmitting(false);
                     setErrorMsg(error.entity || error.response.entity);
                     notifyError('Lỗi server. Vui lòng thử lại sau');
-                    console.log('1')
+                    console.log('3');
                     // resetForm(entityForEdit);
                   });
-              })
-              .catch(error => {
-                setSubmitting(false);
-                setErrorMsg(error.entity || error.response.entity);
-                notifyError('Lỗi server. Vui lòng thử lại sau');
-                console.log('2')
-                // resetForm(entityForEdit);
-              });
-          } else if (step === '1' && (entityForEdit?.confirmationStatus === '1' || entityForEdit?.confirmationStatus === '2')) {
-            approveFollow(updateValue)
-              .then(res => {
-                setErrorMsg(undefined);
-                refreshData();
-                if (setCurrentTab) { setCurrentTab('1') }
-                notifySuccess('Gửi duyệt thành công')
-                history.push(homePage || GetHomePage(window.location.pathname));
-              })
-              .catch(error => {
-                setSubmitting(false);
-                setErrorMsg(error.entity || error.response.entity);
-                notifyError('Lỗi server. Vui lòng thử lại sau');
-                console.log('3')
-                // resetForm(entityForEdit);
-              });
+              }
+            }
           }
-        }
         }}>
-        {({ handleSubmit, setFieldValue, values, errors }) => (
+        {({ handleSubmit, setFieldValue, values, errors, resetForm }) => (
           <>
             <Form className="form form-label-right">
               {Object.keys(modifyPanels).map((key, index) => {
@@ -376,13 +422,13 @@ function ProductionPlanCrud({
                 );
               })}
             </Form>
-            <ProductionPlanComments entity={entityForEdit} onComments={onComments}  />
+            <ProductionPlanComments entity={entityForEdit} onComments={onComments} />
             {/* {errors && (
               <div className="text-left mt-5">
                 <span className="text-danger">{JSON.stringify(errors)}</span>
               </div>
             )} */}
-            {allFormButton.type === 'outside' && (
+            {_.parseInt(entityForEdit?.process) < 7 && allFormButton.type === 'outside' && (
               <div className="text-right mb-5 mr-20">
                 {Object.keys(allFormButton.data).map(keyss => {
                   switch (allFormButton.data[keyss].role) {
@@ -394,9 +440,12 @@ function ProductionPlanCrud({
                             handleSubmit();
                             allFormButton.data[keyss].onClick();
                           }}
+                          disabled={allFormButton.data[keyss].disabled ? typeof allFormButton.data[keyss].disabled === 'boolean' ? allFormButton.data[keyss].disabled : allFormButton.data[keyss].disabled(entityForEdit) : false}
                           className={allFormButton.data[keyss].className}
+                         
                           key={keyss}>
-                          {allFormButton.data[keyss].icon} {intl.formatMessage({ id: allFormButton.data[keyss].label })}
+                          {allFormButton.data[keyss].icon}{' '}
+                          {intl.formatMessage({ id: allFormButton.data[keyss].label })}
                         </button>
                       );
 
@@ -408,9 +457,25 @@ function ProductionPlanCrud({
                             handleSubmit();
                             allFormButton.data[keyss].onClick();
                           }}
+                          disabled={allFormButton.data[keyss].disabled ? typeof allFormButton.data[keyss].disabled === 'boolean' ? allFormButton.data[keyss].disabled : allFormButton.data[keyss].disabled(entityForEdit) : false}
                           className={allFormButton.data[keyss].className}
+                          
                           key={keyss}>
                           {allFormButton.data[keyss].icon ?? <></>}{' '}
+                          {intl.formatMessage({ id: allFormButton.data[keyss].label })}
+                        </button>
+                      );
+
+                    case 'reset':
+                      return (
+                        <button
+                          type={allFormButton.data[keyss].type}
+                          className={allFormButton.data[keyss].className}
+                          key={keyss}
+                          onClick={() => {
+                            allFormButton.data[keyss].onClick(entityForEdit, resetForm);
+                          }}>
+                          {allFormButton.data[keyss].icon}{' '}
                           {intl.formatMessage({ id: allFormButton.data[keyss].label })}
                         </button>
                       );
@@ -424,7 +489,8 @@ function ProductionPlanCrud({
                           onClick={() => {
                             allFormButton.data[keyss].onClick();
                           }}>
-                          {allFormButton.data[keyss].icon} {intl.formatMessage({ id: allFormButton.data[keyss].label })}
+                          {allFormButton.data[keyss].icon}{' '}
+                          {intl.formatMessage({ id: allFormButton.data[keyss].label })}
                         </button>
                       );
                     case 'link-button':
@@ -437,13 +503,14 @@ function ProductionPlanCrud({
                           onClick={() => {
                             setConfirmModal(true);
                           }}>
-                          {allFormButton.data[keyss].icon} {intl.formatMessage({ id: allFormButton.data[keyss].label })}
+                          {allFormButton.data[keyss].icon}{' '}
+                          {intl.formatMessage({ id: allFormButton.data[keyss].label })}
                         </button>
                         // </Link>
                       );
 
-                      default:
-                        return <></>
+                    default:
+                      return <></>;
                   }
                 })}
               </div>

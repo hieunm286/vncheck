@@ -4,6 +4,7 @@ import {
   DefaultPagination,
   NormalColumn,
   SortColumn,
+  SortDefault,
 } from '../../common-library/common-consts/const';
 import { MasterHeader } from '../../common-library/common-components/master-header';
 import { MasterBody } from '../../common-library/common-components/master-body';
@@ -32,6 +33,8 @@ import HistoryIcon from '@material-ui/icons/History';
 import { MasterTable } from '../../common-library/common-components/master-table';
 import { Card, CardBody, CardHeader } from '../../common-library/card';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import CustomersManagementView from './customers-management-history';
+import Visibility from '@material-ui/icons/Visibility';
 
 const headerTitle = 'PRODUCT_TYPE.MASTER.HEADER.TITLE';
 const bodyTitle = 'CUSTOMERS_LISTS';
@@ -40,35 +43,8 @@ const deleteDialogTitle = 'PRODUCT_TYPE.DELETE_DIALOG.TITLE';
 const createTitle = 'PRODUCT_TYPE.CREATE.TITLE';
 const updateTitle = 'PRODUCT_TYPE.UPDATE.TITLE';
 
-const standardizeamedName = (name: string) => {
-  let sName = name.trim();
-  sName.toLowerCase();
-  sName = sName.replace(/\s+/g, ' ');
-  return sName.toLowerCase().replace(/(^|\s)\S/g, function(l) {
-    return l.toUpperCase();
-  });
-};
-
-export const GenerateCode = (data: any[]) => {
-  const lastEntity = data[data.length - 1].code;
-  let i;
-  for (i = 0; i < lastEntity.length; i++) {
-    if (lastEntity[i] !== '0') {
-      break;
-    }
-  }
-
-  const lastIndex = parseInt(lastEntity.slice(i));
-
-  if (lastIndex < 9) {
-    return `00000${lastIndex + 1}`;
-  } else if (lastIndex < 99) {
-    return `0000${lastIndex + 1}`;
-  } else if (lastIndex < 999) {
-    return `000${lastIndex + 1}`;
-  }
-  return `00${lastIndex + 1}`;
-};
+const HistoryTitle = "LỊCH SỬ MUA HÀNG"
+const PurchaseOrderTitle = "ĐƠN HÀNG "
 
 function CustomersManagement() {
   const intl = useIntl();
@@ -123,9 +99,11 @@ function CustomersManagement() {
     getAllServer: CustomersService.GetAll,
     updateServer: CustomersService.Update,
   });
-  //   useEffect(() => {
-  //     getAll(filterProps);
-  //   }, [paginationProps, filterProps]);
+
+  const [sortField, setSortField] = React.useState<any>(SortDefault[0])
+    useEffect(() => {
+      getAll({ ...filterProps, sortBy: sortField.dataField, sortType: sortField.order });
+    }, [paginationProps, filterProps]);
 
   const masterColumns = {
     _id: {
@@ -140,22 +118,28 @@ function CustomersManagement() {
     code: {
       dataField: 'code',
       text: `${intl.formatMessage({ id: 'CUSTOMERS_CODE' })}`,
-      formatter: (cell: any, row: any, rowIndex: number) => (
-        <span
-          className="text-primary"
-          style={{ fontWeight: 600, cursor: 'pointer' }}
-          onClick={() => {
-            setShowDetail(true);
-            setDetailEntity(row);
-          }}>
-          {row.code}
-        </span>
-      ),
+      // formatter: (cell: any, row: any, rowIndex: number) => (
+      //   <span
+      //     className="text-primary"
+      //     style={{ fontWeight: 600, cursor: 'pointer' }}
+      //     onClick={() => {
+      //       setShowDetail(true);
+      //       setDetailEntity(row);
+      //     }}>
+      //     {row.code}
+      //   </span>
+      // ),
       ...SortColumn,
       classes: 'text-center',
     },
-    phone: {
-      dataField: 'phone',
+    fullName: {
+      dataField: 'fullName',
+      text: `${intl.formatMessage({ id: 'CUSTOMERS_DETAIL_NAME' })}`,
+      ...SortColumn,
+      classes: 'text-center',
+    },
+    username: {
+      dataField: 'username',
       text: `${intl.formatMessage({ id: 'CUSTOMERS_PHONE_NUMBER' })}`,
       ...SortColumn,
       classes: 'text-center',
@@ -177,7 +161,7 @@ function CustomersManagement() {
     },
     action: {
       dataField: 'action',
-      text: `${intl.formatMessage({ id: 'PURCHASE_ORDER.MASTER.TABLE.ACTION_COLUMN' })}`,
+      text: `${intl.formatMessage({ id: 'CUSTOMERS_DETAIL_ACTION' })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
         <span
           className="btn btn-icon btn-light btn-hover-primary btn-sm visibility"
@@ -206,13 +190,27 @@ function CustomersManagement() {
   };
 
   const historyColumn = {
-    buyDate: {
-      dataField: 'buyDate',
+    code: {
+      dataField: 'code',
+      text: `ĐƠN HÀNG`,
+      formatter: (cell: any, row: any, rowIndex: number) => (
+        <span
+          className="text-primary"
+          style={{ fontWeight: 600, cursor: 'pointer' }}
+        >
+          {row.code}
+        </span>
+      ),
+      ...SortColumn,
+      classes: 'text-center',
+    },
+    createdAt: {
+      dataField: 'createdAt',
       text: `${intl.formatMessage({ id: 'CUSTOMERS_BUY_DATE' })}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
         <span>
-          {row.buyDate
-            ? new Intl.DateTimeFormat('en-GB').format(new Date(row.buyDate))
+          {row.createdAt
+            ? new Intl.DateTimeFormat('en-GB').format(new Date(row.createdAt))
             : 'Không có thông tin'}
         </span>
       ),
@@ -220,35 +218,67 @@ function CustomersManagement() {
       classes: 'text-center',
       headerClasses: 'text-center',
     },
-    species: {
-      dataField: 'species.name',
-      text: `${intl.formatMessage({ id: 'PRODUCT_TYPE.MASTER.TABLE.NAME_COLUMN' })}`,
-      ...SortColumn,
-      classes: 'text-center',
-    },
-    QR: {
-      dataField: 'qr._id',
-      text: `${intl.formatMessage({ id: 'QR.MASTER.TABLE.CODE' })}`,
-      ...SortColumn,
-      classes: 'text-center',
-    },
-
-    store: {
-      dataField: 'store.name',
+    sellAgency: {
+      dataField: 'sellAgency.name',
       text: `${intl.formatMessage({ id: 'CUSTOMERS_STORE' })}`,
       ...SortColumn,
       classes: 'text-center',
-      headerClasses: 'text-center',
     },
-
     seller: {
-      dataField: 'store.seller.name',
+      dataField: 'seller.fullName',
       text: `${intl.formatMessage({ id: 'CUSTOMERS_SELLER' })}`,
       ...SortColumn,
       classes: 'text-center',
-      headerClasses: 'text-center',
     },
+
+    action: {
+      dataField: 'action',
+      text: 'action',
+      formatter: (cell: any, row: any, rowIndex: number) => (
+        <span
+          className="btn btn-icon btn-light btn-hover-primary btn-sm visibility"
+          onClick={() => {
+            history.push({
+              pathname: '/customers-management/' + row._id + '/purchase-order',
+            });
+          }}>
+          <span className="svg-icon svg-icon-md svg-icon-primary">
+            <Visibility className="text-primary eye" />
+          </span>
+        </span>
+      ),
+      classes: 'text-center',
+      headerClasses: 'text-center',
+    }
   };
+
+  const productInPurChaseOrderColumn = {
+    _id: {
+      dataField: '_id',
+      text: 'STT',
+      formatter: (cell: any, row: any, rowIndex: number) => (
+        <p>{rowIndex + 1 + ((paginationProps.page ?? 0) - 1) * (paginationProps.limit ?? 0)}</p>
+      ),
+      classes: 'mr-3',
+      style: { paddingTop: 20 },
+    },
+    species: {
+      dataField: 'species.name',
+      text: 'Tên chủng loại',
+      classes: 'text-center',
+    },
+    packing: {
+      dataField: 'packing.weight',
+      text: 'Quy cách đóng gói',
+      classes: 'text-center',
+    },
+    qr: {
+      dataField: 'qr',
+      text: 'Mã QR',
+      ...SortColumn,
+      classes: 'text-center',
+    }
+  }
 
   const masterEntityDetailDialog: RenderInfoDetail = [
     {
@@ -264,11 +294,11 @@ function CustomersManagement() {
     },
     {
       data: {
-        name: { title: 'CUSTOMERS_DETAIL_NAME' },
-        phone: { title: 'CUSTOMERS_PHONE_NUMBER' },
-        dateOfBirth: { title: 'CUSTOMERS_DETAIL_DOB' },
-        address: { title: 'CUSTOMERS_DETAIL_ADDRESS' },
-        role: { title: 'CUSTOMERS_DETAIL_ROLE' },
+        fullName: { title: 'CUSTOMERS_DETAIL_NAME' },
+        gender: { title: 'CUSTOMERS_DETAIL_GENDER' },
+        username: { title: 'CUSTOMERS_PHONE_NUMBER' },
+        birthDay: { title: 'CUSTOMERS_DETAIL_DOB' },
+        email: { title: 'EMAIL' },
       },
       dataClassName: 'col-lg-5 col-md-8',
       titleClassName: 'col-lg-7 col-md-4',
@@ -277,7 +307,7 @@ function CustomersManagement() {
   ];
 
   const productTypeSearchModel: SearchModel = {
-    phone: {
+    username: {
       type: 'string',
       label: 'CUSTOMERS_PHONE_NUMBER',
     },
@@ -299,31 +329,28 @@ function CustomersManagement() {
       <Switch>
         <Route exact path={`/customers-management/:code/history`}>
           {({ history, match }) => (
-            <Card>
-              <CardHeader
-                title={
-                  <>
-                    <span onClick={() => history.goBack()}>
-                      <ArrowBackIosIcon />
-                    </span>
-                    {match && match.params.code}
-                  </>
-                }
-              />
-              <CardBody>
-                <div className="mt-8 mb-10">
-                  <span className="text-primary detail-dialog-subtitle">LỊCH SỬ MUA HÀNG</span>
-                </div>
-                <MasterTable
-                  entities={(history.location.state as any) || []}
-                  columns={historyColumn as any}
-                  total={total}
-                  loading={loading}
-                  paginationParams={paginationProps}
-                  setPaginationParams={setPaginationProps}
-                />
-              </CardBody>
-            </Card>
+            <CustomersManagementView
+              columns={historyColumn}
+              code={match && match.params.code}
+              history={history}
+              title={HistoryTitle}
+              onFetch={(code: string, paginationProps: any) => CustomersService.GetOrders(code, { paginationProps })}
+              sortField={sortField}
+              setSortField={setSortField}
+            />
+          )}
+        </Route>
+        <Route exact path={`/customers-management/:code/purchase-order`}>
+          {({ history, match }) => (
+            <CustomersManagementView
+              columns={productInPurChaseOrderColumn}
+              code={match && match.params.code}
+              history={history}
+              title={PurchaseOrderTitle}
+              onFetch={(code: string, paginationProps: any) => CustomersService.GetOrderDetail(code, { paginationProps })}
+              sortField={sortField}
+              setSortField={setSortField}
+            />
           )}
         </Route>
         <Route path="/customers-management">
@@ -339,7 +366,7 @@ function CustomersManagement() {
             title={bodyTitle}
             onCreate={() => {}}
             hideHeaderButton={true}
-            entities={masterData}
+            entities={entities}
             total={total}
             columns={masterColumns as any}
             loading={loading}

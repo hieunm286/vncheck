@@ -78,7 +78,6 @@ function MultilevelSale() {
   });
   
   const [agency, setAgency] = useState<any[]>([]);
-  const [agencyPagination, setAgencyPagination] = useState(DefaultPagination);
   const [agencyTotal, setAgencyTotal] = useState(0);
   const [agencyLoading, setAgencyLoading] = useState(false);
   const [agencyParams, setAgencyParams] = useState({
@@ -94,12 +93,12 @@ function MultilevelSale() {
   const history = useHistory();
   
   useEffect(() => {
-    getAll(filterProps);
-  }, [filterProps]);
+    getAll({ ...filterProps });
+  }, [filterProps, paginationProps]);
   
   useEffect(() => {
     setAgencyLoading(true);
-    MultilevelSaleService.GetAgency({agencyParams, paginationProps})
+    MultilevelSaleService.GetAgency({agencyParams: { ...agencyParams, type: '1' }, paginationProps})
       .then(res => {
         setAgency(res.data.data);
         setAgencyTotal(res.data.paging.total);
@@ -116,7 +115,7 @@ function MultilevelSale() {
   const columns = {
     _id: {
       dataField: '_id',
-      text: 'STT',
+      text: `${intl.formatMessage({id: 'ORDINAL'})}`,
       formatter: (cell: any, row: any, rowIndex: number) => (
         <p>{rowIndex + 1 + ((paginationProps.page ?? 0) - 1) * (paginationProps.limit ?? 0)}</p>
       ),
@@ -134,14 +133,12 @@ function MultilevelSale() {
       ...SortColumn,
       classes: 'text-center',
     },
-    
     action: {
       dataField: 'action',
       text: `${intl.formatMessage({id: 'PURCHASE_ORDER.MASTER.TABLE.ACTION_COLUMN'})}`,
       formatter: MultilevelSaleActionColumn,
       formatExtraData: {
         intl,
-        
         onDelete: (entity: any) => {
           setDeleteAgency(entity);
           setErrorAgency('');

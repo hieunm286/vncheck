@@ -103,8 +103,8 @@ export const role_scope_preservation = [
   'preserve.location',
   'preserve.temperature',
   'preserve.image',
-  'preserve.manager',
-  'preserve.leader',
+  'preserve.technical',
+  // 'preserve.leader',
   'preserve.worker',
 ];
 
@@ -116,13 +116,14 @@ export const role_scope_logistics = [
 ];
 
 export const role_scope_distribution = [
-  'distribution.timeExportOrder',
-  'distribution.locationExportOrder',
-  'distribution.staffExportOrder',
-  'distribution.shipper',
-  'distribution.timeImportOrder',
-  'distribution.locationImportOrder',
-  'distribution.staffImportOrder',
+  "distribution.timeExportOrder",
+  "distribution.locationExportOrder",
+  "distribution.staffExportOrder",
+  "distribution.shipper",
+  "distribution.timeImportOrder",
+  "distribution.locationImportOrder",
+  "distribution.staffImportOrder",
+  "distribution.imagePath",
 ];
 
 export const role_scope_shipping = [

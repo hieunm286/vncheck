@@ -86,7 +86,7 @@ const LoginUsername = (props: { saveUserInfo?: any; intl?: any; location?: any }
               publicKey: string;
               username: string;
             } = response.data;
-            const fullName = response.data.firstName + ' ' + response.data.lastName;
+            const fullName = (response.data.fullName) || (response.data.firstName + ' ' + response.data.lastName);
             localStorage.setItem('userInfo', JSON.stringify({username, fullName}));
             props.saveUserInfo({
               ...response.data,
@@ -95,7 +95,6 @@ const LoginUsername = (props: { saveUserInfo?: any; intl?: any; location?: any }
             history.push('/auth/login/challenge?callbackUrl=' + callbackUrl);
           })
           .catch(err => {
-            console.log(err);
             setLoading(false);
             setSubmitting(false);
             setStatus(intl.formatMessage({id: 'AUTH.VALIDATION.INVALID_USERNAME'}),
@@ -124,7 +123,7 @@ const LoginUsername = (props: { saveUserInfo?: any; intl?: any; location?: any }
     <div
       className="login-form login-signin p-5"
       id="kt_login_signin_form"
-      //   style={{
+      style={{zIndex: 1}}   //   style={{
       //     background: `linear-gradient(to right, rgba(21.96%, 17.25%, 21.96%, 0.55) 150px, rgba(27.06%, 25.88%, 27.06%, 0.41) 100%)`,
       //     borderRadius: 10,
       //   }}
@@ -180,7 +179,8 @@ const LoginUsername = (props: { saveUserInfo?: any; intl?: any; location?: any }
           <button
             id="kt_login_signin_submit"
             type="submit"
-            // disabled={formik.isSubmitting}
+            disabled={formik.isSubmitting}
+            style={{zIndex:1}}
             className={`btn btn-danger font-weight-bold px-9 py-4 my-3`}>
             <span>Tiếp theo</span>
             {loading && <span className="ml-3 spinner spinner-white"/>}

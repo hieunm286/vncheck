@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   ModifyForm,
   ModifyPanel,
@@ -11,7 +12,6 @@ import * as Yup from 'yup';
 
 import '../style/production-plan.scss';
 import _ from 'lodash';
-import React from 'react';
 import {useIntl} from 'react-intl';
 import {
   Display3Info,
@@ -23,8 +23,8 @@ import {
   DisplayImage,
   DisplayPercent,
   DisplayPersonNameByArray,
+  DisplayUnit,
 } from '../../../common-library/helpers/detail-helpers';
-import momentTimeZone from 'moment-timezone';
 
 export const headerTitle = 'PRODUCT_TYPE.MASTER.HEADER.TITLE';
 export const bodyTitle = 'PRODUCT_TYPE.MASTER.BODY.TITLE';
@@ -34,21 +34,12 @@ export const createTitle = 'PRODUCT_TYPE.CREATE.TITLE';
 export const updateTitle = 'PURCHASE_ORDER.UPDATE.TITLE';
 export const homeURL = `${window.location.pathname}`;
 
-
-export const DisplayDateTimeV2 = (input: string, _format?: string) => {
-  if (!input) return <></>;
-  return (
-    <>
-    {momentTimeZone(input).tz('Asia/Ho_Chi_Minh').format(_format ?? 'DD/MM/YYYY HH:mm')}
-    </>
-  );
-
-}
-
 export const Fix = ({title}: { title: string }) => {
   const intl = useIntl();
   return <div style={{minWidth: 174}}>{intl.formatMessage({id: title})}</div>;
 };
+
+export const basicUnit = [1, 1000, 10000, 100000, 1000000]
 
 export const productPlanSearchModel1: SearchModel = {
   seedingCode: {
@@ -968,6 +959,8 @@ export const masterEntityDetailDialog2: RenderInfoDetail = [
         title: 'Tổ trưởng thu hoạch',
         formatter: DisplayPersonNameByArray,
       },
+
+      'unit': {title: 'Đơn vị tính', formatter: input => <DisplayUnit input={input} />}
     },
   },
   {
@@ -977,7 +970,7 @@ export const masterEntityDetailDialog2: RenderInfoDetail = [
     dataClassName: 'col-md-4 col-8 mb-10 pl-5',
     data: {
       'preliminaryTreatment.estimatedTime': {
-        title: 'SEEDING.SEEDING_TIME',
+        title: 'PRODUCTION_PLAN_FORM_PRELIMINARY_TREATMENT_TIME',
         formatter: input => <DisplayDateTime input={input} />,
       },
       'preliminaryTreatment.[technical]': {
@@ -990,6 +983,8 @@ export const masterEntityDetailDialog2: RenderInfoDetail = [
         title: 'Tổ trưởng sơ chế',
         formatter: DisplayPersonNameByArray,
       },
+
+      'unit': {title: 'Đơn vị tính', formatter: input => <DisplayUnit input={input} />}
     },
   },
   {
@@ -999,7 +994,7 @@ export const masterEntityDetailDialog2: RenderInfoDetail = [
     dataClassName: 'col-md-4 col-8 mb-10 pl-5',
     data: {
       'cleaning.estimatedTime': {
-        title: 'SEEDING.SEEDING_TIME',
+        title: 'PRODUCTION_PLAN_CLEANING_TIME',
         formatter: input => <DisplayDateTime input={input} />,
       },
       'cleaning.[technical]': {
@@ -1012,6 +1007,8 @@ export const masterEntityDetailDialog2: RenderInfoDetail = [
         title: 'Tổ trưởng làm sạch',
         formatter: DisplayPersonNameByArray,
       },
+
+      'unit': {title: 'Đơn vị tính', formatter: input => <DisplayUnit input={input} />}
     },
   },
   {
@@ -1189,6 +1186,7 @@ export const initProductPlanForm = {
     estimatedEndTime: null,
     technical: []
   },
+  unit: 1000
 };
 
 export const halfValidate = {

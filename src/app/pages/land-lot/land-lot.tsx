@@ -145,7 +145,7 @@ function LandLot() {
         type: 'string',
         label: 'LAND_LOT.MASTER.HEADER.CODE',
         disabled: (values) => {
-          return (values.lot || values.subLot) && (values.code !== values.lot + values.subLot)
+          return ((values.lot || values.subLot) && (!values.code || values.code === ''))
         },
         onChange: (value, {setFieldValue, values}) => {
           const innerValue = value.target.value.toUpperCase();

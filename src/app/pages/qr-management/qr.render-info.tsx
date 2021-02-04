@@ -27,6 +27,13 @@ export const producerInfo: RenderInfoDetail = [{
     'enterprise.gln': {title: 'ENTERPRISE.GLN'},
   }
 }];
+export const paddingInfo: RenderInfoDetail = [{
+  className: 'col-12',
+  dataClassName: 'col-12',
+  data: {
+    'padding': {formatter: () => (<div style={{borderTop: '1px solid #DADADA'}} className={'mb-10'}/>)},
+  }
+}]
 
 export const commonInfo: RenderInfoDetail = [{
   header: 'GENERAL_INFO',
@@ -87,7 +94,7 @@ export const seedingInfo: RenderInfoDetail = [{
           title: 'IMAGE_INFO',
           component: Display3Info
         }
-        return DisplayImage(image, renderInfo)
+        return DisplayImage(image, renderInfo, ['isMaster', true])
       }
     },
     'productPlan.seeding.landLotImage': {
@@ -97,7 +104,7 @@ export const seedingInfo: RenderInfoDetail = [{
           title: 'IMAGE_INFO',
           component: Display3Info
         }
-        return DisplayImage(image, renderInfo)
+        return DisplayImage(image, renderInfo, ['isMaster', true])
       }
     },
     'productPlan.seeding.manager.fullName': {
@@ -147,7 +154,7 @@ export const plantingInfo: RenderInfoDetail = [{
           title: 'IMAGE_INFO',
           component: Display3Info
         }
-        return DisplayImage(image, renderInfo)
+        return DisplayImage(image, renderInfo, ['isMaster', true])
       }
     },
     'productPlan.planting.imageBefore': {
@@ -157,7 +164,7 @@ export const plantingInfo: RenderInfoDetail = [{
           title: 'IMAGE_INFO',
           component: Display3Info
         }
-        return DisplayImage(image, renderInfo)
+        return DisplayImage(image, renderInfo, ['isMaster', true])
       }
     },
     'productPlan.planting.temperature': {
@@ -211,7 +218,7 @@ export const harvestingInfo: RenderInfoDetail = [{
           title: 'IMAGE_INFO',
           component: Display3Info
         }
-        return DisplayImage(image, renderInfo)
+        return DisplayImage(image, renderInfo, ['isMaster', true])
       }
     },
     'productPlan.harvesting.imageInProgress': {
@@ -221,7 +228,7 @@ export const harvestingInfo: RenderInfoDetail = [{
           title: 'IMAGE_INFO',
           component: Display3Info
         }
-        return DisplayImage(image, renderInfo)
+        return DisplayImage(image, renderInfo, ['isMaster', true])
       }
     },
     'productPlan.harvesting.imageAfter': {
@@ -231,7 +238,7 @@ export const harvestingInfo: RenderInfoDetail = [{
           title: 'IMAGE_INFO',
           component: Display3Info
         }
-        return DisplayImage(image, renderInfo)
+        return DisplayImage(image, renderInfo, ['isMaster', true])
       }
     },
     'productPlan.harvesting.temperature': {
@@ -246,7 +253,7 @@ export const harvestingInfo: RenderInfoDetail = [{
       title: 'POROSITY',
       formatter: DisplayPercent
     },
-    'productPlan.harvesting.manager.user.fullName': {
+    'productPlan.planting.manager.fullName': {
       title: 'ADMIN_DIRECTOR_INFO',
     },
     'productPlan.harvesting.[leader].user.fullName': {
@@ -284,7 +291,7 @@ export const preliminaryTreatmentInfo: RenderInfoDetail = [{
           title: 'IMAGE_INFO',
           component: Display3Info
         }
-        return DisplayImage(image, renderInfo)
+        return DisplayImage(image, renderInfo, ['isMaster', true])
       }
     },
     'productPlan.preliminaryTreatment.imageInProgress': {
@@ -294,7 +301,7 @@ export const preliminaryTreatmentInfo: RenderInfoDetail = [{
           title: 'IMAGE_INFO',
           component: Display3Info
         }
-        return DisplayImage(image, renderInfo)
+        return DisplayImage(image, renderInfo, ['isMaster', true])
       }
     },
     'productPlan.preliminaryTreatment.imageAfter': {
@@ -304,10 +311,10 @@ export const preliminaryTreatmentInfo: RenderInfoDetail = [{
           title: 'IMAGE_INFO',
           component: Display3Info
         }
-        return DisplayImage(image, renderInfo)
+        return DisplayImage(image, renderInfo, ['isMaster', true])
       }
     },
-    'productPlan.preliminaryTreatment.manager.user.fullName': {
+    'productPlan.planting.manager.fullName': {
       title: 'ADMIN_DIRECTOR_INFO',
     },
     'productPlan.preliminaryTreatment.[leader].user.fullName': {
@@ -345,7 +352,7 @@ export const cleaningInfo: RenderInfoDetail = [{
           title: 'IMAGE_INFO',
           component: Display3Info
         }
-        return DisplayImage(image, renderInfo)
+        return DisplayImage(image, renderInfo, ['isMaster', true])
       }
     },
     'productPlan.cleaning.imageInProgress': {
@@ -355,7 +362,7 @@ export const cleaningInfo: RenderInfoDetail = [{
           title: 'IMAGE_INFO',
           component: Display3Info
         }
-        return DisplayImage(image, renderInfo)
+        return DisplayImage(image, renderInfo, ['isMaster', true])
       }
     },
     'productPlan.cleaning.imageAfter': {
@@ -365,10 +372,10 @@ export const cleaningInfo: RenderInfoDetail = [{
           title: 'IMAGE_INFO',
           component: Display3Info
         }
-        return DisplayImage(image, renderInfo)
+        return DisplayImage(image, renderInfo, ['isMaster', true])
       }
     },
-    'productPlan.cleaning.manager.user.fullName': {
+    'productPlan.planting.manager.fullName': {
       title: 'ADMIN_DIRECTOR_INFO',
     },
     'productPlan.cleaning.[leader].user.fullName': {
@@ -392,9 +399,12 @@ export const packingInfo: RenderInfoDetail = [{
   titleClassName: 'col-3 mb-10',
   dataClassName: 'col-9 mb-10 pl-5',
   data: {
-    'productPlan.harvesting.scanLocation': {
-      title: 'Địa điểm Farm đóng gói',
-      formatter: DisplayCoordinates
+    'productPlan.packing.address': {
+      keyField: 'productPlan.packing.packingImage', title: 'PACKING_LOCATION',
+      formatter: (e) => {
+        const master = e?.filter((item: any) => item.isMaster === true)
+        return <>{master && master[0]?.location && DisplayCoordinates(master[0]?.location?.coordinates)}</>
+      }
     },
     'productPlan.packing.packing.code': {
       title: 'Quy cách đóng gói',
@@ -410,7 +420,7 @@ export const packingInfo: RenderInfoDetail = [{
           title: 'IMAGE_INFO',
           component: Display3Info
         }
-        return DisplayImage(image, renderInfo)
+        return DisplayImage(image, renderInfo, ['isMaster', true])
       }
     },
     'productPlan.packing.packingImage': {
@@ -420,7 +430,7 @@ export const packingInfo: RenderInfoDetail = [{
           title: 'IMAGE_INFO',
           component: Display3Info
         }
-        return DisplayImage(image, renderInfo)
+        return DisplayImage(image, renderInfo, ['isMaster', true])
       }
     },
     'scanAt': {
@@ -437,7 +447,7 @@ export const packingInfo: RenderInfoDetail = [{
       title: 'QR_ACTIVATE_AT',
       formatter: (input) => (<DisplayDateTime input={input}/>),
     },
-    'productPlan.packing.manager.user.fullName': {
+    'productPlan.planting.manager.fullName': {
       title: 'ADMIN_DIRECTOR_INFO',
     },
     'productPlan.packing.[leader].user.fullName': {
@@ -454,12 +464,16 @@ export const preservationInfo: RenderInfoDetail = [{
   dataClassName: 'col-9 mb-10 pl-5',
   data: {
     'productPlan.preservation.time': {
-      keyField: 'productPlan.preservation', title: 'Thời gian bảo quản',
-      formatter: (e) => (<DisplayDiffTime startTime={e?.startTime} endTime={e?.endTime}/>)
+      keyField: 'productPlan.preservation', title: 'PRESERVATION_TIME',
+      formatter: (e) => (
+        <DisplayDiffTime startTime={e?.startTime} endTime={e?.endTime}/>)
     },
-    'productPlan.preservation.storageImage.location.[coordinates]': {
-      title: 'Địa điểm bảo quản',
-      formatter: DisplayCoordinates,
+    'productPlan.preservation.address': {
+      keyField: 'productPlan.preservation.storageImage', title: 'PRESERVATION_LOCATION',
+      formatter: (e) => {
+        const master = e?.filter((item: any) => item.isMaster === true)
+        return <>{master && master[0]?.location && DisplayCoordinates(master[0]?.location?.coordinates)}</>
+      }
     },
     'productPlan.preservation.temperature': {
       title: 'Nhiệt độ bảo quản',
@@ -472,7 +486,7 @@ export const preservationInfo: RenderInfoDetail = [{
           title: 'IMAGE_INFO',
           component: Display3Info
         }
-        return DisplayImage(image, renderInfo)
+        return DisplayImage(image, renderInfo, ['isMaster', true])
       }
     },
     'productPlan.preservation.[technical].user.fullName': {
@@ -493,41 +507,15 @@ export const sellStatus: RenderInfoDetail = [{
   titleClassName: 'col-3 mb-10',
   dataClassName: 'col-9 mb-10 pl-5',
   data: {
-    'sellStatus.status': {
-      title: 'Trạng thái',
-      formatter: (sold: boolean, entity: any) => {
-        const isShow = entity.type === '1' ? (entity.productPlan != null) : entity.children.length > 0;
-        return isShow ? (<>{sold ? 'Đã bán' : 'Còn hàng'}</>) : <></>
+    'retailInfo.isSold': { title: 'Trạng thái', formatter: input => <>{input ? 'Đã bán' : 'Chưa bán'}</> },
+      'retailInfo.soldDate': {
+        title: 'Ngày bán',
+        formatter: input => <DisplayDateTime input={input} />,
       },
-    },
-    'sellStatus.dateOfSell': {
-      title: 'Ngày bán',
-      formatter: (date: string, entity: any) => {
-        const isShow = entity.type === '1' ? (entity.productPlan != null) : entity.children.length > 0;
-        return isShow ? (<DisplayDateTime input={new Date().toISOString()}/>) : <></>
-      },
-    },
-    'sellStatus.sellAddress': {
-      title: 'Nơi bán',
-      formatter: (arr: string[], entity: any) => {
-        const isShow = entity.type === '1' ? (entity.productPlan != null) : entity.children.length > 0;
-        return isShow ? (<>Cửa hàng A</>) : <></>
-      },
-    },
-    'sellStatus.seller.fullName': {
-      title: 'Nhân viên bán hàng',
-      formatter: (arr: string[], entity: any) => {
-        const isShow = entity.type === '1' ? (entity.productPlan != null) : entity.children.length > 0;
-        return isShow ? (<>Nguyễn Văn C</>) : <></>
-      },
-    },
-    'sellStatus.customerPhoneNumber': {
-      title: 'Số điện thoại khách hàng',
-      formatter: (arr: string[], entity: any) => {
-        const isShow = entity.type === '1' ? (entity.productPlan != null) : entity.children.length > 0;
-        return isShow ? (<>0912345677</>) : <></>
-      },
-    }
+      'retailInfo.soldAt': { title: 'Nơi bán', formatter: input => <>{input?.agency?.name}</> },
+      'retailInfo.soldBy': { title: 'Nhân viên nơi bán', formatter: input => <>{input?.user?.name}</> },
+      'retailInfo.buyer': { title: 'Số điện thoại người mua', formatter: input => <>{input?.customer?.username}</> },
+      '_id': { title: 'ID QR' },
   }
 }];
 

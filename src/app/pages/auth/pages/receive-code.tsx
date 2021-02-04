@@ -68,7 +68,7 @@ function ReceiveCode(props: { intl: any }) {
     <>
       {isRequested && <Redirect to="/auth"/>}
       {!isRequested && (
-        <div className="login-form login-forgot" style={{display: 'block'}}>
+        <div className="login-form login-forgot" style={{display: 'block',zIndex: 1}}>
           <div className="text-center mb-10 mb-lg-10">
             <h3 className="font-size-h1">Phương thức nhận mã</h3>
             <div className="text-muted font-weight-bold">Chọn phương thức để nhận mã xác minh</div>

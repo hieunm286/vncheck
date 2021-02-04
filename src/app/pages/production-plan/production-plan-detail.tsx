@@ -42,16 +42,23 @@ export function ProductionPlanDetail({
   const [entityDetail, setEntityDetail] = useState(entity);
 
   const history = useHistory();
+
+  useEffect(() => {
+    setEntityDetail(entity)
+  }, [entity])
+
   useEffect(() => {
     if (code && get) {
       get(code).then((res: { data: any }) => {
         setEntityDetail(res.data);
+       
         if (setDetailEntity) {
           setDetailEntity(res.data);
         }
       });
     }
   }, [code]);
+  console.log(entityDetail)
   return (
     <>
       {renderInfo.map((value, index) => (
@@ -125,7 +132,7 @@ export function ProductionPlanDetail({
           </Card>
         </React.Fragment>
       ))}
-      {showComment !== true ? <></> : (entityDetail?.confirmationStatus === '2' || entityDetail?.confirmationStatus === '3') ? (
+      {showComment !== true ? <></> : (entityDetail?.confirmationStatus === '3' || (entityDetail?.isMaster === true && entityDetail?.confirmationStatus === '2')) ? (
         <Card>
           <CardBody className={'p-0'}>
             <div className="mb-5 mt-5">

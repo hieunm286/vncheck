@@ -1,6 +1,6 @@
 import React, {Fragment, useCallback, useEffect, useMemo, useState} from "react";
 import {useIntl} from 'react-intl';
-
+import {Link, Route, Switch} from 'react-router-dom';
 import * as UserService from '../user/user.service';
 import {InitMasterProps} from "../../common-library/helpers/common-function";
 import {Count, Create, Delete, DeleteMany, Get, GetAll, GetType, QrTypeList, Update} from './qr.service';
@@ -9,7 +9,6 @@ import {MasterHeader} from "../../common-library/common-components/master-header
 import {MasterBody} from "../../common-library/common-components/master-body";
 
 import {DefaultPagination, NormalColumn, SortColumn} from '../../common-library/common-consts/const';
-import {Link, Route, Switch, useHistory} from 'react-router-dom';
 import {
   InputGroups,
   MasterBodyColumns,
@@ -23,6 +22,7 @@ import {
   commonInfo,
   harvestingInfo,
   packingInfo,
+  paddingInfo,
   plantingInfo,
   preliminaryTreatmentInfo,
   preservationInfo,
@@ -30,7 +30,6 @@ import {
   seedingInfo,
   sellStatus,
 } from "./qr.render-info";
-import {mobileSaleMock} from "./qr-mock";
 import ModifyEntityDialog from "../../common-library/common-components/modify-entity-dialog";
 import {
   Display3Info,
@@ -68,7 +67,7 @@ const bodyTitle = 'QR.MASTER.BODY.TITLE';
 
 
 function QrPage() {
-  const history = useHistory();
+  // const history = useHistory();
   const intl = useIntl();
   const {
     entities,
@@ -113,14 +112,16 @@ function QrPage() {
     getAllServer: GetAll,
     updateServer: Update
   });
+
+  const [showImage, setShowImage] = useState<boolean>(false);
+  const [logisticImageDetail, setLogisticImage] = useState<any>(null);
   
   useEffect(() => {
     getAll(filterProps);
   }, [paginationProps, filterProps]);
   
-  const [qrType, setQrType] = useState<string>();
-  const [showImage, setShowImage] = useState<boolean>(false);
   
+
   
   const columns = useMemo(() => {
     return {
@@ -247,7 +248,7 @@ function QrPage() {
   ];
   
   
-  const shippingInfo= useMemo((): RenderInfoDetail => ([{
+  const shippingInfo = useMemo((): RenderInfoDetail => ([{
     header: 'THÔNG TIN VẬN CHUYỂN',
     className: 'col-12',
     titleClassName: 'col-3 mb-10',
@@ -257,11 +258,11 @@ function QrPage() {
         title: '',
         formatter: (val, entity) => {
           const isShow = entity.type === '1' ? (entity.productPlan != null) : entity.children.length > 0;
-          return <DisplayTable entities={isShow ? mobileSaleMock.shippingInfo : []} columns={shippingInfoColumns}/>
+          return <DisplayTable entities={[]} columns={shippingInfoColumns}/>
         }
       }
     },
-  }]),[]);
+  }]), []);
   
   
   const distributionInfoColumns: MasterBodyColumns = [
@@ -308,7 +309,6 @@ function QrPage() {
       align: 'center',
     },
   ];
-  const [logisticImageDetail, setLogisticImage] = useState<any>(null);
   const logisticImageRenderDetail = useMemo((): RenderInfoDetail => ([
     {
       className: 'col-12',
@@ -343,7 +343,7 @@ function QrPage() {
       .min(1, 'VALIDATE.ERROR.MIN_1'),
   }), []);
   
-  const distributionInfo = useMemo((): RenderInfoDetail => ([    {
+  const distributionInfo = useMemo((): RenderInfoDetail => ([{
     header: 'THÔNG TIN PHÂN PHỐI',
     className: 'col-12',
     titleClassName: 'col-3 mb-10',
@@ -353,12 +353,12 @@ function QrPage() {
         title: '',
         formatter: (val, entity) => {
           const isShow = entity.type === '1' ? (entity.productPlan != null) : entity.children.length > 0;
-          return <DisplayTable entities={isShow ? mobileSaleMock.distributionInfo : []}
+          return <DisplayTable entities={[]}
                                columns={distributionInfoColumns}/>
         }
       }
     },
-  }]),[]);
+  }]), []);
   const downloadQrFile = useCallback((e: QrModel) => {
     return add(e).then((res: AxiosResponse<QrModel>) => {
       const date_input = new Date();
@@ -402,12 +402,12 @@ function QrPage() {
     ...NormalColumn,
     formatter: (e: any) => <DisplayInnerLink link={`/qr/${e}`} title={e}/>
   }, {
-    dataField: 'createdBy.fullName',
+    dataField: 'createdBy',
     text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.CREATED_BY'})}`,
     ...SortColumn,
     align: 'center',
     formatter: (cell: any, row: any, rowIndex: number) => (row?.createdBy ?
-      <DisplayPersonName {...row.createdBy}/> : (<>{intl.formatMessage({id: 'NO_INFORMATION'})}</>)),
+      <DisplayPersonName {...cell}/> : (<>{intl.formatMessage({id: 'NO_INFORMATION'})}</>)),
   }, {
     dataField: 'createdAt',
     text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.CREATED_DATE'})}`,
@@ -415,12 +415,12 @@ function QrPage() {
     formatter: (input: any) => (<DisplayDate input={input}/>),
     align: 'center',
   }, {
-    dataField: 'activeBy.fullName',
+    dataField: 'activeBy',
     text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.ACTIVE_BY'})}`,
     ...SortColumn,
     align: 'center',
     formatter: (cell: any, row: any, rowIndex: number) => (row?.activeBy ?
-      <DisplayPersonName {...row.activeBy}/> : (<>{intl.formatMessage({id: 'NO_INFORMATION'})}</>)),
+      <DisplayPersonName {...cell}/> : (<>{intl.formatMessage({id: 'NO_INFORMATION'})}</>)),
   }, {
     dataField: 'activeAt',
     text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.ACTIVE_AT'})}`,
@@ -470,30 +470,42 @@ function QrPage() {
   // ], [dE]);
   const renderInfoProduct: RenderInfoDetail = useMemo(() => ([
     ...producerInfo,
+    ...paddingInfo,
     ...commonInfo,
+    ...paddingInfo,
     ...seedingInfo,
+    ...paddingInfo,
     ...plantingInfo,
+    ...paddingInfo,
     ...harvestingInfo,
+    ...paddingInfo,
     ...preliminaryTreatmentInfo,
+    ...paddingInfo,
     ...cleaningInfo,
+    ...paddingInfo,
     ...packingInfo,
+    ...paddingInfo,
     ...preservationInfo,
+    ...paddingInfo,
     ...shippingInfo,
+    ...paddingInfo,
     ...distributionInfo,
+    ...paddingInfo,
     ...sellStatus
   ]), []);
   const renderInfoPacking: RenderInfoDetail = useMemo(() => ([
     ...parentQrInfo,
+    ...paddingInfo,
     ...childQrInfo,
+    ...paddingInfo,
     ...distributionInfo,
+    ...paddingInfo,
     ...shippingInfo,
   ]), []);
   const [matchId, setMatchId] = useState<any>(null);
   const [renderInfo, setRenderInfo] = useState(renderInfoProduct);
   
-  const panel = useMemo((): InputGroups => ({
-  
-  }), []);
+  const panel = useMemo((): InputGroups => ({}), []);
   const createForm = useMemo((): ModifyForm => ({
     _header: createTitle,
     _panel1: {
@@ -545,9 +557,9 @@ function QrPage() {
         }, type: {
           _type: 'string',
           disabled: true,
-          formatter: (e)=>(e ? QrTypeList.find((val, index, arr) =>
-              val.code.toLowerCase().indexOf(e.toLowerCase()) > -1
-          )?.name:''),
+          formatter: (e) => (e ? QrTypeList.find((val, index, arr) =>
+            val.code.toLowerCase().indexOf(e.toLowerCase()) > -1
+          )?.name : ''),
           label: 'Loại mã',
         },
       }
@@ -565,6 +577,39 @@ function QrPage() {
   return (
     <Fragment>
       <Switch>
+      <Route exact path="/qr/:code">
+          {({history, match}) => {
+            setMatchId(match && match.params.code);
+            return (
+              <>
+                <EntityCrudPage
+                  onModify={(() => {
+                  }) as any}
+                  moduleName={moduleName}
+                  formModel={detailForm}
+                  mode={'vertical'}
+                  entity={dE}
+                />
+                <MasterEntityDetailPage
+                  entity={dE}
+                  header={detailBodyTitle}
+                  renderInfo={renderInfo}
+                />
+                <MasterEntityDetailDialog
+                  title='EMPTY'
+                  show={showImage}
+                  entity={logisticImageDetail}
+                  renderInfo={logisticImageRenderDetail}
+                  onHide={() => {
+                    setShowImage(false)
+                  }
+                  }
+                  size='sm'
+                />
+              </>
+            );
+          }}
+        </Route>
         <Route path="/qr" exact={true}>
           <MasterHeader
             title={headerTitle}
@@ -597,39 +642,7 @@ function QrPage() {
             onModify={downloadQrFile}
           />
         </Route>
-        <Route path="/qr/:code">
-          {({history, match}) => {
-            setMatchId(match && match.params.code);
-            return (
-              <>
-                <EntityCrudPage
-                  onModify={(()=>{}) as any}
-                  moduleName={moduleName}
-                  formModel={detailForm}
-                  mode={'vertical'}
-                  entity={dE}
-                />
-                <MasterEntityDetailPage
-                  entity={dE}
-                  header={detailBodyTitle}
-                  renderInfo={renderInfo}
-                  code={match && match.params.code}
-                />
-                <MasterEntityDetailDialog
-                  title='EMPTY'
-                  show={showImage}
-                  entity={logisticImageDetail}
-                  renderInfo={logisticImageRenderDetail}
-                  onHide={() => {
-                    setShowImage(false)
-                  }
-                  }
-                  size='sm'
-                />
-              </>
-            );
-          }}
-        </Route>
+        
       </Switch>
     </Fragment>
   );

@@ -8,7 +8,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
 import * as _redux from './redux';
-import store, { persistor } from './redux/store';
+import store, {persistor} from './redux/store';
 import App from './app/app';
 import './index.scss'; // Standard version
 // import "./sass/style.react.rtl.css"; // RTL version
@@ -18,18 +18,16 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import './_metronic/_assets/plugins/flaticon/flaticon.css';
 import './_metronic/_assets/plugins/flaticon2/flaticon.css';
 // Datepicker
-import 'react-datepicker/dist/react-datepicker.css';
-
-import { MetronicI18nProvider } from './app/layout/i18n';
-import { MetronicLayoutProvider } from './app/layout/_core/metronic-layout';
-import { MetronicSplashScreenProvider } from './app/layout/_core/metronic-splash-screen';
+import {MetronicI18nProvider} from './app/layout/i18n';
+import {MetronicLayoutProvider} from './app/layout/_core/metronic-layout';
+import {MetronicSplashScreenProvider} from './app/layout/_core/metronic-splash-screen';
 
 /**
  * Base URL of the website.
  *
  * @see https://facebook.github.io/create-react-app/docs/using-the-public-folder
  */
-const { REACT_APP_PUBLIC_URL, REACT_APP_ENV } = process.env;
+const {REACT_APP_PUBLIC_URL, REACT_APP_ENV} = process.env;
 
 /**
  * Creates `axios-mock-adapter` instance for provided `axios` instance, add

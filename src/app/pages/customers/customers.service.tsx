@@ -11,7 +11,9 @@ import {
 } from '../../common-library/common-types/common-type';
 import { CustomersModel } from './customers.model';
 
-export const API_URL = API_BASE_URL + '/species';
+export const API_URL = API_BASE_URL + '/customer';
+
+export const API_ORDER_DETAIL = API_BASE_URL + '/customer-order'
 
 export const BULK_API_URL = API_URL + '/bulk'
 
@@ -41,6 +43,22 @@ export const Count: CountProps<CustomersModel> = ({
     params: {...queryProps, ...paginationProps, sortList},
   });
 };
+
+export const GetOrders = (_id: string, {
+  queryProps,
+  paginationProps,
+  sortField
+}: any) => {
+  console.log(paginationProps)
+  return axios.get(`${API_URL}/${_id}/orders`, { params: {...queryProps, ...paginationProps, ...sortField}, });
+}
+
+export const GetOrderDetail = (_id: string,  {
+  queryProps,
+  paginationProps,
+}: any) => {
+  return axios.get(`${API_ORDER_DETAIL}/${_id}`, { params: {...queryProps, ...paginationProps} })
+}
 
 export const Get: GetProps<CustomersModel> = entity => {
   return axios.get(`${API_URL}/${entity._id}`);

@@ -1,12 +1,13 @@
 import React, {Component} from 'react';
 import {connect, RootStateOrAny} from 'react-redux';
-import {Redirect} from 'react-router-dom';
+import {Redirect, useLocation} from 'react-router-dom';
 import {LayoutSplashScreen} from "../../../layout/_core/metronic-splash-screen";
 import * as auth from '../_redux/auth-redux';
 
 interface LogoutProps {
   _certificate?: any;
   logout: () => void;
+  location: any;
 }
 
 export class Logout extends Component<LogoutProps> {
@@ -15,8 +16,7 @@ export class Logout extends Component<LogoutProps> {
   }
   
   render() {
-    const {search} = window.location;
-    let callbackUrl = new URLSearchParams(search).get('callbackUrl');
+    const callbackUrl = this.props.location?.state?.callbackUrl;
     
     const {_certificate} = this.props;
     return _certificate ? (

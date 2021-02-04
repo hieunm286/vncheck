@@ -1,11 +1,9 @@
-import React, {useEffect, useState} from 'react';
-import {useIntl} from 'react-intl';
-import {Card, CardBody, CardHeader, CardStyle1} from '../card';
+import React, { useEffect, useState } from 'react';
+import { useIntl } from 'react-intl';
+import { Card, CardBody, CardHeader } from '../card';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import {useHistory} from 'react-router-dom';
 import _ from 'lodash';
-import {RenderInfoDetail} from "../common-types/common-type";
-import { harvestingDetail } from '../../pages/production-management/defined/const';
+import { RenderInfoDetail } from '../common-types/common-type';
 
 export const getFieldV3 = (field: any, fieldName: string) => {
   const ifNested = (fN: string) => fN.indexOf('.') === -1;
@@ -29,7 +27,7 @@ export const getFieldV3 = (field: any, fieldName: string) => {
         if (f[key]) newFields.push(f[key]);
       });
     }
-    
+
     // console.log('newFields',newFields);
     fields = newFields;
   });
@@ -38,14 +36,14 @@ export const getFieldV3 = (field: any, fieldName: string) => {
 };
 
 export function MasterEntityDetailPage({
-                                         header = 'COMMON_COMPONENT.DETAIL_DIALOG.HEADER_TITLE',
-                                         moduleName = 'COMMON_COMPONENT.DETAIL_DIALOG.MODULE_NAME',
-                                         entity,
-                                         onClose,
-                                         renderInfo,
-                                         code,
-                                         get,
-                                       }: {
+  header = 'COMMON_COMPONENT.DETAIL_DIALOG.HEADER_TITLE',
+  moduleName = 'COMMON_COMPONENT.DETAIL_DIALOG.MODULE_NAME',
+  entity,
+  onClose,
+  renderInfo,
+  code,
+  get,
+}: {
   header?: string;
   moduleName?: string;
   entity?: any;
@@ -56,13 +54,13 @@ export function MasterEntityDetailPage({
   get?: ((code: string) => any | null) | null;
 }) {
   const intl = useIntl();
-  
+
   const [entityDetail, setEntityDetail] = useState(entity);
-  
-  // useEffect(() => {
-  //   setEntityDetail(entity);
-  // }, [entity])
-  
+
+  useEffect(() => {
+    entity && setEntityDetail(entity);
+  }, [entity]);
+
   useEffect(() => {
     if (code && get) {
       get(code).then((res: { data: any }) => {
@@ -70,67 +68,78 @@ export function MasterEntityDetailPage({
       });
     }
   }, [code]);
+
+  const RenderDetail = ({ data, keyField }: { data: any; keyField: string }) => {
+    const displayInfo = data[keyField];
+    const fieldName = displayInfo.keyField ?? keyField;
+    const displayData =
+      fieldName.indexOf('[') > -1
+        ? getFieldV3(entityDetail, fieldName)
+        : getFieldV3(entityDetail, fieldName)[0];
+    console.log(fieldName);
+    console.log(displayData);
+    return displayInfo.formatter ? (
+      <>{displayInfo.formatter(displayData, entityDetail)}</>
+    ) : (
+      <>
+        {_.isNumber(displayData) || _.isString(displayData)
+          ? displayData
+          : JSON.stringify(displayData)}
+      </>
+    );
+  }
+
   return (
     <>
-    <Card>
-      <CardHeader
-        className={'border-bottom-0 pl-0 large-font-size'}
-        title={(<a
-            onClick={onClose}
-            className={'cursor-pointer text-primary font-weight-boldest'}>
-            {onClose && (<ArrowBackIosIcon/>)}
-            {intl
-              .formatMessage(
-                {id: header},
-                {moduleName: intl.formatMessage({id: moduleName})},
-              )
-              .toUpperCase()}
-          </a>
-        )}
-      />
-      <CardBody className={'p-0'}>
-        <div className={`row`}>
-          {renderInfo.map((value, index) => (
-            <div key={index} className={`${value.className ?? 'col-md-6 col-12 border-bottom pb-10'}`}>
-              {value.header && value.header !== '' && <p className="text-primary detail-dialog-subtitle">
-                {intl.formatMessage({id: value.header})}
-              </p>}
-              <div className={'row no-gutters'}>
-                {Object.keys(value.data).map((dataKey) => {
-                  console.log(value.data)
-                  console.log(dataKey)
-                  console.log(value.data[dataKey])
-                  console.log('------------------------')
-                  return (
-                  <>
-                    {value.data[dataKey].title && value.data[dataKey].title !== '' &&
-                    <div className={`${value.titleClassName ?? 'col-4 mb-10'}`}>
-                      {intl.formatMessage({id: value.data[dataKey].title})}{value.data[dataKey].title !== 'EMPTY' ? ':' : ''}
-                    </div>}
-                    <div className={`${value.dataClassName ?? 'col-8 mb-10'}`}>
-                      {entityDetail && (() => {
-                        const displayInfo = value.data[dataKey];
-                        const fieldName = displayInfo.keyField ?? dataKey;
-                        const displayData = fieldName.indexOf("[") > -1 ?
-                          getFieldV3(entityDetail, fieldName) :
-                          getFieldV3(entityDetail, fieldName)[0]
-                          console.log(fieldName)
-                          console.log(displayData)
-                        return displayInfo.formatter ? displayInfo.formatter(displayData, entityDetail)
-                          : (<>{(_.isNumber(displayData) || _.isString(displayData)) ? displayData : JSON.stringify(displayData)}</>)
-                      })()
-                      }
-                    </div>
-                  </>
-                )})}
+      <Card>
+        <CardHeader
+          className={'border-bottom-0 pl-0 large-font-size'}
+          title={
+            <a onClick={onClose} className={'cursor-pointer text-primary font-weight-boldest'}>
+              {onClose && <ArrowBackIosIcon />}
+              {intl
+                .formatMessage(
+                  { id: header },
+                  { moduleName: intl.formatMessage({ id: moduleName }) },
+                )
+                .toUpperCase()}
+            </a>
+          }
+        />
+        <CardBody className={'p-0'}>
+          <div className={`row`}>
+            {renderInfo.map((value, index) => (
+              <div
+                key={index}
+                className={`${value.className ?? 'col-md-6 col-12 border-bottom pb-10'}`}>
+                {value.header && value.header !== '' && (
+                  <p className="text-primary detail-dialog-subtitle">
+                    {intl.formatMessage({ id: value.header })}
+                  </p>
+                )}
+                <div className={'row no-gutters'}>
+                  {Object.keys(value.data).map(dataKey => {
+                    return (
+                      <React.Fragment key={dataKey}>
+                        {value.data[dataKey].title && value.data[dataKey].title !== '' && (
+                          <div className={`${value.titleClassName ?? 'col-4 mb-10'}`}>
+                            {intl.formatMessage({ id: value.data[dataKey].title })}
+                            {value.data[dataKey].title !== 'EMPTY' ? ':' : ''}
+                          </div>
+                        )}
+                        <div className={`${value.dataClassName ?? 'col-8 mb-10'}`}>
+                          {entityDetail && <RenderDetail data={value.data} keyField={dataKey} />}
+                        </div>
+                      </React.Fragment>
+                    );
+                  })}
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
-      </CardBody>
-      
-    </Card>
-    {/* {harvestingDetail.map((value, index) => {
+            ))}
+          </div>
+        </CardBody>
+      </Card>
+      {/* {harvestingDetail.map((value, index) => {
                 switch (value.style) {
                   case '1':
                     return (

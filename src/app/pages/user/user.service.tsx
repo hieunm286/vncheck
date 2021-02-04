@@ -21,6 +21,7 @@ export const BULK_API_URL = API_URL + '/bulk'
 export const Create: CreateProps<any> = (data: any) => {
   const sendData = _.cloneDeep(data);
   sendData.scopes = RoleObjectToArray(sendData.scopes);
+  console.log(sendData)
   return axios.post(API_URL, sendData);
 };
 
@@ -42,7 +43,6 @@ export const Count: CountProps<UserModel> = (queryProps) => {
 
 export const GetById = (id: string) => {
   return axios.get(`${API_URL}/${id}`).then(res => {
-    console.log(res.data);
     if (_.isArray(res.data.scopes)) {
       let scopeArray = res.data.scopes;
       scopeArray = [...scopeArray, ...res.data.addedScope.enable];

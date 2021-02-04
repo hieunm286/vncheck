@@ -29,6 +29,7 @@ export const GetState = ({queryProps, paginationProps}: any): Promise<any> => {
   })
 }
 export const GetCity = ({queryProps, paginationProps}: any): Promise<any> => {
+  console.log(queryProps)
   return new Promise((resolve, reject) => {
     const {state, ...queries} = queryProps;
     const {code} = StateList.find((val, index, arr) => {
