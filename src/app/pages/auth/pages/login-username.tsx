@@ -86,11 +86,11 @@ const LoginUsername = (props: { saveUserInfo?: any; intl?: any; location?: any }
               publicKey: string;
               username: string;
             } = response.data;
-            const fullName = (response.data.fullName) || (response.data.firstName + ' ' + response.data.lastName);
+            const fullName = (response.data.fullName) ? response.data.fullName : (response.data.firstName + ' ' + response.data.lastName);
             localStorage.setItem('userInfo', JSON.stringify({username, fullName}));
             props.saveUserInfo({
               ...response.data,
-              fullName: response.data.firstName + ' ' + response.data.lastName,
+              fullName: response.data.fullName ? response.data.fullName : response.data.firstName + ' ' + response.data.lastName,
             });
             history.push('/auth/login/challenge?callbackUrl=' + callbackUrl);
           })
