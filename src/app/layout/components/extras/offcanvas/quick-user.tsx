@@ -26,7 +26,7 @@ export function QuickUser() {
     <div id="kt_quick_user" className="offcanvas offcanvas-right offcanvas p-10">
       <div className="offcanvas-header d-flex align-items-center justify-content-between pb-5">
         <h3 className="font-weight-bold m-0">
-          User Profile
+          Thông tin cá nhân
           {/* <small className="text-muted font-size-sm ml-2">12 messages</small> */}
         </h3>
         <a
@@ -52,7 +52,7 @@ export function QuickUser() {
             <a href="#" className="font-weight-bold font-size-h5 text-dark-75 text-hover-primary">
               {user.firstName + ' ' + user.lastName}
             </a>
-            <div className="text-muted mt-1">Vài trò quản trị</div>
+            <div className="text-muted mt-1">{user.role.name}</div>
             <div className="navi mt-2">
               <a href="#" className="navi-item">
                 <span className="navi-link p-0 pb-2">
@@ -71,7 +71,7 @@ export function QuickUser() {
                 Sign Out
               </Link> */}
             <button className="btn btn-light-primary btn-bold" onClick={logoutClick}>
-              Sign out
+              Đăng xuất
             </button>
           </div>
         </div>
@@ -89,18 +89,18 @@ export function QuickUser() {
                 </div>
               </div>
               <div className="navi-text">
-                <div className="font-weight-bold">Change password</div>
+                <div className="font-weight-bold">Đổi mật khẩu</div>
                 <div className="text-muted">
-                  Chang your password!
-                  <span className="label label-light-danger label-inline font-weight-bold">
+                  Thay đổi mật khẩu của bạn!
+                  {/* <span className="label label-light-danger label-inline font-weight-bold">
                     update
-                  </span>
+                  </span> */}
                 </div>
               </div>
             </div>
           </a>
           
-          <a href="/user/profile" className="navi-item">
+          {/* <a href="/user/profile" className="navi-item">
             <div className="navi-link">
               <div className="symbol symbol-40 bg-light mr-3">
                 <div className="symbol-label">
@@ -146,7 +146,7 @@ export function QuickUser() {
                 <div className="text-muted">latest tasks and projects</div>
               </div>
             </div>
-          </a>
+          </a> */}
         </div>
         
         <div className="separator separator-dashed my-7"/>

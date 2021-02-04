@@ -1305,7 +1305,7 @@ function ProductionPlan() {
           _inputClassName: 'col-4 custom-input-label mb-5 p-0',
           title: {
             _type: 'string',
-            label: 'PRELIMINARY_TREATMENT_QUANTITY',
+            label: 'HARVESTING_QUANTITY',
             labelWidth: 12
           },
           planting: {
