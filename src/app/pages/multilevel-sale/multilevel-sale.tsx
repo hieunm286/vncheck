@@ -98,7 +98,7 @@ function MultilevelSale() {
   
   useEffect(() => {
     setAgencyLoading(true);
-    MultilevelSaleService.GetAgency({agencyParams: { ...agencyParams, type: '1' }, paginationProps})
+    MultilevelSaleService.GetAgency({agencyParams: { ...agencyParams, type: '0' }, paginationProps})
       .then(res => {
         setAgency(res.data.data);
         setAgencyTotal(res.data.paging.total);

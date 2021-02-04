@@ -108,7 +108,7 @@ function ProductionPlanCrud({
           setCommentArr(res.data.comments || []);
         })
         .catch(err => {
-          // notifyError('Không thể kết nối đến server')
+          notifyError('Không thể kết nối đến server')
           history.push('/production-plan');
         });
     }
