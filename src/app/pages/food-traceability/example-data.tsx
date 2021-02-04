@@ -293,11 +293,11 @@ export const exampleDetail: RenderInfoDetail = [
     titleClassName: 'col-md-5 col-4 mb-10',
     dataClassName: 'col-md-7 col-8 mb-10 pl-5 text-right',
     data: {
-      'enterprise.name': { title: 'Tên doanh nghiệp' },
-      'enterprise.taxId': { title: 'Mã số thuế' },
-      'enterprise.address': { title: 'Địa chỉ' },
-      'enterprise.phone': { title: 'Số điện thoại' },
-      'enterprise.presentedBy': { title: 'Người đại diện' },
+      'enterprise.name': {title: 'ENTERPRISE.NAME'},
+    'enterprise.taxId': {title: 'ENTERPRISE.TAX_ID'},
+    'enterprise.address': {title: 'ENTERPRISE.ADDRESS'},
+    'enterprise.phone': {title: 'ENTERPRISE.PHONE'},
+    'enterprise.presentedBy': {title: 'ENTERPRISE.REPRESENTED_BY'},
     },
   },
   {
@@ -516,7 +516,7 @@ export const exampleDetail: RenderInfoDetail = [
         title: 'POROSITY',
         formatter: DisplayPercent
       },
-      'productPlan.harvesting.manager.user.fullName': {
+      'productPlan.planting.manager.fullName': {
         title: 'ADMIN_DIRECTOR_INFO',
       },
       'productPlan.harvesting.[leader].user.fullName': {
@@ -576,7 +576,7 @@ export const exampleDetail: RenderInfoDetail = [
           return DisplayImage(image, renderInfo, ['isMaster', true])
         }
       },
-      'productPlan.preliminaryTreatment.manager.user.fullName': {
+      'productPlan.planting.manager.fullName': {
         title: 'ADMIN_DIRECTOR_INFO',
       },
       'productPlan.preliminaryTreatment.[leader].user.fullName': {
@@ -636,7 +636,7 @@ export const exampleDetail: RenderInfoDetail = [
           return DisplayImage(image, renderInfo, ['isMaster', true])
         }
       },
-      'productPlan.cleaning.manager.user.fullName': {
+      'productPlan.planting.manager.fullName': {
         title: 'ADMIN_DIRECTOR_INFO',
       },
       'productPlan.cleaning.[leader].user.fullName': {
@@ -659,9 +659,12 @@ export const exampleDetail: RenderInfoDetail = [
     titleClassName: 'col-md-5 col-4 mb-10',
     dataClassName: 'col-md-7 col-8 mb-10 pl-5 text-right',
     data: {
-      'productPlan.harvesting.scanLocation': {
-        title: 'Địa điểm Farm đóng gói',
-        formatter: DisplayCoordinates
+      'productPlan.packing.address': {
+        keyField: 'productPlan.packing.packingImage', title: 'PACKING_LOCATION',
+        formatter: (e) => {
+          const master = e.filter((item: any) => item.isMaster === true)
+          return <>{master[0]?.location && DisplayCoordinates(master[0].location.coordinates)}</>
+        }
       },
       'productPlan.packing.packing.code': {
         title: 'Quy cách đóng gói',
@@ -704,7 +707,7 @@ export const exampleDetail: RenderInfoDetail = [
         title: 'QR_ACTIVATE_AT',
         formatter: (input) => (<DisplayDateTime input={input}/>),
       },
-      'productPlan.packing.manager.user.fullName': {
+      'productPlan.planting.manager.fullName': {
         title: 'ADMIN_DIRECTOR_INFO',
       },
       'productPlan.packing.[leader].user.fullName': {
@@ -720,16 +723,16 @@ export const exampleDetail: RenderInfoDetail = [
     dataClassName: 'col-md-7 col-8 mb-10 pl-5 text-right',
     data: {
       'productPlan.preservation.time': {
-        keyField: 'productPlan.preservation', title: 'Thời gian bảo quản',
-        formatter: (e) => (<DisplayDiffTime startTime={e?.startTime} endTime={e?.endTime}/>)
+        keyField: 'productPlan.preservation', title: 'PRESERVATION_TIME',
+        formatter: (e) => (
+          <DisplayDiffTime startTime={e?.startTime} endTime={e?.endTime}/>)
       },
-      'productPlan.preservation.[storageImage]': {
-        title: 'Địa điểm bảo quản',
-        formatter: input => {
-          const masterImg = input.filter((item: any) => item.isMaster === true)
-
-          return DisplayCoordinates(masterImg[0].location.coordinates)
-        },
+      'productPlan.preservation.address': {
+        keyField: 'productPlan.preservation.storageImage', title: 'PRESERVATION_LOCATION',
+        formatter: (e) => {
+          const master = e.filter((item: any) => item.isMaster === true)
+          return <>{master[0]?.location && DisplayCoordinates(master[0].location.coordinates)}</>
+        }
       },
       'productPlan.preservation.temperature': {
         title: 'Nhiệt độ bảo quản',
