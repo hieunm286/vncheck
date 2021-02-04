@@ -193,7 +193,7 @@ function ChangePassword(props: {
             const temp = new URLSearchParams(search).get('callbackUrl');
             let callbackUrl = temp ? temp : pathname;
             history.push(callbackUrl);
-            window.location.reload()
+            // window.location.reload()
           })
           .catch(err => {
             props.savePingErrorData(err.response.data);
