@@ -402,7 +402,7 @@ export const packingInfo: RenderInfoDetail = [{
     'productPlan.packing.address': {
       keyField: 'productPlan.packing.packingImage', title: 'PACKING_LOCATION',
       formatter: (e) => {
-        const master = e.filter((item: any) => item.isMaster === true)
+        const master = e?.filter((item: any) => item.isMaster === true)
         return <>{master[0]?.location && DisplayCoordinates(master[0].location.coordinates)}</>
       }
     },
@@ -471,7 +471,7 @@ export const preservationInfo: RenderInfoDetail = [{
     'productPlan.preservation.address': {
       keyField: 'productPlan.preservation.storageImage', title: 'PRESERVATION_LOCATION',
       formatter: (e) => {
-        const master = e.filter((item: any) => item.isMaster === true)
+        const master = e?.filter((item: any) => item.isMaster === true)
         return <>{master[0]?.location && DisplayCoordinates(master[0].location.coordinates)}</>
       }
     },
