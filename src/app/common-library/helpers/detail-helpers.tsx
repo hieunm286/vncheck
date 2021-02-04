@@ -1,11 +1,11 @@
-import React, {useEffect, useState} from 'react';
-import {DetailImage} from '../common-components/detail/detail-image';
-import {format} from 'date-fns';
-import {IntlShape, useIntl} from 'react-intl';
-import {MasterTable} from '../common-components/master-table';
-import {MasterBodyColumns, PaginationProps} from '../common-types/common-type';
-import {GetCompareFunction} from './common-function';
-import {Link} from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { DetailImage } from '../common-components/detail/detail-image';
+import { format } from 'date-fns';
+import { IntlShape, useIntl } from 'react-intl';
+import { MasterTable } from '../common-components/master-table';
+import { MasterBodyColumns, PaginationProps } from '../common-types/common-type';
+import { GetCompareFunction } from './common-function';
+import { Link } from 'react-router-dom';
 import moment from 'moment';
 import _ from 'lodash';
 
@@ -26,9 +26,10 @@ export const DisplayPersonName = (name: {
   const intl = useIntl();
   return (
     <>
-      {name.fullName ?? (name.firstName
-        ? `${name.firstName} ${name.lastName}`
-        : intl.formatMessage({id: 'NO_INFORMATION'}))}
+      {name.fullName ??
+        (name.firstName
+          ? `${name.firstName} ${name.lastName}`
+          : intl.formatMessage({ id: 'NO_INFORMATION' }))}
     </>
   );
 };
@@ -68,71 +69,59 @@ export const DisplayAddress = (address: {
   }, ${address.state}`;
   return <>{addressString}</>;
 };
-export const DisplayDate = ({input, _format}: { input: string; _format?: string }) => {
+export const DisplayDate = ({ input, _format }: { input: string; _format?: string }) => {
   const intl = useIntl();
   if (!input) return <></>;
   const date_input = new Date(input);
-  
+
   return (
     <>
       {input
-        ? format(
-          moment(date_input)
-            .toDate(),
-          _format ?? 'dd/MM/yyyy',
-        )
-        : intl.formatMessage({id: 'NO_INFORMATION'})}
+        ? format(moment(date_input).toDate(), _format ?? 'dd/MM/yyyy')
+        : intl.formatMessage({ id: 'NO_INFORMATION' })}
     </>
   );
 };
 
-export const DisplayDateTime = ({input, _format}: { input?: string, _format?: string }) => {
+export const DisplayDateTime = ({ input, _format }: { input?: string; _format?: string }) => {
   const intl = useIntl();
   if (!input) return <></>;
   const date_input = new Date(input);
   return (
     <>
       {input
-        ? format(
-          moment(date_input)
-            .toDate(),
-          _format ?? 'dd/MM/yyyy h:mma',
-        )
-        : intl.formatMessage({id: 'NO_INFORMATION'})}
+        ? format(moment(date_input).toDate(), _format ?? 'dd/MM/yyyy h:mma')
+        : intl.formatMessage({ id: 'NO_INFORMATION' })}
     </>
   );
 };
 
-export const DisplayUnit = ({input}: {input?: string | number}) => {
-  const intl = useIntl()
+export const DisplayUnit = ({ input }: { input?: string | number }) => {
+  const intl = useIntl();
   if (!input) return <></>;
-  return (
-    <>
-      {intl.formatMessage({ id: _.toString(input) })}
-    </>
-  );
-}
+  return <>{intl.formatMessage({ id: _.toString(input) })}</>;
+};
 
 export const DisplayDownloadLink = (input: any, key?: string) => {
   const intl = useIntl();
   if (!input) return <></>;
   return (
     <a href={key ? input[key] : input} rel="noopener noreferrer" target={'_blank'}>
-      {intl.formatMessage({id: 'CLICK_TO_DOWNLOAD'})}
+      {intl.formatMessage({ id: 'CLICK_TO_DOWNLOAD' })}
     </a>
   );
 };
 
-export const DisplayInnerLink = ({link, title}: { link: any; title?: string }) => {
+export const DisplayInnerLink = ({ link, title }: { link: any; title?: string }) => {
   const intl = useIntl();
   if (!link) return <></>;
-  return <Link to={link}>{title ?? intl.formatMessage({id: 'CLICK_TO_VIEW'})}</Link>;
+  return <Link to={link}>{title ?? intl.formatMessage({ id: 'CLICK_TO_VIEW' })}</Link>;
 };
 
 export const DisplayTable = ({
-                               entities,
-                               columns,
-                             }: {
+  entities,
+  columns,
+}: {
   entities: any[];
   columns: MasterBodyColumns;
 }) => {
@@ -157,7 +146,7 @@ export const DisplayTable = ({
   }, [entities, paginationParams]);
   useEffect(() => {
     setColumns(
-      Object.values(columns).map(c => ({...c, text: intl.formatMessage({id: c.text})})),
+      Object.values(columns).map(c => ({ ...c, text: intl.formatMessage({ id: c.text }) })),
     );
   }, [columns]);
   return (
@@ -186,20 +175,22 @@ export const Display3Info = (image: any, _: any, intl?: IntlShape) => {
   return (
     <>
       <div className={'titleeee mb-1'}>
-        {intl?.formatMessage({id: 'IMAGE.TAKEN_BY'})}
+        {intl?.formatMessage({ id: 'IMAGE.TAKEN_BY' })}
         <DisplayPersonName {...image.takenBy} />
       </div>
       <div className={'titleeee mb-1'}>
-        {intl?.formatMessage({id: 'IMAGE.TAKEN_TIME'})}
-        {image.takenTime
-          ? <DisplayDateTime input={image.takenTime}/>
-          : intl?.formatMessage({id: 'NO_INFORMATION'})}
+        {intl?.formatMessage({ id: 'IMAGE.TAKEN_TIME' })}
+        {image.takenTime ? (
+          <DisplayDateTime input={image.takenTime} />
+        ) : (
+          intl?.formatMessage({ id: 'NO_INFORMATION' })
+        )}
       </div>
       <div className={'titleeee mb-1'}>
-        {intl?.formatMessage({id: 'IMAGE.LOCATION'})}
+        {intl?.formatMessage({ id: 'IMAGE.LOCATION' })}
         {image.location?.coordinates
           ? DisplayCoordinates(image.location?.coordinates)
-          : intl?.formatMessage({id: 'NO_INFORMATION'})}
+          : intl?.formatMessage({ id: 'NO_INFORMATION' })}
       </div>
     </>
   );
@@ -210,70 +201,149 @@ export const DisplayImage = (
   renderInfo?: { title?: string; data?: { [KeyField: string]: string } },
   filter?: any[],
 ) => {
-  
-
   if (_.isArray(images) && filter && filter.length > 0) {
-    return <DetailImage images={images.filter((el: any) => el[filter[0]] === filter[1])} renderInfo={renderInfo} />;
+    return (
+      <DetailImage
+        images={images.filter((el: any) => el[filter[0]] === filter[1])}
+        renderInfo={renderInfo}
+      />
+    );
   }
 
   return <DetailImage images={images} renderInfo={renderInfo} />;
 };
 
-export const DisplayDiffTime = ({startTime, endTime}: { startTime?: string, endTime?: string }) => {
+export const DisplayDiffTime = ({
+  startTime,
+  endTime,
+}: {
+  startTime?: string;
+  endTime?: string;
+}) => {
   return (
     <>
-      <DisplayDateTime input={startTime}/>
+      <DisplayDateTime input={startTime} />
       {endTime ? ' - ' : ''}
-      <DisplayDateTime input={endTime}/>
+      <DisplayDateTime input={endTime} />
     </>
   );
 };
 
-export const DisplayDistribution = (
-  input: {
-    name: string;
+interface Info {
+  agency: {
     address: {
       address?: string;
       district: string;
       city: string;
       state: string;
     };
-    date: any;
-  }[],
-) => {
+    _id: string;
+    name: string;
+  };
+  time: any;
+  [X: string]: any;
+}
+
+export const DisplayDistribution = (input: Info[]) => {
   if (!_.isArray(input)) return <></>;
-  console.log(input)
-  
+  console.log(input);
+
   return (
     <>
-      {input.map((item: {
-        name: string;
-        address: {
-          address?: string;
-          district: string;
-          city: string;
-          state: string;
-        };
-        date: any;
-      }, key: number) => {
-        return (
-          <div key={key} className="d-flex justify-content-between">
-            <div>
-              <p className="font-weight-bolder" style={{fontSize: 14}}>{item.name}</p>
-              <p style={{fontSize: 11}}>
-                {
-                  DisplayAddress(item.address)
-                }
-              </p>
+      {input.map(
+        (
+          item: {
+            agency: {
+              address: {
+                address?: string;
+                district: string;
+                city: string;
+                state: string;
+              };
+              _id: string;
+              name: string;
+            };
+            time: any;
+            [X: string]: any;
+          },
+          key: number,
+        ) => {
+          return (
+            <div
+              key={key}
+              className={
+                'd-flex justify-content-between' +
+                (key < input.length - 1 ? ' border-bottom pb-3 mb-5' : '')
+              }>
+              <div>
+                <p className="font-weight-bolder" style={{ fontSize: 14 }}>
+                  {item.agency.name}
+                </p>
+                <p style={{ fontSize: 11 }}>{DisplayAddress(item.agency.address)}</p>
+              </div>
+              <div>{<DisplayDateTime input={item.time} />}</div>
             </div>
-            <div>
-              {
-                DisplayDateTime(item.date)
-              }
-            </div>
+          );
+        },
+      )}
+    </>
+  );
+};
+
+const DisplayInfoCard = ({ name, time, address, toRight }: { name: string; time: any; address: any; toRight?: boolean }) => {
+  return (
+    <div className={toRight ? "text-right" : ""}>
+      <p className="font-weight-bolder" style={{ fontSize: 13 }}>
+        {name}
+      </p>
+      <div>{<DisplayDateTime input={time} />}</div>
+      <p className="mt-3" style={{ fontSize: 11 }}>{DisplayAddress(address)}</p>
+    </div>
+  );
+};
+
+export const DisplayShipping = ({
+  input,
+}: {
+  input: { _id: string; from: Info; to: Info; [X: string]: any }[];
+}) => {
+  if (!input) return <></>;
+
+  return (
+    <>
+      {input.map((item: { _id: string; from: Info; to: Info; [X: string]: any }, key: number) => (
+        <div
+          key={key}
+          className={
+            'd-flex justify-content-between' +
+            (key < input.length - 1 ? ' border-bottom pb-3 mb-5' : '')
+          }>
+          <DisplayInfoCard
+            name={item.from.agency.name}
+            time={item.from.time}
+            address={item.from.agency.address}
+          />
+          <div>
+            <svg
+              width="12"
+              height="10"
+              viewBox="0 0 12 10"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M6.70663 9.75922C6.64404 9.82233 6.55884 9.85782 6.46996 9.85782C6.38108 9.85782 6.29588 9.82233 6.23329 9.75922L6.09996 9.62589C6.03485 9.56317 5.99865 9.47628 5.99996 9.38589V6.99922H0.999959C0.815864 6.99922 0.666626 6.84999 0.666626 6.66589V3.33256C0.666626 3.14846 0.815864 2.99922 0.999959 2.99922H5.99996V0.612558C5.99865 0.522167 6.03485 0.435275 6.09996 0.372558L6.23329 0.239224C6.29588 0.17612 6.38108 0.140625 6.46996 0.140625C6.55884 0.140625 6.64404 0.17612 6.70663 0.239224L11.2333 4.76589C11.2977 4.82638 11.3343 4.91083 11.3343 4.99922C11.3343 5.08761 11.2977 5.17207 11.2333 5.23256L6.70663 9.75922Z"
+                fill="#27AE60"
+              />
+            </svg>
           </div>
-        );
-      })}
+          <DisplayInfoCard
+            name={item.to.agency.name}
+            time={item.to.time}
+            address={item.to.agency.address}
+            toRight
+          />
+        </div>
+      ))}
     </>
   );
 };

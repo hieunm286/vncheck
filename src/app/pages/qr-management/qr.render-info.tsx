@@ -507,41 +507,15 @@ export const sellStatus: RenderInfoDetail = [{
   titleClassName: 'col-3 mb-10',
   dataClassName: 'col-9 mb-10 pl-5',
   data: {
-    'sellStatus.status': {
-      title: 'Trạng thái',
-      formatter: (sold: boolean, entity: any) => {
-        const isShow = entity.type === '1' ? (entity.productPlan != null) : entity.children.length > 0;
-        return isShow ? (<>{sold ? 'Đã bán' : 'Còn hàng'}</>) : <></>
+    'retailInfo.isSold': { title: 'Trạng thái', formatter: input => <>{input ? 'Đã bán' : 'Chưa bán'}</> },
+      'retailInfo.soldDate': {
+        title: 'Ngày bán',
+        formatter: input => <DisplayDateTime input={input} />,
       },
-    },
-    'sellStatus.dateOfSell': {
-      title: 'Ngày bán',
-      formatter: (date: string, entity: any) => {
-        const isShow = entity.type === '1' ? (entity.productPlan != null) : entity.children.length > 0;
-        return isShow ? (<DisplayDateTime input={new Date().toISOString()}/>) : <></>
-      },
-    },
-    'sellStatus.sellAddress': {
-      title: 'Nơi bán',
-      formatter: (arr: string[], entity: any) => {
-        const isShow = entity.type === '1' ? (entity.productPlan != null) : entity.children.length > 0;
-        return isShow ? (<>Cửa hàng A</>) : <></>
-      },
-    },
-    'sellStatus.seller.fullName': {
-      title: 'Nhân viên bán hàng',
-      formatter: (arr: string[], entity: any) => {
-        const isShow = entity.type === '1' ? (entity.productPlan != null) : entity.children.length > 0;
-        return isShow ? (<>Nguyễn Văn C</>) : <></>
-      },
-    },
-    'sellStatus.customerPhoneNumber': {
-      title: 'Số điện thoại khách hàng',
-      formatter: (arr: string[], entity: any) => {
-        const isShow = entity.type === '1' ? (entity.productPlan != null) : entity.children.length > 0;
-        return isShow ? (<>0912345677</>) : <></>
-      },
-    }
+      'retailInfo.soldAt': { title: 'Nơi bán', formatter: input => <>{input?.agency?.name}</> },
+      'retailInfo.soldBy': { title: 'Nhân viên nơi bán', formatter: input => <>{input?.user?.name}</> },
+      'retailInfo.buyer': { title: 'Số điện thoại người mua', formatter: input => <>{input?.customer?.username}</> },
+      '_id': { title: 'ID QR' },
   }
 }];
 
