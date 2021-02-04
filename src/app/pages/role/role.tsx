@@ -335,20 +335,22 @@ export default function ManagementOrganization() {
           onClone: (entity: RoleModel) => {
 
             const validateEntity = (entity: RoleModel): RoleModel => {
-              const { name, managementUnit } = entity;
-              const vManagementUnitId = _.isObject(managementUnit) ? managementUnit._id : undefined;
+
+              const { name } = entity;
 
               const date = new Date();
               const markerString = ' - Clone ' + date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
               const vName = name.includes(' - Clone') ? name.split(' - Clone')[0] + markerString : name + markerString;
+
               return {
                 name: vName,
                 status: entity.status,
                 managementUnit: {
-                  _id: vManagementUnitId,
+                  _id: entity.managementUnit?._id,
                 },
                 scopes: entity.scopes, // scopes: RoleArrayToObject(entity.scopes),
               }
+              
             };
             
             const id = entity?._id ?? undefined;
