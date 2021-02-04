@@ -297,6 +297,36 @@ export const entityExample = {
         time: "2021-02-04T11:48:37.419Z"
       },
       createdAt: "2021-02-04T11:48:37.419Z"
+    },
+    {
+      _id: "601bdf15819b3500406bca33",
+      from: {
+        agency: {
+          address: {
+            address: "1 Hai Bà Trưng",
+            city: "Hoàn Kiếm",
+            district: "Tràng Tiền",
+            state: "Hà Nội"
+          },
+          _id: "601bde97819b3500406bc998",
+          name: "Nhà phân phối miền Bắc"
+        },
+        time: "2021-02-04T11:48:37.419Z"
+      },
+      to: {
+        agency: {
+          address: {
+            address: "2 Ngô Quyền",
+            city: "Sơn Trà",
+            district: "An Hải Bắc",
+            state: "Đà Nẵng"
+          },
+          _id: "601bde97819b3500406bc99b",
+          name: "Nhà phân phối miền Trung"
+        },
+        time: "2021-02-04T11:48:37.419Z"
+      },
+      createdAt: "2021-02-04T11:48:37.419Z"
     }
   ],
 };
