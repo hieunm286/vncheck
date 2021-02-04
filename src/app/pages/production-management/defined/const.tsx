@@ -473,7 +473,6 @@ export const PreservationDetail: RenderInfoDetail = [
       //   title: 'PRESERVATION_ESTIMATED_TIME_END',
       //   formatter: input => DisplayDateTimeV2(input),
       // },
-      ...cleaningCode,
       // 'planting.farmLocation.[coordinates]': {title: 'PRESERVATION_LOCATION', formatter: DisplayCoordinates,},
       'preservation.address': {
         keyField: 'preservation.storageImage', title: 'PRESERVATION_LOCATION',
@@ -482,10 +481,11 @@ export const PreservationDetail: RenderInfoDetail = [
           return <>{master && master[0]?.location && DisplayCoordinates(master[0]?.location?.coordinates)}</>
         }
       },
-      ...packingCode,
+      ...cleaningCode,
       'preservation.temperature': {title: 'PRODUCTION_MANAGEMENT.PRESERVATION.TEMPERATURE', formatter: DisplayCelcius},
+      ...packingCode,
+      '': { title: "EMPTY" },
       'preservation.code': {title: 'PRODUCTION_PLAN.PRESERVATION.CODE'},
-  
     },
   },
   {
