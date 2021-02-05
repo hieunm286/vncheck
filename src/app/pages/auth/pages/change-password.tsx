@@ -182,7 +182,7 @@ function ChangePassword(props: {
             console.log(res);
             props.saveUserInfo({
               ...res.data,
-              fullName: res.data.first_name + ' ' + res.data.last_name,
+              // fullName: res.data.first_name + ' ' + res.data.last_name,
               _certificate: certificate,
               _privateKey: keyPair.privateKey,
               _preLoggedIn: false,
