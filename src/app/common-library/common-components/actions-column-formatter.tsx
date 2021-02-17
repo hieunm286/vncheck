@@ -11,12 +11,13 @@ import {IntlShape} from 'react-intl';
 import DeleteIcon from '@material-ui/icons/Delete';
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import QueueOutlinedIcon from '@material-ui/icons/QueueOutlined';
+import HistoryIcon from '@material-ui/icons/History';
 
 export function ActionsColumnFormatter<T>(
   cellContent: any,
   row: any,
   rowIndex: number,
-  {onShowDetail, onDelete, onEdit,onLock, onChangeRole, onClone, intl}: ActionColumnProps<T> & { intl: IntlShape },
+  {onShowDetail, onDelete, onEdit,onLock, onChangeRole, onClone, onGoHistory, intl}: ActionColumnProps<T> & { intl: IntlShape },
 ) {
   return (
     <div>
@@ -87,6 +88,20 @@ export function ActionsColumnFormatter<T>(
           </span>
         </span>
       </a>)}
+      {
+        onGoHistory && (
+          <a
+          className="btn btn-icon btn-light btn-hover-primary btn-sm visibility mx-1"
+          onClick={(e) => {
+            onGoHistory(row);
+            e.preventDefault();
+          }}>
+          <span className="svg-icon svg-icon-md svg-icon-primary">
+            <HistoryIcon className="text-primary eye" />
+          </span>
+        </a>
+        )
+      }
     </div>
   );
 }

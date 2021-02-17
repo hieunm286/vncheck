@@ -33,6 +33,8 @@ import * as AgencyService from "../agency/agency.service";
 import {Spinner} from "react-bootstrap";
 import {ConvertRoleScope} from '../role/const/convert-scope';
 import * as RoleScope from '../role/const/role_scope';
+import UserBody from './user-body';
+import './style.scss'
 
 const headerTitle = 'PRODUCT_TYPE.MASTER.HEADER.TITLE';
 const tableTitle = 'USER.MASTER.TABLE.TITLE';
@@ -98,13 +100,26 @@ function User() {
     getAllServer: GetAll,
     updateServer: Update,
   });
+
+  const [currentTab, setCurrentTab] = useState<string | undefined>('0');
+  const [trigger, setTrigger] = useState<boolean>(false);
   
   useEffect(() => {
     getAll(filterProps);
-  }, [paginationProps, filterProps]);
+  }, [paginationProps, filterProps, trigger, currentTab]);
   
   const columns = useMemo(() => {
-    return [{
+    return [
+      {
+        dataField: '_id',
+        text: 'STT',
+        formatter: (cell: any, row: any, rowIndex: number) => (
+          <p>{rowIndex + 1 + ((paginationProps.page ?? 0) - 1) * (paginationProps.limit ?? 0)}</p>
+        ),
+        classes: 'mr-3',
+        style: { paddingTop: 20 },
+      },
+      {
       dataField: 'agency.name',
       text: `${intl.formatMessage({id: 'USER.MASTER.TABLE.WORK_AT'})}`,
       ...SortColumn,
@@ -165,6 +180,61 @@ function User() {
       }
     ]
   }, []);
+
+  const customerColumn = useMemo(() => ([
+    {
+      dataField: '_id',
+      text: 'STT',
+      formatter: (cell: any, row: any, rowIndex: number) => (
+        <p>{rowIndex + 1 + ((paginationProps.page ?? 0) - 1) * (paginationProps.limit ?? 0)}</p>
+      ),
+      classes: 'mr-3',
+      style: { paddingTop: 20 },
+    },
+    {
+      dataField: 'managementUnit.name',
+      text: `${intl.formatMessage({id: 'Mã khách hàng'})}`,
+      ...SortColumn,
+      align: 'center',
+    },
+    {
+      dataField: 'phone',
+      text: `${intl.formatMessage({id: 'Họ và tên'})}`,
+      ...SortColumn,
+      align: 'center',
+    },
+    {
+      dataField: 'email',
+      text: `${intl.formatMessage({id: 'Số điện thoại'})}`,
+      ...SortColumn,
+      align: 'center',
+    },
+    {
+      dataField: 'status',
+      text: `${intl.formatMessage({id: 'Lần đầu mua hàng'})}`,
+      formatter: TickColumnFormatter,
+      ...SortColumn,
+      align: 'center',
+    },
+    {
+      dataField: 'action',
+      text: `${intl.formatMessage({id: 'USER.MASTER.TABLE.ACTION_COLUMN'})}`,
+      formatter: ActionsColumnFormatter,
+      formatExtraData: {
+        intl,
+        onShowDetail: (entity: UserModel) => {
+          get(entity).then(e => {
+            setShowDetail(true);
+          })
+        },
+        onGoHistory: (entity: UserModel) => {
+          history.push(`/customers-management/${entity._id}/history`);
+        },
+      },
+      ...NormalColumn,
+      style: {minWidth: '130px'},
+    }
+  ]), [])
   
   const masterEntityDetailDialog: RenderInfoDetail = useMemo((): RenderInfoDetail => [
     {
@@ -195,6 +265,7 @@ function User() {
       type: 'search-select',
       label: 'USER.MASTER.SEARCH.ORGANIZATION',
       keyField: 'name',
+      disabled: currentTab === '1',
       onSearch: ManagementUnitService.getAll,
       onChange: (value: any, {setFieldValue}: any) => {
         console.log(value)
@@ -221,6 +292,7 @@ function User() {
     code: {
       type: 'string',
       label: 'USER.MASTER.SEARCH.CODE',
+      disabled: currentTab === '1',
     },
     fullName: {
       type: 'string',
@@ -231,16 +303,18 @@ function User() {
       type: 'search-select',
       onSearch: AgencyService.GetAll,
       label: 'USER.MASTER.SEARCH.WORK_AT',
+      disabled: currentTab === '1',
     },
     email: {
       type: 'string',
       label: 'USER.MASTER.SEARCH.EMAIL',
+      disabled: currentTab === '1',
     },
     phone: {
       type: 'string-number',
       label: 'USER.MASTER.SEARCH.PHONE',
     },
-  }), [managementUnit]);
+  }), [managementUnit, currentTab]);
   const group1 = useMemo((): ModifyInputGroup => ({
     _subTitle: 'USER.MODIFY.DETAIL_INFO',
     _className: 'col-6 pr-xl-15 pr-md-10 pr-5',
@@ -527,6 +601,41 @@ function User() {
     }
   }), [loading]);
   const initCreateValues: any = useMemo(() => ({...InitValues(createForm), status: '0'}), [createForm]);
+
+  const TabData = [
+    {
+      tabTitle: 'Nhân viên',
+      entities: entities,
+      columns: columns,
+      total: total,
+      loading: loading,
+      paginationParams: paginationProps,
+      setPaginationParams: setPaginationProps,
+      onSelectMany: setSelectedEntities,
+      selectedEntities: selectedEntities,
+      button: [
+        {
+          label: 'Thêm mới',
+          onClick: () => {
+            setCreateEntity(initCreateValues);
+            history.push(`${window.location.pathname}/0000000`);
+          }
+        }
+      ]
+    },
+    {
+      tabTitle: 'Khách hàng',
+      entities: entities,
+      columns: customerColumn,
+      total: total,
+      loading: loading,
+      paginationParams: paginationProps,
+      setPaginationParams: setPaginationProps,
+      onSelectMany: setSelectedEntities,
+      selectedEntities: selectedEntities,
+    },
+  ];
+
   return (
     <Fragment>
       <Switch>
@@ -562,7 +671,19 @@ function User() {
             }}
             searchModel={searchModel}
           />
-          <MasterBody
+          <div className="user-body">
+            <UserBody 
+              tabData={TabData}
+              currentTab={currentTab}
+              setCurrentTab={setCurrentTab}
+              setEntities={setEntities}
+              setPaginationProps={setPaginationProps}
+              setTrigger={setTrigger}
+              trigger={trigger}
+              title='Người dùng hệ thống'
+            />
+          </div>
+          {/* <MasterBody
             title={tableTitle}
             onCreate={() => {
               setCreateEntity(initCreateValues);
@@ -576,7 +697,7 @@ function User() {
             setPaginationParams={setPaginationProps}
             isShowId={true}
           />
-          
+           */}
           {/* <MasterTreeStructure /> */}
         </Route>
       </Switch>

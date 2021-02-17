@@ -224,6 +224,12 @@ function CustomersManagement() {
       ...SortColumn,
       classes: 'text-center',
     },
+    location: {
+      dataField: 'sellAgency.location',
+      text: `${intl.formatMessage({ id: 'GPS' })}`,
+      ...SortColumn,
+      classes: 'text-center',
+    },
     seller: {
       dataField: 'seller.fullName',
       text: `${intl.formatMessage({ id: 'CUSTOMERS_SELLER' })}`,

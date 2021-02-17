@@ -125,6 +125,7 @@ export interface ActionColumnProps<T> {
   onLock?: (entity: T) => void;
   onChangeRole?: (entity: T) => void;
   onClone?: (entity: T) => void;
+  onGoHistory?: (entity: T) => void;
   // onCreate: (entity?: T) => void;
   // onSelectMany: (entities: T[]) => void;
   // onDeleteMany?: () => any;
