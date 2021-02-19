@@ -1,10 +1,8 @@
 import React, { ReactElement } from 'react';
 import { Card, CardHeader, CardBody } from '../../common-library/card';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import BootstrapTable, { SortOrder } from 'react-bootstrap-table-next';
-import { DefaultPagination, SortDefault } from '../../common-library/common-consts/const';
-import { Spin } from 'antd';
-import { PleaseWaitMessage, NoRecordsFoundMessage } from '../../common-library/helpers/pagination-helper';
+import { SortOrder } from 'react-bootstrap-table-next';
+import { DefaultPagination } from '../../common-library/common-consts/const';
 import { AxiosResponse } from 'axios';
 import { MasterTable } from '../../common-library/common-components/master-table';
 
@@ -18,7 +16,7 @@ interface Prop {
   setSortField: (sortField: { dataField: any; order: string }) => void
 }
 
-function CustomersManagementView({ columns, code, history, title, onFetch, sortField, setSortField }: Prop) {
+function CustomersManagementView({ columns, code, history, title, onFetch }: Prop) {
   const [loading, setLoading] = React.useState<boolean>(false);
   const [entity, setEntity] = React.useState<{ [X: string]: any }[]>([]);
   const [paginationProps, setPaginationProps] = React.useState(DefaultPagination);

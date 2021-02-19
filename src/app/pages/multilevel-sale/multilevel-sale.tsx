@@ -16,8 +16,6 @@ import {ModifyForm, ModifyInputGroup,} from '../../common-library/common-types/c
 import * as Yup from 'yup';
 import {Route, Switch, useHistory} from 'react-router-dom';
 
-const headerTitle = 'PRODUCT_PACKAGING.MASTER.HEADER.TITLE';
-const bodyTitle = 'PRODUCT_PACKAGING.MASTER.BODY.TITLE';
 const moduleName = 'MULTILEVEL_SALE.MODULE_NAME';
 const deleteDialogTitle = 'MULTILEVEL_SALE.DELETE_DIALOG.TITLE';
 const createTitle = 'MULTILEVEL_SALE.CREATE.TITLE';
@@ -29,44 +27,29 @@ function MultilevelSale() {
   
   const {
     entities,
-    setEntities,
     deleteEntity,
     setDeleteEntity,
     editEntity,
     setEditEntity,
-    createEntity,
     setCreateEntity,
     selectedEntities,
     setSelectedEntities,
-    detailEntity,
-    setDetailEntity,
     showDelete,
     setShowDelete,
     showEdit,
     setShowEdit,
     showCreate,
     setShowCreate,
-    showDetail,
-    setShowDetail,
-    showDeleteMany,
-    setShowDeleteMany,
     paginationProps,
     setPaginationProps,
     filterProps,
-    setFilterProps,
-    total,
-    setTotal,
     loading,
-    setLoading,
     error,
     setError,
     add,
     update,
-    get,
-    deleteMany,
     deleteFn,
     getAll,
-    refreshData,
   } = InitMasterProps<TreeData>({
     getServer: MultilevelSaleService.Get,
     countServer: MultilevelSaleService.Count,
@@ -188,7 +171,7 @@ function MultilevelSale() {
       },
     },
   ];
-  const [group1, setGroup1] = useState<ModifyInputGroup>({
+  const [group1] = useState<ModifyInputGroup>({
     _subTitle: '',
     code: {
       _type: 'string',
@@ -235,7 +218,7 @@ function MultilevelSale() {
   const onDeleteAgency = (entity: any) => {
     setAgencyLoading(true);
     MultilevelSaleService.DeleteAgency(entity)
-      .then(res => {
+      .then(() => {
         setAgencyLoading(false);
         setShowDeleteAgency(false);
         setRefresh(!refresh);
@@ -251,7 +234,7 @@ function MultilevelSale() {
     <React.Fragment>
       <Switch>
         <Route path="/multilevel-sale/:id/delete">
-          {({history, match}) => (
+          {({history}) => (
             <DeleteEntityDialog
               moduleName={moduleName}
               entity={deleteEntity}
@@ -268,7 +251,7 @@ function MultilevelSale() {
           )}
         </Route>
         <Route path="/multilevel-sale/agency/:id/delete">
-          {({history, match}) => (
+          {({history}) => (
             <DeleteEntityDialog
               moduleName={moduleName}
               entity={deleteAgency}
@@ -285,7 +268,7 @@ function MultilevelSale() {
           )}
         </Route>
         <Route path="/multilevel-sale/new">
-          {({history, match}) => (
+          {({history}) => (
             <ModifyEntityDialog
               show={showCreate}
               entity={{name: '', status: true}}
@@ -310,7 +293,7 @@ function MultilevelSale() {
           )}
         </Route>
         <Route path="/multilevel-sale/:id/edit">
-          {({history, match}) => (
+          {({history}) => (
             <ModifyEntityDialog
               show={showEdit}
               entity={editEntity}
@@ -337,7 +320,7 @@ function MultilevelSale() {
       </Switch>
       
       <Route path="/multilevel-sale">
-        {({history, match}) => (
+        {({history}) => (
           <MultiLevelSaleBody
             title="MULTILEVEL_SALE"
             body={TreeBody}

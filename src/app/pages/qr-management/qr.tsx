@@ -10,7 +10,6 @@ import {MasterBody} from "../../common-library/common-components/master-body";
 
 import {DefaultPagination, NormalColumn, SortColumn} from '../../common-library/common-consts/const';
 import {
-  InputGroups,
   MasterBodyColumns,
   ModifyForm,
   RenderInfoDetail,
@@ -44,22 +43,18 @@ import 'react-toastify/dist/ReactToastify.css';
 import {AxiosResponse} from 'axios';
 import {ActionsColumnFormatter} from "../../common-library/common-components/actions-column-formatter";
 import {MasterEntityDetailDialog} from "../../common-library/common-components/master-entity-detail-dialog";
-import {Select} from 'antd';
 import * as Yup from "yup";
 import {format} from "date-fns";
 import {DetailImage} from "../../common-library/common-components/detail/detail-image";
 import EntityCrudPage from "../../common-library/common-components/entity-crud-page";
+import UserBody from "../user/user-body";
+import '../user/style.scss'
 
-const Option = {Select};
 const headerTitle = 'QR.MASTER.HEADER.TITLE';
-const tableTitle = 'SHIPPING_AGENCY.MASTER.TABLE.TITLE';
 const detailBodyTitle = 'QR.DETAIL.TITLE';
 const detailHeaderTitle = 'QR.HEADER.DETAIL.TITLE';
 const moduleName = 'QR.MODULE_NAME';
-const deleteDialogTitle = 'SHIPPING_AGENCY.DELETE_DIALOG.TITLE';
-const deleteDialogBodyTitle = 'SHIPPING_AGENCY.DELETE_DIALOG.BODY_TITLE';
 const createTitle = 'QR.CREATE.HEADER';
-const updateTitle = 'SHIPPING_AGENCY.UPDATE.HEADER';
 
 // const createTitle = 'PURCHASE_ORDER.CREATE.TITLE';
 // const updateTitle = 'PURCHASE_ORDER.UPDATE.TITLE';
@@ -72,37 +67,15 @@ function QrPage() {
   const {
     entities,
     setEntities,
-    deleteEntity,
-    setDeleteEntity,
-    editEntity,
-    setEditEntity,
-    createEntity,
-    setCreateEntity,
-    selectedEntities,
-    setSelectedEntities,
-    detailEntity,
-    setDetailEntity,
-    showDelete,
-    setShowDelete,
-    showEdit,
-    setShowEdit,
     showCreate,
     setShowCreate,
-    showDetail,
-    setShowDetail,
-    showDeleteMany,
-    setShowDeleteMany,
     paginationProps,
     setPaginationProps,
     filterProps,
     setFilterProps,
     total,
-    setTotal,
     loading,
-    setLoading,
-    error,
-    setError,
-    add, update, get, deleteMany, deleteFn, getAll, refreshData,
+    add, get, getAll, refreshData,
   } = InitMasterProps<QrModel>({
     getServer: Get,
     countServer: Count,
@@ -115,10 +88,12 @@ function QrPage() {
 
   const [showImage, setShowImage] = useState<boolean>(false);
   const [logisticImageDetail, setLogisticImage] = useState<any>(null);
+  const [currentTab, setCurrentTab] = useState<string | undefined>('0');
+  const [trigger, setTrigger] = useState<boolean>(false);
   
   useEffect(() => {
     getAll(filterProps);
-  }, [paginationProps, filterProps]);
+  }, [paginationProps, filterProps, trigger, currentTab]);
   
   
 
@@ -130,7 +105,7 @@ function QrPage() {
         text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.CODE'})}`,
         ...SortColumn,
         align: 'center',
-        formatter: (cell: string, row: any, rowIndex: number) => {
+        formatter: (cell: string, row: any) => {
           console.log(row.type === '1');
           return <Link to={'qr/' + (row.codeType === '1' ? '' : '') + row._id}>{cell}</Link>
         },
@@ -140,7 +115,7 @@ function QrPage() {
         text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.CREATED_BY'})}`,
         ...SortColumn,
         align: 'center',
-        formatter: (cell: any, row: any, rowIndex: number) => (row?.createdBy ?
+        formatter: (cell: any, row: any) => (row?.createdBy ?
           <DisplayPersonName {...row.createdBy}/> : (<>{intl.formatMessage({id: 'NO_INFORMATION'})}</>)),
       },
       createdAt: {
@@ -155,7 +130,7 @@ function QrPage() {
         text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.ACTIVE_BY'})}`,
         ...SortColumn,
         align: 'center',
-        formatter: (cell: any, row: any, rowIndex: number) => (row?.activeBy ?
+        formatter: (cell: any, row: any) => (row?.activeBy ?
           <DisplayPersonName {...row.activeBy}/> : (<>{intl.formatMessage({id: 'NO_INFORMATION'})}</>)),
       },
       activeAt: {
@@ -169,7 +144,7 @@ function QrPage() {
         dataField: 'type',
         text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.CODE_TYPE'})}`,
         ...SortColumn,
-        formatter: (cell: any, row: any, rowIndex: number) =>
+        formatter: (cell: any) =>
           (<>{QrTypeList.find(t => t.code === cell)?.name}</>),
         align: 'center',
       },
@@ -256,8 +231,7 @@ function QrPage() {
     data: {
       'sellStatus': {
         title: '',
-        formatter: (val, entity) => {
-          const isShow = entity.type === '1' ? (entity.productPlan != null) : entity.children.length > 0;
+        formatter: () => {
           return <DisplayTable entities={[]} columns={shippingInfoColumns}/>
         }
       }
@@ -296,7 +270,7 @@ function QrPage() {
         return (
           <>
             {ActionsColumnFormatter(cell, row, rowIndex, {
-              onShowDetail: (cell: any) => {
+              onShowDetail: () => {
                 setShowImage(true);
                 setLogisticImage(row);
               },
@@ -317,7 +291,7 @@ function QrPage() {
       data: {
         'imageBefore': {
           title: 'Hình ảnh xuất kho',
-          formatter: (image, entity) => {
+          formatter: (image) => {
             const renderInfo = {
               title: 'IMAGE_INFO',
               component: Display3Info
@@ -327,7 +301,7 @@ function QrPage() {
         },
         'imageAfter': {
           title: 'Hình ảnh nhập kho',
-          formatter: (image, entity) => {
+          formatter: (image) => {
             const renderInfo = {
               title: 'IMAGE_INFO',
               component: Display3Info
@@ -351,8 +325,7 @@ function QrPage() {
     data: {
       'sellStatus': {
         title: '',
-        formatter: (val, entity) => {
-          const isShow = entity.type === '1' ? (entity.productPlan != null) : entity.children.length > 0;
+        formatter: () => {
           return <DisplayTable entities={[]}
                                columns={distributionInfoColumns}/>
         }
@@ -406,7 +379,7 @@ function QrPage() {
     text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.CREATED_BY'})}`,
     ...SortColumn,
     align: 'center',
-    formatter: (cell: any, row: any, rowIndex: number) => (row?.createdBy ?
+    formatter: (cell: any, row: any) => (row?.createdBy ?
       <DisplayPersonName {...cell}/> : (<>{intl.formatMessage({id: 'NO_INFORMATION'})}</>)),
   }, {
     dataField: 'createdAt',
@@ -419,7 +392,7 @@ function QrPage() {
     text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.ACTIVE_BY'})}`,
     ...SortColumn,
     align: 'center',
-    formatter: (cell: any, row: any, rowIndex: number) => (row?.activeBy ?
+    formatter: (cell: any, row: any) => (row?.activeBy ?
       <DisplayPersonName {...cell}/> : (<>{intl.formatMessage({id: 'NO_INFORMATION'})}</>)),
   }, {
     dataField: 'activeAt',
@@ -505,7 +478,6 @@ function QrPage() {
   const [matchId, setMatchId] = useState<any>(null);
   const [renderInfo, setRenderInfo] = useState(renderInfoProduct);
   
-  const panel = useMemo((): InputGroups => ({}), []);
   const createForm = useMemo((): ModifyForm => ({
     _header: createTitle,
     _panel1: {
@@ -523,7 +495,7 @@ function QrPage() {
         total: {
           required: true,
           _type: 'string-number',
-          onChange: (e, {setFieldValue, values}) => {
+          onChange: (e, {setFieldValue}) => {
             setFieldValue('total', e.target.value && e.target.value !== '' && Number(e.target.value));
           },
           label: 'QR.EDIT.QUANTITY',
@@ -557,7 +529,7 @@ function QrPage() {
         }, type: {
           _type: 'string',
           disabled: true,
-          formatter: (e) => (e ? QrTypeList.find((val, index, arr) =>
+          formatter: (e) => (e ? QrTypeList.find((val) =>
             val.code.toLowerCase().indexOf(e.toLowerCase()) > -1
           )?.name : ''),
           label: 'Loại mã',
@@ -573,12 +545,49 @@ function QrPage() {
       setDE(qr);
     });
   }, [matchId]);
+
+  const TabData = [
+    {
+      tabTitle: 'QR Sản phẩm',
+      entities: entities,
+      columns: columns,
+      total: total,
+      loading: loading,
+      paginationParams: paginationProps,
+      setPaginationParams: setPaginationProps,
+      button: [
+        {
+          label: 'Thêm mới',
+          onClick: () => {
+            setShowCreate(true);
+          }
+        }
+      ]
+    },
+    {
+      tabTitle: 'QR Đóng gói',
+      entities: entities,
+      columns: columns,
+      total: total,
+      loading: loading,
+      paginationParams: paginationProps,
+      setPaginationParams: setPaginationProps,
+      button: [
+        {
+          label: 'Thêm mới',
+          onClick: () => {
+            setShowCreate(true);
+          }
+        }
+      ]
+    },
+  ];
   
   return (
     <Fragment>
       <Switch>
       <Route exact path="/qr/:code">
-          {({history, match}) => {
+          {({match}) => {
             setMatchId(match && match.params.code);
             return (
               <>
@@ -619,7 +628,19 @@ function QrPage() {
             }}
             searchModel={searchModel}
           />
-          <MasterBody
+          <div className="user-body">
+            <UserBody
+              tabData={TabData}
+              currentTab={currentTab}
+              setCurrentTab={setCurrentTab}
+              setEntities={setEntities}
+              setPaginationProps={setPaginationProps}
+              setTrigger={setTrigger}
+              trigger={trigger}
+              title="Danh mục vai trò"
+            />
+          </div>
+          {/* <MasterBody
             title={bodyTitle}
             onCreate={() => {
               // history.push(`${window.location.pathname}/0000000`);
@@ -632,7 +653,7 @@ function QrPage() {
             loading={loading}
             paginationParams={paginationProps}
             setPaginationParams={setPaginationProps}
-          />
+          /> */}
           <ModifyEntityDialog
             show={showCreate}
             validation={validationSchema}

@@ -48,15 +48,12 @@ const ProductPackagingSchema = Yup.object().shape({
 function ProductPackaging() {
   const intl = useIntl();
 
-  const history = useHistory();
   const {
     entities,
-    setEntities,
     deleteEntity,
     setDeleteEntity,
     editEntity,
     setEditEntity,
-    createEntity,
     setCreateEntity,
     selectedEntities,
     setSelectedEntities,
@@ -77,18 +74,14 @@ function ProductPackaging() {
     filterProps,
     setFilterProps,
     total,
-    setTotal,
     loading,
-    setLoading,
     error,
-    setError,
     add,
     update,
     get,
     deleteMany,
     deleteFn,
     getAll,
-    refreshData,
   } = InitMasterProps<ProductPackagingModel>({
     getServer: ProductPackagingService.Get,
     countServer: ProductPackagingService.Count,
@@ -102,7 +95,6 @@ function ProductPackaging() {
   const [trigger, setTrigger] = React.useState(false)
 
   useEffect(() => {
-    const t = {sortBy: 'updatedAt'}
     getAll({ ...filterProps });
   }, [paginationProps, filterProps, trigger]);
 
@@ -117,7 +109,7 @@ function ProductPackaging() {
       dataField: 'species.name',
       text: `${intl.formatMessage({ id: 'PRODUCT_PACKAGING.MASTER.TABLE.NAME_COLUMN' })}`,
       ...SortColumn,
-      formatter: (cell: any, row: any, rowIndex: any) => {
+      formatter: (cell: any, row: any) => {
         return <p>{row.species ? row.species.name : 'Không có thông tin nha'}</p>;
       },
       classes: 'text-center',
@@ -210,15 +202,8 @@ function ProductPackaging() {
     },
   ];
 
-  const formPart: any = {
-    form_1: {
-      title: '',
-      modifyModel: modifyModel,
-      header: 'ĐƠN HÀNG',
-    },
-  };
 
-  const [group1, setGroup1] = useState<ModifyInputGroup>({
+  const [group1] = useState<ModifyInputGroup>({
     _subTitle: '',
     code: {
       _type: 'string',

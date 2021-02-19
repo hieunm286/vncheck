@@ -23,18 +23,15 @@ import isNumeric from "antd/es/_util/isNumeric";
 function LandLot() {
   const {
     entities,
-    setEntities,
     intl,
     deleteEntity,
     setDeleteEntity,
     editEntity,
     setEditEntity,
     createEntity,
-    setCreateEntity,
     selectedEntities,
     setSelectedEntities,
     detailEntity,
-    setDetailEntity,
     showDelete,
     setShowDelete,
     showEdit,
@@ -50,9 +47,7 @@ function LandLot() {
     filterProps,
     setFilterProps,
     total,
-    setTotal,
     loading,
-    setLoading,
     error,
     setError,
     add,
@@ -61,7 +56,6 @@ function LandLot() {
     deleteMany,
     deleteFn,
     getAll,
-    refreshData,
   } = InitMasterProps<LandLotModel>({
     getServer: Get,
     countServer: Count,
@@ -87,7 +81,7 @@ function LandLot() {
     code: {
       dataField: 'code',
       text: `${intl.formatMessage({id: 'LAND_LOT.MASTER.HEADER.CODE'})}`,
-      formatter: (cell: any, row: any, rowIndex) => {
+      formatter: (cell: any, row: any) => {
         return (<Fragment>{row.lot + row.subLot}</Fragment>);
       },
       ...SortColumn,
@@ -147,7 +141,7 @@ function LandLot() {
         disabled: (values) => {
           return ((values.lot || values.subLot) && (!values.code || values.code === ''))
         },
-        onChange: (value, {setFieldValue, values}) => {
+        onChange: (value, {setFieldValue}) => {
           const innerValue = value.target.value.toUpperCase();
           setFieldValue('code', innerValue);
           if (innerValue !== '') {
@@ -206,7 +200,7 @@ function LandLot() {
       onSearch: GetLots,
       required: true,
       disabled: false,
-      onChange: (value, {setFieldValue, setFieldTouched, values}) => {
+      onChange: (value, {setFieldValue, setFieldTouched}) => {
         setFieldValue('code', value ?? '');
         setFieldValue('subLot', '');
         setFieldTouched('subLot', true);

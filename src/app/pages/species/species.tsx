@@ -41,39 +41,16 @@ const standardizeamedName = (name: string) => {
   });
 }
 
-export const GenerateCode = (data: any[]) => {
-  const lastEntity = data[data.length - 1].code;
-  let i;
-  for (i = 0; i < lastEntity.length; i++) {
-    if (lastEntity[i] !== '0') {
-      break;
-    }
-  }
-  
-  const lastIndex = parseInt(lastEntity.slice(i));
-  
-  if (lastIndex < 9) {
-    return `00000${lastIndex + 1}`;
-  } else if (lastIndex < 99) {
-    return `0000${lastIndex + 1}`;
-  } else if (lastIndex < 999) {
-    return `000${lastIndex + 1}`;
-  }
-  return `00${lastIndex + 1}`;
-};
-
 function Species() {
   const intl = useIntl();
   
   const history = useHistory();
   const {
     entities,
-    setEntities,
     deleteEntity,
     setDeleteEntity,
     editEntity,
     setEditEntity,
-    createEntity,
     setCreateEntity,
     selectedEntities,
     setSelectedEntities,
@@ -81,10 +58,6 @@ function Species() {
     setDetailEntity,
     showDelete,
     setShowDelete,
-    showEdit,
-    setShowEdit,
-    showCreate,
-    setShowCreate,
     showDetail,
     setShowDetail,
     showDeleteMany,
@@ -94,18 +67,14 @@ function Species() {
     filterProps,
     setFilterProps,
     total,
-    setTotal,
     loading,
-    setLoading,
     error,
-    setError,
     add,
     update,
     get,
     deleteMany,
     deleteFn,
     getAll,
-    refreshData,
   } = InitMasterProps<SpeciesModel>({
     getServer: ProductTypeService.Get,
     countServer: ProductTypeService.Count,
@@ -394,7 +363,7 @@ function Species() {
           />
         </Route>
         <Route path={`/species/:code`}>
-          {({history, match}) => (
+          {({match}) => (
             <EntityCrudPage
               onModify={(values: SpeciesModel) => {
                 if (values.name) {

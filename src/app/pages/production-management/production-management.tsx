@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { Link, Route, Switch, useHistory } from 'react-router-dom';
-import { Card, CardBody, CardStyle1 } from '../../common-library/card';
+import { Card, CardBody } from '../../common-library/card';
 import { InitMasterProps } from '../../common-library/helpers/common-function';
 import { Steps } from 'antd';
 import { DefaultPagination, SortColumn } from '../../common-library/common-consts/const';
@@ -21,7 +21,7 @@ import {
   PreservationDetail,
 } from './defined/const';
 import _ from 'lodash';
-import {DisplayCelcius, DisplayDateTime, DisplayDiffTime} from "../../common-library/helpers/detail-helpers";
+import {DisplayCelcius, DisplayDiffTime} from "../../common-library/helpers/detail-helpers";
 
 const { Step } = Steps;
 
@@ -37,7 +37,7 @@ const extendSearchField: SearchModel = {
     type: 'search-select',
     label: 'PRODUCTION_PLAN.SPECIES_NAME',
     onSearch: SpeciesService.GetAll,
-    onChange: (value, { setFieldValue, values }) => {
+    onChange: (value, { values }) => {
       console.log(value, values);
       if (value) value.barcode = values.product_plan?.seeding?.species?.barcode;
       else return { barcode: values.product_plan?.seeding?.species?.barcode };
@@ -52,13 +52,6 @@ const extendSearchField: SearchModel = {
   },
 };
 
-const estimatedHarvestTime: SearchModel = {
-  estimatedHarvestTime: {
-    type: 'date-time',
-    name: 'planting.estimatedHarvestTime',
-    label: <Fix title={'PRODUCTION_PLAN.HARVEST_DATE'} />,
-  },
-};
 
 const PM_HarvestingSearchModel: SearchModel = {
   code: {
@@ -249,49 +242,16 @@ const TAB_STEP = {
 function ProductionManagement() {
   const intl = useIntl();
 
-  const history = useHistory();
   const {
     entities,
     setEntities,
-    deleteEntity,
-    setDeleteEntity,
-    editEntity,
-    setEditEntity,
-    createEntity,
-    setCreateEntity,
-    selectedEntities,
-    setSelectedEntities,
-    detailEntity,
-    setDetailEntity,
-    showDelete,
-    setShowDelete,
-    showEdit,
-    setShowEdit,
-    showCreate,
-    setShowCreate,
-    showDetail,
-    setShowDetail,
-    showDeleteMany,
-    setShowDeleteMany,
     paginationProps,
     setPaginationProps,
     filterProps,
     setFilterProps,
     total,
-    setTotal,
     loading,
-    setLoading,
-    spinning,
-    setSpinning,
-    error,
-    setError,
-    add,
-    update,
-    get,
-    deleteMany,
-    deleteFn,
     getAll,
-    refreshData,
   } = InitMasterProps<ProductionPlanModel>({
     getServer: ProductionPlanService.Get,
     countServer: ProductionPlanService.Count,
@@ -308,7 +268,7 @@ function ProductionManagement() {
     species: {
       dataField: 'seeding.species.name',
       text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.SPECIES_NAME' })}`,
-      formatter: (cell: any, row: any, rowIndex: number) => <span>{row.seeding.species.name}</span>,
+      formatter: (cell: any, row: any) => <span>{row.seeding.species.name}</span>,
       ...SortColumn,
       classes: 'text-center',
       headerClasses: 'text-center',
@@ -316,7 +276,7 @@ function ProductionManagement() {
     GTIN: {
       dataField: 'seeding.species.barcode',
       text: `${intl.formatMessage({ id: 'GTIN' })}`,
-      formatter: (cell: any, row: any, rowIndex: number) => (
+      formatter: (cell: any, row: any) => (
         <span>{row.seeding.species.barcode}</span>
       ),
       ...SortColumn,
@@ -338,7 +298,7 @@ function ProductionManagement() {
     code: {
       dataField: 'code',
       text: `${intl.formatMessage({ id: productPlanCode })}`,
-      formatter: (cell: any, row: any, rowIndex: number) => (
+      formatter: (cell: any, row: any) => (
         <Link to={`/production-plan/plan-view/${row._id}`}>{row.code}</Link>
       ),
       ...SortColumn,
@@ -347,7 +307,7 @@ function ProductionManagement() {
     harvestingCode: {
       dataField: 'harvesting.code',
       text: `${intl.formatMessage({ id: harvestingCode })}`,
-      formatter: (cell: any, row: any, rowIndex: number) => (
+      formatter: (cell: any, row: any) => (
         <Link to={`/production-management/harvesting/${row._id}`}>{row.code}</Link>
       ),
       ...SortColumn,
@@ -357,7 +317,7 @@ function ProductionManagement() {
     estimatedHarvestTime: {
       dataField: 'planting.estimatedHarvestTime',
       text: `${intl.formatMessage({ id: 'PRODUCTION_PLAN.HARVEST_REAL_DATE' })}`,
-      formatter: (cell: any, row: any, rowIndex: number) => (
+      formatter: (cell: any, row: any) => (
         // <span>
         //   {new Intl.DateTimeFormat('en-GB').format(new Date(row.planting.estimatedHarvestTime))}
         // </span>
@@ -380,7 +340,7 @@ function ProductionManagement() {
     landlot: {
       dataField: 'planting.landLot.code',
       text: `${intl.formatMessage({ id: 'PLANTING_LAND_LOT' })}`,
-      formatter: (cell: any, row: any, rowIndex: number) => (
+      formatter: (cell: any, row: any) => (
         <span>{row.planting.landLot.code}</span>
       ),
       ...SortColumn,
@@ -401,7 +361,7 @@ function ProductionManagement() {
     code: {
       dataField: 'code',
       text: `${intl.formatMessage({ id: productPlanCode })}`,
-      formatter: (cell: any, row: any, rowIndex: number) => (
+      formatter: (cell: any, row: any) => (
         <Link to={`/production-plan/plan-view/${row._id}`}>{row.code}</Link>
       ),
       ...SortColumn,
@@ -410,7 +370,7 @@ function ProductionManagement() {
     harvestingCode: {
       dataField: 'harvesting.code',
       text: `${intl.formatMessage({ id: harvestingCode })}`,
-      formatter: (cell: any, row: any, rowIndex: number) => (
+      formatter: (cell: any, row: any) => (
         <Link to={`/production-management/harvesting/${row._id}`}>{row.harvesting.code}</Link>
       ),
       ...SortColumn,
@@ -419,7 +379,7 @@ function ProductionManagement() {
     preliminaryTreatmentCode: {
       dataField: 'preliminaryTreatment.code',
       text: `${intl.formatMessage({ id: preliminaryTreatmentCode })}`,
-      formatter: (cell: any, row: any, rowIndex: number) => (
+      formatter: (cell: any, row: any) => (
         <Link to={`/production-management/preliminaryTreatment/${row._id}`}>{row.code}</Link>
       ),
       ...SortColumn,
@@ -429,7 +389,7 @@ function ProductionManagement() {
     preliminaryTreatmentTime: {
       dataField: 'preliminaryTreatment.startTime',
       text: `${intl.formatMessage({ id: 'PRODUCTION_MANAGEMENT.preliminaryTreatment.TIME' })}`,
-      formatter: (cell: any, row: any, rowIndex: number) => (
+      formatter: (cell: any, row: any) => (
         <span>
           {row.preliminaryTreatment.startTime && row.preliminaryTreatment.endTime ? (
             <span>
@@ -461,7 +421,7 @@ function ProductionManagement() {
     code: {
       dataField: 'code',
       text: `${intl.formatMessage({ id: productPlanCode })}`,
-      formatter: (cell: any, row: any, rowIndex: number) => (
+      formatter: (cell: any, row: any) => (
         <Link to={`/production-plan/plan-view/${row._id}`}>{row.code}</Link>
       ),
       ...SortColumn,
@@ -470,7 +430,7 @@ function ProductionManagement() {
     harvestingCode: {
       dataField: 'harvesting.code',
       text: `${intl.formatMessage({ id: harvestingCode })}`,
-      formatter: (cell: any, row: any, rowIndex: number) => (
+      formatter: (cell: any, row: any) => (
         <Link to={`/production-management/harvesting/${row._id}`}>{row.harvesting.code}</Link>
       ),
       ...SortColumn,
@@ -479,7 +439,7 @@ function ProductionManagement() {
     preliminaryTreatmentCode: {
       dataField: 'preliminaryTreatment.code',
       text: `${intl.formatMessage({ id: preliminaryTreatmentCode })}`,
-      formatter: (cell: any, row: any, rowIndex: number) => (
+      formatter: (cell: any, row: any) => (
         <Link to={`/production-management/preliminaryTreatment/${row._id}`}>{row.code}</Link>
       ),
       ...SortColumn,
@@ -488,7 +448,7 @@ function ProductionManagement() {
     cleaningCode: {
       dataField: 'cleaning.code',
       text: `${intl.formatMessage({ id: cleaningCode })}`,
-      formatter: (cell: any, row: any, rowIndex: number) => (
+      formatter: (cell: any, row: any) => (
         <Link to={`/production-management/cleaning/${row._id}`}>{row.code}</Link>
       ),
       ...SortColumn,
@@ -498,7 +458,7 @@ function ProductionManagement() {
     cleaningTime: {
       dataField: 'cleaning.estimatedTime',
       text: `${intl.formatMessage({ id: 'PRODUCTION_MANAGEMENT.CLEANING.TIME' })}`,
-      formatter: (cell: any, row: any, rowIndex: number) => (
+      formatter: (cell: any, row: any) => (
         <span>
           {/* {row.cleaning.estimatedTime
             ? new Intl.DateTimeFormat('en-GB').format(new Date(row.cleaning.estimatedTime))
@@ -530,7 +490,7 @@ function ProductionManagement() {
     code: {
       dataField: 'code',
       text: `${intl.formatMessage({ id: productPlanCode })}`,
-      formatter: (cell: any, row: any, rowIndex: number) => (
+      formatter: (cell: any, row: any) => (
         <Link to={`/production-plan/plan-view/${row._id}`}>{row.code}</Link>
       ),
       ...SortColumn,
@@ -539,7 +499,7 @@ function ProductionManagement() {
     harvestingCode: {
       dataField: 'harvesting.code',
       text: `${intl.formatMessage({ id: harvestingCode })}`,
-      formatter: (cell: any, row: any, rowIndex: number) => (
+      formatter: (cell: any, row: any) => (
         <Link to={`/production-management/harvesting/${row._id}`}>{row.harvesting.code}</Link>
       ),
       ...SortColumn,
@@ -548,7 +508,7 @@ function ProductionManagement() {
     preliminaryTreatmentCode: {
       dataField: 'preliminaryTreatment.code',
       text: `${intl.formatMessage({ id: preliminaryTreatmentCode })}`,
-      formatter: (cell: any, row: any, rowIndex: number) => (
+      formatter: (cell: any, row: any) => (
         <Link to={`/production-management/preliminaryTreatment/${row._id}`}>{row.code}</Link>
       ),
       ...SortColumn,
@@ -557,7 +517,7 @@ function ProductionManagement() {
     cleaningCode: {
       dataField: 'cleaning.code',
       text: `${intl.formatMessage({ id: cleaningCode })}`,
-      formatter: (cell: any, row: any, rowIndex: number) => (
+      formatter: (cell: any, row: any) => (
         <Link to={`/production-management/cleaning/${row._id}`}>{row.code}</Link>
       ),
       ...SortColumn,
@@ -566,7 +526,7 @@ function ProductionManagement() {
     packingCode: {
       dataField: 'packing.code',
       text: `${intl.formatMessage({ id: packingCode })}`,
-      formatter: (cell: any, row: any, rowIndex: number) => (
+      formatter: (cell: any, row: any) => (
         <Link to={`/production-management/packing/${row._id}`}>{row.code}</Link>
       ),
       ...SortColumn,
@@ -576,7 +536,7 @@ function ProductionManagement() {
     packing: {
       dataField: 'packing.packing.weight',
       text: `${intl.formatMessage({ id: 'PRODUCT_PACKAGING.MODULE_NAME' })}`,
-      formatter: (cell: any, row: any, rowIndex: number) => (
+      formatter: (cell: any, row: any) => (
         <span>{row.packing.packing ? row.packing.packing.weight : 'Chưa có thông tin'}</span>
       ),
       ...SortColumn,
@@ -596,7 +556,7 @@ function ProductionManagement() {
     code: {
       dataField: 'code',
       text: `${intl.formatMessage({ id: productPlanCode })}`,
-      formatter: (cell: any, row: any, rowIndex: number) => (
+      formatter: (cell: any, row: any) => (
         <Link to={`/production-plan/plan-view/${row._id}`}>{row.code}</Link>
       ),
       ...SortColumn,
@@ -605,7 +565,7 @@ function ProductionManagement() {
     harvestingCode: {
       dataField: 'harvesting.code',
       text: `${intl.formatMessage({ id: harvestingCode })}`,
-      formatter: (cell: any, row: any, rowIndex: number) => (
+      formatter: (cell: any, row: any) => (
         <Link to={`/production-management/harvesting/${row._id}`}>{row.harvesting.code}</Link>
       ),
       ...SortColumn,
@@ -614,7 +574,7 @@ function ProductionManagement() {
     preliminaryTreatmentCode: {
       dataField: 'preliminaryTreatment.code',
       text: `${intl.formatMessage({ id: preliminaryTreatmentCode })}`,
-      formatter: (cell: any, row: any, rowIndex: number) => (
+      formatter: (cell: any, row: any) => (
         <Link to={`/production-management/preliminaryTreatment/${row._id}`}>
           {row.preliminaryTreatment.code}
         </Link>
@@ -625,7 +585,7 @@ function ProductionManagement() {
     cleaningCode: {
       dataField: 'cleaning.code',
       text: `${intl.formatMessage({ id: cleaningCode })}`,
-      formatter: (cell: any, row: any, rowIndex: number) => (
+      formatter: (cell: any, row: any) => (
         <Link to={`/production-management/cleaning/${row._id}`}>{row.cleaning.code}</Link>
       ),
       ...SortColumn,
@@ -634,7 +594,7 @@ function ProductionManagement() {
     packingCode: {
       dataField: 'packing.code',
       text: `${intl.formatMessage({ id: packingCode })}`,
-      formatter: (cell: any, row: any, rowIndex: number) => (
+      formatter: (cell: any, row: any) => (
         <Link to={`/production-management/packing/${row._id}`}>{row.packing.code}</Link>
       ),
       ...SortColumn,
@@ -643,7 +603,7 @@ function ProductionManagement() {
     preservationCode: {
       dataField: 'preservation.code',
       text: `${intl.formatMessage({ id: preservationCode })}`,
-      formatter: (cell: any, row: any, rowIndex: number) => (
+      formatter: (cell: any, row: any) => (
         <Link to={`/production-management/preservation/${row._id}`}>{row.code}</Link>
       ),
       ...SortColumn,
@@ -653,7 +613,7 @@ function ProductionManagement() {
     preservationDate: {
       dataField: 'preservation.createdAt',
       text: `${intl.formatMessage({ id: 'PRODUCTION_MANAGEMENT.PRESERVATION.TIME' })}`,
-      formatter: (cell: any, row: any, rowIndex: number) => (
+      formatter: (cell: any, row: any) => (
         <span>
           {row.preservation.startTime && row.preservation.endTime ? (
             <span>
@@ -673,7 +633,7 @@ function ProductionManagement() {
     preservationTemperature: {
       dataField: 'preservation.temperature',
       text: `${intl.formatMessage({ id: 'PRODUCTION_MANAGEMENT.PRESERVATION.TEMPERATURE' })}`,
-      formatter: (cell: any, row: any, rowIndex: number) => (
+      formatter: (cell: any, row: any) => (
         <span>
           {/* {new Intl.DateTimeFormat('en-GB').format(new Date(row.preservation.createdAt))} */}
           {DisplayCelcius(row.preservation.temperature)}

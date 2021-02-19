@@ -5,7 +5,6 @@ import {
   ActionsColumnFormatter,
   TickColumnFormatter,
 } from '../../common-library/common-components/actions-column-formatter';
-import { MasterBody } from '../../common-library/common-components/master-body';
 import { MasterHeader } from '../../common-library/common-components/master-header';
 import {
   DefaultPagination,
@@ -15,7 +14,6 @@ import {
 import {
   InitMasterProps,
   InitValues,
-  RoleArrayToObject,
 } from '../../common-library/helpers/common-function';
 import {
   Count,
@@ -51,9 +49,7 @@ import { AxiosResponse } from 'axios';
 import UserBody from '../user/user-body';
 import '../user/style.scss'
 
-const { Option } = Select;
 
-const validField = ['scopes', 'managementUnit', 'status', 'level', 'name', '_id'];
 
 const RoleSchema = Yup.object().shape({
   managementUnit: Yup.mixed().test(
@@ -73,7 +69,6 @@ const RoleSchema = Yup.object().shape({
 
 export default function ManagementOrganization() {
   const headerTitle = 'ROLE.MASTER.HEADER.TITLE';
-  const bodyTitle = 'ROLE.MASTER.BODY.TITLE';
   const createTitle = 'ROLE.CREATE.HEADER';
   const editTitle = 'ROLE.EDIT.HEADER';
 
@@ -84,7 +79,6 @@ export default function ManagementOrganization() {
     setDeleteEntity,
     editEntity,
     setEditEntity,
-    createEntity,
     setCreateEntity,
     selectedEntities,
     setSelectedEntities,
@@ -92,31 +86,19 @@ export default function ManagementOrganization() {
     setDetailEntity,
     showDelete,
     setShowDelete,
-    showEdit,
-    setShowEdit,
-    showCreate,
-    setShowCreate,
     showDetail,
     setShowDetail,
-    showDeleteMany,
-    setShowDeleteMany,
     paginationProps,
     setPaginationProps,
     filterProps,
     setFilterProps,
     total,
-    setTotal,
     loading,
-    setLoading,
-    error,
-    setError,
     add,
     update,
     get,
-    deleteMany,
     deleteFn,
     getAll,
-    refreshData,
   } = InitMasterProps<RoleModel>({
     getServer: Get,
     countServer: Count,
@@ -484,7 +466,7 @@ export default function ManagementOrganization() {
             }
           },
           onShowDetail: (entity: RoleModel) => {
-            get(entity).then(e => {
+            get(entity).then(() => {
               setShowDetail(true);
             });
           },
@@ -663,7 +645,7 @@ export default function ManagementOrganization() {
           />
         </Route>
         <Route path="/account/role/:code">
-          {({ history, match }) => (
+          {({ match }) => (
             <EntityCrudPage
               moduleName="ROLE.MODULE_NAME"
               entity={editEntity}

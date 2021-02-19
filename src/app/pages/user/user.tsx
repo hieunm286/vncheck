@@ -2,7 +2,6 @@ import React, {Fragment, useEffect, useMemo, useState} from 'react';
 import {useIntl} from 'react-intl';
 import {DefaultPagination, iconStyle, NormalColumn, SortColumn} from '../../common-library/common-consts/const';
 import {MasterHeader} from '../../common-library/common-components/master-header';
-import {MasterBody} from '../../common-library/common-components/master-body';
 import {
   ActionsColumnFormatter,
   TickColumnFormatter
@@ -37,7 +36,6 @@ import UserBody from './user-body';
 import './style.scss'
 
 const headerTitle = 'PRODUCT_TYPE.MASTER.HEADER.TITLE';
-const tableTitle = 'USER.MASTER.TABLE.TITLE';
 const detailDialogTitle = 'USER.DETAIL_DIALOG.TITLE';
 const moduleName = 'USER.MODULE_NAME';
 const lockDialogTitle = 'USER.LOCK_DIALOG.TITLE';
@@ -56,41 +54,27 @@ function User() {
     setEntities,
     deleteEntity,
     setDeleteEntity,
-    editEntity,
-    setEditEntity,
     createEntity,
     setCreateEntity,
     selectedEntities,
     setSelectedEntities,
     detailEntity,
-    setDetailEntity,
     showDelete,
     setShowDelete,
-    showEdit,
-    setShowEdit,
-    showCreate,
-    setShowCreate,
     showDetail,
     setShowDetail,
-    showDeleteMany,
-    setShowDeleteMany,
     paginationProps,
     setPaginationProps,
     filterProps,
     setFilterProps,
     total,
-    setTotal,
     loading,
-    setLoading,
     error,
-    setError,
     add,
     update,
     get,
-    deleteMany,
     deleteFn,
     getAll,
-    refreshData,
   } = InitMasterProps<UserModel>({
     getServer: Get,
     countServer: Count,
@@ -163,7 +147,7 @@ function User() {
         formatExtraData: {
           intl,
           onShowDetail: (entity: UserModel) => {
-            get(entity).then(e => {
+            get(entity).then(() => {
               setShowDetail(true);
             })
           },
@@ -223,7 +207,7 @@ function User() {
       formatExtraData: {
         intl,
         onShowDetail: (entity: UserModel) => {
-          get(entity).then(e => {
+          get(entity).then(() => {
             setShowDetail(true);
           })
         },
@@ -650,7 +634,7 @@ function User() {
           />
         </Route>
         <Route path={`/account/user/:code`}>
-          {({history, match}) => (
+          {({match}) => (
             <EntityCrudPage
               onModify={update}
               moduleName={moduleName}

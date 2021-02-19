@@ -39,11 +39,8 @@ import {notifySuccess} from './defined/crud-helped';
 import {FormikState} from 'formik';
 
 const headerTitle = 'PRODUCT_TYPE.MASTER.HEADER.TITLE';
-const bodyTitle = 'PRODUCT_TYPE.MASTER.BODY.TITLE';
 const moduleName = 'MENU.PRODUCT_PLANT';
-const deleteDialogTitle = 'PRODUCT_TYPE.DELETE_DIALOG.TITLE';
 const createTitle = 'PRODUCT_TYPE.CREATE.TITLE';
-const updateTitle = 'PURCHASE_ORDER.UPDATE.TITLE';
 const homeURL = `/production-plan`;
 
 const harvestingProcess = 2,
@@ -52,15 +49,6 @@ const harvestingProcess = 2,
   packingProcess = 5,
   preservationProcess = 6;
 
-const versionData = [
-  {
-    _id: 'cávsd',
-    name: 'Phiên bản 1',
-    createBy: 'Nguyễn C',
-    createDate: new Date(),
-    approveDate: new Date(),
-  },
-];
 
 const CheckDisabled = (values: any, currentProcess: string, targetProcess: number) => {
   if (!values) return false;
@@ -229,43 +217,19 @@ function ProductionPlan() {
   const {
     entities,
     setEntities,
-    deleteEntity,
-    setDeleteEntity,
     editEntity,
     setEditEntity,
-    createEntity,
-    setCreateEntity,
     selectedEntities,
     setSelectedEntities,
     detailEntity,
     setDetailEntity,
-    showDelete,
-    setShowDelete,
-    showEdit,
-    setShowEdit,
-    showCreate,
-    setShowCreate,
-    showDetail,
     setShowDetail,
-    showDeleteMany,
-    setShowDeleteMany,
     paginationProps,
     setPaginationProps,
     filterProps,
     setFilterProps,
     total,
-    setTotal,
     loading,
-    setLoading,
-    spinning,
-    setSpinning,
-    error,
-    setError,
-    add,
-    update,
-    get,
-    deleteMany,
-    deleteFn,
     getAll,
     refreshData,
   } = InitMasterProps<ProductionPlanModel>({
@@ -280,16 +244,16 @@ function ProductionPlan() {
   
   const [currentTab, setCurrentTab] = useState<string | undefined>('0');
   
-  const [versionTitle, setVersionTitle] = useState<string>('');
+  const [] = useState<string>('');
   
-  const [noticeModal, setNoticeModal] = useState<boolean>(false);
+  const [] = useState<boolean>(false);
   
-  const [tagData, setTagData] = useState([]);
+  const [tagData] = useState([]);
   
-  const [submit, setSubmit] = useState(false);
+  const [, setSubmit] = useState(false);
   
   const [step, setStep] = useState('0');
-  const [totalVersion, setTotalVersion] = useState(0);
+  const [totalVersion] = useState(0);
   const [userData, setUserData] = useState<any>();
   
   useEffect(() => {
@@ -308,7 +272,6 @@ function ProductionPlan() {
     }),
     shallowEqual,
   );
-  const {username, role} = authState;
   const [prevTab, setPrevTab] = useState<string | undefined>('0');
   const [trigger, setTrigger] = useState<boolean>(false);
   useEffect(() => {
@@ -355,7 +318,7 @@ function ProductionPlan() {
     seeding: {
       dataField: 'seeding.code',
       text: `${intl.formatMessage({id: 'PRODUCTION_PLAN.SEEDING_CODE'})}`,
-      formatter: (cell: any, row: any, rowIndex: number) => (
+      formatter: (cell: any, row: any) => (
         <Link to={`/production-plan/seeding/${row._id}`}>{row.seeding.code}</Link>
       ),
       ...SortColumn,
@@ -365,7 +328,7 @@ function ProductionPlan() {
     planting: {
       dataField: 'planting.code',
       text: `${intl.formatMessage({id: 'PRODUCTION_PLAN.PLANT_CODE'})}`,
-      formatter: (cell: any, row: any, rowIndex: number) => (
+      formatter: (cell: any, row: any) => (
         <Link
           to={{
             pathname: `/production-plan/planting/${row._id}`,
@@ -388,7 +351,7 @@ function ProductionPlan() {
     estimatedHarvestTime: {
       dataField: 'planting.estimatedHarvestTime',
       text: `${intl.formatMessage({id: 'PRODUCTION_PLAN.HARVEST_DATE'})}`,
-      formatter: (cell: any, row: any, rowIndex: number) => (
+      formatter: (cell: any, row: any) => (
         <span>
           {/* {new Intl.DateTimeFormat('en-GB').format(new Date(row.planting.estimatedHarvestTime))} */}
           <DisplayDateTime input={row.planting.estimatedHarvestTime}/>
@@ -401,7 +364,7 @@ function ProductionPlan() {
     action: {
       dataField: 'action',
       text: `${intl.formatMessage({id: 'PURCHASE_ORDER.MASTER.TABLE.ACTION_COLUMN'})}`,
-      formatter: (cell: any, row: any, rowIndex: number) => (
+      formatter: (cell: any, row: any) => (
         <button
           className="btn btn-primary"
           onClick={() => {
@@ -441,7 +404,7 @@ function ProductionPlan() {
     seeding: {
       dataField: 'seeding.code',
       text: `${intl.formatMessage({id: 'PRODUCTION_PLAN.SEEDING_CODE'})}`,
-      formatter: (cell: any, row: any, rowIndex: number) => (
+      formatter: (cell: any, row: any) => (
         <Link to={`/production-plan/seeding/${row._id}`}>{row.seeding.code}</Link>
       ),
       ...SortColumn,
@@ -450,7 +413,7 @@ function ProductionPlan() {
     planting: {
       dataField: 'planting.code',
       text: `${intl.formatMessage({id: 'PRODUCTION_PLAN.PLANT_CODE'})}`,
-      formatter: (cell: any, row: any, rowIndex: number) => (
+      formatter: (cell: any, row: any) => (
         <Link to={{pathname: `/production-plan/planting/${row._id}`, state: row.planting}}>
           {row.planting.code}
         </Link>
@@ -468,7 +431,7 @@ function ProductionPlan() {
     createdAt: {
       dataField: 'createdAt',
       text: `${intl.formatMessage({id: 'PRODUCTION_PLAN.CREATE_DATE'})}`,
-      formatter: (cell: any, row: any, rowIndex: number) => (
+      formatter: (cell: any, row: any) => (
         <span>
           {/* {new Intl.DateTimeFormat('en-GB').format(new Date(row.createdAt))} */}
           <DisplayDateTime input={row.createdAt}/>
@@ -481,7 +444,7 @@ function ProductionPlan() {
     process: {
       dataField: 'process',
       text: `${intl.formatMessage({id: 'PRODUCTION_PLAN.STATUS'})}`,
-      formatter: (cell: any, row: any, rowIndex: number) => (
+      formatter: (cell: any, row: any) => (
         <span>{row.process === '7' ? 'Hoàn thành' : 'Chưa hoàn thành'}</span>
       ),
       ...SortColumn,
@@ -491,7 +454,7 @@ function ProductionPlan() {
     confirmationStatus: {
       dataField: 'confirmationStatus',
       text: `${intl.formatMessage({id: 'PRODUCTION_PLAN.APPROVE_STATUS'})}`,
-      formatter: (cell: any, row: any, rowIndex: number) => (
+      formatter: (cell: any, row: any) => (
         <span>
           {row.confirmationStatus === '1' && 'Chờ duyệt'}
           {row.confirmationStatus === '2' && 'Đã duyệt'}
@@ -505,7 +468,7 @@ function ProductionPlan() {
     action: {
       dataField: 'action',
       text: `${intl.formatMessage({id: 'PURCHASE_ORDER.MASTER.TABLE.ACTION_COLUMN'})}`,
-      formatter: (cell: any, row: any, rowIndex: number) => {
+      formatter: (cell: any, row: any) => {
         return row.confirmationStatus === '3' || row.confirmationStatus === '2' ? (
           // <button
           //   className="btn btn-primary pl-6 pr-6"
@@ -578,7 +541,7 @@ function ProductionPlan() {
     seeding: {
       dataField: 'seeding.code',
       text: `${intl.formatMessage({id: 'PRODUCTION_PLAN.SEEDING_CODE'})}`,
-      formatter: (cell: any, row: any, rowIndex: number) => (
+      formatter: (cell: any, row: any) => (
         <Link to={`/production-plan/seeding/${row._id}`}>{row.seeding.code}</Link>
       ),
       ...SortColumn,
@@ -587,7 +550,7 @@ function ProductionPlan() {
     planting: {
       dataField: 'planting.code',
       text: `${intl.formatMessage({id: 'PRODUCTION_PLAN.PLANT_CODE'})}`,
-      formatter: (cell: any, row: any, rowIndex: number) => (
+      formatter: (cell: any, row: any) => (
         <Link to={{pathname: `/production-plan/planting/${row._id}`, state: row.planting}}>
           {row.planting.code}
         </Link>
@@ -605,7 +568,7 @@ function ProductionPlan() {
     createdAt: {
       dataField: 'createdAt',
       text: `${intl.formatMessage({id: 'PRODUCTION_PLAN.CREATE_DATE'})}`,
-      formatter: (cell: any, row: any, rowIndex: number) => (
+      formatter: (cell: any, row: any) => (
         <span>
           {/* {new Intl.DateTimeFormat('en-GB').format(new Date(row.createdAt))} */}
           <DisplayDateTime input={row.createdAt}/>
@@ -618,7 +581,7 @@ function ProductionPlan() {
     process: {
       dataField: 'process',
       text: `${intl.formatMessage({id: 'PRODUCTION_PLAN.STATUS'})}`,
-      formatter: (cell: any, row: any, rowIndex: number) => (
+      formatter: (cell: any, row: any) => (
         <span>{row.process === '7' ? 'Hoàn thành' : 'Chưa hoàn thành'}</span>
       ),
       ...SortColumn,
@@ -891,12 +854,12 @@ function ProductionPlan() {
           if (entity) {
             setStep('2');
             approve(entity)
-              .then(res => {
+              .then(() => {
                 setCurrentTab('2');
                 notifySuccess('Phê duyệt thành công');
                 history.push('/production-plan');
               })
-              .catch(error => {
+              .catch(() => {
               });
           } else {
             notifySuccess('Không thể kết nối đến server. Vui lòng kiểm tra kết nối mạng hoặc thử lại sau');
@@ -913,7 +876,7 @@ function ProductionPlan() {
         onClick: (entity: any) => {
           if (entity) {
             refuse(entity)
-              .then(res => {
+              .then(() => {
                 // refreshData();
                 notifySuccess('Kế hoạch đã bị từ chối');
                 setPrevTab('1');
@@ -983,14 +946,14 @@ function ProductionPlan() {
     createdAt: {
       dataField: 'createdAt',
       text: `${intl.formatMessage({id: 'PRODUCTION_PLAN.VERSION_CREATEDATE'})}`,
-      formatter: (cell: any, row: any, rowIndex: number) => (<DisplayDateTime input={row.createdAt}/>),
+      formatter: (cell: any, row: any) => (<DisplayDateTime input={row.createdAt}/>),
       classes: 'text-center',
       headerClasses: 'text-center',
     },
     confirmationDate: {
       dataField: 'productPlan.confirmationDate',
       text: `${intl.formatMessage({id: 'PRODUCTION_PLAN.VERSION_APPROVEDATE'})}`,
-      formatter: (cell: any, row: any, rowIndex: number) => (
+      formatter: (cell: any, row: any) => (
         <span>
           {row.productPlan.confirmationDate ? (
             <DisplayDateTime input={row.productPlan.confirmationDate}/>
@@ -1005,7 +968,7 @@ function ProductionPlan() {
     action: {
       dataField: 'action',
       text: `${intl.formatMessage({id: 'PURCHASE_ORDER.MASTER.TABLE.ACTION_COLUMN'})}`,
-      formatter: (cell: any, row: any, rowIndex: number) => (
+      formatter: (cell: any, row: any) => (
         <span
           className="btn btn-icon btn-light btn-hover-primary btn-sm visibility"
           onClick={() => {
@@ -1906,7 +1869,7 @@ function ProductionPlan() {
           )}
         </Route>
         <Route exact path="/production-plan/plan-view/version/:code">
-          {({history, match}) => (
+          {({match}) => (
             <ProductionPlanDetail
               renderInfo={masterEntityDetailDialog2}
               setDetailEntity={setDetailEntity}

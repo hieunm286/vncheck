@@ -45,23 +45,16 @@ function ShippingAgency() {
   const history = useHistory();
   const {
     entities,
-    setEntities,
     deleteEntity,
     setDeleteEntity,
     editEntity,
-    setEditEntity,
-    createEntity,
-    setCreateEntity,
     selectedEntities,
     setSelectedEntities,
     detailEntity,
     setDetailEntity,
     showDelete,
     setShowDelete,
-    showEdit,
-    setShowEdit,
     showCreate,
-    setShowCreate,
     showDetail,
     setShowDetail,
     showDeleteMany,
@@ -71,18 +64,14 @@ function ShippingAgency() {
     filterProps,
     setFilterProps,
     total,
-    setTotal,
     loading,
-    setLoading,
     error,
-    setError,
     add,
     update,
     get,
     deleteMany,
     deleteFn,
     getAll,
-    refreshData,
   } = InitMasterProps<ShippingAgencyModel>({
     getServer: ShippingAgencyService.Get,
     countServer: ShippingAgencyService.Count,
@@ -159,7 +148,7 @@ function ShippingAgency() {
         name: {title: 'SHIPPING_AGENCY.DETAIL_DIALOG.SHIPPING.NAME'},
         address: {
           title: 'SHIPPING_AGENCY.DETAIL_DIALOG.SHIPPING.ADDRESS',
-          formatter: (address: any, row: any) => {
+          formatter: (address: any) => {
             const addressString = `${address.address}, ${address.district}, ${address.city}, ${address.state}`;
             return (<>{addressString}</>);
           }
@@ -549,7 +538,7 @@ function ShippingAgency() {
           />
         </Route>
         <Route path={`/shipping-agency/:code`}>
-          {({history, match}) => (
+          {({match}) => (
             <EntityCrudPage
               onModify={update}
               moduleName={moduleName}

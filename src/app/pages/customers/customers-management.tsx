@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useMemo } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import {
   DefaultPagination,
@@ -8,40 +8,23 @@ import {
 } from '../../common-library/common-consts/const';
 import { MasterHeader } from '../../common-library/common-components/master-header';
 import { MasterBody } from '../../common-library/common-components/master-body';
-import { ActionsColumnFormatter } from '../../common-library/common-components/actions-column-formatter';
-import { DeleteEntityDialog } from '../../common-library/common-components/delete-entity-dialog';
-import DeleteManyEntitiesDialog from '../../common-library/common-components/delete-many-entities-dialog';
-import { InitMasterProps, InitValues } from '../../common-library/helpers/common-function';
+import { InitMasterProps } from '../../common-library/helpers/common-function';
 import { Route, Switch, useHistory } from 'react-router-dom';
-import EntityCrudPage from '../../common-library/common-components/entity-crud-page';
-import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
-import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
-import * as Yup from 'yup';
 import 'react-toastify/dist/ReactToastify.css';
 import { MasterEntityDetailDialog } from '../../common-library/common-components/master-entity-detail-dialog';
 import {
-  ModifyForm,
-  ModifyInputGroup,
   RenderInfoDetail,
   SearchModel,
 } from '../../common-library/common-types/common-type';
-import { Spinner } from 'react-bootstrap';
 import { DetailImage } from '../../common-library/common-components/detail/detail-image';
 import * as CustomersService from './customers.service';
-import { CustomersModel, historyData, masterData } from './customers.model';
+import { CustomersModel, historyData } from './customers.model';
 import HistoryIcon from '@material-ui/icons/History';
-import { MasterTable } from '../../common-library/common-components/master-table';
-import { Card, CardBody, CardHeader } from '../../common-library/card';
-import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import CustomersManagementView from './customers-management-history';
 import Visibility from '@material-ui/icons/Visibility';
 
 const headerTitle = 'PRODUCT_TYPE.MASTER.HEADER.TITLE';
 const bodyTitle = 'CUSTOMERS_LISTS';
-const moduleName = 'PRODUCT_TYPE.MODULE_NAME';
-const deleteDialogTitle = 'PRODUCT_TYPE.DELETE_DIALOG.TITLE';
-const createTitle = 'PRODUCT_TYPE.CREATE.TITLE';
-const updateTitle = 'PRODUCT_TYPE.UPDATE.TITLE';
 
 const HistoryTitle = "LỊCH SỬ MUA HÀNG"
 const PurchaseOrderTitle = "ĐƠN HÀNG "
@@ -52,44 +35,16 @@ function CustomersManagement() {
   const history = useHistory();
   const {
     entities,
-    setEntities,
-    deleteEntity,
-    setDeleteEntity,
-    editEntity,
-    setEditEntity,
-    createEntity,
-    setCreateEntity,
-    selectedEntities,
-    setSelectedEntities,
     detailEntity,
-    setDetailEntity,
-    showDelete,
-    setShowDelete,
-    showEdit,
-    setShowEdit,
-    showCreate,
-    setShowCreate,
     showDetail,
     setShowDetail,
-    showDeleteMany,
-    setShowDeleteMany,
     paginationProps,
     setPaginationProps,
     filterProps,
     setFilterProps,
     total,
-    setTotal,
     loading,
-    setLoading,
-    error,
-    setError,
-    add,
-    update,
-    get,
-    deleteMany,
-    deleteFn,
     getAll,
-    refreshData,
   } = InitMasterProps<CustomersModel>({
     getServer: CustomersService.Get,
     countServer: CustomersService.Count,
@@ -148,7 +103,7 @@ function CustomersManagement() {
     createdAt: {
       dataField: 'createdAt',
       text: `${intl.formatMessage({ id: 'CUSTOMERS_CREATED_AT' })}`,
-      formatter: (cell: any, row: any, rowIndex: number) => (
+      formatter: (cell: any, row: any) => (
         <span>
           {row.createdAt
             ? new Intl.DateTimeFormat('en-GB').format(new Date(row.createdAt))
@@ -162,7 +117,7 @@ function CustomersManagement() {
     action: {
       dataField: 'action',
       text: `${intl.formatMessage({ id: 'CUSTOMERS_DETAIL_ACTION' })}`,
-      formatter: (cell: any, row: any, rowIndex: number) => (
+      formatter: (cell: any, row: any) => (
         <span
           className="btn btn-icon btn-light btn-hover-primary btn-sm visibility"
           onClick={() => {
@@ -193,7 +148,7 @@ function CustomersManagement() {
     code: {
       dataField: 'code',
       text: `ĐƠN HÀNG`,
-      formatter: (cell: any, row: any, rowIndex: number) => (
+      formatter: (cell: any, row: any) => (
         <span
           className="text-primary"
           style={{ fontWeight: 600, cursor: 'pointer' }}
@@ -207,7 +162,7 @@ function CustomersManagement() {
     createdAt: {
       dataField: 'createdAt',
       text: `${intl.formatMessage({ id: 'CUSTOMERS_BUY_DATE' })}`,
-      formatter: (cell: any, row: any, rowIndex: number) => (
+      formatter: (cell: any, row: any) => (
         <span>
           {row.createdAt
             ? new Intl.DateTimeFormat('en-GB').format(new Date(row.createdAt))
@@ -240,7 +195,7 @@ function CustomersManagement() {
     action: {
       dataField: 'action',
       text: 'action',
-      formatter: (cell: any, row: any, rowIndex: number) => (
+      formatter: (cell: any, row: any) => (
         <span
           className="btn btn-icon btn-light btn-hover-primary btn-sm visibility"
           onClick={() => {
