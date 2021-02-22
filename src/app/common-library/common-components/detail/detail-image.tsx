@@ -1,4 +1,4 @@
-import React, { Fragment, ReactElement, useCallback, useMemo, useRef, useState } from 'react';
+import React, { Fragment, ReactElement, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Image } from 'antd';
 import { Skeleton } from '@material-ui/lab';
 import { CloseOutlined } from '@material-ui/icons';
@@ -34,6 +34,7 @@ export const DetailImage = ({
   const container = useRef<any>(null);
   const intl = useIntl();
   const [showIndex, setShow] = useState(-1);
+  
   const Img = useCallback(
     ({ image, index }: any) => {
       return image && image[pathField] ? (
@@ -71,7 +72,7 @@ export const DetailImage = ({
       );
       // eslint-disable-next-line react-hooks/exhaustive-deps
     },
-    [className, height, pathField, width],
+    [className, height, pathField, width, images],
   );
 
   const _images = useMemo(() => (_.isArray(images) ? images : [images]), [images]);

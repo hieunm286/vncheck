@@ -52,6 +52,7 @@ function CustomImageUpload({
   }, [disabled, values]);
   
   const handleChange = useCallback((imageList: any[], addUpdateIndex: any, key: string) => {
+   
     const newArr = getNewImage(isArray ? field.value : [field.value ], imageList);
     const promise = getImageMetaList(newArr, key);
     promise.then((metadataList) => {
@@ -73,7 +74,16 @@ function CustomImageUpload({
       setFieldTouched(name, true);
     });
   }, [field.value]);
-  
+
+  const innerValue = useMemo(()=>{
+    console.log(111);
+    return field.value ? isArray ? field.value : [field.value] : []
+  }, [field.value, isArray]);
+
+  const onChange = useCallback((imageList: any, addUpdateIndex: any) => {
+    console.log(imageList);
+    handleChange(imageList, addUpdateIndex, name);
+  }, [handleChange,name]);
   return (
     <div className={mode === 'horizontal' ? 'row' : ''}>
       {_label && (
@@ -86,10 +96,8 @@ function CustomImageUpload({
       <div className={GetClassName(labelWidth, false)}>
         <ImageUploading
           multiple={maxNumber > 1}
-          value={field.value ? isArray ? field.value : [field.value] : []}
-          onChange={(imageList: any, addUpdateIndex: any) => {
-            handleChange(imageList, addUpdateIndex, name);
-          }}
+          value={innerValue}
+          onChange={onChange}
           maxNumber={maxNumber}
           dataURLKey={pathField}>
           {({
@@ -165,4 +173,4 @@ const getImageMetaList = (file: any, key: string): Promise<any[]> => {
 }
 
 
-export default React.memo(CustomImageUpload);
+export default CustomImageUpload;

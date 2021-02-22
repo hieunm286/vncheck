@@ -35,9 +35,7 @@ function FoodTraceability({ id }: { id?: string }) {
         setEntity(res.data);
       });
     }
-  }, [auth, id]);
 
-  React.useEffect(() => {
     if (auth?._id) {
       GetById(auth._id).then(res => {
         const userRole: string[] = res.data?.addedScope?.enable ?? []
@@ -62,9 +60,7 @@ function FoodTraceability({ id }: { id?: string }) {
       console.log(viewInfo)
       setViewDetail(viewInfo)
     }
-  }, [auth, id])
-
-  console.log(entity);
+  }, [auth, id]);
 
   return (
     <>
