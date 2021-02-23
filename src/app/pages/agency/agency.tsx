@@ -15,6 +15,7 @@ import {
 
 import {
   DefaultPagination,
+  HomePageURL,
   iconStyle,
   NormalColumn,
   SortColumn,
@@ -844,7 +845,7 @@ function AgencyPage() {
           <MasterBody
             title={bodyTitle}
             onCreate={() => {
-              history.push(`${window.location.pathname}/0000000`);
+              history.push(`${window.location.pathname}/new`);
             }}
             onDeleteMany={() => setShowDeleteMany(true)}
             selectedEntities={selectedEntities}
@@ -857,7 +858,7 @@ function AgencyPage() {
             setPaginationParams={setPaginationProps}
           />
         </Route>
-        <Route path="/agency/0000000">
+        <Route path="/agency/new">
           <EntityCrudPage
             moduleName={moduleName}
             onModify={add}
@@ -865,6 +866,7 @@ function AgencyPage() {
             actions={actions}
             entity={_init}
             validation={validationSchema}
+            homePageUrl={HomePageURL.agency}
           />
         </Route>
         <Route path="/agency/:code">
@@ -877,6 +879,7 @@ function AgencyPage() {
               formModel={updateForm}
               actions={actions}
               validation={validationSchema}
+              homePageUrl={HomePageURL.agency}
             />
           )}
         </Route>

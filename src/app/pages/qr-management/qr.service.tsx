@@ -34,10 +34,12 @@ export const GetAll: GetAllPropsServer<any> = ({
   });
 };
 export const QrTypeList = [{code: "1", name: "Sản phẩm"}, {code: "2", name: "Đóng gói"}];
-export const GetType = ({queryProps, paginationProps}: any): Promise<any> => {
+export const QrTypeStatus = [{code: "1", name: "Mới tạo"}, {code: "2", name: "Đã phân phối"}, {code: "3", name: "Đã sử dụng"}];
+
+export const GetType = (typeList: { code: string; name: string }[], {queryProps, paginationProps}: any): Promise<any> => {
   // console.log(queryProps);
   return new Promise((resolve, reject) => {
-    const totalData = QrTypeList.filter((val, index, arr) => {
+    const totalData = typeList.filter((val, index, arr) => {
       return Object.values(queryProps).some((query: any) => val.name.toLowerCase().indexOf(query.toLowerCase()) > -1);
     });
     const data = totalData.sort(GetCompareFunction({

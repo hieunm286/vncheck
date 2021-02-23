@@ -45,12 +45,13 @@ export const GetById = (id: string) => {
   return axios.get(`${API_URL}/${id}`).then(res => {
     if (_.isArray(res.data.scopes)) {
       let scopeArray = res.data.scopes;
-      scopeArray = [...scopeArray, ...res.data.addedScope.enable];
+      scopeArray = _.isEqual(scopeArray, res.data.addedScope.enable) ? [...scopeArray] : [...scopeArray, ...res.data.addedScope.enable];
       scopeArray = scopeArray.filter((s: string) => {
         return !res.data.addedScope.disable.some((d: string) => (s === d));
       });
       res.data.scopes = RoleArrayToObject(scopeArray);
     }
+    console.log(res)
     return res;
   });
 };

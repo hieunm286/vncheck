@@ -1,6 +1,6 @@
 import React, {useEffect, useMemo, useState} from 'react';
 import {useIntl} from 'react-intl';
-import {DefaultPagination, NormalColumn, SortColumn,} from '../../common-library/common-consts/const';
+import {DefaultPagination, HomePageURL, NormalColumn, SortColumn,} from '../../common-library/common-consts/const';
 import {MasterHeader} from '../../common-library/common-components/master-header';
 import {InitMasterProps} from '../../common-library/helpers/common-function';
 import {Link, Route, Switch, useHistory} from 'react-router-dom';
@@ -48,6 +48,25 @@ const harvestingProcess = 2,
   cleaningProcess = 4,
   packingProcess = 5,
   preservationProcess = 6;
+
+export const TAB_TYPE = {
+  waitingCreated: '0',
+  approve: '1',
+  following: '2',
+  refuse: '3'
+}
+
+export const CONFIRMATION_STATUS_TYPE = {
+  common: '0',
+  approve: '1',
+  following: '2',
+  refuse: '3'
+}
+
+export const STEP_TYPE = {
+  waitingCreated: '0',
+  following: '1'
+}
 
 
 const CheckDisabled = (values: any, currentProcess: string, targetProcess: number) => {
@@ -242,17 +261,17 @@ function ProductionPlan() {
     updateServer: ProductionPlanService.Update,
   });
   
-  const [currentTab, setCurrentTab] = useState<string | undefined>('0');
+  const [currentTab, setCurrentTab] = useState<string | undefined>(TAB_TYPE.waitingCreated);
   
-  const [] = useState<string>('');
+  // const [] = useState<string>('');
   
-  const [] = useState<boolean>(false);
+  // const [] = useState<boolean>(false);
   
   const [tagData] = useState([]);
   
   const [, setSubmit] = useState(false);
   
-  const [step, setStep] = useState('0');
+  const [step, setStep] = useState(STEP_TYPE.waitingCreated);
   const [totalVersion] = useState(0);
   const [userData, setUserData] = useState<any>();
   
@@ -272,10 +291,10 @@ function ProductionPlan() {
     }),
     shallowEqual,
   );
-  const [prevTab, setPrevTab] = useState<string | undefined>('0');
+  const [prevTab, setPrevTab] = useState<string | undefined>(TAB_TYPE.waitingCreated);
   const [trigger, setTrigger] = useState<boolean>(false);
   useEffect(() => {
-    if (currentTab === '0') {
+    if (currentTab === TAB_TYPE.waitingCreated) {
       const t =
         prevTab !== currentTab && paginationProps.sortBy === 'updatedAt'
           ? {
@@ -283,23 +302,23 @@ function ProductionPlan() {
             sortType: 'desc',
           }
           : paginationProps;
-      getAll({...(filterProps as any), step: '0', isMaster: true, confirmationStatus: '0', ...t});
-    } else if (currentTab === '1') {
+      getAll({...(filterProps as any), step: STEP_TYPE.waitingCreated, isMaster: true, confirmationStatus: CONFIRMATION_STATUS_TYPE.common, ...t});
+    } else if (currentTab === TAB_TYPE.approve) {
       const t =
         // {sortBy: 'updatedAt', sortType: 'desc'}
         prevTab !== currentTab ? {sortBy: 'updatedAt', sortType: 'desc'} : paginationProps;
-      getAll({...(filterProps as any), step: '0', confirmationStatus: '1', ...t});
-    } else if (currentTab === '2') {
+      getAll({...(filterProps as any), step: STEP_TYPE.waitingCreated, confirmationStatus: CONFIRMATION_STATUS_TYPE.approve, ...t});
+    } else if (currentTab === TAB_TYPE.following) {
       const t =
         // {sortBy: 'updatedAt', sortType: 'desc'}
         prevTab !== currentTab ? {sortBy: 'updatedAt', sortType: 'desc'} : paginationProps;
-      getAll({...(filterProps as any), step: '1', confirmationStatus: '2', isMaster: true, ...t});
+      getAll({...(filterProps as any), step: STEP_TYPE.following, confirmationStatus: CONFIRMATION_STATUS_TYPE.following, isMaster: true, ...t});
       // getAll({...(filterProps as any), step: '0', confirmationStatus: '1,3', ...t});
-    } else if (currentTab === '3') {
+    } else if (currentTab === TAB_TYPE.refuse) {
       const t =
         // {sortBy: 'updatedAt', sortType: 'desc'}
         prevTab !== currentTab ? {sortBy: 'updatedAt', sortType: 'desc'} : paginationProps;
-      getAll({...(filterProps as any), step: '0', confirmationStatus: '3', isMaster: false, ...t});
+      getAll({...(filterProps as any), step: STEP_TYPE.waitingCreated, confirmationStatus: CONFIRMATION_STATUS_TYPE.refuse, isMaster: false, ...t});
       // getAll({...(filterProps as any), step: '0', confirmationStatus: '1,3', ...t});
     }
     setPrevTab(currentTab);
@@ -456,9 +475,9 @@ function ProductionPlan() {
       text: `${intl.formatMessage({id: 'PRODUCTION_PLAN.APPROVE_STATUS'})}`,
       formatter: (cell: any, row: any) => (
         <span>
-          {row.confirmationStatus === '1' && 'Chờ duyệt'}
-          {row.confirmationStatus === '2' && 'Đã duyệt'}
-          {row.confirmationStatus === '3' && 'Từ chối'}
+          {row.confirmationStatus === CONFIRMATION_STATUS_TYPE.approve && 'Chờ duyệt'}
+          {row.confirmationStatus === CONFIRMATION_STATUS_TYPE.following && 'Đã duyệt'}
+          {row.confirmationStatus === CONFIRMATION_STATUS_TYPE.refuse && 'Từ chối'}
         </span>
       ),
       ...SortColumn,
@@ -469,7 +488,7 @@ function ProductionPlan() {
       dataField: 'action',
       text: `${intl.formatMessage({id: 'PURCHASE_ORDER.MASTER.TABLE.ACTION_COLUMN'})}`,
       formatter: (cell: any, row: any) => {
-        return row.confirmationStatus === '3' || row.confirmationStatus === '2' ? (
+        return row.confirmationStatus === CONFIRMATION_STATUS_TYPE.refuse || row.confirmationStatus === CONFIRMATION_STATUS_TYPE.following ? (
           // <button
           //   className="btn btn-primary pl-6 pr-6"
           //   onClick={() => {
@@ -686,8 +705,8 @@ function ProductionPlan() {
         // icon: <SaveOutlinedIcon />,
         onClick: () => {
           // setNoticeModal(true);
-          setStep('1');
-          setPrevTab('0');
+          setStep(STEP_TYPE.following);
+          setPrevTab(TAB_TYPE.waitingCreated);
           setSubmit(true);
           // setCurrentTab('1')
         },
@@ -701,7 +720,7 @@ function ProductionPlan() {
         // icon: <CancelOutlinedIcon />,
         onClick: () => {
           // setNoticeModal(true);
-          setStep('0');
+          setStep(STEP_TYPE.waitingCreated);
           setSubmit(false);
         },
       },
@@ -728,7 +747,7 @@ function ProductionPlan() {
         // icon: <CancelOutlinedIcon />,
         onClick: () => {
           // setNoticeModal(true);
-          setStep('0');
+          setStep(STEP_TYPE.waitingCreated);
           setSubmit(false);
           // setTrigger(!trigger)
         },
@@ -776,8 +795,8 @@ function ProductionPlan() {
         onClick: () => {
           // setNoticeModal(true);
   
-          setStep('1');
-          setPrevTab('2');
+          setStep(STEP_TYPE.following);
+          setPrevTab(TAB_TYPE.following);
           setSubmit(true);
           // setCurrentTab('1')
         },
@@ -813,12 +832,12 @@ function ProductionPlan() {
   };
   
   const sendRequest = (entity: any) => {
-    const data = {confirmationStatus: '1', _id: entity._id};
+    const data = {confirmationStatus: CONFIRMATION_STATUS_TYPE.approve, _id: entity._id};
     return ProductionPlanService.Approve(entity, data);
   };
   
   const approve = (entity: any) => {
-    const data = {confirmationStatus: '2', _id: entity._id};
+    const data = {confirmationStatus: CONFIRMATION_STATUS_TYPE.following, _id: entity._id};
     return ProductionPlanService.Approve(entity, data);
   };
   
@@ -829,7 +848,7 @@ function ProductionPlan() {
   };
   
   const refuse = (entity: any) => {
-    const data = {confirmationStatus: '3', _id: entity._id};
+    const data = {confirmationStatus: CONFIRMATION_STATUS_TYPE.refuse, _id: entity._id};
     return ProductionPlanService.Approve(entity, data);
   };
   
@@ -855,7 +874,7 @@ function ProductionPlan() {
             setStep('2');
             approve(entity)
               .then(() => {
-                setCurrentTab('2');
+                setCurrentTab(TAB_TYPE.following);
                 notifySuccess('Phê duyệt thành công');
                 history.push('/production-plan');
               })
@@ -879,13 +898,13 @@ function ProductionPlan() {
               .then(() => {
                 // refreshData();
                 notifySuccess('Kế hoạch đã bị từ chối');
-                setPrevTab('1');
+                setPrevTab(TAB_TYPE.approve);
                 if (entity.isMaster === true) {
-                  setCurrentTab('0');
+                  setCurrentTab(TAB_TYPE.waitingCreated);
                 } else {
-                  setCurrentTab('3');
+                  setCurrentTab(TAB_TYPE.refuse);
                 }
-                history.push('/production-plan');
+                history.push(HomePageURL.productionPlan);
               })
               .catch(error => {
                 console.log(error);
@@ -908,7 +927,7 @@ function ProductionPlan() {
           // });
           if (entity) {
             history.push({
-              pathname: '/production-plan/' + entity._id + '/new',
+              pathname: `${HomePageURL.productionPlan}/` + entity._id + '/new',
               state: '5',
             });
           } else {
@@ -1794,9 +1813,9 @@ function ProductionPlan() {
                 formModel={updateForm}
                 allFormField={allFormField}
                 allFormButton={
-                  editEntity?.confirmationStatus === '1'
+                  editEntity?.confirmationStatus === CONFIRMATION_STATUS_TYPE.approve
                     ? adminEditFormButton
-                    : editEntity?.confirmationStatus === '2'
+                    : editEntity?.confirmationStatus === CONFIRMATION_STATUS_TYPE.following
                     ? allFormButton2
                     : allFormButton
                 }
@@ -1898,8 +1917,8 @@ function ProductionPlan() {
                 setShowDetail(false);
               }}
               allFormButton={
-                detailEntity?.confirmationStatus !== '2' &&
-                detailEntity?.confirmationStatus !== '3' &&
+                detailEntity?.confirmationStatus !== CONFIRMATION_STATUS_TYPE.following &&
+                detailEntity?.confirmationStatus !== CONFIRMATION_STATUS_TYPE.refuse &&
                 adminAllFormButton
               }
               header={`CHI TIẾT KẾ HOẠCH`}
@@ -1924,7 +1943,7 @@ function ProductionPlan() {
   
               setFilterProps({...cvValue});
             }}
-            searchModel={currentTab == '0' ? productPlanSearchModel1 : productPlanSearchModel2}
+            searchModel={currentTab == TAB_TYPE.waitingCreated ? productPlanSearchModel1 : productPlanSearchModel2}
           />
           <ProductionPlanBody
             tabData={TabData}

@@ -1,6 +1,6 @@
 import React, {Fragment, useEffect, useMemo, useState} from 'react';
 import {useIntl} from 'react-intl';
-import {DefaultPagination, iconStyle, NormalColumn, SortColumn} from '../../common-library/common-consts/const';
+import {DefaultPagination, HomePageURL, iconStyle, NormalColumn, SortColumn} from '../../common-library/common-consts/const';
 import {MasterHeader} from '../../common-library/common-components/master-header';
 import {
   ActionsColumnFormatter,
@@ -602,7 +602,7 @@ function User() {
           label: 'Thêm mới',
           onClick: () => {
             setCreateEntity(initCreateValues);
-            history.push(`${window.location.pathname}/0000000`);
+            history.push(`${window.location.pathname}/new`);
           }
         }
       ]
@@ -623,7 +623,7 @@ function User() {
   return (
     <Fragment>
       <Switch>
-        <Route path="/account/user/0000000">
+        <Route path="/account/user/new">
           <EntityCrudPage
             moduleName={moduleName}
             onModify={add}
@@ -631,6 +631,7 @@ function User() {
             entity={createEntity}
             actions={actions}
             validation={validationSchema}
+            homePageUrl={HomePageURL.user}
           />
         </Route>
         <Route path={`/account/user/:code`}>
@@ -643,6 +644,7 @@ function User() {
               formModel={updateForm}
               actions={actions}
               validation={validationSchema}
+              homePageUrl={HomePageURL.user}
             />
           )}
         </Route>

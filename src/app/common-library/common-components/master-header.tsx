@@ -8,6 +8,7 @@ import {ToAbsoluteUrl} from '../helpers/assets-helpers';
 import {SearchModel} from '../common-types/common-type';
 // import InfiniteScroll from 'react-infinite-scroll-component';
 import {iconStyle} from '../common-consts/const';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 
 import './master-header.css';
 import {
@@ -25,12 +26,14 @@ export function MasterHeader<T>({
                                   searchModel,
                                   initValue = {},
                                   value,
+                                  onClickBack
                                 }: {
   searchModel: SearchModel;
   title: string;
   initValue?: any;
   value?: any;
   onSearch?: (data: any) => void;
+  onClickBack?: () => void;
 }) {
   const intl = useIntl();
   const defaultClassName = "col-xxl-2 col-md-3 master-header-search-input-margin";
@@ -39,7 +42,12 @@ export function MasterHeader<T>({
   };
   return (
     <Card className={'master-header-card'}>
-      <CardHeader title={intl.formatMessage({id: title}).toUpperCase()}/>
+      <CardHeader title={onClickBack ? <span
+                            onClick={onClickBack}
+                            className={'cursor-pointer text-primary font-weight-boldest'}>
+                            <ArrowBackIosIcon/>
+                            {intl.formatMessage({id: title}).toUpperCase()}
+                          </span> : intl.formatMessage({id: title}).toUpperCase()}/>
       <CardBody>
         <Formik
           initialValues={initValue}

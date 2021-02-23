@@ -22,6 +22,7 @@ import {
   validField,
   validNested,
 } from './defined/crud-helped';
+import { CONFIRMATION_STATUS_TYPE, STEP_TYPE, TAB_TYPE } from './production-plan';
 
 interface Prop {
   title: string;
@@ -310,9 +311,9 @@ function ProductionPlanCrud({
               console.log(values);
               console.log(updateValue);
 
-              if (step === '0') {
+              if (step === STEP_TYPE.waitingCreated) {
                 submitHandle(updateValue, values, { setSubmitting, setFieldValue, resetForm });
-              } else if (step === '1' && entityForEdit?.confirmationStatus === '0') {
+              } else if (step === STEP_TYPE.following && entityForEdit?.confirmationStatus === CONFIRMATION_STATUS_TYPE.common) {
                 // if (!updateValue.step || updateValue.step !== '1') {
                 //   updateValue.step = '1';
                 // }
@@ -324,7 +325,7 @@ function ProductionPlanCrud({
                         setErrorMsg(undefined);
                         // refreshData();
                         if (setCurrentTab) {
-                          setCurrentTab('1');
+                          setCurrentTab(TAB_TYPE.approve);
                         }
                         notifySuccess('Gửi duyệt thành công');
                         history.push(homePage || GetHomePage(window.location.pathname));
@@ -345,16 +346,16 @@ function ProductionPlanCrud({
                     // resetForm(entityForEdit);
                   });
               } else if (
-                step === '1' &&
-                (entityForEdit?.confirmationStatus === '1' ||
-                  entityForEdit?.confirmationStatus === '2')
+                step === STEP_TYPE.following &&
+                (entityForEdit?.confirmationStatus === CONFIRMATION_STATUS_TYPE.approve ||
+                  entityForEdit?.confirmationStatus === CONFIRMATION_STATUS_TYPE.following)
               ) {
                 approveFollow(updateValue)
                   .then(res => {
                     setErrorMsg(undefined);
                     // refreshData();
                     if (setCurrentTab) {
-                      setCurrentTab('1');
+                      setCurrentTab(TAB_TYPE.approve);
                     }
                     notifySuccess('Gửi duyệt thành công');
                     history.push(homePage || GetHomePage(window.location.pathname));

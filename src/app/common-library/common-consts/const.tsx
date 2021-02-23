@@ -36,3 +36,20 @@ export const NormalColumn = {
 };
 
 export const StatusValue = 1;
+
+export const HomePageURL = {
+  home: '/dashboard',
+  user: '/account/user',
+  role: '/account/role',
+  managementUnit: '/account/organization',
+  customers: '/customers-management',
+  landLot: '/land-lot',
+  species: '/species',
+  packaging: '/packaging',
+  multilevelSale: '/multilevel-sale',
+  agency: '/agency',
+  shippingAgency: '/shipping-agency',
+  productionPlan: '/production-plan',
+  productionManagement: '/production-management',
+  qrCode: '/qr'
+}

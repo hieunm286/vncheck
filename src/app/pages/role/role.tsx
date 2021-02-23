@@ -8,6 +8,7 @@ import {
 import { MasterHeader } from '../../common-library/common-components/master-header';
 import {
   DefaultPagination,
+  HomePageURL,
   NormalColumn,
   SortColumn,
 } from '../../common-library/common-consts/const';
@@ -642,6 +643,7 @@ export default function ManagementOrganization() {
             actions={actions}
             validation={RoleSchema}
             loading={loading}
+            homePageUrl={HomePageURL.role}
           />
         </Route>
         <Route path="/account/role/:code">
@@ -656,6 +658,7 @@ export default function ManagementOrganization() {
               actions={actions}
               validation={RoleSchema}
               loading={loading}
+              homePageUrl={HomePageURL.role}
             />
           )}
         </Route>

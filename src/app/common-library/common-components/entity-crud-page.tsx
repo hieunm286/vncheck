@@ -21,7 +21,8 @@ function EntityCrudPage({
                           validation,
                           loading,
                           mode,
-                          setEditEntity
+                          setEditEntity,
+                          homePageUrl
                         }: {
   // modifyModel: ModifyModel;
   moduleName?: string;
@@ -36,6 +37,7 @@ function EntityCrudPage({
   autoFill?: any;
   loading?: boolean;
   setEditEntity?: (entity: any) => void;
+  homePageUrl?: string
 }) {
   const intl = useIntl();
   const history = useHistory();
@@ -72,7 +74,7 @@ function EntityCrudPage({
         onSubmit={(values, {setSubmitting, validateForm}) => {
           console.log(values)
           onModify(values).then(() => {
-            history.push(GetHomePage(window.location.pathname))
+            history.push(homePageUrl ?? GetHomePage(window.location.pathname))
           }).catch((err) => {
             // setSubmitting(false);
           });

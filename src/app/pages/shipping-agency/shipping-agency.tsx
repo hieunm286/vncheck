@@ -1,6 +1,6 @@
 import React, {Fragment, useCallback, useEffect, useMemo, useState} from 'react';
 import {useIntl} from 'react-intl';
-import {DefaultPagination, iconStyle, NormalColumn, SortColumn} from '../../common-library/common-consts/const';
+import {DefaultPagination, HomePageURL, iconStyle, NormalColumn, SortColumn} from '../../common-library/common-consts/const';
 import {MasterHeader} from '../../common-library/common-components/master-header';
 import {MasterBody} from '../../common-library/common-components/master-body';
 import {
@@ -527,7 +527,7 @@ function ShippingAgency() {
   return (
     <Fragment>
       <Switch>
-        <Route path="/shipping-agency/0000000">
+        <Route path="/shipping-agency/new">
           <EntityCrudPage
             moduleName={moduleName}
             onModify={add}
@@ -535,6 +535,7 @@ function ShippingAgency() {
             entity={_init}
             actions={actions}
             validation={validationSchema}
+            homePageUrl={HomePageURL.shippingAgency}
           />
         </Route>
         <Route path={`/shipping-agency/:code`}>
@@ -548,6 +549,7 @@ function ShippingAgency() {
               formModel={updateForm}
               actions={actions}
               validation={validationSchema}
+              homePageUrl={HomePageURL.shippingAgency}
             />
           )}
         </Route>
@@ -563,7 +565,7 @@ function ShippingAgency() {
           <MasterBody
             title={tableTitle}
             onCreate={() => {
-              history.push(`${window.location.pathname}/0000000`);
+              history.push(`${window.location.pathname}/new`);
             }}
             onDeleteMany={() => setShowDeleteMany(true)}
             selectedEntities={selectedEntities}

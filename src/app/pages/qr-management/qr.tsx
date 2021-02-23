@@ -3,7 +3,7 @@ import {useIntl} from 'react-intl';
 import {Link, Route, Switch} from 'react-router-dom';
 import * as UserService from '../user/user.service';
 import {InitMasterProps} from "../../common-library/helpers/common-function";
-import {Count, Create, Delete, DeleteMany, Get, GetAll, GetType, QrTypeList, Update} from './qr.service';
+import {Count, Create, Delete, DeleteMany, Get, GetAll, GetType, QrTypeList, Update, QrTypeStatus} from './qr.service';
 import {QrModel} from './qr.model';
 import {MasterHeader} from "../../common-library/common-components/master-header";
 import {MasterBody} from "../../common-library/common-components/master-body";
@@ -60,6 +60,16 @@ const createTitle = 'QR.CREATE.HEADER';
 // const updateTitle = 'PURCHASE_ORDER.UPDATE.TITLE';
 const bodyTitle = 'QR.MASTER.BODY.TITLE';
 
+const QR_PRODUCT_TYPE = {
+  root: 1,
+  landlot: 2
+}
+
+const TAB_QR = {
+  product: '0',
+  packaging: '1'
+}
+
 
 function QrPage() {
   // const history = useHistory();
@@ -75,6 +85,10 @@ function QrPage() {
     setFilterProps,
     total,
     loading,
+    setShowDetail,
+    setDetailEntity,
+    setDeleteEntity,
+    setShowDelete,
     add, get, getAll, refreshData,
   } = InitMasterProps<QrModel>({
     getServer: Get,
@@ -88,18 +102,110 @@ function QrPage() {
 
   const [showImage, setShowImage] = useState<boolean>(false);
   const [logisticImageDetail, setLogisticImage] = useState<any>(null);
-  const [currentTab, setCurrentTab] = useState<string | undefined>('0');
+  const [currentTab, setCurrentTab] = useState<string | undefined>(TAB_QR.product);
   const [trigger, setTrigger] = useState<boolean>(false);
+  const [QrProductType, setQrProductType] = useState(QR_PRODUCT_TYPE.root)
+  const [searchForm, setSearchForm] = useState<SearchModel>()
   
   useEffect(() => {
     getAll(filterProps);
   }, [paginationProps, filterProps, trigger, currentTab]);
   
   
-
+  useEffect(() => {
+    setSearchForm(rootSearchModel)
+  }, [])
   
   const columns = useMemo(() => {
     return {
+      order: {
+        dataField: 'order',
+        text: 'STT',
+        formatter: (cell: any, row: any, rowIndex: number) => (
+          <p>{rowIndex + 1 + ((paginationProps.page ?? 0) - 1) * (paginationProps.limit ?? 0)}</p>
+        ),
+        classes: 'mr-3',
+        style: { paddingTop: 20 },
+      },
+      landlot: {
+        dataField: 'landlot',
+        text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.LANDLOT'})}`,
+        ...SortColumn,
+        align: 'center',
+      },
+      'createdBy': {
+        dataField: 'createdBy.fullName',
+        text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.CREATED_BY'})}`,
+        ...SortColumn,
+        align: 'center',
+        formatter: (cell: any, row: any) => (row?.createdBy ?
+          <DisplayPersonName {...row.createdBy}/> : (<>{intl.formatMessage({id: 'NO_INFORMATION'})}</>)),
+      },
+      createdAt: {
+        dataField: 'createdAt',
+        text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.CREATED_DATE'})}`,
+        ...SortColumn,
+        formatter: (input: any) => (<DisplayDate input={input}/>),
+        align: 'center',
+      },
+      status: {
+        dataField: 'status',
+        text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.STATUS'})}`,
+        ...SortColumn,
+        align: 'center',
+      },
+      distributionTime: {
+        dataField: 'distributionTime',
+        text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.DISTRIBUTION_TIME'})}`,
+        ...SortColumn,
+        formatter: (input: any) => (<DisplayDateTime input={input}/>),
+        align: 'center',
+      },
+      expiry: {
+        dataField: 'expiry',
+        text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.EXPIRY'})}`,
+        ...SortColumn,
+        formatter: (input: any) => (<DisplayDateTime input={input}/>),
+        align: 'center',
+      },
+      distributionLocation: {
+        dataField: 'distributionLocation',
+        text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.DISTRIBUTION_LOCATION'})}`,
+        ...SortColumn,
+        align: 'center',
+      },
+      action: {
+        dataField: 'action',
+        text: `${intl.formatMessage({id: 'SHIPPING_AGENCY.MASTER.TABLE.ACTION_COLUMN'})}`,
+        formatter: ActionsColumnFormatter,
+        formatExtraData: {
+          intl,
+          onShowDetail: (entity: QrModel) => {
+            get(entity);
+            setDetailEntity(entity);
+            setQrProductType(QR_PRODUCT_TYPE.landlot)
+            setPaginationProps(DefaultPagination)
+          },
+          onEdit: (entity: QrModel) => {
+          },
+        },
+        ...NormalColumn,
+        style: {minWidth: '130px'},
+      },
+    }
+  }, []);
+
+  const landLotColumn = useMemo(() => ({
+    
+      order: {
+        dataField: 'order',
+        text: 'STT',
+        formatter: (cell: any, row: any, rowIndex: number) => (
+          <p>{rowIndex + 1 + ((paginationProps.page ?? 0) - 1) * (paginationProps.limit ?? 0)}</p>
+        ),
+        classes: 'mr-3',
+        style: { paddingTop: 20 },
+      },
       _id: {
         dataField: '_id',
         text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.CODE'})}`,
@@ -148,8 +254,59 @@ function QrPage() {
           (<>{QrTypeList.find(t => t.code === cell)?.name}</>),
         align: 'center',
       },
-    }
-  }, []);
+      action: {
+        dataField: 'action',
+        text: `${intl.formatMessage({id: 'SHIPPING_AGENCY.MASTER.TABLE.ACTION_COLUMN'})}`,
+        formatter: ActionsColumnFormatter,
+        formatExtraData: {
+          intl,
+          onShowDetail: (entity: QrModel) => {
+            get(entity);
+            setShowDetail(true);
+            setDetailEntity(entity);
+          },
+        },
+        ...NormalColumn,
+        style: {minWidth: '130px'},
+      },
+    
+  }), [])
+
+  const rootSearchModel: SearchModel = {
+    landlot: {
+      type: 'string',
+      label: 'QR.MASTER.TABLE.LANDLOT',
+    },
+    createdBy: {
+      type: 'search-select',
+      label: 'QR.MASTER.TABLE.CREATED_BY',
+      selectField: '_id',
+      keyField: 'fullName',
+      onSearch: UserService.GetAll,
+    },
+    __type: {
+      type: 'search-select',
+      label: 'QR.MASTER.TABLE.STATUS',
+      onSearch: ({queryProps, paginationProps}) => GetType(QrTypeStatus, {queryProps, paginationProps}),
+      keyField: 'name',
+      selectField: 'code',
+      onChange: (e, {setFieldValue}) => {
+        setFieldValue('type', e?.code);
+      }
+    },
+    createdAt: {
+      type: 'date-time',
+      label: 'QR.MASTER.TABLE.CREATED_DATE',
+    },
+    distributionTime: {
+      type: 'date-time',
+      label: 'QR.MASTER.TABLE.DISTRIBUTION_TIME',
+    },
+    distributionLocation: {
+      type: 'date-time',
+      label: 'QR.MASTER.TABLE.DISTRIBUTION_LOCATION',
+    },
+  }
   
   
   const searchModel: SearchModel = {
@@ -182,7 +339,7 @@ function QrPage() {
     __type: {
       type: 'search-select',
       label: 'QR.MASTER.SEARCH.CODE_TYPE',
-      onSearch: GetType,
+      onSearch: ({queryProps, paginationProps}) => GetType(QrTypeList, {queryProps, paginationProps}),
       keyField: 'name',
       selectField: 'code',
       onChange: (e, {setFieldValue}) => {
@@ -190,6 +347,24 @@ function QrPage() {
       }
     },
   };
+
+  const packagingSearchModel: SearchModel = {
+    '_id': {
+      type: 'string',
+      label: 'QR.MASTER.SEARCH.CODE',
+    },
+    createdBy: {
+      type: 'search-select',
+      label: 'QR.MASTER.SEARCH.CREATED_BY',
+      selectField: '_id',
+      keyField: 'fullName',
+      onSearch: UserService.GetAll,
+    },
+    createdAt: {
+      type: 'date-time',
+      label: 'QR.MASTER.SEARCH.CREATED_DATE',
+    },
+  }
   
   const shippingInfoColumns: MasterBodyColumns = [
     {
@@ -487,7 +662,7 @@ function QrPage() {
         type: {
           required: true,
           _type: 'search-select',
-          onSearch: GetType,
+          onSearch: ({queryProps, paginationProps}: any) => GetType(QrTypeList, {queryProps, paginationProps}),
           keyField: 'name',
           selectField: 'code',
           label: 'QR.EDIT.CODE_TYPE',
@@ -546,23 +721,23 @@ function QrPage() {
     });
   }, [matchId]);
 
-  const TabData = [
+  const TabData = useMemo(() =>  ([
     {
       tabTitle: 'QR Sản phẩm',
       entities: entities,
-      columns: columns,
+      columns: QrProductType === QR_PRODUCT_TYPE.root ? columns : landLotColumn,
       total: total,
       loading: loading,
       paginationParams: paginationProps,
       setPaginationParams: setPaginationProps,
-      button: [
+      button: QrProductType === QR_PRODUCT_TYPE.root ? [
         {
           label: 'Thêm mới',
           onClick: () => {
             setShowCreate(true);
           }
         }
-      ]
+      ] : []
     },
     {
       tabTitle: 'QR Đóng gói',
@@ -581,7 +756,7 @@ function QrPage() {
         }
       ]
     },
-  ];
+  ]), [QrProductType, columns, entities, landLotColumn, loading, paginationProps, setPaginationProps, setShowCreate, total]);
   
   return (
     <Fragment>
@@ -626,7 +801,8 @@ function QrPage() {
               setPaginationProps(DefaultPagination)
               setFilterProps(value)
             }}
-            searchModel={searchModel}
+            onClickBack={currentTab === TAB_QR.product && QrProductType === QR_PRODUCT_TYPE.landlot ? () => setQrProductType(QR_PRODUCT_TYPE.root) : undefined}
+            searchModel={currentTab === TAB_QR.packaging ? packagingSearchModel : QrProductType === QR_PRODUCT_TYPE.root ? rootSearchModel : searchModel}
           />
           <div className="user-body">
             <UserBody
