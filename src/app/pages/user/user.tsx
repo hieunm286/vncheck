@@ -97,7 +97,7 @@ function User() {
 
   const [currentTab, setCurrentTab] = useState<string | undefined>(USER_TAB_TYPE.employee);
   const [trigger, setTrigger] = useState<boolean>(false);
-  
+  const [resetForm, setResetForm] = useState(() => () => {})
   useEffect(() => {
     if (currentTab === USER_TAB_TYPE.employee) {
       getAll(filterProps);
@@ -347,6 +347,61 @@ function User() {
       label: 'USER.MASTER.SEARCH.PHONE',
     },
   }), [managementUnit, currentTab]);
+  const searchModel2: SearchModel = useMemo(() => ({
+    managementUnit: {
+      type: 'search-select',
+      label: 'USER.MASTER.SEARCH.ORGANIZATION',
+      keyField: 'name',
+      disabled: currentTab === '1',
+      onSearch: ManagementUnitService.getAll,
+      onChange: (value: any, {setFieldValue}: any) => {
+        console.log(value)
+        if (managementUnit != value) {
+          setFieldValue('role', null);
+        }
+        setManagementUnit(value);
+      },
+    },
+    // role: {
+    //   type: 'search-select',
+    //   label: 'USER.MASTER.SEARCH.ROLE',
+    //   keyField: 'name',
+    //   onSearch: ({queryProps, paginationProps}: any, values: any): Promise<any> => {
+    //     return RoleService.GetAll({
+    //       queryProps: {...queryProps, managementUnit: {...values?.managementUnit}},
+    //       paginationProps
+    //     })
+    //   },
+    //   disabled: (values: any) => {
+    //     return !(values.managementUnit);
+    //   },
+    // },
+    code: {
+      type: 'string',
+      label: 'USER.MASTER.SEARCH.CODE',
+      disabled: currentTab === '1',
+    },
+    fullName: {
+      type: 'string',
+      label: 'USER.MASTER.SEARCH.FULL_NAME',
+    },
+    agency: {
+      keyField: 'name',
+      type: 'search-select',
+      onSearch: AgencyService.GetAll,
+      label: 'USER.MASTER.SEARCH.WORK_AT',
+      disabled: currentTab === '1',
+    },
+    email: {
+      type: 'string',
+      label: 'USER.MASTER.SEARCH.EMAIL',
+      disabled: currentTab === '1',
+    },
+    username: {
+      type: 'string-number',
+      label: 'USER.MASTER.SEARCH.PHONE',
+    },
+  }), [managementUnit, currentTab]);
   const group1 = useMemo((): ModifyInputGroup => ({
     _subTitle: 'USER.MODIFY.DETAIL_INFO',
     _className: 'col-6 pr-xl-15 pr-md-10 pr-5',
@@ -585,6 +640,16 @@ function User() {
       }
     }
   }), [])
+
+  const onResetForm = (resetForm: any) => {
+    setResetForm(() => resetForm)
+  }
+
+  
+  useEffect(() => {
+    resetForm()
+  }, [currentTab])
+
   
   const createForm = useMemo((): ModifyForm => ({
     _header: createTitle,
@@ -706,7 +771,8 @@ function User() {
               setPaginationProps(DefaultPagination)
               setFilterProps(value)
             }}
-            searchModel={searchModel}
+            onResetForm={onResetForm}
+            searchModel={currentTab === USER_TAB_TYPE.employee ? searchModel : searchModel2}
           />
           <div className="user-body">
             <UserBody 

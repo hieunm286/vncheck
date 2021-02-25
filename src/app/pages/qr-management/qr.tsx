@@ -788,7 +788,7 @@ function QrPage() {
     }
   }), [editEntity])
 
-  const initCreateProductValues = useMemo((): any => ({ ...InitValues(createForm), type: currentTab === TAB_QR.product ? QrTypeList[2] : QrTypeList[1] , total: 3}), [
+  const initCreateProductValues = useMemo((): any => ({ ...InitValues(createForm), type: currentTab === TAB_QR.product ? QrTypeList[2] : QrTypeList[1] , total: 10000}), [
     createForm,
     currentTab
   ]);

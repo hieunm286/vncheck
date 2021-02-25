@@ -26,7 +26,8 @@ export function MasterHeader<T>({
                                   searchModel,
                                   initValue = {},
                                   value,
-                                  onClickBack
+                                  onClickBack,
+                                  onResetForm
                                 }: {
   searchModel: SearchModel;
   title: string;
@@ -34,6 +35,7 @@ export function MasterHeader<T>({
   value?: any;
   onSearch?: (data: any) => void;
   onClickBack?: () => void;
+  onResetForm?: (resetForm: any) => void;
 }) {
   const intl = useIntl();
   const defaultClassName = "col-xxl-2 col-md-3 master-header-search-input-margin";
@@ -51,8 +53,12 @@ export function MasterHeader<T>({
       <CardBody>
         <Formik
           initialValues={initValue}
-          onSubmit={values => {
+          onSubmit={(values, { resetForm }) => {
             onSearch && onSearch({...values});
+            if (onResetForm) {
+              onResetForm(resetForm);
+
+            }
           }}
           onReset={data => {
             onSearch && onSearch({});

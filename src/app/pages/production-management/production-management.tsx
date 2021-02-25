@@ -265,6 +265,7 @@ function ProductionManagement() {
   });
 
   const [currentStep, setCurrentStep] = useState<number>(0);
+  const [resetForm, setResetForm] = useState(() => () => {})
 
   const extendField = {
     species: {
@@ -665,11 +666,16 @@ function ProductionManagement() {
     },
   ];
 
+  const onResetForm = (resetForm: any) => {
+    setResetForm(() => resetForm)
+  }
+
   function callback(key: number) {
     setCurrentStep(key);
     setEntities([]);
     setPaginationProps(DefaultPagination);
-    refreshData()
+    refreshData();
+    resetForm()
   }
 
   // const getProcess = (current: number, startIndex: number) => {
@@ -816,6 +822,7 @@ function ProductionManagement() {
             </Card>
             <MasterHeader
               title={'Tìm kiếm'}
+              onResetForm={onResetForm}
               onSearch={value => {
                 setPaginationProps(DefaultPagination);
                 // setFilterProps(value);
