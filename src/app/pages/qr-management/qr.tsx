@@ -2,7 +2,7 @@ import React, {Fragment, useCallback, useEffect, useMemo, useState} from "react"
 import {useIntl} from 'react-intl';
 import {Link, Route, Switch} from 'react-router-dom';
 import * as UserService from '../user/user.service';
-import {InitMasterProps} from "../../common-library/helpers/common-function";
+import {InitMasterProps, InitValues} from "../../common-library/helpers/common-function";
 import {Count, Create, Delete, DeleteMany, Get, GetAll, GetType, QrTypeList, Update, QrTypeStatus} from './qr.service';
 import {QrModel} from './qr.model';
 import {MasterHeader} from "../../common-library/common-components/master-header";
@@ -79,6 +79,8 @@ function QrPage() {
     setEntities,
     showCreate,
     setShowCreate,
+    showEdit,
+    setShowEdit,
     paginationProps,
     setPaginationProps,
     filterProps,
@@ -659,6 +661,36 @@ function QrPage() {
       _title: 'EMPTY',
       group1: {
         _subTitle: 'EMPTY',
+        code: {
+          _type: 'string',
+          label: 'QR.MASTER.TABLE.LANDLOT',
+          disabled: true
+        },
+        type: {
+          required: true,
+          _type: 'search-select',
+          onSearch: ({queryProps, paginationProps}: any) => GetType(QrTypeList, {queryProps, paginationProps}),
+          keyField: 'name',
+          selectField: 'code',
+          label: 'QR.EDIT.CODE_TYPE',
+          disabled: true
+        },
+        total: {
+          required: true,
+          _type: 'string-number',
+          label: 'QR.EDIT.QUANTITY',
+          disabled: true
+        },
+      }
+    }
+  }), []);
+
+  const editForm = useMemo((): ModifyForm => ({
+    _header: createTitle,
+    _panel1: {
+      _title: 'EMPTY',
+      group1: {
+        _subTitle: 'EMPTY',
         type: {
           required: true,
           _type: 'search-select',
@@ -679,7 +711,16 @@ function QrPage() {
         },
       }
     }
-  }), [loading]);
+  }), [loading])
+
+  const initCreateProductValues = useMemo((): any => ({ ...InitValues(createForm), type: currentTab === TAB_QR.product ? QrTypeList[2] : QrTypeList[1] , total: 3}), [
+    createForm,
+    currentTab
+  ]);
+
+  const _init = useMemo(() => ({ ...initCreateProductValues }), [initCreateProductValues])
+
+
   const detailForm = useMemo((): ModifyForm => ({
     _header: detailHeaderTitle,
     _panel1: {
@@ -837,8 +878,22 @@ function QrPage() {
             validation={validationSchema}
             formModel={createForm}
             loading={loading}
-            onHide={refreshData}
+            onHide={() => {
+              setShowCreate(false);
+            }}            
             onModify={downloadQrFile}
+            entity={_init}
+          />
+          <ModifyEntityDialog
+            show={showEdit}
+            validation={validationSchema}
+            formModel={createForm}
+            loading={loading}
+            onHide={() => {
+              setShowCreate(false);
+            }}            
+            onModify={downloadQrFile}
+            entity={_init}
           />
         </Route>
         

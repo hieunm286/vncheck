@@ -17,6 +17,7 @@ import {toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {useIntl} from "react-intl";
 import {getFieldV3} from "../common-components/master-detail-page";
+import flatten from 'flat';
 
 export const CapitalizeFirstLetter = (string: string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
@@ -41,14 +42,28 @@ export const GetCompareFunction = ({key, orderType}: { key: string, orderType: 1
 export const RoleArrayToObject = (arr: string[]) => {
   const scopes: any = {};
   arr.forEach((item: string) => {
-    const key = item.split('.')[0];
-    if (!scopes[key]) scopes[key] = [];
-    scopes[key].push(item);
+    const arr = item.split('.')
+    if (arr.length === 2) {
+      const key = item.split('.')[0];
+      if (!scopes[key]) scopes[key] = [];
+      scopes[key].push(item);
+    } else if (arr.length === 3) {
+      const key1 = item.split('.')[0];
+      const key2 = item.split('.')[1];
+
+      if (!scopes[key1]) scopes[key1] = {};
+      if (!scopes[key1][key2]) scopes[key1][key2] = []
+      scopes[key1][key2].push(item);
+    }
+    
   });
   return scopes;
 }
 export const RoleObjectToArray = (scopes?: any) => {
-  return scopes ? Object.values(scopes).reduce((pre: any, cur: any) => {
+  const flatScopes: any = flatten(scopes, { safe: true })
+  console.log(flatScopes)
+  return flatScopes ? Object.values(flatScopes).reduce((pre: any, cur: any) => {
+    console.log(cur)
     pre.push(...cur);
     return pre;
   }, []) : [];

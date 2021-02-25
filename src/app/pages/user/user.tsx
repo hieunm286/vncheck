@@ -34,6 +34,9 @@ import {ConvertRoleScope} from '../role/const/convert-scope';
 import * as RoleScope from '../role/const/role_scope';
 import UserBody from './user-body';
 import './style.scss'
+import HistoryIcon from '@material-ui/icons/History';
+import * as CustomersService from '../customers/customers.service'
+import { CustomersModel } from '../customers/customers.model';
 
 const headerTitle = 'PRODUCT_TYPE.MASTER.HEADER.TITLE';
 const detailDialogTitle = 'USER.DETAIL_DIALOG.TITLE';
@@ -44,6 +47,11 @@ const lockDialogBodyTitle = 'USER.LOCK_DIALOG.BODY_TITLE';
 const lockingMessage = 'USER.LOCK_DIALOG.LOCKING_MESSAGE';
 const createTitle = 'USER.CREATE.HEADER';
 const updateTitle = 'USER.UPDATE.HEADER';
+
+export const USER_TAB_TYPE = {
+  employee: '0',
+  customer: '1'
+}
 
 function User() {
   const intl = useIntl();
@@ -68,6 +76,7 @@ function User() {
     filterProps,
     setFilterProps,
     total,
+    setTotal,
     loading,
     error,
     add,
@@ -75,7 +84,8 @@ function User() {
     get,
     deleteFn,
     getAll,
-  } = InitMasterProps<UserModel>({
+    refreshData
+  } = InitMasterProps<UserModel | CustomersModel>({
     getServer: Get,
     countServer: Count,
     createServer: Create,
@@ -85,12 +95,22 @@ function User() {
     updateServer: Update,
   });
 
-  const [currentTab, setCurrentTab] = useState<string | undefined>('0');
+  const [currentTab, setCurrentTab] = useState<string | undefined>(USER_TAB_TYPE.employee);
   const [trigger, setTrigger] = useState<boolean>(false);
   
   useEffect(() => {
-    getAll(filterProps);
+    if (currentTab === USER_TAB_TYPE.employee) {
+      getAll(filterProps);
+
+    } else {
+      CustomersService.GetAll({ queryProps: { ...filterProps as any }, paginationProps }).then(res => {
+        setEntities(res.data?.data)
+        setTotal(res.data?.paging?.total)
+      }).catch (err => console.log(err))
+    }
   }, [paginationProps, filterProps, trigger, currentTab]);
+
+  console.log(paginationProps)
   
   const columns = useMemo(() => {
     return [
@@ -163,7 +183,7 @@ function User() {
         style: {minWidth: '130px'},
       }
     ]
-  }, []);
+  }, [paginationProps]);
 
   const customerColumn = useMemo(() => ([
     {
@@ -176,49 +196,77 @@ function User() {
       style: { paddingTop: 20 },
     },
     {
-      dataField: 'managementUnit.name',
-      text: `${intl.formatMessage({id: 'Mã khách hàng'})}`,
+      dataField: 'code',
+      text: `${intl.formatMessage({ id: 'CUSTOMERS_CODE' })}`,
+      // formatter: (cell: any, row: any, rowIndex: number) => (
+      //   <span
+      //     className="text-primary"
+      //     style={{ fontWeight: 600, cursor: 'pointer' }}
+      //     onClick={() => {
+      //       setShowDetail(true);
+      //       setDetailEntity(row);
+      //     }}>
+      //     {row.code}
+      //   </span>
+      // ),
       ...SortColumn,
-      align: 'center',
+      classes: 'text-center',
     },
     {
-      dataField: 'phone',
-      text: `${intl.formatMessage({id: 'Họ và tên'})}`,
+      dataField: 'fullName',
+      text: `${intl.formatMessage({ id: 'CUSTOMERS_DETAIL_NAME' })}`,
       ...SortColumn,
-      align: 'center',
+      classes: 'text-center',
     },
     {
-      dataField: 'email',
-      text: `${intl.formatMessage({id: 'Số điện thoại'})}`,
+      dataField: 'username',
+      text: `${intl.formatMessage({ id: 'CUSTOMERS_PHONE_NUMBER' })}`,
       ...SortColumn,
-      align: 'center',
+      classes: 'text-center',
     },
+
     {
-      dataField: 'status',
-      text: `${intl.formatMessage({id: 'Lần đầu mua hàng'})}`,
-      formatter: TickColumnFormatter,
+      dataField: 'createdAt',
+      text: `${intl.formatMessage({ id: 'CUSTOMERS_CREATED_AT' })}`,
+      formatter: (cell: any, row: any) => (
+        <span>
+          {row.createdAt
+            ? new Intl.DateTimeFormat('en-GB').format(new Date(row.createdAt))
+            : 'Không có thông tin'}
+        </span>
+      ),
       ...SortColumn,
-      align: 'center',
+      classes: 'text-center',
+      headerClasses: 'text-center',
     },
     {
       dataField: 'action',
-      text: `${intl.formatMessage({id: 'USER.MASTER.TABLE.ACTION_COLUMN'})}`,
-      formatter: ActionsColumnFormatter,
-      formatExtraData: {
-        intl,
-        onShowDetail: (entity: UserModel) => {
-          get(entity).then(() => {
-            setShowDetail(true);
-          })
-        },
-        onGoHistory: (entity: UserModel) => {
-          history.push(`/customers-management/${entity._id}/history`);
-        },
-      },
+      text: `${intl.formatMessage({ id: 'CUSTOMERS_DETAIL_ACTION' })}`,
+      formatter: (cell: any, row: any) => (
+        <span
+          className="btn btn-icon btn-light btn-hover-primary btn-sm visibility"
+          onClick={() => {
+            // ProductionPlanService.GetById(row._id).then(res => {
+            //   setEditEntity(res.data);
+            //   history.push({
+            //     pathname: '/production-plan/plan-view/' + row._id,
+            //     state: res.data,
+            //   });
+            // });
+            history.push({
+              pathname: '/customers-management/' + row._id + '/history',
+            });
+          }}>
+          <span className="svg-icon svg-icon-md svg-icon-primary">
+            <HistoryIcon className="text-primary eye" />
+          </span>
+        </span>
+      ),
+
       ...NormalColumn,
-      style: {minWidth: '130px'},
-    }
-  ]), [])
+      style: { minWidth: '130px' },
+    },
+  ]), [paginationProps])
   
   const masterEntityDetailDialog: RenderInfoDetail = useMemo((): RenderInfoDetail => [
     {
@@ -476,40 +524,43 @@ function User() {
           label: 'THÔNG TIN CHUNG',
           optionData: ConvertRoleScope(RoleScope.role_scope_species, intl)
         },
-        seeding: {
-          _type: 'checkbox',
-          label: 'THÔNG TIN XUỐNG GIỐNG',
-          optionData: ConvertRoleScope(RoleScope.role_scope_seeding, intl)
-        },
-        planting: {
-          _type: 'checkbox',
-          label: 'THÔNG TIN GIEO TRỒNG',
-          optionData: ConvertRoleScope(RoleScope.role_scope_planting, intl)
-        },
-        harvesting: {
-          _type: 'checkbox',
-          label: 'THÔNG TIN THU HOẠCH',
-          optionData: ConvertRoleScope(RoleScope.role_scope_harvesting, intl)
-        },
-        preliminary_treatment: {
-          _type: 'checkbox',
-          label: 'THÔNG TIN SƠ CHẾ',
-          optionData: ConvertRoleScope(RoleScope.role_scope_preliminary_treatment, intl)
-        },
-        cleaning: {
-          _type: 'checkbox',
-          label: 'THÔNG TIN LÀM SẠCH',
-          optionData: ConvertRoleScope(RoleScope.role_scope_cleaning, intl)
-        },
-        packing: {
-          _type: 'checkbox',
-          label: 'THÔNG TIN ĐÓNG GÓI',
-          optionData: ConvertRoleScope(RoleScope.role_scope_packing, intl)
-        },
-        preserve: {
-          _type: 'checkbox',
-          label: 'THÔNG TIN BẢO QUẢN',
-          optionData: ConvertRoleScope(RoleScope.role_scope_preservation, intl)
+        productPlan: {
+          _type: 'object',
+          seeding: {
+            _type: 'checkbox',
+            label: 'THÔNG TIN XUỐNG GIỐNG',
+            optionData: ConvertRoleScope(RoleScope.role_scope_seeding, intl),
+          },
+          planting: {
+            _type: 'checkbox',
+            label: 'THÔNG TIN GIEO TRỒNG',
+            optionData: ConvertRoleScope(RoleScope.role_scope_planting, intl),
+          },
+          harvesting: {
+            _type: 'checkbox',
+            label: 'THÔNG TIN THU HOẠCH',
+            optionData: ConvertRoleScope(RoleScope.role_scope_harvesting, intl),
+          },
+          preliminaryTreatment: {
+            _type: 'checkbox',
+            label: 'THÔNG TIN SƠ CHẾ',
+            optionData: ConvertRoleScope(RoleScope.role_scope_preliminary_treatment, intl),
+          },
+          cleaning: {
+            _type: 'checkbox',
+            label: 'THÔNG TIN LÀM SẠCH',
+            optionData: ConvertRoleScope(RoleScope.role_scope_cleaning, intl),
+          },
+          packing: {
+            _type: 'checkbox',
+            label: 'THÔNG TIN ĐÓNG GÓI',
+            optionData: ConvertRoleScope(RoleScope.role_scope_packing, intl),
+          },
+          preservation: {
+            _type: 'checkbox',
+            label: 'THÔNG TIN BẢO QUẢN',
+            optionData: ConvertRoleScope(RoleScope.role_scope_preservation, intl),
+          },
         },
         logistics: {
           _type: 'checkbox',
@@ -666,6 +717,7 @@ function User() {
               setPaginationProps={setPaginationProps}
               setTrigger={setTrigger}
               trigger={trigger}
+              refreshData={refreshData}
               title='Người dùng hệ thống'
             />
           </div>

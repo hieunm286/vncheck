@@ -235,40 +235,43 @@ export default function ManagementOrganization() {
             label: 'THÔNG TIN CHUNG',
             optionData: ConvertRoleScope(RoleScope.role_scope_species, intl),
           },
-          seeding: {
-            _type: 'checkbox',
-            label: 'THÔNG TIN XUỐNG GIỐNG',
-            optionData: ConvertRoleScope(RoleScope.role_scope_seeding, intl),
-          },
-          planting: {
-            _type: 'checkbox',
-            label: 'THÔNG TIN GIEO TRỒNG',
-            optionData: ConvertRoleScope(RoleScope.role_scope_planting, intl),
-          },
-          harvesting: {
-            _type: 'checkbox',
-            label: 'THÔNG TIN THU HOẠCH',
-            optionData: ConvertRoleScope(RoleScope.role_scope_harvesting, intl),
-          },
-          preliminary_treatment: {
-            _type: 'checkbox',
-            label: 'THÔNG TIN SƠ CHẾ',
-            optionData: ConvertRoleScope(RoleScope.role_scope_preliminary_treatment, intl),
-          },
-          cleaning: {
-            _type: 'checkbox',
-            label: 'THÔNG TIN LÀM SẠCH',
-            optionData: ConvertRoleScope(RoleScope.role_scope_cleaning, intl),
-          },
-          packing: {
-            _type: 'checkbox',
-            label: 'THÔNG TIN ĐÓNG GÓI',
-            optionData: ConvertRoleScope(RoleScope.role_scope_packing, intl),
-          },
-          preserve: {
-            _type: 'checkbox',
-            label: 'THÔNG TIN BẢO QUẢN',
-            optionData: ConvertRoleScope(RoleScope.role_scope_preservation, intl),
+          productPlan: {
+            _type: 'object',
+            seeding: {
+              _type: 'checkbox',
+              label: 'THÔNG TIN XUỐNG GIỐNG',
+              optionData: ConvertRoleScope(RoleScope.role_scope_seeding, intl),
+            },
+            planting: {
+              _type: 'checkbox',
+              label: 'THÔNG TIN GIEO TRỒNG',
+              optionData: ConvertRoleScope(RoleScope.role_scope_planting, intl),
+            },
+            harvesting: {
+              _type: 'checkbox',
+              label: 'THÔNG TIN THU HOẠCH',
+              optionData: ConvertRoleScope(RoleScope.role_scope_harvesting, intl),
+            },
+            preliminaryTreatment: {
+              _type: 'checkbox',
+              label: 'THÔNG TIN SƠ CHẾ',
+              optionData: ConvertRoleScope(RoleScope.role_scope_preliminary_treatment, intl),
+            },
+            cleaning: {
+              _type: 'checkbox',
+              label: 'THÔNG TIN LÀM SẠCH',
+              optionData: ConvertRoleScope(RoleScope.role_scope_cleaning, intl),
+            },
+            packing: {
+              _type: 'checkbox',
+              label: 'THÔNG TIN ĐÓNG GÓI',
+              optionData: ConvertRoleScope(RoleScope.role_scope_packing, intl),
+            },
+            preservation: {
+              _type: 'checkbox',
+              label: 'THÔNG TIN BẢO QUẢN',
+              optionData: ConvertRoleScope(RoleScope.role_scope_preservation, intl),
+            },
           },
           logistics: {
             _type: 'checkbox',

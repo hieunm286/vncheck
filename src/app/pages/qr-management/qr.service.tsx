@@ -33,7 +33,7 @@ export const GetAll: GetAllPropsServer<any> = ({
     // paramsSerializer: ParamsSerializer
   });
 };
-export const QrTypeList = [{code: "1", name: "Sản phẩm"}, {code: "2", name: "Đóng gói"}];
+export const QrTypeList = [{code: "1", name: "QR con"}, {code: "2", name: "Đóng gói"}, {code: "3", name: "Sản phẩm"}];
 export const QrTypeStatus = [{code: "1", name: "Mới tạo"}, {code: "2", name: "Đã phân phối"}, {code: "3", name: "Đã sử dụng"}];
 
 export const GetType = (typeList: { code: string; name: string }[], {queryProps, paginationProps}: any): Promise<any> => {

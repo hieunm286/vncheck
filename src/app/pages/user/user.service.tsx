@@ -12,6 +12,7 @@ import {
 import {UserModel} from "./user.model";
 import {RoleArrayToObject, RoleObjectToArray} from "../../common-library/helpers/common-function";
 import _ from "lodash";
+import { CustomersModel } from '../customers/customers.model';
 
 
 export const API_URL = API_BASE_URL + '/user';
@@ -35,7 +36,7 @@ export const GetAll: GetAllPropsServer<any> = ({
   });
 };
 
-export const Count: CountProps<UserModel> = (queryProps) => {
+export const Count: CountProps<any> = (queryProps) => {
   return axios.get(`${API_URL}/get/count`, {
     params: {...queryProps},
   });
@@ -57,7 +58,7 @@ export const GetById = (id: string) => {
 };
 
 
-export const Get: GetProps<UserModel> = (entity) => {
+export const Get: GetProps<any> = (entity) => {
   return axios.get(`${API_URL}/${entity._id}`);
 };
 
@@ -67,12 +68,12 @@ export const Update: UpdateProps<any> = (entity) => {
   return axios.put(`${API_URL}/${entity._id}`, sendData);
 };
 
-export const Delete: DeleteProps<UserModel> = (entity) => {
+export const Delete: DeleteProps<any> = (entity) => {
   //Lười sửa nên viết như này cho nhanh
   return axios.put(`${API_URL}/${entity._id}`, {...entity, status: '0'});
 };
 
-export const DeleteMany: DeleteManyProps<UserModel> = (entities) => {
+export const DeleteMany: DeleteManyProps<any> = (entities) => {
   return axios.delete(API_URL, {
     data: {arrayEntities: entities}
   });

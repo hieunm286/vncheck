@@ -17,6 +17,7 @@ function UserBody({
   trigger,
   setTrigger,
   title,
+  refreshData
 }: {
   tabData: any[];
   setCurrentTab: (tab: string | undefined) => void;
@@ -26,6 +27,7 @@ function UserBody({
   trigger: boolean;
   setTrigger: (entity: boolean) => void;
   title?: string;
+  refreshData?: () => void;
 }) {
   const intl = useIntl();
 
@@ -35,8 +37,11 @@ function UserBody({
     } else {
       setCurrentTab(key);
     }
-    setEntities([]);
-    setPaginationProps(DefaultPagination);
+    setPaginationProps(DefaultPagination)
+
+    if (refreshData) {
+      refreshData()
+    }
   }
   console.log(tabData);
 
