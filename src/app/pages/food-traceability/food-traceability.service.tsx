@@ -8,6 +8,10 @@ export const GetDetail = (_id: string) => {
     return axios.get(`${api}/${_id}/public`)
 }
 
+export const GetDetailWithAuth = (_id: string) => {
+    return axios.get(`${api}/${_id}`)
+}
+
 export const GetById = (id: string) => {
     return axios.get(`${userApi}/${id}`)
   };

@@ -577,7 +577,7 @@ function User() {
           label: 'THÔNG TIN VẬN CHUYỂN',
           optionData: ConvertRoleScope(RoleScope.role_scope_shipping, intl)
         },
-        status: {
+        retailInfo: {
           _type: 'checkbox',
           label: 'TRẠNG THÁI',
           optionData: ConvertRoleScope(RoleScope.role_scope_status, intl)

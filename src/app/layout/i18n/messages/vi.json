@@ -558,6 +558,7 @@
   "SHIPPING_AGENCY.MODIFY.GENDER_OPTION.MALE": "Nam",
   "SHIPPING_AGENCY.MODIFY.GENDER_OPTION.FEMALE": "Nữ",
   "QR.MASTER.HEADER.TITLE": "BỘ LỌC",
+  "QR.EDIT.HEADER": "CẬP NHẬT TRẠNG THÁI",
   "QR.MASTER.BODY.TITLE": "Danh mục quản lý QR",
   "QR.MODULE_NAME": "quản lý qr",
   "QR.MASTER.SEARCH.CODE": "Mã QR",
@@ -799,8 +800,8 @@
   "ENTERPRISE.PRESENTEDBY": "Người đại diện",
   "ENTERPRISE.GLN": "GLN",
 
-  "PRODUCTPLAN.SEEDING.SPECIES.NAME": "Tên chủng loại",
-  "PRODUCTPLAN.SEEDING.SPECIES.BARCODE": "Đăng ký vạch",
+  "SPECIES.NAME": "Tên chủng loại",
+  "SPECIES.BARCODE": "Đăng ký vạch",
 
   "PRODUCTPLAN.SEEDING.CERTIFICATES": "Giấy chứng nhận giống",
   "PRODUCTPLAN.SEEDING.BUYINVOICE": "Hóa đơn mua giống",
@@ -913,11 +914,11 @@
   "SHIPPING.STAFFEXPORTORDER": "Nhân viên xuất hàng",
   "SHIPPING.SHIPPER": "Nhân viên vận chuyển",
 
-  "STATUS.STATUS": "Trạng thái",
-  "STATUS.DATESALE": "Ngày bán",
-  "STATUS.LOCATIONSALE": "Nơi bán",
-  "STATUS.STAFFSALE": "Nhân viên nơi bán",
-  "STATUS.PHONECUSTOMER": "Số điện thoại người mua",
+  "RETAILINFO.ISSOLD": "Trạng thái",
+  "RETAILINFO.SOLDDATE": "Ngày bán",
+  "RETAILINFO.SOLDAT": "Nơi bán",
+  "RETAILINFO.SOLDBY": "Nhân viên nơi bán",
+  "RETAILINFO.BUYER": "Số điện thoại người mua",
 
   "1": "Gam",
   "1000": "Kg",

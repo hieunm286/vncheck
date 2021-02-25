@@ -55,7 +55,7 @@ const detailBodyTitle = 'QR.DETAIL.TITLE';
 const detailHeaderTitle = 'QR.HEADER.DETAIL.TITLE';
 const moduleName = 'QR.MODULE_NAME';
 const createTitle = 'QR.CREATE.HEADER';
-
+const editTitle = 'QR.EDIT.HEADER'
 // const createTitle = 'PURCHASE_ORDER.CREATE.TITLE';
 // const updateTitle = 'PURCHASE_ORDER.UPDATE.TITLE';
 const bodyTitle = 'QR.MASTER.BODY.TITLE';
@@ -68,6 +68,12 @@ const QR_PRODUCT_TYPE = {
 const TAB_QR = {
   product: '0',
   packaging: '1'
+}
+
+const QR_TYPE_STATUS = {
+  new: '1',
+  distributing: '2',
+  used: '3'
 }
 
 
@@ -158,28 +164,35 @@ function QrPage() {
         formatter: (input: any) => (<DisplayDate input={input}/>),
         align: 'center',
       },
-      status: {
-        dataField: 'status',
+      distributedStatus: {
+        dataField: 'distributedStatus',
         text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.STATUS'})}`,
         ...SortColumn,
+        formatter: (cell: any, row: any, rowIndex: number) => (
+          <span>
+            {row.distributedStatus === QR_TYPE_STATUS.new && 'Mới tạo'}
+            {row.distributedStatus === QR_TYPE_STATUS.distributing && 'Đã phân phối'}
+            {row.distributedStatus === QR_TYPE_STATUS.used && 'Đã sử dụng'}
+          </span>
+        ),
         align: 'center',
       },
-      distributionTime: {
-        dataField: 'distributionTime',
+      distributedAt: {
+        dataField: 'distributedAt',
         text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.DISTRIBUTION_TIME'})}`,
         ...SortColumn,
         formatter: (input: any) => (<DisplayDateTime input={input}/>),
         align: 'center',
       },
-      expiry: {
-        dataField: 'expiry',
+      usedAt: {
+        dataField: 'usedAt',
         text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.EXPIRY'})}`,
         ...SortColumn,
         formatter: (input: any) => (<DisplayDateTime input={input}/>),
         align: 'center',
       },
-      distributionLocation: {
-        dataField: 'distributionLocation',
+      distributedLocation: {
+        dataField: 'distributedLocation',
         text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.DISTRIBUTION_LOCATION'})}`,
         ...SortColumn,
         align: 'center',
@@ -754,7 +767,7 @@ function QrPage() {
   }), []);
 
   const editForm = useMemo((): ModifyForm => ({
-    _header: createTitle,
+    _header: editTitle,
     _panel1: {
       _title: 'EMPTY',
       group1: {

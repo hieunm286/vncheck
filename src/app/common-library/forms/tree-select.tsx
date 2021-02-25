@@ -9,16 +9,16 @@ import {DisplayError} from "./field-feedback-label";
 import _ from "lodash";
 
 const ConvertToTreeNode = (data: any, {keyField, selectField, childrenField}: any) => {
-  const t = {
-    title: data[keyField],
-    value: data,
-    key: data[selectField],
-    children: data[childrenField] ? data[childrenField].map((e: any) => ConvertToTreeNode(e, {
+  const t = data.map((item :any) => ({
+    title: item[keyField],
+    value: item,
+    key: item[selectField],
+    children: item[childrenField] ? ConvertToTreeNode(item[childrenField], {
       keyField,
+      selectField,
       childrenField
-    })) : [],
-  };
-  console.log(t);
+    }) : [],
+  }));
   return t;
 };
 
@@ -67,9 +67,7 @@ function CustomTreeSelect(
   
   
   const ConvertToTree = useCallback((data: any[]) => {
-    return data.map((value: any, key: any) => {
-      return ConvertToTreeNode(value, {keyField, childrenField, selectField});
-    });
+      return ConvertToTreeNode(data, {keyField, childrenField, selectField});
   }, [keyField, childrenField, selectField]);
   const validate = useCallback((value: any): string | void => {
     if (required && !value && value === '') return 'RADIO.ERROR.REQUIRED';
