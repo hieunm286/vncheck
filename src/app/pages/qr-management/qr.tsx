@@ -736,6 +736,10 @@ function QrPage() {
   ]), []);
   const [matchId, setMatchId] = useState<any>(null);
   const [renderInfo, setRenderInfo] = useState(renderInfoProduct);
+
+  useEffect(() => {
+    setEntities([])
+  }, [currentTab])
   
   const createForm = useMemo((): ModifyForm => ({
     _header: createTitle,
@@ -761,11 +765,11 @@ function QrPage() {
           required: true,
           _type: 'string-number',
           label: 'QR.EDIT.QUANTITY',
-          disabled: true
+          disabled: currentTab === TAB_QR.product ? true : false
         },
       }
     }
-  }), []);
+  }), [currentTab]);
 
   const editForm = useMemo((): ModifyForm => ({
     _header: editTitle,
