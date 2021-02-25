@@ -117,7 +117,13 @@ export default function ManagementOrganization() {
   const [trigger, setTrigger] = useState<boolean>(false);
 
   useEffect(() => {
-    getAll(filterProps);
+    if (currentTab === '0') {
+      getAll(filterProps);
+
+    } else {
+      getAll({ ...filterProps, code: 'khach-hang' });
+
+    }
   }, [paginationProps, filterProps, trigger, currentTab]);
 
   const roleDetailrenderInfo: RenderInfoDetail = [
@@ -402,35 +408,27 @@ export default function ManagementOrganization() {
   const customerColumn = useMemo(
     () => [
       {
-        dataField: '_id',
-        text: 'STT',
-        formatter: (cell: any, row: any, rowIndex: number) => (
-          <p>{rowIndex + 1 + ((paginationProps.page ?? 0) - 1) * (paginationProps.limit ?? 0)}</p>
-        ),
-        classes: 'mr-3',
-        style: { paddingTop: 20 },
+        dataField: 'code',
+        text: `${intl.formatMessage({ id: 'ROLE.MASTER.TABLE.ROLE_CODE' })}`,
+        ...SortColumn,
+        align: 'center',
+      },
+      {
+        dataField: 'name',
+        text: `${intl.formatMessage({ id: 'ROLE.MASTER.TABLE.ROLE_NAME' })}`,
+        ...SortColumn,
+        align: 'center',
       },
       {
         dataField: 'managementUnit.name',
-        text: `${intl.formatMessage({ id: 'Mã khách hàng' })}`,
+        text: `${intl.formatMessage({ id: 'ROLE.MASTER.TABLE.MANAGEMENT_ORGANIZATION' })}`,
         ...SortColumn,
         align: 'center',
       },
-      {
-        dataField: 'phone',
-        text: `${intl.formatMessage({ id: 'Họ và tên' })}`,
-        ...SortColumn,
-        align: 'center',
-      },
-      {
-        dataField: 'email',
-        text: `${intl.formatMessage({ id: 'Số điện thoại' })}`,
-        ...SortColumn,
-        align: 'center',
-      },
+
       {
         dataField: 'status',
-        text: `${intl.formatMessage({ id: 'Lần đầu mua hàng' })}`,
+        text: `${intl.formatMessage({ id: 'ROLE.MASTER.TABLE.STATUS' })}`,
         formatter: TickColumnFormatter,
         ...SortColumn,
         align: 'center',
