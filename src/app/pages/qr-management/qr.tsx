@@ -666,6 +666,7 @@ function QrPage() {
           keyField: 'name',
           selectField: 'code',
           label: 'QR.EDIT.CODE_TYPE',
+          disabled: loading === true ? true : false
         },
         total: {
           required: true,
@@ -674,10 +675,11 @@ function QrPage() {
             setFieldValue('total', e.target.value && e.target.value !== '' && Number(e.target.value));
           },
           label: 'QR.EDIT.QUANTITY',
+          disabled: loading === true ? true : false
         },
       }
     }
-  }), []);
+  }), [loading]);
   const detailForm = useMemo((): ModifyForm => ({
     _header: detailHeaderTitle,
     _panel1: {

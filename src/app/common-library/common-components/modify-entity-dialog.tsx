@@ -13,7 +13,8 @@ function ModifyEntityDialog<T>({
                                  moduleName = 'COMMON_COMPONENT.DETAIL_DIALOG.MODULE_NAME',
                                  formModel,
                                  validation,
-                                 loading
+                                 loading,
+                                 backdrop
                                }: {
   show: boolean;
   onHide: () => void;
@@ -27,6 +28,7 @@ function ModifyEntityDialog<T>({
   homePage?: string;
   error?: { error: string };
   loading?: boolean;
+  backdrop?: string;
 }) {
   const intl = useIntl();
   const {_header, ...panels} = formModel;
@@ -37,6 +39,7 @@ function ModifyEntityDialog<T>({
       onHide={onHide}
       aria-labelledby="example-modal-sizes-title-lg"
       dialogClassName="modal-modify"
+      backdrop={loading === true && 'static'}
       // style={{width}}
     >
       <Modal.Header closeButton className="border-bottom-0">

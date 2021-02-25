@@ -62,6 +62,7 @@ function ModifyEntityDialogForm<T>({
           <Modal.Footer className="border-top-0 pt-10">
             <button
               type="submit"
+              disabled={loading === true ? true : false}
               onClick={() => handleSubmit()}
               className="btn btn-primary fixed-btn-width">
               {
@@ -73,6 +74,7 @@ function ModifyEntityDialogForm<T>({
             </button>
             <button
               type="button"
+              disabled={loading === true ? true : false}
               onClick={onHide}
               className="btn btn-outline-primary fixed-btn-width">
               <CancelOutlinedIcon style={iconStyle}/>
