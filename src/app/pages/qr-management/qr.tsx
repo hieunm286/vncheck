@@ -1,6 +1,6 @@
 import React, {Fragment, useCallback, useEffect, useMemo, useState} from "react";
 import {useIntl} from 'react-intl';
-import {Link, Route, Switch} from 'react-router-dom';
+import {Link, Route, Switch, useHistory} from 'react-router-dom';
 import * as UserService from '../user/user.service';
 import {InitMasterProps, InitValues} from "../../common-library/helpers/common-function";
 import {Count, Create, Delete, DeleteMany, Get, GetAll, GetType, QrTypeList, Update, QrTypeStatus} from './qr.service';
@@ -81,6 +81,8 @@ function QrPage() {
     setShowCreate,
     showEdit,
     setShowEdit,
+    editEntity,
+    setEditEntity,
     paginationProps,
     setPaginationProps,
     filterProps,
@@ -108,9 +110,15 @@ function QrPage() {
   const [trigger, setTrigger] = useState<boolean>(false);
   const [QrProductType, setQrProductType] = useState(QR_PRODUCT_TYPE.root)
   const [searchForm, setSearchForm] = useState<SearchModel>()
+  const history = useHistory()
   
   useEffect(() => {
-    getAll(filterProps);
+    if (currentTab === TAB_QR.product) {
+      getAll({ ...filterProps, type: '3' });
+    } else {
+      getAll({ ...filterProps, type: '2' });
+
+    }
   }, [paginationProps, filterProps, trigger, currentTab]);
   
   
@@ -189,6 +197,8 @@ function QrPage() {
             setPaginationProps(DefaultPagination)
           },
           onEdit: (entity: QrModel) => {
+            setEditEntity(entity)
+            setShowEdit(true)
           },
         },
         ...NormalColumn,
@@ -196,6 +206,65 @@ function QrPage() {
       },
     }
   }, []);
+
+  const packingColumn = useMemo(() => ({
+    order: {
+      dataField: 'order',
+      text: 'STT',
+      formatter: (cell: any, row: any, rowIndex: number) => (
+        <p>{rowIndex + 1 + ((paginationProps.page ?? 0) - 1) * (paginationProps.limit ?? 0)}</p>
+      ),
+      classes: 'mr-3',
+      style: { paddingTop: 20 },
+    },
+    _id: {
+      dataField: '_id',
+      text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.CODE'})}`,
+      ...SortColumn,
+      align: 'center',
+      formatter: (cell: string, row: any) => {
+        console.log(row.type === '1');
+        return <Link to={'qr/' + (row.codeType === '1' ? '' : '') + row._id}>{cell}</Link>
+      },
+    },
+    'createdBy': {
+      dataField: 'createdBy.fullName',
+      text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.CREATED_BY'})}`,
+      ...SortColumn,
+      align: 'center',
+      formatter: (cell: any, row: any) => (row?.createdBy ?
+        <DisplayPersonName {...row.createdBy}/> : (<>{intl.formatMessage({id: 'NO_INFORMATION'})}</>)),
+    },
+    createdAt: {
+      dataField: 'createdAt',
+      text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.CREATED_DATE'})}`,
+      ...SortColumn,
+      formatter: (input: any) => (<DisplayDate input={input}/>),
+      align: 'center',
+    },
+    type: {
+      dataField: 'type',
+      text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.CODE_TYPE'})}`,
+      ...SortColumn,
+      formatter: (cell: any) =>
+        (<>{QrTypeList.find(t => t.code === cell)?.name}</>),
+      align: 'center',
+    },
+    action: {
+      dataField: 'action',
+      text: `${intl.formatMessage({id: 'SHIPPING_AGENCY.MASTER.TABLE.ACTION_COLUMN'})}`,
+      formatter: ActionsColumnFormatter,
+      formatExtraData: {
+        intl,
+        onShowDetail: (entity: QrModel) => {
+          get(entity);
+          history.push('qr/' + (entity.codeType === '1' ? '' : '') + entity._id)
+        },
+      },
+      ...NormalColumn,
+      style: {minWidth: '130px'},
+    },
+  }), [])
 
   const landLotColumn = useMemo(() => ({
     
@@ -264,8 +333,7 @@ function QrPage() {
           intl,
           onShowDetail: (entity: QrModel) => {
             get(entity);
-            setShowDetail(true);
-            setDetailEntity(entity);
+            history.push('qr/' + (entity.codeType === '1' ? '' : '') + entity._id)
           },
         },
         ...NormalColumn,
@@ -691,24 +759,20 @@ function QrPage() {
       _title: 'EMPTY',
       group1: {
         _subTitle: 'EMPTY',
-        type: {
+        status: {
           required: true,
           _type: 'search-select',
           onSearch: ({queryProps, paginationProps}: any) => GetType(QrTypeList, {queryProps, paginationProps}),
           keyField: 'name',
           selectField: 'code',
-          label: 'QR.EDIT.CODE_TYPE',
-          disabled: loading === true ? true : false
+          label: 'QR.EDIT.NEW_STATUS',
+          disabled: true
         },
-        total: {
+        distribution: {
+          _type: 'string',
+          label: 'QR.EDIT.DISTRIBUTION',
           required: true,
-          _type: 'string-number',
-          onChange: (e, {setFieldValue}) => {
-            setFieldValue('total', e.target.value && e.target.value !== '' && Number(e.target.value));
-          },
-          label: 'QR.EDIT.QUANTITY',
-          disabled: loading === true ? true : false
-        },
+        }
       }
     }
   }), [loading])
@@ -719,6 +783,11 @@ function QrPage() {
   ]);
 
   const _init = useMemo(() => ({ ...initCreateProductValues }), [initCreateProductValues])
+
+  const initEditValues = useMemo((): any => ({ ...InitValues(editForm), status: editEntity?.status === 'new' ? QrTypeStatus[1] : QrTypeStatus[0] }), [editForm, editEntity])
+
+  const _initEdit = useMemo(() => ({ ...initEditValues }), [initEditValues])
+
 
 
   const detailForm = useMemo((): ModifyForm => ({
@@ -785,7 +854,7 @@ function QrPage() {
     {
       tabTitle: 'QR Đóng gói',
       entities: entities,
-      columns: columns,
+      columns: packingColumn,
       total: total,
       loading: loading,
       paginationParams: paginationProps,
@@ -799,7 +868,7 @@ function QrPage() {
         }
       ]
     },
-  ]), [QrProductType, columns, entities, landLotColumn, loading, paginationProps, setPaginationProps, setShowCreate, total]);
+  ]), [QrProductType, packingColumn, columns, entities, landLotColumn, loading, paginationProps, setPaginationProps, setShowCreate, total]);
   
   return (
     <Fragment>
@@ -887,13 +956,13 @@ function QrPage() {
           <ModifyEntityDialog
             show={showEdit}
             validation={validationSchema}
-            formModel={createForm}
+            formModel={editForm}
             loading={loading}
             onHide={() => {
-              setShowCreate(false);
+              setShowEdit(false);
             }}            
             onModify={downloadQrFile}
-            entity={_init}
+            entity={_initEdit}
           />
         </Route>
         

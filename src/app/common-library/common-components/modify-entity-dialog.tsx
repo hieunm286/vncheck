@@ -32,6 +32,7 @@ function ModifyEntityDialog<T>({
 }) {
   const intl = useIntl();
   const {_header, ...panels} = formModel;
+  console.log(loading)
   return (
     <Modal
       size={size}
@@ -39,7 +40,7 @@ function ModifyEntityDialog<T>({
       onHide={onHide}
       aria-labelledby="example-modal-sizes-title-lg"
       dialogClassName="modal-modify"
-      backdrop={loading === true && 'static'}
+      backdrop={loading === true ? 'static' : undefined}
       // style={{width}}
     >
       <Modal.Header closeButton className="border-bottom-0">

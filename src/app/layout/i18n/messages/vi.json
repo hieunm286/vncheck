@@ -586,6 +586,8 @@
   "QR_ACTIVATE_BY": "Người kích hoạt",
   "QR_ACTIVATE_AT": "Ngày kích hoạt",
   "QR.CREATE.HEADER": "Thêm mới mã QR",
+  "QR.EDIT.NEW_STATUS": "Trạng thái mới",
+  "QR.EDIT.DISTRIBUTION": "Nơi phân phối",
   "PLANTING.LAND_LOT": "Lô gieo trồng",
   "SEEDING.CODE": "Mã gieo giống",
   "SEEDING.CERTIFICATE": "Giấy chứng nhận giống",
