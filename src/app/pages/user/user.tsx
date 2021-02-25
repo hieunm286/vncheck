@@ -348,20 +348,20 @@ function User() {
     },
   }), [managementUnit, currentTab]);
   const searchModel2: SearchModel = useMemo(() => ({
-    managementUnit: {
-      type: 'search-select',
-      label: 'USER.MASTER.SEARCH.ORGANIZATION',
-      keyField: 'name',
-      disabled: currentTab === '1',
-      onSearch: ManagementUnitService.getAll,
-      onChange: (value: any, {setFieldValue}: any) => {
-        console.log(value)
-        if (managementUnit != value) {
-          setFieldValue('role', null);
-        }
-        setManagementUnit(value);
-      },
-    },
+    // managementUnit: {
+    //   type: 'search-select',
+    //   label: 'USER.MASTER.SEARCH.ORGANIZATION',
+    //   keyField: 'name',
+    //   disabled: currentTab === '1',
+    //   onSearch: ManagementUnitService.getAll,
+    //   onChange: (value: any, {setFieldValue}: any) => {
+    //     console.log(value)
+    //     if (managementUnit != value) {
+    //       setFieldValue('role', null);
+    //     }
+    //     setManagementUnit(value);
+    //   },
+    // },
     // role: {
     //   type: 'search-select',
     //   label: 'USER.MASTER.SEARCH.ROLE',
@@ -376,27 +376,27 @@ function User() {
     //     return !(values.managementUnit);
     //   },
     // },
-    code: {
-      type: 'string',
-      label: 'USER.MASTER.SEARCH.CODE',
-      disabled: currentTab === '1',
-    },
+    // code: {
+    //   type: 'string',
+    //   label: 'USER.MASTER.SEARCH.CODE',
+    //   disabled: currentTab === '1',
+    // },
     fullName: {
       type: 'string',
-      label: 'USER.MASTER.SEARCH.FULL_NAME',
+      label: 'CUSTOMERS.MASTER.SEARCH.FULL_NAME',
     },
-    agency: {
-      keyField: 'name',
-      type: 'search-select',
-      onSearch: AgencyService.GetAll,
-      label: 'USER.MASTER.SEARCH.WORK_AT',
-      disabled: currentTab === '1',
-    },
-    email: {
-      type: 'string',
-      label: 'USER.MASTER.SEARCH.EMAIL',
-      disabled: currentTab === '1',
-    },
+    // agency: {
+    //   keyField: 'name',
+    //   type: 'search-select',
+    //   onSearch: AgencyService.GetAll,
+    //   label: 'USER.MASTER.SEARCH.WORK_AT',
+    //   disabled: currentTab === '1',
+    // },
+    // email: {
+    //   type: 'string',
+    //   label: 'USER.MASTER.SEARCH.EMAIL',
+    //   disabled: currentTab === '1',
+    // },
     username: {
       type: 'string-number',
       label: 'USER.MASTER.SEARCH.PHONE',

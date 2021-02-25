@@ -144,8 +144,8 @@ function QrPage() {
         classes: 'mr-3',
         style: { paddingTop: 20 },
       },
-      landlot: {
-        dataField: 'landlot',
+      _id: {
+        dataField: '_id',
         text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.LANDLOT'})}`,
         ...SortColumn,
         align: 'center',
@@ -205,7 +205,7 @@ function QrPage() {
         formatExtraData: {
           intl,
           onShowDetail: (entity: QrModel) => {
-            get(entity);
+            get(entity).then(res => console.log(res));
             setDetailEntity(entity);
             setHeaderTitle(entity.code || '00000xxx')
             setQrProductType(QR_PRODUCT_TYPE.landlot)
@@ -359,7 +359,7 @@ function QrPage() {
   }), [])
 
   const rootSearchModel: SearchModel = {
-    landlot: {
+    _id: {
       type: 'string',
       label: 'QR.MASTER.TABLE.LANDLOT',
     },
