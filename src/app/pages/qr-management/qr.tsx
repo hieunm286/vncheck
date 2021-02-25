@@ -99,7 +99,7 @@ function QrPage() {
     setDetailEntity,
     setDeleteEntity,
     setShowDelete,
-    add, get, getAll, refreshData,
+    add, get, getAll, update,
   } = InitMasterProps<QrModel>({
     getServer: Get,
     countServer: Count,
@@ -116,6 +116,7 @@ function QrPage() {
   const [trigger, setTrigger] = useState<boolean>(false);
   const [QrProductType, setQrProductType] = useState(QR_PRODUCT_TYPE.root)
   const [searchForm, setSearchForm] = useState<SearchModel>()
+  const [header, setHeaderTitle] = useState<string>('')
   const history = useHistory()
   
   useEffect(() => {
@@ -206,10 +207,12 @@ function QrPage() {
           onShowDetail: (entity: QrModel) => {
             get(entity);
             setDetailEntity(entity);
+            setHeaderTitle(entity.code || '00000xxx')
             setQrProductType(QR_PRODUCT_TYPE.landlot)
             setPaginationProps(DefaultPagination)
           },
           onEdit: (entity: QrModel) => {
+            console.log(entity)
             setEditEntity(entity)
             setShowEdit(true)
           },
@@ -367,7 +370,7 @@ function QrPage() {
       keyField: 'fullName',
       onSearch: UserService.GetAll,
     },
-    __type: {
+    distributedStatus: {
       type: 'search-select',
       label: 'QR.MASTER.TABLE.STATUS',
       onSearch: ({queryProps, paginationProps}) => GetType(QrTypeStatus, {queryProps, paginationProps}),
@@ -381,11 +384,15 @@ function QrPage() {
       type: 'date-time',
       label: 'QR.MASTER.TABLE.CREATED_DATE',
     },
-    distributionTime: {
+    distributedAt: {
       type: 'date-time',
       label: 'QR.MASTER.TABLE.DISTRIBUTION_TIME',
     },
-    distributionLocation: {
+    usedAt: {
+      type: 'date-time',
+      label: 'QR.MASTER.TABLE.EXPIRY',
+    },
+    distributedLocation: {
       type: 'date-time',
       label: 'QR.MASTER.TABLE.DISTRIBUTION_LOCATION',
     },
@@ -418,16 +425,6 @@ function QrPage() {
     activeAt: {
       type: 'date-time',
       label: 'QR.MASTER.SEARCH.ACTIVE_AT',
-    },
-    __type: {
-      type: 'search-select',
-      label: 'QR.MASTER.SEARCH.CODE_TYPE',
-      onSearch: ({queryProps, paginationProps}) => GetType(QrTypeList, {queryProps, paginationProps}),
-      keyField: 'name',
-      selectField: 'code',
-      onChange: (e, {setFieldValue}) => {
-        setFieldValue('type', e?.code);
-      }
     },
   };
 
@@ -772,7 +769,7 @@ function QrPage() {
       _title: 'EMPTY',
       group1: {
         _subTitle: 'EMPTY',
-        status: {
+        distributedStatus: {
           required: true,
           _type: 'search-select',
           onSearch: ({queryProps, paginationProps}: any) => GetType(QrTypeList, {queryProps, paginationProps}),
@@ -781,10 +778,11 @@ function QrPage() {
           label: 'QR.EDIT.NEW_STATUS',
           disabled: true
         },
-        distribution: {
+        distributedLocation: {
           _type: 'string',
           label: 'QR.EDIT.DISTRIBUTION',
           required: true,
+          disabled: editEntity?.distributedStatus === QR_TYPE_STATUS.distributing ? true : false
         }
       }
     }
@@ -797,7 +795,7 @@ function QrPage() {
 
   const _init = useMemo(() => ({ ...initCreateProductValues }), [initCreateProductValues])
 
-  const initEditValues = useMemo((): any => ({ ...InitValues(editForm), status: editEntity?.status === 'new' ? QrTypeStatus[1] : QrTypeStatus[0] }), [editForm, editEntity])
+  const initEditValues = useMemo((): any => ({ ...InitValues(editForm), ...editEntity, distributedStatus: editEntity?.distributedStatus  === QR_TYPE_STATUS.new ? QrTypeStatus[1] : editEntity?.distributedStatus  === QR_TYPE_STATUS.distributing ? QrTypeStatus[2] : QrTypeStatus[2] }), [editForm, editEntity])
 
   const _initEdit = useMemo(() => ({ ...initEditValues }), [initEditValues])
 
@@ -921,7 +919,7 @@ function QrPage() {
         </Route>
         <Route path="/qr" exact={true}>
           <MasterHeader
-            title={headerTitle}
+            title={QrProductType === QR_PRODUCT_TYPE.landlot ? header : headerTitle}
             onSearch={(value) => {
               setPaginationProps(DefaultPagination)
               setFilterProps(value)
@@ -974,7 +972,7 @@ function QrPage() {
             onHide={() => {
               setShowEdit(false);
             }}            
-            onModify={downloadQrFile}
+            onModify={update}
             entity={_initEdit}
           />
         </Route>

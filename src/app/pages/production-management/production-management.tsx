@@ -250,7 +250,9 @@ function ProductionManagement() {
     filterProps,
     setFilterProps,
     total,
+    setTotal,
     loading,
+    refreshData,
     getAll,
   } = InitMasterProps<ProductionPlanModel>({
     getServer: ProductionPlanService.Get,
@@ -667,6 +669,7 @@ function ProductionManagement() {
     setCurrentStep(key);
     setEntities([]);
     setPaginationProps(DefaultPagination);
+    refreshData()
   }
 
   // const getProcess = (current: number, startIndex: number) => {
@@ -838,6 +841,7 @@ function ProductionManagement() {
                   ProductionPlanService.Search(value, { DefaultPagination, pr }).then(res => {
                     const data: any = res.data;
                     setEntities(data.data ? data.data : data);
+                    setTotal(data.paging ? data.paging.total : 5);
                     setPaginationProps(DefaultPagination);
                   });
 

@@ -22,6 +22,7 @@ import { CustomersModel, historyData } from './customers.model';
 import HistoryIcon from '@material-ui/icons/History';
 import CustomersManagementView from './customers-management-history';
 import Visibility from '@material-ui/icons/Visibility';
+import { DisplayCoordinates } from '../../common-library/helpers/detail-helpers';
 
 const headerTitle = 'PRODUCT_TYPE.MASTER.HEADER.TITLE';
 const bodyTitle = 'CUSTOMERS_LISTS';
@@ -180,9 +181,10 @@ function CustomersManagement() {
       classes: 'text-center',
     },
     location: {
-      dataField: 'sellAgency.location',
+      dataField: 'location',
       text: `${intl.formatMessage({ id: 'GPS' })}`,
       ...SortColumn,
+      formatter: (cell: any, row: any) => DisplayCoordinates(row.location?.coordinates),
       classes: 'text-center',
     },
     seller: {

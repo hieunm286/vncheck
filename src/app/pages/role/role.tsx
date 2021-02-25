@@ -562,26 +562,26 @@ export default function ManagementOrganization() {
         },
       ],
     },
-    {
-      tabTitle: 'Khách hàng',
-      entities: entities,
-      columns: customerColumn,
-      total: total,
-      loading: loading,
-      paginationParams: paginationProps,
-      setPaginationParams: setPaginationProps,
-      onSelectMany: setSelectedEntities,
-      selectedEntities: selectedEntities,
-      button: [
-        {
-          label: 'Thêm mới',
-          onClick: () => {
-            setCreateEntity(initCreateValues);
-            history.push(`${window.location.pathname}/new`);
-          },
-        },
-      ],
-    },
+    // {
+    //   tabTitle: 'Khách hàng',
+    //   entities: entities,
+    //   columns: customerColumn,
+    //   total: total,
+    //   loading: loading,
+    //   paginationParams: paginationProps,
+    //   setPaginationParams: setPaginationProps,
+    //   onSelectMany: setSelectedEntities,
+    //   selectedEntities: selectedEntities,
+    //   button: [
+    //     {
+    //       label: 'Thêm mới',
+    //       onClick: () => {
+    //         setCreateEntity(initCreateValues);
+    //         history.push(`${window.location.pathname}/new`);
+    //       },
+    //     },
+    //   ],
+    // },
   ];
 
   return (

@@ -14,7 +14,7 @@ export type QrModel = CommonQr & Partial<QrPdf> & {
   codeType: string;
   takenBy: UserModel;
   takenLocation: Location;
-  status: string;
+  distributedStatus: string;
   productPlan?: CommonQr & {
     seeding: {
       technical: string[] | { fullName: string }[];
