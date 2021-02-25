@@ -205,11 +205,15 @@ function QrPage() {
         formatExtraData: {
           intl,
           onShowDetail: (entity: QrModel) => {
-            get(entity).then(res => console.log(res));
-            setDetailEntity(entity);
-            setHeaderTitle(entity.code || '00000xxx')
-            setQrProductType(QR_PRODUCT_TYPE.landlot)
-            setPaginationProps(DefaultPagination)
+            get(entity).then(res => {
+              console.log(res)
+              setEntities(res.data.children)
+              setDetailEntity(res.data);
+              setHeaderTitle(entity._id || '00000xxx')
+              setQrProductType(QR_PRODUCT_TYPE.landlot)
+              setPaginationProps(DefaultPagination)
+            });
+            
           },
           onEdit: (entity: QrModel) => {
             console.log(entity)
@@ -922,9 +926,12 @@ function QrPage() {
             title={QrProductType === QR_PRODUCT_TYPE.landlot ? header : headerTitle}
             onSearch={(value) => {
               setPaginationProps(DefaultPagination)
+              if (value.distributedStatus) {
+                value.distributedStatus = value.distributedStatus.code
+              }
               setFilterProps(value)
             }}
-            onClickBack={currentTab === TAB_QR.product && QrProductType === QR_PRODUCT_TYPE.landlot ? () => setQrProductType(QR_PRODUCT_TYPE.root) : undefined}
+            onClickBack={currentTab === TAB_QR.product && QrProductType === QR_PRODUCT_TYPE.landlot ? () => {setTrigger(!trigger); setQrProductType(QR_PRODUCT_TYPE.root)} : undefined}
             searchModel={currentTab === TAB_QR.packaging ? packagingSearchModel : QrProductType === QR_PRODUCT_TYPE.root ? rootSearchModel : searchModel}
           />
           <div className="user-body">

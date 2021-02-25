@@ -76,7 +76,10 @@ export const GetById = (_id: string) => {
   return axios.get(`${API_URL}/${_id}`);
 };
 export const Update: UpdateProps<any> = (entity: any) => {
-  return axios.put(`${API_URL}/${entity._id}`, entity);
+  if (entity.distributedStatus) {
+    entity.distributedStatus = entity.distributedStatus.code
+  }
+  return axios.put(`${API_URL}/${entity._id}/status`, entity);
 };
 
 export const Delete: DeleteProps<any> = (entity: any) => {
