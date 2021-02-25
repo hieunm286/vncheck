@@ -393,7 +393,7 @@ function QrPage() {
       label: 'QR.MASTER.TABLE.EXPIRY',
     },
     distributedLocation: {
-      type: 'date-time',
+      type: 'string',
       label: 'QR.MASTER.TABLE.DISTRIBUTION_LOCATION',
     },
   }
@@ -786,7 +786,7 @@ function QrPage() {
         }
       }
     }
-  }), [loading])
+  }), [editEntity])
 
   const initCreateProductValues = useMemo((): any => ({ ...InitValues(createForm), type: currentTab === TAB_QR.product ? QrTypeList[2] : QrTypeList[1] , total: 3}), [
     createForm,

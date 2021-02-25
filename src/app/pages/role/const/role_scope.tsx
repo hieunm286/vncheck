@@ -14,7 +14,7 @@ export const role_scope_seeding = [
   'productPlan.seeding.buyInvoice',
   'productPlan.seeding.seedingTime',
   'productPlan.seeding.farmLocation',
-  'productPlan.seeding.expectedQuantity',
+  // 'productPlan.seeding.expectedQuantity',
   'productPlan.seeding.numberOfSeed',
   'productPlan.seeding.landLot',
   'productPlan.seeding.area',
