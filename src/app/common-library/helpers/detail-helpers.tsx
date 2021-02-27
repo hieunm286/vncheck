@@ -246,7 +246,6 @@ interface Info {
 
 export const DisplayDistribution = (input: Info[]) => {
   if (!_.isArray(input)) return <></>;
-  console.log(input);
 
   return (
     <>

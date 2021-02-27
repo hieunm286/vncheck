@@ -139,11 +139,9 @@ function Species() {
     },
   };
 
-  console.log(editEntity)
   
   const schema = Yup.object().shape({
     name: Yup.string().test('Exists validate', 'SPECIES_NAME_WAS_EXISTED', function (value) {
-      console.log(editEntity)
         if (editEntity) {
           const validArr = entities.filter(item => item._id !== editEntity._id);
           const index = validArr.findIndex(el => el.name === value);

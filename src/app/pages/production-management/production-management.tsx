@@ -38,7 +38,6 @@ const extendSearchField: SearchModel = {
     label: 'PRODUCTION_PLAN.SPECIES_NAME',
     onSearch: SpeciesService.GetAll,
     onChange: (value, { values }) => {
-      console.log(value, values);
       if (value) value.barcode = values.product_plan?.seeding?.species?.barcode;
       else return { barcode: values.product_plan?.seeding?.species?.barcode };
     },
@@ -732,8 +731,6 @@ function ProductionManagement() {
     preliminaryTreatmentColumns,
     preservationColumns,
   ]);
-
-  console.log(packingColumns);
 
   return (
     <React.Fragment>

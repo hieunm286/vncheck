@@ -76,12 +76,10 @@ function CustomImageUpload({
   }, [field.value]);
 
   const innerValue = useMemo(()=>{
-    console.log(111);
     return field.value ? isArray ? field.value : [field.value] : []
   }, [field.value, isArray]);
 
   const onChange = useCallback((imageList: any, addUpdateIndex: any) => {
-    console.log(imageList);
     handleChange(imageList, addUpdateIndex, name);
   }, [handleChange,name]);
   return (

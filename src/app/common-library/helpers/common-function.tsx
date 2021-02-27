@@ -61,9 +61,7 @@ export const RoleArrayToObject = (arr: string[]) => {
 }
 export const RoleObjectToArray = (scopes?: any) => {
   const flatScopes: any = flatten(scopes, { safe: true })
-  console.log(flatScopes)
   return flatScopes ? Object.values(flatScopes).reduce((pre: any, cur: any) => {
-    console.log(cur)
     pre.push(...cur);
     return pre;
   }, []) : [];
@@ -497,7 +495,6 @@ export function InitMasterProps<T>({
         return e;
       })
       .catch(error => {
-        console.log(error)
         setError({error: error.message || error.response.data || JSON.stringify(error)});
         setLoading(false);
         throw error;

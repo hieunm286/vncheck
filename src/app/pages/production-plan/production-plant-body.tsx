@@ -35,13 +35,10 @@ function ProductionPlanBody({
     }
     setEntities([])
     setPaginationProps(DefaultPagination)
-  }
-  console.log(tabData)
-  
+  }  
   
   return (
     <Card>
-      {/* {title && <CardHeader title={intl.formatMessage({ id: title }).toUpperCase()} />} */}
       <CardBody>
         <Tabs defaultActiveKey={currentTab} onChange={callback} tabBarStyle={{color: '#27AE60'}}
               className="production-plan-tab-active">
@@ -58,7 +55,6 @@ function ProductionPlanBody({
             </TabPane>
           ))}
         </Tabs>
-        {/* <MasterTreeStructure /> */}
       </CardBody>
     </Card>
   );

@@ -96,7 +96,6 @@ export function onTableChange(
 ): TableChangeHandler<PaginationProps> {
   return (type, data) => {
     // console.log(type);
-    console.log(data);
     if (type === 'sort') {
       setPaginationParams({
         ...paginationParams,

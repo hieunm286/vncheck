@@ -299,7 +299,6 @@ function MultilevelSale() {
               entity={editEntity}
               validation={MultilevelSaleSchema}
               onModify={values => {
-                console.log(values);
                 if (editEntity) {
                   return update({parentId: editEntity._id, ...ConvertStatusToString(values)});
                 } else {

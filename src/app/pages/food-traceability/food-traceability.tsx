@@ -13,7 +13,6 @@ const getExistInfo = (target: string[], current: RenderInfoDetailColumn) => {
 
   Object.keys(current).forEach(role => {
     if (target.includes(role)) {
-      console.log('1')
       viewData[role] = current[role]
     }
   })

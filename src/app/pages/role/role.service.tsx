@@ -56,7 +56,6 @@ const GetCompareFunction = ({key, orderType}: { key: string, orderType: 1 | -1 }
 }
 export const StatusList = [{code: "1", name: "Hoạt động"}, {code: "0", name: "Không hoạt động"}];
 export const GetStatusList = ({queryProps, paginationProps}: any): Promise<any> => {
-  console.log(queryProps);
   return new Promise((resolve, reject) => {
     const totalData = StatusList.filter((val, index, arr) => {
       return Object.values(queryProps).some((query: any) => val.name.toLowerCase().indexOf(query.toLowerCase()) > -1);
@@ -95,11 +94,9 @@ export const Get: GetProps<any> = entity => {
 export const GetById = (_id: string) => {
   return axios.get(`${API_URL}/${_id}`).then(res => {
     if (_.isArray(res.data.scopes)) {
-      console.log(RoleArrayToObject(res.data.scopes))
       res.data.scopes = RoleArrayToObject(res.data.scopes)
       // res.data = {...res.data, ...RoleArrayToObject(res.data.scopes)};
     }
-    console.log(res.data)
     return res;
   })
 };

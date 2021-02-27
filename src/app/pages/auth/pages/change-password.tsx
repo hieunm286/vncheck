@@ -89,7 +89,6 @@ function ChangePassword(props: {
   let callbackUrl = new URLSearchParams(search).get('callbackUrl');
   callbackUrl = callbackUrl ? callbackUrl : pathname;
   const userInfo = useSelector(({auth}: { auth: RootStateOrAny }) => auth);
-  console.log(userInfo);
   const ChangePasswordSchema = Yup.object().shape({
     newPassword: Yup.string()
       .min(3, 'Minimum 3 symbols')
@@ -132,7 +131,6 @@ function ChangePassword(props: {
       toggle.click();
     }
     const currentLocal: any = JSON.parse(localStorage.getItem('persist:vncheck') || '{}');
-    console.log(currentLocal);
     const resetLocal = {
       _persist: currentLocal._persist,
     };
@@ -159,7 +157,6 @@ function ChangePassword(props: {
     };
     SetTempPassword(data).then(res => {
       //TODO:SetPasswordToBlockchain()
-      console.log(1111111111111111111);
       SetPassword(data).then(res => {
         //TODO:Save new credential
         
@@ -171,7 +168,6 @@ function ChangePassword(props: {
           },
           keyPair.privateKey,
         );
-        console.log(userInfo);
         props.saveNewPassword({
           publicKey: keyPair.publicKey,
           _certificate: certificate,
@@ -179,7 +175,6 @@ function ChangePassword(props: {
         });
         Ping(certificate)
           .then(res => {
-            console.log(res);
             props.saveUserInfo({
               ...res.data,
               // fullName: res.data.first_name + ' ' + res.data.last_name,

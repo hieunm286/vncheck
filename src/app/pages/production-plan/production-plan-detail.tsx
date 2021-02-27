@@ -58,7 +58,7 @@ export function ProductionPlanDetail({
       });
     }
   }, [code]);
-  console.log(entityDetail)
+
   return (
     <>
       {renderInfo.map((value, index) => (
@@ -109,9 +109,7 @@ export function ProductionPlanDetail({
                                 fieldName.indexOf('[') > -1
                                   ? getFieldV3(entityDetail, fieldName)
                                   : getFieldV3(entityDetail, fieldName)[0];
-                              console.log(entityDetail);
-                              console.log(fieldName);
-                              console.log(displayData);
+                              
                               return displayInfo.formatter ? (
                                 displayInfo.formatter(displayData, entityDetail)
                               ) : (

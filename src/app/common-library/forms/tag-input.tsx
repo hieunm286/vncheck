@@ -47,9 +47,6 @@ function TagInput({
     return idArr;
   }, []);
 
-  console.log(getDefautltTag(field.value))
-  console.log(field)
-
   const intl = useIntl();
   const _label = useMemo(() => (_.isString(label) ? intl.formatMessage({id: label}) : label), []);
   return (
@@ -70,7 +67,6 @@ function TagInput({
             placeholder={intl.formatMessage({id: placeholder},  {label:_.isString(_label) ? _label:''})}
             onChange={(value: any) => {
               // handleChange(value);
-              console.log(value)
               setFieldTouched(name, true);
               if (value) {
                 setFieldValue(name, value);

@@ -57,7 +57,6 @@ const RoleSchema = Yup.object().shape({
     'test name',
     'ROLE.VALIDATION.REQUIRED.MANAGEMENT_ORGANIZATION',
     function(value) {
-      console.log(value);
       return !!value;
     },
   ),
@@ -155,37 +154,6 @@ export default function ManagementOrganization() {
     _subTitle: 'THÔNG TIN CHUNG',
     _className: 'col-md-8 col-12 pr-xl-15 pr-md-10 pr-5',
     _inputClassName: 'ml-xl-15 mb-5',
-    // managementOrganization: {
-    //   _type: 'custom',
-    //   component: () => {
-    //     return (
-    //       <>
-    //         <Select style={{width: '200px'}}>
-    //           <Option value="0">Phòng Giám Đốc</Option>
-    //         </Select>
-    //       </>
-    //     )
-    //   }
-    // },
-    // managementUnit: {
-    //   _type: 'search-select',
-    //   label: 'ROLE.CREATE.LABEL.MANAGEMENT_ORGANIZATION',
-    //   // name: 'managementUnit',
-    //   keyField: 'name',
-    //   onSearch: ManagementOrganizationService.getAll,
-    //   required: true
-    //   // onChange: (value: any, {setFieldValue, setFieldTouched}: any) => {
-    //   //   const name = 'managementUnit';
-    //   //   setFieldTouched(name, true);
-    //   //   setFieldValue(name, value._id ?? '');
-    //   // },
-    //   // onFetch: (entities: any) => {console.log(entities); return entities.data;}
-    //   // onSearch: ({queryProps, sortList, paginationProps,}: any) => {
-    //   //   return ManagementOrganizationService.GetAll({queryProps}).then((e) => {
-    //   //     return (e.data);
-    //   //   })
-    //   // },
-    // },
     managementUnit: {
       _type: 'search-select',
       label: 'USER.MODIFY.MANAGEMENT_UNIT',

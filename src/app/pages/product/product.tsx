@@ -26,7 +26,6 @@ function Product(props: any) {
   const sigObj = secp256k1.ecdsaSign(msg, privKey)
 
 // verify the signature
-  console.log(privKey)
 // => true
   return (
     <div>

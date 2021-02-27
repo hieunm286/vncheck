@@ -13,8 +13,6 @@ export const axiosSlice = createSlice({
       // console.log(action.payload);
     },
     addAxiosInstance: (state, action) => {
-      console.log('call axios slice')
-      console.log(action.payload);
       state.factory = state.factory.set(action.payload.instanceName, axios.create());
     }
   }

@@ -63,8 +63,6 @@ function EntityCrudPage({
     }
   }, [code]);
 
-  console.log(entityForEdit)
-  
   return (
     <>
       <Formik
@@ -72,7 +70,7 @@ function EntityCrudPage({
         initialValues={entityForEdit}
         validationSchema={validation}
         onSubmit={(values, {setSubmitting, validateForm}) => {
-          console.log(values)
+
           onModify(values).then(() => {
             history.push(homePageUrl ?? GetHomePage(window.location.pathname))
           }).catch((err) => {

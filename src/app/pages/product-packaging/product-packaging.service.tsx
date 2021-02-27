@@ -54,7 +54,6 @@ export const Update: UpdateProps<ProductPackagingModel> = (entity: ProductPackag
 };
 
 export const Delete: DeleteProps<ProductPackagingModel> = (entity: ProductPackagingModel) => {
-  console.log(entity)
   return axios.delete(`${API_URL}/${entity._id}`);
 };
 
@@ -65,8 +64,6 @@ export const DeleteMany: DeleteManyProps<ProductPackagingModel> = (entities: Pro
 };
 
 export const uploadImage = (image: any) => {
-  console.log('run updload');
-  console.log(image);
   let formData = new FormData();
   formData.append('image', image);
   return axios({

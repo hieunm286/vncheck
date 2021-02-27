@@ -42,7 +42,6 @@ export const purchaseOrderSlice = createSlice({
       }
     },
     entityFetched: (state, action) => {
-      console.log(action.payload);
       state.actionsLoading = false;
       state.editEntity = action.payload.editEntity;
       state.error = null;

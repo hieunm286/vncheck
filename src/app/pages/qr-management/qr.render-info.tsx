@@ -121,7 +121,6 @@ export const seedingInfo: RenderInfoDetail = [{
     'productPlan.seeding.[worker].fullName': {
       title: 'SEEDING_WORKER',
       formatter: (input) => {
-        console.log(input);
         return DisplayArray(input)
       }
     },

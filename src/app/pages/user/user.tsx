@@ -109,8 +109,6 @@ function User() {
       }).catch (err => console.log(err))
     }
   }, [paginationProps, filterProps, trigger, currentTab]);
-
-  console.log(paginationProps)
   
   const columns = useMemo(() => {
     return [
@@ -300,7 +298,6 @@ function User() {
       disabled: currentTab === '1',
       onSearch: ManagementUnitService.getAll,
       onChange: (value: any, {setFieldValue}: any) => {
-        console.log(value)
         if (managementUnit != value) {
           setFieldValue('role', null);
         }
@@ -469,7 +466,6 @@ function User() {
         _type: 'search-select',
         onSearch: GetState,
         disabled: (values: any) => {
-          console.log(values)
         },
         onChange: (value: any, {setFieldValue, setFieldTouched, values}: any) => {
           if (values?.address?.state !== value) {

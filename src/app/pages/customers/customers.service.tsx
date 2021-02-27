@@ -49,7 +49,6 @@ export const GetOrders = (_id: string, {
   paginationProps,
   sortField
 }: any) => {
-  console.log(paginationProps)
   return axios.get(`${API_URL}/${_id}/orders`, { params: {...queryProps, ...paginationProps, ...sortField}, });
 }
 

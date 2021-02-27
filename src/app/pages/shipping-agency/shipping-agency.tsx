@@ -236,7 +236,6 @@ function ShippingAgency() {
   }, [city]);
   const getOwnerCity = useCallback(
     ({ queryProps, paginationProps }: any): Promise<any> => {
-      console.log(ownerState);
       return GetCity({ queryProps: { ...queryProps, state: ownerState }, paginationProps });
     },
     [ownerState],
@@ -267,10 +266,8 @@ function ShippingAgency() {
         _type: 'search-select',
         onSearch: GetState,
         disabled: (values: any) => {
-          console.log(values)
         },
         onChange: (value: any, {setFieldValue, setFieldTouched}: any) => {
-          console.log(state, value);
           if (!value || state != value) {
             setCity(null);
             setFieldValue('address.city', '');
@@ -385,7 +382,6 @@ function ShippingAgency() {
           _type: 'search-select',
           onSearch: GetState,
           disabled: (values: any) => {
-            console.log(values);
           },
           onChange: (value: any, { setFieldValue, setFieldTouched }: any) => {
             if (ownerState != value) {
@@ -579,7 +575,6 @@ function ShippingAgency() {
             isShowId={true}
           />
           
-          {/* <MasterTreeStructure /> */}
         </Route>
       </Switch>
       <MasterEntityDetailDialog

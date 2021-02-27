@@ -91,9 +91,6 @@ export function FTDetail({
                                 fieldName.indexOf('[') > -1
                                   ? getFieldV3(entityDetail, fieldName)
                                   : getFieldV3(entityDetail, fieldName)[0];
-
-                                  console.log(displayData)
-                                  console.log(displayInfo)
                              
                               return displayInfo.formatter ? !displayData ? <><LockIcon /> Không có thông tin hoặc Bạn không có quyền xem thông tin này </> : displayData.length === 0 ? <><LockIcon /> Không có thông tin hoặc Bạn không có quyền xem thông tin này </> : (
                                 displayInfo.formatter(displayData, entityDetail)

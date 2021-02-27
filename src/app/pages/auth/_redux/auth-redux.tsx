@@ -53,7 +53,6 @@ export const reducer = persistReducer(
       // }
       
       case actionTypes.Logout: {
-        console.log(action);
         const payload = action.payload;
         return {...initialAuthState, _error: payload};
       }
@@ -75,7 +74,6 @@ export const actions = {
     payload: userInfo,
   }),
   saveUserInfo: (userInfo: any) => {
-    console.log(1);
     return {
       type: actionTypes.SaveUserInfo,
       payload: userInfo,
@@ -88,7 +86,6 @@ export const actions = {
     };
   },
   saveCertificate: (certificate: any) => {
-    console.log(1);
     return {
       type: actionTypes.SaveCertificate,
       payload: certificate,

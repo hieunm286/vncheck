@@ -17,9 +17,6 @@ const AgencyPage = lazy(() => import('./pages/agency/agency'));
 
 const AgencyTypePage = lazy(() => import('./pages/agency-type-2/agency-type'));
 
-// const CategoryPage = lazy(() => import('./pages/category/category-page'));
-const BasicUnitPage = lazy(() => import('./pages/basic-unit/basic-unit'));
-
 const PurchaseOrderPage = lazy(() => import('./pages/purchase-order/purchase-order'));
 
 const LandLotPage = lazy(() => import('./pages/land-lot/land-lot'));
@@ -64,8 +61,6 @@ export default function BasePage() {
         <Route path="/account/user" component={UserPage}/>
         <Route path="/product-category" component={ProductPage}/>
         <Route path="/agency" component={AgencyPage}/>
-        {/*<Route path="/category" component={CategoryPage}/>*/}
-        <Route path="/basic-unit" component={BasicUnitPage}/>
         <Route path="/purchase-order" component={PurchaseOrderPage}/>
         <Route path="/land-lot" component={LandLotPage}/>
         <Route path="/species" component={ProductType}/>

@@ -162,8 +162,8 @@ interface CardProp {
 
 export const CardStyle1 = ({ header, data, entity, titleClassName, dataClassName }: CardProp) => {
   const intl = useIntl()
-  console.log(data)
-  console.log(entity)
+
+
   return (
     <Card>
       {header && <h4 className='text-center text-primary p-8 border-bottom'>{intl.formatMessage({ id: header })}</h4>}
@@ -184,9 +184,9 @@ export const CardStyle1 = ({ header, data, entity, titleClassName, dataClassName
                         const displayData = fieldName.indexOf("[") > -1 ?
                           getFieldV3(entity, fieldName) :
                           getFieldV3(entity, fieldName)[0]
-                          console.log(fieldName)
-                          console.log(displayData)
-                        return displayInfo.formatter ? displayInfo.formatter(displayData, entity)
+
+
+                          return displayInfo.formatter ? displayInfo.formatter(displayData, entity)
                           : (<>{(_.isNumber(displayData) || _.isString(displayData)) ? displayData : JSON.stringify(displayData)}</>)
                       })()
                       }

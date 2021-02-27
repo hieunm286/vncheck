@@ -509,9 +509,7 @@ function PurchaseOrder() {
       // , modifyModel_2, modifyModel_3, modifyModel_4
     ),
   };
-  
-  console.log(allFormField);
-  
+    
   const allFormButton: any = {
     save: {
       role: 'submit',
@@ -650,7 +648,6 @@ function PurchaseOrder() {
             title={headerTitle}
             onSearch={value => {
               setPaginationProps({...DefaultPagination, page: 1});
-              console.log(paginationProps);
               setFilterProps(value);
             }}
             searchModel={purchaseOrderSearchModel}

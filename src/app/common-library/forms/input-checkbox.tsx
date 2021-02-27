@@ -49,9 +49,7 @@ function CheckBoxField({ optionData, name, label }: Prop) {
   const { setFieldValue, errors, touched, getFieldMeta, values } = useFormikContext<any>();
 
   const onChange = (list: any[]) => {
-    console.log(list)
     setFieldValue(name, list);
-    console.log(field)
     // setIndeterminate(!!list.length && list.length < optionData.filter((value: any) => !value.disabled).length);
   };
 
@@ -60,8 +58,6 @@ function CheckBoxField({ optionData, name, label }: Prop) {
     setFieldValue(name, e.target.checked ? checkArr : []);
     // setIndeterminate(false);
   };
-
-  console.log(field)
 
   return (
     <>

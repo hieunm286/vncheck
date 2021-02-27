@@ -46,11 +46,8 @@ import { DisplayAddress } from '../../common-library/helpers/detail-helpers';
 import { Spinner } from 'react-bootstrap';
 
 const headerTitle = 'AGENCY.MASTER.HEADER.TITLE';
-const tableTitle = 'SHIPPING_AGENCY.MASTER.TABLE.TITLE';
 const detailDialogTitle = 'SHIPPING_AGENCY.DETAIL_DIALOG.TITLE';
 const moduleName = 'AGENCY.MODULE_NAME';
-const deleteDialogTitle = 'SHIPPING_AGENCY.DELETE_DIALOG.TITLE';
-const deleteDialogBodyTitle = 'SHIPPING_AGENCY.DELETE_DIALOG.BODY_TITLE';
 const createTitle = 'SHIPPING_AGENCY.CREATE.HEADER';
 const updateTitle = 'SHIPPING_AGENCY.UPDATE.HEADER';
 
@@ -63,23 +60,14 @@ function AgencyPage() {
   const intl = useIntl();
   const {
     entities,
-    setEntities,
     deleteEntity,
     setDeleteEntity,
     editEntity,
-    setEditEntity,
-    createEntity,
-    setCreateEntity,
     selectedEntities,
     setSelectedEntities,
     detailEntity,
-    setDetailEntity,
     showDelete,
     setShowDelete,
-    showEdit,
-    setShowEdit,
-    showCreate,
-    setShowCreate,
     showDetail,
     setShowDetail,
     showDeleteMany,
@@ -89,18 +77,14 @@ function AgencyPage() {
     filterProps,
     setFilterProps,
     total,
-    setTotal,
     loading,
-    setLoading,
     error,
-    setError,
     add,
     update,
     get,
     deleteMany,
     deleteFn,
     getAll,
-    refreshData,
   } = InitMasterProps<AgencyModel>({
     getServer: Get,
     countServer: Count,
@@ -156,7 +140,7 @@ function AgencyPage() {
         formatExtraData: {
           intl,
           onShowDetail: (entity: AgencyModel) => {
-            get(entity).then(e => {
+            get(entity).then(() => {
               setShowDetail(true);
             });
           },
@@ -184,7 +168,7 @@ function AgencyPage() {
           name: { title: 'AGENCY.DETAIL_DIALOG.SHIPPING.NAME' },
           address: {
             title: 'AGENCY.DETAIL_DIALOG.SHIPPING.ADDRESS',
-            formatter: (address: any, row: any) => {
+            formatter: (address: any) => {
               const addressString = `${address.address}, ${address.district}, ${address.city}, ${address.state}`;
               return <>{addressString}</>;
             },
@@ -227,7 +211,7 @@ function AgencyPage() {
         data: {
           shippingAddress: {
             keyField: 'shippingAddress',
-            formatter: (addresses: any[], row: any) => {
+            formatter: (addresses: any[]) => {
               let address = addresses.find(address => address.isDefault);
               address = address ?? addresses[0];
 
@@ -256,7 +240,7 @@ function AgencyPage() {
   const [ownerState, setOwnerState] = useState<string | null | undefined>(null);
   const [ownerCity, setOwnerCity] = useState<string | null | undefined>(null);
   const [managementUnit, setManagementUnit] = useState<any>(null);
-  const [role, setRole] = useState<any>(null);
+  const [] = useState<any>(null);
 
   useEffect(() => {
     setState(editEntity?.address?.state);
@@ -299,7 +283,6 @@ function AgencyPage() {
   );
   const getOwnerCity = useCallback(
     ({ queryProps, paginationProps }: any): Promise<any> => {
-      console.log(ownerState);
       return GetCity({ queryProps: { ...queryProps, state: ownerState }, paginationProps });
     },
     [ownerState],
@@ -323,7 +306,7 @@ function AgencyPage() {
     storeLevel: {
       type: 'tree-select',
       label: 'AGENCY.MASTER.SEARCH.STORE_LEVEL',
-      onSearch: ({ queryProps, sortList, paginationProps }) => {
+      onSearch: ({ queryProps }) => {
         return MultilevelSaleService.GetAll({ queryProps }).then(e => {
           return e.data;
         });
@@ -335,7 +318,6 @@ function AgencyPage() {
       name: 'address.state',
       onSearch: GetState,
       onChange: (value: any, { setFieldValue }: any) => {
-        console.log(value);
         if (state != value) {
           setCity(null);
           setFieldValue('address.city', null);
@@ -390,7 +372,7 @@ function AgencyPage() {
         _type: 'tree-select',
         required: true,
         label: 'AGENCY.MODIFY.STORE_LEVEL',
-        onSearch: ({ queryProps, sortList, paginationProps }: any) => {
+        onSearch: ({ queryProps }: any) => {
           return MultilevelSaleService.GetAll({ queryProps }).then(e => {
             return e.data;
           });
@@ -401,8 +383,7 @@ function AgencyPage() {
         state: {
           _type: 'search-select',
           onSearch: GetState,
-          disabled: (values: any) => {
-            console.log(values);
+          disabled: () => {
           },
           onChange: (value: any, { setFieldValue, setFieldTouched }: any) => {
             if (state != value) {
@@ -485,7 +466,6 @@ function AgencyPage() {
             optionsClassName: 'col-12 mr-0',
             value: (value: any) => {
               const t = _.isString(value) ? null : value?.find((v: any) => v.isDefault);
-              console.log(t);
               return t ? JSON.stringify(t) : t;
             },
             onChange: (e: any, { setFieldValue, values }: any) => {
@@ -497,11 +477,11 @@ function AgencyPage() {
                 })),
               ]);
             },
-            options: ({ field, values, setFieldValue, setFieldTouched }: any) => {
+            options: ({ field, setFieldTouched }: any) => {
               return field.value
                 ? field.value.map((address: any, index: number) => {
                     return {
-                      label: ({ setFieldValue, handleChange, values, handleBlur }: any) => {
+                      label: ({ setFieldValue, values }: any) => {
                         return (
                           <div>
                             <div className={'pr-23'} style={{ display: 'inline-block' }}>
@@ -638,8 +618,7 @@ function AgencyPage() {
             state: {
               _type: 'search-select',
               onSearch: GetState,
-              disabled: (values: any) => {
-                console.log(values);
+              disabled: () => {
               },
               onChange: (value: any, { setFieldValue, setFieldTouched }: any) => {
                 if (ownerState != value) {
@@ -830,10 +809,7 @@ function AgencyPage() {
       />
 
       <Switch>
-        {/* <Redirect from="/agency/:code" to="/agency" /> */}
         <Route path="/agency" exact={true}>
-          {/* <MasterHeader title={headerTitle} onSearch={setFilterProps} searchModel={purchaseOrderSearchModel} */}
-          {/* initValue={filterProps}/> */}
           <MasterHeader
             title={headerTitle}
             onSearch={value => {
@@ -870,7 +846,7 @@ function AgencyPage() {
           />
         </Route>
         <Route path="/agency/:code">
-          {({ history, match }) => (
+          {({ match }) => (
             <EntityCrudPage
               onModify={update}
               moduleName={moduleName}

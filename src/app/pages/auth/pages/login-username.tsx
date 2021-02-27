@@ -11,16 +11,6 @@ import {TextField} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
 import ErrorIcon from '@material-ui/icons/Error';
 
-/*
-  INTL (i18n) docs:
-  https://github.com/formatjs/react-intl/blob/master/docs/Components.md#formattedmessage
-*/
-
-/*
-  Formik+YUP:
-  https://jaredpalmer.com/formik/docs/tutorial#getfieldprops
-*/
-
 const initialValues = {
   username: '',
   password: 'admin',
@@ -43,7 +33,6 @@ const LoginUsername = (props: { saveUserInfo?: any; intl?: any; location?: any }
   const classes = useStyles();
   const {search} = window.location;
   let callbackUrl = new URLSearchParams(search).get('callbackUrl');
-  console.log(window.location);
   
   const LoginSchema = Yup.object().shape({
     username: Yup.string()
@@ -76,7 +65,6 @@ const LoginUsername = (props: { saveUserInfo?: any; intl?: any; location?: any }
       setTimeout(() => {
         GetCredential(username)
           .then(response => {
-            console.log(response.data);
             const {
               encryptedPrivateKey,
               publicKey,
@@ -142,23 +130,13 @@ const LoginUsername = (props: { saveUserInfo?: any; intl?: any; location?: any }
         onSubmit={formik.handleSubmit}
         className="form fv-plugins-bootstrap fv-plugins-framework">
         <div className="form-group fv-plugins-icon-container">
-          {/* <input
-            placeholder="Username"
-            type="text"
-            className={`form-control form-control-solid h-auto py-5 px-6 ${getInputClasses(
-              'username',
-            )}`}
-            name="username"
-            {...formik.getFieldProps('username')}
-          /> */}
           <TextField
             id="outlined-basic"
             autoFocus
             className={`form-control form-control-solid h-auto`}
             label="Tên đăng nhập"
             variant="outlined"
-            // name="username"
-            // onClick={() => alert('cc')}
+          
             
             {...formik.getFieldProps('username')}
           />

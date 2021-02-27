@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Modal} from 'react-bootstrap';
 import ModifyEntityDialogForm from './modify-entity-dialog-form';
 import {useIntl} from 'react-intl';
@@ -13,9 +13,7 @@ function ModifyEntityDialog<T>({
                                  moduleName = 'COMMON_COMPONENT.DETAIL_DIALOG.MODULE_NAME',
                                  formModel,
                                  validation,
-                                 loading,
-                                 backdrop
-                               }: {
+                                 loading                               }: {
   show: boolean;
   onHide: () => void;
   entity?: T;
@@ -32,7 +30,6 @@ function ModifyEntityDialog<T>({
 }) {
   const intl = useIntl();
   const {_header, ...panels} = formModel;
-  console.log(loading)
   return (
     <Modal
       size={size}
@@ -61,9 +58,7 @@ function ModifyEntityDialog<T>({
           key={`tttttttt${index}`}
           loading={loading}
         />)
-      })}
-      {/*<MasterEntityDetail data={entity} renderInfo={renderInfo}/>*/}
-     
+      })}     
     </Modal>
   );
 }

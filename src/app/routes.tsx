@@ -18,7 +18,7 @@ import FoodTraceability from './pages/food-traceability/food-traceability';
 export function Routes() {
   const userInfo = useSelector(({ auth }: any) => auth);
   const location = useLocation()
-  console.log(location)
+
   const { pathname } = location;
   const { search } = location;
   const temp = new URLSearchParams(search).get('callbackUrl');
@@ -51,7 +51,7 @@ export function Routes() {
       );
     } else if (isLoggedInAndUnexpired()) {
       if (pathname.indexOf('/auth/change-password') > -1) {
-        console.log(pathname);
+
         return (
           <Route>
             <AuthPage />
@@ -59,7 +59,7 @@ export function Routes() {
           </Route>
         );
       }
-      console.log('222');
+
       return [
         <Redirect from={'/auth'} to={callbackUrl} key={'r_base'} />,
         <Layout key={'base'}>
@@ -67,7 +67,7 @@ export function Routes() {
         </Layout>,
       ];
     } else {
-      console.log('3333');
+
       return (
         <Route>
           <AuthPage />

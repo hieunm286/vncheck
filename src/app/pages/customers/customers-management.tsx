@@ -122,13 +122,7 @@ function CustomersManagement() {
         <span
           className="btn btn-icon btn-light btn-hover-primary btn-sm visibility"
           onClick={() => {
-            // ProductionPlanService.GetById(row._id).then(res => {
-            //   setEditEntity(res.data);
-            //   history.push({
-            //     pathname: '/production-plan/plan-view/' + row._id,
-            //     state: res.data,
-            //   });
-            // });
+      
             history.push({
               pathname: '/customers-management/' + row._id + '/history',
               state: historyData,
@@ -337,8 +331,6 @@ function CustomersManagement() {
             setPaginationParams={setPaginationProps}
             isShowId={true}
           />
-
-          {/* <MasterTreeStructure /> */}
         </Route>
       </Switch>
     </Fragment>

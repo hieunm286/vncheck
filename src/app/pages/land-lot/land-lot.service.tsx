@@ -52,7 +52,6 @@ const From1to100 = Array(99).fill(null).map((x, i) => {
 })
 export const GetSubLots = ({queryProps}: any): Promise<any> => {
   return new Promise((resolve, reject) => {
-    console.log(queryProps);
     const data = From1to100.filter((val, index, arr) => {
       return val.indexOf(queryProps.subLot.toUpperCase()) > -1;
     })

@@ -1193,9 +1193,7 @@ export const halfValidate = {
   estimatedHarvestTime: Yup.mixed(),
   expectedQuantity: Yup.number(),
   technical: Yup.array().test('oneOfRequired', 'INPUT_ALL', function (value: any) {
-    console.log(this.schema);
-    console.log(this.path);
-    console.log(this.options);
+
     return (
       (this.parent?.leader?.length > 0 &&
         this.parent?.expectedQuantity > 0 &&
@@ -1256,7 +1254,6 @@ export const validate = {
     );
   }),
   technical: Yup.array().test('oneOfRequired', 'INPUT_ALL', function (value: any) {
-    console.log(value);
     return (
       (this.parent?.leader?.length > 0 &&
         this.parent?.estimatedQuantity > 0 &&
@@ -1360,7 +1357,6 @@ export const packingValidate = {
   }),
   
   packing: Yup.mixed().test('oneOfRequired', 'INPUT_ALL', function (value: any) {
-    console.log(value);
     return (
       (this.parent?.leader?.length > 0 &&
         this.parent?.technical?.length > 0 &&

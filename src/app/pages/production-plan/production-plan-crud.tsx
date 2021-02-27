@@ -104,7 +104,6 @@ function ProductionPlanCrud({
           //   : ConvertSelectSearch(res.data);
           const initEntity = addInitField(res.data, initProductPlanForm);
           setEntityForEdit(initEntity);
-          console.log(initEntity);
           setEditEntity(res.data);
           setCommentArr(res.data.comments || []);
         })
@@ -219,7 +218,6 @@ function ProductionPlanCrud({
 
               const diffValue = diff(entityForEdit, clValue);
 
-              console.log(JSON.stringify(diffValue));
               if (
                 diffValue.packing &&
                 _.isObject(diffValue.packing.packing) &&
@@ -307,10 +305,6 @@ function ProductionPlanCrud({
                 updateValue.unit = values.unit
               }
 
-              console.log(entityForEdit);
-              console.log(values);
-              console.log(updateValue);
-
               if (step === STEP_TYPE.waitingCreated) {
                 submitHandle(updateValue, values, { setSubmitting, setFieldValue, resetForm });
               } else if (step === STEP_TYPE.following && entityForEdit?.confirmationStatus === CONFIRMATION_STATUS_TYPE.common) {
@@ -334,7 +328,6 @@ function ProductionPlanCrud({
                         setSubmitting(false);
                         setErrorMsg(error.entity || error.response.entity);
                         notifyError('Lỗi server. Vui lòng thử lại sau');
-                        console.log('1');
                         // resetForm(entityForEdit);
                       });
                   })
@@ -342,7 +335,6 @@ function ProductionPlanCrud({
                     setSubmitting(false);
                     setErrorMsg(error.entity || error.response.entity);
                     notifyError('Lỗi server. Vui lòng thử lại sau');
-                    console.log('2');
                     // resetForm(entityForEdit);
                   });
               } else if (
@@ -364,7 +356,6 @@ function ProductionPlanCrud({
                     setSubmitting(false);
                     setErrorMsg(error.entity || error.response.entity);
                     notifyError('Lỗi server. Vui lòng thử lại sau');
-                    console.log('3');
                     // resetForm(entityForEdit);
                   });
               }
@@ -378,7 +369,6 @@ function ProductionPlanCrud({
                 const val = modifyPanels[key];
                 if (!_.isObject(val)) throw new Error('Sử dụng sai cách ' + key);
                 const { _title, _validationField, ...panel } = val;
-                console.log(_validationField);
                 return (
                   <Card
                     key={key}

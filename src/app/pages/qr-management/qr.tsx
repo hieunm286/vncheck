@@ -206,7 +206,6 @@ function QrPage() {
           intl,
           onShowDetail: (entity: QrModel) => {
             get(entity).then(res => {
-              console.log(res)
               setEntities(res.data.children)
               setDetailEntity(res.data);
               setHeaderTitle(entity._id || '00000xxx')
@@ -216,7 +215,6 @@ function QrPage() {
             
           },
           onEdit: (entity: QrModel) => {
-            console.log(entity)
             setEditEntity(entity)
             setShowEdit(true)
           },
@@ -243,7 +241,6 @@ function QrPage() {
       ...SortColumn,
       align: 'center',
       formatter: (cell: string, row: any) => {
-        console.log(row.type === '1');
         return <Link to={'qr/' + (row.codeType === '1' ? '' : '') + row._id}>{cell}</Link>
       },
     },
@@ -303,17 +300,14 @@ function QrPage() {
         ...SortColumn,
         align: 'center',
         formatter: (cell: string, row: any) => {
-          console.log(row.type === '1');
           return <Link to={'qr/' + (row.codeType === '1' ? '' : '') + row._id}>{cell}</Link>
         },
       },
-      'createdBy': {
+      createdBy: {
         dataField: 'createdBy.fullName',
         text: `${intl.formatMessage({id: 'QR.MASTER.TABLE.CREATED_BY'})}`,
         ...SortColumn,
         align: 'center',
-        formatter: (cell: any, row: any) => (row?.createdBy ?
-          <DisplayPersonName {...row.createdBy}/> : (<>{intl.formatMessage({id: 'NO_INFORMATION'})}</>)),
       },
       createdAt: {
         dataField: 'createdAt',
@@ -678,28 +672,6 @@ function QrPage() {
   
   const [dE, setDE] = useState<any>(null);
   
-  // const headerInfo: RenderInfoDetail = useMemo(() => [
-  //   {
-  //     header: detailBodyTitle,
-  //     className: 'col-12',
-  //     titleClassName: 'mb-10',
-  //     dataClassName: 'col-3 mb-10',
-  //     data: {
-  //       '_id': {
-  //         formatter: (entity) => {
-  //           return (<Formik
-  //             enableReinitialize={true}
-  //             initialValues={{}} onSubmit={() => {
-  //           }}>
-  //             <ModifyEntityPage
-  //               mode={'vertical'}
-  //               inputGroups={panel}/>
-  //           </Formik>)
-  //         }
-  //       }
-  //     },
-  //   }
-  // ], [dE]);
   const renderInfoProduct: RenderInfoDetail = useMemo(() => ([
     ...producerInfo,
     ...paddingInfo,
@@ -950,20 +922,6 @@ function QrPage() {
               title="Danh mục vai trò"
             />
           </div>
-          {/* <MasterBody
-            title={bodyTitle}
-            onCreate={() => {
-              // history.push(`${window.location.pathname}/0000000`);
-              setShowCreate(true);
-            }}
-            // entities={bodyEntities}
-            entities={entities}
-            total={total}
-            columns={columns}
-            loading={loading}
-            paginationParams={paginationProps}
-            setPaginationParams={setPaginationProps}
-          /> */}
           <ModifyEntityDialog
             show={showCreate}
             validation={validationSchema}

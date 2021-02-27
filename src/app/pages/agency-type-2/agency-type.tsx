@@ -26,22 +26,16 @@ function AgencyType() {
   const intl = useIntl();
   const {
     entities,
-    setEntities,
     deleteEntity,
     setDeleteEntity,
-    editEntity,
     setEditEntity,
-    createEntity,
     setCreateEntity,
     selectedEntities,
     setSelectedEntities,
     detailEntity,
-    setDetailEntity,
     showDelete,
     setShowDelete,
-    showEdit,
     setShowEdit,
-    showCreate,
     setShowCreate,
     showDetail,
     setShowDetail,
@@ -52,11 +46,8 @@ function AgencyType() {
     filterProps,
     setFilterProps,
     total,
-    setTotal,
     loading,
-    setLoading,
-    add, update, get, deleteMany, deleteFn, getAll, refreshData
-  } = InitMasterProps<AgencyTypeModel>({
+    get, deleteMany, deleteFn, getAll  } = InitMasterProps<AgencyTypeModel>({
     getServer: Get,
     countServer: Count,
     createServer: Create,
@@ -69,14 +60,9 @@ function AgencyType() {
   useEffect(() => {
     getAll(filterProps);
   }, [paginationProps, filterProps]);
-  
-  
-  console.log(entities);
-  
+    
   const moduleName = 'PURCHASE_ORDER.CUSTOM.MODULE_NAME';
   const headerTitle = 'PURCHASE_ORDER.MASTER.HEADER.TITLE';
-  const createTitle = 'PURCHASE_ORDER.CREATE.TITLE';
-  const updateTitle = 'PURCHASE_ORDER.UPDATE.TITLE';
   
   const columns: MasterBodyColumns = [
     {
@@ -152,23 +138,6 @@ function AgencyType() {
     },
   };
   
-  const modifyModel: any = {
-    code: {
-      type: 'string',
-      placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.PLACEHOLDER',
-      label: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
-    },
-    name: {
-      type: 'string',
-      placeholder: 'PURCHASE_ORDER.MASTER.HEADER.NAME.PLACEHOLDER',
-      label: 'PURCHASE_ORDER.MASTER.HEADER.NAME.LABEL',
-    },
-    status: {
-      type: 'string',
-      placeholder: 'AGENCY.MASTER.TABLE.STATUS_COLUMN',
-      label: 'AGENCY.MASTER.TABLE.STATUS_COLUMN'
-    },
-  };
   
   const masterEntityDetailDialog: RenderInfoDetail = [{
     data:{
@@ -178,11 +147,6 @@ function AgencyType() {
     }
   }]
   
-  const agencyTypeSchema = Yup.object<AgencyTypeModel>().shape({
-    // code: Yup.string().required('Vui lòng nhập mã đơn vị'),
-    // agencyAddress: Yup.string().required('Vui lòng nhập tên đơn vị'),
-    // phoneNumber: Yup.string().required('Vui lòng nhập số điện thoại'),
-  });
   
   return (
     <>
@@ -223,28 +187,6 @@ function AgencyType() {
           setShowDeleteMany(false);
         }}
       />
-      {/* <ModifyEntityDialog
-        isShow={showCreate}
-        entity={createEntity}
-        onModify={add}
-        title={createTitle}
-        modifyModel={modifyModel}
-        // validationModel={agencyTypeSchema}
-        onHide={() => {
-          setShowCreate(false);
-        }}
-      />
-      <ModifyEntityDialog
-        isShow={showEdit}
-        entity={editEntity}
-        onModify={update}
-        title={updateTitle}
-        modifyModel={modifyModel}
-        // validationModel={agencyTypeSchema}
-        onHide={() => {
-          setShowEdit(false);
-        }}
-      /> */}
       
       <MasterEntityDetailDialog
         show={showDetail}

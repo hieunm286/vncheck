@@ -151,8 +151,6 @@ function CheckboxTable<T>({
     selectColumnPosition: selectColumnPosition,
   };
 
-  console.log(data);
-
   return (
     <div>
       {/* <MasterTable

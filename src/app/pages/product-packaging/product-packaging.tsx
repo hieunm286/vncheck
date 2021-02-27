@@ -37,7 +37,6 @@ const homeURL = `${window.location.pathname}`;
 const ProductPackagingSchema = Yup.object().shape({
   species: Yup.mixed()
     .test('test name', 'SPECIES_NAME_IS_INVALID', function(value) {
-      console.log(value);
       return value;
     }),
   weight: Yup.number()
@@ -340,14 +339,6 @@ function ProductPackaging() {
           <MasterHeader
             title={headerTitle}
             onSearch={value => {
-              // const cvEntity = JSON.parse(JSON.stringify(value))
-
-              // if (value.species && _.isObject(value.species)) {
-              //   cvEntity.species = {}
-
-              //   cvEntity.species._id = value.species._id;
-              // }
-
               setPaginationProps(DefaultPagination);
               setFilterProps(value);
             }}
@@ -372,8 +363,6 @@ function ProductPackaging() {
             setPaginationParams={setPaginationProps}
             isShowId={true}
           />
-
-          {/* <MasterTreeStructure /> */}
         </Route>
       </Switch>
     </Fragment>

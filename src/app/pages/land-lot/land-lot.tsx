@@ -231,7 +231,6 @@ function LandLot() {
   
   const updateForm = useMemo((): ModifyForm => ({...createForm, _header: updateTitle}), [createForm]);
   
-  console.log(createEntity)
   return (
     <Fragment>
       <MasterEntityDetailDialog
@@ -318,10 +317,6 @@ function LandLot() {
             setPaginationParams={setPaginationProps}
             isShowId={true}
           />
-          
-          {/* <MasterGoogleMap location={location} /> */}
-          
-          {/* <MasterMap /> */}
         </Route>
       </Switch>
     </Fragment>

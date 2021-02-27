@@ -43,7 +43,6 @@ function UserBody({
       refreshData()
     }
   }
-  console.log(tabData);
 
   return (
     <Card>

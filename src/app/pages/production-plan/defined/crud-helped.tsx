@@ -129,8 +129,6 @@ export const validNested = [
 export const validationForm = (values: any) => {
     const errors: any = {};
 
-    console.log(values);
-
     const unit = values.unit
 
     const harvestingLeader = values.harvesting?.leader;

@@ -81,12 +81,9 @@ const CheckDisabled = (values: any, currentProcess: string, targetProcess: numbe
     
     values.leader?.forEach((item: any) => {
       if (item.isRecieved === true) {
-        console.log('nhận rồi nè');
         isDisabled = true;
       }
     });
-    
-    console.log(isDisabled);
     
     return isDisabled;
   }
@@ -136,12 +133,9 @@ const ProductPlantSchema = Yup.object().shape({
   cleaning: Yup.object()
     .shape(validate)
     .test('oneOfRequired', 'INPUT_MUTS_ACCORDING_ORDER', function (values: any) {
-      console.log(this.parent.preliminaryTreatment);
-      console.log(values);
     
       if (
-        // this.parent.harvesting.technical.length === 0 ||
-        // this.parent.harvesting.leader.length === 0 ||
+        
         values.technical?.length === 0 ||
         values.leader?.length === 0 ||
         !values.estimatedTime ||
@@ -152,8 +146,7 @@ const ProductPlantSchema = Yup.object().shape({
           this.parent.packing?.estimatedTime ||
           this.parent.packing?.estimatedExpireTimeStart ||
           this.parent.packing?.estimatedExpireTimeEnd ||
-          // this.parent.packing.packing ||
-          // (_.isObject(this.parent.packing.packing)) ||
+          
           this.parent.packing?.estimatedQuantity ||
           this.parent.packing?.estimatedQuantity > 0 ||
           this.parent.packing?.technical?.length > 0 ||
@@ -161,33 +154,16 @@ const ProductPlantSchema = Yup.object().shape({
         ) {
           return false;
         }
-        // else if (
-        //   values.estimatedTime ||
-        //   values.estimatedQuantity ||
-        //   values.estimatedQuantity > 0 ||
-        //   values.technical.length > 0 ||
-        //   values.leader.length > 0
-        // ) {
-        //   return false;
-        // }
-        // return true;
+        
       }
       return true;
     }),
   packing: Yup.object()
     .shape(packingValidate)
     .test('oneOfRequired', 'INPUT_MUTS_ACCORDING_ORDER', function (values: any) {
-      console.log(this.parent.packing);
-      console.log(values);
     
       if (
-        // this.parent.harvesting.technical.length === 0 ||
-        // this.parent.harvesting.leader.length === 0 ||
-        // this.parent.preliminaryTreatment.technical.length === 0 ||
-        // this.parent.preliminaryTreatment.leader.length === 0 ||
-        // !this.parent.preliminaryTreatment.estimatedTime ||
-        // this.parent.preliminaryTreatment.estimatedQuantity === 0 ||
-        // !this.parent.preliminaryTreatment.estimatedQuantity ||
+       
         !values.estimatedTime ||
         !values.estimatedExpireTimeStart ||
         !values.estimatedExpireTimeEnd ||
@@ -205,28 +181,12 @@ const ProductPlantSchema = Yup.object().shape({
         ) {
           return true;
         }
-        //  else if (
-        //   values.estimatedTime ||
-        //   values.estimatedQuantity ||
-        //   values.estimatedQuantity > 0 ||
-        //   values.technical.length > 0 ||
-        //   values.leader.length > 0
-        // ) {
-        //   return false;
-        // }
-        // return true;
+        
       }
       return true;
     }),
   preservation: Yup.object().shape(preservationValidate),
-  // unit: Yup.number().required('Vui lòng chọn đơn vị tính')
   
-  // cleaning: Yup.object().shape({
-  //   technical: Yup.array().typeError('Type err'),
-  //   leader: Yup.array()
-  // }).test('global-ok', 'Nhập hết vào', (value: any) => {
-  //   return value.technical && value.technical.length > 0 && value.leader && value.leader.length > 0
-  // }),
 });
 
 function ProductionPlan() {
@@ -263,10 +223,6 @@ function ProductionPlan() {
   
   const [currentTab, setCurrentTab] = useState<string | undefined>(TAB_TYPE.waitingCreated);
   
-  // const [] = useState<string>('');
-  
-  // const [] = useState<boolean>(false);
-  
   const [tagData] = useState([]);
   
   const [, setSubmit] = useState(false);
@@ -278,7 +234,6 @@ function ProductionPlan() {
   useEffect(() => {
     UserService.GetAll({queryProps: {limit: 100, sortBy: 'fullName', sortType: 'asc'}}).then(
       e => {
-        console.log(e);
         const rs = e.data as any;
         setUserData(rs.data);
       },
@@ -305,21 +260,16 @@ function ProductionPlan() {
       getAll({...(filterProps as any), step: STEP_TYPE.waitingCreated, isMaster: true, confirmationStatus: CONFIRMATION_STATUS_TYPE.common, ...t});
     } else if (currentTab === TAB_TYPE.approve) {
       const t =
-        // {sortBy: 'updatedAt', sortType: 'desc'}
         prevTab !== currentTab ? {sortBy: 'updatedAt', sortType: 'desc'} : paginationProps;
       getAll({...(filterProps as any), step: STEP_TYPE.waitingCreated, confirmationStatus: CONFIRMATION_STATUS_TYPE.approve, ...t});
     } else if (currentTab === TAB_TYPE.following) {
       const t =
-        // {sortBy: 'updatedAt', sortType: 'desc'}
         prevTab !== currentTab ? {sortBy: 'updatedAt', sortType: 'desc'} : paginationProps;
       getAll({...(filterProps as any), step: STEP_TYPE.following, confirmationStatus: CONFIRMATION_STATUS_TYPE.following, isMaster: true, ...t});
-      // getAll({...(filterProps as any), step: '0', confirmationStatus: '1,3', ...t});
     } else if (currentTab === TAB_TYPE.refuse) {
       const t =
-        // {sortBy: 'updatedAt', sortType: 'desc'}
         prevTab !== currentTab ? {sortBy: 'updatedAt', sortType: 'desc'} : paginationProps;
       getAll({...(filterProps as any), step: STEP_TYPE.waitingCreated, confirmationStatus: CONFIRMATION_STATUS_TYPE.refuse, isMaster: false, ...t});
-      // getAll({...(filterProps as any), step: '0', confirmationStatus: '1,3', ...t});
     }
     setPrevTab(currentTab);
   }, [paginationProps, filterProps, currentTab, trigger]);
@@ -372,7 +322,6 @@ function ProductionPlan() {
       text: `${intl.formatMessage({id: 'PRODUCTION_PLAN.HARVEST_DATE'})}`,
       formatter: (cell: any, row: any) => (
         <span>
-          {/* {new Intl.DateTimeFormat('en-GB').format(new Date(row.planting.estimatedHarvestTime))} */}
           <DisplayDateTime input={row.planting.estimatedHarvestTime}/>
         </span>
       ),
@@ -387,10 +336,7 @@ function ProductionPlan() {
         <button
           className="btn btn-primary"
           onClick={() => {
-            // ProductionPlanService.GetById(row._id).then(res => {
-            //   setEditEntity(res.data);
-        
-            // });
+            
             history.push({
               pathname: '/production-plan/' + row._id + '/new',
             });
@@ -452,7 +398,6 @@ function ProductionPlan() {
       text: `${intl.formatMessage({id: 'PRODUCTION_PLAN.CREATE_DATE'})}`,
       formatter: (cell: any, row: any) => (
         <span>
-          {/* {new Intl.DateTimeFormat('en-GB').format(new Date(row.createdAt))} */}
           <DisplayDateTime input={row.createdAt}/>
         </span>
       ),
@@ -489,22 +434,7 @@ function ProductionPlan() {
       text: `${intl.formatMessage({id: 'PURCHASE_ORDER.MASTER.TABLE.ACTION_COLUMN'})}`,
       formatter: (cell: any, row: any) => {
         return row.confirmationStatus === CONFIRMATION_STATUS_TYPE.refuse || row.confirmationStatus === CONFIRMATION_STATUS_TYPE.following ? (
-          // <button
-          //   className="btn btn-primary pl-6 pr-6"
-          //   onClick={() => {
-          //     // ProductionPlanService.GetById(row._id).then(res => {
-          //     //   setEditEntity(res.data);
-      
-          //     // });
-      
-          //     history.push({
-          //       pathname: '/production-plan/plan-view/' + row._id,
-          //     });
-          //   }}
-          //   // disabled={row.confirmationStatus === '3' || row.confirmationStatus === '2'}
-          // >
-          //   Chi tiết
-          // </button>
+          
           <span
             className="btn btn-icon btn-light btn-hover-primary btn-sm visibility cursor-pointer"
             onClick={() => {
@@ -520,16 +450,10 @@ function ProductionPlan() {
           <button
             className="btn btn-primary"
             onClick={() => {
-              // ProductionPlanService.GetById(row._id).then(res => {
-              //   setEditEntity(res.data);
-  
-              // });
-  
               history.push({
                 pathname: '/production-plan/plan-view/' + row._id,
               });
             }}
-            // disabled={row.confirmationStatus === '3' || row.confirmationStatus === '2'}
           >
             Phê duyệt
           </button>
@@ -589,7 +513,6 @@ function ProductionPlan() {
       text: `${intl.formatMessage({id: 'PRODUCTION_PLAN.CREATE_DATE'})}`,
       formatter: (cell: any, row: any) => (
         <span>
-          {/* {new Intl.DateTimeFormat('en-GB').format(new Date(row.createdAt))} */}
           <DisplayDateTime input={row.createdAt}/>
         </span>
       ),
@@ -619,22 +542,12 @@ function ProductionPlan() {
             pathname: '/production-plan/plan-view/' + entity._id,
           });
         },
-        onShowHistory: (entity: any) => {
-          // ProductionPlanService.GetHistory(entity).then(res => {
-          //   console.log(res.data);
-          //   setTotalVersion(res.data.history.length)
-          
-          // });
-          
+        onShowHistory: (entity: any) => {      
           history.push({
             pathname: '/production-plan/' + entity._id + '/history',
           });
         },
         onEdit: (entity: any) => {
-          // ProductionPlanService.GetById(entity._id).then(res => {
-          //   setEditEntity(res.data);
-  
-          // });
           history.push({
             pathname: '/production-plan/' + entity._id + '/new',
             state: '2',
@@ -921,10 +834,7 @@ function ProductionPlan() {
         label: 'Chỉnh sửa',
         // icon: <CancelOutlinedIcon/>,
         onClick: (entity: any) => {
-          // ProductionPlanService.GetById(entity._id).then(res => {
-          //   setEditEntity(res.data);
-  
-          // });
+          
           if (entity) {
             history.push({
               pathname: `${HomePageURL.productionPlan}/` + entity._id + '/new',
@@ -1107,13 +1017,6 @@ function ProductionPlan() {
             },
           },
         },
-  
-        // plantTime: {
-        //   type: 'string',
-        //   placeholder: 'PURCHASE_ORDER.MASTER.HEADER.CODE.LABEL',
-        //   label: 'Thời gian gieo',
-        //   disabled: true,
-        // },
       },
       masterInfo: {
         _subTitle: '\u00A0',
@@ -1273,13 +1176,6 @@ function ProductionPlan() {
             required: true,
             disabled: true,
           },
-          // expectedQuantity: {
-          //   _type: 'number',
-          //   // placeholder: 'Mã gieo giống',
-          //   required: false,
-          //   label: 'HARVESTING_QUANTITY',
-          //   disabled: true,
-          // },
         },
         '': {
           _type: 'object',
@@ -1371,26 +1267,6 @@ function ProductionPlan() {
               );
             },
           },
-          // estimatedQuantity: {
-          //   _type: 'number',
-          //   // placeholder: 'Mã gieo giống',
-          //   label: 'PRELIMINARY_TREATMENT_QUANTITY',
-          //   disabled: (values: any) => {
-          //     return CheckDisabled(
-          //       values?.preliminaryTreatment,
-          //       values?.process,
-          //       preliminaryTreatmentProcess,
-          //     );
-          //   },
-          // },
-          // unit: {
-          //   _type: 'search-select',
-          //   label: 'Đơn vị tính',
-          //   onSearch: ProductionPlanService.GetUnit,
-          //   disabled: (values: any) => {
-          //     return CheckDisabled(values?.packing, values?.process, packingProcess);
-          //   },
-          // },
         },
         '': {
           _type: 'object',
@@ -1487,15 +1363,6 @@ function ProductionPlan() {
               return CheckDisabled(values?.cleaning, values?.process, cleaningProcess);
             },
           },
-          // estimatedQuantity: {
-          //   _type: 'number',
-          //   // placeholder: 'Mã gieo giống',
-          //   label: 'CLEANING_QUANTITY',
-          //   disabled: (values: any) => {
-          //     console.log(values);
-          //     return CheckDisabled(values?.cleaning, values?.process, cleaningProcess);
-          //   },
-          // },
         },
         '': {
           _type: 'object',
@@ -1643,11 +1510,6 @@ function ProductionPlan() {
             disabled: (values: any) => {
               return CheckDisabled(values?.packing, values?.process, packingProcess);
             },
-            // required: true,
-            // onDisplayOptions: (e:ProductPackagingModel)=> e.species.weight,
-            // rootField: 'seeding',
-            // fillField: 'packing',
-            // display: 'weight',
           },
         },
       },
@@ -1661,7 +1523,6 @@ function ProductionPlan() {
             // placeholder: 'PRODUCT_TYPE.MASTER.DETAIL_DIALOG.GROW',
             label: 'PRODUCTION_PLAN_FORM_PACKING_QUANTITY',
             disabled: (values: any) => {
-              console.log(values);
               return CheckDisabled(values?.packing, values?.process, packingProcess);
             },
           },
@@ -1740,37 +1601,6 @@ function ProductionPlan() {
     [userData],
   );
   
-  // const modifyModel8 = useMemo(
-  //   (): ModifyPanel => ({
-  //     _title: '',
-  //     group1: {
-  //       _subTitle: 'ĐƠN VỊ TÍNH',
-  //       _className: 'col-6 pl-xl-15 pl-md-10 pl-5',
-  //       unit: {
-  //         _type: 'search-select',
-  //         // placeholder: 'Quy cách',
-  //         label: 'Đơn vị tính',
-  //         onSearch: ({ queryProps, paginationProps }: any) => {
-  //           if (editEntity && editEntity.seeding && editEntity.seeding.species) {
-  //             queryProps.species = editEntity.seeding.species._id;
-  //           }
-  //           return ProductPackagingService.GetAll({ queryProps, paginationProps });
-  //         },
-  //         keyField: 'weight',
-  //         disabled: (values: any) => {
-  //           return CheckDisabled(values?.packing, values?.process, packingProcess);
-  //         },
-  //         // required: true,
-  //         // onDisplayOptions: (e:ProductPackagingModel)=> e.species.weight,
-  //         // rootField: 'seeding',
-  //         // fillField: 'packing',
-  //         // display: 'weight',
-  //       },
-  //     },
-  //   }),
-  //   [editEntity],
-  // );
-  
   const updateForm = useMemo(
     (): ModifyForm => ({
       _header: 'PRODUCTION_PLAN_CREATE',
@@ -1781,7 +1611,6 @@ function ProductionPlan() {
       panel5: modifyModel5,
       panel6: modifyModel6,
       panel7: modifyModel7,
-      // panel8: modifyModel8
     }),
     [
       modifyModel,
@@ -1791,7 +1620,6 @@ function ProductionPlan() {
       modifyModel5,
       modifyModel6,
       modifyModel7,
-      // modifyModel8
     ],
   );
   
@@ -1802,7 +1630,6 @@ function ProductionPlan() {
           {({history, match}) => (
             <>
               <ProductionPlanCrud
-                // entity={history.location.state}
                 setEditEntity={setEditEntity}
                 onModify={ProductionPlanService.Update}
                 title={createTitle}
@@ -1931,16 +1758,12 @@ function ProductionPlan() {
             onSearch={value => {
               setPaginationProps(DefaultPagination);
               const cvValue = JSON.parse(JSON.stringify(value));
-  
-              console.log(value);
-  
+    
               if (value.seeding?.species && _.isObject(value.seeding.species)) {
                 const newVl = {_id: value.seeding.species._id};
                 cvValue.seeding.species = {...newVl};
               }
-  
-              console.log(cvValue);
-  
+    
               setFilterProps({...cvValue});
             }}
             searchModel={currentTab == TAB_TYPE.waitingCreated ? productPlanSearchModel1 : productPlanSearchModel2}

@@ -22,7 +22,6 @@ export const BULK_API_URL = API_URL + '/bulk'
 export const Create: CreateProps<any> = (data: any) => {
   const sendData = _.cloneDeep(data);
   sendData.scopes = RoleObjectToArray(sendData.scopes);
-  console.log(sendData)
   return axios.post(API_URL, sendData);
 };
 
@@ -52,7 +51,6 @@ export const GetById = (id: string) => {
       });
       res.data.scopes = RoleArrayToObject(scopeArray);
     }
-    console.log(res)
     return res;
   });
 };

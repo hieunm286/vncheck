@@ -38,8 +38,6 @@ function CustomersManagementView({ columns, code, history, title, onFetch }: Pro
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [code, paginationProps]);
 
-  console.log(paginationProps)
-
   return (
     <Card>
       <CardHeader
@@ -55,27 +53,6 @@ function CustomersManagementView({ columns, code, history, title, onFetch }: Pro
         <div className="mt-8 mb-10">
           <span className="text-primary detail-dialog-subtitle">{title} {orderCode}</span>
         </div>
-        {/* <BootstrapTable
-            wrapperClasses="table-responsive"
-            bordered={false}
-            classes="table table-head-custom table-vertical-center overflow-hidden noBorderOnClick"
-            bootstrap4
-            remote
-            keyField="_id"
-            data={entity}
-            columns={Object.values(columns)}
-            defaultSorted={SortDefault as any}
-            sort={sortField}
-            onTableChange={(type: string, state: any) => {
-              console.log(state)
-              if (type === 'sort') {
-                setSortField({ dataField: state.sortField, order: state.sortOrder })
-              }
-            }}
-          >
-            <PleaseWaitMessage entities={entity} />
-            <NoRecordsFoundMessage entities={entity} />
-          </BootstrapTable> */}
             <MasterTable
               entities={entity}
               columns={columns}

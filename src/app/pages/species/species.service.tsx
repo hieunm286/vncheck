@@ -64,8 +64,6 @@ export const DeleteMany: DeleteManyProps<SpeciesModel> = (entities: SpeciesModel
 };
 
 export const uploadImage = (image: any) => {
-  console.log('run updload');
-  console.log(image);
   let formData = new FormData();
   formData.append('image', image);
   return axios({

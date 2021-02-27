@@ -93,14 +93,7 @@ const LoginPassword = (props: {
   });
   
   const LoginSchema = Yup.object().shape({
-    // password: Yup.string()
-    //   .min(3, 'Minimum 3 symbols')
-    //   .max(50, 'Maximum 50 symbols')
-    //   .required(
-    //     intl.formatMessage({
-    //       id: 'AUTH.VALIDATION.REQUIRED_FIELD',
-    //     }),
-    //   ),
+    
   });
   
   useEffect(() => {
@@ -108,18 +101,6 @@ const LoginPassword = (props: {
       setLoading(false);
     };
   }, []);
-  
-  // const getInputClasses = fieldName => {
-  //   if (formik.touched[fieldName] && formik.errors[fieldName]) {
-  //     return 'is-invalid';
-  //   }
-  
-  //   if (formik.touched[fieldName] && !formik.errors[fieldName]) {
-  //     return 'is-valid';
-  //   }
-  
-  //   return '';
-  // };
   
   const submitPassword = (
     {password}: { password: string },
@@ -133,7 +114,6 @@ const LoginPassword = (props: {
           const {encryptedPrivateKey, publicKey} = response.data;
           // console.log(password);
           const _privateKey = SymmetricDecrypt(encryptedPrivateKey, values.password);
-          console.log('prv:' + _privateKey);
           const certificate = GenerateCertificate(
             {
               username: userInfo.username,
@@ -142,21 +122,15 @@ const LoginPassword = (props: {
             },
             _privateKey,
           );
-          console.log(response);
-          // console.log(certificate);
-          // VerifyMessage(certificate.publicKey, certificate.certificateInfo, certificate.signature);
-          // const isValidUser = certificate.publicKey === publicKey;
-          // console.log(isValidUser);
+         
           props.saveUserInfo({
             ...response.data,
             _certificate: certificate,
             _preLoggedIn: true,
             _privateKey,
           });
-          // const accessToken = response.data.token;
           Ping(certificate)
             .then(res => {
-              console.log(res);
               props.saveUserInfo({
                 ...res.data,
                 _certificate: certificate,
@@ -165,11 +139,9 @@ const LoginPassword = (props: {
               });
             })
             .catch(err => {
-              console.log(err.response.data);
               setLoading(false);
               setSubmitting(false);
               // setStatus(454545);
-              // console.log(454545);
               props.savePingErrorData(err.response.data);
             });
         })
